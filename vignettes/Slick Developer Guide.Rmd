@@ -1,0 +1,387 @@
+---
+title: "Guide for Slick Developers"
+author: 
+- "Tom Carruthers (<tom@bluematterscience.com>)"
+- "Adrian Hordyk (<adrian@bluematterscience.com>)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+  rmarkdown::html_vignette:
+    number_sections: yes
+    toc: yes
+  rmarkdown::pdf_vignette:
+    number_sections: yes
+    toc: yes
+  pdf_document:
+    toc: yes
+subtitle: "User Guide (v0.1)"
+vignette: |
+  %\VignetteIndexEntry{ABT-MSE} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+---
+
+<style type="text/css">
+
+h4{ /* Normal  */
+   font-size: 13px;
+}
+body{ /* Normal  */
+   font-size: 12px;
+}
+td {  /* Table  */
+   font-size: 8px;
+}
+h1 { /* Header 1 */
+ font-size: 18px;
+ color:  #00783A;
+}
+h2 { /* Header 2 */
+ font-size: 15px;
+ color: #00783A;
+}
+h3 { /* Header 3 */
+ font-size: 15px;
+ color: #00783A;
+}
+code.r{ /* Code block */
+  font-size: 10px;
+}
+pre { /* Code block */
+  font-size: 10px
+}
+</style>
+
+<img src="Logos.jpg" width="250" align="left"> \
+
+<br>
+
+```{r set options, echo = FALSE}
+
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(dpi=85)
+options(width = 650)
+
+library(Slick)
+library(DiagrammeR)
+
+```
+
+<br><br>
+
+# About Slick
+
+Slick is a decision analysis tool that presents the outcomes of potential policy options across various states of nature. The App allows for the simultaneous presentation of various performance metrics and can account for uncertainty in the states of nature. Slick is interactive and allows users to filter results live in order to explore robustness and performance. 
+
+While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of fisheries management procedures tested by management strategy evaluation (MSE). 
+
+Importantly the App is platform agnostic: results arising from any MSE framework that are formatted in a compatible Slick object can be loaded and vizualised in the App. The MSE R packages DLMtool and MSEtool are Slick-compatible and include tools to convert MSE results to the Slick format.
+
+For more information on MSE and guidance on using the App and interpreting the results please see the [user guide](https://blue-matter.github.io/openMSE/Slick-User-Guide.html)
+
+# Purpose of this document.
+
+This document:
+
+* Describes the format of a Slick object
+* Explains how to format MSE results for use in Slick 
+
+# Introduction
+
+## Slick Presentation of MSE Results
+
+MSEs have four axes over which results are generally presented: 
+
+1. operating models (a state of nature or scenario for real system dynamics)  
+2. management procedures (MP - a management option, aka. harvest strategy)
+3. performance metrics (aka. cost function, utility measure)
+4. Uncertainty within an operating model (multiple simulations for each discrete state of nature)
+
+Slick allows users to filter operating models, performance metrics and management procedures in order to explore robustness and characterize performance. Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick object, these can be loaded to the App. 
+
+Slick presents MSE results in 11 Figures designed to inform decision making by revealing the absolute and comparative performance of candidate management procedures . 
+
+# Accessing the App
+
+## Online
+
+Slick is freely available [online](http://142.103.48.20:3838/Slick/). 
+
+## Offline
+
+You can also run the App locally on your computer. To do so install the R package and use the Slick() function:
+
+```{r offline, eval=F}
+library(Slick)
+Slick()
+```
+
+# Making custom slick objects  
+
+Is is straightforward for MSE users to present their results using Slick. To do so they must:
+
+1. download the Slick R package
+2. Create a blank Slick object
+3. Populate the various slots of the object with their data, text and labelling
+4. Save the Slick object and upload it to the App
+
+Slick objects have the following dimensions:
+
+* deterministic performance metrics (nD)
+* stochastic performance metrics (nS)
+* projected performance metrics (nP)
+* management options (nMO)
+* simulations (nsim)
+* projection years (nProjYr)
+* state variables (nStateVar)
+* historical years (nHistYr)
+
+When you create a blank Slick object you must specify the 'shape' of the results according to these dimensions:
+
+```{r makeslick, eval=F}
+library(Slick)
+Slick()
+mySlickobj = NewSlick(nPerf=list(nD=5,nS=6,nP=7), # The number of deterministic (nD), stochastic (nS) and projected performance metrics (nP)
+                      nMPs=5,      # The number of management procedures
+                      nsim=10,     # The number of simulations per operating model and MP
+                      nProjYr=50,  # The number of MSE projection years
+                      nStateVar=2, # The number of state variables (e.g. spawning stock biomass)
+                      nHistYr=55,  # The number of historical years
+                      Design=as.matrix(expand.grid(1:2,1:2) # The operating model design grid
+                     )
+
+```
+
+You can also see a final argument for the NewSlick function and that is 'Design'. This is the design matrix for the operating models: a table with a row for each operating model and a column for each factor type (e.g. natural mortality rate, resilience etc) containing the level of each factor (this is described in further detail below).
+
+Once you have a blank Slick object you can process your MSE results in R and add them to the blank object. Below is a guide to each slot of the object and the correct format for these. 
+
+The Slick object is of class S3 (has slots that are accessed via the $ operator). The structure of the Slick object and the format of each slot is outlined in Table 1, below.
+
+Table 1. The structure and formatting of the Slick S3 class R object.
+
+<img src="Slick_object.jpg" width="640">
+
+##  OM - Operating Model 
+
+All information about the various operating models is included in this slot. Operating models are often organized as orthogonal grids of various factors that represent axes of uncertainties (e.g. natural mortality, resilience, growth etc). Each of these factors can have many levels. Additionally operating models may also include reference (central uncertainties) and robustness sets. To accomodate such designs (and any other configuration), Slick uses a design grid to describe all operating models (rows) and their relevent levels of each factor (columns). 
+
+The OM slot contains five components:
+
+* Design (a data frame representing the operating model design matrix with a row for each OM and a column for each factor)
+* Factor_Labels (a character vector of the names of the factors)
+* Labels (abbreviated factor-level labels for tabulation)
+* Codes (further abbreviated factor-level labels for plotting purposes)
+* Description (text description of each factor-level)
+
+Here is an example of an OM slot for a Slick object that has three reference set factors (natural mortality rate, resilience, stock depletion): 
+
+```{r OMslot, eval=T}
+Slickobj$OM
+```
+
+There are 2 levels of natural mortality rate, 3 levels of resilience and 2 levels of depletion. Since these are fully orthogonal the product is 2 x 3 x 2 (12) reference operating models. Additionally there is a fourth factor for robustness / reference set operating models. Since there are 5 robustness OMs the total number of operating models (rows in the design grid) is 17.
+
+The Labels, Codes and Description slots are all hierarchical lists which vectors for each level name nested within factor type. 
+
+## Perf - Performance Metrics
+
+There are three types of performance metrics:
+
+* Det - Deterministic (point values, one per OM, MP and deterministic metric) (e.g. mean catches in 2030 or 5th percentile of biomass in year 2050 etc.)
+* Stoch - Stochastic (a value per simulation, OM, MP and stochastic metric) (e.g. average annual variability in catches 2021-2040, catch in 2040)
+* Proj - Projected (a value per simulation, OM, MP, time step and projected metric) (e.g. spawning biomass relative to target levels, F relative to target levels)
+
+```{r Perftypes, eval=T}
+names(Slickobj$Perf)
+```
+
+These performance metric types have varing roles in the Slick app, featuring in particular results plots only. For example, radar plots (e.g. Performance Comparison 1) are all deterministic performance metrics. Box plots (e.g. Performance Trade-offs 3) are stochastic performance metrics. Any plots that include metrics over time are plotting Projected performance metrics (e.g. Projection of Trade-offs). 
+
+The Det, Stoch and Proj slots can include varying numbers of metrics - they do not have to match. These slots can also be left empty however without all three, some of the Slick outputs will be missing. 
+
+There are some constraints in how these metrics should be scaled for use in the App. In order to make presentation and ranking possible within the App, Deterministic and Stochastic performance metrics should take on values between 0 and 100, where 0 is poor performance and 100 is ideal performance. For example it would be necessary to take the compliment of 'probability of overfishing' (where less is better) to derive 'probability of not overfishing' (where more is then better). Similarly, if variability in yields is included it may be necessary to take the additive inverse so that low variability is assigned higher values than high variability. A function is included in the Slick R package for normalizing and inverting performance metrics: PMnorm().  
+
+Projected performance metrics are used in providing Kobe-like outputs among several Slick plots. The default is to make the first projected metric SSB relative to SSBMSY (Kobe x-axis) and the second projected metric exploitation rate relative to MSY levels (F/FMSY). Other projected metrics are permissable but will not lead to conventional Kobe plot outcomes in panels labelled 'Kobe'. 
+
+### Det - Deterministic performance metrics
+
+As in the operating model slot OM, each of the performance metric types (Det, Stoch and Proj) have Labels, Codes and Description slots that provide labels for plotting axes, further abbreviated codes for other interface features and full descriptions, respectively. These are simply character vectors:
+
+```{r PerftypesD, eval=T}
+names(Slickobj$Perf$Det)
+
+Slickobj$Perf$Det$Labels
+
+Slickobj$Perf$Det$Codes
+
+Slickobj$Perf$Det$Description
+```
+
+The values of the performance metrics are stored in the Values slot that is an array with the dimensions [OM, MP, deterministic metric]. In this example there are 17 operating models, 6 management procedures and 9 deterministic performance metrics:
+
+```{r PerftypesDval, eval=T}
+dim(Slickobj$Perf$Det$Values)
+
+range(Slickobj$Perf$Det$Values)
+```
+
+Of course it is easy to do a quick check in R that you are seeing the expected values (the numbers represent the MPs):
+
+```{r PerftypesDvalplot, eval=T, fig.width=7, fig.height=5}
+matplot(Slickobj$Perf$Det$Values[,,7],ylab=Slickobj$Perf$Det$Labels[7],xlab="Operating model",type='b') # A quick sketch of your Det$Values data for metric #7
+```
+
+Two optional slots RefPoints and RefNames are also included that allow for the prescription of reference levels for each deterministic metric. These are lists with an entry for each metric:
+
+```{r PerftypesDrp, eval=T}
+Slickobj$Perf$Det$RefPoints
+
+Slickobj$Perf$Det$RefNames
+```
+
+In this example target and reference levels are provided for just one of the performance metrics (metric #7).
+
+### Stoch - Stochastic performance metrics
+
+The formatting of the Stochastic performance metrics is identical to that of the deterministic metrics with the exception that the Values slot has an additional dimension for simulation (there are 48 simulations per operating model in this example). 
+
+There can be differing numbers of deterministic and stochastic performance metrics but in this example they include the same type of metric (the deteministic version was simply the mean of the stochastic values across simulations):
+
+```{r PerftypesS, eval=T, fig.width=6, fig.height=4}
+names(Slickobj$Perf$Stoch)
+
+dim(Slickobj$Perf$Stoch$Values)
+
+plot(density(Slickobj$Perf$Stoch$Values[,1,3,7],from=0,to=100,adj=0.5),xlab=Slickobj$Perf$Stoch$Labels[7],main=Slickobj$MP$Labels[3],ylab="Rel. Freq.") # Distribution of values for the third MP and 7th stochastic metric
+
+```
+
+### Proj, Projected performance metrics
+
+The formatting of the Projected performance metrics is identical to that of the stochastic metrics with the exception that the Values slot has additional dimensions for time (there are 50 projected years in this example) and a label for these times (Times)
+
+```{r PerftypesP, eval=T, fig.width=6, fig.height=4}
+names(Slickobj$Perf$Proj)
+
+Slickobj$Perf$Proj$Times
+
+dim(Slickobj$Perf$Proj$Values)
+
+matplot(Slickobj$Perf$Proj$Times,t(Slickobj$Perf$Proj$Values[,2,3,1,]),
+        xlab=Slickobj$Perf$Proj$Time_lab,ylab=Slickobj$Perf$Proj$Labels[1],
+        main=Slickobj$MP$Labels[3], type="l", col="#00FF0030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
+
+```
+
+Any number of performance metrics can be included here. However, due to the default production of a Kobe-like plots (Performance Comparison 3, Performance Trade off 1 and 2), it is recommended that if they are to be reported, SSB relative to SSBMSY be placed in the first position (default x axis of the Kobe plot, greater than 1 is better) and F relative to FMSY be placed the second position (default y axis of the Kobe plot, smaller that 1 is better). 
+
+## StateVar - State Variables
+
+In general, MSEs start with a historical reconstruction of system dynamic from which MPs are tested under projection. State variables are quantities that have persisted in the past as well as the future and in this way provide an historical perspective on future MP performance. Examples in fisheries MSE could include spawning stock biomass, spawning numbers, recruitment etc. 
+
+The formatting of the state variables is very similar to projected performance metrics but these also include historical years and an entry 'TimeNow' that demarks the end of the historical reconstruction and the start of the MSE projection. 
+
+```{r StateVar, eval=T, fig.width=6, fig.height=4}
+names(Slickobj$StateVar)
+
+Slickobj$StateVar$Times
+Slickobj$StateVar$TimeNow
+
+dim(Slickobj$StateVar$Values)
+
+matplot(Slickobj$StateVar$Times,t(Slickobj$StateVar$Values[,2,3,1,]),
+        xlab=Slickobj$StateVar$Time_lab,ylab=Slickobj$StateVar$Labels[1],
+        main=Slickobj$MP$Labels[3], type="l", col="#FF000030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
+
+abline(v=Slickobj$StateVar$TimeNow) 
+
+```
+
+## MP - Management Procedures
+
+The management procedures slot contains the text required to populate figures and tables in the App. It has the same Labels, Codes and Descriptions slots as the various performance metrics slots:
+
+```{r MP, eval=T, fig.width=6, fig.height=4}
+Slickobj$MP
+```
+
+In this case the Labels and Codes are identical but in other cases it might be necessary to provide more descriptive text to the MP labels. 
+
+## Text
+
+The text slot allows users to provide a title and introductory text for the main page of the App
+
+```{r Text, eval=T, fig.width=6, fig.height=4}
+Slickobj$Text
+```
+
+The Introduction slot is a list with a character string for each paragraph. 
+
+## Misc
+
+Finally, the Misc slot provides a place where the user can record their authorship, contact information. 
+
+```{r Misc, eval=T, fig.width=6, fig.height=4}
+Slickobj$Misc
+```
+
+App_axes is a meta-label allowing users to control how the App is presented. For example for hurricane disaster relief, the user may want to use the term 'Hurricane path' rather than 'Operating model' or 'Evacuation plan' instead of 'Management procedure'. 
+
+The Cols slot allows the user to control various color schemes to customize App presentation. 
+
+<br>
+
+
+# Saving and uploading
+
+To use your Slick object in the App, save it using the saveRDS function and give the file a .slick extension:
+
+```{r saveandupload, eval=T, fig.width=6, fig.height=4}
+saveRDS(Slickobj,'mystock.slick')
+```
+
+This file can then be loaded from the Home page in Slick.
+
+If your results can be made publically available, share your Slick file with the Blue Matter team and there is a chance we'll add it to the App as an example that is available from the dropdown menu in the App. Please send your slick files to tom@bluematterscience.com
+
+
+# Acknowledgements
+
+<img src="TOFlogo.jpg" width="260">
+
+Slick development was funded by the Ocean Foundation. Many thanks to Shana Miller and Grantly Galland for their feedback and suggestions.
+
+<img src="5Wlogo.jpg" width="120">
+
+The prototype figure designs were developed by 5W Designs. Many thanks also to 5W for their helpful feedback on the Shiny App. 
+
+<img src="BMlogo.jpg" width="150">
+
+The Slick App, manuals and example MSE objects were coded by Blue Matter Science Ltd. 
+
+
+# Glossary
+
+```{r Glossary, eval=T, echo=F}
+gloss<-data.frame(Abbreviation = c("MSE","MP","OM","SSB","MSY","FMSY","SSBMSY","BMSY", "SSB0"),
+                  Description = c("Management Strategy Evaluation. Closed-loop simulation testing of management procedures.",
+                                  "Management Procedure. An algorithm that accepts data as an input and provides a management recommendation as an output.",
+                                  "Operating Model. Represents a scenario or state of nature for testing the performance of candidate management procedures.",
+                                  "Spawning Stock Biomass. The weight of spawning fish in the population (typically this is calculated from female mature fish)",
+                                  "Maximum Sustainable Yield. Theoretical maximum sustainable catches given asymptotic system dynamics.",
+                                  "Theoretical fishing mortality (exploitation rate) at MSY",
+                                  "Theoretical spawning stock biomass at MSY",
+                                  "Theoretical stock biomass at MSY (often refers to spawning stock biomass)",
+                                  "Theoretical unfished spawning stock biomass under asymptotic unfished conditions"
+                                  ))
+DT::datatable(gloss,rownames=F, options=list(dom='t'))
+```
+
+
+
+
+
