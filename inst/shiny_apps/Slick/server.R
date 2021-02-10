@@ -58,6 +58,7 @@ server <- function(input, output, session) {
   observeEvent(Object$Loaded, {
     if (Object$Loaded >= 1) {
       Object$Ready <- FALSE
+      Object$Filt <- FALSE
 
     # load the object
 
@@ -91,7 +92,7 @@ server <- function(input, output, session) {
       ncol <- length(obj$Misc$Cols$MP)
       if (ncol< nMP) {
         cols <- grDevices::topo.colors(nMP) # dumb range of colors
-        obj$Misc$Cols$MP <- c(obj$Misc$Cols$MP, cols)[1:nMP]
+        obj$Misc$Cols$MP <- cols # c(obj$Misc$Cols$MP, cols)[1:nMP]
       }
 
       # other checks and error messages ...
