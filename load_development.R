@@ -1,6 +1,8 @@
 obj<-readRDS("inst/shiny_apps/SLICK/data/SLICKobj.rda")
 
 # obj<-readRDS("inst/shiny_apps/SLICK/data/ABT.slick")
+Object <- list()
+Object$obj <- obj
 
 nFac <- ncol(obj$OM$Design)
 nsim<-dim(obj$Perf$Stoch$Values)[1]
