@@ -271,7 +271,7 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
   # draw blank shape
   if(nPMds >2) {
     vertices <- polyCoords(nPMds) * 100
-    par(mfrow=c(1,1), oma=c(0,0,0,0))
+    par(mfrow=c(1,1), mar=c(3,3,3,3), oma=c(2,2,2,2))
     plot(vertices, type="l", col=fill.col, axes=FALSE, xlab="", ylab="")
     polygon(vertices, col=fill.col, border=NA)
     for (i in 1:nrow(vertices)) lines(c(0, vertices[i,1]), c(0, vertices[i,2]),
@@ -286,8 +286,8 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
       normalize <- function(x) {
         return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
       }
+
       pm <- apply(pm, 2, normalize) * 100
-      pm
     }
 
     # calculate coordinates for each MP
@@ -306,10 +306,11 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
     }
 
     for (j in 1:nPMds) {
-      loc <- vertices[j,] * 1.1
-      if (loc[1]<=0 & loc[2]<=0) pos <- 1
-      if (loc[1]<=0 & loc[2]>=0) pos <- 2
-      if (loc[1]>=0 & loc[2]>=0) pos <- 3
+      loc <- vertices[j,]
+      loc <- round(loc,0) *1.05#* c(1.05, 0.95)
+      if (loc[1]<0 & loc[2]<=0) pos <- 1
+      if (loc[1]<0 & loc[2]>0) pos <- 2
+      if (loc[1]>=0 & loc[2]>0) pos <- 3
       if (loc[1]>=0 & loc[2]<=0) pos <- 4
 
       txt <- Codes[j]
