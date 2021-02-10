@@ -208,7 +208,6 @@ trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj) {
   top.text <- 1.8
   ref.cex <- 1.6
 
-
   if (nMPs>0 & nPMds >1 & nSNs>0 & length(pm1>0) & length(pm2)>0) {
 
     Values <- Proj$mat[,SNkeep$selected, MPkeep$selected,c(pm1, pm2), ,
@@ -229,11 +228,15 @@ trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj) {
       ref2 <- obj$Perf$Proj$RefPoints[[pm2]]
       ref2_lab <- obj$Perf$Proj$RefNames[[pm2]]
 
-      ref_DF <- data.frame(PM=rep(c(Codes[pm1], Codes[pm2]), each=2),
+      PMs1 <- rep(Codes[pm1], length(ref1_lab))
+      PMs2 <- rep(Codes[pm2], length(ref2_lab))
+      ref_DF <- data.frame(PM=c(PMs1, PMs2),
                            Ref=c(ref1, ref2),
                            Lab=c(ref1_lab, ref2_lab))
       ref_DF$Col <- "red"
       ref_DF$Col[ref_DF$Lab=="Target"] <- "#49ba3a"
+
+
 #
 #       ind1 <- which(ref1_lab=='Target')
 #       col1 <- NA
@@ -286,23 +289,42 @@ doplot <- function(gp=1, inc_text=FALSE, inc_axis=FALSE,
                    quant1, quant2, pm1, pm2, Codes,
                    DF, ref_DF, MPnames, MPcols, med.cex, lwd, cex.text, top.text,
                    ax.text, ref.cex) {
-  ylim <- c(0, max(c(quant1, quant2)))
-  if (ylim[2]  <10) {
-    ylim[2]  <- ceiling(ylim[2] )
-  } else {
-    ylim[2]  <- 10^ceiling(log10(ylim[2] ))
-  }
 
-
-  at <- seq(0, ylim[2], by=0.1*ylim[2])
-  label <- round(at,2)
+  ylim <- c(0,1)
+  at <- seq(0, 1, by=0.1)
   plot(c(1.1,1.9), ylim, type="n", axes=FALSE, xlab='', ylab='')
   polygon(x=c(1.2,1.8,1.8,1.2), y=c(0,0, ylim[2], ylim[2]),
           border=NA, col="#ededed")
-
   abline(h=at, col='white')
-  if(inc_axis)
-    text(x=rep(1.2,length(at)), y=at, label, col="#8c8c8c", pos=4, cex=ax.text)
+
+  # calculate left scale
+  if (max(quant1)  <10) {
+    maxL <- ceiling(max(quant1))
+  } else {
+    maxL  <- 10^floor(log10(max(quant1)))
+  }
+
+  quant1a <- quant1/maxL
+  labelL <- round(at*maxL,2)
+
+  # calculate right scale
+  if (max(quant2)  <10) {
+    maxR <- ceiling(max(quant2))
+  } else {
+    maxR  <- 10^floor(log10(max(quant2)))
+  }
+  quant2a <- quant2/maxR
+  labelR <- round(at*maxR,2)
+
+  # add y-axes
+  if(inc_axis) {
+    text(x=rep(1.2,length(at)), y=at, labelL, col="#8c8c8c", pos=4, cex=ax.text)
+    if (!all(labelL == labelR)) {
+      # add right
+      text(x=rep(1.8,length(at)), y=at, labelR, col="#8c8c8c", pos=2, cex=ax.text)
+    }
+  }
+
   text(1.3, ylim[2]*1.05, Codes[pm1], pos=3,xpd=NA, font=2, cex=top.text)
   text(1.7, ylim[2]*1.05, Codes[pm2], pos=3,xpd=NA, font=2, cex=top.text)
 
@@ -313,10 +335,10 @@ doplot <- function(gp=1, inc_text=FALSE, inc_axis=FALSE,
     if (pos>4) pos <- 1
     df2 <- df %>% dplyr::filter(MP==mm)
     ind <- match(mm, MPnames)
-    lines(df2$x, df2$Val, col='white', lwd=lwd+1)
-    lines(df2$x, df2$Val, col=MPcols[ind], lwd=lwd)
-    points(df2$x, df2$Val, pch=16, cex=med.cex*1.25, col='white')
-    points(df2$x, df2$Val, pch=16, cex=med.cex, col=MPcols[ind])
+    lines(df2$x, df2$Val/c(maxL, maxR), col='white', lwd=lwd+1)
+    lines(df2$x, df2$Val/c(maxL, maxR), col=MPcols[ind], lwd=lwd)
+    points(df2$x, df2$Val/c(maxL, maxR), pch=16, cex=med.cex*1.25, col='white')
+    points(df2$x, df2$Val/c(maxL, maxR), pch=16, cex=med.cex, col=MPcols[ind])
 
 
     # text(mean(df2$x), mean(df2$Val), MPnames[ind],
@@ -325,8 +347,12 @@ doplot <- function(gp=1, inc_text=FALSE, inc_axis=FALSE,
     inc <- inc + .01
     for (i in seq_along(df2$PM)) {
       multi <- 1.01 + inc
-      if (df2$x[i]==1.2) multi <- 1-(multi-1)
-      lines(rep(df2$x[i]*multi,2), c(df2$quant1[i], df2$quant2[i]),
+      scalar <- maxR
+      if (df2$x[i]==1.2) {
+        multi <- 1-(multi-1)
+        scalar <- maxL
+      }
+      lines(rep(df2$x[i]*multi,2), c(df2$quant1[i]/scalar, df2$quant2[i]/scalar),
             lty=3, col=MPcols[ind])
     }
   }
@@ -334,15 +360,21 @@ doplot <- function(gp=1, inc_text=FALSE, inc_axis=FALSE,
   for (i in unique(ref_DF$PM)) {
     df3 <- ref_DF %>% dplyr::filter(PM==i)
     i2 <- match(i, unique(ref_DF$PM))
-    if (i2==1) x <- c(1.2,1.4)
-    if (i2==2) x <- c(1.6,1.8)
+    if (i2==1) {
+      x <- c(1.2,1.4)
+      scalar <- maxL
+    }
+    if (i2==2) {
+      x <- c(1.6,1.8)
+      scalar <- maxR
+    }
     for (r in 1:nrow(df3)) {
-      lines(x, c(df3[r,]$Ref, df3[r,]$Ref), col=df3[r,]$Col)
+      lines(x, c(df3[r,]$Ref/scalar, df3[r,]$Ref/scalar), col=df3[r,]$Col)
       if(inc_text) {
-        if (i2==1) {
-          text(x[1], df3[r,]$Ref, toupper(df3[r,]$Lab),
+        # if (i2==1) {
+          text(x[1], df3[r,]$Ref/scalar, toupper(df3[r,]$Lab),
                col=df3[r,]$Col, pos=2, xpd=NA, cex=ref.cex)
-        }
+        # }
         # text(x[1], df3[r,]$Ref, df3[r,]$Ref, , col=df3[r,]$Col, pos=4, xpd=NA,
         #      cex=ref.cex)
       }
@@ -350,7 +382,6 @@ doplot <- function(gp=1, inc_text=FALSE, inc_axis=FALSE,
 
   }
 }
-
 
 
 page_7_summary <-  function(Proj, MPkeep, Projkeep, SNkeep, Object, input) {
