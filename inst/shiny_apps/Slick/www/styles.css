@@ -10,6 +10,12 @@
 */
 
 
+a:visited {
+  color: purple;
+}
+
+
+
 .list-group-item{
   color: white
 }
@@ -278,8 +284,5 @@ pre {
 .bootstrap-switch .bootstrap-switch-label {
     display: inline-block;
     vertical-align: baseline;
-
-
-
 
 

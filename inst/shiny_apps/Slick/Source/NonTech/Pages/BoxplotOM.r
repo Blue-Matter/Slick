@@ -166,7 +166,7 @@ Boxplot_OMUI <- function(id, label="boxplotOM") {
       )
     ),
     fluidRow(
-      column(width = 8,
+      column(width = 9,
              div(
                summaryUI(ns('page9'))
              )
@@ -251,21 +251,14 @@ page_9_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
 
       if(!any(dim(Values)<1)) {
 
-        med <- apply(Values,3:4, median)
         str <- NULL
-
-        for (i in 1:ncol(med)) {
-          if (all(med[,i]==mean(med[,i]))) {
-            mps <- paste0('all equal (', mean(med[,i]),')')
-          } else {
-            mps <- paste0(MPnames[which(med[,i]==max(med[,i]))])
-          }
-
-          str[i] <- paste0('MP(s) with highest median value for ', Codes[i], ': ',
-                           paste(mps, collapse=", "), ' (', round(max(med[,i]),2), ')')
-
+        for (i in 1:nPMds) {
+          tt <- which(Values[,,,i]==max(Values[,,,i]), arr.ind = TRUE)
+          mps <- unique(MPnames[tt[,3]])
+          OMnum <- unique(tt[,2])
+          str[i] <- paste0('MP(s) with highest value for ', Codes[i], ": ",
+                           paste(mps, collapse=", "), ' in OM(s) ', paste(OMnum, collapse=", "))
         }
-
         return(paste0(str, collapse = '\n'))
       }
     }

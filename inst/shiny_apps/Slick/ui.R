@@ -115,7 +115,7 @@ fluidPage(
                                              h5("Line OM"),
                                              Line_OMUI('lineOM'),
                                              box_height='50px'),
-                            verticalTabPanel(value='state',
+                            verticalTabPanel(value='resources',
                                              h5(strong("Resources")),
                                              ResourcesUI('resources'),
                                              box_height='50px'),

@@ -59,14 +59,14 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                          'This chart', strong('compares trade-offs'), 'in',
                          n.MP, ' ', paste0(Object$obj$Misc$App_axes[3], 's'), 'for ', n.OM, ' ',
                          paste0(Object$obj$Misc$App_axes[2], 's'),
-                         'by measuring two co-dependent performance metrics.'),
+                         'by measuring two co-dependent performance metrics. These performance metrics can be modified under "Select Performance Metrics" above the plot.'),
                        p(
                          HTML('<i class="fas fa-circle fa-sm"></i>'),
                          'The', strong('dots'),
                          paste0('represent the median value for the final year of the projection period ',
                          yr.txt, '.')),
-                       p(strong('Dotted lines'), 'around dots are error bars representing',
-                       HTML(paste0(quant_text, 'th')), 'percentiles.')
+                       p(strong('Dotted lines'), 'around dots are error bars. The default represents',
+                         HTML(paste0(quant_text, 'th')), 'percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
                      )
                    }
                  })
@@ -248,9 +248,9 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
           # geom_line(data=YRef_DF, aes(x=x, y=y, linetype=name),
           #           color=c('red', 'red', 'green', 'green'), size=1.2) +
           geom_line(data=XError, aes(x=x, y=y, group=MP),
-                    color='white', linetype='solid', size=1) +
+                    color='white', linetype='dotted', size=1) +
           geom_line(data=YError, aes(x=x, y=y, group=MP),
-                    color='white', linetype='solid', size=1) +
+                    color='white', linetype='dotted', size=1) +
           geom_point(data=DF, aes(x=x, y=y), color='white', size=4) +
           geom_point(data=DF, aes(x=x, y=y, color=MP), size=4) +
           ggrepel::geom_text_repel(data=DF, aes(x=x, y=y, color=MP, label=MP),

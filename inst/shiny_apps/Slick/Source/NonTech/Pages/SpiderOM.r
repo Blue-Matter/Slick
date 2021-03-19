@@ -47,7 +47,9 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          'It provides a quick comparison of overall MP performances.',
                          strong('Filled hexagons with larger areas indicate better overall performance.')),
                        p('For each operating model, the management procedures are ordered from highest to lowest overall average score.'),
-                       p('These summary values assume equal weighting and equal scaling of performance metrics.')
+                       p('These summary values assume equal weighting and equal scaling of performance metrics.'),
+                       p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric.'
+                       )
                      )
                    }
                  })
@@ -76,7 +78,7 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                  output$PMlist <- renderUI({
                    if(!Object$Loaded) return()
                    n.PM <- sum(Detkeep$selected)
-                   PM.name <- Object$obj$Perf$Det$Labels
+                   PM.name <- Object$obj$Perf$Det$Labels[Detkeep$selected]
                    # PM.name <- Object$obj$Perf$Det$Codes
                    # PM.desc <- Object$obj$Perf$Det$Description
                    lets <- LETTERS[1:n.PM]
@@ -158,13 +160,34 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
 
                  })
 
+                 SwitchScale <- reactiveValues(relative=FALSE)
+
+                 observeEvent(input$RS_button, {
+                   SwitchScale$relative <- input$RS_button
+                 })
+
                  observe({
                    if(!Object$Loaded) return()
                    n.SN <- sum(SNkeep$selected)
                    SN.select <- which(SNkeep$selected)
 
                    if(length(Det$mat)>1) {
-                     OM.res <- Det$mat[, MPkeep$selected, Detkeep$selected, drop=FALSE]
+                     OM.res <<- Det$mat[, MPkeep$selected, Detkeep$selected, drop=FALSE]
+
+
+                     if (SwitchScale$relative) {
+                       # make all PMs relative to maximum and minimum values
+                       normalize <- function(x) {
+                         return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
+                       }
+                       dd <- dim(OM.res)
+                       if (length(dd)==3) {
+                         for (i in 1:dd[3]) {
+                           OM.res[,,i] <- normalize(OM.res[,,i]) * 100
+                         }
+                       }
+
+                     }
 
                      MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected]
 
@@ -218,9 +241,7 @@ Spider_OMUI <- function(id, label="spiderOM") {
       column(width=2, class='page_reading_rb',
              div(
                h4(strong("READING THIS CHART")),
-               htmlOutput(ns('reading')),
-               br(),
-               img(src='img/page_10_reading.JPG')
+               htmlOutput(ns('reading'))
              )
 
       ),
@@ -231,15 +252,28 @@ Spider_OMUI <- function(id, label="spiderOM") {
                      htmlOutput(ns('MPlist'))
                      ),
               column(width=10, class='left_border',
-                     h4('Performance metrics measured'),
+
                      fluidRow(
-                       column(2,
+                       column(5,
+                              h4('Performance metrics measured'),
                               plotOutput(ns('PM_outline'), width=125, height=125),
                               ),
-                       column(10,
+                       column(5,
+                              img(src='img/SpiderOM.JPG', width="100%"),
+                              h4('Relative Scale'),
+                              switchInput(
+                                inputId = ns("RS_button"),
+                                handleWidth = 80, labelWidth = 40,
+                                inline = TRUE, width = "200px"
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(5,
                               htmlOutput(ns('PMlist'))
                               )
                      )
+
               )
 
              ),

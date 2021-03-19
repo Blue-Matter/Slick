@@ -56,7 +56,7 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          'Each value is a median peformance metric over ', n.OM,
                                 ' operating models.'),
                        p(HTML('<i class="fas fa-circle"></i>'),
-                         'The', strong('large dots'), 'represent the',
+                         'The', strong('large dots'), 'at the top represent the',
                          strong('average score for all'),
                          'performance metrics in each management procedure.',
                          'It provides a quick measure of overall MP performance. These summary values assume equal weighting and equal scaling of performance metrics. '),
@@ -230,14 +230,15 @@ horiz_line_plot <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
       annotate('text', x=50, y=nPMds+1.8, label="bold(Overall~scores)~(average)",
                parse=TRUE, size=5) +
       guides(color=FALSE) +
-      labs(x='', y='Performance Metrics', title='') +
+      labs(x='Minimum to Maximum / Worse to Better', y='Performance Metrics', title='') +
       theme_bw() +
       scale_color_manual(values=cols) +
       theme(panel.grid.major=element_blank(),
             panel.grid.minor = element_blank(),
             panel.border=element_blank(),
             plot.title = element_text(hjust = 0.5, size=18, face='bold'),
-            axis.text.x=element_text(size=12),
+            axis.title.x=element_text(size=16),
+            axis.text.x=element_text(size=14),
             axis.text.y=element_text(size=12, face='bold'),
             axis.title.y=element_text(size=16,face="bold", vjust=3)
             )

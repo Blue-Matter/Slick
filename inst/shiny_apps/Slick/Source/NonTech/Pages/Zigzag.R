@@ -57,7 +57,7 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                        p('Each value is a median peformance metric over ', n.OM,
                                 ' operating models.'),
                        p(HTML('<i class="fas fa-circle"></i>'),
-                         'The', strong('large dots'), 'represent the',
+                         'The', strong('large dots'), 'at the top represent the',
                          strong('average score for all'),
                          'performance metrics in each management procedure.',
                          'It provides a quick measure of overall MP performance (assumes equal weighting and equal scaling of performance metrics).'),
@@ -106,6 +106,7 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                                    fixedColumns = TRUE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,
+                                   dom = 'Bfrtip',
                                    buttons = c('copy', 'csv', 'excel')
                                  ),
                                  rownames=FALSE
@@ -273,8 +274,8 @@ page_2_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
 
 
 
-  Highest <- paste('MP with highest average value:', paste(MPnames[which.max(pm.avg)], collapse=", "))
-  Lowest <- paste('MP with lowest average value:', paste(MPnames[which.min(pm.avg)], collapse=", "))
+  Highest <- paste('MP with highest average performance value:', paste(MPnames[which.max(pm.avg)], collapse=", "))
+  Lowest <- paste('MP with lowest average performance value:', paste(MPnames[which.min(pm.avg)], collapse=", "))
 
   # Dominated MPs
   domText <- 'No MPs are outperformed by all the others.'

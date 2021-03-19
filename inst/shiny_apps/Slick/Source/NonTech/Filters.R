@@ -46,16 +46,18 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                  })
 
                  output$show_filters <- renderUI({
+
                    if (Object$Loaded>=1) {
 
                      tagList(
+                       conditionalPanel('input.NonTech!="resources"',
                        column(2, align = 'left', class='multicol',
                               h3('Filters'),
-                              p('Use the checkboxes to select the Operating Models, Management Procedures, and Performance Metrics.'),
+                              p('Use the checkboxes to select the Operating Models, Management Procedures, and (where applicable) Performance Metrics.'),
                               p('Then click the FILTER button to apply the filter.'),
                               # h3(Object$obj$Misc$App_axes[2]),
                               h3('Operating Models'),
-                              a('OM Glossary', onclick='customHref("splash"); customHref("Operating Model");',
+                              a('OM Glossary', onclick='customHref("splash"); customHref("Operating Model"); customHref("Design");',
                                 style="cursor: pointer;"),
 
                               uiOutput(session$ns('SN_filters')),
@@ -99,6 +101,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                               # h5("log/debugging"),
                                #verbatimTextOutput("Log",placeholder=T)
 
+                       )
                        )
                      )
                    }

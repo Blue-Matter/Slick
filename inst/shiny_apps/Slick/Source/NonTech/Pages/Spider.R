@@ -67,7 +67,9 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                            strong('The lines in the bottom spider plot'),
                            'connect', strong('individual scores'),
                            'for the performance metrics in each management procedure.',
-                           'Scores closer to the exterior edge indicate better performance.')
+                           'Scores closer to the exterior edge indicate better performance.'),
+                         p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric.'
+                         )
                        )
                      }
 
@@ -204,7 +206,7 @@ SpiderUI <- function(id, label="spider") {
              )
     ),
     fluidRow(class='bottom_border',
-          column(width = 3,
+          column(width = 3, class='right_border',
                  fluidRow(class='page_reading',
                           column(12,
                                  h4(strong("READING THIS CHART")),
@@ -213,7 +215,7 @@ SpiderUI <- function(id, label="spider") {
                  )
 
           ),
-          column(width=9, class='left_border',
+          column(width=9,
                  div(class='filled_hex',
                      uiOutput(ns('mpsub'), class='lah'),
                      plotOutput(ns('filled_hex'), height='auto')
@@ -286,8 +288,11 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
       normalize <- function(x) {
         return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
       }
-
-      pm <- apply(pm, 2, normalize) * 100
+      if(nrow(pm)==1) {
+        pm <- normalize(pm) * 100
+      } else {
+        pm <- apply(pm, 2, normalize) * 100
+      }
     }
 
     # calculate coordinates for each MP
@@ -369,15 +374,20 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
   if (nMPs>0 & nPMds >2 & nSNs>0) {
     pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), median, na.rm=TRUE)
 
-
     if (SwitchScale$relative) {
       # make all PMs relative to maximum and minimum values
       normalize <- function(x) {
         return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
       }
-      pm <- apply(pm, 2, normalize) * 100
-    }
 
+      pm2 <- pm[MPkeep$selected,]
+      if('numeric' %in% class(pm2)) {
+        pm2 <- normalize(pm2) * 100
+        pm[MPkeep$selected,] <- pm2
+      } else {
+        pm <- apply(pm, 2, normalize) * 100
+      }
+    }
 
     pm <- pm[,Detkeep$selected]
     pm.avg <- apply(pm, 1, mean, na.rm=TRUE)
@@ -385,6 +395,7 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
     par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
     for (i in 1:nMP) {
       if (MPkeep$selected[i]) {
+
         # draw blank shape
         vertices <- polyCoords(nPMds) * 100
         plot(vertices, type="l", col=fill.col, axes=FALSE, xlab="", ylab="")
@@ -438,8 +449,8 @@ page_1_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
 
   MPnames <- Object$obj$MP$Codes[MPkeep$selected]
 
-  Highest <- paste('MP with highest average value:', paste(MPnames[which.max(pm.avg)], collapse=", "))
-  Lowest <- paste('MP with lowest average value:', paste(MPnames[which.min(pm.avg)], collapse=", "))
+  Highest <- paste('MP with highest average performance value:', paste(MPnames[which.max(pm.avg)], collapse=", "))
+  Lowest <- paste('MP with lowest average performance value:', paste(MPnames[which.min(pm.avg)], collapse=", "))
 
   # Dominated MPs
   domText <- 'No MPs are outperformed by all the others.'

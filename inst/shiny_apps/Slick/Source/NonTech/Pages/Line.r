@@ -35,21 +35,24 @@ LineServer <- function(id, MPkeep, SNkeep, Object) {
                    if(!Object$Loaded) return()
                    n.MP <- sum(MPkeep$selected)
                    n.OM <- sum(SNkeep$selected)
+                   n.sim <- dim(Object$obj$StateVar$Values)[1]
                    if (n.OM ==1) {
-                     txt <- HTML(paste0(' for a ', strong('single '), Object$obj$Misc$App_axes[2]))
+                     txt <- HTML(paste0(' for a ', strong('single '), 'Operating Model.'))
                    } else {
-                     txt <- HTML(paste0(' and across ', strong(n.OM), ' ', Object$obj$Misc$App_axes[2],'s.'))
+                     txt <- HTML(paste0(' and across ', strong(n.OM), ' Operating Models.'))
                    }
 
                    if (n.MP>0 & n.OM>0) {
                      tagList(
                        p(
                          'This chart compares ',
-                         strong('projected stock status variables over time for ',
+                         strong('projected stock status variables over time'), '(selectable under State Variable dropdown at right)',
+                         strong('for ',
                                 n.MP, ' management procedures'),
                          'and level of ', strong('uncertainty'),
-                         'across different simulation runs',
-                         txt)
+                         'across', n.sim, 'different simulation runs',
+                         txt),
+                       p('Target and limit reference points are shown in green and red, respectively, if they have been specified.')
                      )
                    }
                  })

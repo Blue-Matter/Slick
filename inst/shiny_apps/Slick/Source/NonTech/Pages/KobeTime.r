@@ -148,30 +148,34 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                      # All years
                      Green <- Values[,,,1,] > x_refs[ind1] & Values[,,,2,] < y_refs[ind2]
                      Red <- Values[,,,1,] < x_refs[ind1] & Values[,,,2,] > y_refs[ind2]
-                     Orange <- Values[,,,1,] > x_refs[ind1] & Values[,,,2,] > y_refs[ind2] |
-                       Values[,,,1,] < x_refs[ind1] & Values[,,,2,] < y_refs[ind2]
+                     Yellow <- Values[,,,1,] > x_refs[ind1] & Values[,,,2,] > y_refs[ind2]
+                     Orange <- Values[,,,1,] < x_refs[ind1] & Values[,,,2,] < y_refs[ind2]
 
                      meanGreen <- apply(Green, 3, mean) %>% round(2) * 100
                      meanOrange <- apply(Orange, 3, mean) %>% round(2) * 100
+                     meanYellow <- apply(Yellow, 3, mean) %>% round(2) * 100
                      meanRed <- apply(Red, 3, mean) %>% round(2) * 100
 
                      # Terminal year
                      nyears <- dim(Values)[5]
                      Green <- Values[,,,1,nyears] > 1 & Values[,,,2,nyears] < 1
                      Red <- Values[,,,1,nyears] < 1 & Values[,,,2,nyears] > 1
-                     Orange <- Values[,,,1,nyears] > 1 & Values[,,,2,nyears] > 1 |
-                       Values[,,,1,nyears] < 1 & Values[,,,2,nyears] <1
+                     Yellow <- Values[,,,1,nyears] > 1 & Values[,,,2,nyears] > 1
+                     Orange <- Values[,,,1,nyears] < 1 & Values[,,,2,nyears] <1
 
                      meanGreen_y <- apply(Green, 3, mean) %>% round(2) * 100
                      meanOrange_y <- apply(Orange, 3, mean) %>% round(2) * 100
+                     meanYellow_y <- apply(Yellow, 3, mean) %>% round(2) * 100
                      meanRed_y <- apply(Red, 3, mean) %>% round(2) * 100
 
                      DF <- data.frame(MP=MPnames,
                                       Green=meanGreen,
                                       Orange=meanOrange,
+                                      Yellow=meanYellow,
                                       Red=meanRed,
                                       Green=meanGreen_y,
                                       Orange=meanOrange_y,
+                                      Yellow=meanYellow_y,
                                       Red=meanRed_y)
 
                      # a custom table container
@@ -180,13 +184,13 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                        thead(
                          tr(
                            th(colspan = 1, ''),
-                           th(colspan = 3, 'All Years (%)', class = 'dt-center'),
-                           th(colspan = 3, 'Terminal Year (%)', class = 'dt-center')
+                           th(colspan = 4, 'All Years (%)', class = 'dt-center'),
+                           th(colspan = 4, 'Terminal Year (%)', class = 'dt-center')
                          ),
                          tr(
                            th(colspan = 1, 'Management Procedure'),
-                           lapply(c("Green", "Orange", "Red"), th),
-                           lapply(c("Green", "Orange", "Red"), th)
+                           lapply(c("Green", "Orange", 'Yellow', "Red"), th),
+                           lapply(c("Green", "Orange", 'Yellow', "Red"), th)
                          )
                        )
                      ))
@@ -240,7 +244,7 @@ KobeTimeUI <- function(id, label="kobetime") {
              br(),
              br(),
 
-             img(src='img/slide_5_reading.JPG',
+             img(src='img/KobeTime.JPG',
                  style="width: 100%"
                  )
              ),

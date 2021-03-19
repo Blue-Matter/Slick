@@ -7,7 +7,6 @@ ResourcesServer <- function(id) {
                    Footnotes <- readxl::read_xlsx('./data/Resources.xlsx', sheet="Footnotes")
                    headings <- Data$Heading %>% unique()
 
-
                    output_list <- lapply(seq_along(headings), function(x) {
                      heading <- headings[x]
                      subDat <- Data %>% dplyr::filter(Heading==heading)
@@ -28,7 +27,6 @@ ResourcesServer <- function(id) {
                                        paste0("(",subDat$Reference[i], ")"))
                        }
                      }
-
 
                      tagList(
                        h4(toupper(heading)),
@@ -60,7 +58,17 @@ ResourcesUI <- function(id, label="resources") {
   tagList(
     fluidRow(
       column(width = 12,
+             h3('MANUALS'),
+             shiny::actionButton(inputId='ab1', label="User Guide",
+                                 icon = icon("question-circle"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-User-Guide.html', '_blank')"),
+             shiny::actionButton(inputId='ab1', label="Developers' Manual",
+                                 icon = icon("info-circle"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-Developer-Guide.html', '_blank')"),
+
+             br(),
              h3('MSE-Related Resources'),
+
              htmlOutput(ns('content'))
       )
     )

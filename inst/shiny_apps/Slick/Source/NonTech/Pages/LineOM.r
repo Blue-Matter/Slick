@@ -41,12 +41,13 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object) {
                      tagList(
                        p(
                          'This chart compares ',
-                         strong('projected stock status variables over time for ',
+                         strong('projected stock status variables over time (selectable under State Variable dropdown at right) for ',
                                 n.MP, ' management procedures'),
                          'in ', n.sim, 'simulations by', strong(
                            n.OM, 'operating models.'
                          )
-                       )
+                       ),
+                       p('Target and limit reference points are shown in green and red, respectively, if they have been specified.')
                      )
                    }
                  })

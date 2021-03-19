@@ -165,8 +165,16 @@ SplashUI <- function(id, label="splash") {
       column(12, h4('How to use Slick')),
       column(12,
              p('Choose a Slick object from the Example drop-down and click "Select" or load a Slick object from file.'),
-             p('Then click through tabs to view results. For more on using Slick, please see the ', a("manual", href="https://blue-matter.github.io/openMSE/SLICK-User-Guide.html", target="_blank"))
+             p('Then click through tabs to view results. For more on using Slick, please see the: ',
+             shiny::actionButton(inputId='ab1', label="User Guide",
+                                 icon = icon("question-circle"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-User-Guide.html', '_blank')"),
+             shiny::actionButton(inputId='ab1', label="Developers' Manual",
+                                 icon = icon("info-circle"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-Developer-Guide.html', '_blank')")
+             )
       ),
+
 
       column(12, hr()),
 

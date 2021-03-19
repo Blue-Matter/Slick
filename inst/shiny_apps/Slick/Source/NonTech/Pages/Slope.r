@@ -39,7 +39,7 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                          'This chart compares trade-offs in ', strong(n.MP,
                                                                       'management procedures (MPs)'),
                          'for ', n.OM,
-                         'operating models by measuring two co-dependent performance metrics.',
+                         'operating models by measuring two co-dependent performance metrics (selectable at right).',
                          'Similar performing MPs are grouped together.'),
                        p(HTML('<i class="fas fa-circle fa-sm"></i>'),
                          'The ', strong('dots'),
