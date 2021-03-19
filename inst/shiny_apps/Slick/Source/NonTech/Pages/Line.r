@@ -128,11 +128,11 @@ LineUI <- function(id, label="line") {
              h4(strong("READING THIS CHART")),
              htmlOutput(ns('reading'))
       ),
-      column(width=2,
+      column(width=3,
              br(),
-             img(src='img/slide_6_reading.JPG')
+             img(src='img/Line.jpg', width="100%")
       ),
-      column(width=2,
+      column(width=1,
       ),
       column(width=4,
              br(),

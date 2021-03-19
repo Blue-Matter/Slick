@@ -195,7 +195,7 @@ Line_OMUI <- function(id, label="lineOM") {
              htmlOutput(ns('reading'))
              ),
       column(width=3,
-             img(src='img/page_11_reading.JPG')
+             img(src='img/LineOM.jpg', width='100%')
              ),
       column(width=4,
              br(),

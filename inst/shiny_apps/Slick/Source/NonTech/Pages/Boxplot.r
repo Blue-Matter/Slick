@@ -111,7 +111,7 @@ BoxplotUI <- function(id, label="NTP8") {
                  h4(strong("READING THIS CHART")),
                  htmlOutput(ns('reading')),
                  br(),
-                 img(src='img/slide_8_reading.JPG')
+                 img(src='img/Boxplot.jpg', width='100%')
                  )
 
       ),
