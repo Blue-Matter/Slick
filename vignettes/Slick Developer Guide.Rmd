@@ -19,7 +19,7 @@ output:
     toc: yes
   pdf_document:
     toc: yes
-subtitle: "User Guide (v0.1)"
+subtitle: "Slick version 1.02"
 vignette: |
   %\VignetteIndexEntry{ABT-MSE} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
@@ -108,11 +108,14 @@ Slick presents MSE results in 11 Figures designed to inform decision making by r
 
 ## Online
 
-Slick is freely available [online](http://142.103.48.20:3838/Slick/). 
+Slick is freely available [online](https://apps.bluematterscience.com/Slick/). 
 
 ## Offline
 
-You can also run the App locally on your computer. To do so install the R package and use the Slick() function:
+You can also run the App locally on your computer. To do so install the [R package] (https://github.com/Blue-Matter/Slick) and use the Slick() function:
+
+
+
 
 ```{r offline, eval=F}
 library(Slick)
@@ -121,12 +124,12 @@ Slick()
 
 # Making custom slick objects  
 
-Is is straightforward for MSE users to present their results using Slick. To do so they must:
+It is straightforward for MSE users to present their results using Slick. To do so they must:
 
-1. download the Slick R package
-2. Create a blank Slick object
-3. Populate the various slots of the object with their data, text and labelling
-4. Save the Slick object and upload it to the App
+1. Download the Slick R package.
+2. Create a blank Slick object.
+3. Populate the various slots of the object with their data, text and labelling.
+4. Save the Slick object and upload it to the App.
 
 Slick objects have the following dimensions:
 
@@ -144,7 +147,7 @@ When you create a blank Slick object you must specify the 'shape' of the results
 ```{r makeslick, eval=F}
 library(Slick)
 Slick()
-mySlickobj = NewSlick(nPerf=list(nD=5,nS=6,nP=7), # The number of deterministic (nD), stochastic (nS) and projected performance metrics (nP)
+mySLICKobj = NewSlick(nPerf=list(nD=5,nS=6,nP=7), # The number of deterministic (nD), stochastic (nS) and projected performance metrics (nP)
                       nMPs=5,      # The number of management procedures
                       nsim=10,     # The number of simulations per operating model and MP
                       nProjYr=50,  # The number of MSE projection years
@@ -180,12 +183,12 @@ The OM slot contains five components:
 Here is an example of an OM slot for a Slick object that has three reference set factors (natural mortality rate, resilience, stock depletion): 
 
 ```{r OMslot, eval=T}
-Slickobj$OM
+SLICKobj$OM
 ```
 
 There are 2 levels of natural mortality rate, 3 levels of resilience and 2 levels of depletion. Since these are fully orthogonal the product is 2 x 3 x 2 (12) reference operating models. Additionally there is a fourth factor for robustness / reference set operating models. Since there are 5 robustness OMs the total number of operating models (rows in the design grid) is 17.
 
-The Labels, Codes and Description slots are all hierarchical lists which vectors for each level name nested within factor type. 
+The Labels, Codes and Description slots are all hierarchical lists that have vectors for each level name nested within factor type. 
 
 ## Perf - Performance Metrics
 
@@ -196,14 +199,14 @@ There are three types of performance metrics:
 * Proj - Projected (a value per simulation, OM, MP, time step and projected metric) (e.g. spawning biomass relative to target levels, F relative to target levels)
 
 ```{r Perftypes, eval=T}
-names(Slickobj$Perf)
+names(SLICKobj$Perf)
 ```
 
-These performance metric types have varing roles in the Slick app, featuring in particular results plots only. For example, radar plots (e.g. Performance Comparison 1) are all deterministic performance metrics. Box plots (e.g. Performance Trade-offs 3) are stochastic performance metrics. Any plots that include metrics over time are plotting Projected performance metrics (e.g. Projection of Trade-offs). 
+These performance metric types have varying roles in the Slick app, featuring in certain results plots only. For example, spider plots (e.g. Performance Comparison 1) are all deterministic performance metrics. Box plots (e.g. Performance Trade-offs 3) are stochastic performance metrics. Any plots that include metrics over time are plotting Projected performance metrics (e.g. Kobe plots). 
 
-The Det, Stoch and Proj slots can include varying numbers of metrics - they do not have to match. These slots can also be left empty however without all three, some of the Slick outputs will be missing. 
+The Det, Stoch and Proj slots can include varying numbers of metrics - they do not have to match. These slots can also be left empty, however without all three, some of the Slick outputs will be missing. 
 
-There are some constraints in how these metrics should be scaled for use in the App. In order to make presentation and ranking possible within the App, Deterministic and Stochastic performance metrics should take on values between 0 and 100, where 0 is poor performance and 100 is ideal performance. For example it would be necessary to take the compliment of 'probability of overfishing' (where less is better) to derive 'probability of not overfishing' (where more is then better). Similarly, if variability in yields is included it may be necessary to take the additive inverse so that low variability is assigned higher values than high variability. A function is included in the Slick R package for normalizing and inverting performance metrics: PMnorm().  
+There are some constraints in how these metrics should be scaled for use in the App. In order to make presentation and ranking possible within the App, Deterministic and Stochastic performance metrics should take on values between 0 and 100, where 0 is poor performance and 100 is ideal performance. For example it would be necessary to take the complement of 'probability of overfishing' (where less is better) to derive 'probability of not overfishing' (where more is then better). Similarly, if variability in yields is included it may be necessary to take the additive inverse so that low variability is assigned higher values than high variability. A function is included in the Slick R package for normalizing and inverting performance metrics: PMnorm().  
 
 Projected performance metrics are used in providing Kobe-like outputs among several Slick plots. The default is to make the first projected metric SSB relative to SSBMSY (Kobe x-axis) and the second projected metric exploitation rate relative to MSY levels (F/FMSY). Other projected metrics are permissable but will not lead to conventional Kobe plot outcomes in panels labelled 'Kobe'. 
 
@@ -212,35 +215,35 @@ Projected performance metrics are used in providing Kobe-like outputs among seve
 As in the operating model slot OM, each of the performance metric types (Det, Stoch and Proj) have Labels, Codes and Description slots that provide labels for plotting axes, further abbreviated codes for other interface features and full descriptions, respectively. These are simply character vectors:
 
 ```{r PerftypesD, eval=T}
-names(Slickobj$Perf$Det)
+names(SLICKobj$Perf$Det)
 
-Slickobj$Perf$Det$Labels
+SLICKobj$Perf$Det$Labels
 
-Slickobj$Perf$Det$Codes
+SLICKobj$Perf$Det$Codes
 
-Slickobj$Perf$Det$Description
+SLICKobj$Perf$Det$Description
 ```
 
 The values of the performance metrics are stored in the Values slot that is an array with the dimensions [OM, MP, deterministic metric]. In this example there are 17 operating models, 6 management procedures and 9 deterministic performance metrics:
 
 ```{r PerftypesDval, eval=T}
-dim(Slickobj$Perf$Det$Values)
+dim(SLICKobj$Perf$Det$Values)
 
-range(Slickobj$Perf$Det$Values)
+range(SLICKobj$Perf$Det$Values)
 ```
 
 Of course it is easy to do a quick check in R that you are seeing the expected values (the numbers represent the MPs):
 
 ```{r PerftypesDvalplot, eval=T, fig.width=7, fig.height=5}
-matplot(Slickobj$Perf$Det$Values[,,7],ylab=Slickobj$Perf$Det$Labels[7],xlab="Operating model",type='b') # A quick sketch of your Det$Values data for metric #7
+matplot(SLICKobj$Perf$Det$Values[,,7],ylab=SLICKobj$Perf$Det$Labels[7],xlab="Operating model",type='b') # A quick sketch of your Det$Values data for metric #7
 ```
 
 Two optional slots RefPoints and RefNames are also included that allow for the prescription of reference levels for each deterministic metric. These are lists with an entry for each metric:
 
 ```{r PerftypesDrp, eval=T}
-Slickobj$Perf$Det$RefPoints
+SLICKobj$Perf$Det$RefPoints
 
-Slickobj$Perf$Det$RefNames
+SLICKobj$Perf$Det$RefNames
 ```
 
 In this example target and reference levels are provided for just one of the performance metrics (metric #7).
@@ -252,52 +255,52 @@ The formatting of the Stochastic performance metrics is identical to that of the
 There can be differing numbers of deterministic and stochastic performance metrics but in this example they include the same type of metric (the deteministic version was simply the mean of the stochastic values across simulations):
 
 ```{r PerftypesS, eval=T, fig.width=6, fig.height=4}
-names(Slickobj$Perf$Stoch)
+names(SLICKobj$Perf$Stoch)
 
-dim(Slickobj$Perf$Stoch$Values)
+dim(SLICKobj$Perf$Stoch$Values)
 
-plot(density(Slickobj$Perf$Stoch$Values[,1,3,7],from=0,to=100,adj=0.5),xlab=Slickobj$Perf$Stoch$Labels[7],main=Slickobj$MP$Labels[3],ylab="Rel. Freq.") # Distribution of values for the third MP and 7th stochastic metric
+plot(density(SLICKobj$Perf$Stoch$Values[,1,3,7],from=0,to=100,adj=0.5),xlab=SLICKobj$Perf$Stoch$Labels[7],main=SLICKobj$MP$Labels[3],ylab="Rel. Freq.") # Distribution of values for the third MP and 7th stochastic metric
 
 ```
 
 ### Proj, Projected performance metrics
 
-The formatting of the Projected performance metrics is identical to that of the stochastic metrics with the exception that the Values slot has additional dimensions for time (there are 50 projected years in this example) and a label for these times (Times)
+The formatting of the Projected performance metrics is identical to that of the stochastic metrics with the exception that the Values slot has additional dimensions for time (there are 50 projected years in this example) and a label for these times (Times).
 
 ```{r PerftypesP, eval=T, fig.width=6, fig.height=4}
-names(Slickobj$Perf$Proj)
+names(SLICKobj$Perf$Proj)
 
-Slickobj$Perf$Proj$Times
+SLICKobj$Perf$Proj$Times
 
-dim(Slickobj$Perf$Proj$Values)
+dim(SLICKobj$Perf$Proj$Values)
 
-matplot(Slickobj$Perf$Proj$Times,t(Slickobj$Perf$Proj$Values[,2,3,1,]),
-        xlab=Slickobj$Perf$Proj$Time_lab,ylab=Slickobj$Perf$Proj$Labels[1],
-        main=Slickobj$MP$Labels[3], type="l", col="#00FF0030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
+matplot(SLICKobj$Perf$Proj$Times,t(SLICKobj$Perf$Proj$Values[,2,3,1,]),
+        xlab=SLICKobj$Perf$Proj$Time_lab,ylab=SLICKobj$Perf$Proj$Labels[1],
+        main=SLICKobj$MP$Labels[3], type="l", col="#00FF0030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
 
 ```
 
-Any number of performance metrics can be included here. However, due to the default production of a Kobe-like plots (Performance Comparison 3, Performance Trade off 1 and 2), it is recommended that if they are to be reported, SSB relative to SSBMSY be placed in the first position (default x axis of the Kobe plot, greater than 1 is better) and F relative to FMSY be placed the second position (default y axis of the Kobe plot, smaller that 1 is better). 
+Any number of performance metrics can be included here. However, due to the default production of a Kobe-like plot (Performance Comparison 3, Performance Trade off 1 and 2), it is recommended that if they are to be reported, SSB relative to SSBMSY be placed in the first position (default x axis of the Kobe plot, greater than 1 is better) and F relative to FMSY be placed the second position (default y axis of the Kobe plot, smaller that 1 is better). 
 
 ## StateVar - State Variables
 
-In general, MSEs start with a historical reconstruction of system dynamic from which MPs are tested under projection. State variables are quantities that have persisted in the past as well as the future and in this way provide an historical perspective on future MP performance. Examples in fisheries MSE could include spawning stock biomass, spawning numbers, recruitment etc. 
+In general, MSEs start with a historical reconstruction of system dynamic from which MPs are tested under projection. State variables are quantities that have persisted in the past as well as the future and in this way provide a historical perspective on future MP performance. Examples in fisheries MSE could include spawning stock biomass, spawning numbers, recruitment etc. 
 
 The formatting of the state variables is very similar to projected performance metrics but these also include historical years and an entry 'TimeNow' that demarks the end of the historical reconstruction and the start of the MSE projection. 
 
 ```{r StateVar, eval=T, fig.width=6, fig.height=4}
-names(Slickobj$StateVar)
+names(SLICKobj$StateVar)
 
-Slickobj$StateVar$Times
-Slickobj$StateVar$TimeNow
+SLICKobj$StateVar$Times
+SLICKobj$StateVar$TimeNow
 
-dim(Slickobj$StateVar$Values)
+dim(SLICKobj$StateVar$Values)
 
-matplot(Slickobj$StateVar$Times,t(Slickobj$StateVar$Values[,2,3,1,]),
-        xlab=Slickobj$StateVar$Time_lab,ylab=Slickobj$StateVar$Labels[1],
-        main=Slickobj$MP$Labels[3], type="l", col="#FF000030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
+matplot(SLICKobj$StateVar$Times,t(SLICKobj$StateVar$Values[,2,3,1,]),
+        xlab=SLICKobj$StateVar$Time_lab,ylab=SLICKobj$StateVar$Labels[1],
+        main=SLICKobj$MP$Labels[3], type="l", col="#FF000030",lty=1,lwd=2) # Projection by simulation for the second OM, third MP and 1st stochastic metric
 
-abline(v=Slickobj$StateVar$TimeNow) 
+abline(v=SLICKobj$StateVar$TimeNow) 
 
 ```
 
@@ -306,17 +309,17 @@ abline(v=Slickobj$StateVar$TimeNow)
 The management procedures slot contains the text required to populate figures and tables in the App. It has the same Labels, Codes and Descriptions slots as the various performance metrics slots:
 
 ```{r MP, eval=T, fig.width=6, fig.height=4}
-Slickobj$MP
+SLICKobj$MP
 ```
 
 In this case the Labels and Codes are identical but in other cases it might be necessary to provide more descriptive text to the MP labels. 
 
 ## Text
 
-The text slot allows users to provide a title and introductory text for the main page of the App
+The text slot allows users to provide a title and introductory text for the main page of the App.
 
 ```{r Text, eval=T, fig.width=6, fig.height=4}
-Slickobj$Text
+SLICKobj$Text
 ```
 
 The Introduction slot is a list with a character string for each paragraph. 
@@ -326,7 +329,7 @@ The Introduction slot is a list with a character string for each paragraph.
 Finally, the Misc slot provides a place where the user can record their authorship, contact information. 
 
 ```{r Misc, eval=T, fig.width=6, fig.height=4}
-Slickobj$Misc
+SLICKobj$Misc
 ```
 
 App_axes is a meta-label allowing users to control how the App is presented. For example for hurricane disaster relief, the user may want to use the term 'Hurricane path' rather than 'Operating model' or 'Evacuation plan' instead of 'Management procedure'. 
@@ -340,20 +343,20 @@ The Cols slot allows the user to control various color schemes to customize App 
 
 To use your Slick object in the App, save it using the saveRDS function and give the file a .slick extension:
 
-```{r saveandupload, eval=T, fig.width=6, fig.height=4}
-saveRDS(Slickobj,'mystock.slick')
+```{r saveandupload, eval=T, fig.width=6, fig.height=4,eval=F}
+saveRDS(SLICKobj,'mystock.slick')
 ```
 
 This file can then be loaded from the Home page in Slick.
 
-If your results can be made publically available, share your Slick file with the Blue Matter team and there is a chance we'll add it to the App as an example that is available from the dropdown menu in the App. Please send your slick files to tom@bluematterscience.com
+If your results can be made publically available, share your Slick file with the Blue Matter team and there is a chance we'll add it to the App as an example that is available from the dropdown menu in the App. Please send your slick files to tom@bluematterscience.com.
 
 
 # Acknowledgements
 
 <img src="TOFlogo.jpg" width="260">
 
-Slick development was funded by the Ocean Foundation. Many thanks to Shana Miller and Grantly Galland for their feedback and suggestions.
+Slick development was funded by the Ocean Foundation, with support from The Pew Charitable Trusts. Many thanks to Shana Miller, Grantly Galland and Sara Pipernos for their feedback and suggestions.
 
 <img src="5Wlogo.jpg" width="120">
 
@@ -364,7 +367,7 @@ The prototype figure designs were developed by 5W Designs. Many thanks also to 5
 The Slick App, manuals and example MSE objects were coded by Blue Matter Science Ltd. 
 
 
-# Glossary
+# Acronyms
 
 ```{r Glossary, eval=T, echo=F}
 gloss<-data.frame(Abbreviation = c("MSE","MP","OM","SSB","MSY","FMSY","SSBMSY","BMSY", "SSB0"),

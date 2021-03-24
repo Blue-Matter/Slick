@@ -20,7 +20,7 @@
 #' @export
 Make_Slick<-function(name = "Unnamed Slick object",
                      OM=testOM,
-                     MPs=c("DCAC", "AvC", "Fratio", "FMSYref", "FMSYref50", "NFref"),
+                     MPs=c("DCAC", "AvC", "Fratio", "FMSYref", "FMSYref50","matlenlim"),
                      PMs=c("AAVE","AAVY","LTY","P10","P50","P100","PNOF","STY","Yield"),
                      Design=as.data.frame(cbind(rbind(as.matrix(expand.grid(1:2,1:3,1:2)),matrix(1,nrow=5,ncol=3)),c(rep(1,12),2:6))),
                      SN=list(Factor_Labels=c("Natural Mortality","Resilience","Stock Depletion","Robustness"),
@@ -57,6 +57,9 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   out$MP$Labels <- MPs
   out$MP$Codes <- MPs
+  out$MP$Description<-c("TAC is Depletion-Corrected Average Catch (MacCall 2009)","TAC is Average historical catches",
+                        "TAC is a fixed ratio of FMSY/M multiplied by M, multiplied by surveyed biomass","TAC is perfectly known FMSY fishing",
+                        "TAC is half of perfectly known FMSY fishing","No TAC restriction, only a minimum size limit at length at maturity")
 
   # --- Do performance metric labelling -------------------------------------------------------------------------------
 
@@ -116,7 +119,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
     if(runMSEs){
       OMtemp<-OM
       for(Fac in 1:nFacs)  OMtemp<-mods[[Fac]](OMtemp,Design[i,Fac])
-      MSElist[[i]]<-runMSE(OMtemp,MPs=MPs,ntrials=1000,parallel=T)
+      MSElist[[i]]<-runMSE(OMtemp,MPs=MPs,parallel=T)
     }
 
     MSEtemp<-MSElist[[i]]
@@ -124,9 +127,9 @@ Make_Slick<-function(name = "Unnamed Slick object",
     for(p in 1:nPMs){
        PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
        #dim(out$Perf$Det$Values)
-       out$Perf$Det$Values[i,,p]<-PMtemp@Mean
+       out$Perf$Det$Values[i,,p]<-PMtemp@Mean*100
        #dim(out$Perf$Stoch$Values)
-       out$Perf$Stoch$Values[,i,,p]<-PMtemp@Prob
+       out$Perf$Stoch$Values[,i,,p]<-PMtemp@Prob*100
 
     }
     #(B/BMSY, F/FMSY, SSB/SSB0, Catch/MSY)
@@ -151,7 +154,11 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$TimeNow=2021
 
   #saveRDS(MSElist,"C:/temp/MSElist.rda")
-  out
+  if(returnMSEs){
+    return(list(MSElist,out))
+  }else{
+    return(out)
+  }
 
 }
 

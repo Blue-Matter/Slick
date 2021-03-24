@@ -26,6 +26,11 @@ vignette: |
 
 <style type="text/css">
 
+
+h3.subtitle {
+  font-size: 26px;
+}
+
 h4{ /* Normal  */
    font-size: 13px;
 }
@@ -120,7 +125,7 @@ MSEs have four axes over which results are generally presented:
 
 1. operating models (a state of nature or scenario for real system dynamics)  
 2. management procedures (MP - a management option, aka. harvest strategy)
-3. performance metrics (aka. cost function, utility measure)
+3. performance metrics (aka. cost function, utility measure. E.g. probability of not overfishing, long-term yields)
 4. uncertainty within an operating model (multiple simulations for each discrete state of nature)
 
 Slick allows users to filter operating models, performance metrics and management procedures in order to explore robustness and characterize performance. Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick object, these can be loaded to the App. 
@@ -135,7 +140,7 @@ Slick is freely available [online](https://apps.bluematterscience.com/Slick/).
 
 ## Offline
 
-You can also run the App locally on your computer. To do so install the R package and use the Slick() function:
+You can also run the App locally on your computer. To do so install the [R package] (https://github.com/Blue-Matter/Slick) and use the Slick() function:
 
 ```{r offline, eval=F}
 library(Slick)
@@ -147,7 +152,7 @@ Slick()
 
 ## Filtering 
 
-On the righthand side of the App is a list of Filters that allow the user to change the operating models, managemnent procedures and performance metrics for which results are presented. When the user makes changes to the Filter checkboxes, a red 'FILTER' button appears and must be pressed in order to update the results that are presented. If you see the red 'FILTER' button it means that you are looking at results that do not necessarily correspond with the current selection of filters. 
+On the righthand side of the App is a list of Filters that allow the user to change the operating models, management procedures and performance metrics for which results are presented. When the user makes changes to the Filter checkboxes, a red 'FILTER' button appears and must be pressed in order to update the results that are presented. If you see the red 'FILTER' button it means that you are looking at results that do not necessarily correspond with the current selection of filters. 
 
 <img src="Filters.jpg" width="200">
 
@@ -157,13 +162,21 @@ The Home panel contains a dropdown menu of example Slick objects that may be loa
 
 The Home panel includes summary text describing the case study and also a series of tables that provide greater detail about the included management procedures, operating models and performance metrics. 
 
+In Slick there are three varieties of performance metric: deterministic, stochastic and projection, which are presented in various ways. 
+
+* Deterministic performance metrics are reported as a single number per management procedured and operating model. These are typically used to provide a summary of performance over many simulations for a given year. For example, the probability of yield in 2035 exceeding current yield. Deterministic performance metrics are used to provide top-level performance summaries in the spider, zigzag and rail plots.  
+
+* Stochastic performance metrics are essentially the same as deterministic performance metrics but are reported by simulation and as such express uncertainty in outcomes for each management procedure and operating model. An example of a stochastic performance metric could be yield relative to current yield in 2035. Stochastic performance metrics are used in boxplots to express uncertainty in peformance outcomes. 
+
+* Projection performance metrics are the same as stochastic perfomrance metrics but are available for all projection years. Projection metrics present the evolution of performance over time and are used in Slick Kobe plots.  
+
 <img src="Home.jpg" width="560">
 
 
 
 ## Spider
 
-The first results page provides a top-sheet overview of performance among candidate MPs. Individual radar plots provide MP specific performance outcomes and a larger radar plot provides direct comparisons among candidate MPs. These are deterministic (point values) performance metrics which are scaled from 0 to 100 where 100 is better performance. 
+The first results page provides a top-sheet overview of performance among candidate MPs. Individual spider plots provide MP specific performance outcomes and a larger spider plot provides direct comparisons among candidate MPs. These are deterministic (point values) performance metrics which are scaled from 0 to 100 where 100 is better performance. 
 
 MP-specific radar plots include a value which is the mean score among all selected performance metrics.
 
@@ -171,13 +184,13 @@ There is an option to present performance metrics on a relative scale, in which 
 
 As with all results pages, a summary panel is included at the top of each page which highlights any outstanding results.
 
-These plots can include a large number of performance metrics. However, where possible it is preferable to select a small number - when radar plots  have a large numbers of metrics the order in which they are presented can strongly determine the apparent size of the shaded area. 
+These plots can include a large number of performance metrics. However, where possible it is preferable to select a small number (e.g. 6 or fewer) - when spider plots include a large numbers of metrics, the order in which they are presented can determine the apparent size of the shaded area. 
 
 <img src="spider.jpg" width="560">
 
 ## Zigzag
 
-Line graphs provide an alternative comparison of candidate MP performance. These are essentially the spokes of the spider diagram unfurled and presented along a straight axis. Performance among the various metrics increases along the x-axis with aggregate mean performance among all metrics presented as large point at the top of the plot. 
+Zigzag graphs provide an alternative comparison of candidate MP performance. These are essentially the spokes of the spider plots unfurled and presented along a straight axis. Performance among the various metrics increases along the x-axis with aggregate mean performance among all metrics presented as large point at the top of the plot. 
 
 The values of the mean performance among all metrics are also presented in a performance table below the figure. 
 
@@ -185,7 +198,7 @@ The values of the mean performance among all metrics are also presented in a per
 
 ## Rail
 
-As a compliment to the spider and zigzag figures, the same information can be presented in floating bars that better characterize the range of performance outcomes among candidate MPs. 
+As a complement to the spider and zigzag figures, the same information can be presented in floating bars that better characterize the range of performance outcomes among candidate MPs. 
 
 <img src="Rail.jpg" width="560">
 
@@ -193,11 +206,13 @@ As a compliment to the spider and zigzag figures, the same information can be pr
 
 A standard diagnostic for sustainable exploitation is the Kobe plot which describes MP biomass performance relative to a target level on the x-axis and exploitation rate performance relative to a target on the y-axis. A single Kobe-like plot summarizes the outcomes of the MSE projection in the final projection year. This plot helps to summarize long term biomass and exploitation performance to better highlight constrast in the sustainability among MPs.
 
+Uncertainty in performance outcomes is expressed with white vertical and horizontal lines that represent percentiles relating to a certain interquantile range. By default, the 90% interquantile range is selected but the user can adjust this range using the percentile slider to the top-right of the Kobe plot. 
+
 <img src="kobe.jpg" width="560">
 
 ## Kobe Time
 
-An extension of the Kobe plot, this figure distinguishes between the biological status of the stock and its probable trajectory.  
+An extension of the Kobe plot, this figure distinguishes between the biological status of the stock and its probable trajectory, showing status in each individual year of the projection (vs. only the final year, as in the Kobe plot of the prior tab).  
 
 <img src="kobetime.jpg" width="560">
 
@@ -212,7 +227,7 @@ Here the median lines for each MP are compared together and then individual plot
 
 ## Slope
 
-An alternative summary of Kobe-type biomass and exploitation metrics is provided that attempts to rank candidate MPs to further highlight critical differences in sustainability. 
+An alternative summary of Kobe-type biomass and exploitation metrics is provided that attempts to rank candidate MPs to further highlight critical differences in the main fisheries tradeof of maximizing both catch and population abundance. 
 
 <img src="slope.jpg" width="560">
 
@@ -230,7 +245,7 @@ An important feature of MSE is that it focuses on robustness of MPs among variou
 
 ## Spider OM
 
-A radar plot array among MPs and operating models  reveals scenarios that affect the absolute and relative performance of candidate MPs.  
+A spider plot array among MPs and operating models  reveals scenarios that affect the absolute and relative performance of candidate MPs.  
 
 <img src="spiderom.jpg" width="560">
 
@@ -245,7 +260,7 @@ State variable projections are provided across a range of operating models and M
 
 <img src="TOFlogo.jpg" width="260">
 
-Slick development was funded by the Ocean Foundation. Many thanks to Shana Miller and Grantly Galland for their feedback and suggestions.
+Slick development was funded by the Ocean Foundation, with support from The Pew Charitable Trusts. Many thanks to Shana Miller, Grantly Galland and Sara Pipernos for their feedback and suggestions.
 
 <img src="5Wlogo.jpg" width="120">
 
@@ -264,9 +279,9 @@ Butterworth, D.S., Punt, A.E. 1999 Experiences in the evaluation and implementat
 
 Cochrane, K L., Butterworth, D.S., De Oliveira, J.A.A., Roel, B.A., 1998. Management procedures in a fishery based on highly variable stocks and with conflicting objectives: experiences in the South African pelagic fishery. Rev. Fish. Biol. Fisher. 8, 177-214.
 
-Punt, A.E., Butterworth, D.S., de Moor, C.L., De Oliveira, J.A.A., Haddon, M. 2014. Management strategy evaluation: best practices. Fish and Fisheries. 17(2): 303:334. 
+Punt, A.E., Butterworth, D.S., de Moor, C.L., De Oliveira, J.A.A., Haddon, M. 2014. Management strategy evaluation: best practices. Fish and Fisheries. 17(2): 303:334. https://doi.org/10.1111/faf.12104 
 
-# Glossary
+# Acronyms
 
 ```{r Glossary, eval=T, echo=F}
 gloss<-data.frame(Abbreviation = c("MSE","MP","OM","SSB","MSY","FMSY","SSBMSY","BMSY", "SSB0"),
