@@ -168,10 +168,10 @@ SplashUI <- function(id, label="splash") {
              p('Then click through tabs to view results. For more on using Slick, please see the: ',
              shiny::actionButton(inputId='ab1', label="User Guide",
                                  icon = icon("question-circle"),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-User-Guide.html', '_blank')"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-User-Guide.html', '_blank')"),
              shiny::actionButton(inputId='ab1', label="Developers' Manual",
                                  icon = icon("info-circle"),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-Developer-Guide.html', '_blank')")
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', '_blank')")
              )
       ),
 

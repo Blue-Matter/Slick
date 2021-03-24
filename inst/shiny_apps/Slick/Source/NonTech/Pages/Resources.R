@@ -61,10 +61,10 @@ ResourcesUI <- function(id, label="resources") {
              h3('MANUALS'),
              shiny::actionButton(inputId='ab1', label="User Guide",
                                  icon = icon("question-circle"),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-User-Guide.html', '_blank')"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-User-Guide.html', '_blank')"),
              shiny::actionButton(inputId='ab1', label="Developers' Manual",
                                  icon = icon("info-circle"),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/SLICK-Developer-Guide.html', '_blank')"),
+                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', '_blank')"),
 
              br(),
              h3('MSE-Related Resources'),
