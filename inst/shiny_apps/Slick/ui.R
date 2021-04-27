@@ -135,9 +135,16 @@ fluidPage(
   ), # end of main window
 
 
-  column(12,  br(),br(), style="height:40px;  text-align: center;",textOutput("SessionID")),
+  column(12,
+         br(),
+         br(), style="height:40px;  text-align: center;",
+         textOutput("SessionID"),
+         paste0('v', as.character(packageVersion('Slick'))),
+         h6("copyright (c) The Ocean Foundation, 2021")
+         )
 
-  column(12,  br(),style="height:40px; text-align: center", h6("copyright (c) The Ocean Foundation, 2021"))
+
+
         #h5("Bottom of app (Version etc)"),
          #verbatimTextOutput("Log2",placeholder=T)
 
