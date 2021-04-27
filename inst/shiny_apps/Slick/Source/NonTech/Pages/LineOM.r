@@ -295,6 +295,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
   SV_ind <- which(unlist(obj$StateVar$Labels) == input$selectSV )
 
   hist.yr.ind <- which(obj$StateVar$Times==obj$StateVar$TimeNow)
+  hist.yr <- obj$StateVar$TimeNow
   first.proj.ind <- hist.yr.ind+1
   first.proj <- obj$StateVar$TimeNow+1
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
