@@ -46,6 +46,7 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                          'quadrants in each projection year. The probability of ',
                          'being in the green quadrant should be ', HTML(paste0(strong('>60%'),",")),
                          'a common management objective.'),
+                       p('If specified, reference points are shown as dashed horizontal and/or vertical lines.'),
                        p('Select two trade-off Performance Metrics from the drop down menu on the right side.')
                      )
                    }
@@ -203,7 +204,7 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                                      fixedColumns = TRUE,
                                      autoWidth = TRUE,
                                      ordering = TRUE,
-                                     dom = 'Bfrtip',
+                                     dom = 'Brtip',
                                      buttons = c('copy', 'csv', 'excel')
                                    ),
                                    rownames = FALSE)
@@ -244,7 +245,7 @@ KobeTimeUI <- function(id, label="kobetime") {
              br(),
              br(),
 
-             img(src='img/KobeTime.JPG',
+             img(src='img/KobeTime.jpg',
                  style="width: 100%"
                  )
              ),

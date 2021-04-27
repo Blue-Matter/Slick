@@ -57,15 +57,14 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                      tagList(
                        p(
                          'This chart', strong('compares trade-offs'), 'in',
-                         n.MP, ' ', paste0(Object$obj$Misc$App_axes[3], 's'), 'for ', n.OM, ' ',
-                         paste0(Object$obj$Misc$App_axes[2], 's'),
+                         n.MP, ' management procedures for ', n.OM, ' operating models ',
                          'by measuring two co-dependent performance metrics. These performance metrics can be modified under "Select Performance Metrics" above the plot.'),
                        p(
                          HTML('<i class="fas fa-circle fa-sm"></i>'),
-                         'The', strong('dots'),
+                         'The black', strong('dots'),
                          paste0('represent the median value for the final year of the projection period ',
                          yr.txt, '.')),
-                       p(strong('Dotted lines'), 'around dots are error bars. The default represents',
+                       p('The whited', strong('dotted lines'), 'around dots are error bars. The default represents',
                          HTML(paste0(quant_text, 'th')), 'percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
                      )
                    }

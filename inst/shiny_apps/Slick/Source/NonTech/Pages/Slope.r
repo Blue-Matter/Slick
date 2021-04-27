@@ -46,7 +46,8 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                          'represent the median value for the final year of the projection period',
                          paste0(yr.txt, '.')),
                        p(strong('Dotted lines'),
-                         'next to the dots are error bars representing 90th percentiles.')
+                         'next to the dots are error bars representing 90th percentiles.'),
+                       p('Target and limit reference points are shown in horizontal green and red lines, respectively, if they have been specified.')
                      )
                    }
                  })
@@ -125,8 +126,9 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                        DT::datatable(DF, extensions = c('Responsive', 'Buttons'),
                                      escape = FALSE,
                                      options=list(
-                                       dom = 'Bfrtip',
-                                       autoWidth=FALSE),
+                                       dom = 'Brtip',
+                                       autoWidth=FALSE,
+                                       columnDefs = list(list(className = 'dt-center', targets = 0))),
                                      rownames= FALSE)
 
                      }
@@ -167,6 +169,8 @@ SlopeUI <- function(id, label="slope") {
              htmlOutput(ns('PM_dropdown'))
       )
     ),
+    br(),
+    br(),
     fluidRow(
       column(width=12,
              plotOutput(ns('results'),
@@ -174,10 +178,10 @@ SlopeUI <- function(id, label="slope") {
       )
     ),
     fluidRow(class="top_border",
-             column(2),
-             column(width=9,
+             column(12,
+
              h3('Performance Table', class='lah'),
-             DT::dataTableOutput(ns('results_ranking'), width='80%')
+             DT::dataTableOutput(ns('results_ranking'), width='100%')
       )
     )
   )

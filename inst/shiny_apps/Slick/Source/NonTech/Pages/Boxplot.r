@@ -138,7 +138,7 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
     Values <- Stoch$mat[,SNkeep$selected, MPkeep$selected, Stochkeep$selected]
 
     if(!any(dim(Values)<1)) {
-      med.cex <- 3
+      med.cex <- 2.5
       qrt.lwd <- 4
       rng.lwd <- 1
       main.cex <- 1.25
@@ -152,7 +152,6 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
           med <- apply(Val,3, median)
           qrt <- apply(Val,3, quantile, c(0.25, 0.75))
           rng <- apply(Val,3, range)
-
 
           maxY <- max(rng)
           if (maxY > 10) {
@@ -168,7 +167,7 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
                   col='#ededed', border=NA)
           at <- seq(0, maxY, by=maxY/5)
           abline(h=at, col='white')
-          text(-0.75, at, at, col='#8c8c8c', xpd=NA, cex=1.25)
+          text(0, at, at, col='#8c8c8c', xpd=NA, cex=1.25, pos=2)
           points(1:nMPs, med, pch=16, col=MPcols, cex=med.cex, xpd=NA)
           for (i in 1:nMPs) {
             lines(c(i,i), qrt[,i], col=MPcols[i], lwd=qrt.lwd)

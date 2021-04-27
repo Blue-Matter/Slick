@@ -56,7 +56,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          p('Each value is a median peformance metric over ', n.OM,
                            ' operating models.'),
                          p(HTML('<i class="fas fa-hexagon"></i>'),
-                           'The', strong('filled symbols on top'),
+                           'The', strong('filled plots on top'),
                            'represent an average score of all performance metrics for',
                            'each management procedure. It provides a quick comparison',
                            'of overall MP performances.',
@@ -64,11 +64,11 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                            'These summary values assume equal weighting and equal scaling of performance metrics.'),
 
                          p(HTML('<i class="far fa-hexagon"></i>'),
-                           strong('The lines in the bottom spider plot'),
+                           strong('The lines in the bottom left spider plot'),
                            'connect', strong('individual scores'),
                            'for the performance metrics in each management procedure.',
                            'Scores closer to the exterior edge indicate better performance.'),
-                         p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric.'
+                         p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric. When Relative Scale is off, the performance metrics values are plotted directly, with 100 representing the highest score and 0 the lowest.'
                          )
                        )
                      }
@@ -86,7 +86,8 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          column(width = 6,
                                 h3('Management Procedure', class='lah'),
                                 h4(strong('Overall scores'), '(average of ', n.select,
-                                   'performance metrics).')
+                                   'performance metrics).'),
+                                plotOutput(session$ns('filled_hex'), height='auto')
                        ),
                        column(width = 1),
                        column(width = 5,
@@ -95,12 +96,56 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                                 inputId = session$ns("RS_button"),
                                 handleWidth = 80, labelWidth = 40,
                                 inline = TRUE, width = "200px"
-                                )
+                                ),
+                              h4('Performance metrics measured'),
+                              plotOutput(session$ns('PM_outline'), width=125, height=125),
+                              htmlOutput(session$ns('PMlist'))
                               )
                        )
                      )
                    }
                  })
+
+                 output$PMlist <- renderUI({
+                   if(!Object$Loaded) return()
+                   n.PM <- sum(Detkeep$selected)
+                   PM.name <- Object$obj$Perf$Det$Labels[Detkeep$selected]
+                   # PM.name <- Object$obj$Perf$Det$Codes
+                   # PM.desc <- Object$obj$Perf$Det$Description
+                   lets <- LETTERS[1:n.PM]
+
+
+                   icon_shape <- paste('<span class="circle"">', lets, '</span>')
+
+                   if (n.PM >2) {
+                     text <- rep('', n.PM)
+                     for (i in 1:n.PM) {
+                       text[i] <- paste(icon_shape[i],
+                                        PM.name[i]
+                       )
+
+                       # PM.desc[i],
+                       # '</span>')
+                     }
+                     tagList(
+                       p(
+                         HTML( paste(text, collapse="<br>"))
+                         , width='100%')
+                     )
+
+                   }
+                 })
+
+
+                 output$PM_outline <- renderPlot({
+                   if(!Object$Loaded) return()
+                   n.PM <- sum(Detkeep$selected)
+
+                   if (n.PM>2) {
+                     pm_outline_plot(n.PM)
+                   }
+                 }, width=125, height=125)
+
 
                  SwitchScale <- reactiveValues(relative=FALSE)
 
@@ -165,6 +210,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                    ))
 
                    DT::datatable(pm, extensions = c('Responsive', 'Buttons'),
+                                 selection='none',
                                  container = sketch,
                                  options = list(
                                    paging = TRUE,
@@ -172,7 +218,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                                    fixedColumns = TRUE,
                                    autoWidth = TRUE,
                                    ordering = TRUE,
-                                   dom = 'Bfrtip',
+                                   dom = 'Brtip',
                                    buttons = c('copy', 'csv', 'excel')
                                  ))
 
@@ -217,8 +263,7 @@ SpiderUI <- function(id, label="spider") {
           ),
           column(width=9,
                  div(class='filled_hex',
-                     uiOutput(ns('mpsub'), class='lah'),
-                     plotOutput(ns('filled_hex'), height='auto')
+                     uiOutput(ns('mpsub'), class='lah')
                  )
           )
     ),
@@ -236,11 +281,6 @@ SpiderUI <- function(id, label="spider") {
     )
   )
 }
-
-
-
-
-
 
 
 
@@ -319,7 +359,7 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
       if (loc[1]>=0 & loc[2]<=0) pos <- 4
 
       txt <- Codes[j]
-      text(loc[1],loc[2], pos=pos, txt, xpd=NA, col='black')
+      text(loc[1],loc[2], pos=pos, txt, xpd=NA, col='black', cex=MPtxt)
 
     }
   }
@@ -473,3 +513,22 @@ page_1_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
   paste0(c(Highest, Lowest, domText), collapse = '\n')
 }
 
+
+
+pm_outline_plot <- function(n.PM) {
+  par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
+  line.col <- 'darkgrey'
+  pt.cex <- 3
+
+  vertices <- polyCoords(n.PM) * 100
+  plot(vertices, type="l", col=line.col, axes=FALSE, xlab="", ylab="", xpd=NA)
+  lines(vertices*0.66, type="l", col=line.col, xpd=NA)
+  lines(vertices*0.33, type="l", col=line.col, xpd=NA)
+  for (i in 1:(nrow(vertices)-1)) {
+    lines(x=c(0, vertices[i,1]),
+          y=c(0, vertices[i,2]), col=line.col)
+    points(x=vertices[i,1], y=vertices[i,2], pch=16, col=line.col, cex=pt.cex, xpd=NA)
+    text(x=vertices[i,1], y=vertices[i,2], col='white', LETTERS[i], xpd=NA)
+  }
+
+}

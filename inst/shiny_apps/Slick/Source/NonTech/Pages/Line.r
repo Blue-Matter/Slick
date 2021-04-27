@@ -307,7 +307,8 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
         ymax <- 10^ceiling(log10(maxVal))
       }
 
-      par(mfrow=c(1,1), oma=c(2,1,1,1), mar=c(3,4,2,1), xaxs="i", yaxs='i')
+      par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,4), xaxs="i", yaxs='i', xpd=NA)
+
       plot(c(hist.yr, last.proj), c(0, ymax),
            xlab='', ylab='', axes=FALSE, type="n")
 
@@ -320,7 +321,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
 
       # Axes and labels
 
-      axis(side=1, at=pretty(hist.yr:last.proj))
+      axis(side=1, at=seq(hist.yr, last.proj, by=5))
       ylabs <- seq(0, ymax, length.out=6)
 
       axis(side=2, las=1, at=ylabs, label= FALSE)

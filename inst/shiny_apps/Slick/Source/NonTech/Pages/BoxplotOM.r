@@ -46,8 +46,7 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
                        p(
                          'This chart', strong('compares'),
                          'performance of ', n.MP,
-                         ' different candidate management procedures (MP) showing ',
-                         strong('trade-offs.'), n.OM,
+                         ' different candidate management procedures (MP). ', n.OM,
                          ' different operating models are compared.'),
                        p(
                          'All performance metrics are defined such that',
@@ -72,10 +71,10 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
                    ui <- tagList(
                      fluidRow(
                        column(2,
-                              h3('Performance Metrics', class='lah')
+                              h4('Performance Metrics', class='lah')
                        ),
                        column(10,
-                              h3('Operating Models',style="text-align: center;")
+                              h4('Operating Models',style="text-align: center;")
                        )
                      )
                    )
@@ -103,12 +102,12 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
                              output[[plot_name]] <- renderPlot({
                                Values <- Stoch$mat[,SNkeep$selected,
                                                    MPkeep$selected, Stochkeep$selected, drop=FALSE]
-                               maxY <- max(Values)
+
                                dd <- dim(Values)
                                if (my_j <= dd[2] & my_i <= dd[4] & !any(dd==0)) {
                                  Val <- Values[,my_j,,my_i, drop=FALSE]
                                  MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected]
-                                 trade_plot_OM(Val, maxY, MPcols, sn=my_j)
+                                 trade_plot_OM(Val, MPcols, sn=my_j)
                                }
 
                              }, width=100, height=150)
@@ -130,7 +129,7 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
                          tagList(
                            fluidRow(
                              column(2,
-                                    h3(Codes[my_i]),
+                                    h4(Codes[my_i]),
                                     p(Labels[my_i]),
                                     style='padding-bottom:50px;'
                              ),
@@ -178,7 +177,7 @@ Boxplot_OMUI <- function(id, label="boxplotOM") {
                h4(strong("READING THIS CHART")),
                htmlOutput(ns('reading')),
                br(),
-               img(src='img/page_9_reading_crop.JPG',width=160,height=125)
+               img(src='img/Boxplot.jpg', width='100%')
              )
 
       ),
@@ -191,38 +190,44 @@ Boxplot_OMUI <- function(id, label="boxplotOM") {
 }
 
 
-trade_plot_OM <- function(Val, maxY, MPcols, sn) {
+trade_plot_OM <- function(Val, MPcols, sn) {
 
   med.cex <- 2
-  rng.lwd <- 2
-  main.cex <- 1.2
+  qrt.lwd <- 4
+  rng.lwd <- 1
+  main.cex <- 1.5
 
   if (all(dim(Val)>0)) {
     med <- apply(Val,3, median)
+    qrt <- apply(Val,3, quantile, c(0.25, 0.75))
     rng <- apply(Val,3, range)
 
     nMPs <- length(MPcols)
+    par(mfrow=c(1, 1), mar=c(0,2,1,0), oma=c(0,0,1,0), xpd=NA)
+    # if (maxY > 100) {
+    #   maxY <- 10^(ceiling(log10(maxY)))
+    # } else {
+    #   maxY <- ceiling(maxY)
+    # }
+    maxY <- max(rng)
+    maxY <- max(ceiling(maxY/5)*5, 100)
 
-    par(mfrow=c(1, 1), mar=c(0,0,0,0), oma=c(0,1.5,1,0))
-    if (maxY > 100) {
-      maxY <- 10^(ceiling(log10(maxY)))
-    } else {
-      maxY <- ceiling(maxY)
-    }
     plot(c(0,nMPs+1), c(0,maxY), type="n", xlab='', ylab='', axes=FALSE)
     polygon(c(-0.1, nMPs+1.01, nMPs+1.01, -0.1),
             c(-0.1, -0.1, maxY+0.1, maxY+.1),
             col='#ededed', border=NA, xpd=NA)
     at <- seq(0, maxY, by=0.25*maxY)
     abline(h=at, col='white')
-    mtext(side=3, sn, font=2, cex=main.cex, col='#D6501C', xpd=NA)
+    mtext(side=3, sn, cex=main.cex, col='#D6501C', xpd=NA)
     points(1:nMPs, med, col=MPcols, cex=med.cex, pch=16, xpd=NA)
     for (i in 1:nMPs) {
-      lines(c(i,i), rng[, i], col=MPcols[i], lwd=rng.lwd)
+      lines(c(i,i), rng[,i], col=MPcols[i], lwd=rng.lwd)
+      lines(c(i,i), qrt[,i], col=MPcols[i], lwd=qrt.lwd)
+
     }
 
     if (sn == 1) {
-      text(rep(0.4, 3), c(0, 0.5*maxY, maxY), c(0, 0.5*maxY, maxY),
+      text(rep(0, 3), c(0, 0.5*maxY, maxY), c(0, 0.5*maxY, maxY),
            col='#6e6b6b', xpd=NA, pos=2)
     }
   }

@@ -46,9 +46,9 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          strong('average score of all'), 'performance metrics in each management procedure.',
                          'It provides a quick comparison of overall MP performances.',
                          strong('Filled hexagons with larger areas indicate better overall performance.')),
-                       p('For each operating model, the management procedures are ordered from highest to lowest overall average score.'),
+                       p('For each operating model (in columns), the management procedures (in rows) are ordered from highest to lowest overall average score.'),
                        p('These summary values assume equal weighting and equal scaling of performance metrics.'),
-                       p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric.'
+                       p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric. When Relative Scale is off, the performance metrics values are plotted directly, with 100 representing the highest score and 0 the lowest.'
                        )
                      )
                    }
@@ -82,17 +82,14 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                    # PM.name <- Object$obj$Perf$Det$Codes
                    # PM.desc <- Object$obj$Perf$Det$Description
                    lets <- LETTERS[1:n.PM]
-
-
                    icon_shape <- paste('<span class="circle"">', lets, '</span>')
 
                    if (n.PM >2) {
                      text <- rep('', n.PM)
                      for (i in 1:n.PM) {
                        text[i] <- paste(icon_shape[i],
-                                        "<span><strong>",
-                                        PM.name[i],
-                                        "</strong></span>")
+                                        PM.name[i]
+                                        )
                                         # PM.desc[i],
                                         # '</span>')
                      }
@@ -133,10 +130,10 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          plotname <- paste("plot", mm, sep="")
 
                          tagList(
-                           h4(mm, class='OM_name'),
+                           h4(mm, class='OM_name', style = "font-size:18px;"),
                            div(
                              plotOutput(session$ns(plotname), width='90px', height=hgt),
-                             style="padding-right:50px;  background-color: #f5f5f5;;"
+                             style="padding-right:50px;  background-color: #f2f2f2;;"
 
                            )
 
@@ -259,7 +256,7 @@ Spider_OMUI <- function(id, label="spiderOM") {
                               plotOutput(ns('PM_outline'), width=125, height=125),
                               ),
                        column(5,
-                              img(src='img/SpiderOM.JPG', width="100%"),
+                              img(src='img/SpiderOM.jpg', width="100%"),
                               h4('Relative Scale'),
                               switchInput(
                                 inputId = ns("RS_button"),
@@ -328,7 +325,7 @@ hexplot_OM <- function(OM.res, MPcols) {
 
     maxScore <- OM.res == 100
 
-    par(mfrow=c(n.MP, 1), oma=c(0,0,0,0), mar=c(0,0,0,0), bg=NA)
+    par(mfrow=c(n.MP, 1), oma=c(0,0,0,0), mar=c(1,1,1,1), bg=NA)
     # loop over MPs
     if (all(is.finite(vertices))) {
       for (r in MP.ord) {
@@ -348,7 +345,7 @@ hexplot_OM <- function(OM.res, MPcols) {
             points(coords[j,], cex=pt.cex, col=pt.col, pch=16)
         }
 
-        text(0,0, meanVals[r], col="black", cex=mplab.cex, font=2)
+        text(0,0, meanVals[r], col="black", cex=mplab.cex)
       }
     }
   }

@@ -66,7 +66,7 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          strong('individual scores'),
                          'for performance metrics in each management procedure.'),
                        p(HTML('<i class="fas fa-long-arrow-alt-right"></i>'),
-                         'Scores on the right side of the scale indicate better performance.')
+                         'Within each row of dots, the better performing MP is toward the right.')
                      )
                      }
                    }
@@ -106,8 +106,9 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                                    fixedColumns = TRUE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,
-                                   dom = 'Bfrtip',
-                                   buttons = c('copy', 'csv', 'excel')
+                                   dom = 'Brtip',
+                                   buttons = c('copy', 'csv', 'excel'),
+                                   columnDefs = list(list(className = 'dt-center', targets = 0))
                                  ),
                                  rownames=FALSE
                                  )
@@ -205,8 +206,7 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
       geom_point(size=3, aes(x=value, y=name, color=MP, group=MP)) +
       theme_bw() +
       scale_color_manual(values=cols) +
-      scale_x_continuous(labels = lab, breaks=at) +
-      # x=expression(Worse ~ symbol('\253') ~Best),
+      scale_x_continuous(limits=c(0, 100), labels= function(x) paste0(x, "%")) +
       labs(x='Minimum to Maximum / Worse to Better',
            y="Performance Metrics") +
       guides(color=FALSE) +
@@ -227,6 +227,7 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
                         parse=TRUE, size=5) +
       coord_cartesian(clip = 'off')
 
+
     # vertical lines
     df_lines <- data.frame(x=rep(mp_mean, 2),
                            y=c(rep(1, nMPs), rep(nPMds+1,, nMPs)),
@@ -237,14 +238,14 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
     p1 +  theme(panel.border = element_blank(),
                 panel.grid.major.x = element_blank(),
                 panel.grid.minor.x = element_blank(),
-                axis.title.x = element_text(size = 18,
+                axis.title.x = element_text(size = axis.title,
                                             vjust=-2),
                 axis.text.x = element_text(size=16,
-                                           color="darkgray"
+                                           color="black"
                                            ),
-                axis.title.y = element_text(size = 18,
+                axis.title.y = element_text(size = axis.title,
                                             vjust=2),
-                axis.text.y = element_text(size = 16),
+                axis.text.y = element_text(size = axis.text),
                 plot.margin = unit(c(0, 0, 0.5, 0.2), "cm")
                 )
   }

@@ -121,7 +121,7 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object) {
                    MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
 
                    # write css class
-                   text <- paste0("<p> <b class='horizline' style=' border-top: .3rem solid", MPcols, ";'></b>",
+                   text <- paste0("<p> <b class='horizline' style=' border-top: .3rem solid ", MPcols, ";'></b>",
                                   MPnames, "</p>")
 
                    text <- paste(text, collapse=" ")
@@ -344,7 +344,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
       }
     }
 
-    axis(side=1, tck=-0.05)
+    axis(side=1, at=seq(hist.yr, last.proj, by=5), tck=-0.05)
     ylabs <- seq(0, ymax, length.out=6)
     axis(side=2, las=1, at=ylabs, label= FALSE, tck=-0.05 )
     mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)

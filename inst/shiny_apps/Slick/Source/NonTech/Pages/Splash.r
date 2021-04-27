@@ -57,7 +57,8 @@ SplashServer <- function(id, Object) {
                                    fixedColumns = FALSE,
                                    autoWidth = FALSE,
                                    ordering = FALSE,
-                                   dom = 't' )
+                                   dom = 't',
+                                   selection='none')
                    )
                  })
 
@@ -69,7 +70,7 @@ SplashServer <- function(id, Object) {
                                     Description=Object$obj$MP$Description
                                     )
 
-                   DT::datatable(df,rownames=F, extensions = 'Responsive')
+                   DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none')
                  })
 
 
@@ -81,7 +82,7 @@ SplashServer <- function(id, Object) {
                            Level = unlist(Object$obj$OM$Codes),
                            Description = unlist(Object$obj$OM$Description))
 
-                   DT::datatable(df, extensions = 'Responsive')
+                   DT::datatable(df, extensions = 'Responsive', selection='none')
                  })
 
 
@@ -93,7 +94,7 @@ SplashServer <- function(id, Object) {
                    names(df)<-Object$obj$OM$Factor_Labels
                    for(i in 1:ncol(df))  df[,i]<-Object$obj$OM$Codes[[i]][Object$obj$OM$Design[,i]]
 
-                   DT::datatable(df, extensions = 'Responsive')
+                   DT::datatable(df, extensions = 'Responsive', selection='none')
                  })
 
                  output$PM_Det <- renderDataTable({
@@ -105,7 +106,7 @@ SplashServer <- function(id, Object) {
                                      Description=Object$obj$Perf$Det$Description
                    )
 
-                   DT::datatable(df,rownames=F,extensions = 'Responsive')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
 
                  })
 
@@ -118,7 +119,7 @@ SplashServer <- function(id, Object) {
                                      Description=Object$obj$Perf$Stoch$Description
                    )
 
-                   DT::datatable(df,rownames=F,extensions = 'Responsive')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
 
                  })
 
@@ -131,7 +132,7 @@ SplashServer <- function(id, Object) {
                                      Description=Object$obj$Perf$Proj$Description
                    )
 
-                   DT::datatable(df,rownames=F,extensions = 'Responsive')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
 
                  })
 

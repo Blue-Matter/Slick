@@ -16,6 +16,14 @@ source("./Source/NonTech/Summary_Text.R")
 fls <- list.files("./Source/NonTech/Pages")
 for (fl in fls) source(file.path("./Source/NonTech/Pages", fl), local = TRUE)
 
+# Global formatting parameters
+
+MPtxt <- 14/12 # cex
+
+axis.title <- 18
+axis.text <- 16
+
+
 # load example object
 
 # obj<-readRDS("./data/SLICKobj.rda")
