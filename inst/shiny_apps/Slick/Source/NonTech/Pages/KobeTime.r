@@ -370,7 +370,7 @@ Kobe <- function(median1, median2, quant1, quant2, input, maxX, maxY, refpt1,
 
   points(median1, median2, pch=16, col="#c7c7c7", cex=2, xpd=NA)
   points(median1[mm], median2[mm], pch=16, col="white", cex=2, xpd=NA)
-  points(median1[mm], median2[mm], pch=16, col="black", cex=3.5, xpd=NA)
+  points(median1[mm], median2[mm], pch=16, col="black", cex=1.5, xpd=NA)
 
   # if (incaxis) {
     mtext(side=1, input$selectPM1, line=3)
