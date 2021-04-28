@@ -82,7 +82,7 @@ Importantly the App is platform agnostic: results arising from any MSE framework
 
 For more information on MSE and guidance on using the App and interpreting the results please see the [user guide](https://blue-matter.github.io/openMSE/Slick-User-Guide.html)
 
-# Purpose of this document.
+# Purpose of this document
 
 This document:
 
@@ -122,7 +122,7 @@ library(Slick)
 Slick()
 ```
 
-# Making custom slick objects  
+# Making custom Slick objects  
 
 It is straightforward for MSE users to present their results using Slick. To do so they must:
 

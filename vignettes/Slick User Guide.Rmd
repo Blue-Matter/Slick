@@ -91,7 +91,7 @@ While Slick can be applied to any decision analysis context it was specifically 
 Importantly the App is platform agnostic: results arising from any MSE framework that are formatted in a compatible Slick object can be loaded and vizualised in the App. The MSE R packages DLMtool and MSEtool are Slick-compatible and include tools to convert MSE results to the Slick format. For more information on developing Slick objects 
 please see the [developers guide.](https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html)
 
-# Purpose of this document.
+# Purpose of this document
 
 This document:
 
@@ -227,7 +227,7 @@ Here the median lines for each MP are compared together and then individual plot
 
 ## Slope
 
-An alternative summary of Kobe-type biomass and exploitation metrics is provided that attempts to rank candidate MPs to further highlight critical differences in the main fisheries tradeof of maximizing both catch and population abundance. 
+An alternative summary of Kobe-type biomass and exploitation metrics is provided that attempts to rank candidate MPs to further highlight critical differences in the main fisheries tradeoff of maximizing both catch and population abundance. 
 
 <img src="slope.jpg" width="560">
 
