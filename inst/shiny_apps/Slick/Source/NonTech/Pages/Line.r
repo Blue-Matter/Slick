@@ -280,7 +280,8 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
 
   first.yr <- obj$StateVar$Times[1]
   hist.yr <- obj$StateVar$TimeNow
-  hist.yr.ind <- which(obj$StateVar$Times==hist.yr)
+  first.proj <- hist.yr + 1
+  hist.yr.ind <- which(obj$StateVar$Times==hist.yr) +1
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
   n.yrs <- length(obj$StateVar$Times)
 
@@ -309,19 +310,19 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
 
       par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,4), xaxs="i", yaxs='i', xpd=NA)
 
-      plot(c(hist.yr, last.proj), c(0, ymax),
+      plot(c(first.proj, last.proj), c(0, ymax),
            xlab='', ylab='', axes=FALSE, type="n")
 
-      polygon(x=c(hist.yr:last.proj, rev(hist.yr:last.proj)),
+      polygon(x=c(first.proj:last.proj, rev(first.proj:last.proj)),
               y=c(quant.1.proj[1, mm,], rev(quant.1.proj[2, mm,])),
               border=NA, col=poly.col)
-      lines(hist.yr:last.proj, quant.2.proj[1,mm,], lty=3, col=quant.col, lwd=quant.lwd)
-      lines(hist.yr:last.proj, quant.2.proj[2,mm,], lty=3, col=quant.col, lwd=quant.lwd)
-      lines(hist.yr:last.proj, med.mps[mm,], lwd=med.lwd, col=MPcols[mm])
+      lines(first.proj:last.proj, quant.2.proj[1,mm,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(first.proj:last.proj, quant.2.proj[2,mm,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(first.proj:last.proj, med.mps[mm,], lwd=med.lwd, col=MPcols[mm])
 
       # Axes and labels
 
-      axis(side=1, at=seq(hist.yr, last.proj, by=5))
+      axis(side=1, at=seq(first.proj, last.proj, by=5))
       ylabs <- seq(0, ymax, length.out=6)
 
       axis(side=2, las=1, at=ylabs, label= FALSE)
