@@ -21,6 +21,7 @@
 Make_Slick<-function(name = "Unnamed Slick object",
                      OM=testOM,
                      MPs=c("DCAC", "AvC", "Fratio", "FMSYref", "FMSYref50","matlenlim"),
+                     MP_Desc = NULL,
                      PMs=c("AAVE","AAVY","LTY","P10","P50","P100","PNOF","STY","Yield"),
                      Design=as.data.frame(cbind(rbind(as.matrix(expand.grid(1:2,1:3,1:2)),matrix(1,nrow=5,ncol=3)),c(rep(1,12),2:6))),
                      SN=list(Factor_Labels=c("Natural Mortality","Resilience","Stock Depletion","Robustness"),
@@ -39,15 +40,24 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   # --- Get dims and create new Slick object -------------------------------------------------------------------------
   runMSEs<-is.null(MSElist)
-  if(runMSEs)  OM@nsim <- nsim
-  if(!runMSEs) nsim <- MSElist[[1]]@nsim
+  if(runMSEs){
+    OM@nsim <- nsim
+    proyears<-OM@proyears
+
+  }else{
+    nsim <- MSElist[[1]]@nsim
+    proyears<-MSElist[[1]]@proyears
+    nyears<-MSElist[[1]]@nyears
+
+  }
+
  # Design<-as.data.frame(Design)
   nOM<-nrow(Design)
   nFacs<-ncol(Design)
   nPMs<-length(PMs)
   nMPs<-length(MPs)
 
-  out<-NewSlick(name=name, nPerf=list(nD=nPMs,nS=nPMs,nP=4), nMPs=nMPs, nsim=nsim, nProjYr=OM@proyears, nStateVar=2, nHistYr=OM@nyears, Design=Design)
+  out<-NewSlick(name=name, nPerf=list(nD=nPMs,nS=nPMs,nP=4), nMPs=nMPs, nsim=nsim, nProjYr=proyears, nStateVar=2, nHistYr=nyears, Design=Design)
 
   # --- Do states of nature labelling (matches levels of the Design grid) ---------------------------------------------
   out$OM$Factor_Labels <- SN$Factor_Labels
@@ -57,15 +67,21 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   out$MP$Labels <- MPs
   out$MP$Codes <- MPs
-  out$MP$Description<-c("TAC is Depletion-Corrected Average Catch (MacCall 2009)","TAC is Average historical catches",
+  if(is.null(MP_Desc)){
+    out$MP$Description<-c("TAC is Depletion-Corrected Average Catch (MacCall 2009)","TAC is Average historical catches",
                         "TAC is a fixed ratio of FMSY/M multiplied by M, multiplied by surveyed biomass","TAC is perfectly known FMSY fishing",
                         "TAC is half of perfectly known FMSY fishing","No TAC restriction, only a minimum size limit at length at maturity")
+  }else{
+
+    out$MP$Description <- MP_Desc
+  }
 
   # --- Do performance metric labelling -------------------------------------------------------------------------------
 
   # Deterministic and Stochastic are the same PMs here and therefore of equal length
   out$Perf$Det$Codes<-out$Perf$Stoch$Codes<-PMs # Codes are easy
-  OMtemp<-OM; OMtemp@nsim=4
+  OMtemp<-OM
+  OMtemp@nsim=4
   MSEtemp<-runMSE(OMtemp,MPs='AvC')
   for(p in 1:nPMs){
     PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
@@ -75,10 +91,6 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   out$Perf$Det$RefPoints <- out$Perf$Det$RefNames <- out$Perf$Stoch$RefPoints <- out$Perf$Stoch$RefNames <- rep(list(NA),each=nPMs)
 
-  #out$Perf$Det$RefPoints[[7]]<-c(100,50)
-  #out$Perf$Det$RefNames[[7]]<-c("Target","Limit")
-
-  # Projection time series (B/BMSY, F/FMSY, SSB/SSB0, Catch/MSY)
   out$Perf$Proj$Labels <- out$Perf$Proj$Codes <- c("SSB/SSBMSY","F/FMSY","SSB/SSB0","Catch/MSY")
   out$Perf$Proj$Description=c("Spawning stock biomass relative to MSY levels", "Apical fishing mortality rate relative to MSY levels",
                               "Spawning stock biomass relative to unfished levels","Catch relative to MSY")
@@ -98,13 +110,6 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
   out$StateVar$TimeNow<-as.integer(format(Sys.Date(), "%Y"))
-  if(runMSEs){
-    nyears<-OM@nyears
-    proyears<-OM@proyears
-  }else{
-    nyears<-MSElist[[1]]@nyears
-    proyears<-MSElist[[1]]@proyears
-  }
   out$StateVar$Values<-array(NA,c(nsim,nOM,nMPs,2,nyears + proyears))
 
   # --- Run MSEs ------------------------------------------------------------------------------------------------------
@@ -125,22 +130,24 @@ Make_Slick<-function(name = "Unnamed Slick object",
     MSEtemp<-MSElist[[i]]
 
     for(p in 1:nPMs){
+
        PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
+       convsims<-1:(dim(PMtemp@Prob)[1])
        #dim(out$Perf$Det$Values)
        out$Perf$Det$Values[i,,p]<-PMtemp@Mean*100
        #dim(out$Perf$Stoch$Values)
-       out$Perf$Stoch$Values[,i,,p]<-PMtemp@Prob*100
+       out$Perf$Stoch$Values[convsims,i,,p]<-PMtemp@Prob*100
 
     }
     #(B/BMSY, F/FMSY, SSB/SSB0, Catch/MSY)
-    out$Perf$Proj$Values[,i,,1,]<-MSEtemp@SB_SBMSY
-    out$Perf$Proj$Values[,i,,2,]<-MSEtemp@F_FMSY
-    out$Perf$Proj$Values[,i,,3,]<-MSEtemp@SSB/MSEtemp@OM$SSB0
-    out$Perf$Proj$Values[,i,,4,]<-MSEtemp@Catch/MSEtemp@OM$RefY
+    out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY
+    out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY
+    out$Perf$Proj$Values[convsims,i,,3,]<-MSEtemp@SSB/MSEtemp@OM$SSB0
+    out$Perf$Proj$Values[convsims,i,,4,]<-MSEtemp@Catch/MSEtemp@OM$RefY
 
-    for(mp in 1:nMPs)    out$StateVar$Values[,i,mp,1,1:MSEtemp@nyears]<-MSEtemp@SSB_hist # SSB (lazy loop over MPs)
-    out$StateVar$Values[,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
-    out$StateVar$Values[,,,2,]<-out$StateVar$Values[,,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
+    for(mp in 1:nMPs)    out$StateVar$Values[convsims,i,mp,1,1:MSEtemp@nyears]<-MSEtemp@SSB_hist # SSB (lazy loop over MPs)
+    out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
+    out$StateVar$Values[convsims,,,2,]<-out$StateVar$Values[convsims,,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
 
     print(paste(i,"of",nOM,"states of nature completed"))
   }
