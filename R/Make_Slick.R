@@ -7,6 +7,7 @@
 #' @param name Character string that is the object name (abbreviated for use in menus etc)
 #' @param OM An operating model object (class 'OM')
 #' @param MPs A vector of methods (character string) of class MP
+#' @param MP_Desc A vector method descriptions (character string) nMPs long
 #' @param PMs A vector of performance metrics of class PM
 #' @param Design A design matrix of OM runs [run, mod]
 #' @param SN A list of Labels, Codes and Descriptions of the factor levels. Each list item is a factor containing a vector of factor levels.
@@ -80,9 +81,13 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   # Deterministic and Stochastic are the same PMs here and therefore of equal length
   out$Perf$Det$Codes<-out$Perf$Stoch$Codes<-PMs # Codes are easy
-  OMtemp<-OM
-  OMtemp@nsim=4
-  MSEtemp<-runMSE(OMtemp,MPs='AvC')
+  if(is.null(MSElist)){
+    OMtemp<-OM
+    OMtemp@nsim=4
+    MSEtemp<-runMSE(OMtemp,MPs='AvC')
+  }else{
+    MSEtemp<-MSElist[[1]]
+  }
   for(p in 1:nPMs){
     PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
     out$Perf$Det$Labels[p]<-out$Perf$Stoch$Labels[p]<-PMtemp@Caption

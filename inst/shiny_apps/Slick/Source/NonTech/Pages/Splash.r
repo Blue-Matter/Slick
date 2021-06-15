@@ -188,7 +188,8 @@ SplashUI <- function(id, label="splash") {
                            label='Example',
                            choices=c('Demonstration',
                                      'Atlantic bluefin tuna',
-                                     'North Atlantic swordfish'
+                                     'North Atlantic swordfish',
+                                     'Bay of Fundy herring'
                                      ),
                            selected=NULL
                         )),

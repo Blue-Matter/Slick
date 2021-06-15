@@ -77,6 +77,10 @@ server <- function(input, output, session) {
           obj <- readRDS("./data/SWO.slick")
         }
 
+        if (Object$File == 'Bay of Fundy herring') {
+          obj <- readRDS("./data/BoF_Herring.slick")
+        }
+
       }
 
       if (inherits(Object$File, 'data.frame')) {
