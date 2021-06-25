@@ -292,7 +292,7 @@ polyCoords <- function(n){
   cbind(sin(sq),cos(sq))
 }
 
-
+# Object=list(obj=obj); dims<-dim(obj$Perf$Stoch); nSNs=nSN; nPMds=nPMd; nMPs=nMP; SNkeep=list(selected=rep(T,nSN)); Detkeep=list(selected=rep(T,nPMd)); MPkeep=list(selected=rep(T,nMP)); Det<-list(mat=obj$Perf$Det$Value)
 spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
 
   nSN <- nrow(Object$obj$OM$Design)
