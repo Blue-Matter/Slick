@@ -110,7 +110,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relatve to MSY levels")
   out$StateVar$Codes <- c("SSB", "SSB_SSBMSY")
   out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
-  out$StateVar$Times<-as.integer(format(Sys.Date(), "%Y"))+(-(OM@nyears-1):OM@proyears)
+  out$StateVar$Times<-as.integer(format(Sys.Date(), "%Y"))+(-(nyears-1):proyears)
   out$StateVar$Time_lab <- "Year"
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
