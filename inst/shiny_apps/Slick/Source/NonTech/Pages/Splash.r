@@ -184,15 +184,25 @@ SplashUI <- function(id, label="splash") {
 
                column(12, h4('Load')),
 
+               # column(4,selectInput('example_input',
+               #             label='Example',
+               #             choices=c('Demonstration',
+               #                       'Atlantic bluefin tuna',
+               #                       'North Atlantic swordfish',
+               #                       'Bay of Fundy herring'
+               #                       ),
+               #             selected=NULL
+               #          )),
+
                column(4,selectInput('example_input',
-                           label='Example',
-                           choices=c('Demonstration',
-                                     'Atlantic bluefin tuna',
-                                     'North Atlantic swordfish',
-                                     'Bay of Fundy herring'
-                                     ),
-                           selected=NULL
-                        )),
+                                    label='Example',
+                                    choices=c('Demonstration',
+                                              'Atlantic bluefin tuna',
+                                              'North Atlantic swordfish'
+                                    ),
+                                    selected=NULL
+               )),
+
                column(2,style="padding-top:25px",
                         actionButton("example_action", "Select",
                               icon("cloud-upload"))),
