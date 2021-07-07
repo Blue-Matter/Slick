@@ -199,7 +199,7 @@ horiz_line_plot <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
 
     DF <- tidyr::pivot_longer(DF, 1:all_of(nPMds))
     DF$MP <- rep(MPnames, each=nPMds)
-
+    DF$MP <- factor(DF$MP, ordered = TRUE, levels=MPnames)
     DF$name <- factor(DF$name, ordered = TRUE, levels=Codes[pm.ord])
 
     meanDF <- DF %>% dplyr::group_by(MP) %>% dplyr::summarise(mean=mean(value), .groups='keep')
