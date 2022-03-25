@@ -1,12 +1,12 @@
 Package: Slick
 Type: Package
 Title: Decision Analysis
-Version: 1.0.4
+Version: 1.0.5
 Authors@R: c(
     person("Tom", "Carruthers",, "tom@bluematterscience.com", role=c("aut", "cre")),
     person("Adrian", "Hordyk",, "adrian@bluematterscience.com", "aut"))
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
-Description: SLICK presents the performance of multiple management objects across multiple states of nature. 
+Description: Slick presents the performance of multiple management objects across multiple states of nature. 
 License: GPL-2
 Imports:
     dplyr,

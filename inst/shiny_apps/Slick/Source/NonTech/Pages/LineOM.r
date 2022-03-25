@@ -246,11 +246,7 @@ Stock_Projection_hist <- function(MPkeep, SNkeep, input, obj) {
     med.hist <- apply(Values[, ,1,1,1:hist.yr.ind, drop=FALSE], 5, median)
 
     maxVal <- quantile(Values, 0.95)
-    if (maxVal <10) {
-      ymax <- ceiling(maxVal)
-    } else {
-      ymax <- 10^ceiling(log10(maxVal))
-    }
+    ymax <- roundUpNice(maxVal)
 
     par(mfrow=c(1,1), oma=c(3,3,0,0), mar=c(2,2,2,0))
     plot(range(obj$StateVar$Times[1:hist.yr.ind]), c(0, ymax),
@@ -311,11 +307,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
 
   maxVal <- quantile(obj$StateVar$Values[,, MPkeep$selected,
                                     SV_ind, , drop=FALSE], 0.95)
-  if (maxVal <10) {
-    ymax <- ceiling(maxVal)
-  } else {
-    ymax <- 10^ceiling(log10(maxVal))
-  }
+  ymax <- roundUpNice(maxVal)
 
   if (!any(dim(Values)==0)) {
     quant <- apply(Values, 5, quantile, probs=c(.1,.9))

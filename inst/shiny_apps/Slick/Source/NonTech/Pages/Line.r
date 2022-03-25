@@ -183,12 +183,7 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
     med.mps <- apply(Values[,,,1,(hist.yr.ind):n.yrs, drop=FALSE], c(3,5), median)
 
     maxVal <- max(c(quant.2.hist, med.mps))
-
-    if (maxVal <10) {
-      ymax <- ceiling(maxVal)
-    } else {
-      ymax <- 10^ceiling(log10(maxVal))
-    }
+    ymax <- roundUpNice(maxVal)
 
     par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,1), xaxs="i", yaxs='i')
     plot(range(obj$StateVar$Times), c(0, ymax),
@@ -301,12 +296,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
       med.mps <- apply(Values[,,,1,(hist.yr.ind):n.yrs, drop=FALSE], c(3,5), median)
 
       maxVal <- max(c(quant.2.hist, med.mps))
-
-      if (maxVal <100) {
-        ymax <- ceiling(maxVal)
-      } else {
-        ymax <- 10^ceiling(log10(maxVal))
-      }
+      ymax <- roundUpNice(maxVal)
 
       par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,4), xaxs="i", yaxs='i', xpd=NA)
 
