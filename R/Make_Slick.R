@@ -14,6 +14,7 @@
 #' @param mods A nested list of mods [mod type long]
 #' @param nsim Integer, the number of simulations
 #' @param MSElist An optional list of prerun MSEs
+#' @param fstYr An optional numeric value for first projection year. Otherwise current year is used
 #' @param returnMSEs Logical, rather than the Slick object should the list of MSEs be returned?
 #'
 #' @return An object of class \linkS4class{Slick}
@@ -36,6 +37,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
                                                 if(lev==5)OM@Perr=c(0.5,0.5); if(lev==6)OM@AC=c(0.9,0.9);OM}),
                      nsim=48,
                      MSElist=NULL,
+                     fstYr=NULL,
                      returnMSEs=F
                      ){
 
@@ -89,7 +91,8 @@ Make_Slick<-function(name = "Unnamed Slick object",
     MSEtemp<-MSElist[[1]]
   }
   for(p in 1:nPMs){
-    PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
+    fun <- get(PMs[p])
+    PMtemp<-  fun(MSEtemp)
     out$Perf$Det$Labels[p]<-out$Perf$Stoch$Labels[p]<-PMtemp@Caption
     out$Perf$Det$Description[p]<-out$Perf$Stoch$Description[p]<-PMtemp@Name
   }
@@ -99,7 +102,8 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$Perf$Proj$Labels <- out$Perf$Proj$Codes <- c("SSB/SSBMSY","F/FMSY","SSB/SSB0","Catch/MSY")
   out$Perf$Proj$Description=c("Spawning stock biomass relative to MSY levels", "Apical fishing mortality rate relative to MSY levels",
                               "Spawning stock biomass relative to unfished levels","Catch relative to MSY")
-  out$Perf$Proj$Times<-as.integer(format(Sys.Date(), "%Y"))+(1:OM@proyears)
+  if (is.null(fstYr)) fstYr <- as.integer(format(Sys.Date(), "%Y"))
+  out$Perf$Proj$Times<-seq(fstYr, by=1,length.out=proyears)
   out$Perf$Proj$Time_lab<-"Year"
   out$Perf$Proj$RefPoints<-list(c(0.5,1),c(1.4,1),c(0.2,0.4),c(1.4,1))
   out$Perf$Proj$RefNames<-rep(list(c('Limit','Target')),each=4)
@@ -110,7 +114,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relatve to MSY levels")
   out$StateVar$Codes <- c("SSB", "SSB_SSBMSY")
   out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
-  out$StateVar$Times<-as.integer(format(Sys.Date(), "%Y"))+(-(nyears-1):proyears)
+  out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
   out$StateVar$Time_lab <- "Year"
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
@@ -135,25 +139,33 @@ Make_Slick<-function(name = "Unnamed Slick object",
     MSEtemp<-MSElist[[i]]
 
     for(p in 1:nPMs){
+      fun <- get(PMs[p])
+      PMtemp<-  fun(MSEtemp)
 
-       PMtemp<-do.call(PMs[p],args=list(MSEobj=MSEtemp))
-       convsims<-1:(dim(PMtemp@Prob)[1])
-       #dim(out$Perf$Det$Values)
-       out$Perf$Det$Values[i,,p]<-PMtemp@Mean*100
-       #dim(out$Perf$Stoch$Values)
-       out$Perf$Stoch$Values[convsims,i,,p]<-PMtemp@Prob*100
+      convsims<-1:(dim(PMtemp@Prob)[1])
+      #dim(out$Perf$Det$Values)
+      out$Perf$Det$Values[i,,p]<-PMtemp@Mean*100
+      #dim(out$Perf$Stoch$Values)
+      out$Perf$Stoch$Values[convsims,i,,p]<-PMtemp@Prob*100
+    }
+
+    #(B/BMSY, F/FMSY, SSB/SSB0, Catch/MSY)
+    if (inherits(MSEtemp, 'MMSE')) {
+      out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY[,1,,] # female - assumed first stock
+      out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY[,1,1,,] # female - assumed first stock - and first fleet
+      out$Perf$Proj$Values[convsims,i,,3,]<-MSEtemp@SSB[,1,,]/(MSEtemp@RefPoint$ByYear$SSB0[,1,,nyears:(nyears+proyears-1)])
+      out$Perf$Proj$Values[convsims,i,,4,]<-apply(MSEtemp@Catch, c(1,4,5), sum)
+    } else {
+      out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY
+      out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY
+      out$Perf$Proj$Values[convsims,i,,3,]<-MSEtemp@SSB/MSEtemp@OM$SSB0
+      out$Perf$Proj$Values[convsims,i,,4,]<-MSEtemp@Catch/MSEtemp@OM$RefY
+
+      for(mp in 1:nMPs)    out$StateVar$Values[convsims,i,mp,1,1:MSEtemp@nyears]<-MSEtemp@SSB_hist # SSB (lazy loop over MPs)
+      out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
+      out$StateVar$Values[convsims,,,2,]<-out$StateVar$Values[convsims,,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
 
     }
-    #(B/BMSY, F/FMSY, SSB/SSB0, Catch/MSY)
-    out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY
-    out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY
-    out$Perf$Proj$Values[convsims,i,,3,]<-MSEtemp@SSB/MSEtemp@OM$SSB0
-    out$Perf$Proj$Values[convsims,i,,4,]<-MSEtemp@Catch/MSEtemp@OM$RefY
-
-    for(mp in 1:nMPs)    out$StateVar$Values[convsims,i,mp,1,1:MSEtemp@nyears]<-MSEtemp@SSB_hist # SSB (lazy loop over MPs)
-    out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
-    out$StateVar$Values[convsims,,,2,]<-out$StateVar$Values[convsims,,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
-
     print(paste(i,"of",nOM,"states of nature completed"))
   }
 
@@ -173,6 +185,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
   }
 
 }
+
 
 
 
