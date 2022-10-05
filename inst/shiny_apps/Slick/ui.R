@@ -1,154 +1,115 @@
-library(shiny)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(shiny.i18n)
+library(fresh)
 library(shinyWidgets)
 library(shinyBS)
-library(shinydashboard)
 
-fluidPage(
 
-  includeScript(path = "www/js/js4checkbox.js"),
-  includeScript(path = "www/js/index.js"),
+mytheme <- create_theme(
+  adminlte_color(
+    light_blue = "#434C5E"
+  ),
+  adminlte_sidebar(
+    width = "250px",
+    dark_bg = "#D8DEE9",
+    dark_hover_bg = "#81A1C1",
+    dark_color = "#2E3440"
+  ),
+  adminlte_global(
+    content_bg = "#FFF",
+    box_bg = "#D8DEE9",
+    info_box_bg = "#D8DEE9"
+  )
+)
 
+header <-  dashboardHeader(title = tagList(shiny.i18n::usei18n(i18n),
+                                           i18n$t("Slick Decision Analysis"))
+                           )
+
+
+# todo
+# make bigger text in side-bar
+# style - match existing colors etc
+
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem("Home", tabName = "homepage", icon = icon("home")),
+    menuItem("Load Slick Object", tabName = "splash", icon = icon("upload")),
+
+    menuItem("Charts", icon = icon("bar-chart-o"), startExpanded = TRUE,
+             menuSubItem("Spider", tabName = "spider"),
+             menuSubItem("Zigzag", tabName = "zigzag")
+             ),
+
+    menuItem("Change Language", icon = icon("language"), tabName = "language",
+    selectInput('selected_language',
+                i18n$t("Select language"),
+                choices = languages,
+                selected = i18n$get_key_translation()))
+  )
+)
+
+
+
+
+body <- dashboardBody(
   tags$head(
-    tags$link(rel='stylesheet', type='text/css', href='styles.css'),
-
-    tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
-    tags$style(HTML("
-                    #SessionID{font-size:12px;}
-                    ")),
-    tags$style(HTML("
-        /* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
-
-        @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
-
-        /* Font of SLICK title */
-
-      ")),
-    tags$script('
-                                var dimension = [0, 0];
-                                $(document).on("shiny:connected", function(e) {
-                                    dimension[0] = window.innerWidth;
-                                    dimension[1] = window.innerHeight;
-                                    Shiny.onInputChange("dimension", dimension);
-                                });
-                                $(window).resize(function(e) {
-                                    dimension[0] = window.innerWidth;
-                                    dimension[1] = window.innerHeight;
-                                    Shiny.onInputChange("dimension", dimension);
-                                });
-                            ')
-
+    includeScript(path = "www/js/js4checkbox.js"),
+    includeScript(path = "www/js/index.js")
   ),
+  tabItems(
+    tabItem(tabName = "dashboard",
+            h2(i18n$t('Hello')),
+            p(i18n$t('test'))
+    ),
+    tabItem(tabName = "splash",
+                SplashUI('splash')
+    ),
+    tabItem(tabName = "spider",
+            SpiderUI('spider')
+    )
+  )
+)
 
-  # === HEADER ==============================================================================================================================================================
-  column(12,
-         column(6,h2("Slick decision analysis"),style="height:65px")
-         #column(5,style="height:65px",
-          #      h2("decision analysis",style="padding-top:22px;padding-left:4px")
+#todo
+# add title to rhs filter
+dashboardControlbar2 <- function (..., id = NULL, disable = FALSE, width = 230, collapsed = TRUE,
+                                  overlay = TRUE, skin = "dark", .list = NULL) {
+  items <- c(list(...), .list)
+  if (is.null(id))
+    id <- "controlbarId"
+  controlbarTag <- shiny::tagList(shiny::tags$aside(id = id,
+                                                    `data-collapsed` = if (collapsed)
+                                                      "true"
+                                                    else "false", `data-overlay` = if (overlay)
+                                                      "true"
+                                                    else "false", `data-show` = if (disable)
+                                                      "false"
+                                                    else "true", class = paste0("control-sidebar control-sidebar-",
+                                                                                skin), style = paste0("width: ", width, "px;"),
+                                                    items), shiny::tags$div(class = "control-sidebar-bg"))
+  shiny::tagList(shiny::singleton(shiny::tags$head(shiny::tags$style(shiny::HTML(paste0(".control-sidebar-bg,\n               .control-sidebar {\n                  top: 0;\n                  right: ",
+                                                                                        -width, "px;\n                  width: ", width, "px;\n                  -webkit-transition: right 0.3s ease-in-out;\n                  -o-transition: right 0.3s ease-in-out;\n                  transition: right 0.3s ease-in-out;\n               }\n              /* .control-sidebar-open .control-sidebar, .control-sidebar-open .control-sidebar-bg {\n                right: ",
+                                                                                        -width, "px;\n              } */\n              @media (min-width:768px) {\n                .control-sidebar-open .content-wrapper,\n                .control-sidebar-open .main-footer, \n                .control-sidebar-open .right-side {\n                  margin-right: ",
+                                                                                        width, "px;\n                }\n              }\n              "))))),
+                 controlbarTag)
+}
 
-  ),
+controlbar <- dashboardControlbar2(overlay = FALSE,
+                                  FiltersUI('filters')
 
-  # === MAIN WINDOW =========================================================================================================================================================
-  column(12,
-
-    # --- General results -----------------------------------------------------------------
-    # conditionalPanel('input.Mode=="General"',
-
-      column(10, # General tab panel
-        verticalTabsetPanel(id = "NonTech",selected=1,
-
-                            verticalTabPanel(value="splash",
-                                             h5(strong("Home")),
-                                             SplashUI('splash'),
-                                             box_height='50px',
-                                             id='splash'),
-                            verticalTabPanel(value="det",
-                                             h5("Spider"),
-                                             SpiderUI('spider'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value="det",
-                                             h5("Zigzag"),
-                                             ZigzagUI('zigzag'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='det',
-                                             h5("Rail"),
-                                             RailUI('rail'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Kobe"),
-                                             KobeUI('kobe'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Kobe Time"),
-                                             KobeTimeUI('kobetime'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='state',
-                                             h5("Line"),
-                                             LineUI('line'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Slope"),
-                                             SlopeUI('slope'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='stoch',
-                                             h5("Boxplot"),
-                                             BoxplotUI('boxplot'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='stoch',
-                                             h5("Boxplot OM"),
-                                             Boxplot_OMUI('boxplotOM'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='det',
-                                             h5("Spider OM"),
-                                             Spider_OMUI('spiderOM'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='state',
-                                             h5("Line OM"),
-                                             Line_OMUI('lineOM'),
-                                             box_height='50px'),
-                            verticalTabPanel(value='resources',
-                                             h5(strong("Resources")),
-                                             ResourcesUI('resources'),
-                                             box_height='50px'),
-
-          contentWidth=11
-         # box_height='150px'
-
-          ) # end of tabsetpanel
-
-       ), # end of main window for general
-
-      # filtering for General results
-    FiltersUI('filters')
-
-
-    # ), # end of conditional panel general
-  ), # end of main window
-
-
-  column(12,
-         br(),
-         br(), style="height:40px;  text-align: center;",
-         textOutput("SessionID"),
-         paste0('v', as.character(packageVersion('Slick'))),
-         h6("copyright (c) The Ocean Foundation, 2021")
-         )
+)
 
 
 
-        #h5("Bottom of app (Version etc)"),
-         #verbatimTextOutput("Log2",placeholder=T)
 
-         # verbatimTextOutput("Temp",placeholder=T)
-         #)
-
-) # end of fluid page
+dashboardPage(
+  header,
+  sidebar,
+  body,
+  controlbar=controlbar,
+  title='Slick Decision Analysis',
+  dashboardFooter(left = "Left content", right = "Right content"),
+  freshTheme = mytheme
+)

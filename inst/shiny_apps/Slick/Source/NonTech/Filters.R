@@ -51,7 +51,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
 
                      tagList(
                        conditionalPanel('input.NonTech!="resources"',
-                       column(2, align = 'left', class='multicol',
+                       column(12, align = 'left', class='multicol',
                               h3('Filters'),
                               p('Use the checkboxes to select the Operating Models, Management Procedures, and (where applicable) Performance Metrics.'),
                               p('Then click the FILTER button to apply the filter.'),
@@ -141,7 +141,11 @@ FiltersUI <- function(id, label="filters") {
   ns <- NS(id)
   tagList(
     fluidRow(
-      htmlOutput(ns('show_filters'))
+     shinydashboard::box(width=12,
+      column(12,
+             htmlOutput(ns('show_filters'))
+      )
+     )
     )
   )
 }

@@ -2,7 +2,17 @@
 
 options(shiny.maxRequestSize=100000*1024^2)
 
+
+
+
 server <- function(input, output, session) {
+
+  # multi-language support
+  observeEvent(input$selected_language, {
+    # Here is where we update language in session
+    shiny.i18n::update_lang(session, input$selected_language)
+  })
+
 
   # ---- Initialize Reactive Values -----
   # load slick object

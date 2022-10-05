@@ -4,6 +4,21 @@ library(ggplot2)
 library(ggrepel)
 library(shinyWidgets)
 library(readxl)
+library(shiny.i18n)
+
+
+
+# multi-language support
+i18n <- Translator$new(translation_csvs_path =  "data/translations")
+i18n$set_translation_language("en")
+i18n$use_js()
+languages <- i18n$get_languages()
+
+language_codes <- read.csv('data/language-codes_csv.csv')
+ind <- match(languages, language_codes[,1])
+lang_names <- language_codes[ind,2]
+
+names(languages) <- lang_names
 
 
 # App code
