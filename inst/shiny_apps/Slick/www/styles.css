@@ -42,17 +42,17 @@ h1 {
 
 /* Background color of nav bar */
 .skin-blue .main-header .navbar {
-  background-color: #FFFFFF;
+
 }
 
 /* Background color of side bar */
 .skin-blue .main-sidebar {
-  background-color: #FFFFFF;
+
 }
 
 /* active selected tab in the sidebarmenu */
 .skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
-  background-color: #E1E2E4;
+
 }
 
 /* body */

@@ -142,9 +142,7 @@ FiltersUI <- function(id, label="filters") {
   tagList(
     fluidRow(
      shinydashboard::box(width=12,
-      column(12,
-             htmlOutput(ns('show_filters'))
-      )
+                         htmlOutput(ns('show_filters'))
      )
     )
   )

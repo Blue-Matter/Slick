@@ -23,9 +23,20 @@ mytheme <- create_theme(
   )
 )
 
-header <-  dashboardHeader(title = tagList(shiny.i18n::usei18n(i18n),
-                                           i18n$t("Slick Decision Analysis"))
+header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
+                                           i18n$t("Slick Decision Analysis")),
+                           controlbarIcon=shiny::icon('filter')
                            )
+
+#todo
+# add title to rhs filter
+
+controlbar <- dashboardControlbar(overlay = FALSE,
+                                  width=450,
+                                  skin='light',
+                                  FiltersUI('filters')
+
+)
 
 
 # todo
@@ -34,10 +45,10 @@ header <-  dashboardHeader(title = tagList(shiny.i18n::usei18n(i18n),
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Home", tabName = "homepage", icon = icon("home")),
+    menuItem("Home", tabName = "homepage", icon = icon("house")),
     menuItem("Load Slick Object", tabName = "splash", icon = icon("upload")),
 
-    menuItem("Charts", icon = icon("bar-chart-o"), startExpanded = TRUE,
+    menuItem("Charts", icon = icon("chart-simple"), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider"),
              menuSubItem("Zigzag", tabName = "zigzag")
              ),
@@ -56,7 +67,27 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   tags$head(
     includeScript(path = "www/js/js4checkbox.js"),
-    includeScript(path = "www/js/index.js")
+    includeScript(path = "www/js/index.js"),
+    tags$link(rel='stylesheet', type='text/css', href='styles.css'),
+    tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
+    tags$style(HTML("#SessionID{font-size:12px;}")),
+    tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
+        @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
+        /* Font of SLICK title */
+      ")),
+    tags$script(
+    'var dimension = [0, 0];
+    $(document).on("shiny:connected", function(e) {
+      dimension[0] = window.innerWidth;
+      dimension[1] = window.innerHeight;
+      Shiny.onInputChange("dimension", dimension);
+    });
+    $(window).resize(function(e) {
+      dimension[0] = window.innerWidth;
+      dimension[1] = window.innerHeight;
+      Shiny.onInputChange("dimension", dimension);
+    });
+    ')
   ),
   tabItems(
     tabItem(tabName = "dashboard",
@@ -72,34 +103,7 @@ body <- dashboardBody(
   )
 )
 
-#todo
-# add title to rhs filter
-dashboardControlbar2 <- function (..., id = NULL, disable = FALSE, width = 230, collapsed = TRUE,
-                                  overlay = TRUE, skin = "dark", .list = NULL) {
-  items <- c(list(...), .list)
-  if (is.null(id))
-    id <- "controlbarId"
-  controlbarTag <- shiny::tagList(shiny::tags$aside(id = id,
-                                                    `data-collapsed` = if (collapsed)
-                                                      "true"
-                                                    else "false", `data-overlay` = if (overlay)
-                                                      "true"
-                                                    else "false", `data-show` = if (disable)
-                                                      "false"
-                                                    else "true", class = paste0("control-sidebar control-sidebar-",
-                                                                                skin), style = paste0("width: ", width, "px;"),
-                                                    items), shiny::tags$div(class = "control-sidebar-bg"))
-  shiny::tagList(shiny::singleton(shiny::tags$head(shiny::tags$style(shiny::HTML(paste0(".control-sidebar-bg,\n               .control-sidebar {\n                  top: 0;\n                  right: ",
-                                                                                        -width, "px;\n                  width: ", width, "px;\n                  -webkit-transition: right 0.3s ease-in-out;\n                  -o-transition: right 0.3s ease-in-out;\n                  transition: right 0.3s ease-in-out;\n               }\n              /* .control-sidebar-open .control-sidebar, .control-sidebar-open .control-sidebar-bg {\n                right: ",
-                                                                                        -width, "px;\n              } */\n              @media (min-width:768px) {\n                .control-sidebar-open .content-wrapper,\n                .control-sidebar-open .main-footer, \n                .control-sidebar-open .right-side {\n                  margin-right: ",
-                                                                                        width, "px;\n                }\n              }\n              "))))),
-                 controlbarTag)
-}
 
-controlbar <- dashboardControlbar2(overlay = FALSE,
-                                  FiltersUI('filters')
-
-)
 
 
 
@@ -110,6 +114,5 @@ dashboardPage(
   body,
   controlbar=controlbar,
   title='Slick Decision Analysis',
-  dashboardFooter(left = "Left content", right = "Right content"),
-  freshTheme = mytheme
+  dashboardFooter(left = "Left content", right = "Right content")
 )
