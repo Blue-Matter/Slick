@@ -1,14 +1,19 @@
 library(dplyr)
 library(DT)
+library(fresh)
 library(ggplot2)
 library(ggrepel)
-library(shinyWidgets)
 library(readxl)
+library(shinyBS)
+library(shinydashboard)
+library(shinydashboardPlus)
 library(shiny.i18n)
+library(shinyWidgets)
 
 
 
-# multi-language support
+
+# -- multi-language support ----
 i18n <- Translator$new(translation_csvs_path =  "data/translations")
 i18n$set_translation_language("en")
 i18n$use_js()
@@ -20,16 +25,22 @@ lang_names <- language_codes[ind,2]
 
 names(languages) <- lang_names
 
+# -- dashboard functions ----
+source("./Source/dashboard_functions/dashboardHeader2.R")
 
-# App code
-source("./Source/App/Load_slick.R",local=TRUE)
+# -- source app functions ----
+source("./Source/app_functions/Load_slick.R",local=TRUE)
 source("./Source/NonTech/Filters.R")
 source("./Source/NonTech/Summary_Text.R")
 
+# -- Pages
+fls <- list.files("./Source/Pages")
+for (fl in fls) source(file.path("./Source/Pages", fl), local = TRUE)
 
-# Non technical pages
-fls <- list.files("./Source/NonTech/Pages")
-for (fl in fls) source(file.path("./Source/NonTech/Pages", fl), local = TRUE)
+fls <- list.files("./Source/Plot_Pages")
+for (fl in fls) source(file.path("./Source/Plot_Pages", fl), local = TRUE)
+
+
 
 # Global formatting parameters
 

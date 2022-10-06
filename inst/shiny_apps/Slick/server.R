@@ -7,14 +7,14 @@ options(shiny.maxRequestSize=100000*1024^2)
 
 server <- function(input, output, session) {
 
-  # multi-language support
+  # -- multi-language support ----
   observeEvent(input$selected_language, {
     # Here is where we update language in session
     shiny.i18n::update_lang(session, input$selected_language)
   })
 
 
-  # ---- Initialize Reactive Values -----
+  # -- Initialize Reactive Values -----
   # load slick object
   Object <- reactiveValues(Loaded=FALSE,
                            File=NULL,
@@ -34,12 +34,13 @@ server <- function(input, output, session) {
   output$Filt <- reactive({ Object$Filt })
   outputOptions(output, "Filt", suspendWhenHidden = FALSE)
 
-  window_dims <<- reactive(input$dimension)
+  # window_dims <<- reactive(input$dimension)
+  window_dims <- reactive(input$dimension)
 
   # # Non technical arrays
-  Det<-reactiveValues(mat=array())
-  Stoch<-reactiveValues(mat=array())
-  Proj<-reactiveValues(mat=array())
+  Det <- reactiveValues(mat=array())
+  Stoch <- reactiveValues(mat=array())
+  Proj <- reactiveValues(mat=array())
 
   # Selections
   SNkeep <- reactiveValues(selected=T)
@@ -50,16 +51,16 @@ server <- function(input, output, session) {
 
 
   # Log (currently not used)
-  Log_text<-reactiveValues(text="nothing happened yet")
+  Log_text <- reactiveValues(text="nothing happened yet")
 
-  # ---- Observe Events -----
+  # -- Observe Events -----
   observeEvent(input$SplashLoad, {
     Object$File <- input$SplashLoad
     Object$Loaded <- Object$Loaded + 1
 
   })
 
-  observeEvent(input$example_action, {
+  observeEvent(input$example_upload, {
     Object$File <- input$example_input
     Object$Loaded <- Object$Loaded + 1
   })
@@ -172,8 +173,8 @@ server <- function(input, output, session) {
 
 
 
-  # splash page
-  SplashServer('splash', Object)
+  # load page
+  LoadServer('load', Object)
 
 
   # Non technical pages -------------------------------------------

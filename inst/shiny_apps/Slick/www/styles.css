@@ -1,24 +1,10 @@
 /* Default styles for pages */
 
-/*
-.page_title {
-  border-style: dashed;
-  border-width: 1px;
-  border-color: red;
-}
-
-*/
-
 
 a:visited {
   color: purple;
 }
 
-
-
-.list-group-item{
-  color: white
-}
 
 
 
@@ -34,32 +20,15 @@ h1 {
   color:black;
 }
 
-/* logo when hovered */
-.skin-blue .main-header .logo:hover {
-  background-color: #FFFFFF;
 
+.main-sidebar {
+  font-size: 16px;
 }
 
-/* Background color of nav bar */
-.skin-blue .main-header .navbar {
 
-}
 
-/* Background color of side bar */
-.skin-blue .main-sidebar {
 
-}
-
-/* active selected tab in the sidebarmenu */
-.skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
-
-}
-
-/* body */
-.content-wrapper, .right-side {
-  background-color: #FFFFFF;
-}
-
+/* pages */
 
 .page_reading {
   padding-top: 15px;

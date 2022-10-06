@@ -57,14 +57,14 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                               p('Then click the FILTER button to apply the filter.'),
                               # h3(Object$obj$Misc$App_axes[2]),
                               h3('Operating Models'),
-                              a('OM Glossary', onclick='customHref("splash"); customHref("Operating Model"); customHref("Design");',
+                              a('OM Glossary', onclick='customHref("load"); customHref("Operating Model"); customHref("Design");',
                                 style="cursor: pointer;"),
 
                               uiOutput(session$ns('SN_filters')),
                               hr(),
                               # h3(Object$obj$Misc$App_axes[3]),
                               h3('Management Procedures'),
-                              a('MP Glossary', onclick='customHref("splash"); customHref("Management Procedures")',
+                              a('MP Glossary', onclick='customHref("load"); customHref("Management Procedures")',
                                 style="cursor: pointer;"),
                               uiOutput(session$ns('MP_filters')),
                               hr(),
@@ -74,7 +74,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                class='multicol2',
                                                # h3(Object$obj$Misc$App_axes[1]),
                                                h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Deterministic")',
+                                               a('PM Glossary', onclick='customHref("load"); customHref("Performance Metrics"); customHref("Deterministic")',
                                                  style="cursor: pointer;"),
                                                uiOutput(session$ns('PM_Det_filters')),
                                                hr()
@@ -82,7 +82,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                               conditionalPanel('input.NonTech=="stoch"',
                                                class='multicol2',
                                                h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Stochastic")',
+                                               a('PM Glossary', onclick='customHref("load"); customHref("Performance Metrics"); customHref("Stochastic")',
                                                  style="cursor: pointer;"),
                                                uiOutput(session$ns('PM_Stoch_filters')),
                                                hr()
@@ -90,7 +90,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                               conditionalPanel('input.NonTech=="proj"',
                                                class='multicol2',
                                                h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Projection")',
+                                               a('PM Glossary', onclick='customHref("load"); customHref("Performance Metrics"); customHref("Projection")',
                                                  style="cursor: pointer;"),
                                                # uiOutput(session$ns('PM_Proj_filters')),
                                                hr()

@@ -1,36 +1,41 @@
-library(shinydashboard)
-library(shinydashboardPlus)
-library(shiny.i18n)
-library(fresh)
-library(shinyWidgets)
-library(shinyBS)
+#todo
+# - add help menu and links to userguides
 
-
-mytheme <- create_theme(
-  adminlte_color(
-    light_blue = "#434C5E"
+# -- theme ----
+Slick_theme <- create_theme(
+  adminlte_global(
+    content_bg = "#FFFFFF"
   ),
   adminlte_sidebar(
-    width = "250px",
-    dark_bg = "#D8DEE9",
-    dark_hover_bg = "#81A1C1",
-    dark_color = "#2E3440"
+    dark_bg = '#37638a',
+    dark_hover_bg ='#143570'
   ),
-  adminlte_global(
-    content_bg = "#FFF",
-    box_bg = "#D8DEE9",
-    info_box_bg = "#D8DEE9"
+  adminlte_color(
+    light_blue = "#086A87"
   )
 )
 
+# -- header ----
 header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
                                            i18n$t("Slick Decision Analysis")),
+                            leftUi = tagList(
+                              dropdownButton(
+                                label = "Switch Language",
+                                icon = icon("language"),
+                                status = "primary",
+                                circle = FALSE,
+                                selectInput('selected_language',
+                                            i18n$t("Select language"),
+                                            choices = languages,
+                                            selected = i18n$get_key_translation())
+                              )
+                            ),
                            controlbarIcon=shiny::icon('filter')
                            )
 
-#todo
-# add title to rhs filter
 
+
+# -- rhs controlbar ----
 controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
@@ -38,33 +43,24 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 
 )
 
-
-# todo
-# make bigger text in side-bar
-# style - match existing colors etc
-
+# -- lhs sidebar ----
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Home", tabName = "homepage", icon = icon("house")),
-    menuItem("Load Slick Object", tabName = "splash", icon = icon("upload")),
+    menuItem("Home", tabName = "home", icon = icon("house")),
+    menuItem("Load", tabName = "load", icon = icon("upload")),
 
-    menuItem("Charts", icon = icon("chart-simple"), startExpanded = TRUE,
+    menuItem("Summary", icon = icon("chart-line"), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider"),
              menuSubItem("Zigzag", tabName = "zigzag")
-             ),
+             )
 
-    menuItem("Change Language", icon = icon("language"), tabName = "language",
-    selectInput('selected_language',
-                i18n$t("Select language"),
-                choices = languages,
-                selected = i18n$get_key_translation()))
   )
 )
 
 
-
-
+# -- body ----
 body <- dashboardBody(
+  use_theme(Slick_theme),
   tags$head(
     includeScript(path = "www/js/js4checkbox.js"),
     includeScript(path = "www/js/index.js"),
@@ -88,14 +84,15 @@ body <- dashboardBody(
       Shiny.onInputChange("dimension", dimension);
     });
     ')
+
   ),
   tabItems(
-    tabItem(tabName = "dashboard",
+    tabItem(tabName = "home",
             h2(i18n$t('Hello')),
-            p(i18n$t('test'))
+
     ),
-    tabItem(tabName = "splash",
-                SplashUI('splash')
+    tabItem(tabName = "load",
+                LoadUI('load')
     ),
     tabItem(tabName = "spider",
             SpiderUI('spider')
@@ -104,14 +101,11 @@ body <- dashboardBody(
 )
 
 
-
-
-
-
+# -- page ----
 dashboardPage(
-  header,
-  sidebar,
-  body,
+  header=header,
+  sidebar=sidebar,
+  body=body,
   controlbar=controlbar,
   title='Slick Decision Analysis',
   dashboardFooter(left = "Left content", right = "Right content")
