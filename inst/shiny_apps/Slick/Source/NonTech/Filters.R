@@ -1,8 +1,26 @@
+another_UI <- function(id, i18n) {
+  ns <- NS(id)
+  uiOutput(ns("test"))
+}
+
+another_Server <- function(id, global_session) {
+  moduleServer(
+    id,
+    function(input, output, session) {
+      ns <- NS(id)
+      output$test <- renderUI(tagList(
+        p(i18n$t("Hello"))
+      ))
+    }
+  )
+}
+
+
 FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                          Det, Stoch, Proj) {
+                          Det, Stoch, Proj, global_session) {
   moduleServer(id,
                function(input, output, session) {
-
+                 ns <- NS(id)
                  # States of Nature Filters
                  # (may need wrapping for robustness https://stackoverflow.com/questions/24205676/r-shiny-wrapping-ui-elements)
                  output$SN_filters <- renderUI({
@@ -141,10 +159,11 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
 
 
 
-FiltersUI <- function(id, label="filters") {
+FiltersUI <- function(id, label="filters", i18n) {
 
   ns <- NS(id)
   tagList(
+    usei18n(i18n),
     fluidRow(
      column(12,
             htmlOutput(ns('show_filters'))

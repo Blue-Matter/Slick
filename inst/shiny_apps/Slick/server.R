@@ -8,10 +8,7 @@ options(shiny.maxRequestSize=100000*1024^2)
 server <- function(input, output, session) {
 
   # -- multi-language support ----
-  observeEvent(input$selected_language, {
-    # Here is where we update language in session
-    shiny.i18n::update_lang(session, input$selected_language)
-  })
+
 
   # -- Initialize Reactive Values -----
   # load slick object
@@ -166,14 +163,18 @@ server <- function(input, output, session) {
     }
   )
 
+  #
+  languageButton_Server("language_button", global_session = session)
+
   # filters
   FiltersServer('filters', Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                Det, Stoch, Proj)
+                Det, Stoch, Proj, global_session = session)
 
 
+  another_Server("test", global_session = session)
 
   # home and load page
-  HomeServer('home', Object, i18n)
+  HomeServer('home', Object, global_session = session)
 
 
   # Non technical pages -------------------------------------------

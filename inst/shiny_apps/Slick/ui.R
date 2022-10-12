@@ -23,16 +23,16 @@ Slick_theme <- create_theme(
 header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
                                             "Slick Decision Analysis"),
                             leftUi = tagList(
-                              dropdownButton(
-                                label = "Switch Language",
-                                icon = icon("language"),
-                                status = "primary",
-                                circle = FALSE,
-                                selectInput('selected_language',
-                                            i18n$t("Select language"),
-                                            choices = languages,
-                                            selected = i18n$get_key_translation())
-                              )
+                              # dropdownButton(
+                              #   label = "Switch Language",
+                              #   icon = icon("language"),
+                              #   status = "primary",
+                              #   circle = FALSE,
+                              #   selectInput('selected_language',
+                              #               i18n$t("Select language"),
+                              #               choices = languages,
+                              #               selected = i18n$get_key_translation())
+                              # )
                             ),
                            controlbarIcon=shiny::icon('filter')
                            )
@@ -43,7 +43,8 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
 controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
-                                  FiltersUI('filters')
+                                  another_UI("test", i18n)
+                                  # FiltersUI('filters', i18n=i18n)
 
 )
 
@@ -55,8 +56,9 @@ sidebar <- dashboardSidebar(
     menuItem("Summary", icon = icon("chart-line"), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider"),
              menuSubItem("Zigzag", tabName = "zigzag")
-             )
-
+             ),
+    menuItem("Language", tabName = "lang", icon = icon("language"),
+             languageButton_UI("language_button", i18n = i18n))
   )
 )
 
@@ -91,7 +93,8 @@ body <- dashboardBody(
   ),
   tabItems(
     tabItem(tabName = "home",
-                HomeUI('home', i18n=i18n)
+            HomeUI('home', i18n=i18n)
+
     ),
     tabItem(tabName = "spider",
             SpiderUI('spider')

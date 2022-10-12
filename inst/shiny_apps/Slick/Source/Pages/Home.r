@@ -1,12 +1,7 @@
 
-HomeServer <- function(id, Object, i18n) {
+HomeServer <- function(id, Object, global_session) {
   moduleServer(id,
                function(input, output, session) {
-                 ns <- NS(id)
-
-                 print(i18n$translate('Hello'))
-                 shiny.i18n::update_lang(session, 'es')
-
                  output$summary <- renderUI({
                    if (Object$Ready) {
                      tagList(tabsetPanel(type = "tabs",

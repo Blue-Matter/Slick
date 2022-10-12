@@ -2,7 +2,6 @@
 # -- multi-language support ----
 
 
-
 languageButton_UI <- function(id, i18n) {
   ns <- NS(id)
   tagList(
@@ -29,7 +28,7 @@ languageButton_Server <- function(id, global_session) {
       ns <- NS(id)
       observeEvent(input$selected_language, {
         # Here is where we update language in session
-        shiny.i18n::update_lang(session, input$selected_language)
+        shiny.i18n::update_lang(global_session, input$selected_language)
       })
     }
   )
