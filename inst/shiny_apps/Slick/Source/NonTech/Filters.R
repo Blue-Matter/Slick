@@ -1,23 +1,8 @@
-another_UI <- function(id, i18n) {
-  ns <- NS(id)
-  uiOutput(ns("test"))
-}
 
-another_Server <- function(id, global_session) {
-  moduleServer(
-    id,
-    function(input, output, session) {
-      ns <- NS(id)
-      output$test <- renderUI(tagList(
-        p(i18n$t("Hello"))
-      ))
-    }
-  )
-}
 
 
 FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                          Det, Stoch, Proj, global_session) {
+                          Det, Stoch, Proj, i18n) {
   moduleServer(id,
                function(input, output, session) {
                  ns <- NS(id)
@@ -66,7 +51,6 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                  output$show_filters <- renderUI({
 
                    if (Object$Loaded>=1) {
-
                      tagList(
                        conditionalPanel('input.NonTech!="resources"',
                        column(12, align = 'left', class='multicol',
@@ -123,9 +107,13 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                        )
                      )
                    } else {
-                     text <- i18n$t('Slick object not loaded. Please return to Home and load a Slick object.')
-                     print(text)
-                     tagList(h3(text)
+                     tagList(br(),
+                             box(status = 'warning', width=12,
+                                 solidHeader =FALSE,
+                                 title=h4(i18n()$t('Slick object not loaded')),
+                                 p(i18n()$t('Please go to '), a(onclick='customHref("load");', style="cursor: pointer;", "Load"), i18n()$t('and load a Slick object.'))
+                     )
+
                      )
                    }
                  })

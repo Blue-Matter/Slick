@@ -8,10 +8,28 @@ options(shiny.maxRequestSize=100000*1024^2)
 server <- function(input, output, session) {
 
   # -- multi-language support ----
-  observeEvent(input$selected_language, {
-    # Here is where we update language in session
-    shiny.i18n::update_lang(session, input$selected_language)
+  i18n <- reactive({
+    selected <- input$selected_language
+    if (length(selected) > 0 && selected %in% translator$get_languages()) {
+      translator$set_translation_language(selected)
+    }
+    translator
   })
+
+  output$language <- renderUI({
+    tagList(
+      selectInput('selected_language',
+                  "Select language",
+                  choices = languages,
+                  selected = translator$get_key_translation()
+      )
+    )
+  })
+
+  observeEvent(input$selected_language, {
+    shiny.i18n::update_lang(session, input$selected_language)
+
+  }, ignoreInit = TRUE)
 
 
   # -- Initialize Reactive Values -----
@@ -167,19 +185,17 @@ server <- function(input, output, session) {
     }
   )
 
-  #
-  languageButton_Server("language_button", global_session = session)
 
   # filters
   FiltersServer('filters', Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                Det, Stoch, Proj, global_session = session)
+                Det, Stoch, Proj, i18n = i18n)
 
 
-  another_Server("test", global_session = session)
+  # home
+  HomeServer('home', i18n = i18n)
 
-  # home and load page
-  HomeServer('home', Object, global_session = session)
-
+  # load
+  LoadServer('load', Object, i18n = i18n)
 
   # Non technical pages -------------------------------------------
   # page 1
@@ -224,6 +240,5 @@ server <- function(input, output, session) {
   USERID<-Sys.getenv()[names(Sys.getenv())=="USERNAME"]
   SessionID<-paste0(USERID,"-",strsplit(as.character(Sys.time())," ")[[1]][1],"-",strsplit(as.character(Sys.time())," ")[[1]][2])
   output$SessionID<-renderText(SessionID)
-
 
 }

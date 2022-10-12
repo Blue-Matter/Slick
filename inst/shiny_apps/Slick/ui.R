@@ -1,5 +1,6 @@
 #todo
 # - add help menu and links to userguides
+library(waiter)
 
 # -- theme ----
 Slick_theme <- create_theme(
@@ -23,16 +24,13 @@ Slick_theme <- create_theme(
 header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
                                             "Slick Decision Analysis"),
                             leftUi = tagList(
-                              # dropdownButton(
-                              #   label = "Switch Language",
-                              #   icon = icon("language"),
-                              #   status = "primary",
-                              #   circle = FALSE,
-                              #   selectInput('selected_language',
-                              #               i18n$t("Select language"),
-                              #               choices = languages,
-                              #               selected = i18n$get_key_translation())
-                              # )
+                              dropdownButton(
+                                label = "Switch Language",
+                                icon = icon("language"),
+                                status = "primary",
+                                circle = FALSE,
+                                uiOutput("language")
+                              )
                             ),
                            controlbarIcon=shiny::icon('filter')
                            )
@@ -43,8 +41,8 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
 controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
-                                  another_UI("test", i18n)
-                                  # FiltersUI('filters', i18n=i18n)
+
+                                  FiltersUI('filters', i18n=i18n)
 
 )
 
@@ -52,13 +50,12 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Home", tabName = "home", icon = icon("house")),
+    menuItem("Load", tabName = "load", icon = icon("upload")),
 
     menuItem("Summary", icon = icon("chart-line"), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider"),
              menuSubItem("Zigzag", tabName = "zigzag")
-             ),
-    menuItem("Language", tabName = "lang", icon = icon("language"),
-             languageButton_UI("language_button", i18n = i18n))
+             )
   )
 )
 
@@ -66,6 +63,9 @@ sidebar <- dashboardSidebar(
 # -- body ----
 body <- dashboardBody(
   use_theme(Slick_theme),
+  useWaiter(),
+  waiterPreloader(spin_fading_circles()),
+
   tags$head(
     includeScript(path = "www/js/js4checkbox.js"),
     includeScript(path = "www/js/index.js"),
@@ -93,7 +93,11 @@ body <- dashboardBody(
   ),
   tabItems(
     tabItem(tabName = "home",
-            HomeUI('home', i18n=i18n)
+            HomeUI('home')
+
+    ),
+    tabItem(tabName = "load",
+            LoadUI('load')
 
     ),
     tabItem(tabName = "spider",
