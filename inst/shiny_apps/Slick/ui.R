@@ -12,12 +12,16 @@ Slick_theme <- create_theme(
   ),
   adminlte_color(
     light_blue = "#086A87"
+  ),
+  adminlte_vars(
+    'sidebar-width'='300px'
+
   )
 )
 
 # -- header ----
 header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
-                                           i18n$t("Slick Decision Analysis")),
+                                            "Slick Decision Analysis"),
                             leftUi = tagList(
                               dropdownButton(
                                 label = "Switch Language",
@@ -47,7 +51,6 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Home", tabName = "home", icon = icon("house")),
-    menuItem("Load", tabName = "load", icon = icon("upload")),
 
     menuItem("Summary", icon = icon("chart-line"), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider"),
@@ -88,11 +91,7 @@ body <- dashboardBody(
   ),
   tabItems(
     tabItem(tabName = "home",
-            h2(i18n$t('Hello')),
-
-    ),
-    tabItem(tabName = "load",
-                LoadUI('load')
+                HomeUI('home', i18n=i18n)
     ),
     tabItem(tabName = "spider",
             SpiderUI('spider')

@@ -1,13 +1,14 @@
-"en","es"
-"Hello","Hola"
-"About","Sobre"
-"Choose a Slick object from the Example drop-down and click ""Select"" or load a Slick object from file.","Elija un objeto Slick del menú desplegable Ejemplo y haga clic en 'Seleccionar' o cargue un objeto Slick desde un archivo."
-"Deterministic","Determinista"
-"Example","Ejemplo"
-"From file (.slick)","Desde archivo (.slick)"
-"Load a Slick Object","Cargar un Slick objeto"
-"Management Procedures","Procedimientos de Gestión"
-"Operating Model","Modelo operativo"
-"Performance Metrics","Métricas de rendimiento"
-"Projection","Proyección"
-"Stochastic","Estocástico"
+en,es
+Hello,Hola
+About,Sobre
+"Choose a Slick object from the Example drop-down and click ""Select"" or load a Slick object from file.",Elija un objeto Slick del menú desplegable Ejemplo y haga clic en 'Seleccionar' o cargue un objeto Slick desde un archivo.
+Deterministic,Determinista
+Example,Ejemplo
+From file (.slick),Desde archivo (.slick)
+Load a Slick Object,Cargar un Slick objeto
+Management Procedures,Procedimientos de Gestión
+Operating Model,Modelo operativo
+Performance Metrics,Métricas de rendimiento
+Projection,Proyección
+Stochastic,Estocástico
+Slick object not loaded. Please return to Home and load a Slick object.,Objeto Slick no cargado. Vuelva a Inicio y cargue un objeto Slick.

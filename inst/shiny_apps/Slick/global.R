@@ -27,6 +27,7 @@ names(languages) <- lang_names
 
 # -- dashboard functions ----
 source("./Source/dashboard_functions/dashboardHeader2.R")
+source("./Source/dashboard_functions/translation_ui_server.R")
 
 # -- source app functions ----
 source("./Source/app_functions/Load_slick.R",local=TRUE)

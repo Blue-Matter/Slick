@@ -104,6 +104,11 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                        )
                        )
                      )
+                   } else {
+                     text <- i18n$t('Slick object not loaded. Please return to Home and load a Slick object.')
+                     print(text)
+                     tagList(h3(text)
+                     )
                    }
                  })
 
@@ -141,8 +146,8 @@ FiltersUI <- function(id, label="filters") {
   ns <- NS(id)
   tagList(
     fluidRow(
-     shinydashboard::box(width=12,
-                         htmlOutput(ns('show_filters'))
+     column(12,
+            htmlOutput(ns('show_filters'))
      )
     )
   )

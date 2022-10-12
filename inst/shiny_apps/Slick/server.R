@@ -13,7 +13,6 @@ server <- function(input, output, session) {
     shiny.i18n::update_lang(session, input$selected_language)
   })
 
-
   # -- Initialize Reactive Values -----
   # load slick object
   Object <- reactiveValues(Loaded=FALSE,
@@ -54,8 +53,8 @@ server <- function(input, output, session) {
   Log_text <- reactiveValues(text="nothing happened yet")
 
   # -- Observe Events -----
-  observeEvent(input$SplashLoad, {
-    Object$File <- input$SplashLoad
+  observeEvent(input$Load, {
+    Object$File <- input$Load
     Object$Loaded <- Object$Loaded + 1
 
   })
@@ -173,8 +172,8 @@ server <- function(input, output, session) {
 
 
 
-  # load page
-  LoadServer('load', Object)
+  # home and load page
+  HomeServer('home', Object, i18n)
 
 
   # Non technical pages -------------------------------------------
