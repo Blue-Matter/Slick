@@ -14,7 +14,7 @@ library(shinyWidgets)
 
 
 # -- multi-language support ----
-translator  <- Translator$new(translation_csvs_path = "data/translations")
+i18n <- translator  <- Translator$new(translation_csvs_path = "data/translations")
 translator$set_translation_language('en')
 translator$use_js()
 languages <- translator$get_languages()

@@ -21,7 +21,7 @@ Slick_theme <- create_theme(
 )
 
 # -- header ----
-header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(i18n),
+header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
                                             "Slick Decision Analysis"),
                             leftUi = tagList(
                               dropdownButton(
