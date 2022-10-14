@@ -35,25 +35,28 @@ HomeServer <- function(id, i18n) {
                                 p(i18n()$t('Slick allows users to filter Operating Models, Performance Metrics and Management Procedures in order to explore robustness and characterize performance. Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick data file, these can be loaded to the App.')),
                                 h3(i18n()$t('About Slick')),
                                 p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation',  target="_blank"), i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
-                                h4(i18n()$t('Developing Slick Data Files')),
-                                p(i18n()$t('MSE Technical Developers should consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n()$t('for information on converting their MSE results into a compatible Slick data file.')),
-                                h4(i18n()$t('Further Development')),
                                 p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
                                   a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'), i18n()$t('with any comments or suggestions for further development'))
-
                          )
                      ),
                      box(title=h2(i18n()$t('How to Use Slick')), collapsible = TRUE,
                          width=6,
                          solidHeader=TRUE,
                          status = "primary",
-                         h3(i18n()$t('How to Use Slick'))
+                         column(12,
+                                h3(i18n()$t('Slick Data File')),
+                                p(i18n()$t('To use Slick, you will need your MSE results available in a Slick Data file. MSE Technical Developers should consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n()$t('for information on converting their MSE results into a compatible Slick Data file.')),
+                                p(i18n()$t('Slick includes several Example Data files which can be used to explore the App'))
+                         )
                      ),
                      box(title=h2(i18n()$t('About the Slick Plots')), collapsible = TRUE,
                          width=6,
                          solidHeader=TRUE,
                          status = "primary",
-                         p(i18n()$t('Slick includes 11 Plots designed to inform decision making by revealing the absolute and comparative performance of candidate management procedures.'))
+                         column(12,
+                                p(i18n()$t('Slick includes 11 Plots designed to inform decision making by revealing the absolute and comparative performance of candidate management procedures.'))
+                                )
+
 
                      )
                    )
