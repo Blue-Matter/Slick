@@ -1,6 +1,6 @@
 #todo
 # - add help menu and links to userguides
-library(waiter)
+
 
 # -- theme ----
 Slick_theme <- create_theme(
@@ -30,6 +30,23 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
                                 status = "primary",
                                 circle = FALSE,
                                 uiOutput("language")
+                              ),
+                              dropdownButton(
+                                width=1200,
+                                label = "Resources",
+                                icon = icon("books"),
+                                status = "primary",
+                                circle = FALSE,
+                                ResourcesUI('resources')
+
+                              ),
+                              dropdownButton(
+                                width=500,
+                                label = "About",
+                                icon = icon("info"),
+                                status = "primary",
+                                circle = FALSE,
+                                uiOutput("about")
                               )
                             ),
                            controlbarIcon=shiny::icon('filter')
@@ -88,7 +105,16 @@ body <- dashboardBody(
       dimension[1] = window.innerHeight;
       Shiny.onInputChange("dimension", dimension);
     });
-    ')
+    '),
+    tags$script("
+        var openTab = function(tabName){
+          $('a', $('.sidebar')).each(function() {
+            if(this.getAttribute('data-value') == tabName) {
+              this.click()
+            };
+          });
+        }
+      ")
 
   ),
   tabItems(

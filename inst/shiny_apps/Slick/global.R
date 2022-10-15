@@ -9,8 +9,7 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(shiny.i18n)
 library(shinyWidgets)
-
-
+library(waiter)
 
 
 # -- multi-language support ----
@@ -27,7 +26,7 @@ names(languages) <- lang_names
 
 # -- dashboard functions ----
 source("./Source/dashboard_functions/dashboardHeader2.R")
-source("./Source/dashboard_functions/translation_ui_server.R")
+source("./Source/dashboard_functions/guide.R")
 
 # -- source app functions ----
 source("./Source/app_functions/Load_slick.R",local=TRUE)

@@ -5,16 +5,14 @@ a:visited {
   color: purple;
 }
 
-
-
-
-
-
 .main-sidebar {
   font-size: 16px;
 }
 
 
+.vertical-tab-panel h4 {
+  font-size: 12px;
+}
 
 
 /* pages */

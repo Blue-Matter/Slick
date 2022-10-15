@@ -29,6 +29,43 @@ server <- function(input, output, session) {
 
   }, ignoreInit = TRUE)
 
+  # -- about menu ----
+  output$about <- renderUI({
+    tagList(
+      h4(i18n()$t('About Slick')),
+      p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation,',  target="_blank"),
+        i18n()$t('with support from'), a(href='https://www.pewtrusts.org/', 'The Pew Charitable Trusts,'),
+        i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
+      p(i18n()$t('The prototype figure designs were developed by'), a(href="https://www.5wgraphics.com/",  '5W Infographics.')
+        ),
+      p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
+        a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'),
+        i18n()$t('with any comments or suggestions for further development'))
+      )
+
+
+
+    #   verticalTabsetPanel(
+    #     contentWidth =9,
+    #     id = "my_vertical_tab_panel",
+    #     verticalTabPanel(
+    #       title = "Title 1",
+    #       box_height=50,
+    #       "Content panel 1"
+    #     ),
+    #     verticalTabPanel(
+    #       title = tags$h4("About"),
+    #       box_height=50,
+    #       p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation',  target="_blank"), i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
+    #       p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
+    #         a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'), i18n()$t('with any comments or suggestions for further development'))
+    #     )
+    #   )
+    #
+    #
+    # )
+  })
+
 
   # -- Initialize Reactive Values -----
   # load slick object
