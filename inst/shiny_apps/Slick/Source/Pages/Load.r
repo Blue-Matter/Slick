@@ -3,67 +3,72 @@ LoadServer <- function(id, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$example  <- renderUI({
-                   box(title=h2(i18n()$t('Examples')),
-                       width=6,
-                       solidHeader=TRUE,
-                       status = "primary",
-                       h3(i18n()$t('Loading an Example Slick Object')),
-                       p(i18n()$t('Slick includes several examples ')),
-                       p(i18n()$t('Choose an example from drop-down menu and click "Select"')),
-                       # load example
-                       column(6,
-                              fluidRow(
-                                selectInput('example_input',
-                                            label=i18n()$t('Example'),
-                                            choices=c('Demonstration',
-                                                      'Atlantic bluefin tuna',
-                                                      'North Atlantic swordfish'
-                                            ),
-                                            selected=NULL
-                                ),
-                                actionButton("example_upload", i18n()$t("Select"),
-                                             icon("cloud-upload"))
-                              )
-                       )
-
-
-                   )
-                 })
+                 ns <- session$ns
 
                  output$load <- renderUI({
-                   # load object box
-                   box(title=h2(i18n()$t('Load your own Model')),
+                   box(title=h2(i18n()$t('Load a Slick Data File')),
                        width=6,
                        solidHeader=TRUE,
+                       collapsible = TRUE,
                        status = "primary",
-                       h3(i18n()$t('Load a Slick Object')),
-                       p(i18n()$t('Load a Slick object from file, or choose an example Slick object from the Example drop-down and click "Select"')),
-
+                       h4(i18n()$t('Instructions')),
+                       p(i18n()$t('Load either your own Slick Data file or choose an example from the dropdown menu.')),
+                       p(i18n()$t('Once a Slick Data file is loaded, additional navy blue boxes will appear summarizing the contents of the Slick Data file. Most of the content in the navy blue boxes are loaded directly from the Slick Data file and subsequently will not be updated when the Slick language setting is changed.')),
                        # upload slick file
-                       column(6,
-                              fileInput("Load", accept=c("slick",".slick"),
-                                        label = i18n()$t("From file (.slick)"),
-                                        buttonLabel=list(icon("folder"))
-                              )
+                       box(title=h4(i18n()$t('Load your MSE Results')),
+                           p(i18n()$t('Select the Slick Data File containing your MSE results and upload. For more information on creating a Slick Data file see the '), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', 'Slick Developer Guide.', target="_blank")),
+                           fileInput("Load", accept=c("slick",".slick"),
+                                     label = i18n()$t("From file (.slick)"),
+                                     buttonLabel=list(icon("folder",verify_fa = FALSE))
+                           )
                        ),
-                       footer=tagList(
-                         p(i18n()$t('For more on using Slick, please see the: '),
-                           shiny::actionButton(inputId='ab1', label="User Guide",
-                                               icon = icon("question-circle"),
-                                               onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-User-Guide.html', '_blank')"),
-                           shiny::actionButton(inputId='ab1', label="Developers' Manual",
-                                               icon = icon("info-circle"),
-                                               onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', '_blank')")
-                         )
+                       box(title=h4(i18n()$t('Load an Example')),
+                           p(i18n()$t('Select an Example from the dropdown menu and click `Load`. Click `Download` to download the Example Slick Data file as an R object. The downloaded R object can be imported into R with `readRDS`.')),
+
+                           selectInput('example_input',
+                                       label=i18n()$t('Example'),
+                                       choices=c('Demonstration',
+                                                 'Atlantic bluefin tuna',
+                                                 'North Atlantic swordfish'
+                                       ),
+                                       selected=NULL
+                           ),
+                           actionButton("example_upload", i18n()$t("Load"),
+                                         icon("cloud-upload", verify_fa = FALSE)),
+                           downloadButton("example_download", i18n()$t("Download"),
+                                        icon("cloud-download", verify_fa = FALSE))
+
                        )
                    )
+
                  })
+
+
+
+                 output$metadata <- renderUI({
+                   tagList(
+                     box(width=6,
+                         solidHeader=TRUE,
+                         collapsible = TRUE,
+                         status = "navy",
+                         title=h2(i18n()$t('Metadata')),
+                         h3(Object$obj$Text$Title),
+                         h4(Object$obj$Text$Sub_title),
+                         p(HTML(i18n()$t('<strong>Fishery:</strong>')), Object$obj$name),
+                         p(HTML(i18n()$t('<strong>Author:</strong>')), Object$obj$Misc$Author),
+                         p(HTML(i18n()$t('<strong>Contact:</strong>')), Object$obj$Misc$Contact),
+                         p(HTML(i18n()$t('<strong>Institution:</strong>')), Object$obj$Misc$Institution),
+                         lapply(Object$obj$Text$Introduction, tags$p)
+                     )
+                   )
+                 })
+
 
                  output$summary <- renderUI({
                    if (Object$Ready) {
                      tagList(tabsetPanel(type = "tabs",
-                                         tabPanel(i18n()$t("About"), br(),DT::dataTableOutput(session$ns('metadata'))),
+                                         # tabPanel(i18n()$t("About"), br(),
+                                                  # DT::dataTableOutput(session$ns('metadata'))),
                                          tabPanel(i18n()$t("Management Procedures"),br(), DT::dataTableOutput(session$ns('MPs'))),
                                          tabPanel(i18n()$t("Operating Model"), br(),
                                                   renderUI({
@@ -94,26 +99,7 @@ LoadServer <- function(id, Object, i18n) {
                    }
                  })
 
-                 output$metadata <- renderDataTable({
-                   if(!Object$Ready) return()
-                   df <- data.frame(Fishery=Object$obj$name,
-                                    Author=Object$obj$Misc$Author,
-                                    Contact=Object$obj$Misc$Contact,
-                                    Institution=Object$obj$Misc$Institution
-                   )
 
-                   DT::datatable(df, extensions = 'Responsive',
-                                 rownames=F,
-                                 options = list(
-                                   paging = FALSE,
-                                   searching = FALSE,
-                                   fixedColumns = FALSE,
-                                   autoWidth = FALSE,
-                                   ordering = FALSE,
-                                   dom = 't'),
-                                 selection='none'
-                   )
-                 })
 
                  output$MPs <- renderDataTable({
                    if(!Object$Ready) return()
@@ -176,11 +162,8 @@ LoadServer <- function(id, Object, i18n) {
                    )
                  })
 
-                 output$Title <- renderText(Object$obj$Text$Title)
-                 output$Subtitle <- renderText(Object$obj$Text$Sub_title)
-                 output$Intro1 <- renderText(Object$obj$Text$Introduction[[1]])
-                 output$Intro2 <- renderText(Object$obj$Text$Introduction[[2]])
-                 output$Intro3 <- renderText(Object$obj$Text$Introduction[[3]])
+
+
 
                }
   )
@@ -192,28 +175,25 @@ LoadUI <- function(id, label="load") {
 
   ns <- NS(id)
 
-
   tagList(
     usei18n(i18n),
     fluidRow(
-      htmlOutput(ns('example')),
-      htmlOutput(ns('load'))
-    ),
-    fluidRow(
+      htmlOutput(ns('load')),
+      # htmlOutput(ns('load'))
+      conditionalPanel('output.Loaded>0',
+                       uiOutput(ns('metadata')),
 
-             conditionalPanel('output.Loaded>0',
-                              hr(),
-                              box(width=12,
-                                  solidHeader=TRUE,
-                                  status = "primary",
-                                  title=h2(uiOutput(ns("Title"))),
-                                  h5( uiOutput(ns("Subtitle"))),
-                                  p( uiOutput(ns("Intro1"))),
-                                  p( uiOutput(ns("Intro2"))),
-                                  p( uiOutput(ns("Intro3"))),
-                                  uiOutput(ns('summary'))
-                              )
-             )
+                       box(width=12,
+                           solidHeader=TRUE,
+                           status = "primary",
+                           title=h2(uiOutput(ns("Title"))),
+                           h5( uiOutput(ns("Subtitle"))),
+                           p( uiOutput(ns("Intro1"))),
+                           p( uiOutput(ns("Intro2"))),
+                           p( uiOutput(ns("Intro3"))),
+                           uiOutput(ns('summary'))
+                       )
+      )
 
     )
   )

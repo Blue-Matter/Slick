@@ -2,7 +2,7 @@
 
 # This is page 3 of the Plot_Finals.pdf
 
-ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
+ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) {
   moduleServer(id,
                function(input, output, session) {
 

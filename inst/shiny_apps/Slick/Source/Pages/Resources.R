@@ -16,7 +16,7 @@ ResourcesServer <- function(id) {
                          text <- strsplit(subDat$Title[i], " ")[[1]]
                          title <- text[1]
                          desc <- paste(text[-1], collapse=" ")
-                         txt[[i]] <-  p(title, a(href=subDat$Link[i], desc, target="_blank"))
+                         txt[[i]] <-  p(paste0(title, ':'), a(href=subDat$Link[i], desc, target="_blank"))
                        }
                      } else {
                        for (i in 1:nrow(subDat)) {
@@ -46,8 +46,6 @@ ResourcesServer <- function(id) {
                      do.call(tagList, output_list),
                      do.call(tagList, footnote_list)
                    )
-
-
                  })
                })
 }
@@ -60,10 +58,10 @@ ResourcesUI <- function(id, label="resources") {
       column(width = 12,
              h3('MANUALS'),
              shiny::actionButton(inputId='ab1', label="User Guide",
-                                 icon = icon("question-circle"),
+                                 icon = icon("question-circle", verify_fa = FALSE),
                                  onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-User-Guide.html', '_blank')"),
              shiny::actionButton(inputId='ab1', label="Developers' Manual",
-                                 icon = icon("info-circle"),
+                                 icon = icon("info-circle", verify_fa = FALSE),
                                  onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', '_blank')"),
 
              br(),

@@ -2,7 +2,7 @@
 
 # This is page 1 and page 2 of Plot_Finals.pdf
 
-SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
+SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) {
   moduleServer(id,
                function(input, output, session) {
 

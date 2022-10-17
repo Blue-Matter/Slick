@@ -42,30 +42,7 @@ server <- function(input, output, session) {
         a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'),
         i18n()$t('with any comments or suggestions for further development'))
       )
-
-
-
-    #   verticalTabsetPanel(
-    #     contentWidth =9,
-    #     id = "my_vertical_tab_panel",
-    #     verticalTabPanel(
-    #       title = "Title 1",
-    #       box_height=50,
-    #       "Content panel 1"
-    #     ),
-    #     verticalTabPanel(
-    #       title = tags$h4("About"),
-    #       box_height=50,
-    #       p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation',  target="_blank"), i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
-    #       p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
-    #         a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'), i18n()$t('with any comments or suggestions for further development'))
-    #     )
-    #   )
-    #
-    #
-    # )
   })
-
 
   # -- Initialize Reactive Values -----
   # load slick object
@@ -118,6 +95,21 @@ server <- function(input, output, session) {
     Object$Loaded <- Object$Loaded + 1
   })
 
+
+  output$example_download <- downloadHandler(
+    filename = function() {
+      Name <- input$example_input
+      paste0(Name, ".slick", sep="")
+    },
+    content = function(file) {
+      Name <- input$example_input
+      File <- switch(Name,
+                     Demonstration="./data/SLICKobj.rda",
+                     'Atlantic bluefin tuna'="./data/ABT.slick",
+                     'North Atlantic swordfish'="./data/SWO.slick")
+      file.copy(File, file)
+    }
+  )
 
   observeEvent(Object$Loaded, {
     if (Object$Loaded >= 1) {
@@ -221,10 +213,10 @@ server <- function(input, output, session) {
   )
 
 
+  # -- Server Modules ----
   # filters
   FiltersServer('filters', Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
                 Det, Stoch, Proj, i18n = i18n)
-
 
   # home
   HomeServer('home', i18n = i18n)
@@ -232,12 +224,12 @@ server <- function(input, output, session) {
   # load
   LoadServer('load', Object, i18n = i18n)
 
-  # Non technical pages -------------------------------------------
+
   # page 1
-  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object) # uses modules, all server and ui code contained in Page_1.r
+  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object, window_dims) # uses modules, all server and ui code contained in Page_1.r
 
   # page 2
-  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object) # uses modules, all server and ui code contained in Page_2.r
+  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims) # uses modules, all server and ui code contained in Page_2.r
 
   # page 3
   RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object)

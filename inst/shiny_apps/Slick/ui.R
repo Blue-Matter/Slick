@@ -32,9 +32,9 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
                                 uiOutput("language")
                               ),
                               dropdownButton(
-                                width=1200,
+                                width=900,
                                 label = "Resources",
-                                icon = icon("books"),
+                                icon = icon("books", verify_fa = FALSE),
                                 status = "primary",
                                 circle = FALSE,
                                 ResourcesUI('resources')
@@ -65,14 +65,45 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 
 # -- lhs sidebar ----
 sidebar <- dashboardSidebar(
-  sidebarMenu(
+  sidebarMenu(id='NonTech',
     menuItem("Home", tabName = "home", icon = icon("house")),
     menuItem("Load", tabName = "load", icon = icon("upload")),
 
-    menuItem("Summary", icon = icon("chart-line"), startExpanded = TRUE,
-             menuSubItem("Spider", tabName = "spider"),
-             menuSubItem("Zigzag", tabName = "zigzag")
-             )
+    menuItem("Summary", icon = icon("chart-line"), startExpanded = FALSE,
+             convertMenuItem(menuSubItem("Spider", tabName = "spider",
+                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
+             convertMenuItem(menuSubItem("Zigzag", tabName = "zigzag",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
+             convertMenuItem(menuSubItem("Rail", tabName = "rail",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
+             convertMenuItem(menuSubItem("Violin", tabName = "violin",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), ''),
+             convertMenuItem(menuSubItem("Boxplot", tabName = "boxplot",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'stoch'),
+             convertMenuItem(menuSubItem("Kobe", tabName = "kobe",
+                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj')
+             ),
+    menuItem("Trade-Off", icon = icon("code-compare"), startExpanded = FALSE,
+             convertMenuItem(menuSubItem("Slope", tabName = "slope",
+                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj')
+    ),
+    menuItem("Over Time", icon = icon("timeline"), startExpanded = FALSE,
+             convertMenuItem(menuSubItem("Kobe Time", tabName = "kobetime",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj'),
+             convertMenuItem(menuSubItem("Line", tabName = "line",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'state'),
+             convertMenuItem(menuSubItem("Worm", tabName = "worm",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), '')
+    ),
+    menuItem("By OM", icon = icon("layer-group"), startExpanded = FALSE,
+             convertMenuItem(menuSubItem("Boxplot OM", tabName = "boxplotOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'stoch'),
+             convertMenuItem(menuSubItem("Spider OM", tabName = "spiderOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),'det'),
+             convertMenuItem(menuSubItem("Line OM", tabName = "lineOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'state')
+
+    )
   )
 )
 
@@ -87,7 +118,7 @@ body <- dashboardBody(
     includeScript(path = "www/js/js4checkbox.js"),
     includeScript(path = "www/js/index.js"),
     tags$link(rel='stylesheet', type='text/css', href='styles.css'),
-    tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
+
     tags$style(HTML("#SessionID{font-size:12px;}")),
     tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
         @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
@@ -124,10 +155,54 @@ body <- dashboardBody(
     ),
     tabItem(tabName = "load",
             LoadUI('load')
-
     ),
     tabItem(tabName = "spider",
             SpiderUI('spider')
+    ),
+    tabItem(tabName = "zigzag",
+            ZigzagUI('zigzag')
+    ),
+    tabItem(tabName = "rail",
+            RailUI('rail')
+    ),
+    # tabItem(tabName = "violin",
+    #         ViolinUI('violin')
+    # ),
+    tabItem(tabName = "boxplot",
+            value='stoch',
+            BoxplotUI('boxplot')
+    ),
+    tabItem(tabName = "kobe",
+            value='proj',
+            KobeUI('kobe')
+    ),
+    tabItem(tabName = "slope",
+            value='proj',
+            SlopeUI('slope')
+    ),
+    tabItem(tabName = "kobetime",
+            value='proj',
+            KobeTimeUI('kobetime')
+    ),
+    tabItem(tabName = "line",
+            value='state',
+            LineUI('line')
+    ),
+    # tabItem(tabName = "worm",
+    #         value='proj',
+    #         LineUI('worm')
+    # ),
+    tabItem(tabName = "boxplotOM",
+            value='stoch',
+            Boxplot_OMUI('boxplotOM')
+    ),
+    tabItem(tabName = "spiderOM",
+            value='det',
+            Spider_OMUI('spiderOM')
+    ),
+    tabItem(tabName = "lineOM",
+            value='state',
+            Line_OMUI('lineOM')
     )
   )
 )
