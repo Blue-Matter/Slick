@@ -36,7 +36,7 @@ HomeServer <- function(id, i18n) {
                                   h3(i18n()$t('2. Load Data File')),
                                   p(i18n()$t('Go to the '), a(onclick="openTab('load')", href="#", 'Load'), i18n()$t('panel on the left and upload your Slick Data file. If you do not have your MSE results in a compatible Slick Data File, you can load one of the example Slick Data files. The example Data Files can also be downloaded as R objects so you can explore how the Slick objects are constructed.')),
                                   h3(i18n()$t('3. Explore the MSE Results')),
-                                  p(i18n()$t('Once you have uploaded a Slick Data File containing MSE results, you can explore these results in one of the 12 Slick visualization plots. See the box below for more information on the plots')),
+                                  p(i18n()$t('Once you have uploaded a Slick Data File containing MSE results, you can explore these results in one of the 12 Slick visualization plots. See the Slick Plots box below for more information on the plots')),
                                   h3(i18n()$t('4. Filter the MSE Results')),
                                   p(i18n()$t('The Filter button in the top right corner can be used to filter the MSE results show in the plots. See the box below for more details.'))
                                   )
@@ -48,8 +48,25 @@ HomeServer <- function(id, i18n) {
                                   width=12,
                                   solidHeader=TRUE,
                                   status = "primary",
-                                  h3('Hi')
-
+                                  # deterministic
+                                  box(title=h2(i18n()$t('Deterministic')),
+                                      tags$ol(
+                                        tags$li(p(i18n()$t(a(onclick='customHref("spider");', style="cursor: pointer;", "Spider:")))
+                                        )
+                                      )
+                                  ),
+                                  # stochastic
+                                  box(title=h2(i18n()$t('Stochastic')),
+                                      p('hi')
+                                  ),
+                                  # projection
+                                  box(title=h2(i18n()$t('Projected')),
+                                      p('hi')
+                                  ),
+                                  # state
+                                  box(title=h2(i18n()$t('State Variables')),
+                                      p('hi')
+                                  )
                               )
                        )
                      )

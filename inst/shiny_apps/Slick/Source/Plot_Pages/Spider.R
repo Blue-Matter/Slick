@@ -234,7 +234,6 @@ SpiderUI <- function(id, label="spider") {
   ns <- NS(id)
   tagList(
     fluidRow(
-
       column(width = 6,
              div(class='page_title',
                  h3('Performance Comparison', id='title'),
@@ -461,8 +460,8 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
 CheckLoaded <- function(Object) {
   renderUI({
     if(!Object$Loaded)
-      h4('Slick object not loaded. Please return to ', a('Home', onclick='customHref("splash")',
-                                        style='color:red; cursor: pointer;'),
+      h4('Slick object not loaded. Please return to ', a('Load', onclick='customHref("load")',
+                                        style='color:blue; cursor: pointer;'),
          'and load a Slick object', style = "color:red")
   })
 }

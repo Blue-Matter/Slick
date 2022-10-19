@@ -92,7 +92,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                hr(),
 
                                                # Page Specific Filters
-                                               conditionalPanel('input.NonTech=="det"',
+                                               conditionalPanel('input.NonTech=="spider"',
                                                                 class='multicol2',
                                                                 # h3(Object$obj$Misc$App_axes[1]),
                                                                 h3(i18n()$t('Performance Metric (PM)')),

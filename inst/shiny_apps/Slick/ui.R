@@ -69,41 +69,47 @@ sidebar <- dashboardSidebar(
     menuItem("Home", tabName = "home", icon = icon("house")),
     menuItem("Load", tabName = "load", icon = icon("upload")),
 
-    menuItem("Summary", icon = icon("chart-line"), startExpanded = FALSE,
-             convertMenuItem(menuSubItem("Spider", tabName = "spider",
-                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
-             convertMenuItem(menuSubItem("Zigzag", tabName = "zigzag",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
-             convertMenuItem(menuSubItem("Rail", tabName = "rail",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'det'),
-             convertMenuItem(menuSubItem("Violin", tabName = "violin",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), ''),
-             convertMenuItem(menuSubItem("Boxplot", tabName = "boxplot",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'stoch'),
-             convertMenuItem(menuSubItem("Kobe", tabName = "kobe",
-                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj')
+    # Deterministic
+    menuItem("Deterministic", icon = icon("chart-line"), startExpanded = FALSE,
+             menuSubItem("Spider", tabName = "spider",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Zigzag", tabName = "zigzag",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Rail", tabName = "rail",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Violin", tabName = "violin",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Boxplot", tabName = "boxplot",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Kobe", tabName = "kobe",
+                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
              ),
-    menuItem("Trade-Off", icon = icon("code-compare"), startExpanded = FALSE,
-             convertMenuItem(menuSubItem("Slope", tabName = "slope",
-                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj')
+    # Stochastic
+    menuItem("Stochastic", icon = icon("code-compare"), startExpanded = FALSE,
+             menuSubItem("Slope", tabName = "slope",
+                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
-    menuItem("Over Time", icon = icon("timeline"), startExpanded = FALSE,
-             convertMenuItem(menuSubItem("Kobe Time", tabName = "kobetime",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'proj'),
-             convertMenuItem(menuSubItem("Line", tabName = "line",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'state'),
-             convertMenuItem(menuSubItem("Worm", tabName = "worm",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), '')
+    # Projected
+    menuItem("Projected ", icon = icon("timeline"), startExpanded = FALSE,
+             menuSubItem("Kobe Time", tabName = "kobetime",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Line", tabName = "line",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Worm", tabName = "worm",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
-    menuItem("By OM", icon = icon("layer-group"), startExpanded = FALSE,
-             convertMenuItem(menuSubItem("Boxplot OM", tabName = "boxplotOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'stoch'),
-             convertMenuItem(menuSubItem("Spider OM", tabName = "spiderOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),'det'),
-             convertMenuItem(menuSubItem("Line OM", tabName = "lineOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)), 'state')
+    # State Variables
+    menuItem("State Variables", icon = icon("layer-group"), startExpanded = FALSE,
+             menuSubItem("Boxplot OM", tabName = "boxplotOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Spider OM", tabName = "spiderOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Line OM", tabName = "lineOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+
 
     )
+    # State
   )
 )
 
@@ -156,6 +162,8 @@ body <- dashboardBody(
     tabItem(tabName = "load",
             LoadUI('load')
     ),
+
+    # Deterministic
     tabItem(tabName = "spider",
             SpiderUI('spider')
     ),
@@ -215,5 +223,6 @@ dashboardPage(
   body=body,
   controlbar=controlbar,
   title='Slick Decision Analysis',
-  dashboardFooter(left = "Left content", right = "Right content")
+  dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
+                  right = paste0("The Ocean Foundation ", format(Sys.Date(), "%Y")))
 )

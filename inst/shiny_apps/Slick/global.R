@@ -12,14 +12,6 @@ library(shinyWidgets)
 library(waiter)
 
 
-# -- Convert menu item
-# https://stackoverflow.com/a/50250232/2885462
-convertMenuItem <- function(mi,type) {
-  mi$children[[1]]$attribs['data-value'] = type
-  mi
-}
-
-
 # -- multi-language support ----
 i18n <- translator  <- Translator$new(translation_csvs_path = "data/translations")
 translator$set_translation_language('en')
