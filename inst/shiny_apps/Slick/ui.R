@@ -73,43 +73,42 @@ sidebar <- dashboardSidebar(
     menuItem("Deterministic", icon = icon("chart-line"), startExpanded = FALSE,
              menuSubItem("Spider", tabName = "spider",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Spider OM", tabName = "spiderOM",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Zigzag", tabName = "zigzag",
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Rail", tabName = "rail",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Violin", tabName = "violin",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Boxplot", tabName = "boxplot",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Kobe", tabName = "kobe",
-                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
              ),
     # Stochastic
     menuItem("Stochastic", icon = icon("code-compare"), startExpanded = FALSE,
-             menuSubItem("Slope", tabName = "slope",
-                                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+             menuSubItem("Boxplot", tabName = "boxplot",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Boxplot OM", tabName = "boxplotOM",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Violin", tabName = "violin",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+
     ),
     # Projected
     menuItem("Projected ", icon = icon("timeline"), startExpanded = FALSE,
+             menuSubItem("Kobe", tabName = "kobe",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Kobe Time", tabName = "kobetime",
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Line", tabName = "line",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Slope", tabName = "slope",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Worm", tabName = "worm",
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
     # State Variables
     menuItem("State Variables", icon = icon("layer-group"), startExpanded = FALSE,
-             menuSubItem("Boxplot OM", tabName = "boxplotOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Spider OM", tabName = "spiderOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Line", tabName = "line",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Line OM", tabName = "lineOM",
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-
-
     )
-    # State
+
   )
 )
 
@@ -167,46 +166,49 @@ body <- dashboardBody(
     tabItem(tabName = "spider",
             SpiderUI('spider')
     ),
+    tabItem(tabName = "spiderOM",
+            value='det',
+            Spider_OMUI('spiderOM')
+    ),
     tabItem(tabName = "zigzag",
             ZigzagUI('zigzag')
     ),
     tabItem(tabName = "rail",
             RailUI('rail')
     ),
-    # tabItem(tabName = "violin",
-    #         ViolinUI('violin')
-    # ),
+    # Stochastic
     tabItem(tabName = "boxplot",
             value='stoch',
             BoxplotUI('boxplot')
     ),
+    tabItem(tabName = "boxplotOM",
+            value='stoch',
+            Boxplot_OMUI('boxplotOM')
+    ),
+    # tabItem(tabName = "violin",
+    #         ViolinUI('violin')
+    # ),
+    # Projected
     tabItem(tabName = "kobe",
             value='proj',
             KobeUI('kobe')
-    ),
-    tabItem(tabName = "slope",
-            value='proj',
-            SlopeUI('slope')
     ),
     tabItem(tabName = "kobetime",
             value='proj',
             KobeTimeUI('kobetime')
     ),
-    tabItem(tabName = "line",
-            value='state',
-            LineUI('line')
+    tabItem(tabName = "slope",
+            value='proj',
+            SlopeUI('slope')
     ),
     # tabItem(tabName = "worm",
     #         value='proj',
     #         LineUI('worm')
     # ),
-    tabItem(tabName = "boxplotOM",
-            value='stoch',
-            Boxplot_OMUI('boxplotOM')
-    ),
-    tabItem(tabName = "spiderOM",
-            value='det',
-            Spider_OMUI('spiderOM')
+    # State
+    tabItem(tabName = "line",
+            value='state',
+            LineUI('line')
     ),
     tabItem(tabName = "lineOM",
             value='state',
