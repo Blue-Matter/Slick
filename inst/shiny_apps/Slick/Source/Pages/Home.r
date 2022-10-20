@@ -48,24 +48,60 @@ HomeServer <- function(id, i18n) {
                                   width=12,
                                   solidHeader=TRUE,
                                   status = "primary",
-                                  # deterministic
-                                  box(title=h2(i18n()$t('Deterministic')),
-                                      tags$ol(
-                                        tags$li(p(i18n()$t(a(onclick='customHref("spider");', style="cursor: pointer;", "Spider:")))
+                                  fluidRow(
+                                    # deterministic
+                                    box(title=h2(i18n()$t('Deterministic')),
+                                        p(i18n()$t('The Deterministic plots are...')),
+                                        tags$ol(
+                                          tags$li(p(i18n()$t(a(onclick='customHref("spider");', style="cursor: pointer;", "Spider:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("spiderOM");', style="cursor: pointer;", "Spider OM:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("zigzag");', style="cursor: pointer;", "Zigzag:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("rail");', style="cursor: pointer;", "Rail:")))
+                                          )
                                         )
-                                      )
+                                    ),
+                                    # stochastic
+                                    box(title=h2(i18n()$t('Stochastic')),
+                                        p(i18n()$t('The Stochastic plots are...')),
+                                        tags$ol(
+                                          tags$li(p(i18n()$t(a(onclick='customHref("boxplot");', style="cursor: pointer;", "Boxplot:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("boxplotOM");', style="cursor: pointer;", "Boxplot OM:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("violin");', style="cursor: pointer;", "Violin:")))
+                                          )
+                                        )
+
+                                    )
                                   ),
-                                  # stochastic
-                                  box(title=h2(i18n()$t('Stochastic')),
-                                      p('hi')
-                                  ),
-                                  # projection
-                                  box(title=h2(i18n()$t('Projected')),
-                                      p('hi')
-                                  ),
-                                  # state
-                                  box(title=h2(i18n()$t('State Variables')),
-                                      p('hi')
+                                  fluidRow(
+                                    # projection
+                                    box(title=h2(i18n()$t('Projected')),
+                                        p(i18n()$t('The Projected plots are...')),
+                                        tags$ol(
+                                          tags$li(p(i18n()$t(a(onclick='customHref("kobe");', style="cursor: pointer;", "Kobe:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("kobetime");', style="cursor: pointer;", "Kobe Time:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("slope");', style="cursor: pointer;", "Slope:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("worm");', style="cursor: pointer;", "Worm:")))
+                                        )
+                                    )
+                                    ),
+                                    # state
+                                    box(title=h2(i18n()$t('State Variables')),
+                                        p(i18n()$t('The State Variables plots are...')),
+                                        tags$ol(
+                                          tags$li(p(i18n()$t(a(onclick='customHref("line");', style="cursor: pointer;", "Line:")))
+                                          ),
+                                          tags$li(p(i18n()$t(a(onclick='customHref("lineOM");', style="cursor: pointer;", "Line OM:")))
+                                          )
+                                        )
+                                    )
                                   )
                               )
                        )
