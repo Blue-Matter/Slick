@@ -56,17 +56,9 @@ ResourcesUI <- function(id, label="resources") {
   tagList(
     fluidRow(
       column(width = 12,
-             h3('MANUALS'),
-             shiny::actionButton(inputId='ab1', label="User Guide",
-                                 icon = icon("question-circle", verify_fa = FALSE),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-User-Guide.html', '_blank')"),
-             shiny::actionButton(inputId='ab1', label="Developers' Manual",
-                                 icon = icon("info-circle", verify_fa = FALSE),
-                                 onclick ="window.open('https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', '_blank')"),
-
-             br(),
+             h3('Slick Developer Manual'),
+             p(a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', 'Developer Guide', target="_blank")),
              h3('MSE-Related Resources'),
-
              htmlOutput(ns('content'))
       )
     )
