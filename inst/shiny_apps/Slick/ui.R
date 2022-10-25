@@ -97,9 +97,7 @@ sidebar <- dashboardSidebar(
              menuSubItem("Kobe Time", tabName = "kobetime",
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Slope", tabName = "slope",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Worm", tabName = "worm",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
     # State Variables
     menuItem("State Variables", icon = icon("layer-group"), startExpanded = FALSE,
@@ -201,10 +199,6 @@ body <- dashboardBody(
             value='proj',
             SlopeUI('slope')
     ),
-    # tabItem(tabName = "worm",
-    #         value='proj',
-    #         LineUI('worm')
-    # ),
     # State
     tabItem(tabName = "line",
             value='state',

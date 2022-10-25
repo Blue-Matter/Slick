@@ -90,30 +90,26 @@ HomeServer <- function(id, i18n) {
 
                                           tags$li(p(a(onclick='customHref("violin");', style="cursor: pointer;", "Violin:"),
                                                     i18n()$t('Similar to Boxplot, but the variability is shown as a kernel density plot.'))
-
                                           )
-
                                         )
                                     )
-
                                   ),
                                   fluidRow(
                                     # projection
                                     box(title=h2(i18n()$t('Projected')),
                                         p(i18n()$t('The Projected plots show results that include a time dimension. These performance metrics include a value for each simulation, OM, MP, and projection time-step.')),
                                         tags$ol(
-                                          tags$li(p(a(onclick='customHref("kobe");', style="cursor: pointer;", "Kobe:")
-                                          )
+                                          tags$li(p(a(onclick='customHref("kobe");', style="cursor: pointer;", "Kobe:"),
+                                                    i18n()$t('A trade-off plot comparing the performance of MP across operating models with respect to two performance metrics. By default the plot shows the projected performance metrics from the final year in the projection period. Uncertainty is displayed using error bars with user-specified percentiles.')),
+                                                  p(i18n()$t('You can see a general example of the Kobe plots'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-05-kobe-plot.pdf', 'here.', target="_blank"))
                                           ),
-                                          tags$li(p(a(onclick='customHref("kobetime");', style="cursor: pointer;", "Kobe Time:")
-                                          )
+                                          tags$li(p(a(onclick='customHref("kobetime");', style="cursor: pointer;", "Kobe Time:"),
+                                                    i18n()$t('Shows the median percentage of simulations (across all operating models) that fall in each of the Kobe quadrants in each projection year.')),
+                                                  p(i18n()$t('You can see a general example of the Kobe Time plots'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-06-kobe-time-plot.pdf', 'here.', target="_blank"))
                                           ),
-                                          tags$li(p(a(onclick='customHref("slope");', style="cursor: pointer;", "Slope:")
-                                          )
-                                          ),
-                                          tags$li(p((a(onclick='customHref("worm");', style="cursor: pointer;", "Worm:")
-                                          )
-                                          )
+                                          tags$li(p(a(onclick='customHref("slope");', style="cursor: pointer;", "Slope:"),
+                                                    i18n()$t('Compares trade-offs in two co-dependent performance metrics. By default the plot shows the projected performance metrics from the final year in the projection period. Uncertainty is displayed using error bars with 90th percentiles.')),
+                                                  p(i18n()$t('You can see a general example of the Slope plots'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-04-slope-plot.pdf', 'here.', target="_blank"))
                                           )
                                         )
                                     ),
@@ -121,12 +117,15 @@ HomeServer <- function(id, i18n) {
                                     box(title=h2(i18n()$t('State Variables')),
                                         p(i18n()$t('The State Variables plots are similar to the Projected plot, but include the historical years.  State variables are quantities that have persisted in the past as well as the future and in this way provide a historical perspective on future MP performance')),
                                         tags$ol(
-                                          tags$li(p(a(onclick='customHref("line");', style="cursor: pointer;", "Line:")
-                                          )
+                                          tags$li(p(a(onclick='customHref("line");', style="cursor: pointer;", "Line:"),
+                                                    i18n()$t('Plots the time-series of a user-specified state varaible from the historical period and for the projection period for each management procedure. Results are summarized across all operating models. Uncertainty in the projection period is summarized as a median, 25th and 75th, and 10th and 90th percentiles.')),
+                                                  p(i18n()$t('You can see a general example of the Line plots'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-08-line-plot.pdf', 'here.', target="_blank"))
                                           ),
-                                          tags$li(p(a(onclick='customHref("lineOM");', style="cursor: pointer;", "Line OM:")
+                                          tags$li(p(a(onclick='customHref("lineOM");', style="cursor: pointer;", "Line OM:"),
+                                                    i18n()$t('Similar to the Line plot, but shows the results for each operating model separately.')),
+                                                  p(i18n()$t('You can see a general example of the Line OM plots'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-11-line-plot.pdf', 'here.', target="_blank"))
                                           )
-                                          )
+
                                         )
                                     )
                                   )

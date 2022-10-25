@@ -66,13 +66,13 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
 
                    if (Object$Loaded>=1) {
                      tagList(
-                       conditionalPanel('input.NonTech=="home" || input.NonTech=="load"',
-                                        column(12, align = 'left', class='multicol',
-                                               h3(i18n()$t('Filters')),
-                                               p(i18n()$t('The filters will appear here when one of the plots on the menu on the left are selected.'))
-                                        )
-                       ),
-                       conditionalPanel('input.NonTech!="home" && input.NonTech!="load"',
+                       # conditionalPanel('input.NonTech=="home" || input.NonTech=="load"',
+                       #                  column(12, align = 'left', class='multicol',
+                       #                         h3(i18n()$t('Filters')),
+                       #                         p(i18n()$t('The filters will appear here when one of the plots on the menu on the left are selected.'))
+                       #                  )
+                       # ),
+                       # conditionalPanel('input.NonTech!="home" && input.NonTech!="load"',
                                         column(12, align = 'left', class='multicol',
                                                h3(i18n()$t('Filters')),
                                                p(i18n()$t('Use the checkboxes to select the Operating Models, Management Procedures, and (where applicable) Performance Metrics.')),
@@ -92,7 +92,8 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                hr(),
 
                                                # Page Specific Filters
-                                               conditionalPanel('input.NonTech=="spider"',
+                                               # deterministic
+                                               conditionalPanel('input.NonTech=="spider" || input.NonTech=="spiderOM" || input.NonTech=="zigzag" || input.NonTech=="rail"',
                                                                 class='multicol2',
                                                                 # h3(Object$obj$Misc$App_axes[1]),
                                                                 h3(i18n()$t('Performance Metric (PM)')),
@@ -101,7 +102,8 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                                 uiOutput(session$ns('PM_Det_filters')),
                                                                 hr()
                                                ),
-                                               conditionalPanel('input.NonTech=="stoch"',
+                                               # stochastic
+                                               conditionalPanel('input.NonTech=="boxplot" || input.NonTech=="boxplotOM" || input.NonTech=="violin"',
                                                                 class='multicol2',
                                                                 h3(i18n()$t('Performance Metric (PM)')),
                                                                 a(i18n()$t('PM Details'), onclick='customHref("load"); customHref("Performance Metrics"); customHref("Stochastic")',
@@ -109,14 +111,6 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                                 uiOutput(session$ns('PM_Stoch_filters')),
                                                                 hr()
                                                ),
-                                               # conditionalPanel('input.NonTech=="proj"',
-                                               #                  class='multicol2',
-                                               #                  h3('Performance Metric'),
-                                               #                  a('PM Glossary', onclick='customHref("load"); customHref("Performance Metrics"); customHref("Projection")',
-                                               #                    style="cursor: pointer;"),
-                                               #                  # uiOutput(session$ns('PM_Proj_filters')),
-                                               #                  hr()
-                                               # ),
                                                conditionalPanel("output.Filt",
                                                                 actionBttn( session$ns("Filt"),"FILTER",icon("cogs"),block=T, style="fill",
                                                                             color='danger',size='sm'))
@@ -124,7 +118,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                # h5("log/debugging"),
                                                #verbatimTextOutput("Log",placeholder=T)
                                         )
-                       )
+                       # )
                      )
                    }
 

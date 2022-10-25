@@ -28,3 +28,6 @@ input <- NULL; input$SV_select <- 1
 input$selectSV <- obj$StateVar$Labels[1]
 input$OM_select <- 4
 
+
+Det$mat %>% dim
+Stoch$mat %>% dim

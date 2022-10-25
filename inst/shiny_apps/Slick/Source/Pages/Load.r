@@ -46,7 +46,6 @@ LoadServer <- function(id, Object, i18n) {
                  })
 
 
-
                  output$metadata <- renderUI({
                    tagList(
                      box(width=6,
@@ -65,43 +64,49 @@ LoadServer <- function(id, Object, i18n) {
                    )
                  })
 
-
-                 output$summary <- renderUI({
-                   if (Object$Ready) {
-                     tagList(tabsetPanel(type = "tabs",
-                                         # tabPanel(i18n()$t("About"), br(),
-                                                  # DT::dataTableOutput(session$ns('metadata'))),
-                                         tabPanel(i18n()$t("Management Procedures"),br(), DT::dataTableOutput(session$ns('MPs'))),
-                                         tabPanel(i18n()$t("Operating Model"), br(),
-                                                  renderUI({
-                                                    tagList(tabsetPanel(type="tabs",
-                                                                        tabPanel('Factors',
-                                                                                 br(), DT::dataTableOutput(session$ns('OMs'))),
-                                                                        tabPanel('Design',
-                                                                                 br(), DT::dataTableOutput(session$ns('OMDes')))
-                                                    ))
-                                                  })
-                                         ),
-                                         tabPanel(i18n()$t("Performance Metrics"), br(),
-                                                  renderUI({
-                                                    tagList(tabsetPanel(type = "tabs",
-                                                                        tabPanel(i18n()$t("Deterministic"),
-                                                                                 br(),DT::dataTableOutput(session$ns('PM_Det'))),
-                                                                        tabPanel(i18n()$t("Stochastic"),
-                                                                                 br(),DT::dataTableOutput(session$ns('PM_Stoch'))),
-                                                                        tabPanel(i18n()$t("Projection"),
-                                                                                 br(),DT::dataTableOutput(session$ns('PM_Proj')))
-                                                    )
-                                                    )
-                                                  })
-                                         )
-
+                 output$management_procedures <- renderUI({
+                   tagList(
+                     box(width=4,
+                         solidHeader=TRUE,
+                         status = "navy",
+                         title=h2(i18n()$t('Management Procedures')),
+                         DT::dataTableOutput(session$ns('MPs'))
                      )
-                     )
-                   }
+                   )
                  })
 
-
+                 output$operating_models <- renderUI({
+                   tagList(
+                     box(width=4,
+                         solidHeader=TRUE,
+                         status = "navy",
+                         title=h2(i18n()$t('Operating Models')),
+                         tabsetPanel(type="tabs",
+                                     tabPanel('Factors',
+                                              br(), DT::dataTableOutput(session$ns('OMs'))),
+                                     tabPanel('Design',
+                                              br(), DT::dataTableOutput(session$ns('OMDes')))
+                         )
+                     )
+                   )
+                 })
+                 output$performance_metrics <- renderUI({
+                   tagList(
+                     box(width=4,
+                         solidHeader=TRUE,
+                         status = "navy",
+                         title=h2(i18n()$t('Performance Metrics')),
+                         tabsetPanel(type = "tabs",
+                                     tabPanel(i18n()$t("Deterministic"),
+                                              br(),DT::dataTableOutput(session$ns('PM_Det'))),
+                                     tabPanel(i18n()$t("Stochastic"),
+                                              br(),DT::dataTableOutput(session$ns('PM_Stoch'))),
+                                     tabPanel(i18n()$t("Projection"),
+                                              br(),DT::dataTableOutput(session$ns('PM_Proj')))
+                         )
+                     )
+                   )
+                 })
 
                  output$MPs <- renderDataTable({
                    if(!Object$Ready) return()
@@ -110,7 +115,7 @@ LoadServer <- function(id, Object, i18n) {
                      Label=Object$obj$MP$Labels,
                      Description=Object$obj$MP$Description
                    )
-                   DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none')
+                   DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
 
                  output$OMs <- renderDataTable({
@@ -118,7 +123,7 @@ LoadServer <- function(id, Object, i18n) {
                    df <- data.frame(Factor =  rep(Object$obj$OM$Factor_Labels,unlist(lapply(Object$obj$OM$Codes,FUN=function(x)length(x)))),
                                     Level = unlist(Object$obj$OM$Codes),
                                     Description = unlist(Object$obj$OM$Description))
-                   DT::datatable(df, extensions = 'Responsive', selection='none')
+                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
 
                  output$OMDes <- renderDataTable({
@@ -127,7 +132,7 @@ LoadServer <- function(id, Object, i18n) {
                    df<-data.frame(df)
                    names(df)<-Object$obj$OM$Factor_Labels
                    for(i in 1:ncol(df))  df[,i]<-Object$obj$OM$Codes[[i]][Object$obj$OM$Design[,i]]
-                   DT::datatable(df, extensions = 'Responsive', selection='none')
+                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
 
                  output$PM_Det <- renderDataTable({
@@ -136,7 +141,7 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Det$Labels,
                                      Description=Object$obj$Perf$Det$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
 
                  output$PM_Stoch <- renderDataTable({
@@ -145,7 +150,7 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Stoch$Labels,
                                      Description=Object$obj$Perf$Stoch$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
 
                  output$PM_Proj <- renderDataTable({
@@ -154,17 +159,8 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Proj$Labels,
                                      Description=Object$obj$Perf$Proj$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none')
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
                  })
-
-                 output$download <- renderUI({
-                   if(!Object$Ready) return()
-                   tagList(
-                     downloadButton('downloadData', 'Download')
-                   )
-                 })
-
-
 
 
                }
@@ -181,22 +177,18 @@ LoadUI <- function(id, label="load") {
     usei18n(i18n),
     fluidRow(
       htmlOutput(ns('load')),
-      # htmlOutput(ns('load'))
       conditionalPanel('output.Loaded>0',
-                       uiOutput(ns('metadata')),
-
-                       box(width=12,
-                           solidHeader=TRUE,
-                           status = "primary",
-                           title=h2(uiOutput(ns("Title"))),
-                           h5( uiOutput(ns("Subtitle"))),
-                           p( uiOutput(ns("Intro1"))),
-                           p( uiOutput(ns("Intro2"))),
-                           p( uiOutput(ns("Intro3"))),
-                           uiOutput(ns('summary'))
-                       )
+                       uiOutput(ns('metadata'))
       )
-
+    ),
+    fluidRow(
+      conditionalPanel('output.Loaded>0',
+                       uiOutput(ns('management_procedures')),
+                       uiOutput(ns('operating_models')),
+                       uiOutput(ns('performance_metrics'))
+      )
     )
   )
 }
+
+
