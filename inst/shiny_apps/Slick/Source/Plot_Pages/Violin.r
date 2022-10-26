@@ -1,6 +1,5 @@
-# This is page 9 of the Plot_Finals.pdf
 
-BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
+ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
@@ -24,7 +23,7 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                  output$title <- renderUI({
                    tagList(
                      div(class='page_title',
-                         h3(i18n()$t('Boxplot'), id='title')
+                         h3(i18n()$t('Violin'), id='title')
                      )
                    )
                  })
@@ -34,8 +33,8 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                    n.MP <- sum(MPkeep$selected)
                    n.OM <- sum(SNkeep$selected)
                    if (n.OM>0 & n.MP>0) {
-                     str <- paste0(n.MP, ' management procedures. ',
-                                   'Median values over ', n.OM,  ' operating models.')
+                     str <- paste(n.MP, i18n()$t('management procedures.'),
+                                  i18n()$t('Median values over'), n.OM,  i18n()$t('operating models.'))
 
                    } else {
                      str <-''
@@ -47,8 +46,8 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                    )
                  })
 
-                 summaryServer('page8', Stoch, MPkeep, Stochkeep, SNkeep, Object,
-                               page_8_summary, minPMs = 2)
+                 summaryServer('violin', Stoch, MPkeep, Stochkeep, SNkeep, Object,
+                               violin_summary, minPMs = 2)
 
                  output$reading <- renderUI({
                    if(!Object$Loaded) return()
@@ -86,9 +85,16 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                    nPMds <- sum(Stochkeep$selected)
                    plot_output_list <- lapply(1:nPMds, function(mm) {
                      plotname <- paste("plot", mm, sep="")
-                     shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=250))
+                     shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='300px'))
                    })
-                   do.call(flowLayout , plot_output_list)
+
+                   plot_output_list$cellArgs <- list(
+                   style = "
+                   width: auto;
+                   height: auto;
+                   margin: 5px;
+                   ")
+                   do.call(flowLayout, plot_output_list)
                  })
 
                  observe({
@@ -98,8 +104,8 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                        my_i <- i
                        plotname <- paste("plot", my_i, sep="")
                        output[[plotname]] <- renderPlot({
-                         trade_plot3(Stoch, MPkeep, Stochkeep, SNkeep, PM=my_i, Object$obj)
-                       })
+                         print(violinplot(Stoch, MPkeep, Stochkeep, SNkeep, PM=my_i, Object$obj))
+                       }, width=300)
                      })
                    }
                  })
@@ -111,8 +117,9 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
 }
 
 
-BoxplotUI <- function(id, label="NTP8") {
+ViolinUI <- function(id, label="violin") {
   ns <- NS(id)
+
   tagList(
     fluidRow(
       column(width = 6,
@@ -128,7 +135,7 @@ BoxplotUI <- function(id, label="NTP8") {
                      fluidRow(
                        column(width = 8,
                               div(
-                                summaryUI(ns('page8'))
+                                summaryUI(ns('violin'))
                               )
                        )
                      ),
@@ -136,9 +143,7 @@ BoxplotUI <- function(id, label="NTP8") {
                        column(width=3, class='page_reading',
                               div(
                                 h4(strong("READING THIS CHART")),
-                                htmlOutput(ns('reading')),
-                                br(),
-                                img(src='img/Boxplot.jpg', width='100%')
+                                htmlOutput(ns('reading'))
                               )
 
                        ),
@@ -147,11 +152,13 @@ BoxplotUI <- function(id, label="NTP8") {
                                        height='650px')
                        )
                      )
+
     )
+
   )
 }
 
-trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
+violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
   Codes <- obj$Perf$Stoch$Codes[Stochkeep$selected] # PM codes
 
   nSNs <- sum(SNkeep$selected) # number SN selected
@@ -160,61 +167,42 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
   MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- factor(MPnames, ordered = TRUE, levels=MPnames)
 
+  p <- NULL
   if (nMPs>1 & nPMds >1 & nSNs>0) {
 
     Values <- Stoch$mat[,SNkeep$selected, MPkeep$selected, Stochkeep$selected]
 
     if(!any(dim(Values)<1)) {
-      med.cex <- 2.5
-      qrt.lwd <- 4
-      rng.lwd <- 1
-      main.cex <- 1.25
 
       dd <- dim(Values)[4]
+      nsim <- dim(Values)[1]
 
       if (PM <= dd) {
         Val <- Values[,,,PM]
+        df <- data.frame(x=rep(MPnames, each=nSNs*nsim), value=as.vector(Val))
 
-        if (length(Val)>0) {
-          med <- apply(Val,3, median)
-          qrt <- apply(Val,3, quantile, c(0.25, 0.75))
-          rng <- apply(Val,3, range)
-
-          maxY <- max(rng)
-          if (maxY > 10) {
-            maxY <- 10^(ceiling(log10(maxY)))
-          } else {
-            maxY <- ceiling(maxY)
-          }
-
-          par(mfrow=c(1,1), oma=c(2,2,3,0), mar=c(1,2,1,1))
-          plot(c(0,nMPs+1), c(0, maxY), type='n', axes=FALSE, ylab='', xlab='')
-          polygon(c(0, nMPs+1, nMPs+1, 0),
-                  c(0, 0, maxY, maxY),
-                  col='#ededed', border=NA)
-          at <- seq(0, maxY, by=maxY/5)
-          abline(h=at, col='white')
-          text(0, at, at, col='#8c8c8c', xpd=NA, cex=1.25, pos=2)
-          points(1:nMPs, med, pch=16, col=MPcols, cex=med.cex, xpd=NA)
-          for (i in 1:nMPs) {
-            lines(c(i,i), qrt[,i], col=MPcols[i], lwd=qrt.lwd)
-            lines(c(i,i), rng[,i], col=MPcols[i], lwd=rng.lwd)
-          }
-          mtext(side=3, line=0, Codes[PM], font=2, cex=main.cex,
-                adj=0)
-        }
-
+        p <- ggplot(df, aes(x=x, y=value, fill=x)) +
+          geom_violin() +
+          labs(x='', y='', title=Codes[PM]) +
+          expand_limits(y=c(0,100)) +
+          guides(fill='none') +
+          scale_y_continuous(expand = c(0, 0)) +
+          theme(axis.title.x = element_blank(),
+                axis.text.x = element_blank(),
+                axis.text=element_text(size=16),
+                plot.title = element_text(face="bold")) +
+          scale_fill_manual(values=MPcols)
       }
-
+      p
     }
   }
-
-
+  p
 }
 
 
-page_8_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
+violin_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
   Codes <- Object$obj$Perf$Stoch$Codes[Stochkeep$selected] # PM codes
 
   nSNs <- sum(SNkeep$selected) # number SN selected

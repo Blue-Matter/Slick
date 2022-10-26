@@ -2,11 +2,34 @@
 
 # This is page 12 of Plot_Finals.pdf
 
-LineOMServer <- function(id, MPkeep, SNkeep, Object) {
+LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Line OM'), id='title')
+                     )
+                   )
+                 })
 
                  output$subtitle <- renderUI({
                    if(!Object$Ready) return()
@@ -19,7 +42,9 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -75,7 +100,7 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object) {
                    plot_output_list <- lapply(1:n.SN, function(mm) {
                      plotname <- paste("plot", mm, sep="")
                      tagList(
-                       plotOutput(session$ns(plotname), width='150px', height='400px')
+                       shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='150px', height='400px'))
                      )
 
                    })
@@ -170,54 +195,57 @@ Line_OMUI <- function(id, label="lineOM") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Stock Projections', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
+
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
     ),
-    fluidRow(
-      column(width = 8,
-             div(
-                 summaryUI(ns('lineOM'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width=3,
-             br(),
-             h4(strong("Management Procedure")),
-             htmlOutput(ns('MPlist'))
-      ),
-      column(width=3,  class='page_reading',
-             h4(strong("READING THIS CHART")),
-             htmlOutput(ns('reading'))
-             ),
-      column(width=3,
-             img(src='img/LineOM.jpg', width='100%')
-             ),
-      column(width=4,
-             br(),
-             htmlOutput(ns('SV_dropdown'))
-      )
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 8,
+                              div(
+                                summaryUI(ns('lineOM'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width=3,
+                              br(),
+                              h4(strong("Management Procedure")),
+                              htmlOutput(ns('MPlist'))
+                       ),
+                       column(width=3,  class='page_reading',
+                              h4(strong("READING THIS CHART")),
+                              htmlOutput(ns('reading'))
+                       ),
+                       column(width=3,
+                              img(src='img/LineOM.jpg', width='100%')
+                       ),
+                       column(width=4,
+                              br(),
+                              htmlOutput(ns('SV_dropdown'))
+                       )
 
-    ),
-    fluidRow(
-      column(width=4, class='top_border',
-             br(), br(),
-             uiOutput(ns('hist_text')),
-             div(
-                 plotOutput(ns('main_plot'))
-             )
-      ),
-      column(width=8, class='top_border',
-             h4('Operating Models',style="text-align: left;"),
-             uiOutput(ns('proj_text')),
-             uiOutput(ns('mp_plots'))
+                     ),
+                     fluidRow(
+                       column(width=4, class='top_border',
+                              br(), br(),
+                              uiOutput(ns('hist_text')),
+                              div(
+                                shinycssloaders::withSpinner(plotOutput(ns('main_plot')))
+                              )
+                       ),
+                       column(width=8, class='top_border',
+                              h4('Operating Models',style="text-align: left;"),
+                              uiOutput(ns('proj_text')),
+                              uiOutput(ns('mp_plots'))
 
 
-      )
+                       )
+                     )
     )
   )
 }

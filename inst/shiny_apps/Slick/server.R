@@ -83,6 +83,8 @@ server <- function(input, output, session) {
   # Log (currently not used)
   Log_text <- reactiveValues(text="nothing happened yet")
 
+
+
   # -- Observe Events -----
   observeEvent(input$Load, {
     Object$File <- input$Load
@@ -224,41 +226,37 @@ server <- function(input, output, session) {
   # load
   LoadServer('load', Object, i18n = i18n)
 
-
-  # page 1
-  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object, window_dims) # uses modules, all server and ui code contained in Page_1.r
-
-  # page 2
-  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims) # uses modules, all server and ui code contained in Page_2.r
-
-  # page 3
-  RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object)
-
-  # page 4
-  KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 5
-  KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 6
-  LineServer('line', MPkeep, SNkeep, Object)
-
-  # page 7
-  SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 8
-  BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object)
-
-  # page 9
-  Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object)
-
-  # page 10
-  Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object)
-
-  # page 11
-  LineOMServer('lineOM', MPkeep, SNkeep, Object)
-
+  # resources
   ResourcesServer('resources')
+
+  # Plots
+  # Deterministic
+  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
+
+  Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
+
+  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
+
+  RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
+
+  # Stochastic
+  BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  ViolinServer('violin', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  # Projected
+  KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  # State Variables
+  LineServer('line', MPkeep, SNkeep, Object, i18n)
+
+  LineOMServer('lineOM', MPkeep, SNkeep, Object, i18n)
 
 
   # Log ----------------------------------------------------------

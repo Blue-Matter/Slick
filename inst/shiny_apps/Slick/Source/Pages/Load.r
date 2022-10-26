@@ -174,7 +174,6 @@ LoadUI <- function(id, label="load") {
   ns <- NS(id)
 
   tagList(
-    usei18n(i18n),
     fluidRow(
       htmlOutput(ns('load')),
       conditionalPanel('output.Loaded>0',

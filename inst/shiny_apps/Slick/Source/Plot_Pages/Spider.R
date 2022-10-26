@@ -2,11 +2,35 @@
 
 # This is page 1 and page 2 of Plot_Finals.pdf
 
-SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) {
+SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Spider'), id='title')
+                     )
+                   )
+                 })
 
                  # subtitle - dynamic nMP and nOM
                  output$subtitle <- renderUI({
@@ -18,8 +42,10 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                    if (n.PM <=2) {
                      return(
                        tagList(
+                         div(class='page_title',
                          p('Please select 3 or more Performance Metrics', id='subtitle',
                            style="color:red;")
+                         )
                        )
                      )
                    }
@@ -33,7 +59,9 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                    }
 
                    tagList(
+                     div(class='page_title',
                      p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -72,9 +100,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                          )
                        )
                      }
-
                    }
-
                  })
 
                  output$mpsub <- renderUI({
@@ -87,7 +113,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                                 h3('Management Procedure', class='lah'),
                                 h4(strong('Overall scores'), '(average of ', n.select,
                                    'performance metrics).'),
-                                plotOutput(session$ns('filled_hex'), height='auto')
+                                shinycssloaders::withSpinner(plotOutput(session$ns('filled_hex'), height='auto'))
                        ),
                        column(width = 1),
                        column(width = 5,
@@ -98,7 +124,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                                 inline = TRUE, width = "200px"
                                 ),
                               h4('Performance metrics measured'),
-                              plotOutput(session$ns('PM_outline'), width=125, height=125),
+                              shinycssloaders::withSpinner(plotOutput(session$ns('PM_outline'), width=125, height=125)),
                               htmlOutput(session$ns('PMlist'))
                               )
                        )
@@ -229,54 +255,58 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
 }
 
 
+
 SpiderUI <- function(id, label="spider") {
 
   ns <- NS(id)
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Performance Comparison', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
-                 )
-             )
-    ),
-    fluidRow(
-      column(width=5,
-             div(
-               summaryUI(ns('page1'))
-                 # uiOutput(ns('summary'), class='page_summary')
-                 )
-             )
-    ),
-    fluidRow(class='bottom_border',
-          column(width = 3, class='right_border',
-                 fluidRow(class='page_reading',
-                          column(12,
-                                 h4(strong("READING THIS CHART")),
-                                 htmlOutput(ns('reading'))
-                          )
-                 )
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
 
-          ),
-          column(width=9,
-                 div(class='filled_hex',
-                     uiOutput(ns('mpsub'), class='lah')
-                 )
-          )
-    ),
-    fluidRow(
-      column(width=4, class='right_border',
-             div(class="spider_plot", align='center',
-                 h3('Performance Metrics', class='lah'),
-                 plotOutput(ns('spider_plot'),height='600px')
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
-      ),
-      column(width=8, class='perftable',
-             h3('Performance Table', class='lah'),
-             DT::dataTableOutput(ns('perftab'))
       )
+    ),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width=5,
+                              div(
+                                summaryUI(ns('page1'))
+                                # uiOutput(ns('summary'), class='page_summary')
+                              )
+                       )
+                     ),
+                     fluidRow(class='bottom_border',
+                              column(width = 3, class='right_border',
+                                     fluidRow(class='page_reading',
+                                              column(12,
+                                                     h4(strong("READING THIS CHART")),
+                                                     htmlOutput(ns('reading'))
+                                              )
+                                     )
+
+                              ),
+                              column(width=9,
+                                     div(class='filled_hex',
+                                         uiOutput(ns('mpsub'), class='lah')
+                                     )
+                              )
+                     ),
+                     fluidRow(
+                       column(width=4, class='right_border',
+                              div(class="spider_plot", align='center',
+                                  h3('Performance Metrics', class='lah'),
+                                  shinycssloaders::withSpinner(plotOutput(ns('spider_plot'),height='600px'))
+                              )
+                       ),
+                       column(width=7, class='perftable',
+                              h3('Performance Table', class='lah'),
+                              DT::dataTableOutput(ns('perftab'))
+                       )
+                     )
     )
   )
 }
@@ -457,15 +487,6 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
 }
 
 
-CheckLoaded <- function(Object) {
-  renderUI({
-    if(!Object$Loaded)
-      h4('Slick object not loaded. Please return to ', a('Load', onclick='customHref("load")',
-                                        style='color:blue; cursor: pointer;'),
-         'and load a Slick object', style = "color:red")
-  })
-}
-
 
 page_1_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
 
@@ -531,3 +552,25 @@ pm_outline_plot <- function(n.PM) {
   }
 
 }
+
+
+
+CheckLoaded <- function(Object, i18n=i18n) {
+  renderUI({
+    if(!Object$Loaded) {
+      return(
+        tagList(
+          box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+              solidHeader = TRUE,
+              p(
+                i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                style='color:blue; cursor: pointer;'),
+                i18n()$t('and load a Slick file')
+              )
+          )
+        )
+      )
+    }
+  })
+}
+

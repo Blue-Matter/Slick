@@ -2,11 +2,35 @@
 
 # This is page 3 of the Plot_Finals.pdf
 
-ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) {
+ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Zigzag'), id='title')
+                     )
+                   )
+                 })
 
                  # subtitle - dynamic nMP and nOM
                  output$subtitle <- renderUI({
@@ -17,8 +41,10 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                    if (n.PM <=1) {
                      return(
                        tagList(
+                         div(class='page_title',
                          p('Please select 3 or more Performance Metrics', id='subtitle',
                            style="color:red;")
+                         )
                        )
                      )
                    }
@@ -33,7 +59,9 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims) 
                    }
 
                    tagList(
+                     div(class='page_title',
                      p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -124,37 +152,42 @@ ZigzagUI <- function(id, label="zigzag") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Performance Comparison', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 5,
-             div(summaryUI(ns('page2'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 3,
-             fluidRow(class='page_reading',
-                      column(12,
-                             h4(strong("READING THIS CHART")),
-                             htmlOutput(ns('reading'))
-                      )
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
 
-             ),
-      ),
-      column(width=8, class='left_border',
-             fluidRow(
-               plotOutput(ns('pg2_results'),
-                          height='650px'),
-               h3('Performance Table', class='lah'),
-               DT::dataTableOutput(ns('perftab'))
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
+    ),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 5,
+                              div(summaryUI(ns('page2'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width = 3,
+                              fluidRow(class='page_reading',
+                                       column(12,
+                                              h4(strong("READING THIS CHART")),
+                                              htmlOutput(ns('reading'))
+                                       )
+
+                              ),
+                       ),
+                       column(width=8, class='left_border',
+                              fluidRow(
+                                shinycssloaders::withSpinner(plotOutput(ns('pg2_results'),
+                                           height='650px')),
+                                h3('Performance Table', class='lah'),
+                                column(6,
+                                       DT::dataTableOutput(ns('perftab'))
+                                )
+                              )
+                       )
+                     )
     )
   )
 }
@@ -209,7 +242,7 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
       scale_x_continuous(limits=c(0, 100), labels= function(x) paste0(x, "%")) +
       labs(x='Minimum to Maximum / Worse to Better',
            y="Performance Metrics") +
-      guides(color=FALSE) +
+      guides(color="none") +
       expand_limits(y=c(1, nPMds+2), x=c(0,100))
 
     top_text <- data.frame(MP=MPnames,
@@ -230,7 +263,7 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
 
     # vertical lines
     df_lines <- data.frame(x=rep(mp_mean, 2),
-                           y=c(rep(1, nMPs), rep(nPMds+1,, nMPs)),
+                           y=c(rep(1, nMPs), rep(nPMds+1,nMPs)),
                            MP=rep(MPnames,2))
     p1 <- p1 + geom_line(data=df_lines,
                          aes(x=x, y=y, group=MP, color=MP), linetype='dotted')

@@ -112,7 +112,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                                 hr()
                                                ),
                                                conditionalPanel("output.Filt",
-                                                                actionBttn( session$ns("Filt"),"FILTER",icon("cogs"),block=T, style="fill",
+                                                                actionBttn( session$ns("Filt"),"FILTER",icon("cogs", verify_fa=FALSE),block=T, style="fill",
                                                                             color='danger',size='sm'))
 
                                                # h5("log/debugging"),

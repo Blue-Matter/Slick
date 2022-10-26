@@ -1,10 +1,34 @@
 # This is page 7 of the Plot_Finals.pdf
 
-KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
+KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Kobe'), id='title')
+                     )
+                   )
+                 })
 
                  output$subtitle <- renderUI({
                    if(!Object$Loaded) return()
@@ -18,7 +42,9 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -110,34 +136,37 @@ KobeUI <- function(id, label="kobe") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Trade-off Plot', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
+
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
     ),
-    fluidRow(
-      column(width = 5,
-             div(
-               summaryUI(ns('page6'))
-             )
-      ),
-      column(width = 4,
-             htmlOutput(ns('PM_dropdown'))
-             ),
-      column(width = 2,
-             htmlOutput(ns('Select_quantiles'))
-      )
-    ),
-    fluidRow(
-      column(width=3, class='page_reading',
-             h4(strong("READING THIS CHART")),
-             htmlOutput(ns('reading'))
-      ),
-      column(width=7,
-             plotOutput(ns('trade_plot'))
-      )
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 5,
+                              div(
+                                summaryUI(ns('page6'))
+                              )
+                       ),
+                       column(width = 4,
+                              htmlOutput(ns('PM_dropdown'))
+                       ),
+                       column(width = 2,
+                              htmlOutput(ns('Select_quantiles'))
+                       )
+                     ),
+                     fluidRow(
+                       column(width=3, class='page_reading',
+                              h4(strong("READING THIS CHART")),
+                              htmlOutput(ns('reading'))
+                       ),
+                       column(width=7,
+                              shinycssloaders::withSpinner(plotOutput(ns('trade_plot')))
+                       )
+                     )
     )
   )
 }
@@ -261,7 +290,7 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
           scale_linetype_manual(values = c(2,3)) +
           theme_classic() +
           coord_cartesian(clip = 'off') +
-          guides(fill=FALSE, label=FALSE,
+          guides(fill="none", label="none",
                  linetype=guide_legend(keywidth = 3, keyheight = 1)) +
           labs(x=input$selectPM1,
                y=input$selectPM2,

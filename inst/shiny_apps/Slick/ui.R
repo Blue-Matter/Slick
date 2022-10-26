@@ -70,7 +70,7 @@ sidebar <- dashboardSidebar(
     menuItem("Load", tabName = "load", icon = icon("upload")),
 
     # Deterministic
-    menuItem("Deterministic", icon = icon("chart-line"), startExpanded = FALSE,
+    menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = FALSE,
              menuSubItem("Spider", tabName = "spider",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Spider OM", tabName = "spiderOM",
@@ -81,7 +81,7 @@ sidebar <- dashboardSidebar(
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE))
              ),
     # Stochastic
-    menuItem("Stochastic", icon = icon("code-compare"), startExpanded = FALSE,
+    menuItem("Stochastic", icon = icon("chart-scatter", verify_fa=FALSE), startExpanded = FALSE,
              menuSubItem("Boxplot", tabName = "boxplot",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Boxplot OM", tabName = "boxplotOM",
@@ -91,7 +91,7 @@ sidebar <- dashboardSidebar(
 
     ),
     # Projected
-    menuItem("Projected ", icon = icon("timeline"), startExpanded = FALSE,
+    menuItem("Projected ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = FALSE,
              menuSubItem("Kobe", tabName = "kobe",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Kobe Time", tabName = "kobetime",
@@ -121,6 +121,7 @@ body <- dashboardBody(
     includeScript(path = "www/js/js4checkbox.js"),
     includeScript(path = "www/js/index.js"),
     tags$link(rel='stylesheet', type='text/css', href='styles.css'),
+    tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
 
     tags$style(HTML("#SessionID{font-size:12px;}")),
     tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
@@ -183,9 +184,9 @@ body <- dashboardBody(
             value='stoch',
             Boxplot_OMUI('boxplotOM')
     ),
-    # tabItem(tabName = "violin",
-    #         ViolinUI('violin')
-    # ),
+    tabItem(tabName = "violin",
+            ViolinUI('violin')
+    ),
     # Projected
     tabItem(tabName = "kobe",
             value='proj',

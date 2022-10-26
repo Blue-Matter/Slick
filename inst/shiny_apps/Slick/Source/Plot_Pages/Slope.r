@@ -1,10 +1,33 @@
 # This is page 8 of the Plot_Finals.pdf
 
-SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
+SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Slope'), id='title')
+                     )
+                   )
+                 })
 
                  # subtitle - dynamic nMP and nOM
                  output$subtitle <- renderUI({
@@ -19,7 +42,9 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -146,43 +171,47 @@ SlopeUI <- function(id, label="slope") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Trade-off Plot', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 5,
-             div(
-               summaryUI(ns('page7'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width=6, class='page_reading',
-             h4(strong("READING THIS CHART")),
-             htmlOutput(ns('reading'))
-      ),
-      column(width = 4,
-             htmlOutput(ns('PM_dropdown'))
-      )
-    ),
-    br(),
-    br(),
-    fluidRow(
-      column(width=12,
-             plotOutput(ns('results'),
-                        width='100%')
-      )
-    ),
-    fluidRow(class="top_border",
-             column(12,
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
 
-             h3('Performance Table', class='lah'),
-             DT::dataTableOutput(ns('results_ranking'), width='100%')
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
+             )
       )
+    ),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 5,
+                              div(
+                                summaryUI(ns('page7'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width=6, class='page_reading',
+                              h4(strong("READING THIS CHART")),
+                              htmlOutput(ns('reading'))
+                       ),
+                       column(width = 4,
+                              htmlOutput(ns('PM_dropdown'))
+                       )
+                     ),
+                     br(),
+                     br(),
+                     fluidRow(
+                       column(width=12,
+                              shinycssloaders::withSpinner(plotOutput(ns('results'),
+                                         width='100%'))
+                       )
+                     ),
+                     fluidRow(class="top_border",
+                              column(12,
+                                     column(8,
+                                            h3('Performance Table', class='lah'),
+                                            DT::dataTableOutput(ns('results_ranking'), width='100%')
+                                     )
+                              )
+                     )
     )
   )
 }

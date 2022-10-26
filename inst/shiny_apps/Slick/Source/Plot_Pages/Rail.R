@@ -1,11 +1,36 @@
 # ---- Page 3 - Performance Comparison ----
 
 # This is page 4 of the Plot_Finals.pdf
-RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
+RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
                  output$checkloaded <- CheckLoaded(Object)
+
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Rail'), id='title')
+                     )
+                   )
+                 })
 
                  # subtitle - dynamic nMP and nOM
                  output$subtitle <- renderUI({
@@ -16,8 +41,10 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                    if (n.PM <=1) {
                      return(
                        tagList(
-                         p('Please select 3 or more Performance Metrics', id='subtitle',
+                         div(class='page_title',
+                             p('Please select 3 or more Performance Metrics', id='subtitle',
                            style="color:red;")
+                         )
                        )
                      )
                    }
@@ -31,7 +58,9 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                    }
 
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -127,38 +156,43 @@ RailUI <- function(id, label="rail") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Performance Comparison', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 5,
-             div(
-               summaryUI(ns('page3'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 3,
-             fluidRow(class='page_reading',
-                      column(12,
-                             h4(strong("READING THIS CHART")),
-                             htmlOutput(ns('reading'))
-                      )
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
 
-             ),
-      ),
-      column(width=8, class='left_border',
-             fluidRow(
-               plotOutput(ns('results'),
-                          height='650px'),
-               h3('Performance Table', class='lah'),
-               DT::dataTableOutput(ns('perftab'))
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
+    ),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 5,
+                              div(
+                                summaryUI(ns('page3'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width = 3,
+                              fluidRow(class='page_reading',
+                                       column(12,
+                                              h4(strong("READING THIS CHART")),
+                                              htmlOutput(ns('reading'))
+                                       )
+
+                              ),
+                       ),
+                       column(width=8, class='left_border',
+                              fluidRow(
+                                shinycssloaders::withSpinner(plotOutput(ns('results'),
+                                           height='650px')),
+                                h3('Performance Table', class='lah'),
+                                column(6,
+                                       DT::dataTableOutput(ns('perftab'))
+                                )
+                              )
+                       )
+                     )
     )
   )
 }
@@ -230,7 +264,7 @@ horiz_line_plot <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
       scale_x_continuous(limits=c(0, 100), labels= function(x) paste0(x, "%")) +
       annotate('text', x=50, y=nPMds+1.8, label="bold(Overall~scores)~(average)",
                parse=TRUE, size=5) +
-      guides(color=FALSE) +
+      guides(color="none") +
       labs(x='Minimum to Maximum / Worse to Better', y='Performance Metrics', title='') +
       theme_bw() +
       scale_color_manual(values=cols) +

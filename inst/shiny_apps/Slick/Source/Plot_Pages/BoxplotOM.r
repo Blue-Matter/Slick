@@ -1,10 +1,33 @@
 # This is page 10 of the Plot_Finals.pdf
 
-Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
+Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Boxplot OM'), id='title')
+                     )
+                   )
+                 })
 
                  output$subtitle <- renderUI({
                    if(!Object$Loaded) return()
@@ -18,7 +41,9 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -117,7 +142,7 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object) {
 
                          myList <- lapply(1:nSNs, function(mm) {
                            plot_name <- paste("plot", my_i, mm, sep="")
-                           plotOutput(session$ns(plot_name), width=100, height=150)
+                           shinycssloaders::withSpinner(plotOutput(session$ns(plot_name), width=100, height=150))
                          })
                          myList$cellArgs <- list(
                            style = "
@@ -157,34 +182,37 @@ Boxplot_OMUI <- function(id, label="boxplotOM") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Trade-off and Performance', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 9,
-             div(
-               summaryUI(ns('page9'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width=3, class='page_reading',
-             div(
-               h4(strong("READING THIS CHART")),
-               htmlOutput(ns('reading')),
-               br(),
-               img(src='img/Boxplot.jpg', width='100%')
-             )
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
 
-      ),
-      column(width = 9, class='left_border',
-             uiOutput(ns('results')
-                      )
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
+             )
       )
+    ),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 9,
+                              div(
+                                summaryUI(ns('page9'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width=3, class='page_reading',
+                              div(
+                                h4(strong("READING THIS CHART")),
+                                htmlOutput(ns('reading')),
+                                br(),
+                                img(src='img/Boxplot.jpg', width='100%')
+                              )
+
+                       ),
+                       column(width = 9, class='left_border',
+                              uiOutput(ns('results')
+                              )
+                       )
+                     )
     )
   )
 }

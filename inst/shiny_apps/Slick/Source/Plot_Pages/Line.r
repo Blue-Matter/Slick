@@ -1,10 +1,33 @@
 # This is page 6 of the Plot_Finals.pdf
 
-LineServer <- function(id, MPkeep, SNkeep, Object) {
+LineServer <- function(id, MPkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Line'), id='title')
+                     )
+                   )
+                 })
 
                  output$subtitle <- renderUI({
                    if(!Object$Loaded) return()
@@ -21,7 +44,9 @@ LineServer <- function(id, MPkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -80,7 +105,7 @@ LineServer <- function(id, MPkeep, SNkeep, Object) {
                    nMPs <- sum(MPkeep$selected)
                    plot_output_list <- lapply(1:nMPs, function(mm) {
                      plotname <- paste("plot", mm, sep="")
-                     plotOutput(session$ns(plotname), width=250)
+                     shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=250))
                    })
                    do.call(flowLayout , plot_output_list)
                  })
@@ -109,47 +134,50 @@ LineUI <- function(id, label="line") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Stock Projection', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
+
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
     ),
-    fluidRow(
-      column(width = 5,
-             div(
-               summaryUI(ns('page5'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 3, class='page_reading',
-             h4(strong("READING THIS CHART")),
-             htmlOutput(ns('reading'))
-      ),
-      column(width=3,
-             br(),
-             img(src='img/Line.jpg', width="100%")
-      ),
-      column(width=1,
-      ),
-      column(width=4,
-             br(),
-             htmlOutput(ns('SV_dropdown'))
-      )
-    ),
-    fluidRow(
-      column(width=4, class='top_border',
-             plotOutput(ns('main_plot'))
-                      # hover = ns("plot_hover"),
-                      # height='450px'),
-      ),
-      column(width=8, class='top_border',
-             uiOutput(ns('mp_plots'))#,
-                      # hover = ns("plot_hover"),
-                      # height='450px')
-      )
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width = 5,
+                              div(
+                                summaryUI(ns('page5'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width = 3, class='page_reading',
+                              h4(strong("READING THIS CHART")),
+                              htmlOutput(ns('reading'))
+                       ),
+                       column(width=3,
+                              br(),
+                              img(src='img/Line.jpg', width="100%")
+                       ),
+                       column(width=1,
+                       ),
+                       column(width=4,
+                              br(),
+                              htmlOutput(ns('SV_dropdown'))
+                       )
+                     ),
+                     fluidRow(
+                       column(width=4, class='top_border',
+                              shinycssloaders::withSpinner(plotOutput(ns('main_plot')))
+                              # hover = ns("plot_hover"),
+                              # height='450px'),
+                       ),
+                       column(width=8, class='top_border',
+                              uiOutput(ns('mp_plots'))#,
+                              # hover = ns("plot_hover"),
+                              # height='450px')
+                       )
+                     )
     )
   )
 }

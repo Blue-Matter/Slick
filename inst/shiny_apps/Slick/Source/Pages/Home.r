@@ -38,7 +38,7 @@ HomeServer <- function(id, i18n) {
                                   h3(i18n()$t('3. Explore the MSE Results')),
                                   p(i18n()$t('Once you have uploaded a Slick Data File containing MSE results, you can explore these results in one of the 12 Slick visualization plots. See the Slick Plots box below for more information on the plots')),
                                   h3(i18n()$t('4. Filter the MSE Results')),
-                                  p(i18n()$t('The Filter button in the top right corner can be used to filter the MSE results show in the plots. See the box below for more details.'))
+                                  p(i18n()$t('The Filter button in the top right corner can be used to filter the MSE results show in the plots.'))
                                   )
                        )
                      ),

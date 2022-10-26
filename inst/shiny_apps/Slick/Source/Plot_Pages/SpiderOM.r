@@ -2,11 +2,34 @@
 
 # This is page 11 of Plot_Finals.pdf
 
-Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
+Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Spider OM'), id='title')
+                     )
+                   )
+                 })
 
                  output$subtitle <- renderUI({
                    if(!Object$Loaded) return()
@@ -20,7 +43,9 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                      str <-''
                    }
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -132,7 +157,7 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object) {
                          tagList(
                            h4(mm, class='OM_name', style = "font-size:18px;"),
                            div(
-                             plotOutput(session$ns(plotname), width='90px', height=hgt),
+                             shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='90px', height=hgt)),
                              style="padding-right:50px;  background-color: #f2f2f2;;"
 
                            )
@@ -220,68 +245,71 @@ Spider_OMUI <- function(id, label="spiderOM") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Performance comparison', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
+
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
     ),
-    fluidRow(
-      column(width = 5,
-             div(
-               summaryUI(ns('page10'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width=2, class='page_reading_rb',
-             div(
-               h4(strong("READING THIS CHART")),
-               htmlOutput(ns('reading'))
-             )
-
-      ),
-      column(width = 10,
-             fluidRow(
-              column(width=2,
-                     h4('Management procedure'),
-                     htmlOutput(ns('MPlist'))
-                     ),
-              column(width=10, class='left_border',
-
+    conditionalPanel('output.Loaded>0',
                      fluidRow(
-                       column(5,
-                              h4('Performance metrics measured'),
-                              plotOutput(ns('PM_outline'), width=125, height=125),
-                              ),
-                       column(5,
-                              img(src='img/SpiderOM.jpg', width="100%"),
-                              h4('Relative Scale'),
-                              switchInput(
-                                inputId = ns("RS_button"),
-                                handleWidth = 80, labelWidth = 40,
-                                inline = TRUE, width = "200px"
+                       column(width = 5,
+                              div(
+                                summaryUI(ns('page10'))
                               )
                        )
                      ),
                      fluidRow(
-                       column(5,
-                              htmlOutput(ns('PMlist'))
+                       column(width=2, class='page_reading_rb',
+                              div(
+                                h4(strong("READING THIS CHART")),
+                                htmlOutput(ns('reading'))
                               )
+
+                       ),
+                       column(width = 10,
+                              fluidRow(
+                                column(width=2,
+                                       h4('Management procedure'),
+                                       htmlOutput(ns('MPlist'))
+                                ),
+                                column(width=10, class='left_border',
+
+                                       fluidRow(
+                                         column(5,
+                                                h4('Performance metrics measured'),
+                                                plotOutput(ns('PM_outline'), width=125, height=125),
+                                         ),
+                                         column(5,
+                                                img(src='img/SpiderOM.jpg', width="100%"),
+                                                h4('Relative Scale'),
+                                                switchInput(
+                                                  inputId = ns("RS_button"),
+                                                  handleWidth = 80, labelWidth = 40,
+                                                  inline = TRUE, width = "200px"
+                                                )
+                                         )
+                                       ),
+                                       fluidRow(
+                                         column(5,
+                                                htmlOutput(ns('PMlist'))
+                                         )
+                                       )
+
+                                )
+
+                              ),
+                              fluidRow(class='top_border',
+                                       column(width=12,
+                                              h4('Operating Model'),
+                                              uiOutput(ns('results'), height='650px')
+                                       )
+                              )
+                       )
+
                      )
-
-              )
-
-             ),
-             fluidRow(class='top_border',
-               column(width=12,
-                      h4('Operating Model'),
-                      uiOutput(ns('results'), height='650px')
-               )
-             )
-      )
-
     )
   )
 }

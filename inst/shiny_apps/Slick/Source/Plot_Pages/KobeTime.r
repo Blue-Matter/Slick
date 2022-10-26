@@ -1,11 +1,35 @@
 
 # This is page 5 of the Plot_Finals.pdf
 
-KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
+KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
   moduleServer(id,
                function(input, output, session) {
 
-                 output$checkloaded <- CheckLoaded(Object)
+                 output$checkloaded <- renderUI({
+                   if(!Object$Loaded) {
+                     return(
+                       tagList(
+                         box(title=i18n()$t('Slick Data File not loaded.'), status='danger',
+                             solidHeader = TRUE,
+                             p(
+                               i18n()$t('Please return to'), a('Load', onclick='customHref("load")',
+                                                               style='color:blue; cursor: pointer;'),
+                               i18n()$t('and load a Slick file')
+                             )
+                         )
+                       )
+                     )
+                   }
+                 })
+
+
+                 output$title <- renderUI({
+                   tagList(
+                     div(class='page_title',
+                         h3(i18n()$t('Kobe Time'), id='title')
+                     )
+                   )
+                 })
 
                  # subtitle - dynamic nMP and nOM
                  output$subtitle <- renderUI({
@@ -21,7 +45,9 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                    }
 
                    tagList(
-                     p(str, id='subtitle')
+                     div(class='page_title',
+                         p(str, id='subtitle')
+                     )
                    )
                  })
 
@@ -85,7 +111,7 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object) {
                    nMPs <- sum(MPkeep$selected)
                        plot_output_list <- lapply(1:nMPs, function(mm) {
                          plotname <- paste("plot", mm, sep="")
-                         plotOutput(session$ns(plotname), width=250)
+                         shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=250))
 
                        })
 
@@ -222,52 +248,56 @@ KobeTimeUI <- function(id, label="kobetime") {
   tagList(
     fluidRow(
       column(width = 6,
-             div(class='page_title',
-                 h3('Projection Trade-Off', id='title'),
-                 htmlOutput(ns('checkloaded')),
-                 htmlOutput(ns('subtitle'))
+             htmlOutput(ns('title')),
+             htmlOutput(ns('checkloaded')),
+
+             conditionalPanel('output.Loaded>0',
+                              htmlOutput(ns('subtitle'))
              )
       )
     ),
-    fluidRow(
-      column(width=5,
-             div(
-               summaryUI(ns('page4'))
-             )
-      )
-    ),
-    fluidRow(
-      column(width = 6, class='page_reading',
-             h4(strong("READING THIS CHART")),
-             htmlOutput(ns('reading'))
-      ),
-      column(width=3,
-             br(),
-             br(),
+    conditionalPanel('output.Loaded>0',
+                     fluidRow(
+                       column(width=5,
+                              div(
+                                summaryUI(ns('page4'))
+                              )
+                       )
+                     ),
+                     fluidRow(
+                       column(width = 6, class='page_reading',
+                              h4(strong("READING THIS CHART")),
+                              htmlOutput(ns('reading'))
+                       ),
+                       column(width=3,
+                              br(),
+                              br(),
 
-             img(src='img/KobeTime.jpg',
-                 style="width: 100%"
-                 )
-             ),
-      column(width=1,
-             ),
-      column(width=2,
-             htmlOutput(ns('PM_dropdown'))
-             )
-      ),
-      fluidRow(
-        column(width=12, class='top_border',
-               uiOutput(ns('results'),
-                        # hover = ns("plot_hover"),
-                        height='650px'),
-               div(class="top_border",
-                   h3('Performance Table', class='lah'),
-                   DT::dataTableOutput(ns('perftab'))
-               )
-        )
-      )
-
+                              img(src='img/KobeTime.jpg',
+                                  style="width: 100%"
+                              )
+                       ),
+                       column(width=1,
+                       ),
+                       column(width=2,
+                              htmlOutput(ns('PM_dropdown'))
+                       )
+                     ),
+                     fluidRow(
+                       column(width=12, class='top_border',
+                              uiOutput(ns('results'),
+                                       # hover = ns("plot_hover"),
+                                       height='650px'),
+                              div(class="top_border",
+                                  column(8,
+                                         h3('Performance Table', class='lah'),
+                                         DT::dataTableOutput(ns('perftab'))
+                                  )
+                              )
+                       )
+                     )
     )
+  )
 }
 
 

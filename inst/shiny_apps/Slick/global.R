@@ -10,6 +10,7 @@ library(shinydashboardPlus)
 library(shiny.i18n)
 library(shinyWidgets)
 library(waiter)
+library(shinycssloaders)
 
 
 # -- multi-language support ----
@@ -32,6 +33,7 @@ source("./Source/dashboard_functions/guide.R")
 source("./Source/app_functions/Load_slick.R",local=TRUE)
 source("./Source/NonTech/Filters.R")
 source("./Source/NonTech/Summary_Text.R")
+
 
 # -- Pages
 fls <- list.files("./Source/Pages")

@@ -22,6 +22,7 @@ Imports:
     shiny.i18n,
     shinyjs,
     shinyalert,
+    shinycssloaders,
     shinyWidgets,
     tidyr,
     waiter
