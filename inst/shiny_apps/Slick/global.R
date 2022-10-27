@@ -12,6 +12,15 @@ library(shinyWidgets)
 library(waiter)
 library(shinycssloaders)
 
+# -- Case Studies ---
+case_study_files <- list.files('./data/case_studies')
+
+case_study_df <- data.frame(Example=c('North Atlantic Swordfish',
+                                      'Western Atlantic Skipjack Tuna'),
+                            File=case_study_files,
+                            Order=1:2)
+
+case_study_df <- case_study_df %>% arrange(Order)
 
 # -- multi-language support ----
 i18n <- translator  <- Translator$new(translation_csvs_path = "data/translations")

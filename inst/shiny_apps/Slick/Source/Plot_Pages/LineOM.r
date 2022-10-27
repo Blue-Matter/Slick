@@ -87,36 +87,23 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
                    )
                  })
 
-                 output$main_plot <- renderPlot({
-                   if(!Object$Ready) return()
-                   Stock_Projection_hist(MPkeep, SNkeep, input, Object$obj)
-                 }, height=400)
-
-
-                 output$mp_plots <- renderUI({
+                 output$lineOM_plot <- renderUI({
                    if(!Object$Ready) return()
                    n.SN <- sum(SNkeep$selected)
                    SN.select <- which(SNkeep$selected)
-                   plot_output_list <- lapply(1:n.SN, function(mm) {
-                     plotname <- paste("plot", mm, sep="")
+                   plot_output_list <- lapply(SN.select, function(mm) {
+                     plotname <- paste("plot_lineOM", mm, sep="")
                      tagList(
-                       shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='150px', height='400px'))
+                       shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='550px', height='400px'))
                      )
 
                    })
                    plot_output_list$cellArgs <- list(
                      style = "
-                     width: 150px;
+                     width: 550px;
                      height: 450px;
                            "
                    )
-
-                   # tagList(
-                   #   fluidRow(
-                   #     h3('Operating Models',style="text-align: center;")
-                   #   ),
-                   #
-                   # )
                    do.call(flowLayout, plot_output_list)
 
                  })
@@ -128,7 +115,7 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
                      if (i %in% SN.select) {
                        local({
                          my_i <- i
-                         plotname <- paste("plot", my_i, sep="")
+                         plotname <- paste("plot_lineOM", my_i, sep="")
                          output[[plotname]] <- renderPlot({
                            MP_projection_OM(MPkeep, input, sn=my_i, Object$obj)
                          })
@@ -137,6 +124,8 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
 
                    }
                  })
+
+
 
                  output$MPlist <- renderUI({
                    if(!Object$Ready) return()
@@ -157,31 +146,6 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
 
                  })
 
-                 output$hist_text <- renderUI({
-                   if(!Object$Ready) return()
-                   first.yr <- Object$obj$StateVar$Times[1]
-                   hist.yr <- Object$obj$StateVar$TimeNow
-                   years <- paste(first.yr, hist.yr, sep=" - ")
-
-                   tagList(
-                     p(strong('HISTORICAL')),
-                     p(years)
-                   )
-
-                 })
-
-                 output$proj_text <- renderUI({
-                   if(!Object$Ready) return()
-                   last.yr <- Object$obj$StateVar$Times[length(Object$obj$StateVar$Times)]
-                   hist.yr <- Object$obj$StateVar$TimeNow
-                   years <- paste(hist.yr+1, last.yr, sep=" - ")
-
-                   tagList(
-                     p(strong('PROJECTIONS')),
-                     p(years)
-                     )
-
-                 })
 
                }
   )
@@ -231,78 +195,12 @@ Line_OMUI <- function(id, label="lineOM") {
 
                      ),
                      fluidRow(
-                       column(width=4, class='top_border',
-                              br(), br(),
-                              uiOutput(ns('hist_text')),
-                              div(
-                                shinycssloaders::withSpinner(plotOutput(ns('main_plot')))
-                              )
-                       ),
-                       column(width=8, class='top_border',
-                              h4('Operating Models',style="text-align: left;"),
-                              uiOutput(ns('proj_text')),
-                              uiOutput(ns('mp_plots'))
-
-
+                       column(width=12, class='top_border',
+                              htmlOutput(ns('lineOM_plot'))
                        )
                      )
     )
   )
-}
-
-
-Stock_Projection_hist <- function(MPkeep, SNkeep, input, obj) {
-
-  SV_ind <- which(unlist(obj$StateVar$Labels) == input$selectSV )
-
-  first.yr <- obj$StateVar$Times[1]
-  hist.yr <- obj$StateVar$TimeNow
-  hist.yr.ind <- which(obj$StateVar$Times==hist.yr)
-
-  Values <- obj$StateVar$Values[,SNkeep$selected, MPkeep$selected,
-                                SV_ind, , drop=FALSE]
-
-  ylab.cex <- xlab.cex <- 1.25
-  med.lwd <- 3
-  ref.lwd <- 2
-  med.col <- 'darkgray'
-  poly.col <- 'lightgray'
-  ref.pt.1.col <- 'green'
-  ref.pt.2.col <- 'red'
-
-  if (!any(dim(Values)==0)) {
-    med.hist <- apply(Values[, ,1,1,1:hist.yr.ind, drop=FALSE], 5, median)
-
-    maxVal <- quantile(Values, 0.95)
-    ymax <- roundUpNice(maxVal)
-
-    par(mfrow=c(1,1), oma=c(3,3,0,0), mar=c(2,2,2,0))
-    plot(range(obj$StateVar$Times[1:hist.yr.ind]), c(0, ymax),
-         xlab='', ylab='', axes=FALSE, type="n")
-
-    RefNames <- obj$StateVar$RefNames[[SV_ind]]
-    RefPoints <- rep('', length(RefNames))
-    if (length(obj$StateVar$RefPoints)>0)
-      RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
-
-    if (!all(is.na(RefNames))) {
-      for (i in seq_along(RefNames)) {
-        nm <- RefNames[i]
-        col <- 'black'
-        if (nm =='Target') col <- 'green'
-        if (nm =='Limit') col <- 'red'
-        abline(h=RefPoints[i], lty=3, col=col, lwd=ref.lwd)
-        text(first.yr+1, RefPoints[i], RefNames[i], col=col, pos=3)
-      }
-    }
-    lines(obj$StateVar$Times[1:hist.yr.ind], med.hist, col=med.col, lwd=med.lwd)
-    axis(side=1)
-    ylabs <- seq(0, ymax, length.out=6)
-    axis(side=2, las=1, at=ylabs, label= format(ylabs, big.mark = ",", scientific = FALSE))
-    mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)
-    mtext(side=2, line=4, obj$StateVar$Labels[[SV_ind]], cex=ylab.cex)
-  }
-
 }
 
 
@@ -325,24 +223,29 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
   last.proj.ind <- which(obj$StateVar$Times==last.proj)
 
+  HistValues <- obj$StateVar$Values[,sn, MPkeep$selected,
+                                SV_ind, , drop=FALSE]
   Values <- obj$StateVar$Values[,sn, MPkeep$selected,
                                 SV_ind, first.proj.ind:last.proj.ind, drop=FALSE]
+
   n.yrs <- dim(Values)[5]
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
   MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
   nMP <- length(MPnames)
 
-  maxVal <- quantile(obj$StateVar$Values[,, MPkeep$selected,
-                                    SV_ind, , drop=FALSE], 0.95)
+  maxVal <- quantile(obj$StateVar$Values[,sn, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
   ymax <- roundUpNice(maxVal)
 
   if (!any(dim(Values)==0)) {
+    med.hist <- apply(HistValues[, ,1,1,1:hist.yr.ind, drop=FALSE], 5, median)
+
+
     quant <- apply(Values, 5, quantile, probs=c(.1,.9))
     med.MP <- apply(Values, c(3,5), median)
 
-    par(mfrow=c(1,1), oma=c(3,1,0,0), mar=c(2,2,2,0))
-    plot(range(obj$StateVar$Times[first.proj.ind:last.proj.ind]), c(0, ymax),
+    par(mfrow=c(1,1), oma=c(4,4,0,0), mar=c(2,2,2,0))
+    plot(range(obj$StateVar$Times), c(0, ymax),
          xlab='', ylab='', axes=FALSE, type="n")
 
     # if (any(quant[1,] != med.MP[mm,])) { # values differ by sim
@@ -365,12 +268,18 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
       }
     }
 
-    axis(side=1, at=seq(hist.yr+1, last.proj, by=5), tck=-0.05)
+    axis(side=1, at=seq(min(obj$StateVar$Times), max(obj$StateVar$Times), by=5), tck=-0.05)
     ylabs <- seq(0, ymax, length.out=6)
-    axis(side=2, las=1, at=ylabs, label= FALSE, tck=-0.05 )
+    axis(side=2, las=1, at=ylabs, label= format(ylabs, big.mark = ",", scientific = FALSE))
     mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)
+    mtext(side=2, line=4, obj$StateVar$Labels[[SV_ind]], cex=ylab.cex)
     mtext(side=3, line=0, sn, cex=1.5, col='#D6501C')
 
+    # plot historical
+    lines(obj$StateVar$Times[1:hist.yr.ind], med.hist, col=med.col, lwd=med.lwd)
+    abline(v=obj$StateVar$Times[hist.yr.ind], lty=2, col='lightgray')
+
+    # plot projection for each MP
     for (mm in 1:nMP) {
       lines(first.proj:last.proj, med.MP[mm,],
             col=MPcols[mm], lwd=med.lwd)

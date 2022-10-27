@@ -83,8 +83,6 @@ server <- function(input, output, session) {
   # Log (currently not used)
   Log_text <- reactiveValues(text="nothing happened yet")
 
-
-
   # -- Observe Events -----
   observeEvent(input$Load, {
     Object$File <- input$Load
@@ -105,10 +103,7 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       Name <- input$example_input
-      File <- switch(Name,
-                     Demonstration="./data/SLICKobj.rda",
-                     'Atlantic bluefin tuna'="./data/ABT.slick",
-                     'North Atlantic swordfish'="./data/SWO.slick")
+      File <- file.path('./data/case_studies', case_study_df$File[match(Name, case_study_df$Example)])
       file.copy(File, file)
     }
   )
@@ -118,32 +113,13 @@ server <- function(input, output, session) {
       Object$Ready <- FALSE
       Object$Filt <- FALSE
 
-    # load the object
-
+     # load the object
       if (inherits(Object$File, 'character')) {
-
-
-        if (Object$File == 'Demonstration') {
-          obj <- readRDS("./data/SLICKobj.rda")
-        }
-
-        if (Object$File == 'Atlantic bluefin tuna') {
-          obj <- readRDS("./data/ABT.slick")
-        }
-
-        if (Object$File == 'North Atlantic swordfish') {
-          obj <- readRDS("./data/SWO.slick")
-        }
-
-        # if (Object$File == 'Bay of Fundy herring') {
-        #   obj <- readRDS("./data/BoF_Herring.slick")
-        # }
-
+        obj <- readRDS(file.path('./data/case_studies', case_study_df$File[match(Object$File, case_study_df$Example)]))
       }
 
       if (inherits(Object$File, 'data.frame')) {
         obj <- readRDS(Object$File$datapath)
-        obj$name <- Object$File$name
 
       }
 
@@ -197,22 +173,23 @@ server <- function(input, output, session) {
 
 
   # ---- Download ----
-  output$downloadData <- downloadHandler(
-
-    # replace with Slick$name ...
-    filename = function() {
-      paste('Slick-', Sys.Date(), '.slick', sep='')
-    },
-
-    content=function(file) {
-      if (Object$Loaded) {
-        saveRDS(Object$obj, file)
-      } else{
-        # message no object loaded
-      }
-
-    }
-  )
+  # not currently used
+  # output$downloadData <- downloadHandler(
+  #
+  #   # replace with Slick$name ...
+  #   filename = function() {
+  #     paste('Slick-', Sys.Date(), '.slick', sep='')
+  #   },
+  #
+  #   content=function(file) {
+  #     if (Object$Loaded) {
+  #       saveRDS(Object$obj, file)
+  #     } else{
+  #       # message no object loaded
+  #     }
+  #
+  #   }
+  # )
 
 
   # -- Server Modules ----

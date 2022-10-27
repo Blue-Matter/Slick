@@ -520,7 +520,7 @@ page_1_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
   for (i in 1:nMPs) {
       mat <- matrix(pm[i,], nrow=nMPs, ncol=nPMds, byrow=TRUE)
       dom <- apply(mat < pm, 1, prod)
-      if (any(dom>0)) {
+      if (any(dom[is.finite(dom)]>0)) {
         domMP <- paste( MPnames[dom>0], collapse=", ")
         DomMPs[[i]] <- paste(MPnames[i], 'dominated by:', domMP)
       }

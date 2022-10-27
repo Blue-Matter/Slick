@@ -132,23 +132,25 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
                                if (my_j <= dd[2] & my_i <= dd[4] & !any(dd==0)) {
                                  Val <- Values[,my_j,,my_i, drop=FALSE]
                                  MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected]
-                                 trade_plot_OM(Val, MPcols, sn=my_j)
+                                 trade_plot_OM(Val, MPcols, sn=which(SNkeep$selected)[my_j])
                                }
 
-                             }, width=100, height=150)
+                             }, width=250, height=150)
 
                            })
                          }
 
+
                          myList <- lapply(1:nSNs, function(mm) {
                            plot_name <- paste("plot", my_i, mm, sep="")
-                           shinycssloaders::withSpinner(plotOutput(session$ns(plot_name), width=100, height=150))
+                           shinycssloaders::withSpinner(plotOutput(session$ns(plot_name), width='250px', height='150px'))
+
                          })
+
                          myList$cellArgs <- list(
                            style = "
-                             width: 100px;
+                             width: 250px;
                              height: 150px;
-                             margin: 5px;
                            ")
 
                          tagList(
@@ -226,9 +228,9 @@ trade_plot_OM <- function(Val, MPcols, sn) {
   main.cex <- 1.5
 
   if (all(dim(Val)>0)) {
-    med <- apply(Val,3, median)
-    qrt <- apply(Val,3, quantile, c(0.25, 0.75))
-    rng <- apply(Val,3, range)
+    med <- apply(Val,3, median, na.rm=TRUE)
+    qrt <- apply(Val,3, quantile, c(0.25, 0.75), na.rm=TRUE)
+    rng <- apply(Val,3, range, na.rm=TRUE)
 
     nMPs <- length(MPcols)
     par(mfrow=c(1, 1), mar=c(0,2,1,0), oma=c(0,0,1,0), xpd=NA)
@@ -237,7 +239,7 @@ trade_plot_OM <- function(Val, MPcols, sn) {
     # } else {
     #   maxY <- ceiling(maxY)
     # }
-    maxY <- max(rng)
+    maxY <- max(rng[is.finite(rng)])
     maxY <- max(ceiling(maxY/5)*5, 100)
 
     plot(c(0,nMPs+1), c(0,maxY), type="n", xlab='', ylab='', axes=FALSE)

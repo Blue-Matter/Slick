@@ -177,11 +177,11 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
         Val <- Values[,,,PM]
 
         if (length(Val)>0) {
-          med <- apply(Val,3, median)
-          qrt <- apply(Val,3, quantile, c(0.25, 0.75))
-          rng <- apply(Val,3, range)
+          med <- apply(Val,3, median, na.rm=TRUE)
+          qrt <- apply(Val,3, quantile, c(0.25, 0.75), na.rm=TRUE)
+          rng <- apply(Val,3, range, na.rm=TRUE)
 
-          maxY <- max(rng)
+          maxY <- max(rng[is.finite(rng)])
           if (maxY > 10) {
             maxY <- 10^(ceiling(log10(maxY)))
           } else {
@@ -234,18 +234,18 @@ page_8_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
 
       if(!any(dim(Values)<1)) {
 
-        med <- apply(Values,3:4, median)
+        med <- apply(Values,3:4, median, na.rm=TRUE)
         str <- NULL
 
         for (i in 1:ncol(med)) {
-          if (all(med[,i]==mean(med[,i]))) {
-            mps <- paste0('all equal (', mean(med[,i]),')')
+          if (all(med[,i]==mean(med[,i], na.rm=TRUE))) {
+            mps <- paste0('all equal (', mean(med[,i], na.rm=TRUE),')')
           } else {
-            mps <- paste0(MPnames[which(med[,i]==max(med[,i]))])
+            mps <- paste0(MPnames[which(med[,i]==max(med[,i], na.rm=TRUE))])
           }
 
           str[i] <- paste0('MP(s) with highest median value for ', Codes[i], ': ',
-                           paste(mps, collapse=", "), ' (', round(max(med[,i]),2), ')')
+                           paste(mps, collapse=", "), ' (', round(max(med[,i], na.rm=TRUE),2), ')')
 
         }
 

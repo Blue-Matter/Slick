@@ -217,9 +217,9 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
     pm.ord <- apply(pm, 2, range)
     pm.ord <- order(apply(pm.ord, 2, diff))
 
-    mp_mean <- apply(pm, 1, mean)
+    mp_mean <- apply(pm, 1, mean, na.rm=TRUE)
 
-    rng <- range(pm)
+    rng <- range(pm, na.rm=TRUE)
     min <- floor(min(rng)/0.05) * 0.05
     max <- 100
     at <- seq(min, max, by=10)

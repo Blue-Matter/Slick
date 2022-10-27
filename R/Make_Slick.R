@@ -114,7 +114,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
   out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relatve to MSY levels")
   out$StateVar$Codes <- c("SSB", "SSB_SSBMSY")
   out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
-  out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
+  # out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
   out$StateVar$Time_lab <- "Year"
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
@@ -154,7 +154,15 @@ Make_Slick<-function(name = "Unnamed Slick object",
       out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY[,1,,] # female - assumed first stock
       out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY[,1,1,,] # female - assumed first stock - and first fleet
       out$Perf$Proj$Values[convsims,i,,3,]<-MSEtemp@SSB[,1,,]/(MSEtemp@RefPoint$ByYear$SSB0[,1,,nyears:(nyears+proyears-1)])
-      out$Perf$Proj$Values[convsims,i,,4,]<-apply(MSEtemp@Catch, c(1,4,5), sum)
+      out$Perf$Proj$Values[convsims,i,,4,]<-apply(MSEtemp@Catch, c(1,4,5), sum)/apply(MSEtemp@RefPoint$ByYear$MSY[,,,(nyears):(nyears+proyears-1)], c(1,3,4), sum)
+
+      SSB_hist <- apply(MSEtemp@multiHist[[1]][[1]]@TSdata$SBiomass, 1:2, sum)
+      SSB_proj <- MSEtemp@SSB[,1,,]
+      SSBMSY <- MSEtemp@RefPoint$ByYear$SSBMSY[,1,,]
+      for(mp in 1:nMPs)    out$StateVar$Values[convsims,i,mp,1,1:MSEtemp@nyears]<-SSB_hist # SSB (lazy loop over MPs)
+      out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-SSB_proj # SSB
+      out$StateVar$Values[convsims,i,,2,]<-out$StateVar$Values[convsims,i,,1,]/SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
+
     } else {
       out$Perf$Proj$Values[convsims,i,,1,]<-MSEtemp@SB_SBMSY
       out$Perf$Proj$Values[convsims,i,,2,]<-MSEtemp@F_FMSY
@@ -163,7 +171,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
       for(mp in 1:nMPs)    out$StateVar$Values[convsims,i,mp,1,1:MSEtemp@nyears]<-MSEtemp@SSB_hist # SSB (lazy loop over MPs)
       out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
-      out$StateVar$Values[convsims,,,2,]<-out$StateVar$Values[convsims,,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
+      out$StateVar$Values[convsims,i,,2,]<-out$StateVar$Values[convsims,i,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
 
     }
     print(paste(i,"of",nOM,"states of nature completed"))

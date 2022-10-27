@@ -184,7 +184,7 @@ violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
         df <- data.frame(x=rep(MPnames, each=nSNs*nsim), value=as.vector(Val))
 
         p <- ggplot(df, aes(x=x, y=value, fill=x)) +
-          geom_violin() +
+          geom_violin(scale='width') +
           labs(x='', y='', title=Codes[PM]) +
           expand_limits(y=c(0,100)) +
           guides(fill='none') +
@@ -195,7 +195,6 @@ violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
                 plot.title = element_text(face="bold")) +
           scale_fill_manual(values=MPcols)
       }
-      p
     }
   }
   p
@@ -222,18 +221,18 @@ violin_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
 
       if(!any(dim(Values)<1)) {
 
-        med <- apply(Values,3:4, median)
+        med <- apply(Values,3:4, median, na.rm=TRUE)
         str <- NULL
 
         for (i in 1:ncol(med)) {
-          if (all(med[,i]==mean(med[,i]))) {
-            mps <- paste0('all equal (', mean(med[,i]),')')
+          if (all(med[,i]==mean(med[,i], na.rm=TRUE))) {
+            mps <- paste0('all equal (', mean(med[,i], na.rm=TRUE),')')
           } else {
-            mps <- paste0(MPnames[which(med[,i]==max(med[,i]))])
+            mps <- paste0(MPnames[which(med[,i]==max(med[,i], na.rm=TRUE))])
           }
 
           str[i] <- paste0('MP(s) with highest median value for ', Codes[i], ': ',
-                           paste(mps, collapse=", "), ' (', round(max(med[,i]),2), ')')
+                           paste(mps, collapse=", "), ' (', round(max(med[,i], na.rm=TRUE),2), ')')
 
         }
 

@@ -58,6 +58,7 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
 controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
+                                  collapsed = FALSE,
 
                                   FiltersUI('filters', i18n=i18n)
 

@@ -29,10 +29,7 @@ LoadServer <- function(id, Object, i18n) {
 
                            selectInput('example_input',
                                        label=i18n()$t('Example'),
-                                       choices=c('Demonstration',
-                                                 'Atlantic bluefin tuna',
-                                                 'North Atlantic swordfish'
-                                       ),
+                                       choices=case_study_df$Example,
                                        selected=NULL
                            ),
                            actionButton("example_upload", i18n()$t("Load"),
@@ -45,7 +42,6 @@ LoadServer <- function(id, Object, i18n) {
 
                  })
 
-
                  output$metadata <- renderUI({
                    tagList(
                      box(width=6,
@@ -55,14 +51,15 @@ LoadServer <- function(id, Object, i18n) {
                          title=h2(i18n()$t('Metadata')),
                          h3(Object$obj$Text$Title),
                          h4(Object$obj$Text$Sub_title),
-                         p(HTML(i18n()$t('<strong>Fishery:</strong>')), Object$obj$name),
-                         p(HTML(i18n()$t('<strong>Author:</strong>')), Object$obj$Misc$Author),
-                         p(HTML(i18n()$t('<strong>Contact:</strong>')), Object$obj$Misc$Contact),
-                         p(HTML(i18n()$t('<strong>Institution:</strong>')), Object$obj$Misc$Institution),
-                         lapply(Object$obj$Text$Introduction, tags$p)
+                         p(HTML(i18n()$t('<strong>Fishery:</strong>')), Object$obj$Misc$Fishery),
+                         p(HTML(i18n()$t('<strong>Author(s):</strong>')), Object$obj$Misc$Author, HTML(Object$obj$Misc$Contact)),
+                         p(HTML(i18n()$t('<strong>Institution(s):</strong>')), Object$obj$Misc$Institution),
+                         p(HTML(i18n()$t('<strong>Created:</strong>')), Object$obj$Misc$Date),
+                         lapply(lapply(Object$obj$Text$Introduction, HTML), tags$p)
                      )
                    )
                  })
+
 
                  output$management_procedures <- renderUI({
                    tagList(
@@ -115,7 +112,8 @@ LoadServer <- function(id, Object, i18n) {
                      Label=Object$obj$MP$Labels,
                      Description=Object$obj$MP$Description
                    )
-                   DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                            pageLength=100))
                  })
 
                  output$OMs <- renderDataTable({
@@ -123,7 +121,8 @@ LoadServer <- function(id, Object, i18n) {
                    df <- data.frame(Factor =  rep(Object$obj$OM$Factor_Labels,unlist(lapply(Object$obj$OM$Codes,FUN=function(x)length(x)))),
                                     Level = unlist(Object$obj$OM$Codes),
                                     Description = unlist(Object$obj$OM$Description))
-                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                 pageLength=100))
                  })
 
                  output$OMDes <- renderDataTable({
@@ -132,7 +131,8 @@ LoadServer <- function(id, Object, i18n) {
                    df<-data.frame(df)
                    names(df)<-Object$obj$OM$Factor_Labels
                    for(i in 1:ncol(df))  df[,i]<-Object$obj$OM$Codes[[i]][Object$obj$OM$Design[,i]]
-                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df, extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                 pageLength=100))
                  })
 
                  output$PM_Det <- renderDataTable({
@@ -141,7 +141,8 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Det$Labels,
                                      Description=Object$obj$Perf$Det$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                           pageLength=100))
                  })
 
                  output$PM_Stoch <- renderDataTable({
@@ -150,7 +151,8 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Stoch$Labels,
                                      Description=Object$obj$Perf$Stoch$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                           pageLength=100))
                  })
 
                  output$PM_Proj <- renderDataTable({
@@ -159,7 +161,8 @@ LoadServer <- function(id, Object, i18n) {
                                      Label=Object$obj$Perf$Proj$Labels,
                                      Description=Object$obj$Perf$Proj$Description
                    )
-                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't'))
+                   DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
+                                                                                                           pageLength=100))
                  })
 
 

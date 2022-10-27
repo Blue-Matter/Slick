@@ -195,6 +195,7 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
 
                    if(length(Det$mat)>1) {
                      OM.res <<- Det$mat[, MPkeep$selected, Detkeep$selected, drop=FALSE]
+                     OM.res[!is.finite(OM.res)] <- NA
 
 
                      if (SwitchScale$relative) {
@@ -346,7 +347,7 @@ hexplot_OM <- function(OM.res, MPcols) {
   if (!is.null(n.PM)) {
     vertices <- polyCoords(n.PM) * 100
 
-    meanVals <- apply(OM.res, 1, mean)
+    meanVals <- apply(OM.res, 1, mean, na.rm=TRUE)
     MP.ord <- rev(order(meanVals))
 
     meanVals <- paste0(round(meanVals,0), '%')
@@ -369,7 +370,7 @@ hexplot_OM <- function(OM.res, MPcols) {
         polygon(coords, col=MPcols[r], border=NA)
 
         for (j in 1:n.PM) {
-          if (maxScore[r,j])
+          if (!is.na(maxScore[r,j]) & maxScore[r,j])
             points(coords[j,], cex=pt.cex, col=pt.col, pch=16)
         }
 
