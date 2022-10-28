@@ -71,7 +71,7 @@ sidebar <- dashboardSidebar(
     menuItem("Load", tabName = "load", icon = icon("upload")),
 
     # Deterministic
-    menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = FALSE,
+    menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = TRUE,
              menuSubItem("Spider", tabName = "spider",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Spider OM", tabName = "spiderOM",
@@ -82,7 +82,7 @@ sidebar <- dashboardSidebar(
                              icon = shiny::icon("angle-double-right",verify_fa = FALSE))
              ),
     # Stochastic
-    menuItem("Stochastic", icon = icon("chart-scatter", verify_fa=FALSE), startExpanded = FALSE,
+    menuItem("Stochastic", icon = icon("chart-scatter", verify_fa=FALSE), startExpanded = TRUE,
              menuSubItem("Boxplot", tabName = "boxplot",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Boxplot OM", tabName = "boxplotOM",
@@ -92,7 +92,7 @@ sidebar <- dashboardSidebar(
 
     ),
     # Projected
-    menuItem("Projected ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = FALSE,
+    menuItem("Projected ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
              menuSubItem("Kobe", tabName = "kobe",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Kobe Time", tabName = "kobetime",
@@ -101,7 +101,7 @@ sidebar <- dashboardSidebar(
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
     # State Variables
-    menuItem("State Variables", icon = icon("layer-group"), startExpanded = FALSE,
+    menuItem("State Variables", icon = icon("layer-group"), startExpanded = TRUE,
              menuSubItem("Line", tabName = "line",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Line OM", tabName = "lineOM",
