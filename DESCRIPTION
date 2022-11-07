@@ -17,6 +17,7 @@ Imports:
     MSEtool,
     snowfall,
     shiny,
+    shinyBS,
     shinydashboard,
     shinydashboardPlus,
     shiny.i18n,
