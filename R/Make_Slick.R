@@ -111,7 +111,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   # --- Do State Variable labelling -----------------------------------------------------------------------------------
 
-  out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relatve to MSY levels")
+  out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
   out$StateVar$Codes <- c("SSB", "SSB_SSBMSY")
   out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
   # out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
