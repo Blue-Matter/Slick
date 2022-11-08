@@ -73,7 +73,7 @@ summaryServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, summaryFun, 
             htmlOutput(session$ns("summarytext")),
             div(style="display:inline-block",
               actionButton(session$ns("edit_summary"), "Edit Summary",
-                           icon = icon("edit")),
+                           icon = icon("edit", verify_fa =FALSE)),
               style="float:left"
             )
             # div(style="display:inline-block",
@@ -91,7 +91,7 @@ summaryServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, summaryFun, 
             shiny::tagAppendAttributes(style = 'width: 100%; height: 100%;'),
           div(
             actionButton(session$ns("save_summary"), "Save Summary",
-                         icon = icon("save"))
+                         icon = icon("save", verify_fa =FALSE))
           )
         )
       }

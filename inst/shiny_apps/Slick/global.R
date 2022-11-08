@@ -1,20 +1,57 @@
 library(dplyr)
 library(DT)
+library(fresh)
 library(ggplot2)
 library(ggrepel)
-library(shinyWidgets)
 library(readxl)
+library(shinyBS)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(shiny.i18n)
+library(shinyWidgets)
+library(waiter)
+library(shinycssloaders)
 
+# -- Case Studies ---
+case_study_files <- list.files('./data/case_studies')
 
-# App code
-source("./Source/App/Load_slick.R",local=TRUE)
+case_study_df <- data.frame(Example=c('North Atlantic Swordfish',
+                                      'Western Atlantic Skipjack Tuna'),
+                            File=case_study_files,
+                            Order=1:2)
+
+case_study_df <- case_study_df %>% arrange(Order)
+
+# -- multi-language support ----
+i18n <- translator  <- Translator$new(translation_csvs_path = "data/translations")
+translator$set_translation_language('en')
+translator$use_js()
+languages <- translator$get_languages()
+
+language_codes <- read.csv('data/language-codes_csv.csv')
+ind <- match(languages, language_codes[,1])
+lang_names <- language_codes[ind,2]
+
+names(languages) <- lang_names
+
+# -- dashboard functions ----
+source("./Source/dashboard_functions/dashboardHeader2.R")
+source("./Source/dashboard_functions/guide.R")
+
+# -- source app functions ----
+source("./Source/app_functions/Load_slick.R",local=TRUE)
 source("./Source/NonTech/Filters.R")
 source("./Source/NonTech/Summary_Text.R")
 
 
-# Non technical pages
-fls <- list.files("./Source/NonTech/Pages")
-for (fl in fls) source(file.path("./Source/NonTech/Pages", fl), local = TRUE)
+# -- Pages
+fls <- list.files("./Source/Pages")
+for (fl in fls) source(file.path("./Source/Pages", fl), local = TRUE)
+
+fls <- list.files("./Source/Plot_Pages")
+for (fl in fls) source(file.path("./Source/Plot_Pages", fl), local = TRUE)
+
+
 
 # Global formatting parameters
 

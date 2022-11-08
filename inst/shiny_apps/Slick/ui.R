@@ -1,154 +1,226 @@
-library(shiny)
-library(shinyWidgets)
-library(shinyBS)
-library(shinydashboard)
+#todo
+# - add help menu and links to userguides
 
-fluidPage(
 
-  includeScript(path = "www/js/js4checkbox.js"),
-  includeScript(path = "www/js/index.js"),
+# -- theme ----
+Slick_theme <- create_theme(
+  adminlte_global(
+    content_bg = "#FFFFFF"
+  ),
+  adminlte_sidebar(
+    dark_bg = '#37638a',
+    dark_hover_bg ='#143570'
+  ),
+  adminlte_color(
+    light_blue = "#086A87"
+  ),
+  adminlte_vars(
+    'sidebar-width'='300px'
+
+  )
+)
+
+# -- header ----
+header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
+                                            "Slick Decision Analysis"),
+                            leftUi = tagList(
+                              dropdownButton(
+                                label = "Switch Language",
+                                icon = icon("language"),
+                                status = "primary",
+                                circle = FALSE,
+                                uiOutput("language")
+                              ),
+                              dropdownButton(
+                                width=900,
+                                label = "Resources",
+                                icon = icon("books", verify_fa = FALSE),
+                                status = "primary",
+                                circle = FALSE,
+                                ResourcesUI('resources')
+
+                              ),
+                              dropdownButton(
+                                width=500,
+                                label = "About",
+                                icon = icon("info"),
+                                status = "primary",
+                                circle = FALSE,
+                                uiOutput("about")
+                              )
+                            ),
+                           controlbarIcon=shiny::icon('filter')
+                           )
+
+
+
+# -- rhs controlbar ----
+controlbar <- dashboardControlbar(overlay = FALSE,
+                                  width=450,
+                                  skin='light',
+                                  collapsed = FALSE,
+
+                                  FiltersUI('filters', i18n=i18n)
+
+)
+
+# -- lhs sidebar ----
+sidebar <- dashboardSidebar(
+  sidebarMenu(id='NonTech',
+    menuItem("Home", tabName = "home", icon = icon("house")),
+    menuItem("Load", tabName = "load", icon = icon("upload")),
+
+    # Deterministic
+    menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = TRUE,
+             menuSubItem("Spider", tabName = "spider",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Spider OM", tabName = "spiderOM",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Zigzag", tabName = "zigzag",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Rail", tabName = "rail",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+             ),
+    # Stochastic
+    menuItem("Stochastic", icon = icon("chart-scatter", verify_fa=FALSE), startExpanded = TRUE,
+             menuSubItem("Boxplot", tabName = "boxplot",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Boxplot OM", tabName = "boxplotOM",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Violin", tabName = "violin",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+
+    ),
+    # Projected
+    menuItem("Projected ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
+             menuSubItem("Kobe", tabName = "kobe",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Kobe Time", tabName = "kobetime",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Slope", tabName = "slope",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+    ),
+    # State Variables
+    menuItem("State Variables", icon = icon("layer-group"), startExpanded = TRUE,
+             menuSubItem("Line", tabName = "line",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Line OM", tabName = "lineOM",
+                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+    )
+
+  )
+)
+
+
+# -- body ----
+body <- dashboardBody(
+  use_theme(Slick_theme),
+  useWaiter(),
+  waiterPreloader(spin_fading_circles()),
 
   tags$head(
+    includeScript(path = "www/js/js4checkbox.js"),
+    includeScript(path = "www/js/index.js"),
     tags$link(rel='stylesheet', type='text/css', href='styles.css'),
-
     tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
-    tags$style(HTML("
-                    #SessionID{font-size:12px;}
-                    ")),
-    tags$style(HTML("
-        /* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
 
+    tags$style(HTML("#SessionID{font-size:12px;}")),
+    tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
         @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
-
         /* Font of SLICK title */
-
       ")),
-    tags$script('
-                                var dimension = [0, 0];
-                                $(document).on("shiny:connected", function(e) {
-                                    dimension[0] = window.innerWidth;
-                                    dimension[1] = window.innerHeight;
-                                    Shiny.onInputChange("dimension", dimension);
-                                });
-                                $(window).resize(function(e) {
-                                    dimension[0] = window.innerWidth;
-                                    dimension[1] = window.innerHeight;
-                                    Shiny.onInputChange("dimension", dimension);
-                                });
-                            ')
+    tags$script(
+    'var dimension = [0, 0];
+    $(document).on("shiny:connected", function(e) {
+      dimension[0] = window.innerWidth;
+      dimension[1] = window.innerHeight;
+      Shiny.onInputChange("dimension", dimension);
+    });
+    $(window).resize(function(e) {
+      dimension[0] = window.innerWidth;
+      dimension[1] = window.innerHeight;
+      Shiny.onInputChange("dimension", dimension);
+    });
+    '),
+    tags$script("
+        var openTab = function(tabName){
+          $('a', $('.sidebar')).each(function() {
+            if(this.getAttribute('data-value') == tabName) {
+              this.click()
+            };
+          });
+        }
+      ")
 
   ),
+  tabItems(
+    tabItem(tabName = "home",
+            HomeUI('home')
 
-  # === HEADER ==============================================================================================================================================================
-  column(12,
-         column(6,h2("Slick decision analysis"),style="height:65px")
-         #column(5,style="height:65px",
-          #      h2("decision analysis",style="padding-top:22px;padding-left:4px")
+    ),
+    tabItem(tabName = "load",
+            LoadUI('load')
+    ),
 
-  ),
-
-  # === MAIN WINDOW =========================================================================================================================================================
-  column(12,
-
-    # --- General results -----------------------------------------------------------------
-    # conditionalPanel('input.Mode=="General"',
-
-      column(10, # General tab panel
-        verticalTabsetPanel(id = "NonTech",selected=1,
-
-                            verticalTabPanel(value="splash",
-                                             h5(strong("Home")),
-                                             SplashUI('splash'),
-                                             box_height='50px',
-                                             id='splash'),
-                            verticalTabPanel(value="det",
-                                             h5("Spider"),
-                                             SpiderUI('spider'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value="det",
-                                             h5("Zigzag"),
-                                             ZigzagUI('zigzag'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='det',
-                                             h5("Rail"),
-                                             RailUI('rail'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Kobe"),
-                                             KobeUI('kobe'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Kobe Time"),
-                                             KobeTimeUI('kobetime'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='state',
-                                             h5("Line"),
-                                             LineUI('line'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='proj',
-                                             h5("Slope"),
-                                             SlopeUI('slope'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='stoch',
-                                             h5("Boxplot"),
-                                             BoxplotUI('boxplot'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='stoch',
-                                             h5("Boxplot OM"),
-                                             Boxplot_OMUI('boxplotOM'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='det',
-                                             h5("Spider OM"),
-                                             Spider_OMUI('spiderOM'),
-                                             box_height='50px'),
-
-                            verticalTabPanel(value='state',
-                                             h5("Line OM"),
-                                             Line_OMUI('lineOM'),
-                                             box_height='50px'),
-                            verticalTabPanel(value='resources',
-                                             h5(strong("Resources")),
-                                             ResourcesUI('resources'),
-                                             box_height='50px'),
-
-          contentWidth=11
-         # box_height='150px'
-
-          ) # end of tabsetpanel
-
-       ), # end of main window for general
-
-      # filtering for General results
-    FiltersUI('filters')
+    # Deterministic
+    tabItem(tabName = "spider",
+            SpiderUI('spider')
+    ),
+    tabItem(tabName = "spiderOM",
+            value='det',
+            Spider_OMUI('spiderOM')
+    ),
+    tabItem(tabName = "zigzag",
+            ZigzagUI('zigzag')
+    ),
+    tabItem(tabName = "rail",
+            RailUI('rail')
+    ),
+    # Stochastic
+    tabItem(tabName = "boxplot",
+            value='stoch',
+            BoxplotUI('boxplot')
+    ),
+    tabItem(tabName = "boxplotOM",
+            value='stoch',
+            Boxplot_OMUI('boxplotOM')
+    ),
+    tabItem(tabName = "violin",
+            ViolinUI('violin')
+    ),
+    # Projected
+    tabItem(tabName = "kobe",
+            value='proj',
+            KobeUI('kobe')
+    ),
+    tabItem(tabName = "kobetime",
+            value='proj',
+            KobeTimeUI('kobetime')
+    ),
+    tabItem(tabName = "slope",
+            value='proj',
+            SlopeUI('slope')
+    ),
+    # State
+    tabItem(tabName = "line",
+            value='state',
+            LineUI('line')
+    ),
+    tabItem(tabName = "lineOM",
+            value='state',
+            Line_OMUI('lineOM')
+    )
+  )
+)
 
 
-    # ), # end of conditional panel general
-  ), # end of main window
-
-
-  column(12,
-         br(),
-         br(), style="height:40px;  text-align: center;",
-         textOutput("SessionID"),
-         paste0('v', as.character(packageVersion('Slick'))),
-         h6("copyright (c) The Ocean Foundation, 2021")
-         )
-
-
-
-        #h5("Bottom of app (Version etc)"),
-         #verbatimTextOutput("Log2",placeholder=T)
-
-         # verbatimTextOutput("Temp",placeholder=T)
-         #)
-
-) # end of fluid page
+# -- page ----
+dashboardPage(
+  header=header,
+  sidebar=sidebar,
+  body=body,
+  controlbar=controlbar,
+  title='Slick Decision Analysis',
+  dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
+                  right = paste0("The Ocean Foundation ", format(Sys.Date(), "%Y")))
+)

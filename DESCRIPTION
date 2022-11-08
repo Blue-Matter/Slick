@@ -11,15 +11,22 @@ License: GPL-2
 Imports:
     dplyr,
     DT,
+    fresh,
     ggplot2,
     ggrepel,
     MSEtool,
     snowfall,
     shiny,
+    shinyBS,
+    shinydashboard,
+    shinydashboardPlus,
+    shiny.i18n,
     shinyjs,
     shinyalert,
+    shinycssloaders,
     shinyWidgets,
-    tidyr
+    tidyr,
+    waiter
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0

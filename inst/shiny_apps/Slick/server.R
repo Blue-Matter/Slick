@@ -2,9 +2,49 @@
 
 options(shiny.maxRequestSize=100000*1024^2)
 
+
 server <- function(input, output, session) {
 
-  # ---- Initialize Reactive Values -----
+  # -- multi-language support ----
+  i18n <- reactive({
+    selected <- input$selected_language
+    if (length(selected) > 0 && selected %in% translator$get_languages()) {
+      translator$set_translation_language(selected)
+    }
+    translator
+  })
+
+  output$language <- renderUI({
+    tagList(
+      selectInput('selected_language',
+                  "Select language",
+                  choices = languages,
+                  selected = translator$get_key_translation()
+      )
+    )
+  })
+
+  observeEvent(input$selected_language, {
+    shiny.i18n::update_lang(session, input$selected_language)
+
+  }, ignoreInit = TRUE)
+
+  # -- about menu ----
+  output$about <- renderUI({
+    tagList(
+      h4(i18n()$t('About Slick')),
+      p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation,',  target="_blank"),
+        i18n()$t('with support from'), a(href='https://www.pewtrusts.org/', 'The Pew Charitable Trusts,'),
+        i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
+      p(i18n()$t('The prototype figure designs were developed by'), a(href="https://www.5wgraphics.com/",  '5W Infographics.')
+        ),
+      p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
+        a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'),
+        i18n()$t('with any comments or suggestions for further development'))
+      )
+  })
+
+  # -- Initialize Reactive Values -----
   # load slick object
   Object <- reactiveValues(Loaded=FALSE,
                            File=NULL,
@@ -24,12 +64,13 @@ server <- function(input, output, session) {
   output$Filt <- reactive({ Object$Filt })
   outputOptions(output, "Filt", suspendWhenHidden = FALSE)
 
-  window_dims <<- reactive(input$dimension)
+  # window_dims <<- reactive(input$dimension)
+  window_dims <- reactive(input$dimension)
 
   # # Non technical arrays
-  Det<-reactiveValues(mat=array())
-  Stoch<-reactiveValues(mat=array())
-  Proj<-reactiveValues(mat=array())
+  Det <- reactiveValues(mat=array())
+  Stoch <- reactiveValues(mat=array())
+  Proj <- reactiveValues(mat=array())
 
   # Selections
   SNkeep <- reactiveValues(selected=T)
@@ -40,52 +81,45 @@ server <- function(input, output, session) {
 
 
   # Log (currently not used)
-  Log_text<-reactiveValues(text="nothing happened yet")
+  Log_text <- reactiveValues(text="nothing happened yet")
 
-  # ---- Observe Events -----
-  observeEvent(input$SplashLoad, {
-    Object$File <- input$SplashLoad
+  # -- Observe Events -----
+  observeEvent(input$Load, {
+    Object$File <- input$Load
     Object$Loaded <- Object$Loaded + 1
 
   })
 
-  observeEvent(input$example_action, {
+  observeEvent(input$example_upload, {
     Object$File <- input$example_input
     Object$Loaded <- Object$Loaded + 1
   })
 
+
+  output$example_download <- downloadHandler(
+    filename = function() {
+      Name <- input$example_input
+      paste0(Name, ".slick", sep="")
+    },
+    content = function(file) {
+      Name <- input$example_input
+      File <- file.path('./data/case_studies', case_study_df$File[match(Name, case_study_df$Example)])
+      file.copy(File, file)
+    }
+  )
 
   observeEvent(Object$Loaded, {
     if (Object$Loaded >= 1) {
       Object$Ready <- FALSE
       Object$Filt <- FALSE
 
-    # load the object
-
+     # load the object
       if (inherits(Object$File, 'character')) {
-
-
-        if (Object$File == 'Demonstration') {
-          obj <- readRDS("./data/SLICKobj.rda")
-        }
-
-        if (Object$File == 'Atlantic bluefin tuna') {
-          obj <- readRDS("./data/ABT.slick")
-        }
-
-        if (Object$File == 'North Atlantic swordfish') {
-          obj <- readRDS("./data/SWO.slick")
-        }
-
-        # if (Object$File == 'Bay of Fundy herring') {
-        #   obj <- readRDS("./data/BoF_Herring.slick")
-        # }
-
+        obj <- readRDS(file.path('./data/case_studies', case_study_df$File[match(Object$File, case_study_df$Example)]))
       }
 
       if (inherits(Object$File, 'data.frame')) {
         obj <- readRDS(Object$File$datapath)
-        obj$name <- Object$File$name
 
       }
 
@@ -139,68 +173,67 @@ server <- function(input, output, session) {
 
 
   # ---- Download ----
-  output$downloadData <- downloadHandler(
+  # not currently used
+  # output$downloadData <- downloadHandler(
+  #
+  #   # replace with Slick$name ...
+  #   filename = function() {
+  #     paste('Slick-', Sys.Date(), '.slick', sep='')
+  #   },
+  #
+  #   content=function(file) {
+  #     if (Object$Loaded) {
+  #       saveRDS(Object$obj, file)
+  #     } else{
+  #       # message no object loaded
+  #     }
+  #
+  #   }
+  # )
 
-    # replace with Slick$name ...
-    filename = function() {
-      paste('Slick-', Sys.Date(), '.slick', sep='')
-    },
 
-    content=function(file) {
-      if (Object$Loaded) {
-        saveRDS(Object$obj, file)
-      } else{
-        # message no object loaded
-      }
-
-    }
-  )
-
+  # -- Server Modules ----
   # filters
   FiltersServer('filters', Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                Det, Stoch, Proj)
+                Det, Stoch, Proj, i18n = i18n)
 
+  # home
+  HomeServer('home', i18n = i18n)
 
+  # load
+  LoadServer('load', Object, i18n = i18n)
 
-  # splash page
-  SplashServer('splash', Object)
-
-
-  # Non technical pages -------------------------------------------
-  # page 1
-  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object) # uses modules, all server and ui code contained in Page_1.r
-
-  # page 2
-  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object) # uses modules, all server and ui code contained in Page_2.r
-
-  # page 3
-  RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object)
-
-  # page 4
-  KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 5
-  KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 6
-  LineServer('line', MPkeep, SNkeep, Object)
-
-  # page 7
-  SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object)
-
-  # page 8
-  BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object)
-
-  # page 9
-  Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object)
-
-  # page 10
-  Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object)
-
-  # page 11
-  LineOMServer('lineOM', MPkeep, SNkeep, Object)
-
+  # resources
   ResourcesServer('resources')
+
+  # Plots
+  # Deterministic
+  SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
+
+  Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
+
+  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
+
+  RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
+
+  # Stochastic
+  BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  ViolinServer('violin', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+
+  # Projected
+  KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+
+  # State Variables
+  LineServer('line', MPkeep, SNkeep, Object, i18n)
+
+  LineOMServer('lineOM', MPkeep, SNkeep, Object, i18n)
 
 
   # Log ----------------------------------------------------------
@@ -209,6 +242,5 @@ server <- function(input, output, session) {
   USERID<-Sys.getenv()[names(Sys.getenv())=="USERNAME"]
   SessionID<-paste0(USERID,"-",strsplit(as.character(Sys.time())," ")[[1]][1],"-",strsplit(as.character(Sys.time())," ")[[1]][2])
   output$SessionID<-renderText(SessionID)
-
 
 }

@@ -1,8 +1,11 @@
+
+
+
 FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projkeep,
-                          Det, Stoch, Proj) {
+                          Det, Stoch, Proj, i18n) {
   moduleServer(id,
                function(input, output, session) {
-
+                 ns <- NS(id)
                  # States of Nature Filters
                  # (may need wrapping for robustness https://stackoverflow.com/questions/24205676/r-shiny-wrapping-ui-elements)
                  output$SN_filters <- renderUI({
@@ -45,67 +48,81 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                       selected=Object$obj$Perf$Proj$Codes)
                  })
 
+
                  output$show_filters <- renderUI({
+                   if (!Object$Loaded) {
+                     # no object loaded
+                     return(
+                       tagList(br(),
+                               box(status = 'warning', width=12,
+                                   solidHeader =FALSE,
+                                   title=h4(i18n()$t('Slick object not loaded')),
+                                   p(i18n()$t('Please go to '), a(onclick='customHref("load");', style="cursor: pointer;", "Load"), i18n()$t('and load a Slick object.'))
+                               )
 
-                   if (Object$Loaded>=1) {
-
-                     tagList(
-                       conditionalPanel('input.NonTech!="resources"',
-                       column(2, align = 'left', class='multicol',
-                              h3('Filters'),
-                              p('Use the checkboxes to select the Operating Models, Management Procedures, and (where applicable) Performance Metrics.'),
-                              p('Then click the FILTER button to apply the filter.'),
-                              # h3(Object$obj$Misc$App_axes[2]),
-                              h3('Operating Models'),
-                              a('OM Glossary', onclick='customHref("splash"); customHref("Operating Model"); customHref("Design");',
-                                style="cursor: pointer;"),
-
-                              uiOutput(session$ns('SN_filters')),
-                              hr(),
-                              # h3(Object$obj$Misc$App_axes[3]),
-                              h3('Management Procedures'),
-                              a('MP Glossary', onclick='customHref("splash"); customHref("Management Procedures")',
-                                style="cursor: pointer;"),
-                              uiOutput(session$ns('MP_filters')),
-                              hr(),
-
-                              # Page Specific Filters
-                              conditionalPanel('input.NonTech=="det"',
-                                               class='multicol2',
-                                               # h3(Object$obj$Misc$App_axes[1]),
-                                               h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Deterministic")',
-                                                 style="cursor: pointer;"),
-                                               uiOutput(session$ns('PM_Det_filters')),
-                                               hr()
-                              ),
-                              conditionalPanel('input.NonTech=="stoch"',
-                                               class='multicol2',
-                                               h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Stochastic")',
-                                                 style="cursor: pointer;"),
-                                               uiOutput(session$ns('PM_Stoch_filters')),
-                                               hr()
-                              ),
-                              conditionalPanel('input.NonTech=="proj"',
-                                               class='multicol2',
-                                               h3('Performance Metric'),
-                                               a('PM Glossary', onclick='customHref("splash"); customHref("Performance Metrics"); customHref("Projection")',
-                                                 style="cursor: pointer;"),
-                                               # uiOutput(session$ns('PM_Proj_filters')),
-                                               hr()
-                              ),
-                              conditionalPanel("output.Filt",
-                                               actionBttn( session$ns("Filt"),"FILTER",icon("cogs"),block=T, style="fill",color='danger',size='sm'))
-
-                              # h5("log/debugging"),
-                               #verbatimTextOutput("Log",placeholder=T)
-
-                       )
                        )
                      )
                    }
-                 })
+
+                   if (Object$Loaded>=1) {
+                     tagList(
+                       # conditionalPanel('input.NonTech=="home" || input.NonTech=="load"',
+                       #                  column(12, align = 'left', class='multicol',
+                       #                         h3(i18n()$t('Filters')),
+                       #                         p(i18n()$t('The filters will appear here when one of the plots on the menu on the left are selected.'))
+                       #                  )
+                       # ),
+                       # conditionalPanel('input.NonTech!="home" && input.NonTech!="load"',
+                                        column(12, align = 'left', class='multicol',
+                                               h3(i18n()$t('Filters')),
+                                               p(i18n()$t('Use the checkboxes to select the Operating Models, Management Procedures, and (where applicable) Performance Metrics.')),
+                                               p(i18n()$t('Then click the FILTER button to apply the filter.')),
+                                               # h3(Object$obj$Misc$App_axes[2]),
+                                               h3(i18n()$t('Operating Models (OM)')),
+                                               a(i18n()$t('OM Details'), onclick='customHref("load"); customHref("Operating Model"); customHref("Design");',
+                                                 style="cursor: pointer;"),
+
+                                               uiOutput(session$ns('SN_filters')),
+                                               hr(),
+                                               # h3(Object$obj$Misc$App_axes[3]),
+                                               h3(i18n()$t('Management Procedures (MP)')),
+                                               a(i18n()$t('MP Details'), onclick='customHref("load"); customHref("Management Procedures")',
+                                                 style="cursor: pointer;"),
+                                               uiOutput(session$ns('MP_filters')),
+                                               hr(),
+
+                                               # Page Specific Filters
+                                               # deterministic
+                                               conditionalPanel('input.NonTech=="spider" || input.NonTech=="spiderOM" || input.NonTech=="zigzag" || input.NonTech=="rail"',
+                                                                class='multicol2',
+                                                                # h3(Object$obj$Misc$App_axes[1]),
+                                                                h3(i18n()$t('Performance Metric (PM)')),
+                                                                a(i18n()$t('PM Details'), onclick='customHref("load"); customHref("Performance Metrics"); customHref("Deterministic")',
+                                                                  style="cursor: pointer;"),
+                                                                uiOutput(session$ns('PM_Det_filters')),
+                                                                hr()
+                                               ),
+                                               # stochastic
+                                               conditionalPanel('input.NonTech=="boxplot" || input.NonTech=="boxplotOM" || input.NonTech=="violin"',
+                                                                class='multicol2',
+                                                                h3(i18n()$t('Performance Metric (PM)')),
+                                                                a(i18n()$t('PM Details'), onclick='customHref("load"); customHref("Performance Metrics"); customHref("Stochastic")',
+                                                                  style="cursor: pointer;"),
+                                                                uiOutput(session$ns('PM_Stoch_filters')),
+                                                                hr()
+                                               ),
+                                               conditionalPanel("output.Filt",
+                                                                actionBttn( session$ns("Filt"),"FILTER",icon("cogs", verify_fa=FALSE),block=T, style="fill",
+                                                                            color='danger',size='sm'))
+
+                                               # h5("log/debugging"),
+                                               #verbatimTextOutput("Log",placeholder=T)
+                                        )
+                       # )
+                     )
+                   }
+
+               })
 
                  #observeEvent(input$Filt,{
                   # FilterOMs()
@@ -136,12 +153,15 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
 
 
 
-FiltersUI <- function(id, label="filters") {
+FiltersUI <- function(id, label="filters", i18n) {
 
   ns <- NS(id)
   tagList(
+    usei18n(i18n),
     fluidRow(
-      htmlOutput(ns('show_filters'))
+     column(12,
+            htmlOutput(ns('show_filters'))
+     )
     )
   )
 }

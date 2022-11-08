@@ -1,6 +1,8 @@
-obj<-readRDS("inst/shiny_apps/SLICK/data/SLICKobj.rda")
+obj<-readRDS("inst/shiny_apps/SLICK/data/case_studies/SLICKobj.rda")
 
-# obj<-readRDS("inst/shiny_apps/SLICK/data/ABT.slick")
+obj<-readRDS("inst/shiny_apps/SLICK/data/case_studies/NSWO.slick")
+obj <- readRDS('inst/shiny_apps/SLICK/data/case_studies/WSKJ.slick')
+
 Object <- list()
 Object$obj <- obj
 
@@ -28,3 +30,6 @@ input <- NULL; input$SV_select <- 1
 input$selectSV <- obj$StateVar$Labels[1]
 input$OM_select <- 4
 
+
+Det$mat %>% dim
+Stoch$mat %>% dim
