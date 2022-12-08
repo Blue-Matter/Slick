@@ -81,7 +81,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                          p('This chart', strong('compares the performance of ', n.MP,
                                                 ' management procedures (MP) against ', n.PM,
                                                 ' performance metrics.')),
-                         p('Each value is a median peformance metric over ', n.OM,
+                         p('Each value is a median performance metric over ', n.OM,
                            ' operating models.'),
                          p(HTML('<i class="fas fa-hexagon"></i>'),
                            'The', strong('filled plots on top'),
@@ -95,10 +95,9 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                            strong('The lines in the bottom left spider plot'),
                            'connect', strong('individual scores'),
                            'for the performance metrics in each management procedure.',
-                           'Scores closer to the exterior edge indicate better performance.'),
-                         p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric. When Relative Scale is off, the performance metrics values are plotted directly, with 100 representing the highest score and 0 the lowest.'
-                         )
+                           'Scores closer to the exterior edge indicate better performance.')
                        )
+
                      }
                    }
                  })
@@ -109,27 +108,35 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                    if (n.select>2) {
                      tagList(
                        fluidRow(
-                         column(width = 6,
+                         column(width = 9,
                                 h3('Management Procedure', class='lah'),
                                 h4(strong('Overall scores'), '(average of ', n.select,
                                    'performance metrics).'),
                                 shinycssloaders::withSpinner(plotOutput(session$ns('filled_hex'), height='auto'))
-                       ),
-                       column(width = 1),
-                       column(width = 5,
-                              h4('Relative Scale'),
-                              switchInput(
-                                inputId = session$ns("RS_button"),
-                                handleWidth = 80, labelWidth = 40,
-                                inline = TRUE, width = "200px"
-                                ),
-                              h4('Performance metrics measured'),
-                              shinycssloaders::withSpinner(plotOutput(session$ns('PM_outline'), width=125, height=125)),
-                              htmlOutput(session$ns('PMlist'))
-                              )
+                         ),
+                         column(width=3,
+                                h4('Performance metrics measured'),
+                                shinycssloaders::withSpinner(plotOutput(session$ns('PM_outline'), width=125, height=125)),
+                                htmlOutput(session$ns('PMlist'))
+                                )
                        )
                      )
                    }
+                 })
+
+                 output$relative_scale <- renderUI({
+                   if(!Object$Loaded) return()
+                   tagList(
+                     h4('Relative Scale'),
+                     switchInput(
+                       inputId = session$ns("RS_button"),
+                       handleWidth = 80, labelWidth = 40,
+                       inline = TRUE, width = "200px"
+                     ),
+                     p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric.'),
+                     p('When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric.'),
+                     p('When Relative Scale is off, the performance metrics values are plotted directly, with 100 representing the highest score and 0 the lowest.'),
+                   )
                  })
 
                  output$PMlist <- renderUI({
@@ -274,9 +281,12 @@ SpiderUI <- function(id, label="spider") {
                      fluidRow(
                        column(width=5,
                               div(
-                                summaryUI(ns('page1'))
-                                # uiOutput(ns('summary'), class='page_summary')
+                                summaryUI(ns('page1')),
                               )
+                       ),
+                       column(width=1),
+                       column(width=3,
+                              uiOutput(ns('relative_scale'))
                        )
                      ),
                      fluidRow(class='bottom_border',

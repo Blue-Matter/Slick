@@ -58,7 +58,7 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
 controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
-                                  collapsed = FALSE,
+                                  collapsed = TRUE,
 
                                   FiltersUI('filters', i18n=i18n)
 
@@ -66,6 +66,7 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 
 # -- lhs sidebar ----
 sidebar <- dashboardSidebar(
+  collapsed = TRUE,
   sidebarMenu(id='NonTech',
     menuItem("Home", tabName = "home", icon = icon("house")),
     menuItem("Load", tabName = "load", icon = icon("upload")),
@@ -101,7 +102,7 @@ sidebar <- dashboardSidebar(
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     ),
     # State Variables
-    menuItem("State Variables", icon = icon("layer-group"), startExpanded = TRUE,
+    menuItem("Time Series", icon = icon("layer-group"), startExpanded = TRUE,
              menuSubItem("Line", tabName = "line",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Line OM", tabName = "lineOM",

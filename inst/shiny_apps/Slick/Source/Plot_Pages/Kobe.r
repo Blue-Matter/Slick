@@ -90,7 +90,7 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                          'The black', strong('dots'),
                          paste0('represent the median value for the final year of the projection period ',
                          yr.txt, '.')),
-                       p('The whited', strong('dotted lines'), 'around dots are error bars. The default represents',
+                       p('The white', strong('dotted lines'), 'around dots are error bars. The default represents',
                          HTML(paste0(quant_text, 'th')), 'percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
                      )
                    }
@@ -261,9 +261,9 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
         BR <- data.frame(x=c(x_refs[ind1], maxX, maxX, x_refs[ind1]),
                          y=c(0,0, y_refs[ind2], y_refs[ind2]), lab="BR")
         bgDF <- rbind(BL, TL, TR, BR)
-        bgCols <- c(BL=as.character(obj$Misc$Cols$KobeBG[3]),
+        bgCols <- c(BL=as.character(obj$Misc$Cols$KobeBG[2]),
                     TL=as.character(obj$Misc$Cols$KobeBG[1]),
-                    TR=as.character(obj$Misc$Cols$KobeBG[2]),
+                    TR=as.character(obj$Misc$Cols$KobeBG[3]),
                     BR=as.character(obj$Misc$Cols$KobeBG[4]))
 
 

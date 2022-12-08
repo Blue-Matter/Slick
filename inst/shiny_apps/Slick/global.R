@@ -16,9 +16,10 @@ library(shinycssloaders)
 case_study_files <- list.files('./data/case_studies')
 
 case_study_df <- data.frame(Example=c('North Atlantic Swordfish',
+                                      'Demonstration',
                                       'Western Atlantic Skipjack Tuna'),
                             File=case_study_files,
-                            Order=1:2)
+                            Order=c(2,1,3))
 
 case_study_df <- case_study_df %>% arrange(Order)
 

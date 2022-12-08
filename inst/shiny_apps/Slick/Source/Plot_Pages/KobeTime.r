@@ -381,13 +381,13 @@ Kobe <- function(median1, median2, quant1, quant2, input, maxX, maxY, refpt1,
 
   plot(c(0, maxX), c(0, maxY), xlab='', ylab='', axes=FALSE, bty="n", type="n")
   polygon(x=c(0, refpt1[ind1], refpt1[ind1], 0),
-          y=c(0,0, refpt2[ind2], refpt2[ind2]), col=obj$Misc$Cols$KobeBG[3], border=NA)
+          y=c(0,0, refpt2[ind2], refpt2[ind2]), col=obj$Misc$Cols$KobeBG[2], border=NA)
 
   polygon(x=c(0, refpt1[ind1], refpt1[ind1], 0),
           y=c(refpt2[ind2],refpt2[ind2], maxY,maxY), col=obj$Misc$Cols$KobeBG[1], border=NA)
 
   polygon(x=c(refpt1[ind1], maxX, maxX, refpt1[ind1]),
-          y=c(refpt2[ind2],refpt2[ind2], maxY,maxY), col=obj$Misc$Cols$KobeBG[2], border=NA)
+          y=c(refpt2[ind2],refpt2[ind2], maxY,maxY), col=obj$Misc$Cols$KobeBG[3], border=NA)
 
   polygon(x=c(refpt1[ind1], maxX, maxX, refpt1[ind1]),
           y=c(0,0, refpt2[ind2], refpt2[ind2]), col=obj$Misc$Cols$KobeBG[4], border=NA)

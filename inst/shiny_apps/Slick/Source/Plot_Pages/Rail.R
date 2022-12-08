@@ -82,7 +82,7 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                          ' management procedures (MP) against ', n.PM,
                          ' performance metrics.')),
                        p(
-                         'Each value is a median peformance metric over ', n.OM,
+                         'Each value is a median performance metric over ', n.OM,
                                 ' operating models.'),
                        p(HTML('<i class="fas fa-circle"></i>'),
                          'The', strong('large dots'), 'at the top represent the',

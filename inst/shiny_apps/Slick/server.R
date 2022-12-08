@@ -33,9 +33,12 @@ server <- function(input, output, session) {
   output$about <- renderUI({
     tagList(
       h4(i18n()$t('About Slick')),
-      p(i18n()$t('Slick was designed and commissioned by'), a(href='https://oceanfdn.org/', 'The Ocean Foundation,',  target="_blank"),
+      p(i18n()$t('Slick was developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science',  target="_blank"),
+        i18n()$t("and designed and commissioned by"), a(href='https://oceanfdn.org/', "The Ocean Foundation's",  target="_blank"),
+        i18n()$t('International Fisheries Conservation Project and'), a(href='www.harveststrategies.org', "www.harveststrategies.org,",  target="_blank"),
         i18n()$t('with support from'), a(href='https://www.pewtrusts.org/', 'The Pew Charitable Trusts,'),
-        i18n()$t('and developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science.',  target="_blank")),
+        i18n()$t('and the Common Oceans Tuna Fisheries Project, which is funded by GEF and implemented by the FAO.')
+        ),
       p(i18n()$t('The prototype figure designs were developed by'), a(href="https://www.5wgraphics.com/",  '5W Infographics.')
         ),
       p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
