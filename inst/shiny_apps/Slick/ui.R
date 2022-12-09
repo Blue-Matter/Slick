@@ -21,8 +21,11 @@ Slick_theme <- create_theme(
 )
 
 # -- header ----
-header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
-                                            "Slick Decision Analysis"),
+header <- dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
+                                           tags$a(href='https://harveststrategies.org/', target="_blank",
+                                                  tags$img(src='img/logo.png', height = '50', width ='300')
+                                                  ),
+                                           ),
                             leftUi = tagList(
                               dropdownButton(
                                 label = "Switch Language",
@@ -51,8 +54,6 @@ header <-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
                             ),
                            controlbarIcon=shiny::icon('filter')
                            )
-
-
 
 # -- rhs controlbar ----
 controlbar <- dashboardControlbar(overlay = FALSE,
@@ -221,7 +222,7 @@ dashboardPage(
   sidebar=sidebar,
   body=body,
   controlbar=controlbar,
-  title='Slick Decision Analysis',
+  title='Slick',
   dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
                   right = paste0("The Ocean Foundation ", format(Sys.Date(), "%Y")))
 )
