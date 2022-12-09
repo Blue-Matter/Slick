@@ -50,6 +50,33 @@ header <- dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
                                 status = "primary",
                                 circle = FALSE,
                                 uiOutput("about")
+                              ),
+                              conditionalPanel('output.Loaded>0',
+                                               dropdownButton(
+                                                 width=700,
+                                                 label = "MP Details",
+                                                 status = "primary",
+                                                 circle = FALSE,
+                                                 uiOutput("mp_details")
+                                               )
+                              ),
+                              conditionalPanel('output.Loaded>0',
+                                               dropdownButton(
+                                                 width=700,
+                                                 label = "OM Details",
+                                                 status = "primary",
+                                                 circle = FALSE,
+                                                 uiOutput("om_details")
+                                               )
+                              ),
+                              conditionalPanel('output.Loaded>0',
+                                               dropdownButton(
+                                                 width=700,
+                                                 label = "PM Details",
+                                                 status = "primary",
+                                                 circle = FALSE,
+                                                 uiOutput("pm_details")
+                                               )
                               )
                             ),
                            controlbarIcon=shiny::icon('filter')
@@ -224,5 +251,6 @@ dashboardPage(
   controlbar=controlbar,
   title='Slick',
   dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
-                  right = paste0("The Ocean Foundation ", format(Sys.Date(), "%Y")))
+                  right = tags$a(href='https://harveststrategies.org/',
+                                 target="_blank", paste0("harveststrategies.org ", format(Sys.Date(), "%Y"))))
 )

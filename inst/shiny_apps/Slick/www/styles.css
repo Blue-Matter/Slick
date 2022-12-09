@@ -1,6 +1,16 @@
 /* Default styles for pages */
 
 
+.tabbable > .nav > li > a  {
+   background-color: white !important;
+   color:black !important;
+   }
+.tabbable > .nav > li[class=active] > a  {
+   background-color: #37638a !important;
+   color:white !important;
+   }
+
+
 a:visited {
   color: purple;
 }
