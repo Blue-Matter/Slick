@@ -43,7 +43,28 @@ server <- function(input, output, session) {
         ),
       p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
         a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'),
-        i18n()$t('with any comments or suggestions for further development'))
+        i18n()$t('with any comments or suggestions for further development')),
+      br(),
+      fluidRow(align = "center",
+               column(4,
+                      tags$a(href='https://harveststrategies.org/', target="_blank",
+                             tags$div(
+                               tags$img(src='img/logos/HSlogo_C_RGB_round_small.png', height = '100', width ='100'),
+                               p('Harveststrategies.org')
+                             )
+                      )
+               ),
+               column(1),
+               column(4,
+                      tags$a(href='https://www.bluematterscience.com/', target="_blank",
+                             tags$div(
+                               tags$img(src='img/logos/Blue Matter colour.png', height = '114', width ='216')
+
+                             )
+                      )
+               )
+      ),
+      br()
       )
   })
 
