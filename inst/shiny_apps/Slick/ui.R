@@ -121,7 +121,7 @@ sidebar <- dashboardSidebar(
 
     ),
     # Projected
-    menuItem("Projected ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
+    menuItem("Projection ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
              menuSubItem("Kobe", tabName = "kobe",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Kobe Time", tabName = "kobetime",
