@@ -75,7 +75,8 @@ ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                          strong('higher values mean better performance'),
                          'and',
                          HTML(paste0(strong('lower values mean worse performance'),'.'))
-                         )
+                         ),
+                       p('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. Wider regions of the violin plot indicate values with a greater number of observations.')
                      )
                    }
                  })
