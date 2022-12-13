@@ -25,6 +25,7 @@ HomeServer <- function(id, i18n) {
                                            tags$li(i18n()$t('Uncertainty within an Operating Model (multiple simulations for each discrete state of nature)'))
                                          ),
                                          p(i18n()$t("Slick allows users to filter Operating Models, Management Procedures, and Performance Metrics in order to explore robustness and characterize performance.")),
+                                         p(i18n()$t("In general, the Performance Metrics values are presented as point values (median; Deterministic plots)) or median and percentiles (Stochastic and Projection plots) across the Operating Models and individual simulations.")),
 
                                          p(i18n()$t("Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick data file"), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "(see the Developer's Guide),",  target="_blank"), i18n()$t("these results can be loaded to the App."))
                                      ),
