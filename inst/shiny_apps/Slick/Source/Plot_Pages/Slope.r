@@ -58,6 +58,9 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                    n.OM <- sum(SNkeep$selected)
                    yrs <- Object$obj$Perf$Proj$Times
                    yr.txt <- paste0(min(yrs), '-', max(yrs))
+
+                   quant_text <- var$quant() * 100
+
                    if (n.MP>0 & n.PM>0 & n.OM>0) {
                      tagList(
                        p(
@@ -71,7 +74,7 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                          'represent the median value for the final year of the projection period',
                          paste0(yr.txt, '.')),
                        p(strong('Dotted lines'),
-                         'next to the dots are error bars representing 90th percentiles.'),
+                         'next to the dots are error bars representing', HTML(paste0(quant_text, 'th')), 'percentiles.'),
                        p('Target and limit reference points are shown in horizontal green and red lines, respectively, if they have been specified.')
                      )
                    }
@@ -90,31 +93,21 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                    }
 
 
-
                    tagList(
-                     fluidRow(
                        br(),
                        h4('Select Performance Metrics'),
-                       column(width=6,
-                              selectInput(session$ns('selectPM1'),
+                       selectInput(session$ns('selectPM1'),
                                           'PM 1',
                                           choices=Codes,
-                                          selected=sel1)
-                              ),
-                       column(width=6,
-                              selectInput(session$ns('selectPM2'),
+                                          selected=sel1),
+                       selectInput(session$ns('selectPM2'),
                                           'PM 2',
                                           choices=Codes,
                                           selected=sel2)
-                              )
-                     )
                    )
                  })
 
-                 output$results <- renderPlot({
-                   if(!Object$Loaded) return()
-                   trade_plot2(Proj, MPkeep, Projkeep, SNkeep, input, Object$obj)
-                 })
+
 
                  output$results_ranking <- DT::renderDataTable({
                    if(!Object$Loaded) return()
@@ -160,6 +153,30 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                    }
 
                  })
+
+                 output$Select_quantiles <- renderUI({
+                   tagList(
+                     h4('Select Percentiles'),
+                     sliderInput(session$ns('selectquant'),
+                                 'Percentile',
+                                 0,
+                                 1,
+                                 0.9,
+                                 step=0.05
+                     )
+                   )
+                 })
+
+                 var <- reactiveValues(quant=0.9)
+                 var$quant <- reactive({
+                   input$selectquant
+                 })
+
+                 output$results <- renderPlot({
+                   if(!Object$Loaded) return()
+                   trade_plot2(Proj, MPkeep, Projkeep, SNkeep, input, Object$obj, quant=var$quant())
+                 })
+
                }
   )
 }
@@ -192,9 +209,12 @@ SlopeUI <- function(id, label="slope") {
                               h4(strong("READING THIS CHART")),
                               htmlOutput(ns('reading'))
                        ),
-                       column(width = 4,
+                       column(width = 3,
                               htmlOutput(ns('PM_dropdown'))
-                       )
+                       ),
+                       column(3,
+                              htmlOutput(ns('Select_quantiles'))
+                              )
                      ),
                      br(),
                      br(),
@@ -218,7 +238,7 @@ SlopeUI <- function(id, label="slope") {
 
 
 
-trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj) {
+trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
 
   Codes <- unlist(obj$Perf$Proj$Codes) # PM codes
   pm1 <- which(Codes==input$selectPM1)
@@ -241,6 +261,8 @@ trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj) {
   top.text <- 1.8
   ref.cex <- 1.6
 
+  quants <- c((1- quant)/2, 1-(1- quant)/2)
+
   if (nMPs>0 & nPMds >1 & nSNs>0 & length(pm1>0) & length(pm2)>0) {
 
     Values <- Proj$mat[,SNkeep$selected, MPkeep$selected,c(pm1, pm2), ,
@@ -249,9 +271,9 @@ trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj) {
       med1 <- apply(Values[,,,1,n.yrs, drop=FALSE], 3, median, na.rm=TRUE)
       med2 <- apply(Values[,,,2,n.yrs, drop=FALSE], 3, median, na.rm=TRUE)
       quant1 <- apply(Values[,,,1,n.yrs, drop=FALSE],  3,quantile,
-                      c(0.05, 0.95), na.rm=TRUE)
+                      quants, na.rm=TRUE)
       quant2 <-apply(Values[,,,2,n.yrs, drop=FALSE],  3,quantile,
-                     c(0.05, 0.95), na.rm=TRUE)
+                     quants, na.rm=TRUE)
       maxX <- max(quant1)
       maxY <- max(quant2)
 
