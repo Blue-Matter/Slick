@@ -63,11 +63,63 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                      )
                    )
                  })
-                 var <- reactiveValues(quant=0.9)
-                 var$quant <- reactive({
 
+                 output$Select_Axisrange <- renderUI({
+                   maxX <- 4
+                   maxY <- 4
+                   Codes <- Object$obj$Perf$Proj$Codes # PM codes
+                   pm1 <- which(Codes==input$selectPM1)
+                   pm2 <- which(Codes==input$selectPM2)
+
+                   nSNs <- sum(SNkeep$selected) # number SN selected
+                   nMPs <- sum(MPkeep$selected) # n MPs selected
+                   nPMds <- sum(Projkeep$selected) # n PM selected
+
+                   if (nMPs>0 & nPMds >1 & nSNs>0) {
+                     Values <- Proj$mat[,SNkeep$selected, MPkeep$selected,c(pm1, pm2), ,drop=FALSE]
+                     if (all(dim(Values))>0) {
+                       maxX <- max(Values[,,,1,])
+                       maxY <- max(Values[,,,2,])
+                     }
+
+                   }
+
+                   tagList(
+                     fluidRow(
+                       h4('Set Maximum Axis Value'),
+                       column(6,
+                              numericInput(session$ns('xaxis'),
+                                           'X Axis',
+                                           2,
+                                           0,
+                                           step=0.1,
+                                           maxX)
+                              ),
+                       column(6,
+                              numericInput(session$ns('yaxis'),
+                                           'Y Axis',
+                                           2,
+                                           0,
+                                           step=0.1,
+                                           maxY)
+                              )
+                     )
+                   )
+                 })
+
+
+                 var <- reactiveValues(quant=0.9, xaxis=2, yaxis=2)
+
+                 var$quant <- reactive({
                    input$selectquant
                  })
+                 var$xaxis <- reactive({
+                   input$xaxis
+                 })
+                 var$yaxis <- reactive({
+                   input$yaxis
+                 })
+
 
                  output$reading <- renderUI({
                    if(!Object$Loaded) return()
@@ -124,7 +176,7 @@ KobeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                  output$trade_plot <- renderPlot({
                    if(!Object$Loaded) return()
                    trade_plot( Proj, MPkeep, Projkeep, SNkeep, input, Object$obj,
-                               quant=var$quant())
+                               quant=var$quant(), xaxis=var$xaxis(), yaxis=var$yaxis())
                  })
 
                })
@@ -151,11 +203,13 @@ KobeUI <- function(id, label="kobe") {
                                 summaryUI(ns('page6'))
                               )
                        ),
-                       column(width = 4,
+                       column(width = 3,
                               htmlOutput(ns('PM_dropdown'))
                        ),
-                       column(width = 2,
-                              htmlOutput(ns('Select_quantiles'))
+                       column(width = 3,
+                              htmlOutput(ns('Select_quantiles')),
+                              htmlOutput(ns('Select_Axisrange'))
+
                        )
                      ),
                      fluidRow(
@@ -164,7 +218,7 @@ KobeUI <- function(id, label="kobe") {
                               htmlOutput(ns('reading'))
                        ),
                        column(width=7,
-                              shinycssloaders::withSpinner(plotOutput(ns('trade_plot')))
+                              shinycssloaders::withSpinner(plotOutput(ns('trade_plot'), height='600px', width='600px'))
                        )
                      )
     )
@@ -172,7 +226,7 @@ KobeUI <- function(id, label="kobe") {
 }
 
 
-trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
+trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant, xaxis, yaxis) {
 
   Codes <- obj$Perf$Proj$Codes # PM codes
   pm1 <- which(Codes==input$selectPM1)
@@ -267,6 +321,8 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
                     BR=as.character(obj$Misc$Cols$KobeBG[4]))
 
 
+        xlim <- c(0, xaxis)
+        ylim <- c(0, yaxis)
 
         ggplot() +
           geom_polygon(data=bgDF, aes(x=x, y=y, fill=lab), alpha=0.5) +
@@ -289,7 +345,9 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
           scale_y_continuous(expand = c(0, 0)) +
           scale_linetype_manual(values = c(2,3)) +
           theme_classic() +
-          coord_cartesian(clip = 'off') +
+          coord_cartesian(xlim=xlim,
+                          ylim=ylim,
+                          clip = 'on') +
           guides(fill="none", label="none",
                  linetype=guide_legend(keywidth = 3, keyheight = 1)) +
           labs(x=input$selectPM1,
