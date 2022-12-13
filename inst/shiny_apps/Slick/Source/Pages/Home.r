@@ -97,7 +97,7 @@ HomeServer <- function(id, i18n) {
                                                  ),
 
                                                  tags$li(p(a(onclick='customHref("violin");', style="cursor: pointer;", "Violin:"),
-                                                           i18n()$t('Similar to Boxplot, but the variability is shown as a kernel density plot.'))
+                                                           i18n()$t('Similar to Boxplot, but the variability is shown as a density plot, where the width of the violin indicating the frequency of data points in each region of the plot.'))
                                                  )
                                                )
                                            )
