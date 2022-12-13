@@ -43,7 +43,7 @@ server <- function(input, output, session) {
         ),
       p(i18n()$t('Slick is under going further development. All feedback is welcome. Please contact'),
         a(href="mailto:smiller@oceanfdn.org?&subject=Slick Development", 'Shana Miller'),
-        i18n()$t('with any comments or suggestions for further development')),
+        i18n()$t('with any comments or suggestions for further development.')),
       br(),
       fluidRow(align = "center",
                column(4,
