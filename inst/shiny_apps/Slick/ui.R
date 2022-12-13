@@ -121,7 +121,7 @@ sidebar <- dashboardSidebar(
 
     ),
     # Projected
-    menuItem("Projection ", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
+    menuItem("Projection", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
              menuSubItem("Kobe", tabName = "kobe",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Kobe Time", tabName = "kobetime",
@@ -152,6 +152,7 @@ body <- dashboardBody(
     includeScript(path = "www/js/index.js"),
     tags$link(rel='stylesheet', type='text/css', href='styles.css'),
     tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
+    tags$link(rel="shortcut icon", href="favicon.ico"),
 
     tags$style(HTML("#SessionID{font-size:12px;}")),
     tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
