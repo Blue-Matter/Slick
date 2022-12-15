@@ -25,6 +25,7 @@ Imports:
     shinyalert,
     shinycssloaders,
     shinyWidgets,
+    readxl,
     tidyr,
     waiter
 Encoding: UTF-8
