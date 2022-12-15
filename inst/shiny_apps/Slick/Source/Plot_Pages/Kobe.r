@@ -245,7 +245,7 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant, xaxis,
 
   # MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
   MPcols <- rep('black', sum(MPkeep$selected)) # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   med.cex <- 1.25
 
@@ -381,7 +381,7 @@ page_6_summary <-  function(Proj, MPkeep, Projkeep, SNkeep, Object, input) {
   nMPs <- sum(MPkeep$selected) # n MPs selected
 
   cols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   Codes <- obj$Perf$Proj$Codes # PM codes
 

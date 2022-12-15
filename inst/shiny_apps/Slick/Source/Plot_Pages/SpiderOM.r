@@ -84,7 +84,7 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                    n.MP <- sum(MPkeep$selected)
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
                    MPnames <- paste(" ", MPnames)
 
                    icon_text <- paste('<i class="fas fa-hexagon fa-sm" style="color:',

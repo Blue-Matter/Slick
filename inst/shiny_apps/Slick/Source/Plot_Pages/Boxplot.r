@@ -57,7 +57,7 @@ BoxplotServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                    n.OM <- sum(SNkeep$selected)
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    icon_text <- paste('<i class="fas fa-circle fa-sm" style="color:', MPcols, ';"></i>', MPnames, '<br/>')
                    icon_text <- paste(icon_text, collapse=" ")
@@ -159,7 +159,7 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
   nPMds <- sum(Stochkeep$selected) # n PM selected
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   if (nMPs>1 & nPMds >1 & nSNs>0) {
 
@@ -222,7 +222,7 @@ page_8_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
   nPMds <- sum(Stochkeep$selected) # n PM selected
 
   MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
   if (nMPs>0 & nPMds >1 & nSNs>0) {
 

@@ -488,7 +488,7 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
         coords <- rbind(coords, coords[1,])
         polygon(coords, col=cols[i], border=cols[i])
         text(0,0, round(pm.avg[i], 2), col="black", cex=mplab.cex, font=2)
-        text(0, 100, Object$obj$MP$Codes[i], xpd=NA, col=cols[i], cex=mplab.cex,
+        text(0, 100, Object$obj$MP$Labels[i], xpd=NA, col=cols[i], cex=mplab.cex,
              pos=3)
       }
     }
@@ -517,7 +517,7 @@ page_1_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
   pm.avg <- apply(pm, 1, mean, na.rm=TRUE)
   # pm.avg <- pm.avg[MPkeep$selected]
 
-  MPnames <- Object$obj$MP$Codes[MPkeep$selected]
+  MPnames <- Object$obj$MP$Labels[MPkeep$selected]
 
   Highest <- paste('MP with highest average performance value:', paste(MPnames[which.max(pm.avg)], collapse=", "))
   Lowest <- paste('MP with lowest average performance value:', paste(MPnames[which.min(pm.avg)], collapse=", "))

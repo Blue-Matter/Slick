@@ -247,7 +247,7 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
 
 
     MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-    MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+    MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
     pos <- 1
     for (mm in seq_along(MPnames)) {
       lines(hist.yr:last.proj, med.mps[mm,], col=MPcols[mm], lwd=med.lwd)
@@ -290,7 +290,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
                                 SV_ind, , drop=FALSE]
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   ylab.cex <- xlab.cex <- 1.25
   med.lwd <- 4
@@ -389,7 +389,7 @@ page_5_summary <- function(dummyDet, MPkeep, dummyKeep, SNkeep, Object,
     n.yrs <- length(obj$StateVar$Times)
     med.mps <- apply(Values[,,,,hist.yr.ind:n.yrs, drop=FALSE], 3, median)
 
-    MPnames <- obj$MP$Codes[MPkeep$selected]
+    MPnames <- obj$MP$Labels[MPkeep$selected]
 
     Highest <- paste('MP with highest median value over projection period:',
                      paste(MPnames[which.max(med.mps)], collapse=", "))

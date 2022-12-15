@@ -114,7 +114,7 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                    mp_mean <- apply(pm, 1, mean)
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    icon_text <- paste('<i class="fas fa-circle fa-sm" style="color:', MPcols, ';"></i>')
 
@@ -204,7 +204,7 @@ vert_line_plot_2 <- function(Det, MPkeep, Detkeep, SNkeep, obj) {
   nMPs <- sum(MPkeep$selected) # n MPs selected
 
   cols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
   Codes <- obj$Perf$Det$Codes[Detkeep$selected] # PM codes
   Values <- Det$mat[,MPkeep$selected,Detkeep$selected, drop=FALSE] # Det values
 
@@ -304,7 +304,7 @@ page_2_summary <- function(Det, MPkeep, Detkeep, SNkeep, Object) {
   pm.avg <- apply(pm, 1, mean, na.rm=TRUE)
   pm.avg <- pm.avg[MPkeep$selected]
 
-  MPnames <- Object$obj$MP$Codes[MPkeep$selected]
+  MPnames <- Object$obj$MP$Labels[MPkeep$selected]
 
 
 

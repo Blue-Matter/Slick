@@ -108,7 +108,7 @@ LoadServer <- function(id, Object, i18n) {
                  output$MPs <- renderDataTable({
                    if(!Object$Ready) return()
                    df <- data.frame(
-                     Code=Object$obj$MP$Codes,
+                     # Code=Object$obj$MP$Codes,
                      Label=Object$obj$MP$Labels,
                      Description=Object$obj$MP$Description
                    )

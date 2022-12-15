@@ -123,7 +123,7 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                    n.yrs <- dd[5]
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    med.cex <- 3
 
@@ -252,7 +252,7 @@ trade_plot2 <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant) {
   n.yrs <- dd[5]
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   med.cex <- 3
   ax.text <- 2
@@ -455,7 +455,7 @@ page_7_summary <-  function(Proj, MPkeep, Projkeep, SNkeep, Object, input) {
   nMPs <- sum(MPkeep$selected) # n MPs selected
 
   cols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   Codes <- obj$Perf$Proj$Codes # PM codes
 

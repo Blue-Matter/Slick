@@ -132,7 +132,7 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
                    n.MP <- sum(MPkeep$selected)
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    # write css class
                    text <- paste0("<p> <b class='horizline' style=' border-top: .3rem solid ", MPcols, ";'></b>",
@@ -231,7 +231,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
   n.yrs <- dim(Values)[5]
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
   nMP <- length(MPnames)
 
   maxVal <- quantile(obj$StateVar$Values[,sn, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
@@ -314,7 +314,7 @@ lineOM_summary <- function(dummyDet, MPkeep, dummyKeep, SNkeep, Object,
 
       med.mps <- apply(Values[,,,,hist.yr.ind:n.yrs, drop=FALSE], 2:3, median)
 
-      MPnames <- obj$MP$Codes[MPkeep$selected]
+      MPnames <- obj$MP$Labels[MPkeep$selected]
 
       selectedOMs <- (1:nSN)[SNkeep$selected]
       str <- NULL

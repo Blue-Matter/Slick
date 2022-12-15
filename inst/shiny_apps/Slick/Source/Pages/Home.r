@@ -14,7 +14,7 @@ HomeServer <- function(id, i18n) {
                                          status = "primary",
                                          h3(i18n()$t('Welcome to Slick')),
                                          p(i18n()$t('Slick is a Shiny App decision analysis tool that presents the outcomes of potential policy options across various states of nature. It allows for the simultaneous presentation of various performance metrics and can account for uncertainty in the states of nature. Slick is interactive and allows users to filter results live in order to explore robustness and performance.')),
-                                         p(i18n()$t('While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of harvest strategies, also known as management strategies, tested by Management Strategy Evaluation (MSE).')),
+                                         p(i18n()$t('While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of harvest strategies, also known as management procedures, tested by Management Strategy Evaluation (MSE).')),
 
                                          h3(i18n()$t('Slick Presentation of MSE Results')),
                                          p(i18n()$t('MSEs have four axes over which results are generally presented: ')),
@@ -25,7 +25,7 @@ HomeServer <- function(id, i18n) {
                                            tags$li(i18n()$t('Uncertainty within an Operating Model (multiple simulations for each discrete state of nature)'))
                                          ),
                                          p(i18n()$t("Slick allows users to filter Operating Models, Management Procedures, and Performance Metrics in order to explore robustness and characterize performance.")),
-                                         p(i18n()$t("In general, the Performance Metrics values are presented as point values (median; Deterministic plots)) or median and percentiles (Stochastic and Projection plots) across the Operating Models and individual simulations.")),
+                                         p(i18n()$t("In general, the Performance Metrics values are presented as point values (median; Deterministic plots) or median and percentiles (Stochastic and Projection plots) across the Operating Models and individual simulations.")),
 
                                          p(i18n()$t("Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick data file"), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "(see the Developer's Guide),",  target="_blank"), i18n()$t("these results can be loaded to the App."))
                                      ),
@@ -84,7 +84,7 @@ HomeServer <- function(id, i18n) {
 
                                            # stochastic
                                            box(title=h2(i18n()$t('Stochastic')),
-                                               p(i18n()$t('The Stochastic plots show results that include a meausure of uncertainty. The performance metrics in these plots include a single value for each simulation, OM, and MP. The results are typically summarized by MP as the median and percentiles of the performance metrics across the simulations (and sometimes across the OMs). They are scaled between 0 (worst performance) and 100 (best performance).')),
+                                               p(i18n()$t('The Stochastic plots show results that include a measure of uncertainty. The performance metrics in these plots include a single value for each simulation, OM, and MP. The results are typically summarized by MP as the median and percentiles of the performance metrics across the simulations (and sometimes across the OMs). They are scaled between 0 (worst performance) and 100 (best performance).')),
                                                tags$ol(
                                                  tags$li(p(a(onclick='customHref("boxplot");', style="cursor: pointer;", "Boxplot:"),
                                                            i18n()$t('The stochastic performance metrics for each MP are summarized across the operating models and shown as the median, 1st and 3rd quartiles, and lowest and highest values.')),

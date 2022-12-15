@@ -151,7 +151,7 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                    nMPs <- sum(MPkeep$selected) # n MPs selected
 
                    cols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    Codes <- Object$obj$Perf$Proj$Codes # PM codes
 
@@ -316,7 +316,7 @@ kobe_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, mm, obj) {
   nMPs <- sum(MPkeep$selected) # n MPs selected
 
   cols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
 
   Codes <- obj$Perf$Proj$Codes # PM codes
 

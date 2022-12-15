@@ -56,7 +56,7 @@ ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                    n.OM <- sum(SNkeep$selected)
 
                    MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-                   MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+                   MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
                    icon_text <- paste('<i class="fas fa-circle fa-sm" style="color:', MPcols, ';"></i>', MPnames, '<br/>')
                    icon_text <- paste(icon_text, collapse=" ")
@@ -76,7 +76,7 @@ ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                          'and',
                          HTML(paste0(strong('lower values mean worse performance'),'.'))
                          ),
-                       p('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. Wider regions of the violin plot indicate values with a greater number of observations.')
+                       p('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.')
                      )
                    }
                  })
@@ -167,7 +167,7 @@ violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
   nPMds <- sum(Stochkeep$selected) # n PM selected
 
   MPcols <- obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
   MPnames <- factor(MPnames, ordered = TRUE, levels=MPnames)
 
   p <- NULL
@@ -210,7 +210,7 @@ violin_summary <-  function(Stoch, MPkeep, Stochkeep, SNkeep, Object, input) {
   nPMds <- sum(Stochkeep$selected) # n PM selected
 
   MPcols <- Object$obj$Misc$Cols$MP[MPkeep$selected] # MP colors
-  MPnames <- Object$obj$MP$Codes[MPkeep$selected] # MP names
+  MPnames <- Object$obj$MP$Labels[MPkeep$selected] # MP names
 
   if (nMPs>0 & nPMds >1 & nSNs>0) {
 
