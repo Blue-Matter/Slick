@@ -273,7 +273,7 @@ KobeTimeUI <- function(id, label="kobetime") {
                               br(),
                               br(),
 
-                              img(src='img/KobeTime.jpg',
+                              img(src='img/KobeTime_corrected.jpg',
                                   style="width: 100%"
                               )
                        ),
