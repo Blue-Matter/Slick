@@ -25,8 +25,7 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$selected_language, {
-    shiny.i18n::update_lang(session, input$selected_language)
-
+     shiny.i18n::update_lang(input$selected_language, session)
   }, ignoreInit = TRUE)
 
   # -- about menu ----
