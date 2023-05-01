@@ -111,15 +111,16 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   # --- Do State Variable labelling -----------------------------------------------------------------------------------
 
-  out$StateVar$Labels <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
-  out$StateVar$Codes <- c("SSB", "SSB_SSBMSY")
-  out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels")
+  out$StateVar$Labels <- c("Spawning Stock Biomass", "Spawning Stock Biomass relative to MSY levels",
+                           'Yield')
+  out$StateVar$Codes <- c("SSB", "SSB_SSBMSY", 'Yield')
+  out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels", 'Yield')
   # out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
   out$StateVar$Time_lab <- "Year"
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
   out$StateVar$TimeNow<-as.integer(format(Sys.Date(), "%Y"))
-  out$StateVar$Values<-array(NA,c(nsim,nOM,nMPs,2,nyears + proyears))
+  out$StateVar$Values<-array(NA,c(nsim,nOM,nMPs,3,nyears + proyears))
 
   # --- Run MSEs ------------------------------------------------------------------------------------------------------
 
@@ -173,6 +174,9 @@ Make_Slick<-function(name = "Unnamed Slick object",
       out$StateVar$Values[convsims,i,,1,MSEtemp@nyears+(1:MSEtemp@proyears)]<-MSEtemp@SSB  # SSB
       out$StateVar$Values[convsims,i,,2,]<-out$StateVar$Values[convsims,i,,1,]/MSEtemp@OM$SSBMSY   # non-time varying SSB relative to SSBMSY (nyear)
 
+      # add Yield
+      out$StateVar$Values[convsims,i,mp,3,1:MSEtemp@nyears] <- MSEtemp@CB_hist
+      out$StateVar$Values[convsims,i,,3,MSEtemp@nyears+(1:MSEtemp@proyears)] <- MSEtemp@Catch
     }
     print(paste(i,"of",nOM,"states of nature completed"))
   }
