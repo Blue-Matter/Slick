@@ -26,8 +26,8 @@ Det<- NULL; Det$mat <- obj$Perf$Det$Values
 Proj <- NULL; Proj$mat <- obj$Perf$Proj$Values
 Stoch <- NULL; Stoch$mat <- obj$Perf$Stoch$Values
 
-input <- NULL; input$SV_select <- 1
-input$selectSV <- obj$StateVar$Labels[1]
+input <- NULL; input$SV_select <- 3
+input$selectSV <- obj$StateVar$Labels[input$SV_select]
 input$OM_select <- 4
 
 

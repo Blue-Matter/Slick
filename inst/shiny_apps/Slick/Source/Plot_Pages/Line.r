@@ -228,7 +228,7 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
 
 
     # Reference Points
-    if (length(obj$StateVar$RefPoints)>0) {
+    if (length(obj$StateVar$RefPoints)>0 & length(obj$StateVar$RefPoints)>=SV_ind) {
       RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
       if (!all(is.na(RefPoints))) {
         # ref points exist
@@ -348,7 +348,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
       # mtext(side=2, line=4, obj$StateVar$Labels[SV_ind], cex=ylab.cex)
 
       # Reference Points
-      if (length(obj$StateVar$RefPoints)>0) {
+      if (length(obj$StateVar$RefPoints)>0 & length(obj$StateVar$RefPoints)>=SV_ind) {
         RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
         if (!all(is.na(RefPoints))) {
           # ref points exist
