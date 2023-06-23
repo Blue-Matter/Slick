@@ -268,6 +268,9 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant, xaxis,
         maxX <- max(quant1) # maxVal # max(quant1)
         maxY <- max(quant2) # maxVal #max(quant2)
 
+        maxX <- max(c(maxX, xaxis))
+        maxY <- max(c(maxY, yaxis))
+
         DF <- data.frame(x=med1, y=med2, MP=MPnames)
 
         # DF$MP <- factor(DF$MP, levels=MPnames[order(abs(DF$x-1) + abs(DF$y-1))],
@@ -344,6 +347,7 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant, xaxis,
           scale_x_continuous(expand = c(0, 0)) +
           scale_y_continuous(expand = c(0, 0)) +
           scale_linetype_manual(values = c(2,3)) +
+          expand_limits(x=xlim, y=ylim) +
           theme_classic() +
           coord_cartesian(xlim=xlim,
                           ylim=ylim,
@@ -358,6 +362,7 @@ trade_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, obj, quant, xaxis,
             text = element_text(size=20)
           )+
           theme(legend.position = "none")
+
       }
 
     }

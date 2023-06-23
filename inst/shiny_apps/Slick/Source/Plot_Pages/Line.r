@@ -352,12 +352,12 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
         RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
         if (!all(is.na(RefPoints))) {
           # ref points exist
-          lines(c(first.yr,last.proj), rep(RefPoints[1],2), col=ref.pt.1.col)
+          lines(c(first.proj,last.proj), rep(RefPoints[1],2), col=ref.pt.1.col)
           text(quantile(obj$StateVar$Times, 0.15), RefPoints[1],
                paste0(obj$StateVar$RefNames[[SV_ind]][1], ' reference point'),
                col=ref.pt.1.col, pos=3)
 
-          lines(c(first.yr,last.proj), rep(RefPoints[2],2), col=ref.pt.2.col)
+          lines(c(first.proj,last.proj), rep(RefPoints[2],2), col=ref.pt.2.col)
           text(quantile(obj$StateVar$Times, 0.15), RefPoints[2],
                paste0(obj$StateVar$RefNames[[SV_ind]][2], ' reference point'),
                col=ref.pt.2.col, pos=1)

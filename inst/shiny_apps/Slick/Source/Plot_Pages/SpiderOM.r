@@ -72,9 +72,20 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                          'It provides a quick comparison of overall MP performances.',
                          strong('Filled hexagons with larger areas indicate better overall performance.')),
                        p('For each operating model (in columns), the management procedures (in rows) are ordered from highest to lowest overall average score.'),
-                       p('These summary values assume equal weighting and equal scaling of performance metrics.'),
+                       p(strong('Note'), 'These summary values assume equal weighting and equal scaling of performance metrics. Use Overall Score button below to turn the scores off.'),
+
+                       h4('Relative Scale'),
                        p('The Relative Scale button rescales each performance metric shown in the plots between the maximum and minimum values of that metric. When Relative Scale is on, the center of the spider plot will represent the lowest value for each performance metric, and the outside edge of the spider plot will represent the highest value for each metric. When Relative Scale is off, the performance metrics values are plotted directly, with 100 representing the highest score and 0 the lowest.'
-                       )
+                       ),
+                       h4('Overall Score'),
+                       switchInput(
+                         inputId = session$ns("OS_button"),
+                         handleWidth = 80, labelWidth = 40,
+                         inline = TRUE, width = "200px",
+                         value =TRUE),
+                       p('The Overall Score shown in the center of each plot is calculated as the average of the individual performance metric scores.'),
+                       p(strong('Note:'), 'this score assumes all performance metrics have equal weight and higher values are equally good across all performance metrics. This may not be appropriate in some cases.'),
+                       p('Use the button to remove the overall scores from the plots')
                      )
                    }
                  })
@@ -182,10 +193,16 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
 
                  })
 
+
                  SwitchScale <- reactiveValues(relative=FALSE)
+                 IncludeOS <- reactiveValues(include=TRUE)
 
                  observeEvent(input$RS_button, {
                    SwitchScale$relative <- input$RS_button
+                 })
+
+                 observeEvent(input$OS_button, {
+                   IncludeOS$include <- input$OS_button
                  })
 
                  observe({
@@ -221,7 +238,7 @@ Spider_OMServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                            my_i <- i
                            plotname <- paste("plot", my_i, sep="")
                            output[[plotname]] <- renderPlot({
-                             hexplot_OM(OM.res[my_i,,], MPcols)
+                             hexplot_OM(OM.res[my_i,,], MPcols, IncludeOS$include)
                            }, height=function(){
                              nMPs <- sum(MPkeep$selected)
                              90 * nMPs
@@ -282,6 +299,7 @@ Spider_OMUI <- function(id, label="spiderOM") {
                                          column(5,
                                                 h4('Performance metrics measured'),
                                                 plotOutput(ns('PM_outline'), width=125, height=125),
+                                                htmlOutput(ns('PMlist'))
                                          ),
                                          column(5,
                                                 img(src='img/SpiderOM.jpg', width="100%"),
@@ -292,12 +310,13 @@ Spider_OMUI <- function(id, label="spiderOM") {
                                                   inline = TRUE, width = "200px"
                                                 )
                                          )
-                                       ),
-                                       fluidRow(
-                                         column(5,
-                                                htmlOutput(ns('PMlist'))
-                                         )
                                        )
+                                       # ),
+                                       # fluidRow(
+                                       #   column(5,
+                                       #          htmlOutput(ns('PMlist'))
+                                       #   )
+                                       # )
 
                                 )
 
@@ -334,7 +353,7 @@ pm_outline_plot <- function(n.PM) {
 
 }
 
-hexplot_OM <- function(OM.res, MPcols) {
+hexplot_OM <- function(OM.res, MPcols, IncludeOS) {
   dd <- dim(OM.res)
   n.PM <- dd[2]
   n.MP <- dd[1]
@@ -374,7 +393,8 @@ hexplot_OM <- function(OM.res, MPcols) {
             points(coords[j,], cex=pt.cex, col=pt.col, pch=16)
         }
 
-        text(0,0, meanVals[r], col="black", cex=mplab.cex)
+        if (IncludeOS)
+          text(0,0, meanVals[r], col="black", cex=mplab.cex)
       }
     }
   }

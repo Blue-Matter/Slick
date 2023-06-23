@@ -100,32 +100,32 @@ server <- function(input, output, session) {
 
   output$PM_Det <- renderDataTable({
     if(!Object$Ready) return()
-    df <- data.frame( Code=Object$obj$Perf$Det$Codes,
-                      Label=Object$obj$Perf$Det$Labels,
-                      Description=Object$obj$Perf$Det$Description
+    df <- data.frame(Code=Object$obj$Perf$Det$Codes,
+                     #Label=Object$obj$Perf$Det$Labels,
+                     Description=Object$obj$Perf$Det$Description
     )
     DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                            pageLength=100))
+                                                                                            pageLength=100), escape = FALSE)
   })
 
   output$PM_Stoch <- renderDataTable({
     if(!Object$Ready) return()
-    df <- data.frame( Code=Object$obj$Perf$Stoch$Codes,
-                      Label=Object$obj$Perf$Stoch$Labels,
-                      Description=Object$obj$Perf$Stoch$Description
+    df <- data.frame(Code=Object$obj$Perf$Stoch$Codes,
+                    # Label=Object$obj$Perf$Stoch$Labels,
+                     Description=Object$obj$Perf$Stoch$Description
     )
     DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                            pageLength=100))
+                                                                                            pageLength=100), escape = FALSE)
   })
 
   output$PM_Proj <- renderDataTable({
     if(!Object$Ready) return()
-    df <- data.frame( Code=Object$obj$Perf$Proj$Codes,
-                      Label=Object$obj$Perf$Proj$Labels,
-                      Description=Object$obj$Perf$Proj$Description
+    df <- data.frame(Code=Object$obj$Perf$Proj$Codes,
+                     #Label=Object$obj$Perf$Proj$Labels,
+                     Description=Object$obj$Perf$Proj$Description
     )
     DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                            pageLength=100))
+                                                                                            pageLength=100),  escape = FALSE)
   })
 
 
@@ -157,7 +157,6 @@ server <- function(input, output, session) {
   output$pm_details <- renderUI({
     tagList(
       box(width=12,
-
           title=h3(i18n()$t('Performance Metrics')),
           tabsetPanel(type = "tabs",
                       tabPanel(i18n()$t("Deterministic"),

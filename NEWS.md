@@ -1,3 +1,6 @@
+# Slick 1.0.12
+
+
 # Slick 1.0.11
 * fixed bug in `Make_Slick`
 * Updated the Western Skipjack Case Study 

@@ -114,7 +114,7 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
                    nMPs <- sum(MPkeep$selected) # n MPs selected
                    nPMds <- sum(Stochkeep$selected) # n PM selected
                    Codes <- Object$obj$Perf$Stoch$Codes[Stochkeep$selected] # PM codes
-                   Labels <- Object$obj$Perf$Stoch$Labels[Stochkeep$selected] # PM codes
+                   # Labels <- Object$obj$Perf$Stoch$Labels[Stochkeep$selected] # PM codes
                    for (i in 1:nPMds) {
                      local({
                        my_i <- i
@@ -157,7 +157,7 @@ Boxplot_OMServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
                            fluidRow(
                              column(2,
                                     h4(Codes[my_i]),
-                                    p(Labels[my_i]),
+                                    # p(Labels[my_i]),
                                     style='padding-bottom:50px;'
                              ),
                              column(10,
@@ -240,13 +240,21 @@ trade_plot_OM <- function(Val, MPcols, sn) {
     #   maxY <- ceiling(maxY)
     # }
     maxY <- max(rng[is.finite(rng)])
-    maxY <- max(ceiling(maxY/5)*5, 100)
+    if (maxY > 10 & maxY<=100) {
+      maxY <- 10^(ceiling(log10(maxY)))
+    } else if (maxY <10) {
+      maxY <- ceiling(maxY)
+    } else {
+      maxY <- round(maxY/1000)*1000
+    }
 
-    plot(c(0,nMPs+1), c(0,maxY), type="n", xlab='', ylab='', axes=FALSE)
+    ylim <- pretty(c(0, maxY))
+    ymax <- max(ylim)
+    plot(c(0,nMPs+1), range(ylim), type="n", xlab='', ylab='', axes=FALSE)
     polygon(c(-0.1, nMPs+1.01, nMPs+1.01, -0.1),
-            c(-0.1, -0.1, maxY+0.1, maxY+.1),
+            c(-0.1, -0.1, ymax+0.1, ymax+.1),
             col='#ededed', border=NA, xpd=NA)
-    at <- seq(0, maxY, by=0.25*maxY)
+    at <- ylim
     abline(h=at, col='white')
     mtext(side=3, sn, cex=main.cex, col='#D6501C', xpd=NA)
     points(1:nMPs, med, col=MPcols, cex=med.cex, pch=16, xpd=NA)

@@ -137,32 +137,35 @@ LoadServer <- function(id, Object, i18n) {
 
                  output$PM_Det <- renderDataTable({
                    if(!Object$Ready) return()
-                   df <- data.frame( Code=Object$obj$Perf$Det$Codes,
-                                     Label=Object$obj$Perf$Det$Labels,
+                   df <- data.frame(Code=Object$obj$Perf$Det$Codes,
+                                   # Label=Object$obj$Perf$Det$Labels,
                                      Description=Object$obj$Perf$Det$Description
                    )
                    DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                                           pageLength=100))
+                                                                                                           pageLength=100),
+                                 escape = FALSE)
                  })
 
                  output$PM_Stoch <- renderDataTable({
                    if(!Object$Ready) return()
-                   df <- data.frame( Code=Object$obj$Perf$Stoch$Codes,
-                                     Label=Object$obj$Perf$Stoch$Labels,
+                   df <- data.frame(Code=Object$obj$Perf$Stoch$Codes,
+                                   # Label=Object$obj$Perf$Stoch$Labels,
                                      Description=Object$obj$Perf$Stoch$Description
                    )
                    DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                                           pageLength=100))
+                                                                                                           pageLength=100),
+                                 escape = FALSE)
                  })
 
                  output$PM_Proj <- renderDataTable({
                    if(!Object$Ready) return()
-                   df <- data.frame( Code=Object$obj$Perf$Proj$Codes,
-                                     Label=Object$obj$Perf$Proj$Labels,
+                   df <- data.frame(Code=Object$obj$Perf$Proj$Codes,
+                                   # Label=Object$obj$Perf$Proj$Labels,
                                      Description=Object$obj$Perf$Proj$Description
                    )
                    DT::datatable(df,rownames=F,extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                                           pageLength=100))
+                                                                                                           pageLength=100),
+                                 escape = FALSE)
                  })
 
 

@@ -81,7 +81,7 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                          p('This chart', strong('compares the performance of ', n.MP,
                                                 ' management procedures (MP) against ', n.PM,
                                                 ' performance metrics.')),
-                         p('Each value is a median performance metric over ', n.OM,
+                         p('Each value is a performance metric over ', n.OM,
                            ' operating models.'),
                          p(HTML('<i class="fas fa-hexagon"></i>'),
                            'The', strong('filled plots on top'),
@@ -95,7 +95,19 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                            strong('The lines in the bottom left spider plot'),
                            'connect', strong('individual scores'),
                            'for the performance metrics in each management procedure.',
-                           'Scores closer to the exterior edge indicate better performance.')
+                           'Scores closer to the exterior edge indicate better performance.'),
+
+                         br(),
+                         h4('Overall Score'),
+                         switchInput(
+                           inputId = session$ns("OS_button"),
+                           handleWidth = 80, labelWidth = 40,
+                           inline = TRUE, width = "200px",
+                           value =TRUE),
+                         p('The Overall Score shown in the center of each plot is calculated as the average of the individual performance metric scores.'),
+                         p(strong('Note:'), 'this score assumes all performance metrics have equal weight and higher values are equally good across all performance metrics. This may not be appropriate in some cases.'),
+                         p('Use the button to remove the overall scores from the plots')
+
                        )
 
                      }
@@ -181,14 +193,20 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
 
 
                  SwitchScale <- reactiveValues(relative=FALSE)
+                 IncludeOS <- reactiveValues(include=TRUE)
 
                  observeEvent(input$RS_button, {
                    SwitchScale$relative <- input$RS_button
                  })
 
+                 observeEvent(input$OS_button, {
+                   IncludeOS$include <- input$OS_button
+                 })
+
+
                  output$filled_hex <- renderPlot({
                    if(!Object$Loaded) return()
-                   hexplot_fun(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale)
+                   hexplot_fun(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale, IncludeOS$include)
                  }, height=function(){
                    n.MP <- sum(MPkeep$selected)
                    if (n.MP<1) return(175)
@@ -248,9 +266,10 @@ SpiderServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                                  options = list(
                                    paging = TRUE,
                                    searching = TRUE,
-                                   fixedColumns = TRUE,
-                                   autoWidth = TRUE,
+                                   fixedColumns = FALSE,
+                                   autoWidth = FALSE,
                                    ordering = TRUE,
+                                   pageLength=25,
                                    dom = 'Brtip',
                                    buttons = c('copy', 'csv', 'excel')
                                  ))
@@ -427,7 +446,7 @@ calcCoord <- function(vert, pm) {
 }
 
 
-hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
+hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale, IncludeOS) {
 
   nSN <- nrow(Object$obj$OM$Design)
   nSNs <- sum(SNkeep$selected)
@@ -487,7 +506,8 @@ hexplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
         }
         coords <- rbind(coords, coords[1,])
         polygon(coords, col=cols[i], border=cols[i])
-        text(0,0, round(pm.avg[i], 2), col="black", cex=mplab.cex, font=2)
+        if (IncludeOS)
+          text(0,0, round(pm.avg[i], 2), col="black", cex=mplab.cex, font=2)
         text(0, 100, Object$obj$MP$Labels[i], xpd=NA, col=cols[i], cex=mplab.cex,
              pos=3)
       }

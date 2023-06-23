@@ -136,10 +136,11 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                                  options = list(
                                    paging = TRUE,
                                    searching = TRUE,
-                                   fixedColumns = TRUE,
+                                   fixedColumns = FALSE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,
                                    dom = 'Brtip',
+                                   pageLength=25,
                                    buttons = c('copy', 'csv', 'excel'),
                                    columnDefs = list(list(className = 'dt-center', targets = 0))
                                  ),

@@ -131,10 +131,11 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                                  options = list(
                                    paging = TRUE,
                                    searching = TRUE,
-                                   fixedColumns = TRUE,
+                                   fixedColumns = FALSE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,
                                    dom = 'Brtip',
+                                   pageLength=25,
                                    buttons = c('copy', 'csv', 'excel'),
                                    columnDefs = list(list(className = 'dt-center', targets = 0))
                                  ),

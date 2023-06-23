@@ -178,10 +178,10 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                      Yellow <- Values[,,,1,] > x_refs[ind1] & Values[,,,2,] > y_refs[ind2]
                      Orange <- Values[,,,1,] < x_refs[ind1] & Values[,,,2,] < y_refs[ind2]
 
-                     meanGreen <- apply(Green, 3, mean) %>% round(2) * 100
-                     meanOrange <- apply(Orange, 3, mean) %>% round(2) * 100
-                     meanYellow <- apply(Yellow, 3, mean) %>% round(2) * 100
-                     meanRed <- apply(Red, 3, mean) %>% round(2) * 100
+                     meanGreen <- apply(Green, 3, mean) %>% round(2) * 100 %>% round()
+                     meanOrange <- apply(Orange, 3, mean) %>% round(2) * 100 %>% round()
+                     meanYellow <- apply(Yellow, 3, mean) %>% round(2) * 100 %>% round()
+                     meanRed <- apply(Red, 3, mean) %>% round(2) * 100 %>% round()
 
                      # Terminal year
                      nyears <- dim(Values)[5]
@@ -190,20 +190,20 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                      Yellow <- Values[,,,1,nyears] > 1 & Values[,,,2,nyears] > 1
                      Orange <- Values[,,,1,nyears] < 1 & Values[,,,2,nyears] <1
 
-                     meanGreen_y <- apply(Green, 3, mean) %>% round(2) * 100
-                     meanOrange_y <- apply(Orange, 3, mean) %>% round(2) * 100
-                     meanYellow_y <- apply(Yellow, 3, mean) %>% round(2) * 100
-                     meanRed_y <- apply(Red, 3, mean) %>% round(2) * 100
+                     meanGreen_y <- apply(Green, 3, mean) %>% round(2) * 100 %>% round()
+                     meanOrange_y <- apply(Orange, 3, mean) %>% round(2) * 100 %>% round()
+                     meanYellow_y <- apply(Yellow, 3, mean) %>% round(2) * 100 %>% round()
+                     meanRed_y <- apply(Red, 3, mean) %>% round(2) * 100 %>% round()
 
                      DF <- data.frame(MP=MPnames,
-                                      Green=meanGreen,
-                                      Orange=meanOrange,
-                                      Yellow=meanYellow,
-                                      Red=meanRed,
-                                      Green=meanGreen_y,
-                                      Orange=meanOrange_y,
-                                      Yellow=meanYellow_y,
-                                      Red=meanRed_y)
+                                      Green=round(meanGreen,0),
+                                      Orange=round(meanOrange,0),
+                                      Yellow=round(meanYellow,0),
+                                      Red=round(meanRed,0),
+                                      Green=round(meanGreen_y,0),
+                                      Orange=round(meanOrange_y,0),
+                                      Yellow=round(meanYellow_y,0),
+                                      Red=round(meanRed_y,0))
 
                      # a custom table container
                      sketch = htmltools::withTags(table(
@@ -228,7 +228,8 @@ KobeTimeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                                      paging = TRUE,
                                      searching = TRUE,
                                      fixedColumns = TRUE,
-                                     autoWidth = TRUE,
+                                     autoWidth = FALSE,
+                                     pageLength=25,
                                      ordering = TRUE,
                                      dom = 'Brtip',
                                      buttons = c('copy', 'csv', 'excel')
@@ -321,10 +322,11 @@ kobe_plot <- function(Proj, MPkeep, Projkeep, SNkeep, input, mm, obj) {
   Codes <- obj$Perf$Proj$Codes # PM codes
 
   if (mm ==1) {
-    incaxis <- incbox <- TRUE
+    incaxis <- TRUE
   } else {
-    incaxis <- incbox <- FALSE
+    incaxis <- FALSE
   }
+  incbox <- FALSE
 
   pm1 <- which(Codes==input$selectPM1)
   pm2 <- which(Codes==input$selectPM2)
@@ -451,42 +453,47 @@ Kobe_proj <- function(Values, MPnames, mm, n.yrs, incbox=FALSE, obj,
   }
 
   polygon(x=c(Years, rev(Years)),
-          y=c(rep(0, length(Years)), rev(fracBR)),
-          col=obj$Misc$Cols$KobeBG[4],
-          border=NA)
-  polygon(x=c(Years, rev(Years)),
-          y=c(fracBR, rev(fracBR+fracTR)),
-          col=obj$Misc$Cols$KobeBG[2],
-          border=NA)
-  polygon(x=c(Years, rev(Years)),
-          y=c(fracBR+fracTR, rev(fracBL+fracBR+fracTR)),
-          col=obj$Misc$Cols$KobeBG[3],
-          border=NA)
-  polygon(x=c(Years, rev(Years)),
-          y=c(fracBL+fracBR+fracTR, rep(100, length(Years))),
+          y=c(rep(0, length(Years)), rev(fracTL)),
           col=obj$Misc$Cols$KobeBG[1],
           border=NA)
+
+  polygon(x=c(Years, rev(Years)),
+          y=c(fracTL, rev(fracTL+fracBL)),
+          col=obj$Misc$Cols$KobeBG[2],
+          border=NA)
+
+  polygon(x=c(Years, rev(Years)),
+          y=c(fracTL+fracBL, rev(fracTL+fracBL+fracTR)),
+          col=obj$Misc$Cols$KobeBG[3],
+          border=NA)
+
+  polygon(x=c(Years, rev(Years)),
+          y=c(fracTL+fracBL+fracTR,  rep(100, length(Years))),
+          col=obj$Misc$Cols$KobeBG[4],
+          border=NA)
+
+
 
   for (x in 2:length(yvals))
     lines(x=range(Years), y=rep(yvals[x], 2), col= grDevices::adjustcolor( "white", alpha.f = 0.5))
 
-  if (incbox) {
-    polygon(x=c(Years[n.yrs-1], Years[n.yrs], Years[n.yrs], Years[n.yrs]-1),
-            y=c(0, 0, 100, 100),
-            col=NA, border='black', xpd=NA)
-    text(Years[n.yrs-1], fracBR[n.yrs]*0.5,
-         paste0(round(fracBR[n.yrs],2), "%"),
-         pos=2, cex=tex.cex, xpd=NA)
-    text(Years[n.yrs-1], fracBR[n.yrs]+fracTR[n.yrs]*0.5,
-         paste0(round(fracTR[n.yrs],2), "%"),
-         pos=2, cex=tex.cex, xpd=NA)
-    text(Years[n.yrs-1], fracBR[n.yrs]+fracTR[n.yrs]+fracBL[n.yrs]*0.5,
-         paste0(round(fracBL[n.yrs],2), "%"),
-         pos=2, cex=tex.cex, xpd=NA)
-    text(Years[n.yrs-1], fracBR[n.yrs]+fracTR[n.yrs]+fracBL[n.yrs]+fracTL[n.yrs]*0.5,
-         paste0(round(fracTL[n.yrs],2), "%"),
-         pos=2, cex=tex.cex, xpd=NA)
-  }
+  # if (incbox) {
+  #   polygon(x=c(Years[n.yrs-1], Years[n.yrs], Years[n.yrs], Years[n.yrs]-1),
+  #           y=c(0, 0, 100, 100),
+  #           col=NA, border='black', xpd=NA)
+  #   text(Years[n.yrs-1], fracBR[n.yrs]*0.5,
+  #        paste0(round(fracBR[n.yrs],2), "%"),
+  #        pos=2, cex=tex.cex, xpd=NA)
+  #   text(Years[n.yrs-1], 100-fracBR[n.yrs]+fracTR[n.yrs]*0.5,
+  #        paste0(round(fracTR[n.yrs],2), "%"),
+  #        pos=2, cex=tex.cex, xpd=NA)
+  #   text(Years[n.yrs-1], fracBR[n.yrs]+fracTR[n.yrs]+fracBL[n.yrs]*0.5,
+  #        paste0(round(fracBL[n.yrs],2), "%"),
+  #        pos=2, cex=tex.cex, xpd=NA)
+  #   text(Years[n.yrs-1], fracBR[n.yrs]+fracTR[n.yrs]+fracBL[n.yrs]+fracTL[n.yrs]*0.5,
+  #        paste0(round(fracTL[n.yrs],2), "%"),
+  #        pos=2, cex=tex.cex, xpd=NA)
+  # }
   text(Years[1], 105, MPnames[mm], xpd=NA, font=2, pos=4, cex=MPcex)
 
 }

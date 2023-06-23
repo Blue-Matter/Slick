@@ -179,21 +179,25 @@ trade_plot3 <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
         if (length(Val)>0) {
           med <- apply(Val,3, median, na.rm=TRUE)
           qrt <- apply(Val,3, quantile, c(0.25, 0.75), na.rm=TRUE)
-          rng <- apply(Val,3, range, na.rm=TRUE)
+          rng <<- apply(Val,3, range, na.rm=TRUE)
 
           maxY <- max(rng[is.finite(rng)])
-          if (maxY > 10) {
+          if (maxY > 10 & maxY<=100) {
             maxY <- 10^(ceiling(log10(maxY)))
-          } else {
+          } else if (maxY <10) {
             maxY <- ceiling(maxY)
+          } else {
+            maxY <- round(maxY/1000)*1000
           }
 
           par(mfrow=c(1,1), oma=c(2,2,3,0), mar=c(1,2,1,1))
-          plot(c(0,nMPs+1), c(0, maxY), type='n', axes=FALSE, ylab='', xlab='')
+          ylim <- pretty(c(0, maxY))
+          ymax <- max(ylim)
+          plot(c(0,nMPs+1), range(ylim), type='n', axes=FALSE, ylab='', xlab='')
           polygon(c(0, nMPs+1, nMPs+1, 0),
-                  c(0, 0, maxY, maxY),
+                  c(0, 0, ymax, ymax),
                   col='#ededed', border=NA)
-          at <- seq(0, maxY, by=maxY/5)
+          at <- ylim
           abline(h=at, col='white')
           text(0, at, at, col='#8c8c8c', xpd=NA, cex=1.25, pos=2)
           points(1:nMPs, med, pch=16, col=MPcols, cex=med.cex, xpd=NA)
