@@ -201,7 +201,11 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
   hist.yr <- obj$StateVar$TimeNow
   hist.yr.ind <- which(obj$StateVar$Times==hist.yr)
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
+  first.proj <- obj$StateVar$Times[hist.yr.ind+1]
   n.yrs <- dim(Values)[5]
+
+  all.hist.yr <- obj$StateVar$Times[seq_len(hist.yr.ind)]
+  all.proj.yr <- obj$StateVar$Times[hist.yr.ind:n.yrs]
 
   if (!any(dim(Values)==0)) {
     med.hist <- apply(Values[,,1,1,1:hist.yr.ind, drop=FALSE], 5, median)
@@ -218,13 +222,13 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
          xlab='', ylab='', axes=FALSE, type="n")
 
     if (all(quant.1.hist != med.hist)) { # values differ by sim
-      polygon(x=c(first.yr:hist.yr, rev(first.yr:hist.yr)),
+      polygon(x=c(all.hist.yr, rev(all.hist.yr)),
               y=c(quant.1.hist[1,], rev(quant.1.hist[2,])),
               border=NA, col=poly.col)
-      lines(first.yr:hist.yr, quant.2.hist[1,], lty=3, col=quant.col, lwd=quant.lwd)
-      lines(first.yr:hist.yr, quant.2.hist[2,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(all.hist.yr, quant.2.hist[1,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(all.hist.yr, quant.2.hist[2,], lty=3, col=quant.col, lwd=quant.lwd)
     }
-    lines(first.yr:hist.yr, med.hist, lwd=med.lwd, col=med.col)
+    lines(all.hist.yr, med.hist, lwd=med.lwd, col=med.col)
 
 
     # Reference Points
@@ -250,9 +254,9 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
     MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
     pos <- 1
     for (mm in seq_along(MPnames)) {
-      lines(hist.yr:last.proj, med.mps[mm,], col=MPcols[mm], lwd=med.lwd)
-      lab.yr <- quantile(hist.yr:last.proj, 0.9)
-      ind <- which.min(lab.yr/hist.yr:last.proj)
+      lines(all.proj.yr, med.mps[mm,], col=MPcols[mm], lwd=med.lwd)
+      lab.yr <- quantile(all.proj.yr, 0.9)
+      ind <- which.min(lab.yr/all.proj.yr)
       text(lab.yr, med.mps[mm,ind], MPnames[mm], col=MPcols[mm], pos=pos, xpd=NA)
       if (pos==1) {
         pos <- 3
@@ -271,7 +275,7 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
     legend(first.yr, ymax*1.1 ,legend=c('HISTORICAL',paste0(first.yr, '-', hist.yr)),
            bty='n',text.font=2, xpd=NA)
 
-    legend(hist.yr, ymax*1.1, legend=c('PROJECTION',paste0(hist.yr+1, '-', last.proj)),
+    legend(hist.yr, ymax*1.1, legend=c('PROJECTION',paste0(first.proj, '-', last.proj)),
            bty='n',text.font=2, xpd=NA)
    # text(first.yr, ymax*1.05, paste0('HISTORICAL: ', first.yr, '-', hist.yr),
   #       font=2, pos=4, xpd=NA)
@@ -303,10 +307,12 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
 
   first.yr <- obj$StateVar$Times[1]
   hist.yr <- obj$StateVar$TimeNow
-  first.proj <- hist.yr + 1
-  hist.yr.ind <- which(obj$StateVar$Times==hist.yr) +1
+  hist.yr.ind <- which(obj$StateVar$Times==hist.yr) + 1
+  first.proj <- obj$StateVar$Times[hist.yr.ind]
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
   n.yrs <- length(obj$StateVar$Times)
+
+  all.proj.yr <- obj$StateVar$Times[hist.yr.ind:n.yrs]
 
   if (!any(dim(Values)==0)) {
     dd <- dim(Values)[3]
@@ -331,12 +337,12 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
       plot(c(first.proj, last.proj), c(0, ymax),
            xlab='', ylab='', axes=FALSE, type="n")
 
-      polygon(x=c(first.proj:last.proj, rev(first.proj:last.proj)),
+      polygon(x=c(all.proj.yr, rev(all.proj.yr)),
               y=c(quant.1.proj[1, mm,], rev(quant.1.proj[2, mm,])),
               border=NA, col=poly.col)
-      lines(first.proj:last.proj, quant.2.proj[1,mm,], lty=3, col=quant.col, lwd=quant.lwd)
-      lines(first.proj:last.proj, quant.2.proj[2,mm,], lty=3, col=quant.col, lwd=quant.lwd)
-      lines(first.proj:last.proj, med.mps[mm,], lwd=med.lwd, col=MPcols[mm])
+      lines(all.proj.yr, quant.2.proj[1,mm,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(all.proj.yr, quant.2.proj[2,mm,], lty=3, col=quant.col, lwd=quant.lwd)
+      lines(all.proj.yr, med.mps[mm,], lwd=med.lwd, col=MPcols[mm])
 
       # Axes and labels
 

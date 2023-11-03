@@ -219,9 +219,11 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
   hist.yr.ind <- which(obj$StateVar$Times==obj$StateVar$TimeNow)
   hist.yr <- obj$StateVar$TimeNow
   first.proj.ind <- hist.yr.ind+1
-  first.proj <- obj$StateVar$TimeNow+1
+  first.proj <- obj$StateVar$Times[hist.yr.ind]
   last.proj <- obj$StateVar$Times[length(obj$StateVar$Times)]
   last.proj.ind <- which(obj$StateVar$Times==last.proj)
+
+  all.proj.yr <- obj$StateVar$Times[first.proj.ind:last.proj.ind]
 
   HistValues <- obj$StateVar$Values[,sn, MPkeep$selected,
                                 SV_ind, , drop=FALSE]
@@ -249,7 +251,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
          xlab='', ylab='', axes=FALSE, type="n")
 
     # if (any(quant[1,] != med.MP[mm,])) { # values differ by sim
-      polygon(x=c(first.proj:last.proj, rev(first.proj:last.proj)),
+      polygon(x=c(all.proj.yr, rev(all.proj.yr)),
               y=c(quant[1,], rev(quant[2,])),
               border=NA, col=poly.col)
     # }
@@ -281,8 +283,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
 
     # plot projection for each MP
     for (mm in 1:nMP) {
-      lines(first.proj:last.proj, med.MP[mm,],
-            col=MPcols[mm], lwd=med.lwd)
+      lines(all.proj.yr, med.MP[mm,], col=MPcols[mm], lwd=med.lwd)
       # text(last.proj, med.MP[mm,n.yrs], MPnames[mm], col=MPcols[mm], pos=4, xpd=NA)
     }
 

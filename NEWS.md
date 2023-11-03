@@ -1,5 +1,8 @@
-# Slick 1.0.12
+# Slick 1.0.13
+* Support seasonal time steps (fractional years) for line plots of state variables
 
+# Slick 1.0.12
+* Various aesthetic updates by Adrian
 
 # Slick 1.0.11
 * fixed bug in `Make_Slick`
