@@ -363,7 +363,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
       #ymax <- roundUpNice(maxVal)
       yrange <- input$yaxis
 
-      par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,4), xaxs="i", yaxs='i', xpd=NA)
+      par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,1,2,1), xaxs="i", yaxs='i', xpd=NA)
 
       plot(c(first.proj, last.proj), yrange, #c(0, ymax),
            xlab='', ylab='', axes=FALSE, type="n")
