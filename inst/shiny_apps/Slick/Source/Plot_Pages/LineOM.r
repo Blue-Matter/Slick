@@ -324,7 +324,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj, by_sim = FALSE) {
       sim.MP <- apply(Values[sim, , , , , drop = FALSE], c(3,5), identity) # Matrix
 
       # plot historical
-      lines(obj$StateVar$Times[1:hist.yr.ind], sim.hist, col=med.col)
+      lines(obj$StateVar$Times[1:hist.yr.ind], sim.hist, col=med.col, lwd=med.lwd)
       abline(v=obj$StateVar$Times[hist.yr.ind], lty=2, col='lightgray')
 
       # plot projection for each MP
