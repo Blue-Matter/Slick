@@ -87,6 +87,31 @@ LineOMServer <- function(id, MPkeep, SNkeep, Object, i18n) {
                    )
                  })
 
+                 output$SV_Yrange <- renderUI({
+                   ymax <- maxVal <- 4
+                   if(!Object$Ready) return()
+
+                   SV_ind <- unlist(Object$obj$StateVar$Labels) == input$selectSV
+
+                   nSNs <- sum(SNkeep$selected) # number SN selected
+                   nMPs <- sum(MPkeep$selected) # n MPs selected
+                   nSVs <- sum(SV_ind)
+
+                   if (nMPs>0 & nSVs>0 & nSNs>0) {
+                     maxVal <- quantile(Object$obj$StateVar$Values[,SNkeep$selected, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
+                     ymax <- roundUpNice(maxVal)
+                   }
+
+                   tagList(
+                     h4('Set Y Axis'),
+                     sliderInput(session$ns('yaxis'),
+                                 'Range',
+                                 0,
+                                 ymax,
+                                 c(0, maxVal))
+                   )
+                 })
+
                  output$lineOM_plot <- renderUI({
                    if(!Object$Ready) return()
                    n.SN <- sum(SNkeep$selected)
@@ -190,7 +215,9 @@ Line_OMUI <- function(id, label="lineOM") {
                        ),
                        column(width=4,
                               br(),
-                              htmlOutput(ns('SV_dropdown'))
+                              htmlOutput(ns('SV_dropdown')),
+                              br(),
+                              htmlOutput(ns('SV_Yrange'))
                        )
 
                      ),
@@ -236,8 +263,9 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
   MPnames <- obj$MP$Labels[MPkeep$selected] # MP names
   nMP <- length(MPnames)
 
-  maxVal <- quantile(obj$StateVar$Values[,sn, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
-  ymax <- roundUpNice(maxVal)
+  #maxVal <- quantile(obj$StateVar$Values[,sn, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
+  #ymax <- roundUpNice(maxVal)
+  yrange <- input$yaxis
 
   if (!any(dim(Values)==0)) {
     med.hist <- apply(HistValues[, ,1,1,1:hist.yr.ind, drop=FALSE], 5, median)
@@ -247,7 +275,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
     med.MP <- apply(Values, c(3,5), median)
 
     par(mfrow=c(1,1), oma=c(4,4,0,0), mar=c(2,2,2,0))
-    plot(range(obj$StateVar$Times), c(0, ymax),
+    plot(range(obj$StateVar$Times), yrange, #c(0, ymax),
          xlab='', ylab='', axes=FALSE, type="n")
 
     # if (any(quant[1,] != med.MP[mm,])) { # values differ by sim
@@ -271,7 +299,7 @@ MP_projection_OM <- function(MPkeep, input, sn, obj) {
     }
 
     axis(side=1, at=seq(min(obj$StateVar$Times), max(obj$StateVar$Times), by=5), tck=-0.05)
-    ylabs <- seq(0, ymax, length.out=6)
+    ylabs <- seq(min(yrange), max(yrange), length.out=6)
     axis(side=2, las=1, at=ylabs, label= format(ylabs, big.mark = ",", scientific = FALSE))
     mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)
     mtext(side=2, line=4, obj$StateVar$Labels[[SV_ind]], cex=ylab.cex)

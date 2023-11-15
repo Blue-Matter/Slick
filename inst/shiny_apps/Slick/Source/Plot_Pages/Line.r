@@ -94,6 +94,32 @@ LineServer <- function(id, MPkeep, SNkeep, Object, i18n) {
                  })
 
 
+                 output$SV_Yrange <- renderUI({
+                   ymax <- maxVal <- 4
+                   if(!Object$Ready) return()
+
+                   SV_ind <- unlist(Object$obj$StateVar$Labels) == input$selectSV
+
+                   nSNs <- sum(SNkeep$selected) # number SN selected
+                   nMPs <- sum(MPkeep$selected) # n MPs selected
+                   nSVs <- sum(SV_ind)
+
+                   if (nMPs>0 & nSVs>0 & nSNs>0) {
+                     maxVal <- quantile(Object$obj$StateVar$Values[,SNkeep$selected, MPkeep$selected, SV_ind, , drop=FALSE], 0.95)
+                     ymax <- roundUpNice(maxVal)
+                   }
+
+                   tagList(
+                     h4('Set Y Axis'),
+                     sliderInput(session$ns('yaxis'),
+                                 'Range',
+                                 0,
+                                 ymax,
+                                 c(0, maxVal))
+                   )
+                 })
+
+
                  output$main_plot <- renderPlot({
                    if(!Object$Loaded) return()
                    Stock_Projection_all(MPkeep, SNkeep, input, Object$obj)
@@ -163,7 +189,9 @@ LineUI <- function(id, label="line") {
                        ),
                        column(width=4,
                               br(),
-                              htmlOutput(ns('SV_dropdown'))
+                              htmlOutput(ns('SV_dropdown')),
+                              br(),
+                              htmlOutput(ns('SV_Yrange'))
                        )
                      ),
                      fluidRow(
@@ -214,11 +242,13 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
 
     med.mps <- apply(Values[,,,1,(hist.yr.ind):n.yrs, drop=FALSE], c(3,5), median)
 
-    maxVal <- max(c(quant.2.hist, med.mps))
-    ymax <- roundUpNice(maxVal)
+    #maxVal <- max(c(quant.2.hist, med.mps))
+    #ymax <- roundUpNice(maxVal)
+    yrange <- input$yaxis
+    ymax <- max(yrange)
 
     par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,1), xaxs="i", yaxs='i')
-    plot(range(obj$StateVar$Times), c(0, ymax),
+    plot(range(obj$StateVar$Times), yrange, #c(0, ymax),
          xlab='', ylab='', axes=FALSE, type="n")
 
     if (all(quant.1.hist != med.hist)) { # values differ by sim
@@ -265,7 +295,7 @@ Stock_Projection_all <- function(MPkeep, SNkeep, input, obj) {
 
     # Axes and labels
     axis(side=1, at=pretty(obj$StateVar$Times))
-    ylabs <- seq(0, ymax, length.out=6)
+    ylabs <- seq(min(yrange), max(yrange), length.out=6)
 
     axis(side=2, las=1, at=ylabs, label= format(ylabs, big.mark = ",", scientific = FALSE))
     mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)
@@ -329,12 +359,13 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
 
       med.mps <- apply(Values[,,,1,(hist.yr.ind):n.yrs, drop=FALSE], c(3,5), median)
 
-      maxVal <- max(c(quant.2.hist, med.mps))
-      ymax <- roundUpNice(maxVal)
+      #maxVal <- max(c(quant.2.hist, med.mps))
+      #ymax <- roundUpNice(maxVal)
+      yrange <- input$yaxis
 
       par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(3,5,2,4), xaxs="i", yaxs='i', xpd=NA)
 
-      plot(c(first.proj, last.proj), c(0, ymax),
+      plot(c(first.proj, last.proj), yrange, #c(0, ymax),
            xlab='', ylab='', axes=FALSE, type="n")
 
       polygon(x=c(all.proj.yr, rev(all.proj.yr)),
@@ -347,7 +378,7 @@ MP_projection <- function(MPkeep, SNkeep, input, mm=my_i, obj) {
       # Axes and labels
 
       axis(side=1, at=seq(first.proj, last.proj, by=5))
-      ylabs <- seq(0, ymax, length.out=6)
+      ylabs <- seq(min(yrange), max(yrange), length.out=6)
 
       axis(side=2, las=1, at=ylabs, label= FALSE)
       mtext(side=1, line=3, obj$StateVar$Time_lab, cex=xlab.cex)
