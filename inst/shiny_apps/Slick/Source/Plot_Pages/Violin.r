@@ -76,7 +76,15 @@ ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                          'and',
                          HTML(paste0(strong('lower values mean worse performance'),'.'))
                          ),
-                       p('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.')
+                       p('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.'),
+                       br(),
+                       h4('Add Boxplot'),
+                       switchInput(
+                         inputId = session$ns("boxplot_button"),
+                         handleWidth = 80, labelWidth = 40,
+                         inline = TRUE, width = "200px", value = FALSE
+                       ),
+                       p('Add the boxplot on top of the violin plot to compare the distribution of the performance metrics and their quantiles.')
                      )
                    }
                  })
@@ -105,7 +113,7 @@ ViolinServer <- function(id, Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n) {
                        my_i <- i
                        plotname <- paste("plot", my_i, sep="")
                        output[[plotname]] <- renderPlot({
-                         print(violinplot(Stoch, MPkeep, Stochkeep, SNkeep, PM=my_i, Object$obj))
+                         print(violinplot(Stoch, MPkeep, Stochkeep, SNkeep, PM=my_i, Object$obj, boxplot = input$boxplot_button))
                        }, width=300)
                      })
                    }
@@ -159,7 +167,7 @@ ViolinUI <- function(id, label="violin") {
   )
 }
 
-violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
+violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj, boxplot = FALSE) {
   Codes <- obj$Perf$Stoch$Codes[Stochkeep$selected] # PM codes
 
   nSNs <- sum(SNkeep$selected) # number SN selected
@@ -188,13 +196,29 @@ violinplot <- function(Stoch, MPkeep, Stochkeep, SNkeep, PM, obj) {
           geom_violin(scale='width') +
           labs(x='', y='', title=Codes[PM]) +
           expand_limits(y=c(0,100)) +
-          guides(fill='none') +
           scale_y_continuous(expand = c(0, 0)) +
-          theme(axis.title.x = element_blank(),
+          theme(legend.position='none',
+                axis.title.x = element_blank(),
                 axis.text.x = element_blank(),
                 axis.text=element_text(size=16),
                 plot.title = element_text(face="bold")) +
           scale_fill_manual(values=MPcols)
+
+        if (boxplot) {
+
+          box_df <- data.frame(
+            x = MPnames,
+            m = tapply(df$value, df$x, median),
+            low1 = tapply(df$value, df$x, quantile, 0.25, na.rm = TRUE),
+            upp1 = tapply(df$value, df$x, quantile, 0.75, na.rm = TRUE),
+            low2 = tapply(df$value, df$x, min, na.rm = TRUE),
+            upp2 = tapply(df$value, df$x, max, na.rm = TRUE)
+          )
+          p <- p +
+            geom_linerange(data = box_df, aes(x=x, ymin=low2, ymax=upp2), inherit.aes = FALSE) +
+            geom_pointrange(data = box_df, aes(x=x, y=m, ymin=low1, ymax=upp1, fill=x),
+                            linewidth = 2, shape = 21, inherit.aes = FALSE)
+        }
       }
     }
   }
