@@ -132,8 +132,10 @@ HomeServer <- function(id, i18n) {
                                                  tags$li(p(a(onclick='customHref("lineOM");', style="cursor: pointer;", "Line OM:"),
                                                            i18n()$t('Similar to the Line plot, but shows the results for each operating model separately.')),
                                                          p(i18n()$t('You can see an example Line OM plot'), a(href='https://harveststrategies.org/wp-content/uploads/2021/01/mse-graphic-11-line-plot.pdf', 'here.', target="_blank"))
+                                                 ),
+                                                 tags$li(p(a(onclick='customHref("lineOMSim");', style="cursor: pointer;", "Line OM Sim:"),
+                                                           i18n()$t('Similar to the Line OM plot, but shows the results from an individual simulation for each operating model.'))
                                                  )
-
                                                )
                                            )
                                          )
