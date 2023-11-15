@@ -23,8 +23,8 @@ Make_Slick(
     "AC=0.95"))),
   mods = list(function(OM, lev) {
      if (lev == 1) OM@M <- c(0.2, 0.2)
-     if (lev
-    == 2) OM@M <- c(0.3, 0.3)
+     if (lev ==
+    2) OM@M <- c(0.3, 0.3)
      OM
  }, function(OM, lev) {
      if (lev == 1) OM@h <-

@@ -4,7 +4,7 @@
 \alias{Slick}
 \title{Run a Shiny Application}
 \usage{
-Slick(app = "Slick")
+Slick(app = "Slick", ...)
 }
 \description{
 \code{Slick} runs the Slick Shiny Application

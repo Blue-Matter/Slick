@@ -1,5 +1,7 @@
 # Slick 1.0.13
 * Support seasonal time steps (fractional years) for line plots of state variables
+* Line plots have y-axis sliders
+* Add line plot for individual simulations (state variables)
 
 # Slick 1.0.12
 * Various aesthetic updates by Adrian
