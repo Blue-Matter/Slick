@@ -134,7 +134,9 @@ sidebar <- dashboardSidebar(
              menuSubItem("Line", tabName = "line",
                          icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
              menuSubItem("Line OM", tabName = "lineOM",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
+             menuSubItem("Line OM Sim", tabName = "lineOMSim",
+                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
     )
 
   )
@@ -239,6 +241,10 @@ body <- dashboardBody(
     tabItem(tabName = "lineOM",
             value='state',
             Line_OMUI('lineOM')
+    ),
+    tabItem(tabName = "lineOMSim",
+            value='state',
+            Line_OMSimUI('lineOMSim')
     )
   )
 )

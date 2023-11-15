@@ -362,6 +362,7 @@ server <- function(input, output, session) {
 
   LineOMServer('lineOM', MPkeep, SNkeep, Object, i18n)
 
+  LineOMSimServer('lineOMSim', MPkeep, SNkeep, Object, i18n)
 
   # Log ----------------------------------------------------------
   output$Log<-renderText(Log_text$text)
