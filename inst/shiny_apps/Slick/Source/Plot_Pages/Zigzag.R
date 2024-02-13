@@ -130,7 +130,7 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                                  escape = FALSE,
                                  options = list(
                                    paging = TRUE,
-                                   searching = TRUE,
+                                   searching = FALSE,
                                    fixedColumns = FALSE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,

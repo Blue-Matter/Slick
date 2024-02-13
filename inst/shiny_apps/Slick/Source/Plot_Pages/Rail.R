@@ -135,7 +135,7 @@ RailServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, i18n) {
                                  escape = FALSE,
                                  options = list(
                                    paging = TRUE,
-                                   searching = TRUE,
+                                   searching = FALSE,
                                    fixedColumns = FALSE,
                                    autoWidth = FALSE,
                                    ordering = TRUE,
