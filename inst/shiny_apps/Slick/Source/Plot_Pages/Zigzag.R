@@ -138,9 +138,8 @@ ZigzagServer <- function(id, Det, MPkeep, Detkeep, SNkeep, Object, window_dims, 
                                    pageLength=25,
                                    buttons = c('copy', 'csv', 'excel'),
                                    columnDefs = list(list(className = 'dt-center', targets = 0))
-                                 ),
-                                 rownames=FALSE
                                  )
+                   )
                  })
 
                }
