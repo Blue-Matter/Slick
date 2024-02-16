@@ -38,5 +38,3 @@ input$selectSV <- obj$StateVar$Labels[input$SV_select]
 input$OM_select <- 4
 
 
-Det$mat %>% dim
-Stoch$mat %>% dim

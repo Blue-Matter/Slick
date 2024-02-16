@@ -286,19 +286,22 @@ MP_projection_OM <- function(MPkeep, input, sn, obj, by_sim = FALSE) {
       # }
     }
 
-    RefNames <- obj$StateVar$RefNames[[SV_ind]]
-    RefPoints <- rep('', length(RefNames))
-    if (length(obj$StateVar$RefPoints)>0)
-      RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
-    if (!all(is.na(RefNames))) {
-      for (i in seq_along(RefNames)) {
-        nm <- RefNames[i]
-        col <- 'black'
-        if (nm =='Target') col <- 'green'
-        if (nm =='Limit') col <- 'red'
-        abline(h=RefPoints[i], lty=3, col=col, lwd=ref.lwd)
+    if (length(obj$StateVar$RefNames)>= SV_ind) {
+      RefNames <- obj$StateVar$RefNames[[SV_ind]]
+      RefPoints <- rep('', length(RefNames))
+      if (length(obj$StateVar$RefPoints)>0)
+        RefPoints <- obj$StateVar$RefPoints[[SV_ind]]
+      if (!all(is.na(RefNames))) {
+        for (i in seq_along(RefNames)) {
+          nm <- RefNames[i]
+          col <- 'black'
+          if (nm =='Target') col <- 'green'
+          if (nm =='Limit') col <- 'red'
+          abline(h=RefPoints[i], lty=3, col=col, lwd=ref.lwd)
+        }
       }
     }
+
 
     axis(side=1, at=seq(min(obj$StateVar$Times), max(obj$StateVar$Times), by=5), tck=-0.05)
     ylabs <- seq(min(yrange), max(yrange), length.out=6)
