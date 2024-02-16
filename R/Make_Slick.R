@@ -115,12 +115,13 @@ Make_Slick<-function(name = "Unnamed Slick object",
                            'Yield')
   out$StateVar$Codes <- c("SSB", "SSB_SSBMSY", 'Yield')
   out$StateVar$Description <- c("Spawning Stock Biomass","Spawning Stock Biomass relative to MSY levels", 'Yield')
-  # out$StateVar$Times<-seq(fstYr, by=1,length.out=proyears)
   out$StateVar$Time_lab <- "Year"
   out$StateVar$RefPoints <- list(NA,c(1,0.5))
   out$StateVar$RefNames <- list(NA, c("Target","Limit"))
   out$StateVar$TimeNow<-as.integer(format(Sys.Date(), "%Y"))
   out$StateVar$Values<-array(NA,c(nsim,nOM,nMPs,3,nyears + proyears))
+  out$StateVar$Times<- c(rev(seq(fstYr-1, by=-1,length.out=nyears)),
+                         seq(fstYr, by=1,length.out=proyears))
 
   # --- Run MSEs ------------------------------------------------------------------------------------------------------
 
