@@ -67,6 +67,20 @@ roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10)) {
 }
 
 
+
+selectedOMs <- function(i, OM) {
+  if (is.null(OM$Defaults)) {
+    out <- 1:length(OM$Labels[[i]])
+  } else {
+    if (length(OM$Defaults)<i) {
+      out <- NULL
+    } else {
+      out <- OM$Defaults[[i]]
+    }
+  }
+  out
+}
+
 # load example object
 
 # obj<-readRDS("./data/SLICKobj.rda")

@@ -16,18 +16,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                    }
                  })
 
-                 selectedOMs <- function(i, OM) {
-                   if (is.null(Object$obj$OM$Defaults)) {
-                     out <- 1:length(Object$obj$OM$Labels[[i]])
-                   } else {
-                     if (length(Object$obj$OM$Defaults)<i) {
-                       out <- NULL
-                     } else {
-                       out <- Object$obj$OM$Defaults[[i]]
-                     }
-                   }
-                   out
-                 }
+
 
                  observeEvent(input$reset_OMs, {
                      for(i in 1:Object$nFac){
