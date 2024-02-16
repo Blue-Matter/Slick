@@ -131,7 +131,7 @@ server <- function(input, output, session) {
 
   output$mp_details <- renderUI({
     tagList(
-      box(width=12,
+      shinydashboardPlus::box(width=12,
           status = "navy",
           title=h3(i18n()$t('Management Procedures')),
           DT::dataTableOutput(session$ns('MPs'))
@@ -141,7 +141,7 @@ server <- function(input, output, session) {
 
   output$om_details <- renderUI({
     tagList(
-      box(width=12,
+      shinydashboardPlus::box(width=12,
           status = "navy",
           title=h3(i18n()$t('Operating Models')),
           tabsetPanel(type="tabs",
@@ -201,6 +201,7 @@ server <- function(input, output, session) {
 
   # Selections
   SNkeep <- reactiveValues(selected=T)
+
   MPkeep <- reactiveValues(selected=T)
   Detkeep <- reactiveValues(selected=T)
   Stochkeep <- reactiveValues(selected=T)
@@ -276,6 +277,18 @@ server <- function(input, output, session) {
 
       # - update reactive values -
       SNkeep$selected <- rep(T,Object$nSN)
+
+      # Default OMs
+      if (!is.null(obj$OM$Defaults)) {
+        defaults <- obj$OM$Design
+        defaults[] <- 0
+        for (i in 1:Object$nFac) {
+          ind <-obj$OM$Design[,i] %in% selectedOMs(i, obj$OM)
+          defaults[,i] <- ind
+        }
+        SNkeep$selected <- as.logical(apply(defaults,1, prod))
+      }
+
       MPkeep$selected <- rep(T,Object$nMP)
       Detkeep$selected <- rep(T,Object$nPMd)
       Stochkeep$selected <- rep(T,Object$nPMs)

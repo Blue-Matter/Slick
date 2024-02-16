@@ -6,14 +6,45 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
   moduleServer(id,
                function(input, output, session) {
                  ns <- NS(id)
+
+
+                 output$OM_defaults <- renderUI({
+                   if (!is.null(Object$obj$OM$Defaults)) {
+                     tagList(
+                       actionButton(ns('reset_OMs'), 'Reset Defaults')
+                     )
+                   }
+                 })
+
+                 selectedOMs <- function(i, OM) {
+                   if (is.null(Object$obj$OM$Defaults)) {
+                     out <- 1:length(Object$obj$OM$Labels[[i]])
+                   } else {
+                     if (length(Object$obj$OM$Defaults)<i) {
+                       out <- NULL
+                     } else {
+                       out <- Object$obj$OM$Defaults[[i]]
+                     }
+                   }
+                   out
+                 }
+
+                 observeEvent(input$reset_OMs, {
+                     for(i in 1:Object$nFac){
+                       # updateCheckboxGroupInput(getDefaultReactiveDomain(), paste0("Fil_SN",i),selected= 1:length(Object$obj$OM$Labels[[i]]))
+                       updateCheckboxGroupInput(getDefaultReactiveDomain(), paste0("Fil_SN",i),selected=  selectedOMs(i, Object$obj$OM))
+                   }
+                 })
+
                  # States of Nature Filters
                  # (may need wrapping for robustness https://stackoverflow.com/questions/24205676/r-shiny-wrapping-ui-elements)
                  output$SN_filters <- renderUI({
+
                    lapply(1:Object$nFac, function(i) {
                      checkboxGroupInput(session$ns(paste0("Fil_SN",i)),inline=TRUE,
                                         Object$obj$OM$Factor_Labels[i],
                                         choiceNames=Object$obj$OM$Labels[[i]],
-                                        selected=1:length(Object$obj$OM$Labels[[i]]),
+                                        selected=selectedOMs(i, Object$obj$OM),
                                         choiceValues=1:length(Object$obj$OM$Labels[[i]]))
                    })
                  })
@@ -49,12 +80,20 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                  })
 
 
+                 output$show_filter_button <- renderUI({
+                   if (Object$Filt) {
+                     tagList(
+                       actionBttn( session$ns("Filt"),"FILTER",icon("cogs", verify_fa=FALSE),block=T, style="fill",
+                                   color='danger',size='sm'))
+                   }
+                 })
+
                  output$show_filters <- renderUI({
                    if (!Object$Loaded) {
                      # no object loaded
                      return(
                        tagList(br(),
-                               box(status = 'warning', width=12,
+                               shinydashboardPlus::box(status = 'warning', width=12,
                                    solidHeader =FALSE,
                                    title=h4(i18n()$t('Slick object not loaded')),
                                    p(i18n()$t('Please go to '), a(onclick='customHref("load");', style="cursor: pointer;", "Load"), i18n()$t('and load a Slick object.'))
@@ -81,6 +120,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                h3(i18n()$t('Operating Models (OM)')),
                                                a(i18n()$t('OM Details'), onclick='customHref("load"); customHref("Operating Model"); customHref("Design");',
                                                  style="cursor: pointer;"),
+                                               uiOutput(session$ns('OM_defaults')),
 
                                                uiOutput(session$ns('SN_filters')),
                                                hr(),
@@ -111,9 +151,10 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                                                 uiOutput(session$ns('PM_Stoch_filters')),
                                                                 hr()
                                                ),
-                                               conditionalPanel("output.Filt",
-                                                                actionBttn( session$ns("Filt"),"FILTER",icon("cogs", verify_fa=FALSE),block=T, style="fill",
-                                                                            color='danger',size='sm'))
+                                               uiOutput(ns('show_filter_button'))
+                                               # conditionalPanel("output.Filt",
+                                               #                  actionBttn( session$ns("Filt"),"FILTER",icon("cogs", verify_fa=FALSE),block=T, style="fill",
+                                               #                              color='danger',size='sm'))
 
                                                # h5("log/debugging"),
                                                #verbatimTextOutput("Log",placeholder=T)
@@ -179,7 +220,9 @@ FilterOMs<-function(Object, input,
 
   if(all(!SNkeep$selected)){
     for(i in 1:Object$nFac){
-      updateCheckboxGroupInput(getDefaultReactiveDomain(), paste0("Fil_SN",i),selected= 1:length(Object$obj$OM$Labels[[i]]))
+      # updateCheckboxGroupInput(getDefaultReactiveDomain(), paste0("Fil_SN",i),selected= 1:length(Object$obj$OM$Labels[[i]]))
+      updateCheckboxGroupInput(getDefaultReactiveDomain(), paste0("Fil_SN",i),selected=  selectedOMs(i, Object$obj$OM))
+
     }
   }
 

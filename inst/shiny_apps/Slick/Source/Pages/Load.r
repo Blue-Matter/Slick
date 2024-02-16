@@ -44,7 +44,7 @@ LoadServer <- function(id, Object, i18n) {
 
                  output$metadata <- renderUI({
                    tagList(
-                     box(width=6,
+                     shinydashboardPlus::box(width=6,
                          solidHeader=TRUE,
                          collapsible = TRUE,
                          status = "navy",
@@ -63,7 +63,7 @@ LoadServer <- function(id, Object, i18n) {
 
                  output$management_procedures <- renderUI({
                    tagList(
-                     box(width=4,
+                     shinydashboardPlus::box(width=4,
                          solidHeader=TRUE,
                          status = "navy",
                          title=h2(i18n()$t('Management Procedures')),
@@ -74,7 +74,7 @@ LoadServer <- function(id, Object, i18n) {
 
                  output$operating_models <- renderUI({
                    tagList(
-                     box(width=4,
+                     shinydashboardPlus::box(width=4,
                          solidHeader=TRUE,
                          status = "navy",
                          title=h2(i18n()$t('Operating Models')),
@@ -89,7 +89,7 @@ LoadServer <- function(id, Object, i18n) {
                  })
                  output$performance_metrics <- renderUI({
                    tagList(
-                     box(width=4,
+                     shinydashboardPlus::box(width=4,
                          solidHeader=TRUE,
                          status = "navy",
                          title=h2(i18n()$t('Performance Metrics')),

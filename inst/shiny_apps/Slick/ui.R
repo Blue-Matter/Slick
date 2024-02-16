@@ -93,7 +93,7 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 )
 
 # -- lhs sidebar ----
-sidebar <- dashboardSidebar(
+sidebar <- shinydashboardPlus::dashboardSidebar(
   collapsed = TRUE,
   sidebarMenu(id='NonTech',
     menuItem("Home", tabName = "home", icon = icon("house")),
@@ -251,7 +251,7 @@ body <- dashboardBody(
 
 
 # -- page ----
-dashboardPage(
+shinydashboardPlus::dashboardPage(
   header=header,
   sidebar=sidebar,
   body=body,
