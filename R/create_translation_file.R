@@ -1,3 +1,10 @@
+
+create_translation_file(path="inst/shiny_apps/Slick/Source/Pages/HomeDEV.r",
+                        type = "json", handle = "i18n",
+                        output = NULL)
+
+
+
 prepare_translation <- function() {
   files <- list.files('inst/shiny_apps/Slick/Source', recursive = TRUE, full.names = TRUE)
 

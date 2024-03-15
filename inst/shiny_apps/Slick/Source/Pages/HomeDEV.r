@@ -1,60 +1,78 @@
 
-HomeServer <- function(id, i18n) {
-
-
+HomeDEVServer <- function(id, Object, i18n) {
+  ns <- NS(id)
   moduleServer(id,
                function(input, output, session) {
 
                  output$welcome <- renderUI({
-                   i18n <- translate_reactive()
+                   i18n <- i18n()
                    tagList(
-                     column(12,
-                            fluidRow(
-                              column(12,
-                                     box(title=h2(i18n$t('Welcome')), collapsible = TRUE,
-                                         width=6,
-                                         solidHeader=TRUE,
-                                         status = "primary",
-                                         h3(i18n$t('Welcome to Slick')),
-                                         p(i18n$t('Slick is a Shiny App decision analysis tool that presents the outcomes of potential policy options across various states of nature. It allows for the simultaneous presentation of various performance metrics and can account for uncertainty in the states of nature. Slick is interactive and allows users to filter results live in order to explore robustness and performance.')),
-                                         p(i18n()$t('While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of harvest strategies, also known as management procedures, tested by Management Strategy Evaluation (MSE).')),
+                     box(title=h2(i18n$t('Welcome to Slick')), collapsible = FALSE,
+                         width=12,
+                         solidHeader=FALSE,
+                         status = "primary",
+                         column(5,
 
-                                         h3(i18n()$t('Slick Presentation of MSE Results')),
-                                         p(i18n()$t('MSEs have four axes over which results are generally presented: ')),
-                                         tags$ol(
-                                           tags$li(i18n()$t('Operating Models (a state of nature or scenario for real system dynamics)')),
-                                           tags$li(i18n()$t('Management Procedures (MP - a management option, aka. harvest strategy)')),
-                                           tags$li(i18n()$t('Performance Metrics (e.g., probability of not overfishing, long-term yields)')),
-                                           tags$li(i18n()$t('Uncertainty within an Operating Model (multiple simulations for each discrete state of nature)'))
-                                         ),
-                                         p(i18n()$t("Slick allows users to filter Operating Models, Management Procedures, and Performance Metrics in order to explore robustness and characterize performance.")),
-                                         p(i18n()$t("In general, the Performance Metrics values are presented as point values (median; Deterministic plots) or median and percentiles (Stochastic and Projection plots) across the Operating Models and individual simulations.")),
+                         ## Welcome
+                         h3(i18n$t('About Slick')),
+                         p(i18n$t(
+                           'Slick is a decision analysis tool that presents the outcomes of candidate harvest strategies across various states of nature, accounting for uncertainty. Slick is interactive and allows users to filter results live in order to explore robustness and performance.'
+                           )),
+                         p(i18n$t(
+                           'While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish.'
+                         ))
+                         ),
+                     column(4,
 
-                                         p(i18n()$t("Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick data file"), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "(see the Developer's Guide),",  target="_blank"), i18n()$t("these results can be loaded to the App."))
-                                     ),
-                                     box(title=h2(i18n()$t('Using Slick')), collapsible = TRUE,
-                                         boxToolSize='xs',
-                                         width=6,
-                                         solidHeader=TRUE,
-                                         status = "primary",
-                                         h3(i18n()$t('1. Create a Slick Data File')),
-                                         p(i18n()$t('To use Slick, you will need your MSE results available in a Slick Data file. MSE Technical Developers should consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n()$t('for information on converting their MSE results into a compatible Slick Data file. Slick includes several example Data files which can be used to explore the App.')),
+                         ## How to use Slick
+                         h3(i18n$t('How to use Slick')),
+                         tags$ol(
+                           tags$li(
+                             h4(i18n$t('Create a Slick Data File:')),
+                             p(i18n$t('To use Slick, you will either need a Slick Data file containing your MSE results, or choose from one of the examples available in Slick. MSE Technical Developers should consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n$t('for information on converting their MSE results into a compatible Slick Data file')
+                             )
 
-                                         h3(i18n()$t('2. Load Slick File')),
-                                         p(i18n()$t('Go to the '), a(onclick="openTab('load')", href="#", 'Load'), i18n()$t('panel on the left and upload your Slick Data file. If you do not have your MSE results in a compatible Slick Data File, you can load one of the example Slick Data files. The example Data Files can also be downloaded as R objects so you can explore how the Slick objects are constructed.')),
-
-                                         h3(i18n()$t('3. Explore the MSE Results')),
-                                         p(i18n()$t('Once you have uploaded a Slick Data File containing MSE results, you can explore these results in one of the 12 Slick visualization plots. Click the icon with three horizontal lines in the top left corner to expand the side menu.')),
-                                         p(i18n()$t('See the Slick Plots box below for more information on the plots.')),
-                                         p(i18n()$t('You can download the plot figures by right-clicking on the image and selecting "Save image ..."')),
-
-                                         h3(i18n()$t('4. Filter the MSE Results')),
-                                         p(i18n()$t('The Filter button in the top right corner can be used to filter the MSE results shown in the plots. Click the Filter button to expand the Filter control menu.'))
-                                     )
-                              )
+                           ),
+                           tags$li(
+                             h4(i18n$t('Load Slick:')),
+                             p(i18n$t('Load your Slick Data File or select an example on the right.'))
+                           ),
+                           tags$li(
+                             h4(i18n$t('Explore the Results:')),
+                             p(i18n$t('After a Slick Data File is loaded, the results can be explored in one of the 12 Slick visualization plots. Click the icon with three horizontal lines in the top left corner to expand the side menu.')
+                             ),
+                             tags$li(
+                               h4(i18n$t('Filter the Results:')),
+                               p(i18n$t('The Filter button in the top right corner can be used to filter the MSE results shown in the plots. Click the Filter button to expand the Filter control menu')
+                               )
+                             )
+                           )
+                         )
+                     ),
+                     column(3,
+                            h4(i18n$t('Load your MSE Results')),
+                            fileInput("Load", accept=c("slick",".slick"),
+                                      label = i18n$t("From file (.slick)"),
+                                      buttonLabel=list(icon("folder",verify_fa = FALSE))
                             ),
-                            fluidRow(
-                              column(12,
+
+                            h4(i18n$t('Load an Example')),
+                            selectInput('example_input',
+                                        label=i18n$t('Example'),
+                                        choices=case_study_df$Example,
+                                        selected=NULL
+                            ),
+                            actionButton("example_upload", i18n$t("Load"),
+                                         icon("upload", verify_fa = FALSE)),
+                            downloadButton("example_download", i18n$t("Download"),
+                                           icon("cloud-download", verify_fa = FALSE))
+
+                            )
+                     ),
+
+
+
+
                                      box(title=h2(i18n()$t('Slick Plots')), collapsible = TRUE,
                                          width=12,
                                          solidHeader=TRUE,
@@ -144,17 +162,20 @@ HomeServer <- function(id, i18n) {
                                          )
                                      )
                               )
-                            )
-                     )
-                   )
+
+
                  })
+
+
+
+
                }
   )
 }
 
 
 
-HomeUI <- function(id, label="home") {
+HomeDEVUI <- function(id, label="home") {
 
   ns <- NS(id)
 

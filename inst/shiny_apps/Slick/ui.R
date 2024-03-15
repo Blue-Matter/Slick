@@ -96,8 +96,10 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 sidebar <- shinydashboardPlus::dashboardSidebar(
   collapsed = TRUE,
   sidebarMenu(id='NonTech',
-    menuItem("Home", tabName = "home", icon = icon("house")),
-    menuItem("Load", tabName = "load", icon = icon("upload")),
+              menuItem("Home Dev", tabName = "home_dev", icon = icon("house")),
+              menuItem("Overview", tabName = "metadata", icon = icon("info-circle")),
+              menuItem("Home", tabName = "home", icon = icon("house")),
+              menuItem("Load", tabName = "load", icon = icon("upload")),
 
     # Deterministic
     menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = TRUE,
@@ -186,13 +188,21 @@ body <- dashboardBody(
 
   ),
   tabItems(
+    tabItem(tabName = "home_dev",
+            HomeDEVUI('home_dev')
+
+    ),
+    tabItem(tabName = "metadata",
+            metadataUI('metadata')
+
+    ),
     tabItem(tabName = "home",
             HomeUI('home')
 
     ),
-    tabItem(tabName = "load",
-            LoadUI('load')
-    ),
+    # tabItem(tabName = "load",
+    #         LoadUI('load')
+    # ),
 
     # Deterministic
     tabItem(tabName = "spider",
@@ -206,7 +216,7 @@ body <- dashboardBody(
             ZigzagUI('zigzag')
     ),
     tabItem(tabName = "rail",
-            RailUI('rail')
+            RailUI('rail2')
     ),
     # Stochastic
     tabItem(tabName = "boxplot",

@@ -28,6 +28,7 @@ server <- function(input, output, session) {
      shiny.i18n::update_lang(input$selected_language, session)
   }, ignoreInit = TRUE)
 
+
   # -- about menu ----
   output$about <- renderUI({
     tagList(
@@ -215,14 +216,17 @@ server <- function(input, output, session) {
   observeEvent(input$Load, {
     Object$File <- input$Load
     Object$Loaded <- Object$Loaded + 1
+    updateTabItems(session, 'NonTech', selected='metadata')
 
   })
 
   observeEvent(input$example_upload, {
     Object$File <- input$example_input
     Object$Loaded <- Object$Loaded + 1
+    print('loaded')
+    print(Object$Loaded)
+    updateTabItems(session, 'NonTech', selected='metadata')
   })
-
 
   output$example_download <- downloadHandler(
     filename = function() {
@@ -338,10 +342,14 @@ server <- function(input, output, session) {
                 Det, Stoch, Proj, i18n = i18n)
 
   # home
+  HomeDEVServer('home_dev', Object, i18n = i18n)
+  metadataServer('metadata', Object, i18n = i18n)
+
   HomeServer('home', i18n = i18n)
 
+
   # load
-  LoadServer('load', Object, i18n = i18n)
+  # LoadServer('load', Object, i18n = i18n)
 
   # resources
   ResourcesServer('resources')
@@ -349,33 +357,33 @@ server <- function(input, output, session) {
   # Plots
   # Deterministic
   SpiderServer('spider', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
-
-  Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
-
-  ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
-
+  #
+  # Spider_OMServer('spiderOM', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
+  #
+  # ZigzagServer('zigzag', Det, MPkeep, Detkeep, SNkeep, Object, window_dims, i18n)
+  #
   RailServer('rail', Det, MPkeep, Detkeep, SNkeep, Object, i18n)
-
-  # Stochastic
-  BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
-
-  Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
-
-  ViolinServer('violin', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
-
-  # Projected
-  KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
-
-  KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
-
-  SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
-
-  # State Variables
-  LineServer('line', MPkeep, SNkeep, Object, i18n)
-
-  LineOMServer('lineOM', MPkeep, SNkeep, Object, i18n)
-
-  LineOMSimServer('lineOMSim', MPkeep, SNkeep, Object, i18n)
+  #
+  # # Stochastic
+  # BoxplotServer('boxplot', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+  #
+  # Boxplot_OMServer('boxplotOM', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+  #
+  # ViolinServer('violin', Stoch, MPkeep, Stochkeep, SNkeep, Object, i18n)
+  #
+  # # Projected
+  # KobeServer('kobe', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+  #
+  # KobeTimeServer('kobetime', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+  #
+  # SlopeServer('slope', Proj, MPkeep, Projkeep, SNkeep, Object, i18n)
+  #
+  # # State Variables
+  # LineServer('line', MPkeep, SNkeep, Object, i18n)
+  #
+  # LineOMServer('lineOM', MPkeep, SNkeep, Object, i18n)
+  #
+  # LineOMSimServer('lineOMSim', MPkeep, SNkeep, Object, i18n)
 
   # Log ----------------------------------------------------------
   output$Log<-renderText(Log_text$text)
@@ -383,5 +391,6 @@ server <- function(input, output, session) {
   USERID<-Sys.getenv()[names(Sys.getenv())=="USERNAME"]
   SessionID<-paste0(USERID,"-",strsplit(as.character(Sys.time())," ")[[1]][1],"-",strsplit(as.character(Sys.time())," ")[[1]][2])
   output$SessionID<-renderText(SessionID)
+
 
 }
