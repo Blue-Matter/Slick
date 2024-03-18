@@ -1,0 +1,46 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# Slick
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+## About Slick
+
+Slick is a decision analysis tool that presents the outcomes of
+potential policy options across various states of nature. The App allows
+for the simultaneous presentation of various performance metrics and can
+account for uncertainty in the states of nature. Slick is interactive
+and allows users to filter results live in order to explore robustness
+and performance.
+
+While Slick can be applied to any decision analysis context it was
+specifically designed to investigate the performance of fisheries
+management procedures tested by management strategy evaluation (MSE).
+
+Importantly the App is platform agnostic: results arising from any MSE
+framework that are formatted in a compatible Slick object can be loaded
+and visualized in the App.
+
+The [`openMSE`](https://openMSE.com) packages are compatible with Slick,
+and include tools to convert `openMSE` MSE results to the Slick format.
+For more information on developing Slick objects please see the
+[Developer’s Guide]().
+
+## Accessing the Slick App
+
+The Slick App can be accessed
+[here](https://shiny.bluematterscience.com/app/slick)
+
+## Running Slick Locally
+
+The Slick App can be run locally by installing the `Slick` R package
+from GitHub:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("Blue-Matter/Slick")
+library(Slick)
+Slick()
+```

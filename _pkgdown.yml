@@ -1,0 +1,10 @@
+url: https://blue-matter.github.io/Slick/
+template:
+  bootstrap: 5
+  bootswatch: litera
+
+navbar:
+  structure:
+    left:  [intro, articles, reference, news]
+    right: [search, github]
+

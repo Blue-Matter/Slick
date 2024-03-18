@@ -10,6 +10,7 @@ Description: Slick presents the performance of multiple management objects acros
 License: GPL-2
 Imports:
     dplyr,
+    DiagrammeR,
     DT,
     fresh,
     ggplot2,
