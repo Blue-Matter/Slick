@@ -1,0 +1,35 @@
+---
+title: "Guide for Slick Developers"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developer's Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo=FALSE
+)
+```
+
+```{r setup}
+library(Slick)
+```
+
+# Introduction
+
+## Slick Presentation of MSE Results
+
+MSEs have four axes over which results are generally presented: 
+
+1. operating models (a state of nature or scenario for real system dynamics)  
+2. management procedures (MP - a management option, aka. harvest strategy)
+3. performance metrics (aka. cost function, utility measure)
+4. Uncertainty within an operating model (multiple simulations for each discrete state of nature)
+
+Slick allows users to filter operating models, performance metrics and management procedures in order to explore robustness and characterize performance. Importantly, Slick is MSE-platform agnostic. Provided MSE practitioners format their results in a compatible Slick object, these can be loaded to the App. 
+
+Slick presents MSE results in 11 Figures designed to inform decision making by revealing the absolute and comparative performance of candidate management procedures 
