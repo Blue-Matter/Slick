@@ -26,7 +26,7 @@ While Slick can be applied to any decision analysis context it was specifically 
 
 Importantly the App is platform agnostic: results arising from any MSE framework that are formatted in a compatible Slick object can be loaded and visualized in the App. 
 
-Slick is compatible with [`openMSE`](openMSE.com), and includes tools to convert `openMSE` MSE results to the Slick format. For more information on developing Slick objects please see the [Developer's Guide]().
+The [`openMSE`](openMSE.com) packages are compatible with Slick, and include tools to convert `openMSE` MSE results to the Slick format. For more information on developing Slick objects please see the [Developer's Guide]().
 
 ## Accessing the Slick App
 
