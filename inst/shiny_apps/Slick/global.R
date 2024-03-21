@@ -52,7 +52,8 @@ for (fl in fls) source(file.path("./Source/Pages", fl), local = TRUE)
 fls <- list.files("./Source/Plot_Pages")
 for (fl in fls) source(file.path("./Source/Plot_Pages", fl), local = TRUE)
 
-
+fls <- list.files("./Source/modules")
+for (fl in fls) source(file.path("./Source/modules", fl), local = TRUE)
 
 # Global formatting parameters
 

@@ -252,3 +252,6 @@ pre {
     vertical-align: baseline;
 
 
+.box {
+   box-shadow: none !important;
+}

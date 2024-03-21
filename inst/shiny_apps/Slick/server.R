@@ -50,7 +50,7 @@ server <- function(input, output, session) {
                       tags$a(href='https://harveststrategies.org/', target="_blank",
                              tags$div(
                                tags$img(src='img/logos/HSlogo_C_RGB_round_small.png', height = '100', width ='100'),
-                               p('Harveststrategies.org')
+                               p('harveststrategies.org')
                              )
                       )
                ),
@@ -223,8 +223,6 @@ server <- function(input, output, session) {
   observeEvent(input$example_upload, {
     Object$File <- input$example_input
     Object$Loaded <- Object$Loaded + 1
-    print('loaded')
-    print(Object$Loaded)
     updateTabItems(session, 'NonTech', selected='metadata')
   })
 
@@ -342,10 +340,12 @@ server <- function(input, output, session) {
                 Det, Stoch, Proj, i18n = i18n)
 
   # home
-  HomeDEVServer('home_dev', Object, i18n = i18n)
+  HomeServer('home', Object, i18n = i18n)
+  mod_sidebar_main_server('sidebar_main_1', Object, i18n)
+
   metadataServer('metadata', Object, i18n = i18n)
 
-  HomeServer('home', i18n = i18n)
+
 
 
   # load

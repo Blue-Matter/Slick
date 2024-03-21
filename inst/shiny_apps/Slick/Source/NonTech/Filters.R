@@ -85,7 +85,7 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                                shinydashboardPlus::box(status = 'warning', width=12,
                                    solidHeader =FALSE,
                                    title=h4(i18n()$t('Slick object not loaded')),
-                                   p(i18n()$t('Please go to '), a(onclick='customHref("load");', style="cursor: pointer;", "Load"), i18n()$t('and load a Slick object.'))
+                                   p(i18n()$t('Please load a Slick object on the '), a(onclick='customHref("home");', style="cursor: pointer;", "Home"), i18n()$t('page.'))
                                )
 
                        )

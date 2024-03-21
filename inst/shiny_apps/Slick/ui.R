@@ -1,6 +1,3 @@
-#todo
-# - add help menu and links to userguides
-
 
 # -- theme ----
 Slick_theme <- create_theme(
@@ -10,9 +7,11 @@ Slick_theme <- create_theme(
   adminlte_sidebar(
     dark_bg = '#37638a',
     dark_hover_bg ='#143570'
+
   ),
+
   adminlte_color(
-    light_blue = "#086A87"
+    light_blue = "#37638a"
   ),
   adminlte_vars(
     'sidebar-width'='300px'
@@ -22,8 +21,10 @@ Slick_theme <- create_theme(
 
 # -- header ----
 header <- dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
-                                           tags$a(href='https://harveststrategies.org/', target="_blank",
-                                                  tags$img(src='img/logo.png', height = '50', width ='300')
+                                           tags$a(href='https://harveststrategies.org/',
+                                                  target="_blank",
+                                                  tags$img(src='img/logo.png',
+                                                           height = '50', width ='300')
                                                   ),
                                            ),
                             leftUi = tagList(
@@ -87,7 +88,6 @@ controlbar <- dashboardControlbar(overlay = FALSE,
                                   width=450,
                                   skin='light',
                                   collapsed = TRUE,
-
                                   FiltersUI('filters', i18n=i18n)
 
 )
@@ -95,53 +95,9 @@ controlbar <- dashboardControlbar(overlay = FALSE,
 # -- lhs sidebar ----
 sidebar <- shinydashboardPlus::dashboardSidebar(
   collapsed = TRUE,
-  sidebarMenu(id='NonTech',
-              menuItem("Home Dev", tabName = "home_dev", icon = icon("house")),
-              menuItem("Overview", tabName = "metadata", icon = icon("info-circle")),
-              menuItem("Home", tabName = "home", icon = icon("house")),
-              menuItem("Load", tabName = "load", icon = icon("upload")),
+  disable = TRUE,
+  mod_sidebar_main_ui("sidebar_main_1")
 
-    # Deterministic
-    menuItem("Deterministic", icon = icon("chart-bar", verify_fa=FALSE), startExpanded = TRUE,
-             menuSubItem("Spider", tabName = "spider",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Spider OM", tabName = "spiderOM",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Zigzag", tabName = "zigzag",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Rail", tabName = "rail",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-             ),
-    # Stochastic
-    menuItem("Stochastic", icon = icon("chart-scatter", verify_fa=FALSE), startExpanded = TRUE,
-             menuSubItem("Boxplot", tabName = "boxplot",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Boxplot OM", tabName = "boxplotOM",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Violin", tabName = "violin",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-
-    ),
-    # Projected
-    menuItem("Projection", icon = icon("chart-line", verify_fa=FALSE), startExpanded = TRUE,
-             menuSubItem("Kobe", tabName = "kobe",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Kobe Time", tabName = "kobetime",
-                             icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Slope", tabName = "slope",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-    ),
-    # State Variables
-    menuItem("Time Series", icon = icon("layer-group"), startExpanded = TRUE,
-             menuSubItem("Line", tabName = "line",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Line OM", tabName = "lineOM",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE)),
-             menuSubItem("Line OM Sim", tabName = "lineOMSim",
-                         icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-    )
-
-  )
 )
 
 
@@ -149,6 +105,7 @@ sidebar <- shinydashboardPlus::dashboardSidebar(
 body <- dashboardBody(
   use_theme(Slick_theme),
   useWaiter(),
+  shinyjs::useShinyjs(),
   waiterPreloader(spin_fading_circles()),
 
   tags$head(
@@ -188,16 +145,12 @@ body <- dashboardBody(
 
   ),
   tabItems(
-    tabItem(tabName = "home_dev",
-            HomeDEVUI('home_dev')
+    tabItem(tabName = "home",
+            HomeUI('home')
 
     ),
     tabItem(tabName = "metadata",
             metadataUI('metadata')
-
-    ),
-    tabItem(tabName = "home",
-            HomeUI('home')
 
     ),
     # tabItem(tabName = "load",
