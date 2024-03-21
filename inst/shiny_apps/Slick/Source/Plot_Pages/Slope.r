@@ -146,8 +146,7 @@ SlopeServer <- function(id, Proj, MPkeep, Projkeep, SNkeep, Object, i18n) {
                                      options=list(
                                        dom = 'Brtip',
                                        autoWidth=FALSE,
-                                       columnDefs = list(list(className = 'dt-center', targets = 0))),
-                                     rownames= FALSE)
+                                       columnDefs = list(list(className = 'dt-center', targets = 0))))
 
                      }
                    }
