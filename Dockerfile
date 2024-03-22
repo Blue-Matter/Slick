@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
 RUN R -e "install.packages(c('shiny', 'rmarkdown', 'remotes'), repos='https://cloud.r-project.org/')"
 
 # install Slick
-RUN R -e "remotes::install_github('blue-matter/Slick', rev='dev', dependencies=TRUE)"
+RUN R -e "remotes::install_github('blue-matter/Slick', ref='dev', dependencies=TRUE)"
 
 
 # instruct Docker to expose port 3838 to the outside world
