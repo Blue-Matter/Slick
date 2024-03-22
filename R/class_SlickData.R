@@ -645,68 +645,7 @@ slick2SlickData <- function(slick) {
   # TimeSeries
 
 
-
-
-
-
-
-
-  colnames(Design(oms)) <- slick$OM$Factor_Labels
-
-  oms@Design
-
-
-  slick$OM$Design
-  slick$OM$Description
-  slick$OM$Codes
-  slick$OM$Labels
-
-  slick$OM$Factor_Labels
-
-
-  OMs(out) <- oms
-
-
-  out@OMs
-
-
-
-  OMs='OMs',
-  MPs='MPs',
-  Quilt='Quilt',
-  Spider='Spider',
-  Boxplot='Boxplot',
-  Kobe='Kobe',
-  TimeSeries='TimeSeries'
-
-
-  tt = NewAuthor(slick$Misc$Author, slick$Misc$Contact, slick$Misc$Institution)
-
-
-
-  Author(out)
-
-
-  Title(out)
-  Name(Metadata)
-
-  OMs
-
-
-  MPs
-
-  Quilt
-
-  Spider
-
-  Boxplot
-
-  Kobe
-
-  TimeSeries
-
-  SlickData()
-
+  out
 }
 
 
