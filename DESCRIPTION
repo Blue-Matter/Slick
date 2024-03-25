@@ -34,3 +34,22 @@ Imports:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
+Collate: 
+    'Check_Slick.R'
+    'Make_Slick.R'
+    'RunSlick.R'
+    'Slick_object.R'
+    'Slick_tools.R'
+    'a_classunions.R'
+    'class_Timeseries.R'
+    'class_Spider.R'
+    'class_Kobe.R'
+    'class_Boxplot.R'
+    'class_Quilt.R'
+    'class_MPs.R'
+    'class_OMs.R'
+    'class_SlickData.R'
+    'aa_generics.R'
+    'create_translation_file.R'
+    'misc.R'
+    'slick2SlickData.R'
