@@ -1,5 +1,5 @@
- slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
-#
+#  slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
+# #
 # # obj$Perf$Det$Labels
 # obj$Perf$Det$Codes
 # obj$Perf$Det$Description
@@ -25,7 +25,16 @@
    trimws(string)
  }
 
-
+#' Convert an object of class `Slick` to class `SlickData`
+#'
+#' Previously objects loaded into Slick were class `Slick`. New class for these
+#' objects is `SlickData`. This function converts the old class to the new class.
+#'
+#' @param slick An object of class `Slick`
+#'
+#' @return An object of class `SlickData`
+#' @export
+#'
 Slick2SlickData <- function(slick) {
 
   out <- SlickData()
@@ -49,27 +58,51 @@ Slick2SlickData <- function(slick) {
 
   Description(oms) <-  slick$OM$Description
   Label(oms) <- slick$OM$Labels
+
+  defaults <- slick$OM$Defaults
+  if (!is.null(defaults)) {
+    temp_default <- array(1, dim=dim(  Design(oms)))
+    for (i in 1:length(defaults)) {
+      slick$OM$Codes[[i]][defaults[[i]]]
+      temp_default[,i] <- Design(oms)[,i] %in% slick$OM$Codes[[i]][defaults[[i]]]
+    }
+    Default(oms) <- apply(temp_default, 1, prod) |> as.logical() |> which()
+  }
+
   OMs(out) <- oms
 
   # MPs
-  mps <- newMPs()
-  Label(mps) <- slick$MP$Labels
-  Description(mps) <- slick$MP$Description
+  mps <- MPs(Label=slick$MP$Labels,
+             Description=slick$MP$Description)
   MPs(out) <- mps
 
   # Quilt
-  quilt <- newQuilt()
-  Label(quilt) <- slick$Perf$Det$Codes
-  Description(quilt)
-  slotNames(quilt)
-
-  # Spider
+  Quilt(out) <- Quilt(slick$Perf$Det$Codes,
+                      slick$Perf$Det$Description,
+                      slick$Perf$Det$Values)
 
   # Boxplot
+  Boxplot(out) <- Boxplot(slick$Perf$Stoch$Codes,
+                      slick$Perf$Stoch$Description,
+                      slick$Perf$Stoch$Values)
 
   # Kobe
+  Kobe(out) <- Kobe(slick$Perf$Proj$Codes,
+                    slick$Perf$Proj$Description,
+                    slick$Perf$Proj$Times,
+                    slick$Perf$Proj$Time_lab,
+                    slick$Perf$Proj$Values)
 
   # TimeSeries
+  Timeseries(out) <- Timeseries(Label=slick$StateVar$Labels,
+                                Description=slick$StateVar$Description,
+                                Time=slick$StateVar$Times,
+                                TimeNow=slick$StateVar$TimeNow,
+                                TimeLab=slick$StateVar$Time_lab,
+                                Value=slick$StateVar$Values,
+                                RefPoints=slick$StateVar$RefPoints,
+                                RefNames=slick$StateVar$RefNames
+                                )
 
 
   out

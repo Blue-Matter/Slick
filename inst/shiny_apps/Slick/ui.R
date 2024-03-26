@@ -20,7 +20,7 @@ Slick_theme <- create_theme(
 )
 
 # -- header ----
-header <- dashboardHeader2(title = tagList(shiny.i18n::usei18n(translator),
+header <- dashboardHeader(title = tagList(shiny.i18n::usei18n(translator),
                                            tags$a(href='https://harveststrategies.org/',
                                                   target="_blank",
                                                   tags$img(src='img/logo.png',
@@ -104,8 +104,8 @@ sidebar <- shinydashboardPlus::dashboardSidebar(
 # -- body ----
 body <- dashboardBody(
   use_theme(Slick_theme),
-  useWaiter(),
   shinyjs::useShinyjs(),
+  useWaiter(),
   waiterPreloader(spin_fading_circles()),
 
   tags$head(

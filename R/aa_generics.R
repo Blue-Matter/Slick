@@ -194,11 +194,10 @@ setMethod("Description<-", "Kobe", function(x, value) {
   x
 })
 
-#' @describeIn newTimeseries Returns Description of an object of class `Timeseries`
+
 #' @export
 setMethod("Description", "Timeseries", function(x) {x@Description})
 
-#' @describeIn newTimeseries Assigns Description for an object of class `Timeseries`
 #' @export
 setMethod("Description<-", "Timeseries", function(x, value) {
   if (!inherits(value, 'character')) {
@@ -327,9 +326,6 @@ setMethod("Value", "Quilt", function(x) {x@Value})
 
 #' @export
 setMethod("Value<-", "Quilt", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Value` must be class `character`', call.=FALSE)
-  }
   x@Value <- value
   validObject(x)
   x
@@ -340,9 +336,6 @@ setMethod("Value", "Spider", function(x) {x@Value})
 
 #' @export
 setMethod("Value<-", "Spider", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Value` must be class `character`', call.=FALSE)
-  }
   x@Value <- value
   validObject(x)
   x
@@ -353,9 +346,6 @@ setMethod("Value", "Boxplot", function(x) {x@Value})
 
 #' @export
 setMethod("Value<-", "Boxplot", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Value` must be class `character`', call.=FALSE)
-  }
   x@Value <- value
   validObject(x)
   x
@@ -366,9 +356,6 @@ setMethod("Value", "Kobe", function(x) {x@Value})
 
 #' @export
 setMethod("Value<-", "Kobe", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Value` must be class `character`', call.=FALSE)
-  }
   x@Value <- value
   validObject(x)
   x
@@ -379,27 +366,25 @@ setMethod("Value", "Timeseries", function(x) {x@Value})
 
 #' @export
 setMethod("Value<-", "Timeseries", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Value` must be class `character`', call.=FALSE)
-  }
   x@Value <- value
   validObject(x)
   x
 })
 
-## Default ---
+## Default ----
 
 setGeneric("Default", function(x, ...) standardGeneric("Default"))
 setGeneric("Default<-", function(x, value) standardGeneric("Default<-"))
 
 #' @export
-setMethod("Default", "OMs", function(x) {x@Label})
+setMethod("Default", "OMs", function(x) {x@Default})
 
 #' @export
 setMethod("Default<-", "OMs", function(x, value) {
-  if (!inherits(value, 'list')) {
-    stop('`Default` must be class `list`', call.=FALSE)
-  }
+
+  # if (!inherits(value, 'numeric')) {
+  #   stop('`Default` must be class `numeric`', call.=FALSE)
+  # }
 
   x@Default <- value
   validObject(x)
@@ -479,6 +464,12 @@ setMethod("Quilt","character",function(x, ...) newQuilt(x, ...))
 
 #' @export
 setMethod("Quilt","SlickData",function(x, ...) x@Quilt)
+
+#' @export
+setMethod("Quilt<-", "SlickData", function(x, value) {
+  x@Quilt <- value
+  x
+})
 
 ## Spider ----
 
@@ -572,6 +563,7 @@ setMethod("Fishery", "SlickData", function(x) {x@Fishery})
 
 #' @export
 setMethod("Fishery<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
   x@Fishery <- value
   x
 })
@@ -584,6 +576,7 @@ setMethod("Introduction", "SlickData", function(x) {x@Introduction})
 
 #' @export
 setMethod("Introduction<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
   x@Introduction <- value
   x
 })
@@ -596,6 +589,9 @@ setMethod("Date", "SlickData", function(x) {x@Date})
 
 #' @export
 setMethod("Date<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
+  if (inherits(value, 'POSIXct'))
+    value <- value |> as.Date() |> as.character()
   x@Date <- value
   x
 })
@@ -611,6 +607,7 @@ setMethod("Author", "SlickData", function(x) {
 
 #' @export
 setMethod("Author<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
   x@Author <- value
   x
 })
@@ -626,6 +623,7 @@ setMethod("Email", "SlickData", function(x) {
 
 #' @export
 setMethod("Email<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
   x@Email <- value
   x
 })
@@ -640,6 +638,7 @@ setMethod("Institution", "SlickData", function(x) {
 
 #' @export
 setMethod("Institution<-", "SlickData", function(x, value) {
+  if (is.null(value)) return(x)
   x@Institution <- value
   x
 })

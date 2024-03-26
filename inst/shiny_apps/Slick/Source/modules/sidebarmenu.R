@@ -28,7 +28,6 @@ mod_sidebar_main_server <- function(id, Object, i18n){
     })
 
     output$sidebar <- shinydashboard::renderMenu({
-
       shinydashboard::sidebarMenu(id='NonTech', .list=menu_list())
     })
 

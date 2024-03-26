@@ -9,7 +9,7 @@ Timeseries <- setClass("Timeseries",
                                Time='numeric',
                                TimeNow='numeric',
                                TimeLab='character_list',
-                               Value='list',
+                               Value='array',
                                RefPoints='list',
                                RefNames='list'
                        )
@@ -24,6 +24,7 @@ setMethod("initialize", "Timeseries", function(.Object,
                                                Value=NULL,
                                                RefPoints=NULL,
                                                RefNames=NULL) {
+
   .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
   .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
   .Object@Time <- use_ifnot_NULL('Time', Time, .Object)
@@ -45,15 +46,23 @@ validTimeSeries <- function(object) {
 setValidity('Timeseries', validTimeSeries)
 
 
-newTimeSeries <- function(Label=NULL,
+newTimeseries <- function(Label=NULL,
                           Description=NULL,
                           Time=NULL,
+                          TimeNow=NULL,
                           TimeLab=NULL,
                           Value=NULL,
                           RefPoints=NULL,
                           RefNames=NULL) {
-  Timeseries <- new('Timeseries', Label, Description, Value,
-                    Time, TimeLab, TimeNow, Value, RefPoints, RefNames)
+  Timeseries <- new('Timeseries',
+                    Label,
+                    Description,
+                    Time,
+                    TimeNow,
+                    TimeLab,
+                    Value,
+                    RefPoints,
+                    RefNames)
   validObject(Timeseries)
   Timeseries
 }

@@ -5,7 +5,7 @@
 Spider <- setClass("Spider",
                    slots=c(Label='character_list',
                            Description='character_list',
-                           Value='list'
+                           Value='array'
                    )
 )
 

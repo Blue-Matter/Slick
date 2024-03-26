@@ -24,7 +24,7 @@ case_study_df <- data.frame(Example=c('North Atlantic Swordfish',
 case_study_df <- case_study_df %>% arrange(Order)
 
 # -- multi-language support ----
-i18n <- translator  <- Translator$new(translation_csvs_path = "data/translations")
+i18n <- translator  <- shiny.i18n::Translator$new(translation_csvs_path = "data/translations")
 translator$set_translation_language('en')
 translator$use_js()
 languages <- translator$get_languages()

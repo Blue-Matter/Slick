@@ -4,11 +4,8 @@
 \alias{Slick}
 \title{Run a Shiny Application}
 \usage{
-Slick(app = "Slick", ...)
+Slick(...)
 }
 \description{
 \code{Slick} runs the Slick Shiny Application
-}
-\references{
-Modified from Deal Attali's code: \url{http://deanattali.com/2015/04/21/r-package-shiny-app/}
 }

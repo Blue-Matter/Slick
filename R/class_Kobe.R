@@ -8,7 +8,7 @@ Kobe <- setClass("Kobe",
                          Description='character_list',
                          Time='numeric',
                          TimeLab='character_list',
-                         Value='list',
+                         Value='array',
                          RefPoints='list',
                          RefNames='list'
                  )
@@ -50,7 +50,7 @@ newKobe <- function(Label=NULL,
                     Value=NULL,
                     RefPoints=NULL,
                     RefNames=NULL) {
-  Kobe <- new('Kobe', Label, Description, Value,
+  Kobe <- new('Kobe', Label, Description,
               Time, TimeLab, Value, RefPoints, RefNames)
   validObject(Kobe)
   Kobe

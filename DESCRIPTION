@@ -1,36 +1,37 @@
-Package: Slick
 Type: Package
+Package: Slick
 Title: Decision Analysis
 Version: 1.0.9000
 Authors@R: c(
-    person("Tom", "Carruthers",, "tom@bluematterscience.com", role=c("aut", "cre")),
-    person("Adrian", "Hordyk",, "adrian@bluematterscience.com", "aut"))
+    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
+    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
+  )
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
-Description: Slick presents the performance of multiple management objects across multiple states of nature. 
+Description: Slick presents the performance of multiple management objects
+    across multiple states of nature.
 License: GPL-2
 Depends:
     R (>= 3.5.0)
 Imports:
-    dplyr,
-    DiagrammeR,
-    DT,
+    config,
     fresh,
-    ggplot2,
-    ggrepel,
-    MSEtool,
-    snowfall,
+    golem,
     shiny,
-    shinyBS,
+    shiny.i18n,
     shinydashboard,
     shinydashboardPlus,
-    shiny.i18n,
     shinyjs,
-    shinyalert,
-    shinycssloaders,
     shinyWidgets,
-    readxl,
-    tidyr,
+    stringi,
+    tools,
     waiter
+Suggests: 
+    DiagrammeR,
+    DT,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
@@ -50,6 +51,17 @@ Collate:
     'class_OMs.R'
     'class_SlickData.R'
     'aa_generics.R'
+    'app_config.R'
+    'app_server.R'
+    'app_ui.R'
     'create_translation_file.R'
+    'fct_dashboardHeader2.R'
+    'fct_translator.R'
     'misc.R'
+    'mod_About.R'
+    'mod_Filters.R'
+    'mod_Home.R'
+    'mod_Metadata.R'
+    'mod_Resources.R'
+    'mod_Sidebar.R'
     'slick2SlickData.R'
