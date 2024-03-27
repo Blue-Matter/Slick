@@ -1,16 +1,11 @@
 
-get_language <- function(txt, i18n) {
-  if (inherits(txt, 'list')) {
-    lang <- i18n$get_translation_language()
-    txt <- txt[[lang]]
-  }
-  txt
-}
 
-Fishery_Text <- function(slick, i18n) {
-  txt <- get_language(Fishery(slick),i18n)
-  if (length(txt)<1) return(NULL)
-  p(strong(i18n$t('Fishery:')), txt)
+make_author_email <- function(Author, Email) {
+  ind <- which(nchar(Email)>0)
+  if (length(ind)>0) {
+    Author[ind] <- paste0('<a href = "mailto: ', Email[ind], '">', Author[ind],'</a>')
+  }
+  Author
 }
 
 
@@ -37,6 +32,9 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    mod_MP_Info_server("MPmetadata", i18n, Slick_Object)
+    mod_OM_Info_server("OMmetadata", i18n, Slick_Object)
+    mod_PM_Info_server("PMmetadata", i18n, Slick_Object)
 
     output$main <- renderUI({
       i18n <- i18n()
@@ -56,50 +54,76 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       i18n <- i18n()
       tagList(
         fluidRow(
-          shinydashboard::tabBox(width=12,
-                                 tabPanel(title=h4(strong(i18n$t('Metadata'))),
+          shinydashboard::tabBox(width=6,
+                                 tabPanel(title=h5(strong(i18n$t('Metadata'))),
                                           uiOutput(ns('metadata'))
-
                                  ),
-                                 tabPanel(title=h4(strong(i18n$t('Management Procedures'))),
-                                          uiOutput(ns('management_procedures'))
-
+                                 tabPanel(title=h5(strong(i18n$t('Management Procedures'))),
+                                          mod_MP_Info_ui(ns("MPmetadata"))
                                  ),
-                                 tabPanel(title=h4(strong(i18n$t('Operating Models'))),
-                                          uiOutput(ns('operating_models'))
-
+                                 tabPanel(title=h5(strong(i18n$t('Operating Models'))),
+                                          mod_OM_Info_ui(ns("OMmetadata"))
                                  ),
-                                 tabPanel(title=h4(strong(i18n$t('Performance Metrics'))),
-                                          uiOutput(ns('performance_metrics'))
-
+                                 tabPanel(title=h5(strong(i18n$t('Performance Indicators'))),
+                                          mod_PM_Info_ui(ns("PMmetadata"))
                                  )
-          )
+          ),
+          uiOutput(ns('plotinfo'))
         )
       )
     })
 
     # ---- metadata tab ----
+    output$author_info <- renderText({
+      slick <- Slick_Object()
+      i18n <- i18n()
+
+      df <- data.frame(Author=make_author_email(Author=Author(slick),
+                                                Email=Email(slick)),
+                       Institution=Institution(slick))
+
+      if (nchar(df$Institution) |> sum() ==0)
+        df$Institution <- NULL
+
+      knitr::kable(df,
+                   format='html',
+                   escape = FALSE) |>
+        kableExtra::row_spec(0,bold=TRUE) |>
+        kableExtra::kable_styling()
+
+    })
+
     output$metadata <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
-
       tagList(
-
         column(12,
                br(),
-               h3(get_language(Title(slick), i18n)),
-               h4(get_language(Subtitle(slick), i18n)),
-               br(),
-               Fishery_Text(slick, i18n)
-
-
-               # p(strong(i18n$t('Author(s):')), Object$obj$Misc$Author, HTML(Object$obj$Misc$Contact)),
-               # p(strong(i18n$t('Institution(s):')), Object$obj$Misc$Institution),
-               # p(strong(i18n$t('Created:')), Object$obj$Misc$Date),
-               # lapply(lapply(Object$obj$Text$Introduction, HTML), tags$p)
+               h3(Title(slick, i18n$get_translation_language())),
+               h4(Subtitle(slick, i18n$get_translation_language())),
+               p(strong(i18n$t('Created:')), Date(slick)),
+               fluidRow(
+                 column(12, tableOutput(ns("author_info")))
+               ),
+               lapply(lapply(Introduction(slick), HTML), tags$p)
         )
       )
     })
+
+    output$plotinfo <- renderUI({
+      i18n <- i18n()
+      slick <- Slick_Object()
+      tagList(
+        shinydashboard::box(width=6,
+                            status = "primary",
+                            title=strong(i18n$t('About the Plots')),
+                            p('This Slick file includes the following plots:'),
+                            br(),
+                            p('TODO: Add descriptions and links for the plots that are included in this slick file')
+                            )
+      )
+    })
+
 
 
   })

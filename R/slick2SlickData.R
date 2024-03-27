@@ -40,7 +40,7 @@ Slick2SlickData <- function(slick) {
   out <- SlickData()
   Title(out) <- slick$Text$Title
   Subtitle(out) <- slick$Text$Sub_title
-  Fishery(out) <- slick$Misc$Fishery
+  # Fishery(out) <- slick$Misc$Fishery
   Introduction(out) <- slick$Text$Introduction
   Date(out) <- slick$Misc$Date
   Author(out) <- split_by_semicolon(slick$Misc$Author)
@@ -78,6 +78,11 @@ Slick2SlickData <- function(slick) {
 
   # Quilt
   Quilt(out) <- Quilt(slick$Perf$Det$Codes,
+                      slick$Perf$Det$Description,
+                      slick$Perf$Det$Values)
+
+  # Spider
+  Spider(out) <- Spider(slick$Perf$Det$Codes,
                       slick$Perf$Det$Description,
                       slick$Perf$Det$Values)
 

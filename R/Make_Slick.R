@@ -17,7 +17,7 @@
 #' @param fstYr An optional numeric value for first projection year. Otherwise current year is used
 #' @param returnMSEs Logical, rather than the Slick object should the list of MSEs be returned?
 #'
-#' @return An object of class \linkS4class{Slick}
+#' @return An object of class [Slick-class]
 #' @author T. Carruthers
 #' @export
 Make_Slick<-function(name = "Unnamed Slick object",

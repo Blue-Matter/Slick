@@ -11,16 +11,6 @@ app_server <- function(input, output, session) {
 
   # -- multi-language support ----
 
-  output$language <- renderUI({
-    tagList(
-      selectInput('selected_language',
-                  "Select language",
-                  choices = get_languages(),
-                  selected = set_translator()$get_key_translation()
-      )
-    )
-  })
-
   i18n <- reactive({
     selected <- input$selected_language
     if (length(selected) > 0 && selected %in% set_translator()$get_languages()) {
@@ -29,13 +19,28 @@ app_server <- function(input, output, session) {
     set_translator()
   })
 
+  output$language <- renderUI({
+    tagList(
+      selectInput('selected_language',
+                  "Choose Language",
+                  choices = get_languages()
+                  )
+      )
+  })
+
   observeEvent(input$selected_language, {
     shiny.i18n::update_lang(input$selected_language, session)
-  }, ignoreInit = TRUE)
+    i18n <- i18n()
+    updateSelectInput(inputId='selected_language', label=i18n$t("Choose Language"))
+  })
+
 
   # ---- Reactives -----
   Load_Slick_File <- reactiveValues(loaded=FALSE, file=NULL)
   Slick_Object <- reactiveVal()
+
+  output$Loaded <- reactive({ Load_Slick_File$loaded })
+  outputOptions(output, "Loaded", suspendWhenHidden = FALSE)
 
   # ---- Module Servers ----
   mod_Resources_server('resources', i18n)
@@ -44,5 +49,9 @@ app_server <- function(input, output, session) {
   mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
   mod_Home_server("home", i18n, Load_Slick_File, Slick_Object)
   mod_Metadata_server("metadata", i18n, Slick_Object)
+  mod_MP_Info_server("MPheader", i18n, Slick_Object)
+  mod_OM_Info_server("OMheader", i18n, Slick_Object)
+  mod_PM_Info_server("PMheader", i18n, Slick_Object)
+  mod_Quilt_server("Quilt", i18n, Slick_Object)
 
 }

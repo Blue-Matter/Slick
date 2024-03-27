@@ -13,11 +13,17 @@ golem::add_module(name = "Filters")
 golem::add_module(name = "Sidebar")
 golem::add_module(name = "Home")
 golem::add_module(name = "Metadata")
-
+golem::add_module(name = "MP_Info")
+golem::add_module(name = "OM_Info")
+golem::add_module(name = "PM_Info")
+golem::add_module(name = "Quilt")
+golem::add_module(name = "Spider")
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("translator", with_test = TRUE)
+golem::add_fct("wrapper_dropdownbutton")
+
+
 
 
 golem::add_utils("helpers", with_test = TRUE)

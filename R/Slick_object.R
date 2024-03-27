@@ -13,7 +13,7 @@
 #' @param nHistYr Integer, the number of historical years for state variables
 #' @param Design A design matrix of factor levels [SN, factor]
 #'
-#' @return An object of class \linkS4class{Slick}
+#' @return An object of class [Slick-class]
 #' @author T. Carruthers
 #' @export
 

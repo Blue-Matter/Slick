@@ -30,7 +30,7 @@ run_app <- function(
 
 #' Run a Shiny Application
 #'
-#' \code{Slick} runs the Slick Shiny Application
+#' `Slick` runs the Slick Shiny Application
 #'
 #' @export
 Slick <- function(...) {

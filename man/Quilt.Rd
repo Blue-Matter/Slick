@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_Quilt.R
 \name{Quilt}
 \alias{Quilt}
-\title{Create a new `Quilt` object}
+\title{Create a new \code{Quilt} object}
 \usage{
 Quilt(x, ...)
 }
 \value{
-An object of class `Quilt`
+An object of class \code{Quilt}
 }
 \description{
-Create a new `Quilt` object
+Create a new \code{Quilt} object
 }

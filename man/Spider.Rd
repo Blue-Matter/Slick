@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_Spider.R
 \name{Spider}
 \alias{Spider}
-\title{Create a new `Spider` object}
+\title{Create a new \code{Spider} object}
 \usage{
 Spider(x, ...)
 }
 \value{
-An object of class `Spider`
+An object of class \code{Spider}
 }
 \description{
-Create a new `Spider` object
+Create a new \code{Spider} object
 }

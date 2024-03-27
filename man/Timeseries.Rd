@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_Timeseries.R
 \name{Timeseries}
 \alias{Timeseries}
-\title{Create a new `Timeseries` object}
+\title{Create a new \code{Timeseries} object}
 \usage{
 Timeseries(x, ...)
 }
 \value{
-An object of class `Timeseries`
+An object of class \code{Timeseries}
 }
 \description{
-Create a new `Timeseries` object
+Create a new \code{Timeseries} object
 }

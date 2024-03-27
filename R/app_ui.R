@@ -59,31 +59,28 @@ header <- function() {
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
                        width=700,
-                       label = "MP Details",
+                       label = "Management Procedures",
                        status = "primary",
                        circle = FALSE,
-                       p('test')
-                       # uiOutput("mp_details")
+                       mod_MP_Info_ui("MPheader")
                      )
     ),
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
                        width=700,
-                       label = "OM Details",
+                       label = "Operating Models",
                        status = "primary",
                        circle = FALSE,
-                       p('test')
-                       # uiOutput("om_details")
+                       mod_OM_Info_ui("OMheader")
                      )
     ),
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
                        width=700,
-                       label = "PM Details",
+                       label = "Performance Metrics",
                        status = "primary",
                        circle = FALSE,
-                       p('test')
-                       # uiOutput("pm_details")
+                       mod_PM_Info_ui("PMheader")
                      )
     )
   ),
@@ -138,7 +135,12 @@ body <- function() {
       shinydashboard::tabItem(tabName = "metadatatab",
                               mod_Metadata_ui("metadata")
 
+      ),
+      shinydashboard::tabItem(tabName = "quilt",
+                              mod_Quilt_ui("Quilt")
+
       )
+
       # # tabItem(tabName = "load",
       # #         LoadUI('load')
       # # ),

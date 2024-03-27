@@ -2,17 +2,17 @@
 % Please edit documentation in R/slick2SlickData.R
 \name{Slick2SlickData}
 \alias{Slick2SlickData}
-\title{Convert an object of class `Slick` to class `SlickData`}
+\title{Convert an object of class \code{Slick} to class \code{SlickData}}
 \usage{
 Slick2SlickData(slick)
 }
 \arguments{
-\item{slick}{An object of class `Slick`}
+\item{slick}{An object of class \code{Slick}}
 }
 \value{
-An object of class `SlickData`
+An object of class \code{SlickData}
 }
 \description{
-Previously objects loaded into Slick were class `Slick`. New class for these
-objects is `SlickData`. This function converts the old class to the new class.
+Previously objects loaded into Slick were class \code{Slick}. New class for these
+objects is \code{SlickData}. This function converts the old class to the new class.
 }

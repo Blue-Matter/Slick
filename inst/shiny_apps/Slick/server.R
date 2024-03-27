@@ -39,8 +39,11 @@ server <- function(input, output, session) {
       Label=Object$obj$MP$Labels,
       Description=Object$obj$MP$Description
     )
-    DT::datatable(df,rownames=F, extensions = 'Responsive', selection='none', options = list(dom = 't',
-                                                                                             pageLength=100))
+    DT::datatable(df,rownames=F,
+                  extensions = 'Responsive',
+                  selection='none',
+                  options = list(dom = 't',
+                                 pageLength=100))
   })
 
   output$OMs <- renderDataTable({

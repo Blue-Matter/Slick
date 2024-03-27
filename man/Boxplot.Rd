@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_Boxplot.R
 \name{Boxplot}
 \alias{Boxplot}
-\title{Create a new `Boxplot` object}
+\title{Create a new \code{Boxplot} object}
 \usage{
 Boxplot(x, ...)
 }
 \value{
-An object of class `Boxplot`
+An object of class \code{Boxplot}
 }
 \description{
-Create a new `Boxplot` object
+Create a new \code{Boxplot} object
 }

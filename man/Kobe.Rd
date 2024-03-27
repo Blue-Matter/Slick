@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_Kobe.R
 \name{Kobe}
 \alias{Kobe}
-\title{Create a new `Kobe` object}
+\title{Create a new \code{Kobe} object}
 \usage{
 Kobe(x, ...)
 }
 \value{
-An object of class `Kobe`
+An object of class \code{Kobe}
 }
 \description{
-Create a new `Kobe` object
+Create a new \code{Kobe} object
 }

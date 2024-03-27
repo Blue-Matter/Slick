@@ -66,11 +66,11 @@ Make_Slick(
 
 \item{PMs}{A vector of performance metrics of class PM}
 
-\item{Design}{A design matrix of OM runs [run, mod]}
+\item{Design}{A design matrix of OM runs \link{run, mod}}
 
 \item{SN}{A list of Labels, Codes and Descriptions of the factor levels. Each list item is a factor containing a vector of factor levels.}
 
-\item{mods}{A nested list of mods [mod type long]}
+\item{mods}{A nested list of mods \link{mod type long}}
 
 \item{nsim}{Integer, the number of simulations}
 

@@ -28,14 +28,15 @@ FiltersServer <- function(id, Object, SNkeep, MPkeep, Detkeep, Stochkeep, Projke
                  # States of Nature Filters
                  # (may need wrapping for robustness https://stackoverflow.com/questions/24205676/r-shiny-wrapping-ui-elements)
                  output$SN_filters <- renderUI({
-
-                   lapply(1:Object$nFac, function(i) {
-                     checkboxGroupInput(session$ns(paste0("Fil_SN",i)),inline=TRUE,
-                                        Object$obj$OM$Factor_Labels[i],
-                                        choiceNames=Object$obj$OM$Labels[[i]],
-                                        selected=selectedOMs(i, Object$obj$OM),
-                                        choiceValues=1:length(Object$obj$OM$Labels[[i]]))
-                   })
+                   tagList(
+                     lapply(1:Object$nFac, function(i) {
+                       checkboxGroupInput(session$ns(paste0("Fil_SN",i)),inline=TRUE,
+                                          Object$obj$OM$Factor_Labels[i],
+                                          choiceNames=Object$obj$OM$Labels[[i]],
+                                          selected=selectedOMs(i, Object$obj$OM),
+                                          choiceValues=1:length(Object$obj$OM$Labels[[i]]))
+                     })
+                   )
                  })
 
                  # MP filtering

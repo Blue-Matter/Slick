@@ -2,13 +2,13 @@
 % Please edit documentation in R/class_MPs.R
 \name{MPs}
 \alias{MPs}
-\title{Create a new `MPs` object}
+\title{Create a new \code{MPs} object}
 \usage{
 MPs(x, ...)
 }
 \value{
-An object of class `MPs`
+An object of class \code{MPs}
 }
 \description{
-Create a new `MPs` object
+Create a new \code{MPs} object
 }

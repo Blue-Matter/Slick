@@ -6,7 +6,7 @@
 #' @param det logical, should the normalization be applied to the deterministic performance metrics (or, if false the stochastic ones)
 #' @param inv A logical vector nPM long. If true, the PM will be inverted (100-value).
 #'
-#' @return An object of class \linkS4class{Slick}
+#' @return An object of class [Slick-class]
 #' @author T. Carruthers
 #' @export
 PMnorm<-function(obj,det=T,inv=NULL){

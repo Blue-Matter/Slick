@@ -16,14 +16,21 @@
 #' @include class_Boxplot.R
 #' @include class_Kobe.R
 #' @include class_Timeseries.R
-#' @keywords classes
-#' @docType class
+#' @rdname SlickData
+#' @param Title Title for the Slick object. A character string. For multiple languages,
+#' use a named list with names: `en`, `es`, `fr` for the three supported languages.
+#' @param Subtitle Subtitle for the Slick object. A character string or a named list with
+#' languages: `en`, `es`, `fr`
+#' @param Introduction Introduction text. A list where each list element is a
+#' separate paragraph.
+#' @usage SlickData() # creates an new `SlickData` object
+#' @usage SlickData(Title, Subtitle, Introduction)
 #' @export
 #'
 SlickData <- setClass("SlickData",
          slots=c(Title='character_list',
                  Subtitle='character_list',
-                 Fishery='character_list',
+                 # Fishery='character_list',
                  Introduction='list',
                  Date='character',
                  Author='character_list',
@@ -42,7 +49,6 @@ SlickData <- setClass("SlickData",
 setMethod("initialize", "SlickData", function(.Object,
                                               Title=NULL,
                                               Subtitle=NULL,
-                                              Fishery=NULL,
                                               Introduction=NULL,
                                               Date=NULL,
                                               Author=NULL,
@@ -58,7 +64,7 @@ setMethod("initialize", "SlickData", function(.Object,
 
   .Object@Title <- use_ifnot_NULL('Title', Title, .Object)
   .Object@Subtitle <- use_ifnot_NULL('Subtitle', Subtitle, .Object)
-  .Object@Fishery <- use_ifnot_NULL('Fishery', Fishery, .Object)
+  # .Object@Fishery <- use_ifnot_NULL('Fishery', Fishery, .Object)
   .Object@Introduction <- use_ifnot_NULL('Introduction', Introduction, .Object)
   .Object@Date <- use_ifnot_NULL('Date', Date, .Object)
   .Object@Author <- use_ifnot_NULL('Author', Author, .Object)
@@ -87,7 +93,7 @@ setValidity('SlickData', validSlickData)
 
 newSlickData <- function(Title=NULL,
                      Subtitle=NULL,
-                     Fishery=NULL,
+                     # Fishery=NULL,
                      Introduction=NULL,
                      Date=NULL,
                      Author=NULL,
@@ -102,7 +108,6 @@ newSlickData <- function(Title=NULL,
                      Timeseries=NULL) {
   SlickData <- new('SlickData', Title,
                    Subtitle,
-                   Fishery,
                    Introduction,
                    Date,
                    Author, Email, Institution,

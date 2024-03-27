@@ -1,4 +1,18 @@
+get_language <- function(value, lang) {
+  if (is.null(lang))
+    return(value)
 
+  if (inherits(value, 'list')) {
+    if (is.null(names(value)))
+      return(value)
+    if (!lang %in% names(value)) {
+      warning(lang, ' not found. Using default', call.=FALSE)
+      return(value[[1]])
+    }
+    return(value[[lang]])
+  }
+  value
+}
 
 
 #' @include class_Boxplot.R
@@ -34,20 +48,29 @@ NULL
 
 
 ## OMs ----
+#' @rdname OMs
 setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
+
+#' @rdname OMs
 setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
 
+
+
+#' @rdname OMs
 #' @export
 setMethod("OMs","data.frame",function(x, ...) newOMs(x, ...))
 
+#' @rdname OMs
 #' @export
 setMethod("OMs","missingOrNULL",function(x, ...) newOMs(...))
 
+#' @rdname OMs
 #' @export
 setMethod("OMs", "SlickData", function(x) {
   x@OMs
 })
 
+#' @rdname OMs
 #' @export
 setMethod("OMs<-", "SlickData", function(x, value) {
   x@OMs <- value
@@ -74,6 +97,23 @@ setMethod("MPs<-", "SlickData", function(x, value) {
   x@MPs <- value
   x
 })
+
+## Link ----
+setGeneric("Link", function(MPs) standardGeneric("Link"))
+setGeneric("Link<-", function(MPs, value) standardGeneric("Link<-"))
+
+#' @export
+setMethod("Link","MPs",function(MPs) {
+  MPs@Link
+})
+
+#' @export
+setMethod("Link<-","MPs",function(MPs, value) {
+  MPs@Link <- value
+  MPs
+})
+
+
 
 ## Design ----
 setGeneric("Design", function(x, ...) standardGeneric("Design"))
@@ -106,12 +146,14 @@ setMethod("Design<-", "SlickData", function(x, value) {
 
 
 # Description  -----
-setGeneric("Description", function(x, ...) standardGeneric("Description"))
+setGeneric("Description", function(x, lang=NULL) standardGeneric("Description"))
 setGeneric("Description<-", function(x, value) standardGeneric("Description<-"))
 
 
 #' @export
-setMethod("Description", "OMs", function(x) {x@Description})
+setMethod("Description", "OMs", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
 
 #' @export
 setMethod("Description<-", "OMs", function(x, value) {
@@ -124,7 +166,10 @@ setMethod("Description<-", "OMs", function(x, value) {
 })
 
 #' @export
-setMethod("Description", "MPs", function(x) {x@Description})
+setMethod("Description", "MPs", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
+
 
 #' @export
 setMethod("Description<-", "MPs", function(x, value) {
@@ -137,7 +182,10 @@ setMethod("Description<-", "MPs", function(x, value) {
 })
 
 #' @export
-setMethod("Description", "Quilt", function(x) {x@Description})
+setMethod("Description", "Quilt", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
+
 
 #' @export
 setMethod("Description<-", "Quilt", function(x, value) {
@@ -150,8 +198,9 @@ setMethod("Description<-", "Quilt", function(x, value) {
 })
 
 #' @export
-setMethod("Description", "Spider", function(x) {x@Description})
-
+setMethod("Description", "Spider", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
 
 #' @export
 setMethod("Description<-", "Spider", function(x, value) {
@@ -163,9 +212,11 @@ setMethod("Description<-", "Spider", function(x, value) {
   x
 })
 
-#' @describeIn newBoxplot Returns Description of an object of class `Boxplot`
+
 #' @export
-setMethod("Description", "Boxplot", function(x) {x@Description})
+setMethod("Description", "Boxplot", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
 
 #' @describeIn newBoxplot Assigns Description for an object of class `Boxplot`
 #' @export
@@ -181,7 +232,9 @@ setMethod("Description<-", "Boxplot", function(x, value) {
 
 #' @describeIn newKobe Returns Description of an object of class `Kobe`
 #' @export
-setMethod("Description", "Kobe", function(x) {x@Description})
+setMethod("Description", "Kobe", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
 
 #' @describeIn newKobe Assigns Description for an object of class `Kobe`
 #' @export
@@ -196,7 +249,9 @@ setMethod("Description<-", "Kobe", function(x, value) {
 
 
 #' @export
-setMethod("Description", "Timeseries", function(x) {x@Description})
+setMethod("Description", "Timeseries", function(x, lang=NULL) {
+  get_language(x@Description, lang)
+})
 
 #' @export
 setMethod("Description<-", "Timeseries", function(x, value) {
@@ -210,12 +265,15 @@ setMethod("Description<-", "Timeseries", function(x, value) {
 
 
 # Label  -----
-setGeneric("Label", function(x, ...) standardGeneric("Label"))
+setGeneric("Label", function(x, lang=NULL) standardGeneric("Label"))
 setGeneric("Label<-", function(x, value) standardGeneric("Label<-"))
 
 
 #' @export
-setMethod("Label", "OMs", function(x) {x@Label})
+setMethod("Label", "OMs", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
+
 
 #' @export
 setMethod("Label<-", "OMs", function(x, value) {
@@ -230,7 +288,10 @@ setMethod("Label<-", "OMs", function(x, value) {
 
 #' @describeIn newMPs Returns Label of an object of class `MPs`
 #' @export
-setMethod("Label", "MPs", function(x) {x@Label})
+setMethod("Label", "MPs", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
+
 
 #' @describeIn newMPs Assigns Label for an object of class `MPs`
 #' @export
@@ -244,7 +305,9 @@ setMethod("Label<-", "MPs", function(x, value) {
 })
 
 #' @export
-setMethod("Label", "Quilt", function(x) {x@Label})
+setMethod("Label", "Quilt", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
 
 #' @export
 setMethod("Label<-", "Quilt", function(x, value) {
@@ -258,7 +321,10 @@ setMethod("Label<-", "Quilt", function(x, value) {
 
 #' @describeIn newSpider Returns Label of an object of class `Spider`
 #' @export
-setMethod("Label", "Spider", function(x) {x@Label})
+setMethod("Label", "Spider", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
+
 
 #' @describeIn newSpider Assigns Label for an object of class `Spider`
 #' @export
@@ -273,7 +339,10 @@ setMethod("Label<-", "Spider", function(x, value) {
 
 #' @describeIn newBoxplot Returns Label of an object of class `Boxplot`
 #' @export
-setMethod("Label", "Boxplot", function(x) {x@Label})
+setMethod("Label", "Boxplot", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
+
 
 #' @describeIn newBoxplot Assigns Label for an object of class `Boxplot`
 #' @export
@@ -288,7 +357,10 @@ setMethod("Label<-", "Boxplot", function(x, value) {
 
 #' @describeIn newKobe Returns Label of an object of class `Kobe`
 #' @export
-setMethod("Label", "Kobe", function(x) {x@Label})
+setMethod("Label", "Kobe", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
+
 
 #' @describeIn newKobe Assigns Label for an object of class `Kobe`
 #' @export
@@ -303,7 +375,9 @@ setMethod("Label<-", "Kobe", function(x, value) {
 
 #' @describeIn newTimeSeries Returns Label of an object of class `Timeseries`
 #' @export
-setMethod("Label", "Timeseries", function(x) {x@Label})
+setMethod("Label", "Timeseries", function(x, lang=NULL) {
+  get_language(x@Label, lang)
+})
 
 #' @describeIn newTimeSeries Assigns Label for an object of class `Timeseries`
 #' @export
@@ -530,117 +604,145 @@ setMethod("Timeseries<-", "SlickData", function(x, value) {
 
 ## ---- SlickData Generics ----
 
-setGeneric("Title", function(x, ...) standardGeneric("Title"))
-setGeneric("Title<-", function(x, value) standardGeneric("Title<-"))
+
+
+
 
 #' @export
-setMethod("Title", "SlickData", function(x) {x@Title})
+setGeneric("Title", function(SlickData, ...) standardGeneric("Title"))
+
+
+setGeneric("Title<-", function(SlickData, value) standardGeneric("Title<-"))
+
+#' @param SlickData An object of class `SlickData`
+#' @param lang two letter character string specifying the language
+#' to return (if available). Currently supported languages are: `en`, `es`, `fr`
 #' @export
-setMethod("Title<-", "SlickData", function(x, value) {
-  x@Title <- value
-  x
+#' @rdname SlickData
+setMethod("Title", "SlickData", function(SlickData, lang=NULL) {
+  get_language(SlickData@Title, lang)
 })
 
 
-setGeneric("Subtitle", function(x, ...) standardGeneric("Subtitle"))
-setGeneric("Subtitle<-", function(x, value) standardGeneric("Subtitle<-"))
-
+#' @param value Value to replace.
 #' @export
-setMethod("Subtitle", "SlickData", function(x, value) {x@Subtitle})
-
-#' @export
-setMethod("Subtitle<-", "SlickData", function(x, value) {
-  x@Subtitle <- value
-  x
+#' @rdname SlickData
+setMethod("Title<-", "SlickData", function(SlickData, value) {
+  SlickData@Title <- value
+  SlickData
 })
 
 
-setGeneric("Fishery", function(x) standardGeneric("Fishery"))
-setGeneric("Fishery<-", function(x, value) standardGeneric("Fishery<-"))
+
+setGeneric("Subtitle", function(SlickData, ...) standardGeneric("Subtitle"))
+setGeneric("Subtitle<-", function(SlickData, value) standardGeneric("Subtitle<-"))
+
 
 #' @export
-setMethod("Fishery", "SlickData", function(x) {x@Fishery})
-
-#' @export
-setMethod("Fishery<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
-  x@Fishery <- value
-  x
+#' @rdname SlickData
+setMethod("Subtitle", "SlickData", function(SlickData, lang=NULL) {
+  get_language(SlickData@Subtitle, lang)
 })
 
-setGeneric("Introduction", function(x) standardGeneric("Introduction"))
-setGeneric("Introduction<-", function(x, value) standardGeneric("Introduction<-"))
 
 #' @export
-setMethod("Introduction", "SlickData", function(x) {x@Introduction})
-
-#' @export
-setMethod("Introduction<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
-  x@Introduction <- value
-  x
+#' @rdname SlickData
+setMethod("Subtitle<-", "SlickData", function(SlickData, value) {
+  SlickData@Subtitle <- value
+  SlickData
 })
 
-setGeneric("Date", function(x) standardGeneric("Date"))
-setGeneric("Date<-", function(x, value) standardGeneric("Date<-"))
+
+setGeneric("Fishery", function(SlickData, ...) standardGeneric("Fishery"))
+setGeneric("Fishery<-", function(SlickData, value) standardGeneric("Fishery<-"))
 
 #' @export
-setMethod("Date", "SlickData", function(x) {x@Date})
+setMethod("Fishery", "SlickData", function(SlickData, lang=NULL) {
+  get_language(SlickData@Fishery, lang)
+  })
 
 #' @export
-setMethod("Date<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
+setMethod("Fishery<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
+  SlickData@Fishery <- value
+  SlickData
+})
+
+setGeneric("Introduction", function(SlickData, ...) standardGeneric("Introduction"))
+setGeneric("Introduction<-", function(SlickData, value) standardGeneric("Introduction<-"))
+
+#' @export
+setMethod("Introduction", "SlickData", function(SlickData, lang=NULL) {
+  get_language(SlickData@Introduction, lang)
+  })
+
+#' @export
+setMethod("Introduction<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
+  SlickData@Introduction <- value
+  SlickData
+})
+
+setGeneric("Date", function(SlickData) standardGeneric("Date"))
+setGeneric("Date<-", function(SlickData, value) standardGeneric("Date<-"))
+
+#' @export
+setMethod("Date", "SlickData", function(SlickData) {SlickData@Date})
+
+#' @export
+setMethod("Date<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
   if (inherits(value, 'POSIXct'))
     value <- value |> as.Date() |> as.character()
-  x@Date <- value
-  x
+  SlickData@Date <- value
+  SlickData
 })
 
 
-setGeneric("Author", function(x) standardGeneric("Author"))
-setGeneric("Author<-", function(x, value) standardGeneric("Author<-"))
+setGeneric("Author", function(SlickData) standardGeneric("Author"))
+setGeneric("Author<-", function(SlickData, value) standardGeneric("Author<-"))
 
 #' @export
-setMethod("Author", "SlickData", function(x) {
-  x@Author
+setMethod("Author", "SlickData", function(SlickData) {
+  SlickData@Author
 })
 
 #' @export
-setMethod("Author<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
-  x@Author <- value
-  x
+setMethod("Author<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
+  SlickData@Author <- value
+  SlickData
 })
 
 
-setGeneric("Email", function(x) standardGeneric("Email"))
-setGeneric("Email<-", function(x, value) standardGeneric("Email<-"))
+setGeneric("Email", function(SlickData) standardGeneric("Email"))
+setGeneric("Email<-", function(SlickData, value) standardGeneric("Email<-"))
 
 #' @export
-setMethod("Email", "SlickData", function(x) {
-  x@Email
+setMethod("Email", "SlickData", function(SlickData) {
+  SlickData@Email
 })
 
 #' @export
-setMethod("Email<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
-  x@Email <- value
-  x
+setMethod("Email<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
+  SlickData@Email <- value
+  SlickData
 })
 
-setGeneric("Institution", function(x) standardGeneric("Institution"))
-setGeneric("Institution<-", function(x, value) standardGeneric("Institution<-"))
+setGeneric("Institution", function(SlickData) standardGeneric("Institution"))
+setGeneric("Institution<-", function(SlickData, value) standardGeneric("Institution<-"))
 
 #' @export
-setMethod("Institution", "SlickData", function(x) {
-  x@Institution
+setMethod("Institution", "SlickData", function(SlickData) {
+  SlickData@Institution
 })
 
 #' @export
-setMethod("Institution<-", "SlickData", function(x, value) {
-  if (is.null(value)) return(x)
-  x@Institution <- value
-  x
+setMethod("Institution<-", "SlickData", function(SlickData, value) {
+  if (is.null(value)) return(SlickData)
+  SlickData@Institution <- value
+  SlickData
 })
 
 
