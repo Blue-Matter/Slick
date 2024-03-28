@@ -9,10 +9,11 @@ attachment::att_amend_desc()
 ## Create a module infrastructure in R/
 golem::add_module(name = "Resources", with_test = FALSE) # Name of the module
 golem::add_module(name = "About")
-golem::add_module(name = "Filters")
 golem::add_module(name = "Sidebar")
 golem::add_module(name = "Home")
 golem::add_module(name = "Metadata")
+golem::add_module(name = "Filter")
+golem::add_module(name = "Filter_OM")
 golem::add_module(name = "MP_Info")
 golem::add_module(name = "OM_Info")
 golem::add_module(name = "PM_Info")

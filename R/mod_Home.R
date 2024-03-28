@@ -104,6 +104,22 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
       )
     })
 
+    output$example_download <- downloadHandler(
+      filename = function() {
+        Name <- input$example_input
+        paste0(Name, ".slick", sep="")
+      },
+      content = function(file) {
+        Name <- input$example_input
+        File <- case_study_df$Object [match(Name, case_study_df$Example)]
+        obj <- get(File)
+        if (inherits(obj, 'Slick'))
+          obj <- Slick2SlickData(obj)
+        saveRDS(obj, file)
+
+      }
+    )
+
     observeEvent(input$load, ignoreInit = TRUE, {
       Load_Slick_File$file <- input$load
       Load_Slick_File$loaded <- Load_Slick_File$loaded +1
@@ -122,20 +138,16 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
 
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
       if (Load_Slick_File$loaded >= 1) {
-        # Object$Ready <- FALSE
-        # Object$Filt <- FALSE
         if (inherits(Load_Slick_File$file, 'character')) {
           slick <- get(case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)])
-          if(inherits(slick, 'Slick'))
-            slick <- Slick2SlickData(slick)
-          Slick_Object(slick)
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
           slick <- readRDS(Load_Slick_File$file$datapath)
-          if(inherits(slick, 'Slick'))
-            slick <- Slick2SlickData(slick)
-          Slick_Object(slick)
         }
+        if(inherits(slick, 'Slick'))
+          slick <- Slick2SlickData(slick)
+
+        Slick_Object(slick)
       }
     })
 

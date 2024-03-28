@@ -58,17 +58,8 @@ Slick2SlickData <- function(slick) {
 
   Description(oms) <-  slick$OM$Description
   Label(oms) <- slick$OM$Labels
-
-  defaults <- slick$OM$Defaults
-  if (!is.null(defaults)) {
-    temp_default <- array(1, dim=dim(  Design(oms)))
-    for (i in 1:length(defaults)) {
-      slick$OM$Codes[[i]][defaults[[i]]]
-      temp_default[,i] <- Design(oms)[,i] %in% slick$OM$Codes[[i]][defaults[[i]]]
-    }
-    Default(oms) <- apply(temp_default, 1, prod) |> as.logical() |> which()
-  }
-
+  if (!is.null(slick$OM$Defaults))
+    Default(oms) <- slick$OM$Defaults
   OMs(out) <- oms
 
   # MPs

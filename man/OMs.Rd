@@ -35,9 +35,7 @@ with a description of the factor levels.}
 with a short label to be used in the plots. If missing, the label will be the
 factor level.}
 
-\item{Default}{(optional) A \code{numeric} vector specifying the rows in \code{Design}
-to be included when Slick is first run.
-If not specified, all OMs will be selected when Slick starts.}
+\item{Default}{(optional) TODO}
 }
 \value{
 An object of class \code{OMs}

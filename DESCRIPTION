@@ -14,8 +14,14 @@ Depends:
     R (>= 3.5.0)
 Imports:
     config,
+    dplyr,
+    DT,
     fresh,
     golem,
+    grDevices,
+    htmltools,
+    kableExtra,
+    knitr,
     shiny,
     shiny.i18n,
     shinydashboard,
@@ -27,13 +33,12 @@ Imports:
     waiter
 Suggests: 
     DiagrammeR,
-    DT,
-    knitr,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Collate: 
     'Check_Slick.R'
@@ -60,6 +65,8 @@ Collate:
     'fct_wrapper_dropdownbutton.R'
     'misc.R'
     'mod_About.R'
+    'mod_Filter.R'
+    'mod_Filter_OM.R'
     'mod_Filters.R'
     'mod_Home.R'
     'mod_MP_Info.R'
@@ -71,4 +78,3 @@ Collate:
     'mod_Sidebar.R'
     'mod_Spider.R'
     'slick2SlickData.R'
-Roxygen: list(markdown = TRUE)

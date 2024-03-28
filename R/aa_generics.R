@@ -144,6 +144,22 @@ setMethod("Design<-", "SlickData", function(x, value) {
   x
 })
 
+# Color ----
+setGeneric("Color", function(x) standardGeneric("Color"))
+setGeneric("Color<-", function(x, value) standardGeneric("Color<-"))
+
+#' @export
+setMethod("Color", "Quilt", function(x) {
+  x@Color
+})
+
+#' @export
+setMethod("Color<-", "Quilt", function(x, value) {
+  x@Color <- value
+  x
+})
+
+
 
 # Description  -----
 setGeneric("Description", function(x, lang=NULL) standardGeneric("Description"))
