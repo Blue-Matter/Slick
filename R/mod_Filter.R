@@ -18,31 +18,58 @@ mod_Filter_ui <- function(id){
 #' Filter Server Functions
 #'
 #' @noRd
-mod_Filter_server <- function(id, i18n, Slick_Object){
+mod_Filter_server <- function(id, i18n, Slick_Object, slot){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
     Selected_OMs <- mod_Filter_OM_server("Filter_OM_1", i18n, Slick_Object)
+    Selected_MPs <-  mod_Filter_MP_server("Filter_MP_1", i18n, Slick_Object)
+    Selected_PMs <-  mod_Filter_PM_server("Filter_PM_1", i18n, Slick_Object, slot)
 
     Filter_Selected <- reactiveValues()
+
     observeEvent(Selected_OMs$OMs, {
       Filter_Selected$OMs <- Selected_OMs$OMs
     })
 
+    observeEvent(Selected_MPs$MPs, {
+      Filter_Selected$MPs <- Selected_MPs$MPs
+    })
+
+    observeEvent(Selected_PMs$PMs, {
+      Filter_Selected$PMs <- Selected_PMs$PMs
+    })
+
+
     output$filters <- renderUI({
       i18n <- i18n()
       tagList(
+        br(),
+        uiOutput(ns('filter_button')),
+        p('testing'),
+        br(),
         tabsetPanel(id=ns('filtertabs'),
           tabPanel(i18n$t('Operating Models'),
                    mod_Filter_OM_ui(ns("Filter_OM_1"))
           ),
           tabPanel(i18n$t('Management Procedures'),
-                   p('test')
+                   mod_Filter_MP_ui(ns("Filter_MP_1"))
           ),
           tabPanel(i18n$t('Performance Indicators'),
-                   p('tst')
+                   mod_Filter_PM_ui(ns("Filter_PM_1"))
           )
         )
+      )
+    })
+
+    output$filter_button <- renderUI({
+      i18n <- i18n()
+      shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterButton"),
+                                               label=i18n$t("FILTER"),
+                                               icon("cogs", verify_fa=FALSE),
+                                               block=TRUE,
+                                               style="fill",
+                                               color='danger',size='sm')
       )
     })
 

@@ -27,7 +27,7 @@ filterOMs <- function(slick, Filter_Selected, input) {
 
   if (any(colSums(keep)==0)) {
     # select all if none are selected
-    shinyjs::click('reset_OMs')
+    shinyjs::click('reset_button')
 
   } else {
     Filter_Selected$OMs <- apply(keep,1,all)
@@ -49,11 +49,11 @@ mod_Filter_OM_ui <- function(id){
   ns <- NS(id)
   tagList(
     br(),
-    uiOutput(ns('OM_filters')),
+    uiOutput(ns('filters')),
     br(),
     fluidRow(
-      column(3, uiOutput(ns('OM_defaults'))),
-      column(3, uiOutput(ns('filter_OM_button')))
+      column(3, uiOutput(ns('defaults'))),
+      column(3, uiOutput(ns('filter_button')))
     )
   )
 }
@@ -67,7 +67,7 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
 
     Filter_Selected <- reactiveValues()
 
-    output$OM_filters <- renderUI({
+    output$filters <- renderUI({
       i18n <- i18n()
       oms <- OMs(Slick_Object())
       labels <- Label(oms, i18n$get_translation_language())
@@ -81,28 +81,30 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
                            choiceValues=1:length(labels[[i]])
         )
       })
-      shinyjs::delay(50, shinyjs::hide("FilterOMButton"))
+      shinyjs::delay(50, shinyjs::hide("FilterButton"))
       tagList(ll)
     })
 
-    output$OM_defaults <- renderUI({
+    output$defaults <- renderUI({
       i18n <- i18n()
       defaults <- Default(OMs(Slick_Object()))
-      if (length(defaults)>0) {
-        tagList(
-          shinyWidgets::actionBttn(ns("reset_OMs"),
-                                   label=i18n$t("Reset Defaults"),
-                                   icon("arrows-spin", verify_fa=FALSE),
-                                   block=TRUE,
-                                   style="fill",
-                                   color='default',size='sm')
-        )
-      }
+      if (length(defaults)<1)
+        shinyjs::delay(50, shinyjs::hide("reset_button"))
+
+      tagList(
+        shinyWidgets::actionBttn(ns("reset_button"),
+                                 label=i18n$t("Reset Defaults"),
+                                 icon("arrows-spin", verify_fa=FALSE),
+                                 block=TRUE,
+                                 style="fill",
+                                 color='default',size='sm')
+      )
+
     })
 
-    output$filter_OM_button <- renderUI({
+    output$filter_button <- renderUI({
       i18n <- i18n()
-      shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterOMButton"),
+      shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterButton"),
                                                label=i18n$t("FILTER"),
                                                icon("cogs", verify_fa=FALSE),
                                                block=TRUE,
@@ -138,7 +140,8 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
     })
 
     # reset defaults
-    observeEvent(input$reset_OMs, {
+    observeEvent(input$reset_button, {
+      golem::print_dev('reset clicked')
       slick <- Slick_Object()
       oms <- OMs(slick)
       factors <- colnames(oms@Design)
@@ -149,9 +152,10 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
     })
 
     # hide filter button after pressed
-    observeEvent(input$FilterOMButton, {
+    observeEvent(input$FilterButton, {
       filterOMs(Slick_Object(), Filter_Selected, input)
-      shinyjs::hide("FilterOMButton")
+      shinyjs::hide("FilterButton")
+      shinydashboardPlus::updateBoxSidebar(id='filtersidebar', session = shiny::getDefaultReactiveDomain())
     })
 
     # show filter button if any changed
@@ -160,7 +164,7 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
       if (!is.null(slick)) {
         FilterNames <- paste0("Filter_OM",1:ncol(Design(slick)))
         observeEvent(sapply(FilterNames, function(x) input[[x]]),{
-          shinyjs::show("FilterOMButton")
+          shinyjs::show("FilterButton")
         }, ignoreInit =TRUE)
       }
     })

@@ -471,15 +471,56 @@ setMethod("Default", "OMs", function(x) {x@Default})
 
 #' @export
 setMethod("Default<-", "OMs", function(x, value) {
-
-  # if (!inherits(value, 'numeric')) {
-  #   stop('`Default` must be class `numeric`', call.=FALSE)
-  # }
-
+  if (!inherits(value, 'list')) {
+    stop('`Default` must be class `list`', call.=FALSE)
+  }
   x@Default <- value
   validObject(x)
   x
 })
+
+#' @export
+setMethod("Default", "MPs", function(x) {x@Default})
+
+#' @export
+setMethod("Default<-", "MPs", function(x, value) {
+  if (!inherits(value, 'numeric')) {
+    stop('`Default` must be class `numeric`', call.=FALSE)
+  }
+  x@Default <- value
+  validObject(x)
+  x
+})
+
+
+
+#' @export
+setMethod("Default", "Quilt", function(x) {x@Default})
+
+#' @export
+setMethod("Default<-", "Quilt", function(x, value) {
+  if (!inherits(value, 'numeric')) {
+    stop('`Default` must be class `numeric`', call.=FALSE)
+  }
+  x@Default <- value
+  validObject(x)
+  x
+})
+
+
+#' @export
+setMethod("Default", "Boxplot", function(x) {x@Default})
+
+#' @export
+setMethod("Default<-", "Boxplot", function(x, value) {
+  if (!inherits(value, 'numeric')) {
+    stop('`Default` must be class `numeric`', call.=FALSE)
+  }
+  x@Default <- value
+  validObject(x)
+  x
+})
+
 
 
 

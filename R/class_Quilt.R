@@ -8,7 +8,8 @@ Quilt <- setClass("Quilt",
                   slots=c(Label='character_list',
                           Description='character_list',
                           Value='array',
-                          Color='character'
+                          Color='character',
+                          Default='numeric'
                   )
 )
 
@@ -16,11 +17,13 @@ setMethod("initialize", "Quilt", function(.Object,
                                           Label=NULL,
                                           Description=NULL,
                                           Value=NULL,
-                                          Color=c('#088ebc', 'white')) {
+                                          Color=c('#088ebc', 'white'),
+                                          Default=NULL) {
   .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
   .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
   .Object@Color <- use_ifnot_NULL('Color', Color, .Object)
+  .Object@Default <- use_ifnot_NULL('Default', Default, .Object)
   .Object
 })
 
@@ -39,8 +42,9 @@ setValidity('Quilt', validQuilt)
 newQuilt <- function(Label=NULL,
                      Description=NULL,
                      Value=NULL,
-                     Color=c('#088ebc', 'white')) {
-  Quilt <- new('Quilt', Label, Description, Value, Color)
+                     Color=c('#088ebc', 'white'),
+                     Default=NULL) {
+  Quilt <- new('Quilt', Label, Description, Value, Color, Default)
   validObject(Quilt)
   Quilt
 }

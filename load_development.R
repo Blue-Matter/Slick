@@ -1,4 +1,4 @@
-slick<-readRDS("inst/shiny_apps/SLICK/data/case_studies/SLICKobj.rda")
+slick<-readRDS("inst/shiny_apps/SLICK/data/case_studies/WSKJ.slick")
 slick <- Slick2SlickData(slick)
 
 

@@ -5,8 +5,7 @@ colorRampAlpha <- function(..., n, alpha) {
 
 
 
-make_Quilt <- function(quilt, mp_label) {
-  # quilt <<- quilt
+make_Quilt <- function(quilt, mp_label, pm_selected) {
   Values <- Value(quilt) |>
     apply(2:3, median) |>
     signif(3)
@@ -14,7 +13,7 @@ make_Quilt <- function(quilt, mp_label) {
     return(NULL)
   }
   rownames(Values) <- mp_label
-  pm_labels <- Label(quilt)
+  pm_labels <- Label(quilt)[pm_selected]
   colnames(Values) <- pm_labels
   cols <- Color(quilt)
 
@@ -73,7 +72,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    Filter_Selected <- mod_Filter_server('quilt', i18n, Slick_Object)
+    Filter_Selected <- mod_Filter_server(id, i18n, Slick_Object, slot='Quilt')
 
     output$page <- renderUI({
       i18n <- i18n()
@@ -92,9 +91,9 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
                                                    )
 
                                 ),
-                                sidebar = shinydashboardPlus::boxSidebar(id='quiltsidebar',
+                                sidebar = shinydashboardPlus::boxSidebar(id='filtersidebar',
                                                                          column(12, align = 'left', class='multicol',
-                                                                                mod_Filter_ui(ns('quilt'))
+                                                                                mod_Filter_ui(ns(id))
                                                                                 )
                                 )
         ) %>% {
@@ -110,14 +109,22 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
     filtered_quilt <- reactive({
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
+      selected_MPs <- Filter_Selected$MPs
+      selected_PMs <- Filter_Selected$PMs
       quilt <- Quilt(slick)
+
       # filter OMs
       if (!is.null(selected_OMs)) {
         Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
       }
       # filter MPs
-
+      if (!is.null(selected_MPs)) {
+        Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
+      }
       # filter PMs
+      if (!is.null(selected_PMs)) {
+        Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
+      }
 
       quilt
     })
@@ -127,7 +134,8 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
     })
 
     MP_labels <- reactive({
-
+      labels <- Label(MPs(Slick_Object()))
+      labels[Filter_Selected$MPs]
     })
 
     nMP <- reactive({
@@ -139,26 +147,19 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
       slick <- Slick_Object()
       quilt <- filtered_quilt()
 
-      Values <- Value(quilt)
-      nOMs <- dim(Values)[1]
-
-      MPs <- MPs(slick)
-      mp_label <- Label(MPs(slick))
-      # add MP Filter here
-      nMPs <- length(mp_label)
-
-      PMs <- Label(quilt)
-      nPMs <- length(PMs)
-
       tagList(
-        shinydashboard::box(width=4,
-                            h4(strong(i18n$t("READING THIS CHART"))),
+        shinydashboard::box(width=12, collapsible = TRUE,
+                            status='primary',
+                            title=h4(strong(i18n$t("READING THIS CHART"))),
                             htmlOutput(ns('reading_quilt'))
         ),
-        shinydashboard::box(width=8,
+        shinydashboard::box(width=12,
                             status='primary',
-                            title=paste(nMP(), i18n$t('Management Procedures. Median values over'), nOM(), i18n$t('Operating Models')),
-                            make_Quilt(quilt, mp_label)
+                            title=paste(nMP(),
+                                        i18n$t('Management Procedures. Median values over'),
+                                        nOM(),
+                                        i18n$t('Operating Models')),
+                            make_Quilt(quilt, MP_labels(), Filter_Selected$PMs)
         )
       )
     })
@@ -166,6 +167,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
     output$reading_quilt <- renderUI({
 
       tagList(
+        p('This chart ...')
         # p('This chart', strong('compares the performance of ', nMP,
         #                        ' management procedures (MP) against ', nPM,
         #                        ' performance metrics.'))
