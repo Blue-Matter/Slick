@@ -29,10 +29,10 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
       if (Load_Slick_File$loaded >=1) {
         ll <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
                                             icon=icon('home')),
-                   shinydashboard::menuItem(i18n$t("Metadata"),
+                   shinydashboard::menuItem(i18n$t("Overview"),
                                             tabName = "metadatatab",
                                             icon = icon("info-circle")),
-                   shinydashboard::menuItem(i18n$t("Quilt"),
+                   shinydashboard::menuItem(i18n$t("Quilt and Trade-Off"),
                                             tabName = "quilt",
                                             icon = icon("table")),
                    shinydashboard::menuItem("Deterministic",

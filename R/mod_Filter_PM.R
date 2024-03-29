@@ -10,20 +10,15 @@ selectedPMs <- function(pm_obj) {
 
 
 filterPMs <- function(pm_obj, Filter_Selected, input) {
-
   keep <- rep(TRUE, length(Label(pm_obj)))
   keep <- (1:length(Label(pm_obj)))  %in% input$Filter_PM
-
   if (sum(keep)==0) {
     # select all if none are selected
     shinyjs::click('reset_button')
-
   } else {
     Filter_Selected$PMs <- keep
   }
-
 }
-
 
 
 #' Filter_PM UI Function
@@ -41,10 +36,7 @@ mod_Filter_PM_ui <- function(id){
     br(),
     uiOutput(ns('filters')),
     br(),
-    fluidRow(
-      column(3, uiOutput(ns('defaults'))),
-      column(3, uiOutput(ns('filter_button')))
-    )
+    uiOutput(ns('defaults'))
   )
 }
 
@@ -79,29 +71,16 @@ mod_Filter_PM_server <- function(id, i18n, Slick_Object, slot){
     output$defaults <- renderUI({
       i18n <- i18n()
       defaults <-  Default(PM_object())
-      if (length(defaults)<1)
-        shinyjs::delay(50, shinyjs::hide("reset_button"))
+      if (length(defaults)>0)
+        shinyjs::delay(50, shinyjs::show("reset_button"))
 
-      tagList(
+      shinyjs::hidden(
         shinyWidgets::actionBttn(ns("reset_button"),
                                  label=i18n$t("Reset Defaults"),
                                  icon("arrows-spin", verify_fa=FALSE),
-                                 block=TRUE,
-                                 style="fill",
                                  color='default',size='sm')
       )
 
-    })
-
-    output$filter_button <- renderUI({
-      i18n <- i18n()
-      shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterButton"),
-                                               label=i18n$t("FILTER"),
-                                               icon("cogs", verify_fa=FALSE),
-                                               block=TRUE,
-                                               style="fill",
-                                               color='danger',size='sm')
-      )
     })
 
     # Reset OM Filters when new Slick loaded
@@ -120,22 +99,18 @@ mod_Filter_PM_server <- function(id, i18n, Slick_Object, slot){
 
     # reset defaults
     observeEvent(input$reset_button, {
-      updateCheckboxGroupInput(inputId=ns('Filter_PM'),
+      updateCheckboxGroupInput(inputId='Filter_PM',
                                selected=selectedPMs(PM_object()))
     })
 
-    # hide filter button after pressed
-    observeEvent(input$FilterButton, {
-      filterPMs(PM_object(), Filter_Selected, input)
-      shinyjs::hide("FilterButton")
-    })
-
-    # show filter button if any changed
-    show_filter <- observe({
+    observe({
       slick <- Slick_Object()
+      if(length(input$Filter_PM)==0) {
+        shinyjs::click('reset_button')
+      }
       if (!is.null(slick)) {
         observeEvent(input$Filter_PM, {
-          shinyjs::show("FilterButton")
+          filterPMs(PM_object(), Filter_Selected, input)
         }, ignoreInit =TRUE)
       }
     })

@@ -85,6 +85,10 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
                                 solidHeader=FALSE,
                                 status = "primary",
                                 title=strong(i18n$t('Load Slick Data')),
+                                # shinyjs::hidden(
+                                #   h4(id=ns('overviewlink'), 'Back to ', actionLink(ns('overview'), 'Overview'))
+                                # ),
+
                                 h4(i18n$t('Load your MSE Results')),
                                 fileInput(ns("load"), accept=c("slick",".slick"),
                                           label = i18n$t("From file (.slick)"),
@@ -103,6 +107,10 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
         )
       )
     })
+
+    # observeEvent(input$overview, {
+    #   shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+    # })
 
     output$example_download <- downloadHandler(
       filename = function() {
@@ -147,6 +155,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
         if(inherits(slick, 'Slick'))
           slick <- Slick2SlickData(slick)
 
+        # shinyjs::show('overviewlink')
         Slick_Object(slick)
       }
     })

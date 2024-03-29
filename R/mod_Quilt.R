@@ -1,51 +1,3 @@
-colorRampAlpha <- function(..., n, alpha) {
-  colors <- grDevices::colorRampPalette(...)(n)
-  paste(colors, sprintf("%x", ceiling(255*alpha)), sep="")
-}
-
-
-
-make_Quilt <- function(quilt, mp_label, pm_selected) {
-  Values <- Value(quilt) |>
-    apply(2:3, median) |>
-    signif(3)
-  if (all(is.na(Values))) {
-    return(NULL)
-  }
-  rownames(Values) <- mp_label
-  pm_labels <- Label(quilt)[pm_selected]
-  colnames(Values) <- pm_labels
-  cols <- Color(quilt)
-
-
-  outable <-  DT::datatable(Values, extensions = 'Buttons',
-                          options = list(dom = 'tB',
-                                         pageLength =100,
-                                         buttons=c('copy', 'csv'),
-                                         columnDefs = list(list(className = 'dt-center', targets = "_all")),
-                                         scrollX = TRUE
-                                         ),
-                          filter = list(
-                            position = 'top', clear = FALSE
-                          ), selection = 'none')
-
-  for (i in 1:ncol(Values)) {
-    pm <- pm_labels[i]
-    val_range <- range(Values[,i])
-    cuts <- quantile(Values[,i], seq(0, 1, by=0.1)) |>
-      as.numeric()
-    values <- rev(colorRampAlpha(cols, n=length(cuts)+1, alpha=0.5) )
-
-    outable <- outable |>
-      DT::formatStyle(
-        pm,
-        backgroundColor = DT::styleInterval(cuts=cuts,
-                                            values=values)
-      )
-  }
-  outable
-
-}
 
 
 #' Quilt UI Function
@@ -60,6 +12,7 @@ make_Quilt <- function(quilt, mp_label, pm_selected) {
 mod_Quilt_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
 
   )
@@ -72,7 +25,16 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    Filter_Selected <- mod_Filter_server(id, i18n, Slick_Object, slot='Quilt')
+    Filter_Selected<- mod_Filter_server(id, i18n, Slick_Object,
+                                        slot='Quilt',
+                                        parent_session=session)
+
+    mod_Quilt_plot_server("Quilt_plot_1", i18n, Slick_Object, Filter_Selected)
+    mod_TradeOff_plot_server("TradeOff_plot_1", i18n, Slick_Object, Filter_Selected)
+
+    mod_toplink_server(id, links=list(hometab='Home',
+                                      metadatatab='Overview',
+                                      quilt='Quilt'))
 
     output$page <- renderUI({
       i18n <- i18n()
@@ -81,106 +43,30 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
                                 status='primary',
                                 solidHeader=TRUE,
                                 title=h3(strong(i18n$t('Quilt and Trade-Off'))),
-                                shiny::tabsetPanel(id='quilt_tabs',
-                                                   shiny::tabPanel(i18n$t('Quilt'),
-                                                                   br(),
-                                                                   uiOutput(ns('quilt'))
+                                shiny::tabsetPanel(id=ns('quilt_tabs'),
+                                                   shiny::tabPanel('Quilt',
+                                                                   mod_Quilt_plot_ui(ns("Quilt_plot_1"))
                                                    ),
-                                                   shiny::tabPanel(i18n$t('Trade-Off'),
-                                                                   uiOutput(ns('tradeoff'))
+                                                   shiny::tabPanel('Trade-Off',
+                                                                   mod_TradeOff_plot_ui(ns("TradeOff_plot_1"))
                                                    )
 
                                 ),
-                                sidebar = shinydashboardPlus::boxSidebar(id='filtersidebar',
+                                sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
+                                                                         icon=icon('filter'),
                                                                          column(12, align = 'left', class='multicol',
                                                                                 mod_Filter_ui(ns(id))
                                                                                 )
                                 )
         ) %>% {
           htmltools::tagQuery(.)$
-            find("#quiltsidebar")$
+            find("#filtersidebar")$
             removeAttrs("data-original-title")$
             addAttrs(`data-original-title`="Filters")$
             allTags()
         }
       )
     })
-
-    filtered_quilt <- reactive({
-      slick <- Slick_Object()
-      selected_OMs <- Filter_Selected$OMs
-      selected_MPs <- Filter_Selected$MPs
-      selected_PMs <- Filter_Selected$PMs
-      quilt <- Quilt(slick)
-
-      # filter OMs
-      if (!is.null(selected_OMs)) {
-        Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
-      }
-      # filter MPs
-      if (!is.null(selected_MPs)) {
-        Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
-      }
-      # filter PMs
-      if (!is.null(selected_PMs)) {
-        Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
-      }
-
-      quilt
-    })
-
-    nOM <- reactive({
-      dim(Value(filtered_quilt()))[1]
-    })
-
-    MP_labels <- reactive({
-      labels <- Label(MPs(Slick_Object()))
-      labels[Filter_Selected$MPs]
-    })
-
-    nMP <- reactive({
-      length(MP_labels())
-    })
-
-    output$quilt <- renderUI({
-      i18n <- i18n()
-      slick <- Slick_Object()
-      quilt <- filtered_quilt()
-
-      tagList(
-        shinydashboard::box(width=12, collapsible = TRUE,
-                            status='primary',
-                            title=h4(strong(i18n$t("READING THIS CHART"))),
-                            htmlOutput(ns('reading_quilt'))
-        ),
-        shinydashboard::box(width=12,
-                            status='primary',
-                            title=paste(nMP(),
-                                        i18n$t('Management Procedures. Median values over'),
-                                        nOM(),
-                                        i18n$t('Operating Models')),
-                            make_Quilt(quilt, MP_labels(), Filter_Selected$PMs)
-        )
-      )
-    })
-
-    output$reading_quilt <- renderUI({
-
-      tagList(
-        p('This chart ...')
-        # p('This chart', strong('compares the performance of ', nMP,
-        #                        ' management procedures (MP) against ', nPM,
-        #                        ' performance metrics.'))
-      )
-    })
-
-
-
-
-    output$tradeoff <- renderUI({
-
-    })
-
 
   })
 }

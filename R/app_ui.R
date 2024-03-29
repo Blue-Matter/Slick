@@ -42,7 +42,7 @@ header <- function() {
     shinyWidgets::dropdownButton(
       width=900,
       label = "Resources",
-      icon = icon("books", verify_fa = FALSE),
+      icon = icon("book", verify_fa = FALSE),
       status = "primary",
       circle = FALSE,
       mod_Resources_ui('resources')
@@ -91,18 +91,20 @@ header <- function() {
 
 # -- rhs controlbar ----
 controlbar <- function() {
-  shinydashboardPlus::dashboardControlbar(overlay = FALSE,
-                       width=450,
-                       skin='light',
-                       collapsed = TRUE,
-                       mod_Filters_ui('filters')
-
-  )
+  shinydashboardPlus::dashboardControlbar(disable = TRUE)
+  # shinydashboardPlus::dashboardControlbar(overlay = FALSE,
+  #                      width=450,
+  #                      skin='light',
+  #                      collapsed = TRUE,
+  #                      mod_Filters_ui('filters')
+  #
+  # )
 }
 
 # -- lhs sidebar ----
 sidebar <- function() {
   shinydashboardPlus::dashboardSidebar(
+    width = "0px",
     collapsed = TRUE,
     disable = TRUE,
     mod_Sidebar_ui("sidebar")

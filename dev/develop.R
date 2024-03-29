@@ -11,6 +11,7 @@ golem::add_module(name = "Resources", with_test = FALSE) # Name of the module
 golem::add_module(name = "About")
 golem::add_module(name = "Sidebar")
 golem::add_module(name = "Home")
+golem::add_module(name = "toplink")
 golem::add_module(name = "Metadata")
 golem::add_module(name = "Filter")
 golem::add_module(name = "Filter_OM")
@@ -21,6 +22,8 @@ golem::add_module(name = "MP_Info")
 golem::add_module(name = "OM_Info")
 golem::add_module(name = "PM_Info")
 golem::add_module(name = "Quilt")
+golem::add_module(name = "Quilt_plot")
+golem::add_module(name = "TradeOff_plot")
 golem::add_module(name = "Spider")
 
 ## Add helper functions ----

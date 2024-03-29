@@ -602,6 +602,28 @@ setMethod("Quilt<-", "SlickData", function(x, value) {
   x
 })
 
+## Min and Max ----
+setGeneric("Min", function(x) standardGeneric("Min"))
+setGeneric("Min<-", function(x, value) standardGeneric("Min<-"))
+setGeneric("Max", function(x) standardGeneric("Max"))
+setGeneric("Max<-", function(x, value) standardGeneric("Max<-"))
+
+#' @export
+setMethod("Min","Quilt",function(x) Quilt@Min)
+
+#' @export
+setMethod("Min<-","Quilt",function(x, value) {
+  Quilt@Min <- value
+})
+
+#' @export
+setMethod("Max","Quilt",function(x) Quilt@Max)
+
+#' @export
+setMethod("Max<-","Quilt",function(x, value) {
+  Quilt@Max <- value
+})
+
 ## Spider ----
 
 setGeneric("Spider", function(x, ...) standardGeneric("Spider"))

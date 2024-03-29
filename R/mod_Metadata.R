@@ -1,4 +1,18 @@
 
+get_authors <- function(slick) {
+  authors <- Author(slick)
+  if (length(authors)>1)
+    return(paste(paste0(1:length(authors), '. ', authors), collapse=', '))
+
+  authors
+}
+
+get_institution <- function(slick) {
+  institutions <- Institution(slick)
+  if (length(institutions)>1)
+    return(paste(paste0(1:length(institutions), '. ', institutions), collapse=', '))
+  institutions
+}
 
 make_author_email <- function(Author, Email) {
   ind <- which(nchar(Email)>0)
@@ -21,6 +35,7 @@ make_author_email <- function(Author, Email) {
 mod_Metadata_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_toplink_ui(ns(id)),
     uiOutput(ns('main'))
   )
 }
@@ -29,23 +44,24 @@ mod_Metadata_ui <- function(id){
 #'
 #' @noRd
 mod_Metadata_server <- function(id, i18n, Slick_Object){
-  moduleServer( id, function(input, output, session){
+  moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    mod_MP_Info_server("MPmetadata", i18n, Slick_Object)
-    mod_OM_Info_server("OMmetadata", i18n, Slick_Object)
-    mod_PM_Info_server("PMmetadata", i18n, Slick_Object)
+    mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
+
+    mod_OM_Info_server(paste0('om', id), i18n, Slick_Object)
+    mod_MP_Info_server(paste0('mp', id), i18n, Slick_Object)
+    mod_PM_Info_server(paste0('pm', id), i18n, Slick_Object)
 
     output$main <- renderUI({
       i18n <- i18n()
       tagList(
         shinydashboard::box(title=h3(strong(i18n$t('Overview'))),
-                                width=12,
-                                solidHeader=TRUE,
-                                status = "primary",
-                                uiOutput(ns('tabsetpanel'))
+                            width=12,
+                            solidHeader=TRUE,
+                            status = "primary",
+                            uiOutput(ns('tabsetpanel'))
         )
-        # mod_links_ui(ns(id))
       )
     })
 
@@ -53,62 +69,30 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     output$tabsetpanel <- renderUI({
       i18n <- i18n()
       tagList(
-        fluidRow(
-          shinydashboard::tabBox(width=6,
-                                 tabPanel(title=h5(strong(i18n$t('Metadata'))),
-                                          uiOutput(ns('metadata'))
-                                 ),
-                                 tabPanel(title=h5(strong(i18n$t('Management Procedures'))),
-                                          mod_MP_Info_ui(ns("MPmetadata"))
-                                 ),
-                                 tabPanel(title=h5(strong(i18n$t('Operating Models'))),
-                                          mod_OM_Info_ui(ns("OMmetadata"))
-                                 ),
-                                 tabPanel(title=h5(strong(i18n$t('Performance Indicators'))),
-                                          mod_PM_Info_ui(ns("PMmetadata"))
-                                 )
-          ),
-          uiOutput(ns('plotinfo'))
-        )
+        uiOutput(ns('metadata')),
+        uiOutput(ns('plotinfo'))
       )
     })
 
     # ---- metadata tab ----
-    output$author_info <- renderText({
-      slick <- Slick_Object()
-      i18n <- i18n()
-
-      df <- data.frame(Author=make_author_email(Author=Author(slick),
-                                                Email=Email(slick)),
-                       Institution=Institution(slick))
-
-      if (nchar(df$Institution) |> sum() ==0)
-        df$Institution <- NULL
-
-      knitr::kable(df,
-                   format='html',
-                   escape = FALSE) |>
-        kableExtra::row_spec(0,bold=TRUE) |>
-        kableExtra::kable_styling()
-
-    })
 
     output$metadata <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
       tagList(
-        column(12,
-               br(),
-               h3(Title(slick, i18n$get_translation_language())),
-               h4(Subtitle(slick, i18n$get_translation_language())),
-               p(strong(i18n$t('Created:')), Date(slick)),
-               fluidRow(
-                 column(12, tableOutput(ns("author_info")))
-               ),
-               lapply(lapply(Introduction(slick), HTML), tags$p)
+        shinydashboard::box(width=6, status = "primary",
+                            title=strong(Title(slick, i18n$get_translation_language())),
+                            h4(Subtitle(slick, i18n$get_translation_language())),
+                            p(strong(i18n$t('Created:')), Date(slick)),
+                            p(strong(i18n$t('Author:')), get_authors(slick)),
+                            p(strong(i18n$t('Institution:')), get_institution(slick)),
+                            h4(strong(i18n$t('Summary'))),
+                            lapply(lapply(Introduction(slick), HTML), tags$p)
         )
       )
     })
+
+    # ---- plotinfo tab ----
 
     output$plotinfo <- renderUI({
       i18n <- i18n()
@@ -118,11 +102,44 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
                             status = "primary",
                             title=strong(i18n$t('About the Plots')),
                             p('This Slick file includes the following plots:'),
-                            br(),
-                            p('TODO: Add descriptions and links for the plots that are included in this slick file')
+                            uiOutput(ns('plotlinks'))
                             )
       )
     })
+
+    output$plotlinks <- renderUI({
+      slick <- Slick_Object()
+      i18n <- i18n()
+      linklist <- list()
+
+      quilt <- Quilt(slick)
+      if (length(Value(quilt))>0) {
+        info <- list(p(actionLink(ns('quilt'), 'Quilt: '),
+                  i18n$t('A table of Performance Indicators for each Management Procedure')))
+        linklist <- append(linklist, info)
+
+        info <- list(p(actionLink(ns('tradeoff'), 'Trade-Off: '),
+                  i18n$t('A scatter plot for two Performance Indicators included in the Quilt plot')))
+        linklist <- append(linklist, info)
+      }
+
+      tagList(linklist)
+    })
+
+
+    observeEvent(input$quilt,{
+      shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
+      shinyjs::delay(30,
+                     shinyjs::runjs("$('a[data-value=\"Quilt\"]').tab('show');")
+      )
+    }, ignoreInit =TRUE)
+
+    observeEvent(input$tradeoff,{
+      shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
+      shinyjs::delay(30,
+                     shinyjs::runjs("$('a[data-value=\"Trade-Off\"]').tab('show');")
+      )
+    }, ignoreInit =TRUE)
 
 
 
