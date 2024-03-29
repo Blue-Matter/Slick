@@ -2,26 +2,30 @@
 % Please edit documentation in R/class_OMs.R, R/aa_generics.R
 \name{OMs}
 \alias{OMs}
-\alias{OMs<-}
-\alias{OMs,data.frame-method}
-\alias{OMs,missingOrNULL-method}
-\alias{OMs,SlickData-method}
+\alias{OMs,dataframe_list-method}
 \alias{OMs<-,SlickData-method}
+\alias{OMs,SlickData-method}
+\alias{Metadata,OMs-method}
+\alias{Metadata<-,OMs-method}
+\alias{Design,OMs-method}
+\alias{Design<-,OMs-method}
 \title{Generic function for \code{OMs} objects}
 \usage{
 OMs(Design, Description, Label, Default)
 
-OMs(x, ...)
+\S4method{OMs}{dataframe_list}(x, ...)
 
-OMs(x) <- value
-
-\S4method{OMs}{data.frame}(x, ...)
-
-\S4method{OMs}{missingOrNULL}(x, ...)
+\S4method{OMs}{SlickData}(x) <- value
 
 \S4method{OMs}{SlickData}(x)
 
-\S4method{OMs}{SlickData}(x) <- value
+\S4method{Metadata}{OMs}(x)
+
+\S4method{Metadata}{OMs}(x) <- value
+
+\S4method{Design}{OMs}(x)
+
+\S4method{Design}{OMs}(x) <- value
 }
 \arguments{
 \item{Design}{A \code{data.frame} with the design matrix for the OMs. The columns

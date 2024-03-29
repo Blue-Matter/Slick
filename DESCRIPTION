@@ -61,6 +61,7 @@ Collate:
     'app_ui.R'
     'create_translation_file.R'
     'fct_dashboardHeader2.R'
+    'fct_slick2SlickData.R'
     'fct_translator.R'
     'fct_wrapper_dropdownbutton.R'
     'misc.R'
@@ -82,4 +83,3 @@ Collate:
     'mod_Spider.R'
     'mod_TradeOff_plot.R'
     'mod_toplink.R'
-    'slick2SlickData.R'

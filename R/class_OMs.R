@@ -36,10 +36,8 @@
 #'                c(h=0.7, h=0.9))
 #' myOMs <- OMs(Design, Description, Label)
 OMs <- setClass("OMs",
-                slots=c(Design='data.frame',
-                        Description='list',
-                        Label='list',
-                        Default='list'
+                slots=c(Metadata='dataframe_list',
+                        Design='data.frame'
                 )
 )
 
@@ -62,12 +60,29 @@ validOMs <- function(object) {
 
 setValidity('OMs', validOMs)
 
+example_OMs_metadata <- data.frame(Factor=c(rep('Example.1', 2),
+                                            rep('Example.2', 3)),
+                                   Level=c(0.1,0.2, 10, 20, 30),
+                                   Description=c('Description of Example.1 Level 1',
+                                                 'Description of Example.1 Level 2',
+                                                 'Description of Example.2 Level 1',
+                                                 'Description of Example.2 Level 2',
+                                                 'Description of Example.2 Level 2'),
+                                   Default=c(TRUE, TRUE, TRUE, TRUE, FALSE)
+                                   )
+
+example_OMs_design <- data.frame(Example1=c(0.1,0.2),
+                                 Example.2=c(rep(10,2), rep(20,2), rep(30,2))
+)
+
 # initialize ----
 setMethod("initialize", "OMs", function(.Object,
-                                        Design=NULL,
-                                        Description=NULL,
-                                        Label=NULL,
-                                        Default=NULL) {
+                                        Metadata=NULL,
+                                        Design=NULL) {
+
+  if (!is.null(Metadata)) {
+    .Object@Metadata <- Metadata
+  }
 
   if (!is.null(Design)) {
     if (!inherits(Design, 'data.frame'))
@@ -75,26 +90,12 @@ setMethod("initialize", "OMs", function(.Object,
     .Object@Design <- Design
   }
 
-  if (!is.null(Description)) {
-    .Object@Description <- Description
-  }
-
-  if (!is.null(Label)) {
-    .Object@Label <- Label
-  }
-
-  if (!is.null(Default)) {
-    .Object@Default <- Default
-  }
-
   .Object
 })
 
-newOMs <- function(Design=NULL,
-                   Description=NULL,
-                   Label=NULL,
-                   Default=NULL) {
-  new('OMs', Design, Description, Label, Default)
+newOMs <- function(Metadata=NULL,
+                   Design=NULL) {
+  new('OMs', Metadata, Design)
 }
 
 

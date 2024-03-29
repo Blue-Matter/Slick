@@ -30,14 +30,13 @@
 SlickData <- setClass("SlickData",
          slots=c(Title='character_list',
                  Subtitle='character_list',
-                 # Fishery='character_list',
                  Introduction='list',
                  Date='character',
                  Author='character_list',
                  Email='character_list',
                  Institution='character_list',
                  OMs='OMs',
-                 MPs='MPs',
+                 MPs='dataframe_list',
                  Quilt='Quilt',
                  Spider='Spider',
                  Boxplot='Boxplot',
@@ -64,7 +63,6 @@ setMethod("initialize", "SlickData", function(.Object,
 
   .Object@Title <- use_ifnot_NULL('Title', Title, .Object)
   .Object@Subtitle <- use_ifnot_NULL('Subtitle', Subtitle, .Object)
-  # .Object@Fishery <- use_ifnot_NULL('Fishery', Fishery, .Object)
   .Object@Introduction <- use_ifnot_NULL('Introduction', Introduction, .Object)
   .Object@Date <- use_ifnot_NULL('Date', Date, .Object)
   .Object@Author <- use_ifnot_NULL('Author', Author, .Object)

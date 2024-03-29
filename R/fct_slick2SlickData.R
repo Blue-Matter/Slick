@@ -1,29 +1,5 @@
 #  slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
-# #
-# # obj$Perf$Det$Labels
-# obj$Perf$Det$Codes
-# obj$Perf$Det$Description
-#
-# obj$MP$Labels |> length()
-# obj$Perf$Det$Labels |> length()
-# obj$Perf$Det$Values |> dim()
-#
-# obj$Perf$Det$RefNames
-# obj$Perf$Det$RefPoints
-#
-# obj$OM$Factor_Labels
-#
-# obj$OM$Codes
 
- split_by_semicolon <- function(string) {
-   if (grepl(';',string)) {
-     string <- strsplit(string, ';')[[1]]
-     string <- gsub("\\.", "", string)
-     string <- gsub('[[:digit:]]+', '', string)
-     return(trimws(string))
-   }
-   trimws(string)
- }
 
 #' Convert an object of class `Slick` to class `SlickData`
 #'
@@ -40,37 +16,59 @@ Slick2SlickData <- function(slick) {
   out <- SlickData()
   Title(out) <- slick$Text$Title
   Subtitle(out) <- slick$Text$Sub_title
-  # Fishery(out) <- slick$Misc$Fishery
   Introduction(out) <- slick$Text$Introduction
   Date(out) <- slick$Misc$Date
-  Author(out) <- split_by_semicolon(slick$Misc$Author)
-  Email(out) <- split_by_semicolon(slick$Misc$Contact)
-  Institution(out) <- split_by_semicolon(slick$Misc$Institution)
+  Author(out) <- slick$Misc$Author
+  Email(out) <- slick$Misc$Contact
+  Institution(out) <- slick$Misc$Institution
 
   # OMs
   oms <- OMs()
-  Design(oms) <- data.frame(slick$OM$Design)
+
+  # make data.frame
+  df_list <- list()
+  for (i in seq_along(slick$OM$Codes)) {
+    df_list[[i]] <- data.frame(Factor=slick$OM$Factor_Labels[i],
+                               Level=slick$OM$Codes[[i]],
+                               Description=slick$OM$Description[[i]],
+                               Default=FALSE)
+    if (!is.null(slick$OM$Defaults)) {
+      df_list[[i]]$Default[slick$OM$Defaults[[i]]] <- TRUE
+    }
+  }
+  Metadata(oms) <- do.call('rbind', df_list)
+
+  Design(oms) <-slick$OM$Design
   colnames(Design(oms)) <- slick$OM$Factor_Labels
 
   for (i in 1:ncol(Design(oms))) {
     Design(oms)[,i] <- slick$OM$Codes[[i]][Design(oms)[,i]]
   }
 
-  Description(oms) <-  slick$OM$Description
-  Label(oms) <- slick$OM$Labels
-  if (!is.null(slick$OM$Defaults))
-    Default(oms) <- slick$OM$Defaults
   OMs(out) <- oms
 
+
   # MPs
-  mps <- MPs(Label=slick$MP$Labels,
-             Description=slick$MP$Description)
-  MPs(out) <- mps
+  MPs(out) <- data.frame(Code=slick$MP$Codes,
+                    Label=slick$MP$Labels,
+                    Description=slick$MP$Description,
+                    Link=NA,
+                    Color=slick$Misc$Cols$MP,
+                    Default=FALSE)
 
   # Quilt
-  Quilt(out) <- Quilt(slick$Perf$Det$Codes,
-                      slick$Perf$Det$Description,
-                      slick$Perf$Det$Values)
+  quilt <- Quilt()
+  Metadata(quilt) <- data.frame(Code=slick$Perf$Det$Codes,
+                                Label=slick$Perf$Det$Labels,
+                                Description=slick$Perf$Det$Description,
+                                Default=FALSE,
+                                MinValue=0,
+                                MaxValue=1)
+
+  Value(quilt) <- slick$Perf$Det$Values
+
+
+  stop(' UP TO HERE')
 
   # Spider
   Spider(out) <- Spider(slick$Perf$Det$Codes,

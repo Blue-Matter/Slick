@@ -5,31 +5,25 @@
 #' @export
 #'
 Quilt <- setClass("Quilt",
-                  slots=c(Label='character_list',
-                          Description='character_list',
+                  slots=c(Metadata='dataframe_list',
                           Value='array',
-                          Color='character',
-                          Default='numeric',
-                          Min='numeric',
-                          Max='numeric'
+                          MinColor='character',
+                          MaxColor='character'
                   )
+
 )
 
+# Metadata <- data.frame(Code, Label, Description, Default, MinValue, MaxValue)
+
 setMethod("initialize", "Quilt", function(.Object,
-                                          Label=NULL,
-                                          Description=NULL,
+                                          Metadata=NULL,
                                           Value=NULL,
-                                          Color=c('#088ebc', 'white'),
-                                          Default=NULL,
-                                          Min=0,
-                                          Max=1) {
-  .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
-  .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
+                                          MinColor=NULL,
+                                          MaxColor=NULL) {
+  .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
-  .Object@Color <- use_ifnot_NULL('Color', Color, .Object)
-  .Object@Default <- use_ifnot_NULL('Default', Default, .Object)
-  .Object@Min <- use_ifnot_NULL('Min', Min, .Object)
-  .Object@Max <- use_ifnot_NULL('Max', Max, .Object)
+  .Object@MinColor <- use_ifnot_NULL('MinColor', MinColor, .Object)
+  .Object@MaxColor <- use_ifnot_NULL('MaxColor', MaxColor, .Object)
   .Object
 })
 
@@ -45,15 +39,11 @@ setValidity('Quilt', validQuilt)
 
 
 
-newQuilt <- function(Label=NULL,
-                     Description=NULL,
+newQuilt <- function(Metadata=NULL,
                      Value=NULL,
-                     Color=c('#088ebc', 'white'),
-                     Default=NULL,
-                     Min=NULL,
-                     Max=NULL) {
-  Quilt <- new('Quilt', Label, Description, Value, Color, Default,
-               Min, Max)
+                     MinColor='#088ebc',
+                     MaxColor='white') {
+  Quilt <- new('Quilt', Metadata, Value, MinColor, MaxColor)
   validObject(Quilt)
   Quilt
 }

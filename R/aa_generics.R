@@ -1,3 +1,14 @@
+
+#' @include class_Boxplot.R
+#' @include class_Kobe.R
+#' @include class_MPs.R
+#' @include class_OMs.R
+#' @include class_Quilt.R
+#' @include class_SlickData.R
+#' @include class_Spider.R
+#' @include class_Timeseries.R
+NULL
+
 get_language <- function(value, lang) {
   if (is.null(lang))
     return(value)
@@ -15,17 +26,125 @@ get_language <- function(value, lang) {
 }
 
 
-#' @include class_Boxplot.R
-#' @include class_Kobe.R
-#' @include class_MPs.R
-#' @include class_OMs.R
-#' @include class_Quilt.R
-#' @include class_SlickData.R
-#' @include class_Spider.R
-#' @include class_Timeseries.R
-NULL
+# ---- setGenerics -----
+
+setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
+setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
+
+setGeneric("Metadata", function(x, ...) standardGeneric("Metadata"))
+setGeneric("Metadata<-", function(x, value) standardGeneric("Metadata<-"))
+
+setGeneric("Design", function(x, ...) standardGeneric("Design"))
+setGeneric("Design<-", function(x, value) standardGeneric("Design<-"))
+
+setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
+setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
+
+setGeneric("Value", function(x, ...) standardGeneric("Value"))
+setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
 
+# ---- setMethods -----
+
+## OMs ----
+
+#' create a new OMs object
+#' @export
+setMethod("OMs","missingOrNULL",function(x, ...) newOMs(...))
+
+#' @rdname OMs
+#' @export
+setMethod("OMs","dataframe_list",function(x, ...) newOMs(x, ...))
+
+#' @rdname OMs
+#' @export
+setMethod("Metadata", "OMs", function(x) {
+  x@Metadata
+})
+
+#' @rdname OMs
+#' @export
+setMethod("Metadata<-", "OMs", function(x, value) {
+  x@Metadata <- value
+  x
+})
+
+
+
+
+## SlickData ----
+#' assign an OMs object
+#' @rdname OMs
+#' @export
+setMethod("OMs<-", "SlickData", function(x, value) {
+  x@OMs <- value
+  x
+})
+
+#' print an OMS object
+#' @rdname OMs
+#' @export
+setMethod("OMs", "SlickData", function(x) {
+  x@OMs
+})
+
+## Quilt ----
+
+#' @rdname Quilt
+#' @export
+setMethod("Metadata", "Quilt", function(x) {
+  x@Metadata
+})
+
+#' @rdname Quilt
+#' @export
+setMethod("Metadata<-", "Quilt", function(x, value) {
+  x@Metadata <- value
+  x
+})
+
+#' @rdname Quilt
+#' @export
+setMethod("Value", "Quilt", function(x) {x@Value})
+
+#' @rdname Quilt
+#' @export
+setMethod("Value<-", "Quilt", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
+})
+
+## Design ----
+
+#' @rdname OMs
+#' @export
+setMethod("Design", "OMs", function(x) {
+  x@Design
+})
+
+#' @rdname OMs
+#' @export
+setMethod("Design<-", "OMs", function(x, value) {
+  x@Design <- value
+  x
+})
+
+## MPs ----
+
+#' @export
+setMethod("MPs", "SlickData", function(x) x@MPs)
+
+#' @export
+setMethod("MPs<-", "SlickData", function(x, value) {
+  x@MPs <- value
+  x
+})
+
+
+
+
+## show ----
 
 
 # setMethod("show", "OMs",
@@ -47,56 +166,13 @@ NULL
 # myOMs
 
 
-## OMs ----
-#' @rdname OMs
-setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
-
-#' @rdname OMs
-setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
 
 
 
-#' @rdname OMs
-#' @export
-setMethod("OMs","data.frame",function(x, ...) newOMs(x, ...))
 
-#' @rdname OMs
-#' @export
-setMethod("OMs","missingOrNULL",function(x, ...) newOMs(...))
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", "SlickData", function(x) {
-  x@OMs
-})
-
-#' @rdname OMs
-#' @export
-setMethod("OMs<-", "SlickData", function(x, value) {
-  x@OMs <- value
-  x
-})
 
 ## MPs ----
 
-setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
-setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
-setMethod("MPs","character_list",function(x, ...) newMPs(x, ...))
-
-#' @export
-setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
-
-#' @export
-setMethod("MPs","character",function(x, ...) newMPs(x, ...))
-
-#' @export
-setMethod("MPs", "SlickData", function(x) x@MPs)
-
-#' @export
-setMethod("MPs<-", "SlickData", function(x, value) {
-  x@MPs <- value
-  x
-})
 
 ## Link ----
 setGeneric("Link", function(MPs) standardGeneric("Link"))
@@ -408,18 +484,9 @@ setMethod("Label<-", "Timeseries", function(x, value) {
 
 ## Value ----
 
-setGeneric("Value", function(x, ...) standardGeneric("Value"))
-setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
-#' @export
-setMethod("Value", "Quilt", function(x) {x@Value})
 
-#' @export
-setMethod("Value<-", "Quilt", function(x, value) {
-  x@Value <- value
-  validObject(x)
-  x
-})
+
 
 #' @export
 setMethod("Value", "Spider", function(x) {x@Value})
