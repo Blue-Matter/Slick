@@ -30,17 +30,11 @@ run_app <- function(
 
 #' Run a Shiny Application
 #'
-#' `Slick` runs the Slick Shiny Application
+#' `App` runs the Slick Shiny Application
 #'
 #' @export
-Slick <- function(...) {
+App <- function(...) {
   run_app(...)
-  # temp <- try(class(app), silent=TRUE)
-  # if (class(temp) == "try-error") app <- deparse(substitute(app))
-  # Apps <- list.files(system.file("shiny_apps", package = "Slick"))
-  # validAppMsg <- paste0("Valid examples are:\n '", paste(Apps, collapse = "', '"), "'")
-  # appDir <- system.file("shiny_apps", app, package = "Slick")
-  # shiny::runApp(appDir, display.mode = "normal",launch.browser = TRUE, ...)
 }
 
 

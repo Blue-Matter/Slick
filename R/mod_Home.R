@@ -162,6 +162,11 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
       }
     })
 
+    # TODO
+    # first load slick object
+    # then do checks and populate colors etc if needed
+    # then pass to Slick_Object
+
   })
 }
 
