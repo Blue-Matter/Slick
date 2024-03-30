@@ -1,39 +1,44 @@
 #  slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
 
 
-#' Convert an object of class `Slick` to class `SlickData`
+#' Updates an old object of class `Slick` to  new S4 class `Slick`
 #'
-#' Previously objects loaded into Slick were class `Slick`. New class for these
-#' objects is `SlickData`. This function converts the old class to the new class.
 #'
 #' @param slick An object of class `Slick`
 #'
-#' @return An object of class `SlickData`
+#' @return An object of class `Slick`
 #' @export
 #'
-Slick2SlickData <- function(slick) {
+Update <- function(slick) {
 
-  out <- SlickData()
+  out <- Slick()
   Title(out) <- slick$Text$Title
   Subtitle(out) <- slick$Text$Sub_title
-  Introduction(out) <- slick$Text$Introduction
+
   Date(out) <- slick$Misc$Date
   Author(out) <- slick$Misc$Author
   Email(out) <- slick$Misc$Contact
   Institution(out) <- slick$Misc$Institution
 
+  Introduction(out) <- slick$Text$Introduction
+
+  # MPs
+  MPs(out) <- data.frame(Code=slick$MP$Codes,
+                         Label=slick$MP$Labels,
+                         Description=slick$MP$Description,
+                         Color=slick$Misc$Cols$MP)
+
   # OMs
   oms <- OMs()
 
-  # make data.frame
   df_list <- list()
   for (i in seq_along(slick$OM$Codes)) {
     df_list[[i]] <- data.frame(Factor=slick$OM$Factor_Labels[i],
                                Level=slick$OM$Codes[[i]],
                                Description=slick$OM$Description[[i]],
-                               Default=FALSE)
-    if (!is.null(slick$OM$Defaults)) {
-      df_list[[i]]$Default[slick$OM$Defaults[[i]]] <- TRUE
+                               Set=NA)
+    if (!is.null(slick$OM$Default)) {
+      df_list[[i]]$Set[slick$OM$Defaults[[i]]] <- 'Default'
     }
   }
   Metadata(oms) <- do.call('rbind', df_list)
@@ -48,13 +53,7 @@ Slick2SlickData <- function(slick) {
   OMs(out) <- oms
 
 
-  # MPs
-  MPs(out) <- data.frame(Code=slick$MP$Codes,
-                    Label=slick$MP$Labels,
-                    Description=slick$MP$Description,
-                    Link=NA,
-                    Color=slick$Misc$Cols$MP,
-                    Default=FALSE)
+
 
   # Quilt
   quilt <- Quilt()
@@ -67,8 +66,13 @@ Slick2SlickData <- function(slick) {
 
   Value(quilt) <- slick$Perf$Det$Values
 
+  MPs(out) <- data.frame(Code=slick$MP$Codes,
+                         Label=slick$MP$Labels,
+                         Description=slick$MP$Description,
+                         Link=NA,
+                         Color=slick$Misc$Cols$MP,
+                         Default=FALSE)
 
-  stop(' UP TO HERE')
 
   # Spider
   Spider(out) <- Spider(slick$Perf$Det$Codes,

@@ -2,12 +2,12 @@
 
 #' Generic function for `OMs` objects
 #'
-#' Creates or populates a new `OMs` object, or returns or assigns the `OMs` slot in objects of class `SlickData`
+#' Creates or populates a new `OMs` object, or returns or assigns the `OMs` slot in objects of class `Slick`
 #'
 #' Creates an empty `OMs` object, or specifies the design matrix, description, and labels of the operating models
 #' (OMs) included in the Slick Data object.
 #'
-#' Also used to return or assign the `OMs` slot for objects of class `SlickData`
+#' Also used to return or assign the `OMs` slot for objects of class `Slick`
 #'
 #' @param Design A `data.frame` with the design matrix for the OMs. The columns
 #' must be named with the factor names. The rows contain the factor levels for each OM.
@@ -21,7 +21,7 @@
 #'
 #' @return An object of class `OMs`
 #' @include aa_generics.R
-#' @include class_SlickData.R
+#' @include class_Slick.R
 #' @usage OMs(Design, Description, Label, Default)
 #' @export
 #'

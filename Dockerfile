@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
 	libfontconfig1-dev \
 	libxml2-dev
 
-
 	#libcurl4-gnutls-dev \
 
 # install basic shiny functionality to R
@@ -35,4 +34,4 @@ RUN R -e "remotes::install_github('blue-matter/Slick', ref='dev', dependencies=T
 EXPOSE 3838
 
 # finally, instruct how to launch the Shiny app when the container is started
-CMD ["R", "-e", "Slick::Slick(host='0.0.0.0', port=3838)"]
+CMD ["R", "-e", "Slick::App(host='0.0.0.0', port=3838)"]

@@ -1,5 +1,5 @@
 slick<-readRDS("inst/shiny_apps/SLICK/data/case_studies/WSKJ.slick")
-slick <- Slick2SlickData(slick)
+slick <- Update(slick)
 
 
 # obj<-readRDS("inst/shiny_apps/SLICK/data/case_studies/NSWO.slick")

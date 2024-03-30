@@ -3,8 +3,6 @@
 \name{OMs}
 \alias{OMs}
 \alias{OMs,dataframe_list-method}
-\alias{OMs<-,SlickData-method}
-\alias{OMs,SlickData-method}
 \alias{Metadata,OMs-method}
 \alias{Metadata<-,OMs-method}
 \alias{Design,OMs-method}
@@ -15,11 +13,7 @@ OMs(Design, Description, Label, Default)
 
 \S4method{OMs}{dataframe_list}(x, ...)
 
-\S4method{OMs}{SlickData}(x) <- value
-
-\S4method{OMs}{SlickData}(x)
-
-\S4method{Metadata}{OMs}(x)
+\S4method{Metadata}{OMs}(x, ...)
 
 \S4method{Metadata}{OMs}(x) <- value
 
@@ -45,13 +39,13 @@ factor level.}
 An object of class \code{OMs}
 }
 \description{
-Creates or populates a new \code{OMs} object, or returns or assigns the \code{OMs} slot in objects of class \code{SlickData}
+Creates or populates a new \code{OMs} object, or returns or assigns the \code{OMs} slot in objects of class \code{Slick}
 }
 \details{
 Creates an empty \code{OMs} object, or specifies the design matrix, description, and labels of the operating models
 (OMs) included in the Slick Data object.
 
-Also used to return or assign the \code{OMs} slot for objects of class \code{SlickData}
+Also used to return or assign the \code{OMs} slot for objects of class \code{Slick}
 }
 \examples{
 Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
