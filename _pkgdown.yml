@@ -7,4 +7,16 @@ navbar:
   structure:
     left:  [intro, articles, reference, news]
     right: [search, github]
-
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: The Slick Object
+      - text: A Simple Example
+        href: articles/slick1.html
+      - text: Multi-Language
+        href: articles/slick2.html
+      - text: -------
+      - text: "Category B"
+      - text: Article B1
+        href: articles/b1.html

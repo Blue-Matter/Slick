@@ -19,7 +19,7 @@ mod_TradeOff_plot_ui <- function(id){
 #' TradeOff_plot Server Functions
 #'
 #' @noRd
-mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
+mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

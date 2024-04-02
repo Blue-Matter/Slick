@@ -1,7 +1,4 @@
-colorRampAlpha <- function(..., n, alpha) {
-  colors <- grDevices::colorRampPalette(...)(n)
-  paste(colors, sprintf("%x", ceiling(255*alpha)), sep="")
-}
+
 
 
 
@@ -68,11 +65,11 @@ mod_Quilt_plot_ui <- function(id){
 #' Quilt_plot Server Functions
 #'
 #' @noRd
-mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
+mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    filtered_slick <- reactive({
+    filtered_quilt <- reactive({
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
       selected_MPs <- Filter_Selected$MPs
@@ -89,6 +86,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
       }
       # filter PMs
       if (!is.null(selected_PMs)) {
+        Metadata(quilt) <- Metadata(quilt)[selected_PMs, ]
         Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
       }
 
@@ -96,12 +94,12 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
     })
 
     nOM <- reactive({
-      dim(Value(filtered_slick()))[1]
+      dim(Value(filtered_quilt()))[1]
     })
 
     MP_labels <- reactive({
-      labels <- Label(MPs(Slick_Object()))
-      labels[Filter_Selected$MPs]
+      metadata <- Metadata(MPs(Slick_Object()))
+      metadata$Code[Filter_Selected$MPs]
     })
 
     nMP <- reactive({
@@ -111,7 +109,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
     output$plot <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
-      quilt <- filtered_slick()
+
       tagList(
         br(),
         shinydashboard::box(width=12, collapsible = TRUE,
@@ -126,20 +124,27 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected){
                                                nOM(),
                                                i18n$t('Operating Models'))
                             ),
-                            make_Quilt(quilt, MP_labels(), Filter_Selected$PMs)
+                            plotQuilt(filtered_quilt(), MP_labels(), i18n$get_translation_language())
         )
       )
     })
 
 
     output$reading <- renderUI({
-
+      i18n <- i18n()
       tagList(
-        p('This chart ...')
+        p('This chart ...'),
+        p('Use the', actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+          'button to filter the Management Procedures, Operating Models, and Performance Indicators')
+
         # p('This chart', strong('compares the performance of ', nMP,
         #                        ' management procedures (MP) against ', nPM,
         #                        ' performance metrics.'))
       )
+    })
+
+    observeEvent(input$openfilter, {
+      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
     })
 
 

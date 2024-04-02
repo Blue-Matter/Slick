@@ -1,28 +1,6 @@
 mod_links_ui <- function(id){
   ns <- NS(id)
   uiOutput(ns('links'))
-    # column(12, shiny::actionLink(ns('table'), 'Table', icon=icon('table'), width='100%')),
-    #
-    # column(12,strong('Scoring Pages')),
-    # column(12,shiny::actionLink(ns('egg_alevin'), 'Egg/Alevin', icon=icon('egg', class='fa-sm'))),
-    # column(12,shiny::actionLink(ns('fry_parr'), 'Fry/Parr',icon=icon('fish', class='fa-xs'))),
-    # column(12,shiny::actionLink(ns('smolt'), 'Smolt',icon=icon('fish', class='fa-sm'))),
-    # column(12,shiny::actionLink(ns('juvenile'), 'Juvenile',icon=icon('fish'))),
-    # column(12,shiny::actionLink(ns('immature'), 'Immature',icon=icon('fish', class='fa-lg'))),
-    # column(12,icon('fish', class='fa-xl', style='color: #3c8dbc;'),'Adult'),
-    #
-    # shiny::tags$ul(
-    #   shiny::tags$li(shiny::actionLink(ns('return_migration'), 'Return Migration')),
-    #   shiny::tags$li(shiny::actionLink(ns('terminal_migration'), 'Terminal Migration')),
-    #   shiny::tags$li(shiny::actionLink(ns('spawning'), 'Spawning'))
-    # ),
-    #
-    # column(12,strong('Other Resources')),
-    # column(12,shiny::actionLink(ns('go_link_1'), 'Link 1')),
-    # column(12,shiny::actionLink(ns('go_link_2'), 'Link 2')),
-    # column(12,'These links can be specific to each page')
-
-  # )
 }
 
 #' links Server Functions

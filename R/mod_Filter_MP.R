@@ -1,24 +1,21 @@
 selectedMPs <- function(mp_obj) {
-  defaults <- Default(mp_obj)
-  if (length(defaults)<1) {
-    out <- 1:length(Label(mp_obj))
-  } else {
-    out <- defaults
+  metadata <- Metadata(mp_obj)
+  presets <- Preset(mp_obj)
+
+  if (length(presets)<1) {
+    return(1:nrow(metadata))
   }
-  out
+  presets[[1]]
 }
 
 filterMPs <- function(mp_obj, Filter_Selected, input) {
-  mp_selected <<- input$Filter_MP
-  mp_obj <<- mp_obj
+  mp_selected <- input$Filter_MP
+  metadata <- Metadata(mp_obj)
 
-  keep <- rep(TRUE, length(Label(mp_obj)))
-  keep <- (1:length(Label(mp_obj))) %in% mp_selected
-  # print('MP Select Sum')
-  # print(sum(keep))
+  keep <- rep(TRUE, nrow(metadata))
+  keep <- (1:nrow(metadata)) %in% mp_selected
+
   if (sum(keep)==0) {
-    # select all if none are selected
-    # print('MP Reset ')
     shinyjs::click('reset_button')
   } else {
     Filter_Selected$MPs <- keep
@@ -59,21 +56,21 @@ mod_Filter_MP_server <- function(id, i18n, Slick_Object){
 
     output$filters <- renderUI({
       i18n <- i18n()
-      labels <- Label(MP_object(), i18n$get_translation_language())
+      metadata <- Metadata(MP_object(), i18n()$get_translation_language())
 
       out <- checkboxGroupInput(ns('Filter_MP'),
                                 label='',
                                 selected=selectedMPs(MP_object()),
                                 inline=T,
-                                choiceNames=labels,
-                                choiceValues=seq_along(labels))
+                                choiceNames=metadata$Label,
+                                choiceValues=seq_along(metadata$Label))
       tagList(out)
     })
 
     output$defaults <- renderUI({
       i18n <- i18n()
-      defaults <-  Default(MP_object())
-      if (length(defaults)>0)
+      presets <- Preset(MP_object())
+      if (length(presets)>0)
         shinyjs::delay(50, shinyjs::show("reset_button"))
 
       shinyjs::hidden(
@@ -89,13 +86,12 @@ mod_Filter_MP_server <- function(id, i18n, Slick_Object){
     # and apply default  (if provided in Slick_Object)
     observeEvent(Slick_Object(), {
       if (!is.null(Slick_Object())) {
-        Filter_Selected$MPs <- rep(TRUE, length(MP_object()@Label))
+        Filter_Selected$MPs <- rep(TRUE, nrow(Metadata(MP_object())))
       }
       # Default MPs
-      if (length(Default(MP_object()))>0) {
-        default <- Default(MP_object())
-        labels <- Label(MP_object(), i18n$get_translation_language())
-        Filter_Selected$MPs <- seq_along(labels)[Default(MP_object())]
+      presets <- Preset(MP_object())
+      if (length(presets)>0) {
+        Filter_Selected$MPs <-  presets[[1]]
       }
     })
 

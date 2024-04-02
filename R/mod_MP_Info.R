@@ -14,6 +14,8 @@ mod_MP_Info_ui <- function(id){
   )
 }
 
+
+
 #' MP_Info Server Functions
 #'
 #' @noRd
@@ -24,22 +26,7 @@ mod_MP_Info_server <- function(id, i18n, Slick_Object){
     output$MPinfo <- DT::renderDataTable({
       i18n <- i18n()
       slick <- Slick_Object()
-
-      df <- data.frame(
-        Label=Label(MPs(slick), i18n$get_translation_language()),
-        Description=Description(MPs(slick), i18n$get_translation_language())
-      )
-      # links <- Link(MPs(slick))
-      # if (length(links)>0)
-      #   df$Link <- links
-
-      DT::datatable(df,
-                    extensions = 'Responsive',
-                    selection='none',
-                    options = list(dom = 't',
-                                   pageLength=100,
-                                   ordering=F))
-
+      Table(MPs(slick), i18n$get_translation_language())
     })
   })
 }

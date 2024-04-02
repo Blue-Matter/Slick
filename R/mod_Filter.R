@@ -91,9 +91,3 @@ mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session){
     Filter_Selected
   })
 }
-
-## To be copied in the UI
-# mod_Filter_ui("Filter_1")
-
-## To be copied in the server
-# mod_Filter_server("Filter_1")

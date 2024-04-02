@@ -37,7 +37,8 @@
 #' myOMs <- OMs(Design, Description, Label)
 OMs <- setClass("OMs",
                 slots=c(Metadata='dataframe_list',
-                        Design='data.frame'
+                        Design='data.frame',
+                        Preset='list'
                 )
 )
 
@@ -60,25 +61,11 @@ validOMs <- function(object) {
 
 setValidity('OMs', validOMs)
 
-example_OMs_metadata <- data.frame(Factor=c(rep('Example.1', 2),
-                                            rep('Example.2', 3)),
-                                   Level=c(0.1,0.2, 10, 20, 30),
-                                   Description=c('Description of Example.1 Level 1',
-                                                 'Description of Example.1 Level 2',
-                                                 'Description of Example.2 Level 1',
-                                                 'Description of Example.2 Level 2',
-                                                 'Description of Example.2 Level 2'),
-                                   Default=c(TRUE, TRUE, TRUE, TRUE, FALSE)
-                                   )
-
-example_OMs_design <- data.frame(Example1=c(0.1,0.2),
-                                 Example.2=c(rep(10,2), rep(20,2), rep(30,2))
-)
-
 # initialize ----
 setMethod("initialize", "OMs", function(.Object,
                                         Metadata=NULL,
-                                        Design=NULL) {
+                                        Design=NULL,
+                                        Preset=NULL) {
 
   if (!is.null(Metadata)) {
     .Object@Metadata <- Metadata
@@ -90,12 +77,18 @@ setMethod("initialize", "OMs", function(.Object,
     .Object@Design <- Design
   }
 
+  if (!is.null(Preset)) {
+    .Object@Preset <- Preset
+  }
+
+
   .Object
 })
 
 newOMs <- function(Metadata=NULL,
-                   Design=NULL) {
-  new('OMs', Metadata, Design)
+                   Design=NULL,
+                   Preset=NULL) {
+  new('OMs', Metadata, Design, Preset)
 }
 
 

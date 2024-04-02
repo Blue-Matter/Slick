@@ -4,8 +4,7 @@
 #' @export
 #'
 Timeseries <- setClass("Timeseries",
-                       slots=c(Label='character_list',
-                               Description='character_list',
+                       slots=c(Metadata='dataframe_list',
                                Time='numeric',
                                TimeNow='numeric',
                                TimeLab='character_list',
@@ -16,8 +15,7 @@ Timeseries <- setClass("Timeseries",
 )
 
 setMethod("initialize", "Timeseries", function(.Object,
-                                               Label=NULL,
-                                               Description=NULL,
+                                               Metadata=NULL,
                                                Time=NULL,
                                                TimeNow=NULL,
                                                TimeLab=NULL,
@@ -25,11 +23,10 @@ setMethod("initialize", "Timeseries", function(.Object,
                                                RefPoints=NULL,
                                                RefNames=NULL) {
 
-  .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
-  .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
+  .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Time <- use_ifnot_NULL('Time', Time, .Object)
   .Object@TimeNow <- use_ifnot_NULL('TimeNow', TimeNow, .Object)
-  .Object@TimeLab <- use_ifnot_NULL('TimeLab', Description, .Object)
+  .Object@TimeLab <- use_ifnot_NULL('TimeLab', TimeLab, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
   .Object@RefPoints <- use_ifnot_NULL('RefPoints', RefPoints, .Object)
   .Object@RefNames <- use_ifnot_NULL('RefNames', RefNames, .Object)
@@ -46,8 +43,7 @@ validTimeSeries <- function(object) {
 setValidity('Timeseries', validTimeSeries)
 
 
-newTimeseries <- function(Label=NULL,
-                          Description=NULL,
+newTimeseries <- function(Metadata=NULL,
                           Time=NULL,
                           TimeNow=NULL,
                           TimeLab=NULL,
@@ -55,8 +51,7 @@ newTimeseries <- function(Label=NULL,
                           RefPoints=NULL,
                           RefNames=NULL) {
   Timeseries <- new('Timeseries',
-                    Label,
-                    Description,
+                    Metadata,
                     Time,
                     TimeNow,
                     TimeLab,

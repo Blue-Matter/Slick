@@ -29,11 +29,10 @@ golem::add_module(name = "Spider")
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("wrapper_dropdownbutton")
+golem::add_fct("Check")
+golem::add_fct("plots")
 
-
-
-
-golem::add_utils("helpers", with_test = TRUE)
+golem::add_utils("Table", with_test = FALSE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www

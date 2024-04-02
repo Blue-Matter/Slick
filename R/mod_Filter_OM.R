@@ -1,15 +1,15 @@
-selectedOMs <- function(i, OM) {
-  defaults <- Default(OM)
-  if (length(defaults)<1) {
-    out <- 1:length(Label(OM)[[i]])
-  } else {
-    if (length(defaults)<i) {
-      out <- NULL
-    } else {
-      out <- defaults[[i]]
-    }
+selectedOMs <- function(i, oms) {
+  metadata <- Metadata(oms)
+  factors <- unique(metadata$Factor)
+  metadata <- metadata |> dplyr::filter(Factor==factors[i])
+  presets <- Preset(oms)
+  if (length(presets)<1) {
+    return(seq_along(metadata))
   }
-  out
+  if (length(presets[[1]])<i) {
+    return(NULL)
+  }
+  presets[[1]][[i]]
 }
 
 filterOMs <- function(slick, Filter_Selected, input) {
@@ -51,7 +51,7 @@ mod_Filter_OM_ui <- function(id){
     br(),
     uiOutput(ns('filters')),
     br(),
-    uiOutput(ns('defaults'))
+    uiOutput(ns('presets'))
   )
 }
 
@@ -65,41 +65,38 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
     Filter_Selected <- reactiveValues()
 
     OM_object <- reactive({
+      slick <<- Slick_Object()
+      oms <<- OMs(slick)
       OMs(Slick_Object())
     })
 
-
     output$filters <- renderUI({
-      i18n <- i18n()
-      oms <- OM_object()
-      labels <- Label(oms, i18n$get_translation_language())
-      factors <- colnames(oms@Design)
+      metadata <- Metadata(OM_object(), i18n()$get_translation_language())
+      factors <- unique(metadata$Factor)
       ll <- lapply(1:length(factors), function(i) {
+        levels <- metadata |> dplyr::filter(Factor==factors[i]) |>
+          dplyr::select(Level)
         checkboxGroupInput(ns(paste0("Filter_OM",i)),
                            label=factors[i],
-                           selected=selectedOMs(i, oms),
+                           selected=selectedOMs(i, OM_object()),
                            inline=TRUE,
-                           choiceNames=labels[[i]],
-                           choiceValues=1:length(labels[[i]])
-        )
+                           choiceNames=levels$Level,
+                           choiceValues=seq_along(levels$Level))
       })
       tagList(ll)
     })
 
-    output$defaults <- renderUI({
+    output$presets <- renderUI({
       i18n <- i18n()
-      defaults <- Default(OM_object())
-      if (length(defaults)>0)
-        shinyjs::delay(50, shinyjs::show("reset_button"))
+      presets <- Preset(OM_object())
+      if (length(presets)>0) {
+        shinyWidgets::actionBttn(ns("reset_button"),
+                                 label=i18n$t("Reset Defaults"),
+                                 icon("arrows-spin", verify_fa=FALSE),
+                                 color='default',size='sm')
 
-      tagList(
-        shinyjs::hidden(
-          shinyWidgets::actionBttn(ns("reset_button"),
-                                   label=i18n$t("Reset Defaults"),
-                                   icon("arrows-spin", verify_fa=FALSE),
-                                   color='default',size='sm')
-        )
-      )
+      }
+
     })
 
 
@@ -110,9 +107,10 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
         Filter_Selected$OMs <- rep(TRUE, nrow(Design(Slick_Object())))
       }
       # Default OMs
-      if (length(Default(OM_object()))>0) {
+      presets <- Preset(OM_object())
+      if (length(presets)>0) {
         slick <- Slick_Object()
-        default <- Default(OM_object())
+        default <- presets[[1]]
         design <- Design(OM_object())
         keep <- array(T,dim(design))
         for(fac in 1:ncol(design)) {

@@ -5,6 +5,8 @@
 \alias{OMs,dataframe_list-method}
 \alias{Metadata,OMs-method}
 \alias{Metadata<-,OMs-method}
+\alias{Preset,OMs-method}
+\alias{Preset<-,OMs-method}
 \alias{Design,OMs-method}
 \alias{Design<-,OMs-method}
 \title{Generic function for \code{OMs} objects}
@@ -13,9 +15,13 @@ OMs(Design, Description, Label, Default)
 
 \S4method{OMs}{dataframe_list}(x, ...)
 
-\S4method{Metadata}{OMs}(x, ...)
+\S4method{Metadata}{OMs}(x, lang = NULL)
 
 \S4method{Metadata}{OMs}(x) <- value
+
+\S4method{Preset}{OMs}(x, ...)
+
+\S4method{Preset}{OMs}(x) <- value
 
 \S4method{Design}{OMs}(x)
 

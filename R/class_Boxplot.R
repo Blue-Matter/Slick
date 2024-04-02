@@ -4,18 +4,15 @@
 #' @return An object of class `Boxplot`
 #' @export
 Boxplot <- setClass("Boxplot",
-                    slots=c(Label='character_list',
-                            Description='character_list',
+                    slots=c(Metadata='dataframe_list',
                             Value='array'
                     )
 )
 
 setMethod("initialize", "Boxplot", function(.Object,
-                                            Label=NULL,
-                                            Description=NULL,
+                                            Metadata=NULL,
                                             Value=NULL) {
-  .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
-  .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
+  .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
   .Object
 })
@@ -30,10 +27,9 @@ validBoxplot <- function(object) {
 
 setValidity('Boxplot', validBoxplot)
 
-newBoxplot <- function(Label=NULL,
-                      Description=NULL,
+newBoxplot <- function(Metadata=NULL,
                       Value=NULL) {
-  Boxplot <- new('Boxplot', Label, Description, Value)
+  Boxplot <- new('Boxplot', Metadata, Value)
   validObject(Boxplot)
   Boxplot
 }

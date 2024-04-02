@@ -52,6 +52,7 @@ MPs(mySlick) <- data.frame(Code=c('CC', 'SP', 'SCA'),
                                          'Surplus Production estimation model linked with a harvest control rule that sets a TAC',
                                          'Statistical Catch-at-Age estimation model linked with a harvest control rule that sets a TAC'))
 
+
 # extra options
 MPs(mySlick) <- data.frame(Code=c('CC', 'SP', 'SCA'),
                            Label=c('Catch Curve', 'Surplus Production', 'Statistical Catch-at-Age'),
@@ -76,6 +77,10 @@ MPs(mySlick) <- list(en=data.frame(Code=c('CC', 'SP', 'SCA'),
                                    Color=colors()[runif(3, 1, 657)],
                                    Default=c(TRUE, TRUE, FALSE))
 )
+
+
+saveRDS(mySlick, 'C:/users/adrian/downloads/slick.slick')
+
 
 MPs(mySlick, 'en')
 MPs(mySlick, 'es')

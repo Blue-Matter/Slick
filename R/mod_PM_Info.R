@@ -38,58 +38,17 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
 
 
     output$PM_Quilt <- DT::renderDataTable({
-      i18n <- i18n()
-      slick <- Slick_Object()
-      obj <- Quilt(slick)
-
-      df <- data.frame(Label=Label(obj, i18n$get_translation_language()),
-                 Description=Description(obj, i18n$get_translation_language())
-      )
-      DT::datatable(df,
-                    extensions = 'Responsive',
-                    selection='none',
-                    options = list(dom = 't',
-                                   pageLength=100,
-                                   ordering=F))
+      tableQuilt(Quilt(Slick_Object()), i18n()$get_translation_language())
     })
 
     output$PM_Spider <- DT::renderDataTable({
-      i18n <- i18n()
-      slick <- Slick_Object()
-      obj <- Spider(slick)
-
-      df <- data.frame(Label=Label(obj, i18n$get_translation_language()),
-                       Description=Description(obj, i18n$get_translation_language())
-      )
-      DT::datatable(df,
-                    extensions = 'Responsive',
-                    selection='none',
-                    options = list(dom = 't',
-                                   pageLength=100,
-                                   ordering=F))
+      tableSpider(Spider(Slick_Object()), i18n()$get_translation_language())
     })
 
     output$PM_Boxplot <- DT::renderDataTable({
-      i18n <- i18n()
-      slick <- Slick_Object()
-      obj <- Boxplot(slick)
-
-      df <- data.frame(Label=Label(obj, i18n$get_translation_language()),
-                       Description=Description(obj, i18n$get_translation_language())
-      )
-      DT::datatable(df,
-                    extensions = 'Responsive',
-                    selection='none',
-                    options = list(dom = 't',
-                                   pageLength=100,
-                                   ordering=F))
+      tableBoxplot(Boxplot(Slick_Object()), i18n()$get_translation_language())
     })
 
   })
 }
 
-## To be copied in the UI
-# mod_PM_Info_ui("PM_Info_1")
-
-## To be copied in the server
-# mod_PM_Info_server("PM_Info_1")

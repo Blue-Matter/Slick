@@ -28,12 +28,14 @@ app_server <- function(input, output, session) {
       )
   })
 
+  outputOptions(output, "language", suspendWhenHidden = FALSE)
+
   observeEvent(input$selected_language, {
     shiny.i18n::update_lang(input$selected_language, session)
-    i18n <- i18n()
-    updateSelectInput(inputId='selected_language', label=i18n$t("Choose Language"))
+    i18n()$set_translation_language(input$selected_language)
+    # i18n <- i18n()
+    # updateSelectInput(inputId='selected_language', label=i18n$t("Choose Language"))
   })
-
 
   # ---- Reactives -----
   Load_Slick_File <- reactiveValues(loaded=FALSE, file=NULL)

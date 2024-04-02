@@ -2,16 +2,16 @@
 % Please edit documentation in R/fct_Update.R
 \name{Update}
 \alias{Update}
-\title{Updates an old object of class \code{Slick} to  new S4 class \code{Slick}}
+\title{Updates an old object of class \code{Slick} to new S4 class \code{Slick}}
 \usage{
 Update(slick)
 }
 \arguments{
-\item{slick}{An object of class \code{Slick}}
+\item{slick}{An S3 object of class \code{Slick}}
 }
 \value{
-An object of class \code{Slick}
+An S4 object of class \code{Slick}
 }
 \description{
-Updates an old object of class \code{Slick} to  new S4 class \code{Slick}
+Updates an old object of class \code{Slick} to new S4 class \code{Slick}
 }

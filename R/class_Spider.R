@@ -3,18 +3,15 @@
 #' @return An object of class `Spider`
 #' @export
 Spider <- setClass("Spider",
-                   slots=c(Label='character_list',
-                           Description='character_list',
+                   slots=c(Metadata='dataframe_list',
                            Value='array'
                    )
 )
 
 setMethod("initialize", "Spider", function(.Object,
-                                           Label=NULL,
-                                           Description=NULL,
+                                           Metadata=NULL,
                                            Value=NULL) {
-  .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
-  .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
+  .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
   .Object
 })
@@ -30,10 +27,9 @@ validSpider <- function(object) {
 setValidity('Spider', validSpider)
 
 
-newSpider <- function(Label=NULL,
-                      Description=NULL,
+newSpider <- function(Metadata=NULL,
                       Value=NULL) {
-  Spider <- new('Spider', Label, Description, Value)
+  Spider <- new('Spider', Metadata, Value)
   validObject(Spider)
   Spider
 }

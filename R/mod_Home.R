@@ -21,7 +21,6 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    # mod_links_server(id, Object, i18n)
     output$main <- renderUI({
       i18n <- i18n()
       tagList(
@@ -31,9 +30,9 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
             status = "primary",
             uiOutput(ns('welcome')),
             uiOutput(ns('howtouse')),
-            uiOutput(ns('load'))
+            uiOutput(ns('load')),
+            id=ns('mainbox')
         )
-        # mod_links_ui(ns(id))
       )
     })
 
@@ -85,10 +84,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
                                 solidHeader=FALSE,
                                 status = "primary",
                                 title=strong(i18n$t('Load Slick Data')),
-                                # shinyjs::hidden(
-                                #   h4(id=ns('overviewlink'), 'Back to ', actionLink(ns('overview'), 'Overview'))
-                                # ),
-
+                                uiOutput(ns('overviewlink')),
                                 h4(i18n$t('Load your MSE Results')),
                                 fileInput(ns("load"), accept=c("slick",".slick"),
                                           label = i18n$t("From file (.slick)"),
@@ -108,10 +104,6 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
       )
     })
 
-    # observeEvent(input$overview, {
-    #   shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
-    # })
-
     output$example_download <- downloadHandler(
       filename = function() {
         Name <- input$example_input
@@ -121,51 +113,91 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
         Name <- input$example_input
         File <- case_study_df$Object [match(Name, case_study_df$Example)]
         obj <- get(File)
-
-        stop()
-        if (inherits(obj, 'Slick'))
-          obj <- Slick2SlickData(obj)
+        obj <- Update(obj)
         saveRDS(obj, file)
-
       }
     )
 
     observeEvent(input$load, ignoreInit = TRUE, {
       Load_Slick_File$file <- input$load
-      Load_Slick_File$loaded <- Load_Slick_File$loaded +1
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
-      )
+      Load_Slick_File$loaded <- Load_Slick_File$loaded + 1
     })
 
     observeEvent(input$example_upload, ignoreInit = TRUE, {
       Load_Slick_File$file <- input$example_input
       Load_Slick_File$loaded <- Load_Slick_File$loaded +1
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
-      )
     })
+
+    output$overviewlink <- renderUI({
+      i18n <- i18n()
+      if (inherits(Slick_Object(), 'Slick')) {
+        tagList(
+          h4(i18n$t('Back to '),
+             actionLink(ns('overview'),
+                        i18n$t('Overview')))
+        )
+      }
+    })
+
+    observeEvent(input$overview, {
+      shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+    })
+
+
+    loaded_slick <- reactiveVal()
 
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
           slick <- get(case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)])
+          check_slick_file(slick)
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
-          slick <- readRDS(Load_Slick_File$file$datapath)
+          slick <- try(readRDS(Load_Slick_File$file$datapath))
+          if (inherits(slick, 'try-error')) {
+            shinyalert::shinyalert('Incorrect File Type',
+                                   'Could not import file. Is it a Slick object created with `saveRDS?`',
+                                   type='error')
+          } else {
+            check_slick_file(slick)
+          }
         }
-        if(inherits(slick, 'Slick'))
-          slick <- Slick2SlickData(slick)
-
-        # shinyjs::show('overviewlink')
-        Slick_Object(slick)
       }
     })
 
-    # TODO
-    # first load slick object
-    # then do checks and populate colors etc if needed
-    # then pass to Slick_Object
+    check_slick_file <- function(slick) {
+      if (!inherits(slick, 'Slick')) {
+        shinyalert::shinyalert('Incorrect File Type',
+                               'The loaded file is not a Slick object',
+                               type='error')
+        return(NULL)
+      }
+
+      # update
+      if (!isS4(slick))
+        slick <- Update(slick)
+
+      # check
+      slick <- try(Check(slick))
+
+      if (inherits(slick, 'try-error')) {
+        shinyalert::shinyalert('Invalid Slick object',
+                               'Use `Check(Slick)` to see the errors',
+                               type='error')
+      }
+
+      # set MP colors
+      slick <- slick
+      #
+      Slick_Object(slick)
+
+      # jump to metadata tab
+      shinyjs::delay(30,
+                     shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+      )
+
+    }
+
 
   })
 }

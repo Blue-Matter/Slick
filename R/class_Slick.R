@@ -25,8 +25,8 @@ check_data.frame <- function(obj, req, opt) {
 #'
 #'
 #' @author A. Hordyk
-#' @include class_OMs.R
 #' @include class_MPs.R
+#' @include class_OMs.R
 #' @include class_Quilt.R
 #' @include class_Spider.R
 #' @include class_Boxplot.R
@@ -51,7 +51,7 @@ Slick <- setClass("Slick",
                  Email='character',
                  Institution='character',
                  Introduction='character_list',
-                 MPs='dataframe_list',
+                 MPs='MPs',
                  OMs='OMs',
                  Quilt='Quilt',
                  Spider='Spider',

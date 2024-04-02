@@ -49,10 +49,6 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
     mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
 
-    mod_OM_Info_server(paste0('om', id), i18n, Slick_Object)
-    mod_MP_Info_server(paste0('mp', id), i18n, Slick_Object)
-    mod_PM_Info_server(paste0('pm', id), i18n, Slick_Object)
-
     output$main <- renderUI({
       i18n <- i18n()
       tagList(
@@ -82,12 +78,13 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       tagList(
         shinydashboard::box(width=6, status = "primary",
                             title=strong(Title(slick, i18n$get_translation_language())),
-                            h4(Subtitle(slick, i18n$get_translation_language())),
+                            strong(Subtitle(slick, i18n$get_translation_language())),
                             p(strong(i18n$t('Created:')), Date(slick)),
                             p(strong(i18n$t('Author:')), get_authors(slick)),
                             p(strong(i18n$t('Institution:')), get_institution(slick)),
                             h4(strong(i18n$t('Summary'))),
-                            lapply(lapply(Introduction(slick), HTML), tags$p)
+                            shiny::markdown((Introduction(slick, i18n$get_translation_language())))
+
         )
       )
     })

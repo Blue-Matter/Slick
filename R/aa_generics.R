@@ -1,6 +1,7 @@
 
 #' @include class_Boxplot.R
 #' @include class_Kobe.R
+#' @include class_MPs.R
 #' @include class_OMs.R
 #' @include class_Quilt.R
 #' @include class_Slick.R
@@ -60,6 +61,9 @@ setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
 setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
 setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
 
+setGeneric("Preset", function(x, ...) standardGeneric("Preset"))
+setGeneric("Preset<-", function(x, value) standardGeneric("Preset<-"))
+
 setGeneric("Quilt", function(x, ...) standardGeneric("Quilt"))
 setGeneric("Quilt<-", function(x, value) standardGeneric("Quilt<-"))
 
@@ -68,6 +72,8 @@ setGeneric("Spider<-", function(x, value) standardGeneric("Spider<-"))
 
 setGeneric("Subtitle", function(x, ...) standardGeneric("Subtitle"))
 setGeneric("Subtitle<-", function(x, value) standardGeneric("Subtitle<-"))
+
+setGeneric("Table", function(x, ...) standardGeneric("Table"))
 
 setGeneric("Timeseries", function(x, ...) standardGeneric("Timeseries"))
 setGeneric("Timeseries<-", function(x, value) standardGeneric("Timeseries<-"))
@@ -80,6 +86,63 @@ setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
 
 # ---- setMethods -----
+
+## Boxplot ----
+
+#' @export
+setMethod("Metadata", "Boxplot", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+})
+
+#' @export
+setMethod("Metadata<-", "Boxplot", function(x, value) {
+  x@Metadata <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Table", "Boxplot", function(x, lang=NULL) {
+  tableBoxplot(x, lang)
+})
+
+## MPs ----
+
+#' @export
+setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
+
+#' @export
+setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
+
+#' @export
+setMethod("Metadata", "MPs", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+})
+
+#' @export
+setMethod("Metadata<-", "MPs", function(x, value) {
+  x@Metadata <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Preset", "MPs", function(x, lang=NULL) {
+  get_language(x@Preset, lang)
+})
+
+#' @export
+setMethod("Preset<-", "MPs", function(x, value) {
+  x@Preset <- value
+  validObject(x)
+  x
+})
+
+
+#' @export
+setMethod("Table", "MPs", function(x, lang=NULL) {
+  tableMPs(x, lang)
+})
 
 
 
@@ -109,7 +172,7 @@ setMethod("OMs","dataframe_list",function(x, ...) newOMs(x, ...))
 
 #' @rdname OMs
 #' @export
-setMethod("Metadata", "OMs", function(x, ...) {
+setMethod("Metadata", "OMs", function(x, lang=NULL) {
   get_language(x@Metadata, lang)
 })
 
@@ -122,31 +185,28 @@ setMethod("Metadata<-", "OMs", function(x, value) {
 })
 
 
-
-
-## Quilt ----
-
+#' @rdname OMs
 #' @export
-setMethod("Metadata", "Quilt", function(x, lang=NULL) {
-  get_language(x@Metadata, lang)
-
+setMethod("Preset", "OMs", function(x, ...) {
+  x@Preset
 })
 
+#' @rdname OMs
 #' @export
-setMethod("Metadata<-", "Quilt", function(x, value) {
-  x@Metadata <- value
-  x
-})
-
-#' @export
-setMethod("Value", "Quilt", function(x) {x@Value})
-
-#' @export
-setMethod("Value<-", "Quilt", function(x, value) {
-  x@Value <- value
+setMethod("Preset<-", "OMs", function(x, value) {
+  x@Preset <- value
   validObject(x)
   x
 })
+
+#' @export
+setMethod("Table", "OMs", function(x, lang=NULL, type=NULL) {
+  tableOMs(x, lang, type)
+})
+
+
+
+## Quilt ----
 
 #' @export
 setMethod("MaxColor", "Quilt", function(x) {x@MaxColor})
@@ -166,6 +226,47 @@ setMethod("MinColor<-", "Quilt", function(x, value) {
   x@MinColor <- value
   validObject(x)
   x
+})
+
+#' @export
+setMethod("Metadata", "Quilt", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+
+})
+
+#' @export
+setMethod("Metadata<-", "Quilt", function(x, value) {
+  x@Metadata <- value
+  x
+})
+
+#' @export
+setMethod("plot", "Quilt", function(x, ...) {
+  plotQuilt(x, ...)
+})
+
+
+
+#' @export
+setMethod("Table", "Quilt", function(x, lang=NULL) {
+  tableOMs(x, lang, type)
+})
+
+
+#' @export
+setMethod("Value", "Quilt", function(x) {x@Value})
+
+#' @export
+setMethod("Value<-", "Quilt", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
+})
+
+
+#' @export
+setMethod("Table", "Quilt", function(x, lang=NULL) {
+  tableQuilt(x, lang)
 })
 
 
@@ -264,6 +365,21 @@ setMethod("OMs", "Slick", function(x) {
 })
 
 #' @export
+setMethod("Spider<-", "Slick", function(x, value) {
+  x@Spider <- value
+  x
+})
+
+#' @export
+setMethod("Spider","Slick",function(x, ...) x@Spider)
+
+#' @export
+setMethod("Spider", "Slick", function(x) {
+  x@Spider
+})
+
+
+#' @export
 setMethod("Subtitle", "Slick", function(x, lang=NULL) {
   get_language(x@Subtitle, lang)
 })
@@ -307,19 +423,25 @@ setMethod("Spider","missingOrNULL",function(x, ...) newSpider(...))
 #' @export
 setMethod("Spider","character",function(x, ...) newSpider(x, ...))
 
-#' @export
-setMethod("Spider","Slick",function(x, ...) x@Spider)
+
 
 #' @export
-setMethod("Spider", "Slick", function(x) {
-  x@Spider
+setMethod("Metadata", "Spider", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+
 })
 
 #' @export
-setMethod("Spider<-", "Slick", function(x, value) {
-  x@Spider <- value
+setMethod("Metadata<-", "Spider", function(x, value) {
+  x@Metadata <- value
   x
 })
+
+#' @export
+setMethod("Table", "Spider", function(x, lang=NULL) {
+  tableSpider(x, lang)
+})
+
 
 ## Timeseries ----
 
@@ -678,56 +800,6 @@ setMethod("Value<-", "Timeseries", function(x, value) {
   validObject(x)
   x
 })
-
-## Default ----
-
-setGeneric("Default", function(x, ...) standardGeneric("Default"))
-setGeneric("Default<-", function(x, value) standardGeneric("Default<-"))
-
-#' @export
-setMethod("Default", "OMs", function(x) {x@Default})
-
-#' @export
-setMethod("Default<-", "OMs", function(x, value) {
-  if (!inherits(value, 'list')) {
-    stop('`Default` must be class `list`', call.=FALSE)
-  }
-  x@Default <- value
-  validObject(x)
-  x
-})
-
-
-
-
-#' @export
-setMethod("Default", "Quilt", function(x) {x@Default})
-
-#' @export
-setMethod("Default<-", "Quilt", function(x, value) {
-  if (!inherits(value, 'numeric')) {
-    stop('`Default` must be class `numeric`', call.=FALSE)
-  }
-  x@Default <- value
-  validObject(x)
-  x
-})
-
-
-#' @export
-setMethod("Default", "Boxplot", function(x) {x@Default})
-
-#' @export
-setMethod("Default<-", "Boxplot", function(x, value) {
-  if (!inherits(value, 'numeric')) {
-    stop('`Default` must be class `numeric`', call.=FALSE)
-  }
-  x@Default <- value
-  validObject(x)
-  x
-})
-
-
 
 
 ## Boxplot ----

@@ -13,7 +13,6 @@ Quilt <- setClass("Quilt",
 
 )
 
-# Metadata <- data.frame(Code, Label, Description, Default, MinValue, MaxValue)
 
 setMethod("initialize", "Quilt", function(.Object,
                                           Metadata=NULL,
