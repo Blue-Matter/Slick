@@ -25,36 +25,36 @@ mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    Selected_OMs <- mod_Filter_OM_server("Filter_OM_1", i18n, Slick_Object)
-    Selected_MPs <- mod_Filter_MP_server("Filter_MP_1", i18n, Slick_Object)
-    Selected_PMs <- mod_Filter_PM_server("Filter_PM_1", i18n, Slick_Object, slot)
+    Selected_OMs <- mod_Filter_select_server("Filter_OM_1", i18n, Slick_Object, 'OMs')
+    Selected_MPs <- mod_Filter_select_server("Filter_MP_1", i18n, Slick_Object, 'MPs')
+    Selected_PMs <- mod_Filter_select_server("Filter_PM_1", i18n, Slick_Object, slot)
 
     Filter_Selected <- reactiveValues()
 
-    observeEvent(Selected_OMs$OMs, {
+    observeEvent(Selected_OMs$selected, {
       shinyjs::show("FilterButton")
-    })
+    }, ignoreInit = TRUE)
 
-    observeEvent(Selected_MPs$MPs, {
+    observeEvent(Selected_MPs$selected, {
       shinyjs::show("FilterButton")
-    })
+    }, ignoreInit = TRUE)
 
-    observeEvent(Selected_PMs$PMs, {
+    observeEvent(Selected_PMs$selected, {
       shinyjs::show("FilterButton")
-    })
+    }, ignoreInit = TRUE)
 
     output$filters <- renderUI({
       i18n <- i18n()
       tagList(
         tabsetPanel(id=ns('filtertabs'),
           tabPanel(i18n$t('Operating Models'),
-                   mod_Filter_OM_ui(ns("Filter_OM_1"))
+                   mod_Filter_select_ui(ns("Filter_OM_1"))
           ),
           tabPanel(i18n$t('Management Procedures'),
-                   mod_Filter_MP_ui(ns("Filter_MP_1"))
+                   mod_Filter_select_ui(ns("Filter_MP_1"))
           ),
           tabPanel(i18n$t('Performance Indicators'),
-                   mod_Filter_PM_ui(ns("Filter_PM_1"))
+                   mod_Filter_select_ui(ns("Filter_PM_1"))
           )
         )
       )
@@ -63,28 +63,30 @@ mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session){
     output$filter_button <- renderUI({
       i18n <- i18n()
       shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterButton"),
-                                               label=i18n$t("FILTER"),
+                                               label=i18n$t("Apply Filters"),
                                                icon("filter", verify_fa=FALSE),
-                                               color='danger',size='sm')
+                                               color='danger',size='sm',
+                                               block=T, style="fill")
       )
     })
 
     observeEvent(input$FilterButton, {
       shinyjs::hide("FilterButton")
-      Filter_Selected$OMs <- Selected_OMs$OMs
-      Filter_Selected$MPs <- Selected_MPs$MPs
-      Filter_Selected$PMs <- Selected_PMs$PMs
+      Filter_Selected$OMs <- Selected_OMs$selected
+      Filter_Selected$MPs <- Selected_MPs$selected
+      Filter_Selected$PMs <- Selected_PMs$selected
       shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
     })
+
 
     # run once when new Slick_Object loaded
     observe({
       slick <- Slick_Object()
       if (!is.null(slick)) {
         shinyjs::hide("FilterButton")
-        Filter_Selected$OMs <- isolate(Selected_OMs$OMs)
-        Filter_Selected$MPs <- isolate(Selected_MPs$MPs)
-        Filter_Selected$PMs <- isolate(Selected_PMs$PMs)
+        Filter_Selected$OMs <- isolate(Selected_OMs$selected)
+        Filter_Selected$MPs <- isolate(Selected_MPs$selected)
+        Filter_Selected$PMs <- isolate(Selected_PMs$selected)
       }
     })
 

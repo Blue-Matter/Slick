@@ -1,51 +1,6 @@
 
 
 
-
-make_Quilt <- function(quilt, mp_label, pm_selected) {
-  Values <- Value(quilt) |>
-    apply(2:3, median) |>
-    signif(3)
-  if (all(is.na(Values))) {
-    return(NULL)
-  }
-  rownames(Values) <- mp_label
-  pm_labels <- Label(quilt)[pm_selected]
-  colnames(Values) <- pm_labels
-  cols <- Color(quilt)
-
-
-  outable <-  DT::datatable(Values, extensions = 'Buttons',
-                            options = list(dom = 'tB',
-                                           pageLength =100,
-                                           buttons=c('copy', 'csv'),
-                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),
-                                           scrollX = TRUE
-                            ),
-                            filter = list(
-                              position = 'top', clear = FALSE
-                            ), selection = 'none')
-
-  for (i in 1:ncol(Values)) {
-    pm <- pm_labels[i]
-    val_range <- range(Values[,i])
-
-    cuts <- quantile(Values[,i], seq(0, 1, by=0.1)) |>
-      as.numeric()
-    values <- rev(colorRampAlpha(cols, n=length(cuts)+1, alpha=0.5) )
-
-    outable <- outable |>
-      DT::formatStyle(
-        pm,
-        backgroundColor = DT::styleInterval(cuts=cuts,
-                                            values=values)
-      )
-  }
-  outable
-
-}
-
-
 #' Quilt_plot UI Function
 #'
 #' @description A shiny Module.
@@ -76,18 +31,21 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, paren
       selected_PMs <- Filter_Selected$PMs
       quilt <- Quilt(slick)
 
-      # filter OMs
-      if (!is.null(selected_OMs)) {
-        Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
-      }
-      # filter MPs
-      if (!is.null(selected_MPs)) {
-        Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
-      }
-      # filter PMs
-      if (!is.null(selected_PMs)) {
-        Metadata(quilt) <- Metadata(quilt)[selected_PMs, ]
-        Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
+      dd <- dim(Value(quilt))
+      if (length(selected_OMs)==dd[1]) {
+        # filter OMs
+        if (!is.null(selected_OMs)) {
+          Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
+        }
+        # filter MPs
+        if (!is.null(selected_MPs)) {
+          Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
+        }
+        # filter PMs
+        if (!is.null(selected_PMs)) {
+          Metadata(quilt) <- Metadata(quilt)[selected_PMs, ]
+          Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
+        }
       }
 
       quilt
@@ -112,10 +70,12 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, paren
 
       tagList(
         br(),
-        shinydashboard::box(width=12, collapsible = TRUE,
+        shinydashboard::box(width=12,
+                            collapsible = TRUE,
                             status='primary',
                             title=strong(i18n$t("READING THIS CHART")),
-                            htmlOutput(ns('reading'))
+                            uiOutput(ns('reading'))
+
         ),
         shinydashboard::box(width=12,
                             status='primary',
@@ -129,23 +89,25 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, paren
       )
     })
 
+    observeEvent(input$openfilter, {
+      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
+    })
 
     output$reading <- renderUI({
       i18n <- i18n()
       tagList(
-        p('This chart ...'),
-        p('Use the', actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
-          'button to filter the Management Procedures, Operating Models, and Performance Indicators')
-
-        # p('This chart', strong('compares the performance of ', nMP,
-        #                        ' management procedures (MP) against ', nPM,
-        #                        ' performance metrics.'))
+        column(6,
+               p(i18n$t('This table ...'))
+               ),
+        column(6,
+               p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+                 i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators ...')
+               )
+        )
       )
     })
 
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
-    })
+
 
 
   })

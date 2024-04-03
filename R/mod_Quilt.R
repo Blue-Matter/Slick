@@ -21,7 +21,7 @@ mod_Quilt_ui <- function(id){
 #' Quilt Server Functions
 #' @importFrom dplyr %>%
 #' @noRd
-mod_Quilt_server <- function(id, i18n, Slick_Object){
+mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -30,7 +30,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
                                         parent_session=session)
 
     mod_Quilt_plot_server("Quilt_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session)
-    mod_TradeOff_plot_server("TradeOff_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session)
+    mod_TradeOff_plot_server("TradeOff_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session, window_dims)
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
@@ -48,8 +48,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object){
                                                                    mod_Quilt_plot_ui(ns("Quilt_plot_1"))
                                                    ),
                                                    shiny::tabPanel('Trade-Off',
-                                                                   'test'
-                                                                   # mod_TradeOff_plot_ui(ns("TradeOff_plot_1"))
+                                                                   mod_TradeOff_plot_ui(ns("TradeOff_plot_1"))
                                                    )
 
                                 ),

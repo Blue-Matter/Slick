@@ -14,6 +14,8 @@ golem::add_module(name = "Home")
 golem::add_module(name = "toplink")
 golem::add_module(name = "Metadata")
 golem::add_module(name = "Filter")
+golem::add_module(name = "Filter_select")
+
 golem::add_module(name = "Filter_OM")
 golem::add_module(name = "Filter_MP")
 golem::add_module(name = "Filter_PM")

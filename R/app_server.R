@@ -9,8 +9,10 @@ options(shiny.maxRequestSize=100000*1024^2)
 #' @noRd
 app_server <- function(input, output, session) {
 
-  # -- multi-language support ----
+  # dimensions of the brower window
+  window_dims <- reactive(input$dimension)
 
+  # -- multi-language support ----
   i18n <- reactive({
     selected <- input$selected_language
     if (length(selected) > 0 && selected %in% set_translator()$get_languages()) {
@@ -54,6 +56,6 @@ app_server <- function(input, output, session) {
   mod_MP_Info_server("MPheader", i18n, Slick_Object)
   mod_OM_Info_server("OMheader", i18n, Slick_Object)
   mod_PM_Info_server("PMheader", i18n, Slick_Object)
-  mod_Quilt_server("Quilt", i18n, Slick_Object)
+  mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims)
 
 }

@@ -241,8 +241,24 @@ setMethod("Metadata<-", "Quilt", function(x, value) {
 })
 
 #' @export
-setMethod("plot", "Quilt", function(x, ...) {
-  plotQuilt(x, ...)
+setMethod("plot", "Quilt", function(x, type='quilt') {
+  if (type=='quilt')
+    plotQuilt(x, ...)
+  if (type=='tradeoff')
+    plotTradeoff(x, ...)
+
+})
+
+#' @export
+setMethod("Preset", "Quilt", function(x, ...) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Quilt", function(x, value) {
+  x@Preset <- value
+  validObject(x)
+  x
 })
 
 

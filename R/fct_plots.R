@@ -60,4 +60,50 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL) {
 }
 
 
+plotTradeoff <- function(quilt, mps, XPM, YPM) {
+  quilt <<- quilt
+  mps <<- mps
+  XPM <<- XPM
+  YPM <<- YPM
+
+  MP_labels <- mps[['Label']]
+  MP_color  <- mps[['Color']]
+
+  Values <- Value(quilt) |>
+    apply(2:3, median) |>
+    signif(3)
+  if (all(is.na(Values))) {
+    return(NULL)
+  }
+
+
+  x_index <- match(XPM, Metadata(quilt)[['Code']])
+  y_index <- match(YPM, Metadata(quilt)[['Code']])
+  xlab <- Metadata(quilt)[['Label']][x_index]
+  ylab <- Metadata(quilt)[['Label']][y_index]
+  x_value <- Values[,x_index]
+  y_value <- Values[, y_index]
+
+
+  df <- data.frame(x=x_value, y=y_value,
+                   MP=MP_labels,
+                   Color=MP_color)
+  df$MP <- factor(df$MP, ordered = TRUE, levels=unique(df$MP))
+
+  ggplot2::ggplot(df, ggplot2::aes(x=x, y=y, color=MP)) +
+    ggplot2::geom_point() +
+    ggplot2::theme_classic() +
+    ggplot2::coord_fixed() +
+    ggplot2::expand_limits(x=0, y=0) +
+    ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=8) +
+    ggplot2::scale_color_manual(values=df$Color) +
+    ggplot2::guides(color='none') +
+    ggplot2::labs(x=xlab, y=ylab) +
+    ggplot2::theme(axis.title = ggplot2::element_text(size=16),
+                   axis.text = ggplot2::element_text(size=12))
+
+}
+
+
+
 

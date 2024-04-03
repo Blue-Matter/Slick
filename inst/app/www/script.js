@@ -1,3 +1,12 @@
+$(document).on("shiny:connected", function(e) {
+                            Shiny.onInputChange("innerWidth", window.innerWidth);
+                            });
+                            $(window).resize(function(e) {
+                            Shiny.onInputChange("innerWidth", window.innerWidth);
+                            });
+
+
+
 $(document).ready(function(){
   $('input[name=Fil_PM_Det]').on('click', function(event){
     if($('input[name=Fil_PM_Det]:checked').length > 3){

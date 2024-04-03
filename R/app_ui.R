@@ -77,7 +77,7 @@ header <- function() {
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
                        width=700,
-                       label = "Performance Metrics",
+                       label = "Performance Indicators",
                        status = "primary",
                        circle = FALSE,
                        mod_PM_Info_ui("PMheader")

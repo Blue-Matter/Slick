@@ -19,146 +19,140 @@ mod_TradeOff_plot_ui <- function(id){
 #' TradeOff_plot Server Functions
 #'
 #' @noRd
-mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session){
+mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session, window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    filtered_slick <- reactive({
+    filtered_quilt <- reactive({
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
       selected_MPs <- Filter_Selected$MPs
-      # selected_PMs <- Filter_Selected$PMs
       quilt <- Quilt(slick)
 
-      # filter OMs
-      if (!is.null(selected_OMs)) {
-        Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
-      }
-      # filter MPs
-      if (!is.null(selected_MPs)) {
-        Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
-      }
-      # filter PMs
-      if (!is.null(selected_PMs)) {
-        Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
+      dd <- dim(Value(quilt))
+      if (length(selected_OMs)==dd[1]) {
+        # filter OMs
+        if (!is.null(selected_OMs)) {
+          Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
+        }
+        # filter MPs
+        if (!is.null(selected_MPs)) {
+          Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
+        }
       }
       quilt
     })
 
     nOM <- reactive({
-      dim(Value(filtered_slick()))[1]
+      dim(Value(filtered_quilt()))[1]
     })
 
-    MP_obj <- reactive({
-      MPs(Slick_Object())
-    })
-
-    MP_labels <- reactive({
-      labels <- Label(MP_obj())
-      labels[Filter_Selected$MPs]
+    filtered_MPs <- reactive({
+      slick <- Slick_Object()
+      Metadata(MPs(slick))[Filter_Selected$MPs,]
     })
 
     nMP <- reactive({
-      length(MP_labels())
+      nrow(filtered_MPs())
     })
 
-    PM_labels <- reactive({
-      Label(Quilt(Slick_Object()))
+    pm_metadata <- reactive({
+      Metadata(Quilt(Slick_Object()))
+    })
+
+    PM_codes <- reactive({
+      pm_metadata()[['Code']]
     })
 
     output$plot <- renderUI({
       i18n <- i18n()
-      quilt <- filtered_slick()
+      quilt <- filtered_quilt()
+      pm_codes <- PM_codes()
       tagList(
         br(),
-        shinydashboard::box(width=12, collapsible = TRUE,
+        # style='padding: 10px;',
+        shinydashboard::box(width=12,
+                            collapsible = TRUE,
                             status='primary',
                             title=strong(i18n$t("READING THIS CHART")),
-                            htmlOutput(ns('reading'))
+                            uiOutput(ns('reading'))
         ),
         shinydashboard::box(width=12,
                             status='primary',
-                            title=strong(paste(nMP(),
-                                               i18n$t('Management Procedures. Median values over'),
-                                               nOM(),
-                                               i18n$t('Operating Models'))
-                            ),
-                            uiOutput(ns('tradeoff'))
-
+                            title=strong(i18n$t('Trade-Off Plot')),
+                            column(3, uiOutput(ns('pmselection'))),
+                            column(9,uiOutput(ns('tradeoff')))
         )
       )
     })
 
+    output$reading <- renderUI({
+      i18n <- i18n()
+      tagList(
+        column(6,
+               p('This chart plots the tradeoffs between two performance indicators for ',
+                                      nMP(), ' management procedures (MP). ...')
+        ),
+        column(6,
+               p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+                 i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
+               )
+        )
+      )
+    })
+
+    output$pmselection <- renderUI({
+      i18n <- i18n()
+      pm_codes <- PM_codes()
+      tagList(
+        p(i18n$t('Select the Performance Indicators to show on the X and Y axes of the Trade-Off plot:')),
+        shinyWidgets::pickerInput(
+          inputId = ns('xPM'),
+          label = i18n$t("X-Axis Performance Indicator"),
+          selected=pm_codes[1],
+          choices = pm_codes
+        ),
+        shinyWidgets::pickerInput(
+          inputId = ns('yPM'),
+          label = i18n$t("Y-Axis Performance Indicator"),
+          selected=pm_codes[2],
+          choices = pm_codes
+        )
+      )
+    })
 
     output$tradeoff <- renderUI({
       i18n <- i18n()
-      pm_labels <- PM_labels()
       tagList(
-        column(3,
-               shinyWidgets::pickerInput(
-                 inputId = ns('xPM'),
-                 label = i18n$t("X-Axis Performance Indicator"),
-                 selected=pm_labels[1],
-                 choices = pm_labels
-               ),
-               shinyWidgets::pickerInput(
-                 inputId = ns('yPM'),
-                 label = i18n$t("Y-Axis Performance Indicator"),
-                 selected=pm_labels[2],
-                 choices = pm_labels
-               )
-        ),
-        column(9,
-               plotOutput(ns('tradeoffplot'))
-        )
+        h4(strong(paste(nMP(),
+                        i18n$t('Management Procedures. Median values over'),
+                        nOM(),
+                        i18n$t('Operating Models'))
+        )),
+        plotOutput(ns('tradeoffplot'), height=plot_height_d())
       )
+
+    })
+
+    plot_height <- reactive({
+      dims <- window_dims()
+      dims[1]*0.3
+    })
+    plot_height_d <- plot_height |> debounce(500)
+
+    output$tradeoffplot <- renderPlot({
+      plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)
+    }, width=function() {
+      plot_height_d()
+    }, height=function() {
+      plot_height_d()
     })
 
 
-      output$tradeoffplot <- renderPlot({
-        make_TradeOff(filtered_slick(), MP_obj(), input$xPM, input$yPM)
-      })
-
-
-      make_TradeOff <- function(quilt, mp_obj, xaxis, yaxis) {
-        quilt <<- quilt
-        mp_obj <<- mp_obj
-        xaxis <<- xaxis
-        yaxis <<- yaxis
-
-        Values <- Value(quilt) |>
-          apply(2:3, median) |>
-          signif(3)
-        if (all(is.na(Values))) {
-          return(NULL)
-        }
-
-        # min and max
-        # colors for MPs
-
-        mp_label <- Label(mp_obj)
-        x_index <- match(xaxis, Label(quilt))
-        y_index <- match(yaxis, Label(quilt))
-
-        x_value <- Values[,x_index]
-        y_value <- Values[, y_index]
-
-        df <- data.frame(x=x_value, y=y_value, MP=mp_label)
-
-        ggplot2::ggplot(df, ggplot2::aes(x=x, y=y, color=MP)) +
-          ggplot2::geom_point()
-
-      }
-
-
-
-    output$reading <- renderUI({
-
-      tagList(
-        p('This chart ...')
-
-      )
+    observeEvent(input$openfilter, {
+      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
     })
+
   })
 }
 
