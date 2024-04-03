@@ -1,4 +1,4 @@
-selectedOMs <- function(i, oms) {
+selectedOMs <- function(i, oms, preset=1) {
   metadata <- Metadata(oms)
   factors <- unique(metadata$Factor)
   metadata <- metadata |> dplyr::filter(Factor==factors[i])
@@ -6,10 +6,10 @@ selectedOMs <- function(i, oms) {
   if (length(presets)<1) {
     return(seq_along(metadata))
   }
-  if (length(presets[[1]])<i) {
+  if (length(presets[[preset]])<i) {
     return(NULL)
   }
-  presets[[1]][[i]]
+  presets[[preset]][[i]]
 }
 
 filterOMs <- function(slick, Filter_Selected, input) {
@@ -65,8 +65,6 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
     Filter_Selected <- reactiveValues()
 
     OM_object <- reactive({
-      slick <<- Slick_Object()
-      oms <<- OMs(slick)
       OMs(Slick_Object())
     })
 
@@ -89,16 +87,48 @@ mod_Filter_OM_server <- function(id, i18n, Slick_Object){
     output$presets <- renderUI({
       i18n <- i18n()
       presets <- Preset(OM_object())
+
       if (length(presets)>0) {
-        shinyWidgets::actionBttn(ns("reset_button"),
-                                 label=i18n$t("Reset Defaults"),
-                                 icon("arrows-spin", verify_fa=FALSE),
-                                 color='default',size='sm')
-
+        btn_names <- names(presets)
+        ll <- lapply(1:length(presets), function(i) {
+          shinyWidgets::actionBttn(ns(paste0("preset",i)),
+                                   label=btn_names[i],
+                                   icon("arrows-spin", verify_fa=FALSE),
+                                   color='default',size='sm')
+        })
       }
+        # shinyjs::delay(50, shinyjs::show("reset_button"))
 
+      tagList(
+        shinyjs::hidden(
+          shinyWidgets::actionBttn(ns("reset_button"),
+                                   label=i18n$t("Reset Defaults"),
+                                   icon("arrows-spin", verify_fa=FALSE),
+                                   color='default',size='sm')
+        ),
+        tagList(ll)
+      )
     })
 
+
+    observe({
+      slick <- Slick_Object()
+      presets <- Preset(OM_object())
+      if (!is.null(slick)) {
+        if (length(presets)>0) {
+          print('here')
+          btn_names <- names(presets)
+          preset_names <- paste0("preset",1:length(names(presets)))
+
+          for(i in 1:length(btn_names)) {
+            updateCheckboxGroupInput(inputId=paste0("preset",i),
+                                     selected=selectedOMs(i, OM_object(), i))
+          }
+
+
+        }
+      }
+    })
 
     # Reset OM Filters when new Slick loaded
     # and apply default OMs (if provided in Slick_Object)

@@ -72,7 +72,7 @@ mod_Filter_PM_server <- function(id, i18n, Slick_Object, slot){
     })
 
     output$defaults <- renderUI({
-      # i18n <- i18n()
+      i18n <- i18n()
       # defaults <-  Default(PM_object())
       # if (length(defaults)>0)
       #   shinyjs::delay(50, shinyjs::show("reset_button"))

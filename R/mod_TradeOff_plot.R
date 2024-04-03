@@ -39,9 +39,9 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
         Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
       }
       # filter PMs
-      # if (!is.null(selected_PMs)) {
-      #   Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
-      # }
+      if (!is.null(selected_PMs)) {
+        Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
+      }
       quilt
     })
 
