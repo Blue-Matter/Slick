@@ -93,7 +93,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
                                 h4(i18n$t('Load an Example')),
                                 selectInput(ns('example_input'),
                                             label=i18n$t('Example'),
-                                            choices=case_study_df$Example,
+                                            choices=Slick::case_study_df$Example,
                                             selected=NULL
                                 ),
                                 actionButton(ns("example_upload"), i18n$t("Load"),
