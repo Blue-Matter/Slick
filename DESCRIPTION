@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Decision Analysis
-Version: 1.0.9000
+Version: 1.0.9001
 Authors@R: c(
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
@@ -86,6 +86,8 @@ Collate:
     'mod_Sidebar.R'
     'mod_Spider.R'
     'mod_Spider_MP.R'
+    'mod_Spider_OM.R'
+    'mod_Spider_overall.R'
     'mod_Spider_plot.R'
     'mod_TradeOff_plot.R'
     'mod_Zigzag_plot.R'

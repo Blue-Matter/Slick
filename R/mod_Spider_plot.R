@@ -22,11 +22,13 @@ mod_Spider_plot_ui <- function(id){
 #' Spider_plot Server Functions
 #'
 #' @noRd
-mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session=session){
+mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
+                                   parent_session=session, window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     filtered_slick <- reactive({
+      if (is.null(Slick_Object())) return(NULL)
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
       selected_MPs <- Filter_Selected$MPs
@@ -79,6 +81,20 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pare
 
     mod_subtitle_server(id, i18n, nOM, nMP, nPM)
 
+    mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
+                         nOM, nMP, nPM, parent_session,
+                         relative_scale=relative_scale)
+    mod_Spider_OM_server("Spider_OM_1", i18n, filtered_slick,
+                         nOM, nMP, nPM, parent_session,
+                         relative_scale=relative_scale)
+
+    mod_Spider_overall_server("Spider_overall_1",
+                              i18n, filtered_slick,
+                              nOM, nMP, nPM, parent_session,
+                              relative_scale=relative_scale,
+                              window_dims)
+
+
     get_relative_scale_md <- reactive({
       lang <- i18n()$get_translation_language()
       paste('relative_scale', lang, sep='_')
@@ -94,11 +110,12 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pare
         column(6,
                shinyWidgets::radioGroupButtons(
                  inputId = ns("plotselect"),
-                 choiceNames = c(i18n$t('By Management Procedure'),
-                                 i18n$t('By Operating Model'),
-                                 i18n$t('Overall')
-                 ),
-                 choiceValues=c('bymp', 'byom', 'overall')
+                 choiceNames = c(i18n$t('Overall'),
+                                 i18n$t('By Management Procedure'),
+                                 i18n$t('By Operating Model')
+                                 ),
+                 choiceValues=c('overall', 'bymp',  'byom'),
+                 justified = TRUE
                )
         ),
         column(6,
@@ -117,14 +134,14 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pare
                  style='float:right')
         ),
         column(12,
+               conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                mod_Spider_overall_ui(ns("Spider_overall_1"))
+               ),
                conditionalPanel("input.plotselect=='bymp'", ns=ns,
                                 mod_Spider_MP_ui(ns("Spider_MP_1"))
                ),
                conditionalPanel("input.plotselect=='byom'", ns=ns,
-                                p('By OM!')
-               ),
-               conditionalPanel("input.plotselect=='overall'", ns=ns,
-                                p('Overall!')
+                                mod_Spider_OM_ui(ns("Spider_OM_1"))
                )
         )
       )
@@ -134,9 +151,6 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pare
       input$RS_button
     })
 
-    mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, parent_session,
-                         relative_scale=relative_scale)
 
     # output$mainplot <- renderUI({
     #   tagList(

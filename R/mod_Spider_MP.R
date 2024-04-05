@@ -1,19 +1,4 @@
-pm_outline_plot <- function(n.PM) {
-  par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
-  line.col <- 'darkgrey'
-  pt.cex <- 3
 
-  vertices <- polyCoords(n.PM) * 100
-  plot(vertices, type="l", col=line.col, axes=FALSE, xlab="", ylab="", xpd=NA)
-  lines(vertices*0.66, type="l", col=line.col, xpd=NA)
-  lines(vertices*0.33, type="l", col=line.col, xpd=NA)
-  for (i in 1:(nrow(vertices)-1)) {
-    lines(x=c(0, vertices[i,1]),
-          y=c(0, vertices[i,2]), col=line.col)
-    points(x=vertices[i,1], y=vertices[i,2], pch=16, col=line.col, cex=pt.cex, xpd=NA)
-    text(x=vertices[i,1], y=vertices[i,2], col='white', LETTERS[i], xpd=NA)
-  }
-}
 
 #' Spider_MP UI Function
 #'
@@ -125,20 +110,20 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
             p(i18n$t('This chart'),
               strong(i18n$t('compares the performance of '), nMP(),
                      i18n$t(' management procedures (MP) against '), nPM(),
-                     i18n$t(' performance metrics.'))),
-            p(i18n$t('Each value is a performance metric over '), nOM(),
+                     i18n$t(' performance indicators.'))),
+            p(i18n$t('Each value is the median performance indicator over '), nOM(),
               i18n$t(' operating models.')),
-            p(img(src='www/img/hexagon_solid.png', width="16", height="16"),
+            p(HTML('<i class="fas fa-hexagon"></i>'),
               i18n$t('The'), strong(i18n$t('filled plots')),
               i18n$t('represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. '),
-              strong(i18n$t('Larger areas indicate better overall performance')),
-              p(i18n$t('These summary values'), strong(i18n$t('assume equal weighting and equal scaling of performance indicators.'))),
-              p(i18n$t('Use the'), actionLink(ns('openfilter'),
-                                              i18n$t('Filter'),
-                                              icon=icon('filter')),
-                i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
-              )
+              strong(i18n$t('Larger areas indicate better overall performance'))),
+            p(i18n$t('These summary values'), strong(i18n$t('assume equal weighting and equal scaling of performance indicators.'))),
+            p(i18n$t('Use the'), actionLink(ns('openfilter'),
+                                            i18n$t('Filter'),
+                                            icon=icon('filter')),
+              i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
             )
+
           )
         }
       }

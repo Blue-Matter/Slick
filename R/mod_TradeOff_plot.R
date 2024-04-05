@@ -56,6 +56,7 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       nrow(filtered_MPs())
     })
 
+
     pm_metadata <- reactive({
       Metadata(Quilt(Slick_Object()))
     })
@@ -64,37 +65,40 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       pm_metadata()[['Code']]
     })
 
+
+    mod_subtitle_server(id, i18n, nOM, nMP)
+
     output$plot <- renderUI({
       i18n <- i18n()
       quilt <- filtered_quilt()
       pm_codes <- PM_codes()
       tagList(
         br(),
-        shinydashboard::box(width=3,
-                            status='primary',
-                            title=strong(i18n$t("READING THIS CHART")),
-                            uiOutput(ns('reading'))
+        column(12,
+               mod_subtitle_ui(ns(id))
         ),
-        shinydashboard::box(width=9,
-                            status='primary',
-                            title=strong(i18n$t('Trade-Off Plot')),
-                            column(3, uiOutput(ns('pmselection'))),
-                            column(9,uiOutput(ns('tradeoff')))
-        )
+        column(3,
+               h4(strong(i18n$t("Reading this Chart"))),
+               htmlOutput(ns('reading'))
+               ),
+        column(9,
+               column(3, uiOutput(ns('pmselection'))),
+               column(9,uiOutput(ns('tradeoff')))
+               )
       )
     })
 
     output$reading <- renderUI({
       i18n <- i18n()
       tagList(
-        column(12,
-               p('This chart plots the tradeoffs between two performance indicators for ',
-                 nMP(), ' management procedures (MP). ...'),
 
-               p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
-                 i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
-               )
+        p('This chart plots the tradeoffs between two performance indicators for ',
+          nMP(), ' management procedures (MP). ...'),
+
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+          i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
         )
+
       )
     })
 
@@ -140,13 +144,7 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     })
 
     output$tradeoff <- renderUI({
-      i18n <- i18n()
       tagList(
-        h4(strong(paste(nMP(),
-                        i18n$t('Management Procedures. Median values over'),
-                        nOM(),
-                        i18n$t('Operating Models'))
-        )),
         plotOutput(ns('tradeoffplot'), height=plot_height_d(), width=plot_width_d())
       )
 

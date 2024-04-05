@@ -28,22 +28,24 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                           icon=icon('home')
                                           )
                  )
+      # fix a bug in icon
+      info_circle <- icon("info-circle")
+      info_circle$attribs$class <-  "fas fa-info-circle"
 
       if (Load_Slick_File$loaded >=1) {
         ll <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
                                             icon=icon('home')),
                    shinydashboard::menuItem(i18n$t("Overview"),
                                             tabName = "metadatatab",
-                                            icon = icon("info-circle")),
+                                            icon = info_circle
+                                            ),
                    shinydashboard::menuItem(i18n$t("Quilt and Trade-Off"),
                                             tabName = "quilt",
                                             icon = icon("table")),
                    shinydashboard::menuItem(i18n$t("Spider and Zigzag"),
                                             tabName = "spider",
                                             icon = icon("circle"))
-
         )
-
       }
       ll
     })

@@ -28,6 +28,8 @@ golem::add_module(name = "TradeOff_plot")
 golem::add_module(name = "Spider")
 golem::add_module(name = "Spider_plot")
 golem::add_module(name = "Spider_MP")
+golem::add_module(name = "Spider_OM")
+golem::add_module(name = "Spider_overall")
 
 golem::add_module(name = "Zigzag_plot")
 ## Add helper functions ----

@@ -1,0 +1,30 @@
+---
+title: "`r params$Metadata$Title`"
+subtitle:  "`r params$Metadata$Subtitle`"
+author: "`r params$Metadata$Author`"
+always_allow_html: yes
+output: word_document
+params:
+  Metadata: NA
+  Quilt: NA
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Introduction
+
+```{r, results='asis'}
+cat(markdown(params$Metadata$Introduction))
+```
+
+
+## Quilt Plot 
+
+```{r, fig.cap='test caption', fig.align='center'}
+
+knitr::kable(params$Quilt$plot[[1]])
+```

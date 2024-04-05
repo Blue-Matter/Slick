@@ -3369,21 +3369,6 @@ readers do not read off random characters that represent icons */
 .fa-holly-berry:before {
   content: "\f7aa"; }
 
-.fa-home:before {
-  content: "\f015"; }
-
-.fa-home-alt:before {
-  content: "\f80a"; }
-
-.fa-home-heart:before {
-  content: "\f4c9"; }
-
-.fa-home-lg:before {
-  content: "\f80b"; }
-
-.fa-home-lg-alt:before {
-  content: "\f80c"; }
-
 .fa-hood-cloak:before {
   content: "\f6ef"; }
 

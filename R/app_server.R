@@ -50,16 +50,39 @@ app_server <- function(input, output, session) {
   output$Loaded <- reactive({ Load_Slick_File$loaded })
   outputOptions(output, "Loaded", suspendWhenHidden = FALSE)
 
+  ## ---- Report ----
+  Report <- reactiveValues(Metadata=list(),
+                           Quilt=list(),
+                           Tradeoff=list(),
+                           Spider=list(),
+                           Zigzag=list())
+
+  # Report
+  observeEvent(Slick_Object(), {
+    i18n <- i18n()
+    slick <- Slick_Object()
+    # TODO:
+    # functions to extract metadata
+    # style word doc
+    # add MP, PM, and OM tables
+
+    Report$Metadata=list(Title=(Title(slick, i18n$get_translation_language())),
+                         Subtitle=Subtitle(slick, i18n$get_translation_language()),
+                         Author=Author(slick),
+                         Introduction=Introduction(slick))
+  })
+
   # ---- Module Servers ----
   mod_Resources_server('resources', i18n)
   mod_About_server("about", i18n)
   mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
-  mod_Home_server("home", i18n, Load_Slick_File, Slick_Object)
+  mod_Home_server("home", i18n, Load_Slick_File, Slick_Object, Report)
   mod_Metadata_server("metadata", i18n, Slick_Object)
   mod_MP_Info_server("MPheader", i18n, Slick_Object)
   mod_OM_Info_server("OMheader", i18n, Slick_Object)
   mod_PM_Info_server("PMheader", i18n, Slick_Object)
-  mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims)
+
+  mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims, Report)
   mod_Spider_server("Spider", i18n, Slick_Object, window_dims)
 
 }

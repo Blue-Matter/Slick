@@ -27,7 +27,13 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
                                         slot='Spider',
                                         parent_session=session)
 
-    mod_Spider_plot_server("Spider_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session)
+    mod_Spider_plot_server("Spider_plot_1",
+                           i18n,
+                           Slick_Object,
+                           Filter_Selected,
+                           parent_session=session,
+                           window_dims)
+
     mod_Zigzag_plot_server("Zigzag_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session)
 
     mod_toplink_server(id, links=list(hometab='Home',

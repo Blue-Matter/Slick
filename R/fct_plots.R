@@ -6,7 +6,7 @@ colorRampAlpha <- function(..., n, alpha) {
 
 
 
-plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL) {
+plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, dfonly=FALSE) {
 
   Values <- Value(quilt) |>
     apply(2:3, median) |>
@@ -24,6 +24,8 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL) {
 
   metadata_pm <- Metadata(quilt, lang)
   colnames(Values) <- metadata_pm$Code
+
+  if (dfonly) return(Values)
 
   cols <- c(MinColor(quilt), MaxColor(quilt))
 
@@ -86,34 +88,16 @@ plotTradeoff <- function(quilt, mps, XPM, YPM) {
   df$MP <- factor(df$MP, ordered = TRUE, levels=unique(df$MP))
 
   ggplot2::ggplot(df, ggplot2::aes(x=x, y=y, color=MP)) +
-    ggplot2::geom_point(size=2) +
+    ggplot2::geom_point(size=3) +
     ggplot2::theme_classic() +
     ggplot2::expand_limits(x=0, y=0) +
-    ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=4) +
+    ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=6) +
     ggplot2::scale_color_manual(values=df$Color) +
     ggplot2::guides(color='none') +
     ggplot2::labs(x=xlab, y=ylab) +
     ggplot2::theme(axis.title = ggplot2::element_text(size=16),
                    axis.text = ggplot2::element_text(size=12))
 
-}
-
-
-plotSpider <- function(spider) {
-
-  Values <- Value(quilt) |>
-    apply(2:3, median) |>
-    signif(3)
-  if (all(is.na(Values))) {
-    return(NULL)
-  }
-
-  if (is.null(MP_labels)) {
-    warning('`MP_labels` not provided. Using default names')
-    MP_labels <- paste('MP', 1:nrow(Values))
-  }
-
-  rownames(Values) <- MP_labels
 }
 
 
@@ -150,6 +134,90 @@ polyCoords <- function(n){
 get_luma <- function(rgb) {
   0.2126 * rgb[1] + 0.7152 * rgb[2] + 0.0722 * rgb[3]
 }
+
+
+pm_outline_plot <- function(n.PM,
+                            fill.col=NA,
+                            line.col='darkgrey',
+                            pt.col='darkgrey',
+                            text.col='white',
+                            maxVal=100,
+                            pt.cex=3) {
+  par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
+
+
+  vertices <- polyCoords(n.PM) * maxVal
+  plot(vertices, type="l", col=line.col, axes=FALSE, xlab="", ylab="", xpd=NA)
+  if (!is.na(fill.col))
+    polygon(vertices, col=fill.col, border=NA)
+
+  lines(vertices*0.66, type="l", col=line.col, xpd=NA)
+  lines(vertices*0.33, type="l", col=line.col, xpd=NA)
+  for (i in 1:(nrow(vertices)-1)) {
+    lines(x=c(0, vertices[i,1]),
+          y=c(0, vertices[i,2]), col=line.col)
+    points(x=vertices[i,1], y=vertices[i,2], pch=16, col=pt.col, cex=pt.cex, xpd=NA)
+    text(x=vertices[i,1], y=vertices[i,2], col=text.col, LETTERS[i], xpd=NA)
+  }
+}
+
+Spiderplot_single_OM <- function(Values_OM, MP_metadata, include_avg=TRUE) {
+
+  nMP <- nrow(Values_OM)
+  nPM <- ncol(Values_OM)
+  # Calculate mean over MPs
+  mean_over_MPs <- apply(Values_OM, 1, mean, na.rm=TRUE)
+  MP_order <- rev(order(mean_over_MPs))
+
+  vertices <- polyCoords(nPM) * 100
+
+  mean_MP_Text <- paste0(round(mean_over_MPs,0), '%')
+
+  highest_score <- Values_OM == max(Values_OM)
+
+  if(include_avg) {
+    text_color <- rep('black', length(mean_over_MPs))
+    rgbvals <- grDevices::col2rgb(MP_metadata$Color)
+    luma <- apply(rgbvals, 2, get_luma)
+    text_color[luma<40] <- 'lightgrey'
+  }
+
+  # plot controls
+  fill.col <- '#cccccc'
+  lwd <- 1
+  mplab.cex <- 2.5
+  pt.cex <- 2
+  pt.col <- 'darkred'
+
+  par(mfrow=c(nMP, 1), oma=c(0,0,0,0), mar=c(1,1,1,1), bg=NA)
+
+  # loop over MPs
+  if (all(is.finite(vertices))) {
+    for (r in MP_order) {
+      plot(vertices, type="l", col=fill.col, axes=FALSE, xlab="", ylab="")
+      polygon(vertices, col=fill.col, border=NA)
+
+      coords <- NULL
+      for (j in 1:nPM) {
+        pts <- calcCoord(vertices[j,], Values_OM[r,j])
+        coords <- rbind(coords, pts )
+      }
+      coords <- rbind(coords, coords[1,])
+      polygon(coords, col=MP_metadata$Color[r], border=NA)
+
+      for (j in 1:nPM) {
+        if (!is.na(highest_score[r,j]) & highest_score[r,j])
+          points(coords[j,], cex=pt.cex, col=pt.col, pch=16)
+      }
+      if (include_avg)
+        text(0,0, mean_MP_Text[r],
+             col=text_color[r], cex=mplab.cex, font=2)
+
+    }
+  }
+}
+
+
 
 Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE) {
 
@@ -188,7 +256,7 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
     text_color <- rep('black', length(mp.avg))
     rgbvals <- grDevices::col2rgb(cols)
     luma <- apply(rgbvals, 2, get_luma)
-    text_color[luma<50] <- 'lightgrey'
+    text_color[luma<40] <- 'lightgrey'
   }
 
   par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
@@ -211,6 +279,118 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
     text(0, 100, mp_labels[i], xpd=NA, col=cols[i], cex=mplab.cex,
          pos=3)
   }
+}
+
+
+Spiderplot_all_MPs <- function(slick, relative_scale=FALSE) {
+
+  # median across OMs
+  metadata_MP <- slick |> MPs() |> Metadata()
+  nMPs <- nrow(metadata_MP)
+
+  spider <- slick |> Spider()
+  Values <- spider |>
+    Value() |> apply(2:3, median, na.rm=TRUE)
+
+  metadata_PM <- spider |> Metadata()
+  nPMs <- nrow(metadata_PM)
+
+  if(relative_scale) {
+    # make all PMs relative to maximum and minimum values
+    Values <- apply(Values, 2, normalize) * 100
+    Values[!is.finite(Values)] <- 100
+  }
+
+  # plot controls
+  fill.col <- '#f2f3f5'
+  line.col <- 'white'
+  lwd <- 3
+
+  vertices <- polyCoords(nPMs) * 100
+  pm_outline_plot(nPMs, fill.col, 'black', 'darkgrey', 'white', 101, 5)
+
+  for (i in 1:nMPs) {
+    coords <- NULL
+    for (j in 1:nPMs) {
+      pts <- calcCoord(vertices[j,], Values[i,j])
+      coords <- rbind(coords, pts )
+    }
+    coords <- rbind(coords, coords[1,])
+    lines(coords, col=metadata_MP$Color[i], lwd=lwd)
+  }
+
+
+}
+
+
+spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
+
+  nSN <- nrow(Object$obj$OM$Design)
+  nSNs <- sum(SNkeep$selected)
+
+  nPMd <- dim(Object$obj$Perf$Det$Values)[3]
+  nPMds <- sum(Detkeep$selected)
+
+  nMP <- length(Object$obj$MP$Labels)
+  nMPs <- sum(MPkeep$selected)
+
+
+
+
+  # draw blank shape
+  if(nPMds >2) {
+    vertices <- polyCoords(nPMds) * 100
+    par(mfrow=c(1,1), mar=c(3,3,3,3), oma=c(2,2,2,2))
+    plot(vertices, type="l", col=fill.col, axes=FALSE, xlab="", ylab="")
+    polygon(vertices, col=fill.col, border=NA)
+    for (i in 1:nrow(vertices)) lines(c(0, vertices[i,1]), c(0, vertices[i,2]),
+                                      col=line.col)
+
+    # Calc median PM over OMs
+    pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), median, na.rm=TRUE)
+    pm <- pm[MPkeep$selected, Detkeep$selected, drop=FALSE]
+
+    if (SwitchScale$relative) {
+      # make all PMs relative to maximum and minimum values
+      normalize <- function(x) {
+        return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
+      }
+      if(nrow(pm)==1) {
+        pm <- normalize(pm) * 100
+      } else {
+        pm <- apply(pm, 2, normalize) * 100
+      }
+    }
+
+    # calculate coordinates for each MP
+    # & plot lines for each mp
+
+    cols <- Object$obj$Misc$Cols$MP[MPkeep$selected]
+    Codes <- Object$obj$Perf$Det$Codes[Detkeep$selected]
+    for (i in 1:nMPs) {
+      coords <- NULL
+      for (j in 1:nPMds) {
+        pts <- calcCoord(vertices[j,], pm[i,j])
+        coords <- rbind(coords, pts )
+      }
+      coords <- rbind(coords, coords[1,])
+      lines(coords, col=cols[i], lwd=lwd)
+    }
+
+    for (j in 1:nPMds) {
+      loc <- vertices[j,]
+      loc <- round(loc,0) *1.05#* c(1.05, 0.95)
+      if (loc[1]<0 & loc[2]<=0) pos <- 1
+      if (loc[1]<0 & loc[2]>0) pos <- 2
+      if (loc[1]>=0 & loc[2]>0) pos <- 3
+      if (loc[1]>=0 & loc[2]<=0) pos <- 4
+
+      txt <- Codes[j]
+      text(loc[1],loc[2], pos=pos, txt, xpd=NA, col='black', cex=MPtxt)
+
+    }
+  }
+
 }
 
 

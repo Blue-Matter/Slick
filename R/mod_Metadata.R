@@ -49,6 +49,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
     mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
 
+
     output$main <- renderUI({
       i18n <- i18n()
       tagList(
@@ -126,11 +127,11 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
         linklist <- append(linklist, info)
 
         info <- list(p(actionLink(ns('spider'), 'Spider: '),
-                       i18n$t('SHORT DESCRIPTION')))
+                       i18n$t('SHORT DESCRIPTION ...')))
         linklist <- append(linklist, info)
 
         info <- list(p(actionLink(ns('zigzag'), 'Zigzag: '),
-                       i18n$t('SHORT DESCRIPTION')))
+                       i18n$t('The information in Spider shown in an alternative way ...')))
         linklist <- append(linklist, info)
       }
 
@@ -141,14 +142,14 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     observeEvent(input$quilt,{
       shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
       shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"Quilt\"]').tab('show');")
+                     shinyjs::runjs("$('a[data-value=\"<h4>Quilt</h4>\"]').tab('show');")
       )
     }, ignoreInit =TRUE)
 
     observeEvent(input$tradeoff,{
       shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
       shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"Trade-Off\"]').tab('show');")
+                     shinyjs::runjs("$('a[data-value=\"<h4>Trade-Off</h4>\"]').tab('show');")
       )
     }, ignoreInit =TRUE)
 
@@ -156,7 +157,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     observeEvent(input$spider,{
       shinyjs::runjs("$('a[data-value=\"spider\"]').tab('show');")
       shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"h4>Spider</h4>\"]').tab('show');")
+                     shinyjs::runjs("$('a[data-value=\"<h4>Spider</h4>\"]').tab('show');")
       )
     }, ignoreInit =TRUE)
 

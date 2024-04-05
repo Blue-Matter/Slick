@@ -20,7 +20,9 @@ mod_Quilt_plot_ui <- function(id){
 #' Quilt_plot Server Functions
 #'
 #' @noRd
-mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session){
+mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
+                                  parent_session,
+                                  Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -64,29 +66,45 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, paren
       length(MP_labels())
     })
 
+
+    mod_subtitle_server(id, i18n, nOM, nMP)
+
     output$plot <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
 
       tagList(
         br(),
-        shinydashboard::box(width=12,
-                            collapsible = TRUE,
-                            status='primary',
-                            title=strong(i18n$t("READING THIS CHART")),
-                            uiOutput(ns('reading'))
-
+        column(12, mod_subtitle_ui(ns(id))
+               ),
+        column(2,
+               h4(strong(i18n$t("Reading this Chart"))),
+               htmlOutput(ns('reading'))
         ),
-        shinydashboard::box(width=12,
-                            status='primary',
-                            title=strong(paste(nMP(),
-                                               i18n$t('Management Procedures. Median values over'),
-                                               nOM(),
-                                               i18n$t('Operating Models'))
-                            ),
-                            plotQuilt(filtered_quilt(), MP_labels(), i18n$get_translation_language())
+        column(10,
+               shinyWidgets::actionBttn(ns('add_to_report'),
+                                        label=i18n$t('Add to Report'),
+                                        icon('pen'),
+                                        color='default',size='sm'),
+               plotQuilt(filtered_quilt(), MP_labels(), i18n$get_translation_language())
         )
       )
+    })
+
+    observeEvent(input$add_to_report, {
+      # modal
+      i18n <- i18n()
+      this_quilt <<- plotQuilt(filtered_quilt(),
+                              MP_labels(),
+                              i18n$get_translation_language(), TRUE)
+
+
+
+      Report$Quilt$plot <- list(this_quilt)
+
+      Report$Quilt$caption <- append(Report$Quilt$caption, 'This is the caption')
+
+      OUT <<- Report$Quilt
     })
 
     observeEvent(input$openfilter, {
@@ -96,13 +114,10 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, paren
     output$reading <- renderUI({
       i18n <- i18n()
       tagList(
-        column(6,
-               p(i18n$t('This table ...'))
-               ),
-        column(6,
-               p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
-                 i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators ...')
-               )
+        p(i18n$t('This table ...')),
+
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators ...')
         )
       )
     })
