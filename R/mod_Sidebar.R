@@ -23,8 +23,11 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
 
     menu_list <- reactive({
       i18n <- i18n()
-      ll <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
-                                          icon=icon('home')))
+      ll <- list(shinydashboard::menuItem(i18n$t('Home'),
+                                          tabName='hometab',
+                                          icon=icon('home')
+                                          )
+                 )
 
       if (Load_Slick_File$loaded >=1) {
         ll <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
@@ -35,13 +38,10 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                    shinydashboard::menuItem(i18n$t("Quilt and Trade-Off"),
                                             tabName = "quilt",
                                             icon = icon("table")),
-                   shinydashboard::menuItem("Deterministic",
-                                            icon = icon("chart-bar", verify_fa=FALSE),
-                                            startExpanded = TRUE,
-                                            shinydashboard::menuSubItem("Spider",
-                                                                        tabName = "spider",
-                                                                        icon = shiny::icon("angle-double-right",verify_fa = FALSE))
-                   )
+                   shinydashboard::menuItem(i18n$t("Spider and Zigzag"),
+                                            tabName = "spider",
+                                            icon = icon("circle"))
+
         )
 
       }

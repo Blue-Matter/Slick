@@ -120,6 +120,20 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
         linklist <- append(linklist, info)
       }
 
+      spider <- Spider(slick)
+      if (length(Value(spider))>0) {
+        info <- list(br())
+        linklist <- append(linklist, info)
+
+        info <- list(p(actionLink(ns('spider'), 'Spider: '),
+                       i18n$t('SHORT DESCRIPTION')))
+        linklist <- append(linklist, info)
+
+        info <- list(p(actionLink(ns('zigzag'), 'Zigzag: '),
+                       i18n$t('SHORT DESCRIPTION')))
+        linklist <- append(linklist, info)
+      }
+
       tagList(linklist)
     })
 
@@ -135,6 +149,21 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
       shinyjs::delay(30,
                      shinyjs::runjs("$('a[data-value=\"Trade-Off\"]').tab('show');")
+      )
+    }, ignoreInit =TRUE)
+
+
+    observeEvent(input$spider,{
+      shinyjs::runjs("$('a[data-value=\"spider\"]').tab('show');")
+      shinyjs::delay(30,
+                     shinyjs::runjs("$('a[data-value=\"h4>Spider</h4>\"]').tab('show');")
+      )
+    }, ignoreInit =TRUE)
+
+    observeEvent(input$zigzag,{
+      shinyjs::runjs("$('a[data-value=\"spider\"]').tab('show');")
+      shinyjs::delay(30,
+                     shinyjs::runjs("$('a[data-value=\"<h4>Zigzag</h4>\"]').tab('show');")
       )
     }, ignoreInit =TRUE)
 

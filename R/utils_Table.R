@@ -22,11 +22,12 @@ tableMPs <- function(MPs, lang) {
                                ordering=F)) |>
     DT::formatStyle(cnames[1],
                   color = DT::styleEqual(df[[cnames[1]]],
-                                     df$Color)) |>
-    DT::formatStyle(cnames[2],
-                    color = DT::styleEqual(df[[cnames[2]]],
-                                           df$Color)
-    )
+                                     df$Color))
+    #
+    # DT::formatStyle(cnames[2],
+    #                 color = DT::styleEqual(df[[cnames[2]]],
+    #                                        df$Color)
+    # )
 }
 
 tableOMs <- function(OMs, lang, type='factor') {

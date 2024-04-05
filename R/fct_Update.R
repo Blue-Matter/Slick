@@ -85,7 +85,8 @@ Update <- function(slick) {
                                  Description=slick_in$Perf$Det$Description,
                                  MinValue=0,
                                  MaxValue=1),
-                      slick_in$Perf$Det$Values)
+                        Value=slick_in$Perf$Det$Values,
+                        Tradeoff=list(slick_in$Perf$Det$Codes[1], slick_in$Perf$Det$Codes[2]))
 
   # Spider
   Spider(slick) <- Spider(data.frame(Code=slick_in$Perf$Det$Codes,

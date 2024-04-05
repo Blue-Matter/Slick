@@ -9,6 +9,10 @@ options(shiny.maxRequestSize=100000*1024^2)
 #' @noRd
 app_server <- function(input, output, session) {
 
+  # helper
+  shinyhelper::observe_helpers(help_dir=file.path(app_sys(), 'app/helpfiles'))
+
+
   # dimensions of the brower window
   window_dims <- reactive(input$dimension)
 
@@ -49,7 +53,6 @@ app_server <- function(input, output, session) {
   # ---- Module Servers ----
   mod_Resources_server('resources', i18n)
   mod_About_server("about", i18n)
-  mod_Filters_server("filters", i18n)
   mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
   mod_Home_server("home", i18n, Load_Slick_File, Slick_Object)
   mod_Metadata_server("metadata", i18n, Slick_Object)
@@ -57,5 +60,6 @@ app_server <- function(input, output, session) {
   mod_OM_Info_server("OMheader", i18n, Slick_Object)
   mod_PM_Info_server("PMheader", i18n, Slick_Object)
   mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims)
+  mod_Spider_server("Spider", i18n, Slick_Object, window_dims)
 
 }

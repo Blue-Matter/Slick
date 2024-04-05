@@ -1,7 +1,5 @@
-# build the Docker image from the base image 'openanalytics/r-base'
-# this is an Ubuntu 16.04 LTS with a recent R version.
-# this image is available on Docker hub at https://hub.docker.com/r/openanalytics/r-base/
-FROM openanalytics/r-base
+
+FROM rstudio/r-base:focal
 
 # add the maintainer of this Docker image (this should be you in this case)
 LABEL maintainer "Adrian Hordyk <adrian@bluematterscience.com>"

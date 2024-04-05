@@ -69,8 +69,8 @@ make_checkboxes <- function(object, ns) {
                          label='',
                          selected=selected,
                          inline=T,
-                         choiceNames=metadata$Label,
-                         choiceValues=seq_along(metadata$Label))
+                         choiceNames=metadata$Code,
+                         choiceValues=seq_along(metadata$Code))
     )
   }
   if (!is.null(metadata$Factor)) {

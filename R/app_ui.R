@@ -115,21 +115,6 @@ sidebar <- function() {
 # -- body ----
 body <- function() {
   shinydashboard::dashboardBody(
-
-    tags$head(
-      # includeScript(path = "/js/js4checkbox.js"),
-      # includeScript(path = "/js/index.js"),
-      tags$link(rel='stylesheet', type='text/css', href='styles.css'),
-      tags$link(href="fa/css/all.css", rel="stylesheet"), # font-awesome
-      tags$link(rel="shortcut icon", href="favicon.ico"),
-
-      tags$style(HTML("#SessionID{font-size:12px;}")),
-      tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
-        @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
-        /* Font of SLICK title */
-      "))
-
-    ),
     shinydashboard::tabItems(
       shinydashboard::tabItem(tabName = "hometab",
                               mod_Home_ui("home")
@@ -140,65 +125,10 @@ body <- function() {
       ),
       shinydashboard::tabItem(tabName = "quilt",
                               mod_Quilt_ui("Quilt")
-
+      ),
+      shinydashboard::tabItem(tabName = "spider",
+                              mod_Spider_ui("Spider")
       )
-
-      # # tabItem(tabName = "load",
-      # #         LoadUI('load')
-      # # ),
-      #
-      # # Deterministic
-      # shinydashboard::tabItem(tabName = "spider",
-      #         SpiderUI('spider')
-      # ),
-      # shinydashboard::tabItem(tabName = "spiderOM",
-      #         value='det',
-      #         Spider_OMUI('spiderOM')
-      # ),
-      # shinydashboard::tabItem(tabName = "zigzag",
-      #         ZigzagUI('zigzag')
-      # ),
-      # shinydashboard::tabItem(tabName = "rail",
-      #         RailUI('rail2')
-      # ),
-      # # Stochastic
-      # shinydashboard::tabItem(tabName = "boxplot",
-      #         value='stoch',
-      #         BoxplotUI('boxplot')
-      # ),
-      # shinydashboard::tabItem(tabName = "boxplotOM",
-      #         value='stoch',
-      #         Boxplot_OMUI('boxplotOM')
-      # ),
-      # shinydashboard::tabItem(tabName = "violin",
-      #         ViolinUI('violin')
-      # ),
-      # # Projected
-      # shinydashboard::tabItem(tabName = "kobe",
-      #         value='proj',
-      #         KobeUI('kobe')
-      # ),
-      # shinydashboard::tabItem(tabName = "kobetime",
-      #         value='proj',
-      #         KobeTimeUI('kobetime')
-      # ),
-      # shinydashboard::tabItem(tabName = "slope",
-      #         value='proj',
-      #         SlopeUI('slope')
-      # ),
-      # # State
-      # shinydashboard::tabItem(tabName = "line",
-      #         value='state',
-      #         LineUI('line')
-      # ),
-      # shinydashboard::tabItem(tabName = "lineOM",
-      #         value='state',
-      #         Line_OMUI('lineOM')
-      # ),
-      # shinydashboard::tabItem(tabName = "lineOMSim",
-      #         value='state',
-      #         Line_OMSimUI('lineOMSim')
-      # )
     )
   )
 }
@@ -250,8 +180,7 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "Slick"
     ),
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
+    # tags$link(href="all.css", rel="stylesheet"), # font-awesome
     fresh::use_theme(Slick_theme()),
     waiter::useWaiter(),
     shinyjs::useShinyjs(),
@@ -259,3 +188,18 @@ golem_add_external_resources <- function() {
 
   )
 }
+
+
+# tags$head(
+#   # includeScript(path = "/js/js4checkbox.js"),
+#   # includeScript(path = "/js/index.js"),
+#   tags$link(rel='stylesheet', type='text/css', href='styles.css'),
+#
+#   tags$link(rel="shortcut icon", href="favicon.ico"),
+#   tags$style(HTML("#SessionID{font-size:12px;}")),
+#   tags$style(HTML("/* https://fonts.google.com/?preview.text=SLICK&preview.text_type=custom */
+#         @import url('//fonts.googleapis.com/css?family=Cairo|Cabin:400,700');
+#         /* Font of SLICK title */
+#       "))
+#
+# ),

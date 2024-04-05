@@ -17,15 +17,18 @@ Imports:
     dplyr,
     DT,
     fresh,
+    ggplot2,
+    ggrepel,
     golem,
     grDevices,
     htmltools,
-    kableExtra,
-    knitr,
     shiny,
     shiny.i18n,
+    shinyalert,
+    shinycssloaders,
     shinydashboard,
     shinydashboardPlus,
+    shinyhelper,
     shinyjs,
     shinyWidgets,
     stringi,
@@ -33,6 +36,7 @@ Imports:
     waiter
 Suggests: 
     DiagrammeR,
+    knitr,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -71,7 +75,6 @@ Collate:
     'mod_About.R'
     'mod_Filter.R'
     'mod_Filter_select.R'
-    'mod_Filters.R'
     'mod_Home.R'
     'mod_MP_Info.R'
     'mod_Metadata.R'
@@ -82,6 +85,10 @@ Collate:
     'mod_Resources.R'
     'mod_Sidebar.R'
     'mod_Spider.R'
+    'mod_Spider_MP.R'
+    'mod_Spider_plot.R'
     'mod_TradeOff_plot.R'
+    'mod_Zigzag_plot.R'
+    'mod_subtitle.R'
     'mod_toplink.R'
     'utils_Table.R'

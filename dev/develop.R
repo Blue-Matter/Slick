@@ -16,9 +16,8 @@ golem::add_module(name = "Metadata")
 golem::add_module(name = "Filter")
 golem::add_module(name = "Filter_select")
 
-golem::add_module(name = "Filter_OM")
-golem::add_module(name = "Filter_MP")
-golem::add_module(name = "Filter_PM")
+golem::add_module(name = "subtitle")
+
 
 golem::add_module(name = "MP_Info")
 golem::add_module(name = "OM_Info")
@@ -27,7 +26,10 @@ golem::add_module(name = "Quilt")
 golem::add_module(name = "Quilt_plot")
 golem::add_module(name = "TradeOff_plot")
 golem::add_module(name = "Spider")
+golem::add_module(name = "Spider_plot")
+golem::add_module(name = "Spider_MP")
 
+golem::add_module(name = "Zigzag_plot")
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("wrapper_dropdownbutton")
@@ -40,7 +42,7 @@ golem::add_utils("Table", with_test = FALSE)
 ## Creates .js and .css files at inst/app/www
 golem::add_js_file("script")
 golem::add_js_handler("handlers")
-golem::add_css_file("custom")
+golem::add_css_file("styles")
 golem::add_sass_file("custom")
 
 ## Add internal datasets ----

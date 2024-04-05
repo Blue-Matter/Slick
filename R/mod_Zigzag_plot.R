@@ -1,4 +1,4 @@
-#' Filters UI Function
+#' Zigzag_plot UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,17 +7,17 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_Filters_ui <- function(id){
+mod_Zigzag_plot_ui <- function(id){
   ns <- NS(id)
   tagList(
 
   )
 }
 
-#' Filters Server Functions
+#' Zigzag_plot Server Functions
 #'
 #' @noRd
-mod_Filters_server <- function(id, i18n){
+mod_Zigzag_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, parent_session=session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -25,7 +25,7 @@ mod_Filters_server <- function(id, i18n){
 }
 
 ## To be copied in the UI
-# mod_Filters_ui("Filters_1")
+# mod_Zigzag_plot_ui("Zigzag_plot_1")
 
 ## To be copied in the server
-# mod_Filters_server("Filters_1")
+# mod_Zigzag_plot_server("Zigzag_plot_1")

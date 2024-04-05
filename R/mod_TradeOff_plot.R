@@ -70,14 +70,12 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       pm_codes <- PM_codes()
       tagList(
         br(),
-        # style='padding: 10px;',
-        shinydashboard::box(width=12,
-                            collapsible = TRUE,
+        shinydashboard::box(width=3,
                             status='primary',
                             title=strong(i18n$t("READING THIS CHART")),
                             uiOutput(ns('reading'))
         ),
-        shinydashboard::box(width=12,
+        shinydashboard::box(width=9,
                             status='primary',
                             title=strong(i18n$t('Trade-Off Plot')),
                             column(3, uiOutput(ns('pmselection'))),
@@ -89,16 +87,36 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     output$reading <- renderUI({
       i18n <- i18n()
       tagList(
-        column(6,
+        column(12,
                p('This chart plots the tradeoffs between two performance indicators for ',
-                                      nMP(), ' management procedures (MP). ...')
-        ),
-        column(6,
+                 nMP(), ' management procedures (MP). ...'),
+
                p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
                  i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
                )
         )
       )
+    })
+
+    initial_x <- reactive({
+      slick <- Slick_Object()
+      if (!is.null(slick)) {
+        quilt <- Quilt(slick)
+        if (length(Tradeoff(quilt))<1) {
+          return(PM_codes()[1])
+        }
+        Tradeoff(quilt)[[1]]
+      }
+    })
+
+    initial_y <- reactive({
+      if (!is.null(Slick_Object())) {
+        quilt <- Quilt(Slick_Object())
+        if (length(Tradeoff(quilt))<1) {
+          return(PM_codes()[2])
+        }
+        Tradeoff(quilt)[[2]]
+      }
     })
 
     output$pmselection <- renderUI({
@@ -109,13 +127,13 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
         shinyWidgets::pickerInput(
           inputId = ns('xPM'),
           label = i18n$t("X-Axis Performance Indicator"),
-          selected=pm_codes[1],
+          selected=initial_x(),
           choices = pm_codes
         ),
         shinyWidgets::pickerInput(
           inputId = ns('yPM'),
           label = i18n$t("Y-Axis Performance Indicator"),
-          selected=pm_codes[2],
+          selected=initial_y(),
           choices = pm_codes
         )
       )
@@ -129,7 +147,7 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
                         nOM(),
                         i18n$t('Operating Models'))
         )),
-        plotOutput(ns('tradeoffplot'), height=plot_height_d())
+        plotOutput(ns('tradeoffplot'), height=plot_height_d(), width=plot_width_d())
       )
 
     })
@@ -138,12 +156,17 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       dims <- window_dims()
       dims[1]*0.3
     })
+
     plot_height_d <- plot_height |> debounce(500)
+    plot_width_d <- reactive({
+      plot_height_d() * 1.25
+    })
+
 
     output$tradeoffplot <- renderPlot({
       plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)
     }, width=function() {
-      plot_height_d()
+      plot_width_d()
     }, height=function() {
       plot_height_d()
     })

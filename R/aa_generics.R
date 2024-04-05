@@ -81,6 +81,9 @@ setGeneric("Timeseries<-", function(x, value) standardGeneric("Timeseries<-"))
 setGeneric("Title", function(x, ...) standardGeneric("Title"))
 setGeneric("Title<-", function(x, value) standardGeneric("Title<-"))
 
+setGeneric("Tradeoff", function(x, ...) standardGeneric("Tradeoff"))
+setGeneric("Tradeoff<-", function(x, value) standardGeneric("Tradeoff<-"))
+
 setGeneric("Value", function(x, ...) standardGeneric("Value"))
 setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
@@ -268,6 +271,20 @@ setMethod("Table", "Quilt", function(x, lang=NULL) {
   tableOMs(x, lang, type)
 })
 
+#' @export
+setMethod("Tradeoff", "Quilt", function(x, ...) {
+  x@Tradeoff
+})
+
+#' @export
+setMethod("Tradeoff<-", "Quilt", function(x, value) {
+  x@Tradeoff <- value
+  validObject(x)
+  x
+})
+
+
+
 
 #' @export
 setMethod("Value", "Quilt", function(x) {x@Value})
@@ -428,6 +445,18 @@ setMethod("Title<-", "Slick", function(x, value) {
   x
 })
 
+#' @export
+setMethod("Tradeoff", "Slick", function(x, ...) {
+  x@Quilt@Tradeoff
+})
+
+#' @export
+setMethod("Tradeoff<-", "Slick", function(x, value) {
+  x@Quilt@Tradeoff <- value
+  validObject(x)
+  x
+})
+
 ## Spider ----
 
 #' @export
@@ -450,6 +479,18 @@ setMethod("Metadata", "Spider", function(x, lang=NULL) {
 #' @export
 setMethod("Metadata<-", "Spider", function(x, value) {
   x@Metadata <- value
+  x
+})
+
+#' @export
+setMethod("Preset", "Spider", function(x, ...) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Spider", function(x, value) {
+  x@Preset <- value
+  validObject(x)
   x
 })
 
