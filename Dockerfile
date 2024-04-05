@@ -1,5 +1,5 @@
 
-FROM rstudio/r-base:jammy
+FROM r-base
 
 # add the maintainer of this Docker image (this should be you in this case)
 LABEL maintainer "Adrian Hordyk <adrian@bluematterscience.com>"
