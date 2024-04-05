@@ -149,7 +149,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
-          slick <- get(case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)])
+          slick <- get(Slick::case_study_df$Object[match(Load_Slick_File$file, Slick::case_study_df$Example)])
           check_slick_file(slick)
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
