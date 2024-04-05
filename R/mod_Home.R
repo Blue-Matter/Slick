@@ -111,7 +111,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object){
       },
       content = function(file) {
         Name <- input$example_input
-        File <- case_study_df$Object [match(Name, case_study_df$Example)]
+        File <- Slick::case_study_df$Object [match(Name, Slick::case_study_df$Example)]
         obj <- get(File)
         obj <- Update(obj)
         saveRDS(obj, file)
