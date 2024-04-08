@@ -23,6 +23,9 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+    mod_Report_Add_server("tradeoffreport", i18n, parent_session=session, Report, plot_object)
+
     filtered_quilt <- reactive({
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
@@ -83,9 +86,32 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
                ),
         column(9,
                column(3, uiOutput(ns('pmselection'))),
-               column(9,uiOutput(ns('tradeoff')))
+               column(9,
+                      mod_Report_Add_Button_ui(ns('report_button')),
+                      uiOutput(ns('tradeoff'))
+                      )
                )
       )
+    })
+
+
+    observeEvent(button_pushed(), {
+      print('tradeoff report')
+      shiny::showModal(mod_Report_Add_ui(ns("tradeoffreport")))
+
+
+
+      # modal
+      # i18n <- i18n()
+      # this_quilt <- plotQuilt(filtered_quilt(),
+      #                         MP_labels(),
+      #                         i18n$get_translation_language(), TRUE)
+      #
+      # Report$Quilt$plot <- list(this_quilt)
+      #
+      # Report$Quilt$caption <- append(Report$Quilt$caption, 'This is the caption')
+      #
+      # OUT <<- Report$Quilt
     })
 
     output$reading <- renderUI({
@@ -160,6 +186,9 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       plot_height_d() * 1.25
     })
 
+    plot_object <- reactive({
+      plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)
+    })
 
     output$tradeoffplot <- renderPlot({
       plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)

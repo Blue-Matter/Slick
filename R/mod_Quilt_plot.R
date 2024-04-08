@@ -17,14 +17,40 @@ mod_Quilt_plot_ui <- function(id){
   )
 }
 
+
+add_Report_Modal <- function(ns, i18n) {
+  i18n <- i18n()
+  modalDialog(
+    size='m',
+    title=i18n$t('Add to Report'),
+    tagList(
+      textAreaInput(ns('captionText'),
+                    i18n$t('Description'),
+                    placeholder=i18n$t('Description or caption for chart'),
+                    width='100%',
+                    height='250px'
+                    )
+    ),
+    footer = tagList(
+      modalButton("Cancel"),
+      actionButton(ns("save_new"), "Add", icon=icon('pen'))
+    )
+  )
+}
+
+
 #' Quilt_plot Server Functions
 #'
 #' @noRd
 mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
                                   parent_session,
                                   Report){
-  moduleServer( id, function(input, output, session){
+  moduleServer(id, function(input, output, session){
+
     ns <- session$ns
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    mod_Report_Add_server("Report_Add_1", i18n, parent_session=session, Report)
 
     filtered_quilt <- reactive({
       slick <- Slick_Object()
@@ -49,7 +75,6 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
           Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
         }
       }
-
       quilt
     })
 
@@ -82,28 +107,44 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
                htmlOutput(ns('reading'))
         ),
         column(10,
-               shinyWidgets::actionBttn(ns('add_to_report'),
-                                        label=i18n$t('Add to Report'),
-                                        icon('pen'),
-                                        color='default',size='sm'),
+               mod_Report_Add_Button_ui(ns('report_button')),
                plotQuilt(filtered_quilt(), MP_labels(), i18n$get_translation_language())
         )
       )
     })
 
-    observeEvent(input$add_to_report, {
+    observeEvent(button_pushed(), {
+      print('quilt report')
+      shiny::showModal(mod_Report_Add_ui(ns("Report_Add_1")))
+
+
+
+
       # modal
-      i18n <- i18n()
-      this_quilt <- plotQuilt(filtered_quilt(),
-                              MP_labels(),
-                              i18n$get_translation_language(), TRUE)
-
-      Report$Quilt$plot <- list(this_quilt)
-
-      Report$Quilt$caption <- append(Report$Quilt$caption, 'This is the caption')
-
-      OUT <<- Report$Quilt
+      # i18n <- i18n()
+      # this_quilt <- plotQuilt(filtered_quilt(),
+      #                         MP_labels(),
+      #                         i18n$get_translation_language(), TRUE)
+      #
+      # Report$Quilt$plot <- list(this_quilt)
+      #
+      # Report$Quilt$caption <- append(Report$Quilt$caption, 'This is the caption')
+      #
+      # OUT <<- Report$Quilt
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     observeEvent(input$openfilter, {
       shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)

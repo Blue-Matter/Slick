@@ -31,6 +31,9 @@ golem::add_module(name = "Spider_MP")
 golem::add_module(name = "Spider_OM")
 golem::add_module(name = "Spider_overall")
 
+golem::add_module(name = "Report_Add")
+golem::add_module(name = "Report_Add_Button")
+
 golem::add_module(name = "Zigzag_plot")
 ## Add helper functions ----
 ## Creates fct_* and utils_*
