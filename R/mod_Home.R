@@ -129,8 +129,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       },
       content = function(file) {
         Name <- input$example_input
-        File <- Slick::case_study_df$Object [match(Name, Slick::case_study_df$Example)]
-        obj <- get(File)
+        File <- Slick::case_study_df$Object[match(Name, Slick::case_study_df$Example)]
+        obj <- readRDS(app_sys(paste0(File, '.rda')))
         obj <- Update(obj)
         saveRDS(obj, file)
       }
@@ -167,7 +167,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
-          slick <- get(Slick::case_study_df$Object[match(Load_Slick_File$file, Slick::case_study_df$Example)])
+          File <- Slick::case_study_df$Object[match(Load_Slick_File$file, Slick::case_study_df$Example)]
+          slick <- readRDS(app_sys(paste0(File, '.rda')))
           check_slick_file(slick)
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
