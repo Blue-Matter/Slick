@@ -38,6 +38,7 @@ golem::add_fct("wrapper_dropdownbutton")
 golem::add_fct("Check")
 golem::add_fct("plots")
 
+golem::add_utils("util", with_test = FALSE)
 golem::add_utils("Table", with_test = FALSE)
 
 ## External resources

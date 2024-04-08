@@ -94,11 +94,9 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
     observeEvent(input$add_to_report, {
       # modal
       i18n <- i18n()
-      this_quilt <<- plotQuilt(filtered_quilt(),
+      this_quilt <- plotQuilt(filtered_quilt(),
                               MP_labels(),
                               i18n$get_translation_language(), TRUE)
-
-
 
       Report$Quilt$plot <- list(this_quilt)
 

@@ -94,3 +94,4 @@ Collate:
     'mod_subtitle.R'
     'mod_toplink.R'
     'utils_Table.R'
+    'utils_util.R'

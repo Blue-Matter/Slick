@@ -40,7 +40,7 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
           column(6,
                  uiOutput(ns('overallscore')),
                  shinycssloaders::withSpinner(
-                   plotOutput(ns('spider_plot'), height='600px')
+                   plotOutput(ns('spider_plot'), height=plot_height())
                  )
           ),
           column(3,
@@ -55,15 +55,21 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       )
     })
 
+    plot_height_calc <- reactive({
+      dims <- window_dims()
+      dims[1]*0.4
+    })
+
+    plot_height <- plot_height_calc |> debounce(500)
+
     output$spider_plot <- renderPlot({
       if (!is.null(relative_scale()))
         Spiderplot_all_MPs(filtered_slick(), relative_scale=relative_scale())
     }, width=function() {
       dims <- window_dims()
-      dims[1]*0.4
+      plot_height()
     }, height=function() {
-      dims <- window_dims()
-      dims[1]*0.4
+      plot_height()
     })
 
     output$MPlist <- renderUI({

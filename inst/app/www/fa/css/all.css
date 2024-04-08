@@ -1503,6 +1503,9 @@ readers do not read off random characters that represent icons */
 .fa-circle-notch:before {
   content: "\f1ce"; }
 
+.fa-circle-question:before {
+  content: "\f059"; }
+
 .fa-city:before {
   content: "\f64f"; }
 

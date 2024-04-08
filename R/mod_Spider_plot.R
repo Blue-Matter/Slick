@@ -120,7 +120,7 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
         ),
         column(6,
                div(
-                 shinyhelper::helper(
+                 helper2(
                    shinyWidgets::switchInput(
                      inputId = ns("RS_button"),
                      handleWidth = 60,
@@ -129,7 +129,6 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
                      label=i18n$t('Relative Scale'),
                      width = "auto"
                    ),
-                   icon=icon('circle-question'),
                    content = get_relative_scale_md(),
                    size='s'),
                  style='float:right')
