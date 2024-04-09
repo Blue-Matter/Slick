@@ -99,7 +99,6 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
         shinydashboard::box(width=6,
                             status = "primary",
                             title=strong(i18n$t('About the Plots')),
-                            p('This Slick file includes the following plots:'),
                             uiOutput(ns('plotlinks'))
                             )
       )
@@ -112,18 +111,23 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
       quilt <- Quilt(slick)
       if (length(Value(quilt))>0) {
+
+        info <- list(strong(i18n$t('Quilt and Tradeoff')))
+        linklist <- append(linklist, info)
+
         info <- list(p(actionLink(ns('quilt'), 'Quilt: '),
                   i18n$t('A table of Performance Indicators for each Management Procedure')))
         linklist <- append(linklist, info)
 
-        info <- list(p(actionLink(ns('tradeoff'), 'Trade-Off: '),
+        info <- list(p(actionLink(ns('tradeoff'), 'TradeOff: '),
                   i18n$t('A scatter plot for two Performance Indicators included in the Quilt plot')))
         linklist <- append(linklist, info)
       }
 
       spider <- Spider(slick)
       if (length(Value(spider))>0) {
-        info <- list(br())
+        info <- list(br(),
+                     strong(i18n$t('Spider and Zigzag')))
         linklist <- append(linklist, info)
 
         info <- list(p(actionLink(ns('spider'), 'Spider: '),

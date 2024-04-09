@@ -39,12 +39,24 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                             tabName = "metadatatab",
                                             icon = info_circle
                                             ),
-                   shinydashboard::menuItem(i18n$t("Quilt and Trade-Off"),
+                   shinydashboard::menuItem(i18n$t("Quilt"),
                                             tabName = "quilt",
                                             icon = icon("table")),
-                   shinydashboard::menuItem(i18n$t("Spider and Zigzag"),
+                   shinydashboard::menuItem(i18n$t("Spider"),
                                             tabName = "spider",
-                                            icon = icon("circle"))
+                                            icon = icon("circle")),
+                   shinydashboard::menuItem(i18n$t("Boxplot"),
+                                            tabName = "boxplot",
+                                            icon = icon("square")),
+                   shinydashboard::menuItem(i18n$t("Kobe"),
+                                            tabName = "kobe",
+                                            icon = icon("border-all")),
+                   shinydashboard::menuItem(i18n$t("Line"),
+                                            tabName = "line",
+                                            icon = icon("chart-line")),
+                   shinydashboard::menuItem(i18n$t("Report"),
+                                            tabName = "report",
+                                            icon = icon("file"))
         )
       }
       ll

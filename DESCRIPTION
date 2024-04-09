@@ -84,6 +84,7 @@ Collate:
     'mod_Quilt_plot.R'
     'mod_Report_Add.R'
     'mod_Report_Add_Button.R'
+    'mod_Report_Page.R'
     'mod_Resources.R'
     'mod_Sidebar.R'
     'mod_Spider.R'

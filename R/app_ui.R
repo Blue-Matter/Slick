@@ -24,13 +24,7 @@ Slick_theme <- function() {
 
 # -- header ----
 header <- function() {
-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(set_translator()),
-                                                      # tags$a(href='https://harveststrategies.org/',
-                                                      #        target="_blank",
-                                                      #        tags$img(src='www/img/logo.png',
-                                                      #                 height = '50', width ='300')
-                                                      # ),
-  ),
+  dashboardHeader2(title = tagList(shiny.i18n::usei18n(set_translator())),
   leftUi = tagList(
     shinyWidgets::dropdownButton(
       label = "Switch Language",
@@ -128,6 +122,9 @@ body <- function() {
       ),
       shinydashboard::tabItem(tabName = "spider",
                               mod_Spider_ui("Spider")
+      ),
+      shinydashboard::tabItem(tabName = "report",
+                              mod_Report_Page_ui("Report_Page_1")
       )
     )
   )
@@ -181,6 +178,10 @@ golem_add_external_resources <- function() {
       app_title = "Slick"
     ),
     # tags$link(href="all.css", rel="stylesheet"), # font-awesome
+    tags$style(
+      type = 'text/css',
+      '.modal-dialog { width: fit-content !important; }'
+    ),
     fresh::use_theme(Slick_theme()),
     waiter::useWaiter(),
     shinyjs::useShinyjs(),

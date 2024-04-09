@@ -52,12 +52,16 @@ app_server <- function(input, output, session) {
 
   ## ---- Report ----
   Report <- reactiveValues(Metadata=list(),
-                           Quilt=list(),
-                           Tradeoff=list(),
-                           Spider=list(),
-                           Zigzag=list())
+                           Quilt=list(plot=list(), caption=list()),
+                           Tradeoff=list(plot=list(), caption=list()),
+                           Spider=list(plot=list(), caption=list()),
+                           Zigzag=list(plot=list(), caption=list()),
+                           Kobe=list(plot=list(), caption=list()))
 
-  # Report
+
+
+
+  # Report - Metadata & MP info etc
   observeEvent(Slick_Object(), {
     i18n <- i18n()
     slick <- Slick_Object()
@@ -77,6 +81,8 @@ app_server <- function(input, output, session) {
   mod_About_server("about", i18n)
   mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
   mod_Home_server("home", i18n, Load_Slick_File, Slick_Object, Report)
+  mod_Report_Page_server('Report_Page_1', i18n, Slick_Object, Report)
+
   mod_Metadata_server("metadata", i18n, Slick_Object)
   mod_MP_Info_server("MPheader", i18n, Slick_Object)
   mod_OM_Info_server("OMheader", i18n, Slick_Object)

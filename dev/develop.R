@@ -31,6 +31,7 @@ golem::add_module(name = "Spider_MP")
 golem::add_module(name = "Spider_OM")
 golem::add_module(name = "Spider_overall")
 
+golem::add_module(name = "Report_Page")
 golem::add_module(name = "Report_Add")
 golem::add_module(name = "Report_Add_Button")
 

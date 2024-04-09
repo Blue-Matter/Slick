@@ -5,29 +5,31 @@ colorRampAlpha <- function(..., n, alpha) {
 }
 
 
+quilt_kable <- function(Values, metadata_pm, cols) {
 
-plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, dfonly=FALSE) {
+  table <- flextable::flextable(data.frame(Values) |>
+                                  tibble::rownames_to_column('MP'))
 
-  Values <- Value(quilt) |>
-    apply(2:3, median) |>
-    signif(3)
-  if (all(is.na(Values))) {
-    return(NULL)
+
+  for (i in 1:ncol(Values)) {
+    minVal <- metadata_pm$MinValue[i]
+    maxVal <- max(metadata_pm$MaxValue[i], Values[,i])
+
+    cuts <- seq(minVal, maxVal, by=0.1*maxVal)
+    levels <- cut(Values[,i], breaks=cuts, include.lowest=TRUE) |> as.numeric()
+    colors <- rev(colorRampAlpha(cols, n=length(cuts)+1, alpha=0.5) )
+
+    table <-  table |>
+      flextable::bg(j=i+1, bg=colors[levels])
+
   }
 
-  if (is.null(MP_labels)) {
-    warning('`MP_labels` not provided. Using default names')
-    MP_labels <- paste('MP', 1:nrow(Values))
-  }
+  table
 
-  rownames(Values) <- MP_labels
 
-  metadata_pm <- Metadata(quilt, lang)
-  colnames(Values) <- metadata_pm$Code
+}
 
-  if (dfonly) return(Values)
-
-  cols <- c(MinColor(quilt), MaxColor(quilt))
+quilt_DT <- function(Values, metadata_pm, cols) {
 
   outable <-  DT::datatable(Values, extensions = 'Buttons',
                             options = list(dom = 'tB',
@@ -47,8 +49,7 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, dfonly=FALSE) {
     minVal <- metadata_pm$MinValue[i]
     maxVal <- metadata_pm$MaxValue[i]
 
-    cuts <- quantile(Values[,i], seq(minVal, maxVal, by=0.1)) |>
-      as.numeric()
+    cuts <- quantile(Values[,i], seq(0, 1, by=0.1)) |> as.numeric()
     values <- rev(colorRampAlpha(cols, n=length(cuts)+1, alpha=0.5) )
 
     outable <- outable |>
@@ -59,6 +60,37 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, dfonly=FALSE) {
       )
   }
   outable
+}
+
+plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, kable=FALSE) {
+
+  quilt <<- quilt
+  MP_labels <<- MP_labels
+  lang <<- lang
+  kable <<- kable
+
+  Values <- Value(quilt) |>
+    apply(2:3, median) |>
+    signif(3)
+  if (all(is.na(Values))) {
+    return(NULL)
+  }
+
+  if (is.null(MP_labels)) {
+    warning('`MP_labels` not provided. Using default names')
+    MP_labels <- paste('MP', 1:nrow(Values))
+  }
+
+  rownames(Values) <- MP_labels
+
+
+  metadata_pm <- Metadata(quilt, lang)
+  colnames(Values) <- metadata_pm$Code
+  cols <- c(MinColor(quilt), MaxColor(quilt))
+  if (kable) {
+    return(quilt_kable(Values, metadata_pm, cols))
+  }
+  quilt_DT(Values, metadata_pm, cols)
 }
 
 

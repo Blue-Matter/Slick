@@ -3,10 +3,15 @@ title: "`r params$Metadata$Title`"
 subtitle:  "`r params$Metadata$Subtitle`"
 author: "`r params$Metadata$Author`"
 always_allow_html: yes
-output: word_document
+output: html_document
 params:
+  output: NA
   Metadata: NA
   Quilt: NA
+  Tradeoff: NA
+  Spider: NA
+  Zigzag: NA
+  Kobe: NA
 ---
 
 
@@ -24,7 +29,6 @@ cat(markdown(params$Metadata$Introduction))
 
 ## Quilt Plot 
 
-```{r, fig.cap='test caption', fig.align='center'}
-
-knitr::kable(params$Quilt$plot[[1]])
+```{r}
+params$Quilt$plot[[1]] |> flextable::autofit()
 ```

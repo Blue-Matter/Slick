@@ -31,28 +31,11 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
             uiOutput(ns('welcome')),
             uiOutput(ns('howtouse')),
             uiOutput(ns('load')),
-            downloadButton(ns("report"), "Generate report"),
             id=ns('mainbox')
         )
       )
     })
 
-    output$report <- downloadHandler(
-      filename = "report.docx",
-      content = function(file) {
-
-        tempReport <- file.path(tempdir(), "Report_Template.Rmd")
-        file.copy(file.path(app_sys(), "Report_Template.Rmd"),
-                  tempReport, overwrite = TRUE)
-
-        params <<- list(Metadata=Report$Metadata)
-
-        rmarkdown::render(tempReport, output_file = file,
-                          params = params,
-                          envir = new.env(parent = globalenv())
-        )
-      }
-    )
 
     output$welcome <- renderUI({
       i18n <- i18n()
