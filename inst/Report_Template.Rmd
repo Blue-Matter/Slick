@@ -3,9 +3,11 @@ title: "`r params$Metadata$Title`"
 subtitle:  "`r params$Metadata$Subtitle`"
 author: "`r params$Metadata$Author`"
 always_allow_html: yes
-output: html_document
+output: 
+  word_document: default
+  html_document: default
+  pdf_document: default
 params:
-  output: NA
   Metadata: NA
   Quilt: NA
   Tradeoff: NA
@@ -23,12 +25,34 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Introduction
 
 ```{r, results='asis'}
-cat(markdown(params$Metadata$Introduction))
+cat(markdown(params$Metadata$Introduction), '\n')
+```
+
+```{r results='asis'}
+nms <- names(params)
+nms <- nms[!nms=='Metadata']
+
+for (p in nms) {
+  nplots <- length(params[[p]]$plot)
+  if (nplots>0) {
+    cat(paste('##', p), '\n')
+    for (l in 1:nplots) {
+      if (p =='Quilt') {
+        cat(knitr::knit_print(
+          params[[p]]$plot[[l]] |> flextable::autofit()
+        ))
+        
+        
+      } else {
+        print(params[[p]]$plot[[l]])
+      }
+      cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+    }
+  }
+}
+
 ```
 
 
-## Quilt Plot 
 
-```{r}
-params$Quilt$plot[[1]] |> flextable::autofit()
-```
+

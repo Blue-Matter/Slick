@@ -10,9 +10,9 @@
 mod_Report_Page_ui <- function(id){
   ns <- NS(id)
   tagList(
-    column(3, uiOutput(ns('controls'))),
-    column(9, uiOutput(ns('reportpreview')))
-
+    mod_toplink_ui(ns(id)),
+    column(2, uiOutput(ns('controls'))),
+    column(10, uiOutput(ns('reportpreview')))
   )
 }
 
@@ -23,35 +23,41 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    mod_toplink_server(id, links=list(hometab='Home',
+                                      metadatatab='Overview',
+                                      report='Report'))
 
-
-    # observe({
-    #   rep_list <- reactiveValuesToList(Report)
-    #   is_populated <- lapply(rep_list, lapply, length)
-    #   is_populated$Metadata <- NULL
-    #   Add_Report(sum(unlist(is_populated)))
-    # })
-
-
+    ready <- reactive({
+      is_populated <- lapply(reactiveValuesToList(Report), lapply, length)
+      is_populated$Metadata <- NULL
+      sum(unlist(is_populated))
+    })
 
     output$controls <- renderUI({
       i18n <- i18n()
-      tagList(
-        radioButtons(ns('format'), i18n$t('Report Format'),
-                     choiceNames=c('HTML', 'PDF', 'MS Word'),
-                     choiceValues=c('html', 'pdf', 'word')),
-        downloadButton(ns("report"), "Generate report")
-      )
+      if (ready()>0) {
+        tagList(
+          radioButtons(ns('format'), i18n$t('Report Format'),
+                       choiceNames=c('HTML', 'MS Word'),
+                       choiceValues=c('.html', '.docx')),
+          downloadButton(ns("report"), "Generate report")
+        )
+      }
     })
 
     output$reportpreview <- renderUI({
-      filename()
-      tagList(
-        uiOutput(ns('metadata')),
-        uiOutput(ns('quilt'))
+      i18n <- i18n()
+      if (ready()>0) {
+        tagList(
+          uiOutput(ns('metadata')),
+          uiOutput(ns('quilt'))
 
 
-      )
+        )
+      } else {
+        tagList(h3(i18n$t('Nothing added to Report yet')))
+      }
+
     })
 
     output$metadata <- renderUI({
@@ -76,47 +82,53 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
             Report$Quilt$caption[[x]]
           )
         })
+        tagList(
+          h3(i18n$t('Quilt')),
+          ll
+        )
       }
-      tagList(
-        h3(i18n$t('Quilt')),
-        ll
-      )
+
+
 
     })
 
-    output_type <- reactive({
+    extension <- reactive({
       req(input$format)
-      paste0(input$format, '_document')
+      input$format
     })
 
-    filename <- reactive({
+    output_format <- reactive({
       req(input$format)
-      if (input$format=='word')
-        return('Report.docx')
-      paste0('Report.',input$format)
+      if (input$format=='.docx')
+        return('word_document')
+      paste0(sub('.', '', input$format), "_document")
     })
 
 
     output$report <- downloadHandler(
-      filename = filename(),
+      filename = function() {
+        paste0('Slick Report ', Sys.Date(), extension())
+      },
       content = function(file) {
-
         tempReport <- file.path(tempdir(), "Report_Template.Rmd")
         file.copy(file.path(app_sys(), "Report_Template.Rmd"),
                   tempReport, overwrite = TRUE)
 
-        params <<- list(output=output_type(),
-                        Metadata=Report$Metadata,
+        params <<- list(Metadata=Report$Metadata,
                         Quilt=Report$Quilt,
                         Tradeoff=Report$Tradeoff,
                         Spider=Report$Spider,
-                        Zigzag=Report$Zigag)
+                        Zigzag=Report$Zigzag,
+                        Kobe=Report$Kobe)
 
-
-        rmarkdown::render(tempReport, output_file = file,
+        rmarkdown::render(tempReport,
+                          output_format = output_format(),
+                          output_file = file,
                           params = params,
-                          envir = new.env(parent = globalenv())
+                          quiet = TRUE,
+                          envir = new.env()
         )
+
       }
     )
 

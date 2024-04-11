@@ -65,15 +65,17 @@ app_server <- function(input, output, session) {
   observeEvent(Slick_Object(), {
     i18n <- i18n()
     slick <- Slick_Object()
-    # TODO:
-    # functions to extract metadata
-    # style word doc
-    # add MP, PM, and OM tables
-
-    Report$Metadata=list(Title=(Title(slick, i18n$get_translation_language())),
+    Report$Metadata <- list(Title=(Title(slick, i18n$get_translation_language())),
                          Subtitle=Subtitle(slick, i18n$get_translation_language()),
                          Author=Author(slick),
                          Introduction=Introduction(slick))
+
+    Report$Quilt <- list(plot=list(), caption=list())
+    Report$Tradeoff <- list(plot=list(), caption=list())
+    Report$Spider <- list(plot=list(), caption=list())
+    Report$Zigzag <- list(plot=list(), caption=list())
+    Report$Kobe <- list(plot=list(), caption=list())
+
   })
 
   # ---- Module Servers ----
