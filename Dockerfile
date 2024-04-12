@@ -16,12 +16,15 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libssh2-1-dev \
 	libfontconfig1-dev \
-	libxml2-dev
+	libxml2-dev \
+	libharfbuzz-dev \
+	libfribidi-dev
 
 	#libcurl4-gnutls-dev \
 
 # install basic shiny functionality to R
 RUN R -e "install.packages(c('shiny', 'rmarkdown', 'remotes'), repos='https://cloud.r-project.org/')"
+
 
 # install Slick
 RUN R -e "remotes::install_github('blue-matter/Slick', ref='dev', dependencies=TRUE)"
