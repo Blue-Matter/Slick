@@ -25,6 +25,15 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
     ns <- session$ns
 
     output$page <- renderUI({
+      # print('nOM')
+      # print(nOM())
+      #
+      # print('nMP')
+      # print(nMP())
+      #
+      # print('nPM')
+      # print(nPM())
+
       vals <- filtered_slick() |> Boxplot() |> Value()
 
       i18n <- i18n()
@@ -41,12 +50,21 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       )
     })
 
+    plot_width <- reactive({
+      paste0(nMP()*40, 'px')
+    })
+
+    plot_width_text <- reactive({
+      paste0('width: ', plot_width(), ';')
+
+    })
+
     output$results <- renderUI({
       plot_output_list <- lapply(1:nPM(), function(mm) {
         plotname <- paste("plot", mm, sep="")
-        shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='300px'))
+        shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
       })
-      plot_output_list$cellArgs=list(style = "width: 300px;")
+      plot_output_list$cellArgs=list(style = plot_width_text())
       do.call(flowLayout, plot_output_list)
     })
 
@@ -54,6 +72,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(filtered_slick())) {
         dd <- filtered_slick() |> Boxplot() |> Value() |>
           dim()
+
         if (dd[4]==nPM()) {
           for (i in 1:nPM()) {
             local({
@@ -65,9 +84,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
             })
           }
         }
-
       }
-
     })
 
 
@@ -110,7 +127,6 @@ BoxPlot <- function(slick, lang=NULL) {
 }
 
 BoxPlot_PM <- function(slick, pm) {
-
   boxplot <- slick |> Boxplot()
   values <- boxplot |> Value()
   dd <- dim(values)

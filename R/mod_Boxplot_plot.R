@@ -64,17 +64,17 @@ mod_Boxplot_plot_server <- function(id, i18n,
 
     dims <- reactive({
       d <- filtered_slick() |>
-        Spider() |>
+        Boxplot() |>
         Value() |>
         dim()
     })
 
     nOM <- reactive({
-      dims()[1]
+      dims()[2]
     })
 
     nPM <- reactive({
-      dims()[3]
+      dims()[4]
     })
 
     nMP <- reactive({
@@ -121,12 +121,12 @@ mod_Boxplot_plot_server <- function(id, i18n,
                  inputId = ns('plottype'),
                  choices = c(i18n$t('Boxplot'),
                              i18n$t('Violin'),
-                             i18n$t('Both')),
-                 checkIcon = list(
-                   yes = tags$i(class = "fa fa-check-square",
-                                style = "color: steelblue"),
-                   no = tags$i(class = "fa fa-square-o",
-                               style = "color: steelblue"))
+                             i18n$t('Both')) #,
+                 # checkIcon = list(
+                 #   yes = tags$i(class = "fa fa-check-square",
+                 #                style = "color: steelblue"),
+                 #   no = tags$i(class = "fa fa-square-o",
+                 #               style = "color: steelblue"))
 
                )
         ),

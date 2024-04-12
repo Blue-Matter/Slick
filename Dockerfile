@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
 	libfontconfig1-dev \
 	libxml2-dev \
 	libharfbuzz-dev \
-	libfribidi-dev
+	libfribidi-dev \
+	libtiff-4-dev
 
 	#libcurl4-gnutls-dev \
 
