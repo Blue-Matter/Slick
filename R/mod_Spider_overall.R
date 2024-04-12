@@ -35,7 +35,7 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
         fluidRow(
           column(3,
                  h4(strong(i18n$t("Reading this Chart"))),
-                 htmlOutput(ns('readingMP')),
+                 htmlOutput(ns('readingMP'))
           ),
           column(6,
                  uiOutput(ns('overallscore')),
@@ -127,14 +127,14 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
             p(i18n$t('Each value is the median performance indicator over '), nOM(),
               i18n$t(' operating models.')),
 
-            p(HTML('<i class="far fa-hexagon"></i>'),
+            p(tags$i(class="fa-regular fa-hexagon"),
               strong(i18n$t('The lines in the spider plot')),
               i18n$t('connect'), strong(i18n$t('individual scores')),
               i18n$t('of the performance indicators for each management procedure. Scores closer to the exterior edge indicate better performance.')
             ),
             p(i18n$t('Use the'), actionLink(ns('openfilter'),
                                             i18n$t('Filter'),
-                                            icon=icon('filter')),
+                                            icon=icon('fa-lg fa-filter', class='fa-regular')),
               i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
             )
           )

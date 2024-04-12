@@ -117,11 +117,23 @@ body <- function() {
                               mod_Metadata_ui("metadata")
 
       ),
+      shinydashboard::tabItem(tabName = "boxplot",
+                              mod_Boxplot_ui("Boxplot")
+      ),
+      shinydashboard::tabItem(tabName = "kobe",
+                              mod_Kobe_ui("Kobe")
+      ),
       shinydashboard::tabItem(tabName = "quilt",
                               mod_Quilt_ui("Quilt")
       ),
       shinydashboard::tabItem(tabName = "spider",
                               mod_Spider_ui("Spider")
+      ),
+      shinydashboard::tabItem(tabName = "timeseries",
+                              mod_Timeseries_ui("Timeseries")
+      ),
+      shinydashboard::tabItem(tabName = "tradeoff",
+                              mod_Tradeoff_ui("TradeOff")
       ),
       shinydashboard::tabItem(tabName = "report",
                               mod_Report_Page_ui("Report_Page_1")
@@ -139,9 +151,12 @@ body <- function() {
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  tagList(
+
+    tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+
+
 
     shinydashboardPlus::dashboardPage(
       header=header(),
@@ -182,6 +197,7 @@ golem_add_external_resources <- function() {
       type = 'text/css',
       '.modal-dialog { width: fit-content !important; }'
     ),
+    tags$script(src="https://kit.fontawesome.com/579eb08a76.js"),
     fresh::use_theme(Slick_theme()),
     waiter::useWaiter(),
     shinyjs::useShinyjs(),

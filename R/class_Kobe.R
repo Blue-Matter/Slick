@@ -9,7 +9,8 @@ Kobe <- setClass("Kobe",
                          TimeLab='character_list',
                          Value='array',
                          RefPoints='list',
-                         RefNames='list'
+                         RefNames='list',
+                         Preset='list'
                  )
 )
 
@@ -19,13 +20,15 @@ setMethod("initialize", "Kobe", function(.Object,
                                          TimeLab=NULL,
                                          Value=NULL,
                                          RefPoints=NULL,
-                                         RefNames=NULL) {
+                                         RefNames=NULL,
+                                         Preset=NULL) {
   .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Time <- use_ifnot_NULL('Time', Time, .Object)
   .Object@TimeLab <- use_ifnot_NULL('TimeLab', TimeLab, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
   .Object@RefPoints <- use_ifnot_NULL('RefPoints', RefPoints, .Object)
   .Object@RefNames <- use_ifnot_NULL('RefNames', RefNames, .Object)
+  .Object@Preset <- use_ifnot_NULL('Preset', Preset, .Object)
   .Object
 })
 
@@ -45,10 +48,11 @@ newKobe <- function(Metadata=NULL,
                     TimeLab=NULL,
                     Value=NULL,
                     RefPoints=NULL,
-                    RefNames=NULL) {
+                    RefNames=NULL,
+                    Preset=NULL) {
   Kobe <- new('Kobe',
               Metadata,
-              Time, TimeLab, Value, RefPoints, RefNames)
+              Time, TimeLab, Value, RefPoints, RefNames, Preset)
   validObject(Kobe)
   Kobe
 }

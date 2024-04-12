@@ -107,7 +107,7 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
         column(12,
                mod_subtitle_ui(ns(id))
         ),
-        column(6,
+        column(8,
                shinyWidgets::radioGroupButtons(
                  inputId = ns("plotselect"),
                  choiceNames = c(i18n$t('Overall'),
@@ -118,7 +118,7 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
                  justified = TRUE
                )
         ),
-        column(6,
+        column(4,
                div(
                  helper2(
                    shinyWidgets::switchInput(

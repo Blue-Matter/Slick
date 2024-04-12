@@ -87,6 +87,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
         ),
         column(10,
                mod_Report_Add_Button_ui(ns('report_button')),
+               br(),
                uiOutput(ns('quilttable'))
         )
       )
@@ -118,7 +119,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
       tagList(
         p(i18n$t('This table ...')),
 
-        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
           i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators ...')
         )
       )

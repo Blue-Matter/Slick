@@ -79,14 +79,29 @@ Update <- function(slick) {
 
   OMs(slick) <- oms
 
+  # Boxplot
+  Boxplot(slick) <- Boxplot(data.frame(Code=slick_in$Perf$Stoch$Codes,
+                                       Label=slick_in$Perf$Stoch$Labels,
+                                       Description=slick_in$Perf$Stoch$Description),
+                            slick_in$Perf$Stoch$Values)
+
+  # Kobe
+  Kobe(slick) <- Kobe(Metadata=data.frame(Code=slick_in$Perf$Proj$Codes,
+                                          Label=slick_in$Perf$Proj$Labels,
+                                          Description=slick_in$Perf$Proj$Description),
+                      Time=slick_in$Perf$Proj$Times,
+                      TimeLab=slick_in$Perf$Proj$Time_lab,
+                      Value=slick_in$Perf$Proj$Values,
+                      RefPoints=slick_in$Perf$Proj$RefPoints,
+                      RefName=slick_in$Perf$Proj$RefNames)
+
   # Quilt
   Quilt(slick) <- Quilt(data.frame(Code=slick_in$Perf$Det$Codes,
                                  Label=slick_in$Perf$Det$Labels,
                                  Description=slick_in$Perf$Det$Description,
                                  MinValue=0,
                                  MaxValue=1),
-                        Value=slick_in$Perf$Det$Values,
-                        Tradeoff=list(slick_in$Perf$Det$Codes[1], slick_in$Perf$Det$Codes[2]))
+                        Value=slick_in$Perf$Det$Values)
 
   # Spider
   Spider(slick) <- Spider(data.frame(Code=slick_in$Perf$Det$Codes,
@@ -96,21 +111,6 @@ Update <- function(slick) {
                                    MaxValue=1),
                         slick_in$Perf$Det$Values)
 
-  # Boxplot
-  Boxplot(slick) <- Boxplot(data.frame(Code=slick_in$Perf$Stoch$Codes,
-                                     Label=slick_in$Perf$Stoch$Labels,
-                                     Description=slick_in$Perf$Stoch$Description),
-
-                          slick_in$Perf$Stoch$Values)
-  # Kobe
-  Kobe(slick) <- Kobe(Metadata=data.frame(Code=slick_in$Perf$Proj$Codes,
-                               Label=slick_in$Perf$Proj$Labels,
-                               Description=slick_in$Perf$Proj$Description),
-                    Time=slick_in$Perf$Proj$Times,
-                    TimeLab=slick_in$Perf$Proj$Time_lab,
-                    Value=slick_in$Perf$Proj$Values,
-                    RefPoints=slick_in$Perf$Proj$RefPoints,
-                    RefName=slick_in$Perf$Proj$RefNames)
 
   # TimeSeries
   Timeseries(slick) <- Timeseries(Metadata=data.frame(Code=slick_in$StateVar$Codes,
@@ -123,6 +123,10 @@ Update <- function(slick) {
                                 RefPoints=slick_in$StateVar$RefPoints,
                                 RefName=slick_in$StateVar$RefNames)
 
-
+  # Tradeoff
+  Tradeoff(slick) <- Tradeoff(Metadata=data.frame(Code=slick_in$Perf$Det$Codes,
+                                                  Label=slick_in$Perf$Det$Labels,
+                                                  Description=slick_in$Perf$Det$Description),
+                              Value=slick_in$Perf$Det$Values)
   slick
 }

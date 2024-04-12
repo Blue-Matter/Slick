@@ -16,12 +16,14 @@ Imports:
     config,
     dplyr,
     DT,
+    flextable,
     fresh,
     ggplot2,
     ggrepel,
     golem,
     grDevices,
     htmltools,
+    rmarkdown,
     shiny,
     shiny.i18n,
     shinyalert,
@@ -32,12 +34,12 @@ Imports:
     shinyjs,
     shinyWidgets,
     stringi,
+    tibble,
     tools,
     waiter
 Suggests: 
     DiagrammeR,
     knitr,
-    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -52,6 +54,7 @@ Collate:
     'Slick_tools.R'
     'a_classunions.R'
     'class_Timeseries.R'
+    'class_Tradeoff.R'
     'class_Spider.R'
     'class_Kobe.R'
     'class_Boxplot.R'
@@ -73,9 +76,14 @@ Collate:
     'fct_wrapper_dropdownbutton.R'
     'misc.R'
     'mod_About.R'
+    'mod_Boxplot.R'
+    'mod_Boxplot_OM.R'
+    'mod_Boxplot_overall.R'
+    'mod_Boxplot_plot.R'
     'mod_Filter.R'
     'mod_Filter_select.R'
     'mod_Home.R'
+    'mod_Kobe.R'
     'mod_MP_Info.R'
     'mod_Metadata.R'
     'mod_OM_Info.R'
@@ -92,8 +100,9 @@ Collate:
     'mod_Spider_OM.R'
     'mod_Spider_overall.R'
     'mod_Spider_plot.R'
+    'mod_Timeseries.R'
     'mod_TradeOff_plot.R'
-    'mod_Zigzag_plot.R'
+    'mod_Tradeoff.R'
     'mod_subtitle.R'
     'mod_toplink.R'
     'utils_Table.R'

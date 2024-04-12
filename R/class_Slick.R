@@ -53,11 +53,12 @@ Slick <- setClass("Slick",
                  Introduction='character_list',
                  MPs='MPs',
                  OMs='OMs',
-                 Quilt='Quilt',
-                 Spider='Spider',
                  Boxplot='Boxplot',
                  Kobe='Kobe',
-                 Timeseries='Timeseries')
+                 Quilt='Quilt',
+                 Spider='Spider',
+                 Timeseries='Timeseries',
+                 Tradeoff='Tradeoff')
 )
 
 
@@ -71,11 +72,12 @@ setMethod("initialize", "Slick", function(.Object,
                                           Introduction=NULL,
                                           MPs=NULL,
                                           OMs=newOMs(),
-                                          Quilt=newQuilt(),
-                                          Spider=newSpider(),
                                           Boxplot=newBoxplot(),
                                           Kobe=newKobe(),
-                                          Timeseries=newTimeseries()) {
+                                          Quilt=newQuilt(),
+                                          Spider=newSpider(),
+                                          Timeseries=newTimeseries(),
+                                          Tradeoff=newTradeoff()) {
 
   .Object@Title <- use_ifnot_NULL('Title', Title, .Object)
   .Object@Subtitle <- use_ifnot_NULL('Subtitle', Subtitle, .Object)
@@ -86,11 +88,13 @@ setMethod("initialize", "Slick", function(.Object,
   .Object@Introduction <- use_ifnot_NULL('Introduction', Introduction, .Object)
   .Object@MPs <- use_ifnot_NULL('MPs', MPs, .Object)
   .Object@OMs <- use_ifnot_NULL('OMs', OMs, .Object)
-  .Object@Quilt <- use_ifnot_NULL('Quilt', Quilt, .Object)
-  .Object@Spider <- use_ifnot_NULL('Spider', Spider, .Object)
+
   .Object@Boxplot <- use_ifnot_NULL('Boxplot', Boxplot, .Object)
   .Object@Kobe <- use_ifnot_NULL('Kobe', Kobe, .Object)
+  .Object@Quilt <- use_ifnot_NULL('Quilt', Quilt, .Object)
+  .Object@Spider <- use_ifnot_NULL('Spider', Spider, .Object)
   .Object@Timeseries <- use_ifnot_NULL('Timeseries', Timeseries, .Object)
+  .Object@Tradeoff <- use_ifnot_NULL('Tradeoff', Tradeoff, .Object)
   .Object
 })
 
@@ -149,11 +153,12 @@ newSlick <- function(Title=NULL,
                      Introduction=NULL,
                      MPs=NULL,
                      OMs=NULL,
-                     Quilt=NULL,
-                     Spider=NULL,
                      Boxplot=NULL,
                      Kobe=NULL,
-                     Timeseries=NULL) {
+                     Quilt=NULL,
+                     Spider=NULL,
+                     Timeseries=NULL,
+                     Tradeoff=NULL) {
   obj <- new('Slick',
              Title,
              Subtitle,
@@ -164,11 +169,12 @@ newSlick <- function(Title=NULL,
              Introduction,
              MPs,
              OMs,
-             Quilt,
-             Spider,
              Boxplot,
              Kobe,
-             Timeseries)
+             Quilt,
+             Spider,
+             Timeseries,
+             Tradeoff)
 
   validObject(obj)
   obj

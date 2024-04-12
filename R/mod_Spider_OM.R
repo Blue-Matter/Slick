@@ -115,7 +115,8 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
 
             img(src='www/img/SpiderOM.jpg', width="100%"),
 
-            p(strong(i18n$t('The polygon edges in each chart')), i18n$t('connect'),
+            p(tags$i(class="fa-solid fa-hexagon"),
+              strong(i18n$t('The polygon edges in each chart')), i18n$t('connect'),
               strong(i18n$t('individual scores')),
               i18n$t('of the performance indicators for that management procedure.'),
               i18n$t('Points closer to the exterior edge indicate better performance.')),

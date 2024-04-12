@@ -28,35 +28,43 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                           icon=icon('home')
                                           )
                  )
-      # fix a bug in icon
-      info_circle <- icon("info-circle")
-      info_circle$attribs$class <-  "fas fa-info-circle"
 
       if (Load_Slick_File$loaded >=1) {
         ll <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
-                                            icon=icon('home')),
+                                            icon=icon('house')),
+
                    shinydashboard::menuItem(i18n$t("Overview"),
                                             tabName = "metadatatab",
-                                            icon = info_circle
+                                            icon = icon('info-circle')
                                             ),
-                   shinydashboard::menuItem(i18n$t("Quilt"),
-                                            tabName = "quilt",
-                                            icon = icon("table")),
-                   shinydashboard::menuItem(i18n$t("Spider"),
-                                            tabName = "spider",
-                                            icon = icon("circle")),
+
                    shinydashboard::menuItem(i18n$t("Boxplot"),
                                             tabName = "boxplot",
-                                            icon = icon("square")),
+                                            icon = icon("fa-regular fa-chart-candlestick")),
+
                    shinydashboard::menuItem(i18n$t("Kobe"),
                                             tabName = "kobe",
-                                            icon = icon("border-all")),
-                   shinydashboard::menuItem(i18n$t("Line"),
-                                            tabName = "line",
-                                            icon = icon("chart-line")),
+                                            icon = icon("table-cells-large")),
+
+                   shinydashboard::menuItem(i18n$t("Quilt"),
+                                            tabName = "quilt",
+                                            icon = icon("table-cells")),
+
+                   shinydashboard::menuItem(i18n$t("Spider"),
+                                            tabName = "spider",
+                                            icon = icon("fa-hexagon", class='fas')),
+
+                   shinydashboard::menuItem(i18n$t("Timeseries"),
+                                            tabName = "timeseries",
+                                            icon = icon("chart-line-up-down")),
+
+                   shinydashboard::menuItem(i18n$t("Tradeoff"),
+                                            tabName = "tradeoff",
+                                            icon = icon('chart-scatter')),
+
                    shinydashboard::menuItem(i18n$t("Report"),
                                             tabName = "report",
-                                            icon = icon("file"))
+                                            icon = icon("print"))
         )
       }
       ll

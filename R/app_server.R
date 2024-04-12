@@ -55,10 +55,8 @@ app_server <- function(input, output, session) {
                            Quilt=list(plot=list(), caption=list()),
                            Tradeoff=list(plot=list(), caption=list()),
                            Spider=list(plot=list(), caption=list()),
-                           Zigzag=list(plot=list(), caption=list()),
-                           Kobe=list(plot=list(), caption=list()))
-
-
+                           Kobe=list(plot=list(), caption=list()),
+                           Timeseries=list(plot=list(), caption=list()))
 
 
   # Report - Metadata & MP info etc
@@ -73,8 +71,8 @@ app_server <- function(input, output, session) {
     Report$Quilt <- list(plot=list(), caption=list())
     Report$Tradeoff <- list(plot=list(), caption=list())
     Report$Spider <- list(plot=list(), caption=list())
-    Report$Zigzag <- list(plot=list(), caption=list())
     Report$Kobe <- list(plot=list(), caption=list())
+    Report$Timeseries <- list(plot=list(), caption=list())
 
   })
 
@@ -90,7 +88,10 @@ app_server <- function(input, output, session) {
   mod_OM_Info_server("OMheader", i18n, Slick_Object)
   mod_PM_Info_server("PMheader", i18n, Slick_Object)
 
+  mod_Boxplot_server("Boxplot", i18n, Slick_Object, window_dims, Report)
   mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims, Report)
   mod_Spider_server("Spider", i18n, Slick_Object, window_dims)
+  mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report)
+
 
 }

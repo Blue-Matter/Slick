@@ -6,6 +6,7 @@
 #' @include class_Quilt.R
 #' @include class_Slick.R
 #' @include class_Spider.R
+#' @include class_Tradeoff.R
 #' @include class_Timeseries.R
 NULL
 
@@ -87,15 +88,15 @@ setGeneric("Tradeoff<-", function(x, value) standardGeneric("Tradeoff<-"))
 setGeneric("Value", function(x, ...) standardGeneric("Value"))
 setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
+setGeneric("X", function(x) standardGeneric("X"))
+setGeneric("X<-", function(x, value) standardGeneric("X<-"))
+
+setGeneric("Y", function(x) standardGeneric("Y"))
+setGeneric("Y<-", function(x, value) standardGeneric("Y<-"))
 
 # ---- setMethods -----
 
-## Boxplot ----
 
-#' @export
-setMethod("Metadata", "Boxplot", function(x, lang=NULL) {
-  get_language(x@Metadata, lang)
-})
 
 #' @export
 setMethod("Metadata<-", "Boxplot", function(x, value) {
@@ -209,6 +210,79 @@ setMethod("Table", "OMs", function(x, lang=NULL, type=NULL) {
 
 
 
+## Boxplot ----
+
+#' @export
+setMethod("Metadata", "Boxplot", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+})
+
+#' @export
+setMethod("Metadata<-", "Boxplot", function(x, value) {
+  x@Metadata <- value
+  x
+})
+
+#' @export
+setMethod("Preset", "Boxplot", function(x) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Boxplot", function(x, value) {
+  x@Preset <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Value", "Boxplot", function(x) {x@Value})
+
+#' @export
+setMethod("Value<-", "Boxplot", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
+})
+
+
+## Kobe ----
+
+#' @export
+setMethod("Metadata", "Kobe", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
+})
+
+#' @export
+setMethod("Metadata<-", "Kobe", function(x, value) {
+  x@Metadata <- value
+  x
+})
+
+#' @export
+setMethod("Preset", "Kobe", function(x) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Kobe", function(x, value) {
+  x@Preset <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Value", "Kobe", function(x) {x@Value})
+
+#' @export
+setMethod("Value<-", "Kobe", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
+})
+
+
+
 ## Quilt ----
 
 #' @export
@@ -244,12 +318,8 @@ setMethod("Metadata<-", "Quilt", function(x, value) {
 })
 
 #' @export
-setMethod("plot", "Quilt", function(x, type='quilt') {
-  if (type=='quilt')
-    plotQuilt(x, ...)
-  if (type=='tradeoff')
-    plotTradeoff(x, ...)
-
+setMethod("plot", "Quilt", function(x, ...) {
+ plotQuilt(x, ...)
 })
 
 #' @export
@@ -264,27 +334,10 @@ setMethod("Preset<-", "Quilt", function(x, value) {
   x
 })
 
-
-
 #' @export
 setMethod("Table", "Quilt", function(x, lang=NULL) {
-  tableOMs(x, lang, type)
+  tableQuilt(x, lang)
 })
-
-#' @export
-setMethod("Tradeoff", "Quilt", function(x, ...) {
-  x@Tradeoff
-})
-
-#' @export
-setMethod("Tradeoff<-", "Quilt", function(x, value) {
-  x@Tradeoff <- value
-  validObject(x)
-  x
-})
-
-
-
 
 #' @export
 setMethod("Value", "Quilt", function(x) {x@Value})
@@ -296,11 +349,6 @@ setMethod("Value<-", "Quilt", function(x, value) {
   x
 })
 
-
-#' @export
-setMethod("Table", "Quilt", function(x, lang=NULL) {
-  tableQuilt(x, lang)
-})
 
 
 ## Slick ----
@@ -446,17 +494,32 @@ setMethod("Title<-", "Slick", function(x, value) {
 })
 
 #' @export
-setMethod("Tradeoff", "Slick", function(x, ...) {
-  x@Quilt@Tradeoff
+setMethod("Timeseries","Slick",function(x, ...) x@Timeseries)
+
+#' @export
+setMethod("Timeseries", "Slick", function(x) {
+  x@Timeseries
+})
+
+#' @export
+setMethod("Timeseries<-", "Slick", function(x, value) {
+  x@Timeseries <- value
+  x
+})
+
+#' @export
+setMethod("Tradeoff","Slick",function(x, ...) x@Tradeoff)
+
+#' @export
+setMethod("Tradeoff", "Slick", function(x) {
+  x@Tradeoff
 })
 
 #' @export
 setMethod("Tradeoff<-", "Slick", function(x, value) {
-  x@Quilt@Tradeoff <- value
-  validObject(x)
+  x@Tradeoff <- value
   x
 })
-
 ## Spider ----
 
 #' @export
@@ -511,17 +574,62 @@ setMethod("Timeseries","missingOrNULL",function(x, ...) newTimeseries(...))
 #' @export
 setMethod("Timeseries","character",function(x, ...) newTimeseries(x, ...))
 
-#' @export
-setMethod("Timeseries","Slick",function(x, ...) x@Timeseries)
+
+
+## Tradeoff ----
 
 #' @export
-setMethod("Timeseries", "Slick", function(x) {
-  x@Timeseries
+setMethod("Tradeoff","character_list",function(x, ...) newTradeoff(x, ...))
+
+#' @export
+setMethod("Tradeoff","missingOrNULL",function(x, ...) newTradeoff(...))
+
+#' @export
+setMethod("Tradeoff","character",function(x, ...) newTradeoff(x, ...))
+
+#' @export
+setMethod("Metadata", "Tradeoff", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
 })
 
 #' @export
-setMethod("Timeseries<-", "Slick", function(x, value) {
-  x@Timeseries <- value
+setMethod("Value", "Tradeoff", function(x) {
+  x@Value
+})
+
+#' @export
+setMethod("X", "Tradeoff", function(x) {
+  x@X
+})
+
+#' @export
+setMethod("X<-", "Tradeoff", function(x, value=NULL) {
+  x@X <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Y", "Tradeoff", function(x) {
+  x@Y
+})
+
+#' @export
+setMethod("Y<-", "Tradeoff", function(x, value=NULL) {
+  x@Y <- value
+  validObject(x)
+  x
+})
+
+#' @export
+setMethod("Preset", "Tradeoff", function(x) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Tradeoff", function(x, value) {
+  x@Preset <- value
+  validObject(x)
   x
 })
 

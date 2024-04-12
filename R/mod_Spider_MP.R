@@ -113,7 +113,7 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
                      i18n$t(' performance indicators.'))),
             p(i18n$t('Each value is the median performance indicator over '), nOM(),
               i18n$t(' operating models.')),
-            p(HTML('<i class="fas fa-hexagon"></i>'),
+            p(HTML('<i class="fa-solid fa-hexagon"></i>'),
               i18n$t('The'), strong(i18n$t('filled plots')),
               i18n$t('represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. '),
               strong(i18n$t('Larger areas indicate better overall performance'))),

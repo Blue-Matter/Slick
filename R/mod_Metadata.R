@@ -36,7 +36,7 @@ mod_Metadata_ui <- function(id){
   ns <- NS(id)
   tagList(
     mod_toplink_ui(ns(id)),
-    uiOutput(ns('main'))
+    uiOutput(ns('page'))
   )
 }
 
@@ -50,57 +50,48 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
 
 
-    output$main <- renderUI({
+    output$page <- renderUI({
       i18n <- i18n()
+      slick <- Slick_Object()
       tagList(
         shinydashboard::box(title=h3(strong(i18n$t('Overview'))),
                             width=12,
                             solidHeader=TRUE,
                             status = "primary",
-                            uiOutput(ns('tabsetpanel'))
+                            tagList(
+                              column(8, uiOutput(ns('metadata'))),
+                              column(4, uiOutput(ns('plotinfo')))
+                              )
         )
       )
     })
 
-    # main tabBox panels ----
-    output$tabsetpanel <- renderUI({
-      i18n <- i18n()
-      tagList(
-        uiOutput(ns('metadata')),
-        uiOutput(ns('plotinfo'))
-      )
-    })
-
-    # ---- metadata tab ----
+    # ---- metadata ----
 
     output$metadata <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
       tagList(
-        shinydashboard::box(width=6, status = "primary",
-                            title=strong(Title(slick, i18n$get_translation_language())),
-                            strong(Subtitle(slick, i18n$get_translation_language())),
-                            p(strong(i18n$t('Created:')), Date(slick)),
-                            p(strong(i18n$t('Author:')), get_authors(slick)),
-                            p(strong(i18n$t('Institution:')), get_institution(slick)),
-                            h4(strong(i18n$t('Summary'))),
-                            shiny::markdown((Introduction(slick, i18n$get_translation_language())))
+        h3(Title(slick, i18n$get_translation_language())),
+        strong(Subtitle(slick, i18n$get_translation_language())),
+        p(strong(i18n$t('Created:')), Date(slick)),
+        p(strong(i18n$t('Author:')), get_authors(slick)),
+        p(strong(i18n$t('Institution:')), get_institution(slick)),
+        h4(strong(i18n$t('Summary'))),
+        shiny::markdown((Introduction(slick, i18n$get_translation_language())))
 
-        )
+
       )
     })
 
-    # ---- plotinfo tab ----
+    # ---- plotinfo ----
 
     output$plotinfo <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
       tagList(
-        shinydashboard::box(width=6,
-                            status = "primary",
-                            title=strong(i18n$t('About the Plots')),
-                            uiOutput(ns('plotlinks'))
-                            )
+        h3(i18n$t('About the Plots')),
+        uiOutput(ns('plotlinks'))
       )
     })
 
@@ -109,69 +100,71 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       i18n <- i18n()
       linklist <- list()
 
-      quilt <- Quilt(slick)
-      if (length(Value(quilt))>0) {
-
-        info <- list(strong(i18n$t('Quilt and Tradeoff')))
+      if (length(Value(Boxplot(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('boxplot'), 'Boxplot: ', icon("fa-regular fa-chart-candlestick")),
+                       i18n$t("SHORT DESCRIPTION")
+        ))
         linklist <- append(linklist, info)
+      }
 
-        info <- list(p(actionLink(ns('quilt'), 'Quilt: '),
+      if (length(Value(Kobe(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('kobe'), 'Kobe: ', icon("table-cells-large")),
+                       i18n$t("SHORT DESCRIPTION")
+        ))
+        linklist <- append(linklist, info)
+      }
+
+      if (length(Value(Quilt(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('quilt'), 'Quilt: ', icon("table-cells")),
                   i18n$t('A table of Performance Indicators for each Management Procedure')))
         linklist <- append(linklist, info)
+      }
 
-        info <- list(p(actionLink(ns('tradeoff'), 'TradeOff: '),
-                  i18n$t('A scatter plot for two Performance Indicators included in the Quilt plot')))
+      if (length(Value(Spider(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('spider'), 'Spider: ', icon("fa-hexagon", class='fas')),
+                       i18n$t("Also sometimes called a Radar chart, the Spider chart displays data across several dimensions")
+        ))
         linklist <- append(linklist, info)
       }
 
-      spider <- Spider(slick)
-      if (length(Value(spider))>0) {
-        info <- list(br(),
-                     strong(i18n$t('Spider and Zigzag')))
-        linklist <- append(linklist, info)
-
-        info <- list(p(actionLink(ns('spider'), 'Spider: '),
-                       i18n$t('SHORT DESCRIPTION ...')))
-        linklist <- append(linklist, info)
-
-        info <- list(p(actionLink(ns('zigzag'), 'Zigzag: '),
-                       i18n$t('The information in Spider shown in an alternative way ...')))
+      if (length(Value(Timeseries(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('timeseries'), 'Timeseries: ', icon("chart-line-up-down")),
+                       i18n$t("SHORT DESCRIPTION")
+        ))
         linklist <- append(linklist, info)
       }
 
+      if (length(Value(Tradeoff(Slick_Object())))>0) {
+        info <- list(p(actionLink(ns('tradeoff'), 'Tradeoff: ', icon("chart-scatter")),
+                       i18n$t('A scatter plot comparing two Performance Indicator')))
+        linklist <- append(linklist, info)
+      }
       tagList(linklist)
     })
 
+    observeEvent(input$boxplot,{
+      shinyjs::runjs("$('a[data-value=\"boxplot\"]').tab('show');")
+    }, ignoreInit =TRUE)
+
+    observeEvent(input$kobe,{
+      shinyjs::runjs("$('a[data-value=\"kobe\"]').tab('show');")
+    }, ignoreInit =TRUE)
 
     observeEvent(input$quilt,{
       shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"<h4>Quilt</h4>\"]').tab('show');")
-      )
     }, ignoreInit =TRUE)
-
-    observeEvent(input$tradeoff,{
-      shinyjs::runjs("$('a[data-value=\"quilt\"]').tab('show');")
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"<h4>Trade-Off</h4>\"]').tab('show');")
-      )
-    }, ignoreInit =TRUE)
-
 
     observeEvent(input$spider,{
       shinyjs::runjs("$('a[data-value=\"spider\"]').tab('show');")
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"<h4>Spider</h4>\"]').tab('show');")
-      )
     }, ignoreInit =TRUE)
 
-    observeEvent(input$zigzag,{
-      shinyjs::runjs("$('a[data-value=\"spider\"]').tab('show');")
-      shinyjs::delay(30,
-                     shinyjs::runjs("$('a[data-value=\"<h4>Zigzag</h4>\"]').tab('show');")
-      )
+    observeEvent(input$timeseries,{
+      shinyjs::runjs("$('a[data-value=\"timeseries\"]').tab('show');")
     }, ignoreInit =TRUE)
 
+    observeEvent(input$tradeoff,{
+      shinyjs::runjs("$('a[data-value=\"tradeoff\"]').tab('show');")
+    }, ignoreInit =TRUE)
 
 
   })

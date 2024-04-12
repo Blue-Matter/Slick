@@ -22,14 +22,29 @@ golem::add_module(name = "subtitle")
 golem::add_module(name = "MP_Info")
 golem::add_module(name = "OM_Info")
 golem::add_module(name = "PM_Info")
+
+
+golem::add_module(name = "Boxplot")
+golem::add_module(name = "Boxplot_plot")
+golem::add_module(name = "Boxplot_overall")
+golem::add_module(name = "Boxplot_OM")
+
 golem::add_module(name = "Quilt")
 golem::add_module(name = "Quilt_plot")
+
+golem::add_module(name = "Tradeoff")
 golem::add_module(name = "TradeOff_plot")
+
 golem::add_module(name = "Spider")
 golem::add_module(name = "Spider_plot")
 golem::add_module(name = "Spider_MP")
 golem::add_module(name = "Spider_OM")
 golem::add_module(name = "Spider_overall")
+
+
+golem::add_module(name = "Kobe")
+
+golem::add_module(name = "Timeseries")
 
 golem::add_module(name = "Report_Page")
 golem::add_module(name = "Report_Add")

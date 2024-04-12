@@ -26,28 +26,34 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
 
-    filtered_quilt <- reactive({
+    filtered_slick <- reactive({
+      if (is.null(Slick_Object())) return(NULL)
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
       selected_MPs <- Filter_Selected$MPs
-      quilt <- Quilt(slick)
 
-      dd <- dim(Value(quilt))
+      tradeoff <- Tradeoff(slick)
+
+      dd <- dim(Value(tradeoff))
       if (length(selected_OMs)==dd[1]) {
         # filter OMs
         if (!is.null(selected_OMs)) {
-          Value(quilt) <- Value(quilt)[selected_OMs,,, drop=FALSE]
+          Value(tradeoff) <- Value(tradeoff)[selected_OMs,,, drop=FALSE]
         }
         # filter MPs
         if (!is.null(selected_MPs)) {
-          Value(quilt) <- Value(quilt)[,selected_MPs,, drop=FALSE]
+          Value(tradeoff) <- Value(tradeoff)[,selected_MPs,, drop=FALSE]
+          metadata <- Metadata(MPs(slick))
+          Metadata(MPs(slick)) <- metadata[selected_MPs,]
         }
+
       }
-      quilt
+      Tradeoff(slick) <- tradeoff
+      slick
     })
 
     nOM <- reactive({
-      dim(Value(filtered_quilt()))[1]
+      dim(Value(filtered_slick()))[1]
     })
 
     filtered_MPs <- reactive({
@@ -61,20 +67,17 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
 
 
     pm_metadata <- reactive({
-      Metadata(Quilt(Slick_Object()))
+      Metadata(Tradeoff(Slick_Object()))
     })
 
     PM_codes <- reactive({
       pm_metadata()[['Code']]
     })
 
-
     mod_subtitle_server(id, i18n, nOM, nMP)
 
     output$plot <- renderUI({
       i18n <- i18n()
-      quilt <- filtered_quilt()
-      pm_codes <- PM_codes()
       tagList(
         br(),
         column(12,
@@ -96,10 +99,7 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
 
 
     observeEvent(button_pushed(), {
-      print('tradeoff report')
       shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
-
-
     })
 
     output$reading <- renderUI({
@@ -109,7 +109,7 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
         p('This chart plots the tradeoffs between two performance indicators for ',
           nMP(), ' management procedures (MP). ...'),
 
-        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('filter')),
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
           i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
         )
 
@@ -119,21 +119,22 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     initial_x <- reactive({
       slick <- Slick_Object()
       if (!is.null(slick)) {
-        quilt <- Quilt(slick)
-        if (length(Tradeoff(quilt))<1) {
+        x <- X(Tradeoff(slick))
+        if (length(x)<1) {
           return(PM_codes()[1])
         }
-        Tradeoff(quilt)[[1]]
+        x
       }
     })
 
     initial_y <- reactive({
-      if (!is.null(Slick_Object())) {
-        quilt <- Quilt(Slick_Object())
-        if (length(Tradeoff(quilt))<1) {
+      slick <- Slick_Object()
+      if (!is.null(slick)) {
+        y <- Y(Tradeoff(slick))
+        if (length(y)<1) {
           return(PM_codes()[2])
         }
-        Tradeoff(quilt)[[2]]
+        y
       }
     })
 

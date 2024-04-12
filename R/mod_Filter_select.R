@@ -168,16 +168,12 @@ mod_Filter_select_server <- function(id, i18n, Slick_Object, slot){
       presets <- Preset(object())
       ll <- NULL
 
-      # fix for FA 5
-      arrows_icon <-  icon("arrows")
-      arrows_icon$attribs$class <- "fas fa-arrows"
-
       if (length(presets)>0) {
         btn_names <- names(presets)
         ll <- lapply(1:length(presets), function(i) {
           shinyWidgets::actionBttn(ns(paste0("preset",i)),
                                    label=btn_names[i],
-                                   arrows_icon,
+                                   icon=icon('fa-arrows-rotate', class='fa-solid'),
                                    color='default',size='sm')
         })
       }

@@ -34,7 +34,6 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
                            parent_session=session,
                            window_dims)
 
-    mod_Zigzag_plot_server("Zigzag_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session)
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
@@ -46,16 +45,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Spider and Zigzag'))),
-                                shiny::tabsetPanel(id=ns('spider_tabs'),
-                                                   shiny::tabPanel(h4(i18n$t('Spider')),
-                                                                   mod_Spider_plot_ui(ns("Spider_plot_1"))
-                                                   ),
-                                                   shiny::tabPanel(h4(i18n$t('Zigzag')),
-                                                                   mod_Zigzag_plot_ui(ns("Zigzag_plot_1"))
-                                                   )
-
-                                ),
+                                title=h3(strong(i18n$t('Spider'))),
+                                mod_Spider_plot_ui(ns("Spider_plot_1")),
                                 sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
                                                                          icon=icon('filter'),
                                                                          column(12, align = 'left', class='multicol',
