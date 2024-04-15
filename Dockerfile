@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 	libxml2-dev \
 	libharfbuzz-dev \
 	libfribidi-dev \
-	libtiff-4-dev
+	libtiff4-dev
 
 	#libcurl4-gnutls-dev \
 
