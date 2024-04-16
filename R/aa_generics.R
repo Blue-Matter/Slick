@@ -76,6 +76,13 @@ setGeneric("Subtitle<-", function(x, value) standardGeneric("Subtitle<-"))
 
 setGeneric("Table", function(x, ...) standardGeneric("Table"))
 
+setGeneric("Time", function(x, ...) standardGeneric("Time"))
+setGeneric("Time<-", function(x, value) standardGeneric("Time<-"))
+
+setGeneric("TimeLab", function(x, ...) standardGeneric("TimeLab"))
+setGeneric("TimeLab<-", function(x, value) standardGeneric("TimeLab<-"))
+
+
 setGeneric("Timeseries", function(x, ...) standardGeneric("Timeseries"))
 setGeneric("Timeseries<-", function(x, value) standardGeneric("Timeseries<-"))
 
@@ -270,6 +277,30 @@ setMethod("Preset<-", "Kobe", function(x, value) {
   validObject(x)
   x
 })
+
+#' @export
+setMethod("Time", "Kobe", function(x) {x@Time})
+
+#' @export
+setMethod("Time<-", "Kobe", function(x, value) {
+  x@Time <- value
+  validObject(x)
+  x
+})
+
+
+#' @export
+setMethod("TimeLab", "Kobe", function(x) {x@TimeLab})
+
+#' @export
+setMethod("TimeLab<-", "Kobe", function(x, value) {
+  x@TimeLab <- value
+  validObject(x)
+  x
+})
+
+
+
 
 #' @export
 setMethod("Value", "Kobe", function(x) {x@Value})

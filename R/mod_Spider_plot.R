@@ -151,24 +151,6 @@ mod_Spider_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
       input$RS_button
     })
 
-
-    # output$mainplot <- renderUI({
-    #   tagList(
-    #     conditionalPanel(condtion="input.plotselect=='bymp'", ns=ns,
-    #
-    #                      mod_Spider_MP_ui(ns("Spider_MP_1"))
-    #     ),
-    #     conditionalPanel(condtion="input.plotselect=='byom'", ns=ns,
-    #                      p('By OM!')
-    #     ),
-    #     conditionalPanel(condtion="input.plotselect=='overall'", ns=ns,
-    #                      p('Overall!')
-    #     )
-    #   )
-    # })
-
-
-
   })
 }
 

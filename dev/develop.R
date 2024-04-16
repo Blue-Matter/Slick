@@ -23,11 +23,12 @@ golem::add_module(name = "MP_Info")
 golem::add_module(name = "OM_Info")
 golem::add_module(name = "PM_Info")
 
-
 golem::add_module(name = "Boxplot")
-golem::add_module(name = "Boxplot_plot")
 golem::add_module(name = "Boxplot_overall")
 golem::add_module(name = "Boxplot_OM")
+
+golem::add_module(name = "Kobe")
+
 
 golem::add_module(name = "Quilt")
 golem::add_module(name = "Quilt_plot")
@@ -56,6 +57,8 @@ golem::add_module(name = "Zigzag_plot")
 golem::add_fct("wrapper_dropdownbutton")
 golem::add_fct("Check")
 golem::add_fct("plots")
+
+golem::add_fct("Kobe_plot")
 
 golem::add_utils("util", with_test = FALSE)
 golem::add_utils("Table", with_test = FALSE)

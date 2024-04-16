@@ -10,7 +10,7 @@
 mod_Boxplot_OM_ui <- function(id){
   ns <- NS(id)
   tagList(
-
+    uiOutput(ns('page'))
   )
 }
 
@@ -18,9 +18,162 @@ mod_Boxplot_OM_ui <- function(id){
 #'
 #' @noRd
 mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
-                                  nOM, nMP, nPM, parent_session){
+                                  plottype,
+                                  nOM, nMP, nPM, parent_session,
+                                  window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    output$page <- renderUI({
+      vals <- filtered_slick() |> Boxplot() |> Value()
+
+      i18n <- i18n()
+      tagList(
+        fluidRow(
+          column(2,
+                 h4(strong(i18n$t("Reading this Chart"))),
+                 htmlOutput(ns('reading'))
+          ),
+          column(10,
+                 uiOutput(ns('results'))
+          )
+        )
+      )
+    })
+
+    plot_width_calc <- reactive({
+      dd <<- window_dims()
+      val <- dd[1] * 0.6
+      paste0(val, 'px')
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
+
+    plot_width_text <- reactive({
+      paste0('width: ', plot_width(), ';')
+
+    })
+
+    output$selectedtype <- reactive({
+      plottype()
+    })
+
+    outputOptions(output, "selectedtype", suspendWhenHidden = FALSE)
+
+    output$results <- renderUI({
+      tagList(
+        conditionalPanel("output.selectedtype=='1'", ns=ns,
+                         uiOutput(ns('boxplots'))
+        ),
+        conditionalPanel("output.selectedtype=='2'", ns=ns,
+                         uiOutput(ns('violins'))
+        ),
+        conditionalPanel("output.selectedtype=='3'", ns=ns,
+                         uiOutput(ns('both'))
+        )
+      )
+    })
+
+
+    output$boxplots <- renderUI({
+      if (!is.null(make_plots())) {
+        plot_output_list <- lapply(1:nPM(), function(mm) {
+          plotname <- paste("boxplot", mm, sep="")
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+        })
+        plot_output_list$cellArgs=list(style = plot_width_text())
+        do.call(flowLayout, plot_output_list)
+      }
+    })
+
+    output$violins <- renderUI({
+      if (!is.null(make_plots())) {
+        plot_output_list <- lapply(1:nPM(), function(mm) {
+          plotname <- paste("violin", mm, sep="")
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+        })
+        plot_output_list$cellArgs=list(style = plot_width_text())
+        do.call(flowLayout, plot_output_list)
+      }
+    })
+
+    output$both <- renderUI({
+      if (!is.null(make_plots())) {
+        plot_output_list <- lapply(1:nPM(), function(mm) {
+          plotname <- paste("both", mm, sep="")
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+        })
+        plot_output_list$cellArgs=list(style = plot_width_text())
+        do.call(flowLayout, plot_output_list)
+      }
+    })
+
+    make_plots <- reactive({
+      if (is.null(filtered_slick()))
+        return(NULL)
+      dd <- filtered_slick() |> Boxplot() |> Value() |>
+        dim()
+      plot_list <- list()
+      if (dd[4]==nPM()) {
+        for (i in 1:nPM()) {
+          plot_list[[i]] <- BoxPlot(filtered_slick(), i, 'all', TRUE)
+        }
+      }
+      plot_list
+    })
+
+    observeEvent(make_plots(), {
+      thisplot <- make_plots()
+      for (i in 1:nPM()) {
+        local({
+          my_i <- i
+          plotname <- paste("boxplot", my_i, sep="")
+          output[[plotname]] <- renderPlot({
+            thisplot[[my_i]][[1]]
+          })
+
+          plotname <- paste("violin", my_i, sep="")
+          output[[plotname]] <- renderPlot({
+            thisplot[[my_i]][[2]]
+          })
+
+          plotname <- paste("both", my_i, sep="")
+          output[[plotname]] <- renderPlot({
+            thisplot[[my_i]][[3]]
+          })
+        })
+      }
+    })
+
+    observeEvent(input$openfilter, {
+      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
+    })
+
+    output$reading <- renderUI({
+      i18n <- i18n()
+      mp_metadata <- filtered_slick() |> MPs() |> Metadata()
+
+      icon_text <- paste('<i class="fas fa-circle fa-sm" style="color:', mp_metadata$Color, ';"></i>', mp_metadata$Label, '<br/>')
+      icon_text <- paste(icon_text, collapse=" ")
+      tagList(
+        p(strong('Key'), br(),
+          i18n$t('Management Procedure'),
+          br(),
+          HTML(icon_text)),
+        p(
+          i18n$t('This chart compares the performance of '), nMP(),
+          i18n$t(' management procedures (MP) for '), nOM(),
+          i18n$t(' operating models.')
+        ),
+        p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance')
+        ),
+        img(src='www/img/Boxplot.jpg', width='100%')
+      )
+    })
+
+
+
+
 
   })
 }

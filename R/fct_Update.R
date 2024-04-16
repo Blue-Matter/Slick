@@ -16,8 +16,9 @@
 
 
 
-#  slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
-
+#  slick <- obj <-  readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
+# slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick'))
+# slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/SLICKobj.rda'))
 
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
@@ -86,14 +87,18 @@ Update <- function(slick) {
                             slick_in$Perf$Stoch$Values)
 
   # Kobe
+  targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
+  limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
+
   Kobe(slick) <- Kobe(Metadata=data.frame(Code=slick_in$Perf$Proj$Codes,
                                           Label=slick_in$Perf$Proj$Labels,
-                                          Description=slick_in$Perf$Proj$Description),
+                                          Description=slick_in$Perf$Proj$Description,
+                                          Target=unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind)),
+                                          Limit=unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', limit_ind))
+                                          ),
                       Time=slick_in$Perf$Proj$Times,
                       TimeLab=slick_in$Perf$Proj$Time_lab,
-                      Value=slick_in$Perf$Proj$Values,
-                      RefPoints=slick_in$Perf$Proj$RefPoints,
-                      RefName=slick_in$Perf$Proj$RefNames)
+                      Value=slick_in$Perf$Proj$Values)
 
   # Quilt
   Quilt(slick) <- Quilt(data.frame(Code=slick_in$Perf$Det$Codes,

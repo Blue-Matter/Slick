@@ -53,13 +53,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
                                                                                 mod_Filter_ui(ns(id))
                                                                          )
                                 )
-        ) %>% { # not working for some reason
-          htmltools::tagQuery(.)$
-            find("filtersidebar")$
-            removeAttrs("data-original-title")$
-            addAttrs(`data-original-title`="Filters")$
-            allTags()
-        }
+        )
       )
     })
 

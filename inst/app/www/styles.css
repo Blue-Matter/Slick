@@ -257,8 +257,12 @@ pre {
 .bootstrap-switch .bootstrap-switch-label {
     display: inline-block;
     vertical-align: baseline;
-
+}
 
 .box {
    box-shadow: none !important;
+}
+
+.direct-chat-contacts {
+  z-index: 2 !important;
 }

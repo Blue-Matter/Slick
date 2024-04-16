@@ -19,7 +19,6 @@ mod_Quilt_ui <- function(id){
 }
 
 #' Quilt Server Functions
-#' @importFrom dplyr %>%
 #' @noRd
 mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
   moduleServer( id, function(input, output, session){
@@ -49,13 +48,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                                                                 mod_Filter_ui(ns(id))
                                                                                 )
                                 )
-        ) %>% {
-          htmltools::tagQuery(.)$
-            find("#filtersidebar")$
-            removeAttrs("data-original-title")$
-            addAttrs(`data-original-title`="Filters")$
-            allTags()
-        }
+        )
       )
     })
 
