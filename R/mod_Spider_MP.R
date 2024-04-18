@@ -114,13 +114,11 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
             p(i18n$t('Each value is the median performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(HTML('<i class="fa-solid fa-hexagon"></i>'),
-              i18n$t('The'), strong(i18n$t('filled plots')),
-              i18n$t('represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. '),
-              strong(i18n$t('Larger areas indicate better overall performance'))),
-            p(i18n$t('These summary values'), strong(i18n$t('assume equal weighting and equal scaling of performance indicators.'))),
+              i18n$t('The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance')),
+            p(i18n$t('These summary values assume equal weighting and equal scaling of performance indicators.')),
             p(i18n$t('Use the'), actionLink(ns('openfilter'),
                                             i18n$t('Filter'),
-                                            icon=icon('filter')),
+                                            icon=icon('fa-lg fa-filter', class='fa-regular')),
               i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
             )
 

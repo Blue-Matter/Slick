@@ -25,16 +25,14 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
     ns <- session$ns
 
     output$page <- renderUI({
-      vals <- filtered_slick() |> Boxplot() |> Value()
-
       i18n <- i18n()
       tagList(
         fluidRow(
-          column(2,
+          column(3,
                  h4(strong(i18n$t("Reading this Chart"))),
                  htmlOutput(ns('reading'))
           ),
-          column(10,
+          column(9,
                  uiOutput(ns('results'))
                  )
         )
@@ -47,7 +45,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
 
 
     plot_width_text <- reactive({
-      paste0('width: ', plot_width(), ';')
+      paste0('width: ', plot_width(), '; height: 320px;')
 
     })
 
@@ -77,7 +75,9 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("boxplot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname),
+                                                  width=plot_width(),
+                                                  height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -88,7 +88,8 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("violin", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+                                                  height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -99,7 +100,8 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("both", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+                                                  height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -167,6 +169,9 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
           ),
         p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance')
           ),
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
+          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
+        ),
         img(src='www/img/Boxplot.jpg', width='100%')
       )
     })
@@ -233,7 +238,7 @@ BoxPlot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'), byO
                                     ggplot2::aes(x=MP, ymin=low2, ymax=upp2, color=MP)) +
     ggplot2::geom_pointrange(data = box_df,
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1, color=MP, fill=MP),
-                             linewidth = 2, shape = 21, inherit.aes = FALSE, size=2)
+                             linewidth = 2, shape = 21, inherit.aes = FALSE, size=1.5)
 
   if (byOM)
     p1 <- p1 + ggplot2::facet_wrap(~OM)

@@ -30,11 +30,11 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       i18n <- i18n()
       tagList(
         fluidRow(
-          column(2,
+          column(3,
                  h4(strong(i18n$t("Reading this Chart"))),
                  htmlOutput(ns('reading'))
           ),
-          column(10,
+          column(9,
                  uiOutput(ns('results'))
           )
         )
@@ -50,8 +50,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     plot_width <- plot_width_calc |> debounce(500)
 
     plot_width_text <- reactive({
-      paste0('width: ', plot_width(), ';')
-
+      paste0('width: ', plot_width(), '; height: 420px;')
     })
 
     output$selectedtype <- reactive({
@@ -166,6 +165,9 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
           i18n$t(' operating models.')
         ),
         p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance')
+        ),
+        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
+          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
         ),
         img(src='www/img/Boxplot.jpg', width='100%')
       )

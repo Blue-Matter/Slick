@@ -23,8 +23,8 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
+    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
 
     filtered_slick <- reactive({
       if (is.null(Slick_Object())) return(NULL)
@@ -53,7 +53,8 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     })
 
     nOM <- reactive({
-      dim(Value(filtered_slick()))[1]
+      dd <- filtered_slick() |> Tradeoff() |> Value() |> dim()
+      dd[1]
     })
 
     filtered_MPs <- reactive({
@@ -87,20 +88,18 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
                h4(strong(i18n$t("Reading this Chart"))),
                htmlOutput(ns('reading'))
                ),
-        column(9,
-               column(3, uiOutput(ns('pmselection'))),
-               column(9,
-                      mod_Report_Add_Button_ui(ns('report_button')),
-                      uiOutput(ns('tradeoff'))
-                      )
-               )
+        column(6,
+               mod_Report_Add_Button_ui(ns('report_button')),
+               plotOutput(ns('tradeoffplot'), height=plot_height_d(), width=plot_width_d())
+        ),
+        column(3, uiOutput(ns('pmselection')))
       )
     })
 
 
-    observeEvent(button_pushed(), {
-      shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
-    })
+    # observeEvent(button_pushed(), {
+    #   shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    # })
 
     output$reading <- renderUI({
       i18n <- i18n()
@@ -110,32 +109,35 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
           nMP(), ' management procedures (MP). ...'),
 
         p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
-          i18n$t('button to filter the Management Procedures and Operating Models used in this plot.  ...')
+          i18n$t('button to filter the Management Procedures and Operating Models used in this plot.')
         )
 
       )
     })
 
-    initial_x <- reactive({
+
+    initial_selected <- reactive({
       slick <- Slick_Object()
       if (!is.null(slick)) {
-        x <- X(Tradeoff(slick))
-        if (length(x)<1) {
-          return(PM_codes()[1])
-        }
-        x
+        return(Selected(Tradeoff(slick)))
       }
+      NULL
+    })
+
+    initial_x <- reactive({
+      selected <- initial_selected()
+      if (length(selected>0)) {
+        return(selected[1])
+      }
+      PM_codes()[1]
     })
 
     initial_y <- reactive({
-      slick <- Slick_Object()
-      if (!is.null(slick)) {
-        y <- Y(Tradeoff(slick))
-        if (length(y)<1) {
-          return(PM_codes()[2])
-        }
-        y
+      selected <- initial_selected()
+      if (length(selected>1)) {
+        return(selected[2])
       }
+      PM_codes()[2]
     })
 
     output$pmselection <- renderUI({
@@ -158,12 +160,6 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
       )
     })
 
-    output$tradeoff <- renderUI({
-      tagList(
-        plotOutput(ns('tradeoffplot'), height=plot_height_d(), width=plot_width_d())
-      )
-
-    })
 
     plot_height <- reactive({
       dims <- window_dims()
@@ -176,11 +172,11 @@ mod_TradeOff_plot_server <- function(id, i18n, Slick_Object, Filter_Selected, pa
     })
 
     plot_object <- reactive({
-      plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)
+      plotTradeoff(filtered_slick(), filtered_MPs(), input$xPM, input$yPM)
     })
 
     output$tradeoffplot <- renderPlot({
-      plotTradeoff(filtered_quilt(), filtered_MPs(), input$xPM, input$yPM)
+      plotTradeoff(filtered_slick(), filtered_MPs(), input$xPM, input$yPM)
     }, width=function() {
       plot_width_d()
     }, height=function() {

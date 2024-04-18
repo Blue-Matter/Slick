@@ -8,11 +8,22 @@
 Kobe_plot <- function(slick, xvar=1, yvar=2,
                       ts=NA,
                       xmax=2, ymax=2,
-                      inc_line=TRUE) {
+                      inc_line=TRUE,
+                      percentile=0.9) {
+
+  if (is.null(percentile)) {
+    quants <- NULL
+  } else {
+    quants <- c((1- percentile)/2, 1-(1- percentile)/2)
+  }
+
 
   kobe <- Kobe(slick)
   metadata <- Metadata(kobe)
-  times <- Time(kobe)
+  times <- Time(kobe)[[1]]
+
+  x_targ <- metadata$Target[xvar]
+  y_targ <- metadata$Target[yvar]
 
   mp_metadata <- slick |> MPs() |> Metadata()
   mp_names <- factor(mp_metadata$Code, ordered = TRUE, levels=mp_metadata$Code)
@@ -25,8 +36,6 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
   nyears <- dd[5]
   if (is.na(ts))
     ts <- nyears
-
-
 
   # background colors
   BL <- data.frame(x=c(0,x_targ,x_targ,0),
@@ -48,14 +57,14 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
   bgCols <- c("#F8DC7A", "#D8775D", '#FDBD56', '#67C18B')
 
   p <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data=bgDF, ggplot2::aes(x=x, y=y, fill=lab), alpha=0.4) +
+    ggplot2::geom_polygon(data=bgDF, ggplot2::aes(x=x, y=y, fill=lab), alpha=0.75) +
     ggplot2::scale_fill_manual(values=bgCols) +
     ggplot2::guides(fill="none", label="none") +
     ggplot2::scale_x_continuous(expand = c(0, 0)) +
     ggplot2::scale_y_continuous(expand = c(0, 0)) +
+    ggplot2::theme_classic() +
     ggplot2::labs(x=metadata$Label[xvar],
                   y=metadata$Label[yvar])
-
 
   df <- data.frame(x=as.vector(apply(values[,,,xvar,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
                    y=as.vector(apply(values[,,,yvar,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
@@ -69,8 +78,8 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
   cur_df <- df |> dplyr::filter(time==max(time))
 
   p <- p + ggplot2::geom_point(data=cur_df,
-                          ggplot2::aes(x=x, y=y, color=MP),
-                 size=4) +
+                               ggplot2::aes(x=x, y=y, color=MP),
+                               size=4) +
     ggplot2::scale_color_manual(values=mp_metadata$Color) +
     ggrepel::geom_text_repel(data=cur_df,
                              ggplot2::aes(x=x, y=y, color=MP, label=MP),
@@ -78,9 +87,34 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
     ggplot2::guides(color='none') +
     ggplot2::coord_cartesian(clip='off')
 
+  # error bars
+  if (!is.null(quants)) {
+    final_ts <- which.max(times)
+    XError <- data.frame(x=as.vector(apply(values[,,,xvar,final_ts, drop=FALSE], 3,
+                                           quantile, quants, na.rm=TRUE)),
+                         y=rep(cur_df$y, each=2),
+                         MP=rep(cur_df$MP, each=2))
+
+    YError <- data.frame(x=rep(cur_df$x,each=2),
+                         y=as.vector(apply(values[,,,yvar,final_ts, drop=FALSE], 3,
+                                           quantile, quants, na.rm=TRUE)),
+                         MP=rep(cur_df$MP, each=2))
+
+    XError$x[XError$x >xmax ] <- xmax
+    YError$y[YError$y >ymax ] <- ymax
+
+
+    p <- p +
+      ggplot2::geom_line(data=XError, ggplot2::aes(x=x, y=y, group=MP),
+                         color='white', linetype='dotted', size=1) +
+      ggplot2::geom_line(data=YError, ggplot2::aes(x=x, y=y, group=MP),
+                         color='white', linetype='dotted', linewidth=1)
+  }
+
+
   if (inc_line) {
     p <- p +
-      ggplot2::geom_line(data=df, ggplot2::aes(x=x, y=y, color=MP)) +
+      ggplot2::geom_path(data=df, ggplot2::aes(x=x, y=y, color=MP)) +
       ggplot2::geom_point(data=cur_df,
                           ggplot2::aes(x=x, y=y, color=MP),
                           size=4) +
@@ -92,3 +126,55 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
     text = ggplot2::element_text(size=20)
   )
 }
+
+
+Kobe_time_plot <- function(slick, mp=1, xvar=1, yvar=2) {
+  kobe <- Kobe(slick)
+  metadata <- Metadata(kobe)
+  times <- Time(kobe)[[1]]
+
+  x_targ <- metadata$Target[xvar]
+  y_targ <- metadata$Target[yvar]
+
+  values <- kobe |> Value()
+
+
+
+  mp_metadata <- slick |> MPs() |> Metadata()
+  mp_names <- mp_metadata$Label
+  # make data.frame
+  kobe_time_list <- list()
+  for (ts in seq_along(times)) {
+    bl <- mean(values[,,mp,xvar,ts] <= x_targ &  values[,,mp,yvar,ts] <= y_targ)
+    br <- mean(values[,,mp,xvar,ts] > x_targ &  values[,,mp,yvar,ts] <= y_targ)
+    tl <- mean(values[,,mp,xvar,ts] <= x_targ &  values[,,mp,yvar,ts] > y_targ)
+    tr <- mean(values[,,mp,xvar,ts] > x_targ &  values[,,mp,yvar,ts] > y_targ)
+    kobe_time_list[[ts]] <-  data.frame(x=times[ts], y=c(bl, br, tl, tr), quadrant=c('bl', 'br', 'tl', 'tr'),
+                                        MP=mp_names[mp])
+  }
+
+  kobe_time_df <- do.call('rbind', kobe_time_list)
+  kobe_time_df$quadrant <- factor(kobe_time_df$quadrant, ordered = TRUE,
+                                  levels=c('br', 'tr', 'bl', 'tl'))
+
+  cols <- c( '#67C18B',  '#FDBD56', "#F8DC7A", "#D8775D")
+
+  p1 <- ggplot2::ggplot(kobe_time_df, ggplot2::aes(x=x, y=y, fill=quadrant)) +
+    ggplot2::geom_bar(position="stack", stat="identity", width = 1) +
+    ggplot2::scale_fill_manual(values=cols) +
+    ggplot2::scale_x_continuous(expand = c(0, 0)) +
+    ggplot2::scale_y_continuous(expand = c(0, 0), labels = scales::percent) +
+    ggplot2::guides(fill='none') +
+    ggplot2::expand_limits(y=1) +
+    ggplot2::labs(x=names(Time(kobe))[1],
+                  y='',
+                  title=mp_names[mp]) +
+    ggplot2::theme(axis.text = ggplot2::element_text(size=12),
+                   axis.title = ggplot2::element_text(size=14),
+                   plot.title = ggplot2::element_text(size=16, face='bold'))
+
+  p1
+
+}
+
+

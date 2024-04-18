@@ -5,31 +5,22 @@
 #'
 Timeseries <- setClass("Timeseries",
                        slots=c(Metadata='dataframe_list',
-                               Time='numeric',
-                               TimeNow='numeric',
-                               TimeLab='character_list',
+                               Time='dataframe_list',
                                Value='array',
-                               RefPoints='list',
-                               RefNames='list'
+                               Preset='list'
                        )
 )
 
 setMethod("initialize", "Timeseries", function(.Object,
                                                Metadata=NULL,
                                                Time=NULL,
-                                               TimeNow=NULL,
-                                               TimeLab=NULL,
                                                Value=NULL,
-                                               RefPoints=NULL,
-                                               RefNames=NULL) {
+                                               Preset=NULL) {
 
   .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
   .Object@Time <- use_ifnot_NULL('Time', Time, .Object)
-  .Object@TimeNow <- use_ifnot_NULL('TimeNow', TimeNow, .Object)
-  .Object@TimeLab <- use_ifnot_NULL('TimeLab', TimeLab, .Object)
   .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
-  .Object@RefPoints <- use_ifnot_NULL('RefPoints', RefPoints, .Object)
-  .Object@RefNames <- use_ifnot_NULL('RefNames', RefNames, .Object)
+  .Object@Preset <- use_ifnot_NULL('Preset', Preset, .Object)
   .Object
 })
 
@@ -45,19 +36,14 @@ setValidity('Timeseries', validTimeSeries)
 
 newTimeseries <- function(Metadata=NULL,
                           Time=NULL,
-                          TimeNow=NULL,
-                          TimeLab=NULL,
                           Value=NULL,
-                          RefPoints=NULL,
-                          RefNames=NULL) {
+                          Preset=NULL) {
   Timeseries <- new('Timeseries',
                     Metadata,
                     Time,
-                    TimeNow,
-                    TimeLab,
                     Value,
-                    RefPoints,
-                    RefNames)
+                    Preset)
+
   validObject(Timeseries)
   Timeseries
 }

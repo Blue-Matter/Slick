@@ -19,7 +19,7 @@ mod_Spider_ui <- function(id){
 #' Spider Server Functions
 #'
 #' @noRd
-mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
+mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -48,7 +48,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims){
                                 title=h3(strong(i18n$t('Spider'))),
                                 mod_Spider_plot_ui(ns("Spider_plot_1")),
                                 sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
-                                                                         icon=icon('filter'),
+                                                                         icon=icon('fa-xl fa-filter', class='fa-regular'),
                                                                          column(12, align = 'left', class='multicol',
                                                                                 mod_Filter_ui(ns(id))
                                                                          )

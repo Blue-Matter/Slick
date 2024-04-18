@@ -32,6 +32,9 @@ get_language <- function(value, lang) {
 setGeneric("Author", function(x) standardGeneric("Author"))
 setGeneric("Author<-", function(x, value) standardGeneric("Author<-"))
 
+setGeneric("Colors", function(x) standardGeneric("Colors"))
+setGeneric("Colors<-", function(x, value) standardGeneric("Colors<-"))
+
 setGeneric("Date", function(x) standardGeneric("Date"))
 setGeneric("Date<-", function(x, value) standardGeneric("Date<-"))
 
@@ -47,12 +50,6 @@ setGeneric("Institution<-", function(x, value) standardGeneric("Institution<-"))
 setGeneric("Introduction", function(x, ...) standardGeneric("Introduction"))
 setGeneric("Introduction<-", function(x, value) standardGeneric("Introduction<-"))
 
-setGeneric("MaxColor", function(x) standardGeneric("MaxColor"))
-setGeneric("MaxColor<-", function(x, value) standardGeneric("MaxColor<-"))
-
-setGeneric("MinColor", function(x) standardGeneric("MinColor"))
-setGeneric("MinColor<-", function(x, value) standardGeneric("MinColor<-"))
-
 setGeneric("Metadata", function(x, ...) standardGeneric("Metadata"))
 setGeneric("Metadata<-", function(x, value) standardGeneric("Metadata<-"))
 
@@ -67,6 +64,9 @@ setGeneric("Preset<-", function(x, value) standardGeneric("Preset<-"))
 
 setGeneric("Quilt", function(x, ...) standardGeneric("Quilt"))
 setGeneric("Quilt<-", function(x, value) standardGeneric("Quilt<-"))
+
+setGeneric("Selected", function(x, ...) standardGeneric("Selected"))
+setGeneric("Selected<-", function(x, value) standardGeneric("Selected<-"))
 
 setGeneric("Spider", function(x, ...) standardGeneric("Spider"))
 setGeneric("Spider<-", function(x, value) standardGeneric("Spider<-"))
@@ -95,11 +95,6 @@ setGeneric("Tradeoff<-", function(x, value) standardGeneric("Tradeoff<-"))
 setGeneric("Value", function(x, ...) standardGeneric("Value"))
 setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 
-setGeneric("X", function(x) standardGeneric("X"))
-setGeneric("X<-", function(x, value) standardGeneric("X<-"))
-
-setGeneric("Y", function(x) standardGeneric("Y"))
-setGeneric("Y<-", function(x, value) standardGeneric("Y<-"))
 
 # ---- setMethods -----
 
@@ -219,6 +214,26 @@ setMethod("Table", "OMs", function(x, lang=NULL, type=NULL) {
 
 ## Boxplot ----
 
+setGeneric("Boxplot", function(x, ...) standardGeneric("Boxplot"))
+setGeneric("Boxplot<-", function(x, value) standardGeneric("Boxplot<-"))
+
+#' @export
+setMethod("Boxplot","character_list",function(x, ...) newBoxplot(x, ...))
+
+#' @export
+setMethod("Boxplot","missingOrNULL",function(x, ...) newBoxplot(...))
+
+#' @export
+setMethod("Boxplot","character",function(x, ...) newBoxplot(x, ...))
+
+
+
+#' @export
+setMethod("Boxplot<-", "Slick", function(x, value) {
+  x@Boxplot <- value
+  x
+})
+
 #' @export
 setMethod("Metadata", "Boxplot", function(x, lang=NULL) {
   get_language(x@Metadata, lang)
@@ -255,6 +270,19 @@ setMethod("Value<-", "Boxplot", function(x, value) {
 
 ## Kobe ----
 
+setGeneric("Kobe", function(x, ...) standardGeneric("Kobe"))
+setGeneric("Kobe<-", function(x, value) standardGeneric("Kobe<-"))
+
+#' @export
+setMethod("Kobe","character_list",function(x, ...) newKobe(x, ...))
+
+#' @export
+setMethod("Kobe","missingOrNULL",function(x, ...) newKobe(...))
+
+#' @export
+setMethod("Kobe","character",function(x, ...) newKobe(x, ...))
+
+
 #' @export
 setMethod("Metadata", "Kobe", function(x, lang=NULL) {
   get_language(x@Metadata, lang)
@@ -288,20 +316,6 @@ setMethod("Time<-", "Kobe", function(x, value) {
   x
 })
 
-
-#' @export
-setMethod("TimeLab", "Kobe", function(x) {x@TimeLab})
-
-#' @export
-setMethod("TimeLab<-", "Kobe", function(x, value) {
-  x@TimeLab <- value
-  validObject(x)
-  x
-})
-
-
-
-
 #' @export
 setMethod("Value", "Kobe", function(x) {x@Value})
 
@@ -317,21 +331,22 @@ setMethod("Value<-", "Kobe", function(x, value) {
 ## Quilt ----
 
 #' @export
-setMethod("MaxColor", "Quilt", function(x) {x@MaxColor})
+setMethod("Quilt","character_list",function(x, ...) newQuilt(x, ...))
 
 #' @export
-setMethod("MaxColor<-", "Quilt", function(x, value) {
-  x@MaxColor <- value
-  validObject(x)
-  x
-})
+setMethod("Quilt","missingOrNULL",function(x, ...) newQuilt(...))
 
 #' @export
-setMethod("MinColor", "Quilt", function(x) {x@MinColor})
+setMethod("Quilt","character",function(x, ...) newQuilt(x, ...))
+
+
 
 #' @export
-setMethod("MinColor<-", "Quilt", function(x, value) {
-  x@MinColor <- value
+setMethod("Colors", "Quilt", function(x) {x@Colors})
+
+#' @export
+setMethod("Colors<-", "Quilt", function(x, value) {
+  x@Colors <- value
   validObject(x)
   x
 })
@@ -398,6 +413,16 @@ setMethod("Author<-", "Slick", function(x, value) {
 })
 
 #' @export
+setMethod("Boxplot","Slick",function(x) x@Boxplot)
+
+#' @export
+setMethod("Boxplot<-", "Slick", function(x, value) {
+  x@Boxplot <- value
+  validObject(x)
+  x
+})
+
+#' @export
 setMethod("Date", "Slick", function(x) {x@Date})
 
 #' @export
@@ -409,6 +434,17 @@ setMethod("Date<-", "Slick", function(x, value) {
   validObject(x)
   x
 })
+
+#' @export
+setMethod("Design", "Slick", function(x) {x@OMs@Design})
+
+#' @export
+setMethod("Design<-", "Slick", function(x, value) {
+  x@OMs@Design <- value
+  validObject(x)
+  x
+})
+
 
 #' @export
 setMethod("Email", "Slick", function(x) {
@@ -451,6 +487,18 @@ setMethod("Introduction<-", "Slick", function(x, value) {
 
 
 #' @export
+setMethod("Kobe", "Slick", function(x) {
+  x@Kobe
+})
+
+#' @export
+setMethod("Kobe<-", "Slick", function(x, value) {
+  x@Kobe <- value
+  validObject(x)
+  x
+})
+
+#' @export
 setMethod("MPs", "Slick", function(x, lang=NULL) {
   get_language(x@MPs, lang)
 } )
@@ -476,14 +524,23 @@ setMethod("OMs", "Slick", function(x) {
   x@OMs
 })
 
+
 #' @export
-setMethod("Spider<-", "Slick", function(x, value) {
-  x@Spider <- value
+setMethod("Quilt","Slick",function(x) x@Quilt)
+
+#' @export
+setMethod("Quilt<-", "Slick", function(x, value) {
+  x@Quilt <- value
   x
 })
 
+
 #' @export
-setMethod("Spider","Slick",function(x, ...) x@Spider)
+setMethod("Spider<-", "Slick", function(x, value) {
+  x@Spider <- value
+  validObject(x)
+  x
+})
 
 #' @export
 setMethod("Spider", "Slick", function(x) {
@@ -525,21 +582,14 @@ setMethod("Title<-", "Slick", function(x, value) {
 })
 
 #' @export
-setMethod("Timeseries","Slick",function(x, ...) x@Timeseries)
-
-#' @export
-setMethod("Timeseries", "Slick", function(x) {
-  x@Timeseries
-})
+setMethod("Timeseries","Slick",function(x) x@Timeseries)
 
 #' @export
 setMethod("Timeseries<-", "Slick", function(x, value) {
   x@Timeseries <- value
+  validObject(x)
   x
 })
-
-#' @export
-setMethod("Tradeoff","Slick",function(x, ...) x@Tradeoff)
 
 #' @export
 setMethod("Tradeoff", "Slick", function(x) {
@@ -549,6 +599,7 @@ setMethod("Tradeoff", "Slick", function(x) {
 #' @export
 setMethod("Tradeoff<-", "Slick", function(x, value) {
   x@Tradeoff <- value
+  validObject(x)
   x
 })
 ## Spider ----
@@ -562,6 +613,16 @@ setMethod("Spider","missingOrNULL",function(x, ...) newSpider(...))
 #' @export
 setMethod("Spider","character",function(x, ...) newSpider(x, ...))
 
+
+#' @export
+setMethod("Spider","Slick",function(x) x@Spider)
+
+#' @export
+setMethod("Spider<-", "Slick", function(x, value) {
+  x@Spider <- value
+  validObject(x)
+  x
+})
 
 
 #' @export
@@ -593,6 +654,20 @@ setMethod("Table", "Spider", function(x, lang=NULL) {
   tableSpider(x, lang)
 })
 
+#' @export
+setMethod("Value", "Spider", function(x) {
+  x@Value
+})
+
+
+#' @export
+setMethod("Value<-", "Spider", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
+})
+
+
 
 ## Timeseries ----
 
@@ -605,384 +680,40 @@ setMethod("Timeseries","missingOrNULL",function(x, ...) newTimeseries(...))
 #' @export
 setMethod("Timeseries","character",function(x, ...) newTimeseries(x, ...))
 
-
-
-## Tradeoff ----
+#' @export
+setMethod("Timeseries","Slick",function(x) x@Timeseries)
 
 #' @export
-setMethod("Tradeoff","character_list",function(x, ...) newTradeoff(x, ...))
+setMethod("Timeseries<-", "Slick", function(x, value) {
+  x@Timeseries <- value
+  validObject(x)
+  x
+})
 
 #' @export
-setMethod("Tradeoff","missingOrNULL",function(x, ...) newTradeoff(...))
-
-#' @export
-setMethod("Tradeoff","character",function(x, ...) newTradeoff(x, ...))
-
-#' @export
-setMethod("Metadata", "Tradeoff", function(x, lang=NULL) {
+setMethod("Metadata", "Timeseries", function(x, lang=NULL) {
   get_language(x@Metadata, lang)
 })
 
-#' @export
-setMethod("Value", "Tradeoff", function(x) {
-  x@Value
-})
 
 #' @export
-setMethod("X", "Tradeoff", function(x) {
-  x@X
-})
-
-#' @export
-setMethod("X<-", "Tradeoff", function(x, value=NULL) {
-  x@X <- value
-  validObject(x)
-  x
-})
-
-#' @export
-setMethod("Y", "Tradeoff", function(x) {
-  x@Y
-})
-
-#' @export
-setMethod("Y<-", "Tradeoff", function(x, value=NULL) {
-  x@Y <- value
-  validObject(x)
-  x
-})
-
-#' @export
-setMethod("Preset", "Tradeoff", function(x) {
+setMethod("Preset", "Timeseries", function(x) {
   x@Preset
 })
 
 #' @export
-setMethod("Preset<-", "Tradeoff", function(x, value) {
+setMethod("Preset<-", "Timeseries", function(x, value) {
   x@Preset <- value
   validObject(x)
   x
 })
 
-
-#### NEED TO UPDATE #####
-
-
-
-
-
-## Design ----
-
-#' @rdname OMs
 #' @export
-setMethod("Design", "OMs", function(x) {
-  x@Design
-})
-
-#' @rdname OMs
-#' @export
-setMethod("Design<-", "OMs", function(x, value) {
-  x@Design <- value
-  x
-})
-
-
-
-
-
-## show ----
-
-
-# setMethod("show", "OMs",
-#           function(object) {
-#             print('An object of class `OMs`')
-#
-#             })
-
-
-# Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
-# Description <- list(c('Natural mortality (M) = 0.1',
-#                       'Natural mortality (M) = 0.2',
-#                       'Natural mortality (M) = 0.3'),
-#                     c('Steepness (h) = 0.7',
-#                       'Steepness (h) = 0.9'))
-# Label <- list(c(M=0.1, M=0.2, M=0.3),
-#                c(h=0.7, h=0.9))
-# myOMs <- OMs(Design, Description, Label)
-# myOMs
-
-
-
-
-
-
-
-## Design ----
-
-
+setMethod("Time", "Timeseries", function(x) {x@Time})
 
 #' @export
-setMethod("Design", "Slick", function(x) {
-  x@OMs@Design
-})
-
-#' @export
-setMethod("Design<-", "Slick", function(x, value) {
-  x@OMs@Design <- value
-  x
-})
-
-
-
-
-# Description  -----
-setGeneric("Description", function(x, lang=NULL) standardGeneric("Description"))
-setGeneric("Description<-", function(x, value) standardGeneric("Description<-"))
-
-
-#' @export
-setMethod("Description", "OMs", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-#' @export
-setMethod("Description<-", "OMs", function(x, value) {
-  if (!inherits(value, 'list')) {
-    stop('`Description` must be class `list`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-
-#' @export
-setMethod("Description", "Quilt", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-
-#' @export
-setMethod("Description<-", "Quilt", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Description` must be class `character`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-#' @export
-setMethod("Description", "Spider", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-#' @export
-setMethod("Description<-", "Spider", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Description` must be class `character`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-
-#' @export
-setMethod("Description", "Boxplot", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-#' @describeIn newBoxplot Assigns Description for an object of class `Boxplot`
-#' @export
-setMethod("Description<-", "Boxplot", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Description` must be class `character`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-
-#' @describeIn newKobe Returns Description of an object of class `Kobe`
-#' @export
-setMethod("Description", "Kobe", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-#' @describeIn newKobe Assigns Description for an object of class `Kobe`
-#' @export
-setMethod("Description<-", "Kobe", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Description` must be class `character`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-
-#' @export
-setMethod("Description", "Timeseries", function(x, lang=NULL) {
-  get_language(x@Description, lang)
-})
-
-#' @export
-setMethod("Description<-", "Timeseries", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Description` must be class `character`', call.=FALSE)
-  }
-  x@Description <- value
-  validObject(x)
-  x
-})
-
-
-# Label  -----
-setGeneric("Label", function(x, lang=NULL) standardGeneric("Label"))
-setGeneric("Label<-", function(x, value) standardGeneric("Label<-"))
-
-
-#' @export
-setMethod("Label", "OMs", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-
-#' @export
-setMethod("Label<-", "OMs", function(x, value) {
-  if (!inherits(value, 'list')) {
-    stop('`Label` must be class `list`', call.=FALSE)
-  }
-
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-
-
-
-
-#' @export
-setMethod("Label", "Quilt", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-#' @export
-setMethod("Label<-", "Quilt", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Label` must be class `character`', call.=FALSE)
-  }
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-#' @describeIn newSpider Returns Label of an object of class `Spider`
-#' @export
-setMethod("Label", "Spider", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-
-#' @describeIn newSpider Assigns Label for an object of class `Spider`
-#' @export
-setMethod("Label<-", "Spider", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Label` must be class `character`', call.=FALSE)
-  }
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-#' @describeIn newBoxplot Returns Label of an object of class `Boxplot`
-#' @export
-setMethod("Label", "Boxplot", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-
-#' @describeIn newBoxplot Assigns Label for an object of class `Boxplot`
-#' @export
-setMethod("Label<-", "Boxplot", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Label` must be class `character`', call.=FALSE)
-  }
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-#' @describeIn newKobe Returns Label of an object of class `Kobe`
-#' @export
-setMethod("Label", "Kobe", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-
-#' @describeIn newKobe Assigns Label for an object of class `Kobe`
-#' @export
-setMethod("Label<-", "Kobe", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Label` must be class `character`', call.=FALSE)
-  }
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-#' @describeIn newTimeSeries Returns Label of an object of class `Timeseries`
-#' @export
-setMethod("Label", "Timeseries", function(x, lang=NULL) {
-  get_language(x@Label, lang)
-})
-
-#' @describeIn newTimeSeries Assigns Label for an object of class `Timeseries`
-#' @export
-setMethod("Label<-", "Timeseries", function(x, value) {
-  if (!inherits(value, 'character')) {
-    stop('`Label` must be class `character`', call.=FALSE)
-  }
-  x@Label <- value
-  validObject(x)
-  x
-})
-
-## Value ----
-
-
-
-
-
-#' @export
-setMethod("Value", "Spider", function(x) {x@Value})
-
-#' @export
-setMethod("Value<-", "Spider", function(x, value) {
-  x@Value <- value
-  validObject(x)
-  x
-})
-
-#' @export
-setMethod("Value", "Boxplot", function(x) {x@Value})
-
-#' @export
-setMethod("Value<-", "Boxplot", function(x, value) {
-  x@Value <- value
-  validObject(x)
-  x
-})
-
-#' @export
-setMethod("Value", "Kobe", function(x) {x@Value})
-
-#' @export
-setMethod("Value<-", "Kobe", function(x, value) {
-  x@Value <- value
+setMethod("Time<-", "Timeseries", function(x, value) {
+  x@Time <- value
   validObject(x)
   x
 })
@@ -998,134 +729,61 @@ setMethod("Value<-", "Timeseries", function(x, value) {
 })
 
 
-## Boxplot ----
 
-setGeneric("Boxplot", function(x, ...) standardGeneric("Boxplot"))
-setGeneric("Boxplot<-", function(x, value) standardGeneric("Boxplot<-"))
 
-#' @export
-setMethod("Boxplot","character_list",function(x, ...) newBoxplot(x, ...))
+## Tradeoff ----
 
 #' @export
-setMethod("Boxplot","missingOrNULL",function(x, ...) newBoxplot(...))
+setMethod("Tradeoff","character_list",function(x, ...) newTradeoff(x, ...))
 
 #' @export
-setMethod("Boxplot","character",function(x, ...) newBoxplot(x, ...))
+setMethod("Tradeoff","missingOrNULL",function(x, ...) newTradeoff(...))
 
 #' @export
-setMethod("Boxplot","Slick",function(x, ...) x@Boxplot)
+setMethod("Tradeoff","character",function(x, ...) newTradeoff(x, ...))
+
 
 #' @export
-setMethod("Boxplot", "Slick", function(x) {
-  x@Boxplot
+setMethod("Metadata", "Tradeoff", function(x, lang=NULL) {
+  get_language(x@Metadata, lang)
 })
 
 #' @export
-setMethod("Boxplot<-", "Slick", function(x, value) {
-  x@Boxplot <- value
+setMethod("Preset", "Tradeoff", function(x) {
+  x@Preset
+})
+
+#' @export
+setMethod("Preset<-", "Tradeoff", function(x, value) {
+  x@Preset <- value
+  validObject(x)
   x
 })
 
-## Kobe ----
-
-setGeneric("Kobe", function(x, ...) standardGeneric("Kobe"))
-setGeneric("Kobe<-", function(x, value) standardGeneric("Kobe<-"))
-
 #' @export
-setMethod("Kobe","character_list",function(x, ...) newKobe(x, ...))
-
-#' @export
-setMethod("Kobe","missingOrNULL",function(x, ...) newKobe(...))
-
-#' @export
-setMethod("Kobe","character",function(x, ...) newKobe(x, ...))
-
-#' @export
-setMethod("Kobe","Slick",function(x, ...) x@Kobe)
-
-#' @export
-setMethod("Kobe", "Slick", function(x) {
-  x@Kobe
+setMethod("Selected", "Tradeoff", function(x) {
+  x@Selected
 })
 
 #' @export
-setMethod("Kobe<-", "Slick", function(x, value) {
-  x@Kobe <- value
-  x
-})
-## Quilt ----
-
-
-#' @export
-setMethod("Quilt","character_list",function(x, ...) newQuilt(x, ...))
-
-#' @export
-setMethod("Quilt","missingOrNULL",function(x, ...) newQuilt(...))
-
-#' @export
-setMethod("Quilt","character",function(x, ...) newQuilt(x, ...))
-
-#' @export
-setMethod("Quilt","Slick",function(x, ...) x@Quilt)
-
-#' @export
-setMethod("Quilt<-", "Slick", function(x, value) {
-  x@Quilt <- value
+setMethod("Selected<-", "Tradeoff", function(x, value) {
+  x@Selected <- value
+  validObject(x)
   x
 })
 
-## Min and Max ----
-setGeneric("Min", function(x) standardGeneric("Min"))
-setGeneric("Min<-", function(x, value) standardGeneric("Min<-"))
-setGeneric("Max", function(x) standardGeneric("Max"))
-setGeneric("Max<-", function(x, value) standardGeneric("Max<-"))
 
 #' @export
-setMethod("Min","Quilt",function(x) Quilt@Min)
-
-#' @export
-setMethod("Min<-","Quilt",function(x, value) {
-  Quilt@Min <- value
+setMethod("Value", "Tradeoff", function(x) {
+  x@Value
 })
 
 #' @export
-setMethod("Max","Quilt",function(x) Quilt@Max)
-
-#' @export
-setMethod("Max<-","Quilt",function(x, value) {
-  Quilt@Max <- value
+setMethod("Value<-", "Tradeoff", function(x, value) {
+  x@Value <- value
+  validObject(x)
+  x
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

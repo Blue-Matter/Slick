@@ -62,12 +62,12 @@ quilt_DT <- function(Values, metadata_pm, cols) {
   outable
 }
 
-plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, kable=FALSE) {
+plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
-  quilt <<- quilt
-  MP_labels <<- MP_labels
-  lang <<- lang
-  kable <<- kable
+  quilt <-  Quilt(slick)
+  # MP_labels <- MP_labels
+  # lang <- lang
+  # kable <- kable
 
   Values <- Value(quilt) |>
     apply(2:3, median) |>
@@ -86,7 +86,7 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
   metadata_pm <- Metadata(quilt, lang)
   colnames(Values) <- metadata_pm$Code
-  cols <- c(MinColor(quilt), MaxColor(quilt))
+  cols <- Colors(quilt)
   if (kable) {
     return(quilt_kable(Values, metadata_pm, cols))
   }
@@ -94,35 +94,41 @@ plotQuilt <- function(quilt, MP_labels=NULL, lang=NULL, kable=FALSE) {
 }
 
 
-plotTradeoff <- function(quilt, mps, XPM, YPM) {
+plotTradeoff <- function(slick, mps, XPM, YPM) {
 
   MP_labels <- mps[['Label']]
   MP_color  <- mps[['Color']]
 
-  Values <- Value(quilt) |>
+  tradeoff <- slick |> Tradeoff()
+  Values <- Value(tradeoff) |>
     apply(2:3, median) |>
     signif(3)
   if (all(is.na(Values))) {
     return(NULL)
   }
 
-
-  x_index <- match(XPM, Metadata(quilt)[['Code']])
-  y_index <- match(YPM, Metadata(quilt)[['Code']])
-  xlab <- Metadata(quilt)[['Label']][x_index]
-  ylab <- Metadata(quilt)[['Label']][y_index]
+  x_index <- match(XPM, Metadata(tradeoff)[['Code']])
+  y_index <- match(YPM, Metadata(tradeoff)[['Code']])
+  xlab <- Metadata(tradeoff)[['Label']][x_index]
+  ylab <- Metadata(tradeoff)[['Label']][y_index]
   x_value <- Values[,x_index]
   y_value <- Values[, y_index]
+
+  if (length(x_value)<1) return(NULL)
 
   df <- data.frame(x=x_value, y=y_value,
                    MP=MP_labels,
                    Color=MP_color)
+
+  xmax <- x_value |> pretty() |> max()
+  ymax <- y_value |> pretty() |> max()
+
   df$MP <- factor(df$MP, ordered = TRUE, levels=unique(df$MP))
 
   ggplot2::ggplot(df, ggplot2::aes(x=x, y=y, color=MP)) +
     ggplot2::geom_point(size=3) +
-    ggplot2::theme_classic() +
-    ggplot2::expand_limits(x=0, y=0) +
+    ggplot2::theme_bw() +
+    ggplot2::expand_limits(x=c(0, xmax), y=c(0, ymax)) +
     ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=6) +
     ggplot2::scale_color_manual(values=df$Color) +
     ggplot2::guides(color='none') +

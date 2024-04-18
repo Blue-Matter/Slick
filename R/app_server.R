@@ -90,10 +90,9 @@ app_server <- function(input, output, session) {
 
   mod_Boxplot_server("Boxplot", i18n, Slick_Object, window_dims, Report)
   mod_Kobe_server("Kobe", i18n, Slick_Object, window_dims, Report)
-
-
   mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims, Report)
-  mod_Spider_server("Spider", i18n, Slick_Object, window_dims)
+  mod_Spider_server("Spider", i18n, Slick_Object, window_dims, Report)
+  mod_Timeseries_server("Timeseries_1", i18n, Slick_Object, window_dims, Report)
   mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report)
 
 

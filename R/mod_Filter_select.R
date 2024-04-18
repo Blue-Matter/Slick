@@ -133,7 +133,7 @@ mod_Filter_select_ui <- function(id){
 #' Filter_select Server Functions
 #'
 #' @noRd
-mod_Filter_select_server <- function(id, i18n, Slick_Object, slot){
+mod_Filter_select_server <- function(id, i18n, Slick_Object, slot, include=TRUE){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -156,6 +156,7 @@ mod_Filter_select_server <- function(id, i18n, Slick_Object, slot){
     observeEvent(Slick_Object(), checkboxes())
 
     output$filters <- renderUI({
+      if (!include) return(NULL)
       ll <- checkboxes() # make_checkboxes(object(), ns)
       tagList(ll)
     })
@@ -164,6 +165,7 @@ mod_Filter_select_server <- function(id, i18n, Slick_Object, slot){
     # preset buttons (if they exist) and an invisible reset button
     # resets if none are selected
     output$presets <- renderUI({
+      if (!include) return(NULL)
       i18n <- i18n()
       presets <- Preset(object())
       ll <- NULL

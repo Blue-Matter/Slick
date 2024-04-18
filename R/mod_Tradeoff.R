@@ -25,9 +25,12 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
 
     Filter_Selected<- mod_Filter_server(id, i18n, Slick_Object,
                                         slot='Tradeoff',
-                                        parent_session=session)
+                                        parent_session=session,
+                                        incPM=FALSE)
 
-    mod_TradeOff_plot_server("TradeOff_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session, window_dims)
+    mod_TradeOff_plot_server("TradeOff_plot_1",
+                             i18n, Slick_Object, Filter_Selected,
+                             parent_session=session, window_dims)
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
@@ -42,18 +45,12 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                 title=h3(strong(i18n$t('Tradeoff'))),
                                 mod_TradeOff_plot_ui(ns("TradeOff_plot_1")),
                                 sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
-                                                                         icon=icon('filter'),
+                                                                         icon=icon('fa-xl fa-filter', class='fa-regular'),
                                                                          column(12, align = 'left', class='multicol',
                                                                                 mod_Filter_ui(ns(id))
                                                                          )
                                 )
-        ) %>% {
-          htmltools::tagQuery(.)$
-            find("#filtersidebar")$
-            removeAttrs("data-original-title")$
-            addAttrs(`data-original-title`="Filters")$
-            allTags()
-        }
+        )
       )
     })
 

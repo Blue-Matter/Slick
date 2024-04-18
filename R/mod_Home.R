@@ -85,7 +85,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 solidHeader=FALSE,
                                 status = "primary",
                                 title=strong(i18n$t('Load Slick Data')),
-                                uiOutput(ns('overviewlink')),
+                                # uiOutput(ns('overviewlink')),
                                 h4(i18n$t('Load your MSE Results')),
                                 fileInput(ns("load"), accept=c("slick",".slick"),
                                           label = i18n$t("From file (.slick)"),
@@ -129,16 +129,16 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       Load_Slick_File$loaded <- Load_Slick_File$loaded +1
     })
 
-    output$overviewlink <- renderUI({
-      i18n <- i18n()
-      if (inherits(Slick_Object(), 'Slick')) {
-        tagList(
-          h4(i18n$t('Back to '),
-             actionLink(ns('overview'),
-                        i18n$t('Overview')))
-        )
-      }
-    })
+    # output$overviewlink <- renderUI({
+    #   i18n <- i18n()
+    #   if (inherits(Slick_Object(), 'Slick')) {
+    #     tagList(
+    #       h4(i18n$t('Back to '),
+    #          actionLink(ns('overview'),
+    #                     i18n$t('Overview')))
+    #     )
+    #   }
+    # })
 
     observeEvent(input$overview, {
       shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")

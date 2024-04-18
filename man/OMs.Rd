@@ -7,8 +7,6 @@
 \alias{Metadata<-,OMs-method}
 \alias{Preset,OMs-method}
 \alias{Preset<-,OMs-method}
-\alias{Design,OMs-method}
-\alias{Design<-,OMs-method}
 \title{Generic function for \code{OMs} objects}
 \usage{
 OMs(Design, Description, Label, Default)
@@ -22,10 +20,6 @@ OMs(Design, Description, Label, Default)
 \S4method{Preset}{OMs}(x, ...)
 
 \S4method{Preset}{OMs}(x) <- value
-
-\S4method{Design}{OMs}(x)
-
-\S4method{Design}{OMs}(x) <- value
 }
 \arguments{
 \item{Design}{A \code{data.frame} with the design matrix for the OMs. The columns

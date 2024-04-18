@@ -116,17 +116,8 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
             img(src='www/img/SpiderOM.jpg', width="100%"),
 
             p(tags$i(class="fa-solid fa-hexagon"),
-              strong(i18n$t('The polygon edges in each chart')), i18n$t('connect'),
-              strong(i18n$t('individual scores')),
-              i18n$t('of the performance indicators for that management procedure.'),
-              i18n$t('Points closer to the exterior edge indicate better performance.')),
-
-            p(i18n$t('The'), strong(i18n$t('percentages')), i18n$t('represent an '),
-              strong(i18n$t('average score of all')),
-              i18n$t('performance indicators for each management procedure.'),
-              i18n$t('It provides a quick comparison of overall performance for each MP.'),
-              strong(i18n$t('Filled hexagons with larger areas indicate better overall performance.'))),
-
+              i18n$t('The polygon edges in each chart connect the individual scores of the performance indicators for that management procedure. Points closer to the exterior edge indicate better performance.')),
+            p(i18n$t('The percentages represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall performance for each MP. Filled hexagons with larger areas indicate better overall performance.')),
             p(i18n$t('For each operating model (in columns), the management procedures (in rows) are ordered from highest to lowest overall average score.')),
 
             p(strong(i18n$t('Note:')),
@@ -134,7 +125,7 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
 
             p(i18n$t('Use the'), actionLink(ns('openfilter'),
                                             i18n$t('Filter'),
-                                            icon=icon('filter')),
+                                            icon=icon('fa-lg fa-filter', class='fa-regular')),
               i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
             )
 

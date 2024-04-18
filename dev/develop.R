@@ -28,7 +28,8 @@ golem::add_module(name = "Boxplot_overall")
 golem::add_module(name = "Boxplot_OM")
 
 golem::add_module(name = "Kobe")
-
+golem::add_module(name = "Kobe_overall")
+golem::add_module(name = "Kobe_time")
 
 golem::add_module(name = "Quilt")
 golem::add_module(name = "Quilt_plot")
@@ -46,6 +47,9 @@ golem::add_module(name = "Spider_overall")
 golem::add_module(name = "Kobe")
 
 golem::add_module(name = "Timeseries")
+golem::add_module(name = "Timeseries_overall")
+golem::add_module(name = "Timeseries_byMP")
+golem::add_module(name = "Timeseries_byOM")
 
 golem::add_module(name = "Report_Page")
 golem::add_module(name = "Report_Add")

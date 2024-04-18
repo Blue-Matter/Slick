@@ -19,6 +19,9 @@
 #  slick <- obj <-  readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/SLICKobj.rda'))
+# slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick'))
+# slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick')
+
 
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
@@ -87,17 +90,19 @@ Update <- function(slick) {
                             slick_in$Perf$Stoch$Values)
 
   # Kobe
-  targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
-  limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
+
+  # ref points
+  # targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
+  # limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
+  #
+  # unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind))
 
   Kobe(slick) <- Kobe(Metadata=data.frame(Code=slick_in$Perf$Proj$Codes,
                                           Label=slick_in$Perf$Proj$Labels,
                                           Description=slick_in$Perf$Proj$Description,
-                                          Target=unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind)),
-                                          Limit=unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', limit_ind))
+                                          Target=rep(1, length(slick_in$Perf$Proj$Codes))
                                           ),
-                      Time=slick_in$Perf$Proj$Times,
-                      TimeLab=slick_in$Perf$Proj$Time_lab,
+                      Time=data.frame(Year=slick_in$Perf$Proj$Times),
                       Value=slick_in$Perf$Proj$Values)
 
   # Quilt
@@ -118,15 +123,14 @@ Update <- function(slick) {
 
 
   # TimeSeries
+  time_df <- data.frame(Year=slick_in$StateVar$Times, Period='Historical')
+  time_df$Period[time_df$Year > slick_in$StateVar$TimeNow] <- 'Projection'
+
   Timeseries(slick) <- Timeseries(Metadata=data.frame(Code=slick_in$StateVar$Codes,
                                                     Label=slick_in$StateVar$Labels,
                                                     Description=slick_in$StateVar$Description),
-                                Time=slick_in$StateVar$Times,
-                                TimeNow=slick_in$StateVar$TimeNow,
-                                TimeLab=slick_in$StateVar$Time_lab,
-                                Value=slick_in$StateVar$Values,
-                                RefPoints=slick_in$StateVar$RefPoints,
-                                RefName=slick_in$StateVar$RefNames)
+                                Time=time_df,
+                                Value=slick_in$StateVar$Values)
 
   # Tradeoff
   Tradeoff(slick) <- Tradeoff(Metadata=data.frame(Code=slick_in$Perf$Det$Codes,

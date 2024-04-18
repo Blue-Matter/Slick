@@ -128,9 +128,7 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
               i18n$t(' operating models.')),
 
             p(tags$i(class="fa-regular fa-hexagon"),
-              strong(i18n$t('The lines in the spider plot')),
-              i18n$t('connect'), strong(i18n$t('individual scores')),
-              i18n$t('of the performance indicators for each management procedure. Scores closer to the exterior edge indicate better performance.')
+              i18n$t('The lines in the spider plot connect individual scores of the performance indicators for each management procedure. Scores closer to the exterior edge indicate better performance.')
             ),
             p(i18n$t('Use the'), actionLink(ns('openfilter'),
                                             i18n$t('Filter'),

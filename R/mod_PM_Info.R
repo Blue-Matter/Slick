@@ -24,15 +24,24 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
     output$PMinfo <- renderUI({
       i18n <- i18n()
       tabsetPanel(type = "tabs",
+                  tabPanel(i18n$t("Boxplot"),
+                           br(),
+                           DT::dataTableOutput(session$ns('PM_Boxplot'))),
+                  tabPanel(i18n$t("Kobe"),
+                           br(),
+                           DT::dataTableOutput(session$ns('PM_Kobe'))),
                   tabPanel(i18n$t("Quilt"),
                            br(),
                            DT::dataTableOutput(session$ns('PM_Quilt'))),
                   tabPanel(i18n$t("Spider"),
                            br(),
                            DT::dataTableOutput(session$ns('PM_Spider'))),
-                  tabPanel(i18n$t("Boxplot"),
+                  tabPanel(i18n$t("Timeseries"),
                            br(),
-                           DT::dataTableOutput(session$ns('PM_Boxplot')))
+                           DT::dataTableOutput(session$ns('PM_Timeseries'))),
+                  tabPanel(i18n$t("Tradeoff"),
+                           br(),
+                           DT::dataTableOutput(session$ns('PM_Tradeoff')))
       )
     })
 

@@ -130,14 +130,14 @@ body <- function() {
                               mod_Spider_ui("Spider")
       ),
       shinydashboard::tabItem(tabName = "timeseries",
-                              mod_Timeseries_ui("Timeseries")
+                              mod_Timeseries_ui("Timeseries_1")
       ),
       shinydashboard::tabItem(tabName = "tradeoff",
-                              mod_Tradeoff_ui("TradeOff")
-      ),
-      shinydashboard::tabItem(tabName = "report",
-                              mod_Report_Page_ui("Report_Page_1")
-      )
+                              mod_Tradeoff_ui("Tradeoff")
+      ) #,
+      # shinydashboard::tabItem(tabName = "report",
+      #                         mod_Report_Page_ui("Report_Page_1")
+      # )
     )
   )
 }

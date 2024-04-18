@@ -14,7 +14,6 @@ mod_Quilt_ui <- function(id){
   tagList(
     mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
-
   )
 }
 
@@ -28,7 +27,8 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                         slot='Quilt',
                                         parent_session=session)
 
-    mod_Quilt_plot_server("Quilt_plot_1", i18n, Slick_Object, Filter_Selected, parent_session=session, Report)
+    mod_Quilt_plot_server("Quilt_plot_1", i18n, Slick_Object, Filter_Selected,
+                          parent_session=session, Report)
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',

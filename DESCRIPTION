@@ -22,8 +22,8 @@ Imports:
     ggrepel,
     golem,
     grDevices,
-    htmltools,
     rmarkdown,
+    scales,
     shiny,
     shiny.i18n,
     shinyalert,
@@ -84,6 +84,8 @@ Collate:
     'mod_Filter_select.R'
     'mod_Home.R'
     'mod_Kobe.R'
+    'mod_Kobe_overall.R'
+    'mod_Kobe_time.R'
     'mod_MP_Info.R'
     'mod_Metadata.R'
     'mod_OM_Info.R'
@@ -101,6 +103,9 @@ Collate:
     'mod_Spider_overall.R'
     'mod_Spider_plot.R'
     'mod_Timeseries.R'
+    'mod_Timeseries_byMP.R'
+    'mod_Timeseries_byOM.R'
+    'mod_Timeseries_overall.R'
     'mod_TradeOff_plot.R'
     'mod_Tradeoff.R'
     'mod_subtitle.R'

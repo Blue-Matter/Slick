@@ -31,7 +31,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
     mod_Report_Add_server("Report_Add_1", i18n, parent_session=session, Report,
                           plot_object, 'Quilt')
 
-    filtered_quilt <- reactive({
+    filtered_slick <- reactive({
       slick <- Slick_Object()
       selected_OMs <- Filter_Selected$OMs
       selected_MPs <- Filter_Selected$MPs
@@ -54,11 +54,13 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
           Value(quilt) <- Value(quilt)[,,selected_PMs, drop=FALSE]
         }
       }
-      quilt
+      Quilt(slick) <- quilt
+      slick
     })
 
     nOM <- reactive({
-      dim(Value(filtered_quilt()))[1]
+      dd <- filtered_slick() |> Quilt() |> Value() |> dim()
+      dd[1]
     })
 
     MP_labels <- reactive({
@@ -81,12 +83,12 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
         br(),
         column(12, mod_subtitle_ui(ns(id))
                ),
-        column(2,
+        column(3,
                h4(strong(i18n$t("Reading this Chart"))),
                htmlOutput(ns('reading'))
         ),
-        column(10,
-               mod_Report_Add_Button_ui(ns('report_button')),
+        column(9,
+               # mod_Report_Add_Button_ui(ns('report_button')),
                br(),
                uiOutput(ns('quilttable'))
         )
@@ -94,7 +96,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
     })
 
     output$quilttable <- renderUI({
-      req(filtered_quilt)
+      req(filtered_slick)
       plot_object() |> flextable::autofit() |> flextable::htmltools_value()
      })
 
@@ -103,8 +105,8 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
     })
 
     plot_object <- reactive({
-      req(filtered_quilt)
-      plotQuilt(filtered_quilt(), MP_labels(), i18n()$get_translation_language(),
+      req(filtered_slick)
+      plotQuilt(filtered_slick(), MP_labels(), i18n()$get_translation_language(),
                 kable=TRUE)
     })
 
@@ -120,7 +122,7 @@ mod_Quilt_plot_server <- function(id, i18n, Slick_Object, Filter_Selected,
         p(i18n$t('This table ...')),
 
         p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
-          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators ...')
+          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
         )
       )
     })

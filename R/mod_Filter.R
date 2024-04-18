@@ -21,13 +21,14 @@ mod_Filter_ui <- function(id){
 #' Filter Server Functions
 #'
 #' @noRd
-mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session){
+mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session,
+                              incOM=TRUE, incMP=TRUE, incPM=TRUE){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    Selected_OMs <- mod_Filter_select_server("Filter_OM_1", i18n, Slick_Object, 'OMs')
-    Selected_MPs <- mod_Filter_select_server("Filter_MP_1", i18n, Slick_Object, 'MPs')
-    Selected_PMs <- mod_Filter_select_server("Filter_PM_1", i18n, Slick_Object, slot)
+    Selected_OMs <- mod_Filter_select_server("Filter_OM_1", i18n, Slick_Object, 'OMs', incOM)
+    Selected_MPs <- mod_Filter_select_server("Filter_MP_1", i18n, Slick_Object, 'MPs', incMP)
+    Selected_PMs <- mod_Filter_select_server("Filter_PM_1", i18n, Slick_Object, slot, incPM)
 
     Filter_Selected <- reactiveValues()
 
@@ -42,6 +43,7 @@ mod_Filter_server <- function(id, i18n, Slick_Object, slot, parent_session){
     observeEvent(Selected_PMs$selected, {
       shinyjs::show("FilterButton")
     }, ignoreInit = TRUE)
+
 
     output$filters <- renderUI({
       i18n <- i18n()
