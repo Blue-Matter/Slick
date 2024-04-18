@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Decision Analysis
-Version: 1.0.9001
+Version: 1.0.9002
 Authors@R: c(
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")

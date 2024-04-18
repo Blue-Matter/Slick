@@ -103,12 +103,15 @@ Timeseries_plot <- function(slick, pm_ind=1,
 
   p <- ggplot2::ggplot() +  ggplot2::theme_classic()
 
+  hist.yr.ind <- which(times$Period==periods[1]) |> max()
+  hist.yr <-  times[[1]][hist.yr.ind]
+  all.hist.yr <- times[[1]][seq_len(hist.yr.ind)]
+  n.yrs <- length(times[[1]])
+  proj.yr.ind <- hist.yr.ind:n.yrs
+  all.proj.yr <- times[[1]][hist.yr.ind:n.yrs]
+
   if (is.null(mp_ind)) {
     # Historical
-    hist.yr.ind <- which(times$Period==periods[1]) |> max()
-    hist.yr <-  times[[1]][hist.yr.ind]
-    all.hist.yr <- times[[1]][seq_len(hist.yr.ind)]
-
     med.hist <- apply(values[,om,1, pm_ind,1:hist.yr.ind, drop=FALSE], 5, median)
     quant.1.hist <- apply(values[,om,1,pm_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=c(.25, .75))
     quant.2.hist <- apply(values[,om,1, pm_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=c(.1, .9))
@@ -132,13 +135,7 @@ Timeseries_plot <- function(slick, pm_ind=1,
                          color='darkgray')
   }
 
-
-
   # projection
-  n.yrs <- length(times[[1]])
-  proj.yr.ind <- hist.yr.ind:n.yrs
-  all.proj.yr <- times[[1]][hist.yr.ind:n.yrs]
-
   med.mps <- apply(values[,om,, pm_ind,proj.yr.ind, drop=FALSE], c(3,5), median)
 
   meddf <- data.frame(x=rep(all.proj.yr, each=nMP),
