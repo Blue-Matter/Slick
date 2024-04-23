@@ -45,18 +45,30 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
       )
     })
 
+    output$PM_Boxplot <- DT::renderDataTable({
+      Table(Boxplot(Slick_Object()), i18n()$get_translation_language())
+    })
+
+    output$PM_Kobe <- DT::renderDataTable({
+      Table(Boxplot(Slick_Object()), i18n()$get_translation_language())
+    })
 
     output$PM_Quilt <- DT::renderDataTable({
-      tableQuilt(Quilt(Slick_Object()), i18n()$get_translation_language())
+      Table(Quilt(Slick_Object()), i18n()$get_translation_language())
     })
 
     output$PM_Spider <- DT::renderDataTable({
-      tableSpider(Spider(Slick_Object()), i18n()$get_translation_language())
+      Table(Spider(Slick_Object()), i18n()$get_translation_language())
     })
 
-    output$PM_Boxplot <- DT::renderDataTable({
-      tableBoxplot(Boxplot(Slick_Object()), i18n()$get_translation_language())
+    output$PM_Timeseries <- DT::renderDataTable({
+      Table(Timeseries(Slick_Object()), i18n()$get_translation_language())
     })
+
+    output$PM_Tradeoff <- DT::renderDataTable({
+      Table(Tradeoff(Slick_Object()), i18n()$get_translation_language())
+    })
+
 
   })
 }

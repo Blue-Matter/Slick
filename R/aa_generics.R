@@ -258,6 +258,12 @@ setMethod("Preset<-", "Boxplot", function(x, value) {
 })
 
 #' @export
+setMethod("Table", "Boxplot", function(x, lang=NULL) {
+  tableBoxplot(x, lang)
+})
+
+
+#' @export
 setMethod("Value", "Boxplot", function(x) {x@Value})
 
 #' @export
@@ -266,6 +272,7 @@ setMethod("Value<-", "Boxplot", function(x, value) {
   validObject(x)
   x
 })
+
 
 
 ## Kobe ----
@@ -305,6 +312,12 @@ setMethod("Preset<-", "Kobe", function(x, value) {
   validObject(x)
   x
 })
+
+#' @export
+setMethod("Table", "Kobe", function(x, lang=NULL) {
+  tableKobe(x, lang)
+})
+
 
 #' @export
 setMethod("Time", "Kobe", function(x) {x@Time})
@@ -709,6 +722,11 @@ setMethod("Preset<-", "Timeseries", function(x, value) {
 })
 
 #' @export
+setMethod("Table", "Timeseries", function(x, lang=NULL) {
+  tableTimeseries(x, lang)
+})
+
+#' @export
 setMethod("Time", "Timeseries", function(x) {x@Time})
 
 #' @export
@@ -772,6 +790,10 @@ setMethod("Selected<-", "Tradeoff", function(x, value) {
   x
 })
 
+#' @export
+setMethod("Table", "Tradeoff", function(x, lang=NULL) {
+  tableTradeoff(x, lang)
+})
 
 #' @export
 setMethod("Value", "Tradeoff", function(x) {

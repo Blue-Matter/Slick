@@ -1,14 +1,4 @@
 
-tableBoxplot <- function(boxplot, lang=NULL) {
-  df <- Metadata(boxplot, lang)
-  DT::datatable(df,
-                extensions = 'Responsive',
-                selection='none',
-                options = list(dom = 't',
-                               pageLength=100,
-                               ordering=F))
-}
-
 tableMPs <- function(MPs, lang) {
   df <- Metadata(MPs, lang)
   tab_df <- df |> dplyr::select(-Color)
@@ -21,13 +11,13 @@ tableMPs <- function(MPs, lang) {
                                pageLength=100,
                                ordering=F)) |>
     DT::formatStyle(cnames[1],
-                  color = DT::styleEqual(df[[cnames[1]]],
-                                     df$Color))
-    #
-    # DT::formatStyle(cnames[2],
-    #                 color = DT::styleEqual(df[[cnames[2]]],
-    #                                        df$Color)
-    # )
+                    color = DT::styleEqual(df[[cnames[1]]],
+                                           df$Color))
+  #
+  # DT::formatStyle(cnames[2],
+  #                 color = DT::styleEqual(df[[cnames[2]]],
+  #                                        df$Color)
+  # )
 }
 
 tableOMs <- function(OMs, lang, type='factor') {
@@ -52,6 +42,27 @@ tableOMs <- function(OMs, lang, type='factor') {
 }
 
 
+tableBoxplot <- function(boxplot, lang=NULL) {
+  df <- Metadata(boxplot, lang)
+  DT::datatable(df,
+                extensions = 'Responsive',
+                selection='none',
+                options = list(dom = 't',
+                               pageLength=100,
+                               ordering=F))
+}
+
+tableKobe <- function(kobe, lang=NULL) {
+  df <- Metadata(kobe, lang)
+  df <- df |> dplyr::select(-Target)
+  DT::datatable(df,escape=FALSE,
+                extensions = 'Responsive',
+                selection='none',
+                options = list(dom = 't',
+                               pageLength=100,
+                               ordering=F))
+}
+
 
 tableQuilt <- function(quilt, lang=NULL) {
 
@@ -70,6 +81,31 @@ tableSpider <- function(spider, lang=NULL) {
 
   df <- Metadata(spider, lang) |>
     dplyr::select(-MinValue, -MaxValue)
+  DT::datatable(df,
+                extensions = 'Responsive',
+                selection='none',
+                options = list(dom = 't',
+                               pageLength=100,
+                               ordering=F))
+}
+
+
+tableTimeseries <- function(timeseries, lang=NULL) {
+
+  df <- Metadata(timeseries, lang)
+  DT::datatable(df, escape = F,
+                extensions = 'Responsive',
+                selection='none',
+                options = list(dom = 't',
+                               pageLength=100,
+                               ordering=F))
+}
+
+
+
+tableTradeoff <- function(tradeoff, lang=NULL) {
+
+  df <- Metadata(tradeoff, lang)
   DT::datatable(df,
                 extensions = 'Responsive',
                 selection='none',
