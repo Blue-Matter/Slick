@@ -19,12 +19,43 @@ check_data.frame <- function(obj, req, opt) {
 
 # ---- Slick Class ----
 
-#' Class \code{'Slick'}
+#' Create a `Slick` object
 #'
-#' A `Slick` Data object for uploading into the Slick App.
+#' Each slot of the `Slick` object can be accessed or modified by the corresponding
+#' accessor function. See Examples sections below for more details.
+#'
+#' @param Title Title for the `Slick` object. A character string. For multiple languages,
+#' use a named list with names: `en`, `es`, `fr` for the three supported languages.
+#'
+#' @param Subtitle Subtitle for the `Slick` object. A character string or a named list with
+#' languages: `en`, `es`, `fr`
+#'
+#' @param Date Either an object of class `Date` or character string.
+#' Date the Slick object was created. Defaults to `Sys.Date()`
+#'
+#' @param Author A character vector with name(s) of author(s) for the `Slick` object
+#' @param Email A character vector with email addresses for the author(s). Optional.
+#' Must be same length as `Author`
+#' @param Institution A character vector with institution details for the author(s). Optional.
+#' Must be same length as `Author`
+#'
+#' @param Introduction Introduction text for the `Slick` object. Supports all markdown formatting.
+#' For multiple languages, use a named list with names: `en`, `es`, `fr` for the
+#' three supported languages.
+#'
+#' @param MPs An object of class [MPs()]
+#' @param OMs An object of class [OMs()]
+#' @param Boxplot An object of class [Boxplot()]
+#' @param Kobe An object of class [Kobe()]
+#' @param Quilt An object of class [Quilt()]
+#' @param Spider An object of class [Spider()]
+#' @param Timeseries An object of class [Timeseries()]
+#' @param Tradeoff An object of class [Tradeoff()]
 #'
 #'
+#' @usage Slick()
 #' @author A. Hordyk
+#'
 #' @include class_MPs.R
 #' @include class_OMs.R
 #' @include class_Quilt.R
@@ -33,20 +64,24 @@ check_data.frame <- function(obj, req, opt) {
 #' @include class_Kobe.R
 #' @include class_Timeseries.R
 #' @rdname Slick
-#' @param Title Title for the Slick object. A character string. For multiple languages,
-#' use a named list with names: `en`, `es`, `fr` for the three supported languages.
-#' @param Subtitle Subtitle for the Slick object. A character string or a named list with
-#' languages: `en`, `es`, `fr`
-#' @param Introduction Introduction text. A list where each list element is a
-#' separate paragraph.
-#' @usage Slick() # creates an new `Slick` object
-#' @usage Slick(Title, Subtitle, Introduction)
+#'
+#' @examples
+#' mySlick <- Slick()
+#' Title(mySlick) <- 'This is the title'#'
+#' Subtitle(mySlick) <- 'This is the subtitle'
+#' Date(mySlick) <- Sys.Date()
+#'
+#' Title(mySlick)
+#' Subtitle(mySlick)
+#' Date(mySlick)
+#'
+#'
 #' @export
 #'
 Slick <- setClass("Slick",
          slots=c(Title='character_list',
                  Subtitle='character_list',
-                 Date='character',
+                 Date='date_character',
                  Author='character',
                  Email='character',
                  Institution='character',
@@ -65,7 +100,7 @@ Slick <- setClass("Slick",
 setMethod("initialize", "Slick", function(.Object,
                                           Title=NULL,
                                           Subtitle=NULL,
-                                          Date=NULL,
+                                          Date=Sys.Date(),
                                           Author=NULL,
                                           Email=NULL,
                                           Institution=NULL,

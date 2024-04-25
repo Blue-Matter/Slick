@@ -148,6 +148,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     loaded_slick <- reactiveVal()
 
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
+
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
           File <- Slick::case_study_df$Object[match(Load_Slick_File$file, Slick::case_study_df$Example)]
@@ -184,7 +185,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
 
       if (inherits(slick, 'try-error')) {
         shinyalert::shinyalert('Invalid Slick object',
-                               'Use `Check(Slick)` to see the errors',
+                               'Use `Check(`slick_object`)` to see the errors',
                                type='error')
       }
 
@@ -194,7 +195,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       Slick_Object(slick)
 
       # jump to metadata tab
-      shinyjs::delay(30,
+      shinyjs::delay(10,
                      shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
       )
 
