@@ -14,7 +14,7 @@ Metadata(x, ...)
 
 \S4method{Metadata}{MPs}(x) <- value
 
-\S4method{Metadata}{OMs}(x, lang = NULL)
+\S4method{Metadata}{OMs}(x, lang = "en")
 
 \S4method{Metadata}{OMs}(x) <- value
 }

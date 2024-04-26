@@ -10,7 +10,7 @@ MPs(Metadata=data.frame(), Preset=list())
 \item{Metadata}{A data.frame with a specific structure, describing the details of
 the management procedures. See \code{Details} section.}
 
-\item{Preset}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See Details section.}
+\item{Preset}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See \code{Details} section.}
 }
 \description{
 An \code{MPs} object contains information about the management procedures (MPs)
@@ -18,7 +18,7 @@ in the \code{\link[=Slick]{Slick()}} object.
 }
 \details{
 Each slot of the \code{MPs} object can be accessed or modified by the corresponding
-accessor function. See Examples sections below for more details.
+accessor function. See \code{Examples} sections below for more details.
 \subsection{Metadata}{
 
 The \code{Metadata} data.frame must have n MPs rows and the following columns:
@@ -30,8 +30,6 @@ where there is no room for a full label.
 \item Color: A character vector with the colors to use to display the MPs in the \code{\link[=App]{App()}}. Optional.
 If not provided, the App will try to set some sensible colors.
 }
-
-See Examples section.
 \subsection{Multi-language support}{
 
 For multi-language support, the \code{Metadata} slot can be populated with a named
@@ -58,7 +56,7 @@ Metadata(myMPs) <- data.frame(Code=c('MP1', 'MP2'),
                               Description=c('This is the description for Management Procedure 1',
                                             'This is the description for Management Procedure 2')
                               )
-Preset(myMPs) <- list(All=1:3)
+Preset(myMPs) <- list(All=1:3, FirstTwo=1:2)
 
 
 # Multi-language

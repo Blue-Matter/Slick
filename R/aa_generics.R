@@ -66,6 +66,11 @@ setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
 setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
 setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
 
+#' Access or modify the `Metadata` slot
+#'
+#' @param x An object with a `Preset` slot
+#' @param ... Additional arguments, specific to the class of object `x`
+#'
 setGeneric("Preset", function(x, ...) standardGeneric("Preset"))
 setGeneric("Preset<-", function(x, value) standardGeneric("Preset<-"))
 
@@ -147,11 +152,17 @@ setMethod("Metadata<-", "MPs", function(x, value) {
   x
 })
 
+#' @describeIn Preset Modify the `Preset` slot in an [MPs()] object
+#' @param lang Character string to select language.
+#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
+#' If selected language isn't available in the object, it defaults to first language
 #' @export
-setMethod("Preset", "MPs", function(x, lang=NULL) {
+setMethod("Preset", "MPs", function(x, lang='en') {
   get_language(x@Preset, lang)
 })
 
+#' @describeIn Preset Assign the `Preset` slot in an [MPs()] object
+#' @param value A correctly structured named list for object class `x`
 #' @export
 setMethod("Preset<-", "MPs", function(x, value) {
   x@Preset <- value
@@ -193,7 +204,7 @@ setMethod("OMs","dataframe_list",function(x, ...) newOMs(x, ...))
 
 #' @describeIn Metadata Modify the `Metadata` slot in an [OMs()] object
 #' @export
-setMethod("Metadata", "OMs", function(x, lang=NULL) {
+setMethod("Metadata", "OMs", function(x, lang='en') {
   get_language(x@Metadata, lang)
 })
 
@@ -206,19 +217,24 @@ setMethod("Metadata<-", "OMs", function(x, value) {
 })
 
 
-#' @rdname OMs
+
+#' @describeIn Preset Modify the `Preset` slot in an [OMs()] object
+#' @param lang Character string to select language.
+#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
+#' If selected language isn't available in the object, it defaults to first language
 #' @export
-setMethod("Preset", "OMs", function(x, ...) {
-  x@Preset
+setMethod("Preset", "OMs", function(x, lang='en') {
+  get_language(x@Preset, lang)
 })
 
-#' @rdname OMs
+#' @describeIn Preset Assign the `Preset` slot in an [OMs()] object
 #' @export
 setMethod("Preset<-", "OMs", function(x, value) {
   x@Preset <- value
   validObject(x)
   x
 })
+
 
 #' @export
 setMethod("Table", "OMs", function(x, lang=NULL, type=NULL) {
