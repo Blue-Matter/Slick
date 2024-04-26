@@ -52,7 +52,7 @@ accessor function. See Examples sections below for more details.
 }
 \examples{
 mySlick <- Slick()
-Title(mySlick) <- 'This is the title'#'
+Title(mySlick) <- 'This is the title'
 Subtitle(mySlick) <- 'This is the subtitle'
 Date(mySlick) <- Sys.Date()
 
@@ -61,7 +61,4 @@ Subtitle(mySlick)
 Date(mySlick)
 
 
-}
-\author{
-A. Hordyk
 }

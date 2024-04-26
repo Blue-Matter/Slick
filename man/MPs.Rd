@@ -2,10 +2,79 @@
 % Please edit documentation in R/class_MPs.R
 \name{MPs}
 \alias{MPs}
-\title{Generic function for \code{MPs} objects}
+\title{Create or modify a \code{MPs} object}
 \usage{
-MPs(x, ...)
+MPs(Metadata=data.frame(), Preset=list())
+}
+\arguments{
+\item{Metadata}{A data.frame with a specific structure, describing the details of
+the management procedures. See \code{Details} section.}
+
+\item{Preset}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See Details section.}
 }
 \description{
-Generic function for \code{MPs} objects
+An \code{MPs} object contains information about the management procedures (MPs)
+in the \code{\link[=Slick]{Slick()}} object.
+}
+\details{
+Each slot of the \code{MPs} object can be accessed or modified by the corresponding
+accessor function. See Examples sections below for more details.
+\subsection{Metadata}{
+
+The \code{Metadata} data.frame must have n MPs rows and the following columns:
+\itemize{
+\item Code: A short character string for identifying the MPs. Used in the \code{\link[=App]{App()}} in places
+where there is no room for a full label.
+\item Label: A long character string (one word or max two words) for identifying the MPs.
+\item Description: A longer character string providing a description of the MPs.
+\item Color: A character vector with the colors to use to display the MPs in the \code{\link[=App]{App()}}. Optional.
+If not provided, the App will try to set some sensible colors.
+}
+
+See Examples section.
+\subsection{Multi-language support}{
+
+For multi-language support, the \code{Metadata} slot can be populated with a named
+list: names \code{en}, \code{es}, and \code{fr} for English, Spanish, and French respectively.
+The data.frame within each list element must have identical structure; i.e., the same number of rows
+and the column names in each list element must be identical.
+}
+
+}
+
+\subsection{Preset}{
+
+The \code{Preset} slot is an optional named list to add preset buttons for the Management
+Procedure filters in the \code{\link[=App]{App()}}. The name of the list element will appear as a button
+in the \code{\link[=App]{App()}}. Each list element should contain numeric values specifying the MPs to include.
+The values must be <= n MPs.
+}
+}
+\examples{
+
+myMPs <- MPs()
+Metadata(myMPs) <- data.frame(Code=c('MP1', 'MP2'),
+                              Label=c('Management Procedure 1', 'Management Procedure 2'),
+                              Description=c('This is the description for Management Procedure 1',
+                                            'This is the description for Management Procedure 2')
+                              )
+Preset(myMPs) <- list(All=1:3)
+
+
+# Multi-language
+df_es <- Metadata(myMPs)
+df_fr <- Metadata(myMPs)
+df_es$Description <- c("This is the Spanish description for Management Procedure 1",
+                       "This is the Spanish description for Management Procedure 2")
+df_fr$Description <- c("This is the French description for Management Procedure 1",
+                       "This is the French description for Management Procedure 2")
+
+Metadata(myMPs) <- list(en=Metadata(myMPs),
+                        es=df_es,
+                        fr=df_fr)
+
+
+Metadata(myMPs)
+Metadata(myMPs, 'es')
+Metadata(myMPs, 'fr')
 }

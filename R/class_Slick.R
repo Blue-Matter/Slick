@@ -54,7 +54,6 @@ check_data.frame <- function(obj, req, opt) {
 #'
 #'
 #' @usage Slick()
-#' @author A. Hordyk
 #'
 #' @include class_MPs.R
 #' @include class_OMs.R
@@ -67,7 +66,7 @@ check_data.frame <- function(obj, req, opt) {
 #'
 #' @examples
 #' mySlick <- Slick()
-#' Title(mySlick) <- 'This is the title'#'
+#' Title(mySlick) <- 'This is the title'
 #' Subtitle(mySlick) <- 'This is the subtitle'
 #' Date(mySlick) <- Sys.Date()
 #'

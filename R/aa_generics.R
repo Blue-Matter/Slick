@@ -50,8 +50,15 @@ setGeneric("Institution<-", function(x, value) standardGeneric("Institution<-"))
 setGeneric("Introduction", function(x, ...) standardGeneric("Introduction"))
 setGeneric("Introduction<-", function(x, value) standardGeneric("Introduction<-"))
 
+#' Access or modify the `Metadata` slot
+#'
+#' @param x An object with a `Metadata` slot
+#' @param ... Additional arguments, specific to the class of object `x`
+#'
 setGeneric("Metadata", function(x, ...) standardGeneric("Metadata"))
+
 setGeneric("Metadata<-", function(x, value) standardGeneric("Metadata<-"))
+
 
 setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
 setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
@@ -115,16 +122,24 @@ setMethod("Table", "Boxplot", function(x, lang=NULL) {
 ## MPs ----
 
 #' @export
+#' @noRd
 setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
 
 #' @export
+#' @describeIn MPs Create a new object of class `MPs`
 setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
 
+#' @describeIn Metadata Modify the `Metadata` slot in an [MPs()] object
+#' @param lang Character string to select language.
+#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
+#' If selected language isn't available in the object, it defaults to first language
 #' @export
-setMethod("Metadata", "MPs", function(x, lang=NULL) {
+setMethod("Metadata", "MPs", function(x, lang='en') {
   get_language(x@Metadata, lang)
 })
 
+#' @describeIn Metadata Assign the `Metadata` slot in an [MPs()] object
+#' @param value A correctly structured data.frame for object class `x`
 #' @export
 setMethod("Metadata<-", "MPs", function(x, value) {
   x@Metadata <- value
@@ -168,21 +183,21 @@ setMethod("Design<-", "OMs", function(x, value) {
   x
 })
 
-#' create a new OMs object
+#' @noRd
 #' @export
 setMethod("OMs","missingOrNULL",function(x, ...) newOMs(...))
 
-#' @rdname OMs
+#' @noRd
 #' @export
 setMethod("OMs","dataframe_list",function(x, ...) newOMs(x, ...))
 
-#' @rdname OMs
+#' @describeIn Metadata Modify the `Metadata` slot in an [OMs()] object
 #' @export
 setMethod("Metadata", "OMs", function(x, lang=NULL) {
   get_language(x@Metadata, lang)
 })
 
-#' @rdname OMs
+#' @describeIn Metadata Assign the `Metadata` slot in an [OMs()] object
 #' @export
 setMethod("Metadata<-", "OMs", function(x, value) {
   x@Metadata <- value
