@@ -47,12 +47,21 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
 
     output$selections <- renderUI({
       i18n <- i18n()
-      shinyWidgets::pickerInput(
-        inputId = ns('selectsim'),
-        label = i18n$t('Individual Simulation(s):'),
-        choices = sims(),
-        multiple = TRUE,
-        width='fit'
+      tagList(
+        radioButtons(ns('plotoption'),
+                     i18n$t('Plot Option'),
+                     choiceNames = i18n$t(c('Median', 'Individual Simulation')),
+                     choiceValues= c('median', 'sim')
+        ),
+        conditionalPanel("input.plotoption=='sim'", ns=ns,
+                         shinyWidgets::pickerInput(
+                           inputId = ns('selectsim'),
+                           label = i18n$t('Individual Simulation(s):'),
+                           choices = sims(),
+                           multiple = FALSE,
+                           width='fit'
+                         )
+        )
       )
     })
 
@@ -103,7 +112,6 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
         for (i in 1:nOM()) {
           plot_list[[i]] <- Timeseries_plot(filtered_slick(),
                                             pm_ind(),
-                                            yrange(),
                                             mp_ind=NULL,
                                             i,
                                             sims=NULL)

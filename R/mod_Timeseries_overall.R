@@ -31,7 +31,7 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
     output$plot1 <- renderPlot({
       req(pm_ind())
       req(yrange())
-      Timeseries_plot(filtered_slick(), pm_ind(), yrange=yrange())
+      Timeseries_plot(filtered_slick(), pm_ind())
     })
 
     output$plot <- renderUI({
@@ -67,14 +67,12 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
 
 
 Timeseries_plot <- function(slick, pm_ind=1,
-                            yrange=NULL,
                             mp_ind=NULL,
                             om=NULL,
                             sims=NULL) {
 
   slick <<- slick
   pm_ind <<- pm_ind
-  yrange <<- yrange
   mp_ind <<- mp_ind
   om <<- om
   sims <<- sims
@@ -192,13 +190,8 @@ Timeseries_plot <- function(slick, pm_ind=1,
       ggplot2::guides(color='none')
   }
 
-  if (is.null(yrange)) {
-    p <- p + ggplot2::expand_limits(y=0)
-  } else {
-    p <- p + ggplot2::coord_cartesian(ylim=yrange)
-  }
-
   p <- p +
+    ggplot2::expand_limits(y=0) +
     ggplot2::labs(x=time_lab, y=PM_lab, color='') +
     ggplot2::scale_y_continuous(label=scales::comma) +
     ggplot2::theme(axis.title = ggplot2::element_text(size=16, face='bold'),
