@@ -8,26 +8,22 @@
 \alias{Preset<-,OMs-method}
 \title{Access or modify the \code{Metadata} slot}
 \usage{
-Preset(x, ...)
+Preset(x)
 
-\S4method{Preset}{MPs}(x, lang = "en")
+\S4method{Preset}{MPs}(x)
 
 \S4method{Preset}{MPs}(x) <- value
 
-\S4method{Preset}{OMs}(x, lang = "en")
+\S4method{Preset}{OMs}(x)
 
 \S4method{Preset}{OMs}(x) <- value
 }
 \arguments{
 \item{x}{An object with a \code{Preset} slot}
 
-\item{...}{Additional arguments, specific to the class of object \code{x}}
-
-\item{lang}{Character string to select language.
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
-If selected language isn't available in the object, it defaults to first language}
-
 \item{value}{A correctly structured named list for object class \code{x}}
+
+\item{...}{Additional arguments, specific to the class of object \code{x}}
 }
 \description{
 Access or modify the \code{Metadata} slot

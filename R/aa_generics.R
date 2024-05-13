@@ -14,6 +14,9 @@ get_language <- function(value, lang) {
   if (is.null(lang))
     return(value)
 
+  if (inherits(value, 'data.frame')) {
+    return(value)
+  }
   if (inherits(value, 'list')) {
     if (is.null(names(value)))
       return(value)
@@ -71,7 +74,7 @@ setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
 #' @param x An object with a `Preset` slot
 #' @param ... Additional arguments, specific to the class of object `x`
 #'
-setGeneric("Preset", function(x, ...) standardGeneric("Preset"))
+setGeneric("Preset", function(x) standardGeneric("Preset"))
 setGeneric("Preset<-", function(x, value) standardGeneric("Preset<-"))
 
 setGeneric("Quilt", function(x, ...) standardGeneric("Quilt"))
@@ -131,7 +134,7 @@ setMethod("Table", "Boxplot", function(x, lang=NULL) {
 setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
 
 #' @export
-#' @describeIn MPs Create a new object of class `MPs`
+#' @noRd
 setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
 
 #' @describeIn Metadata Modify the `Metadata` slot in an [MPs()] object
@@ -153,12 +156,9 @@ setMethod("Metadata<-", "MPs", function(x, value) {
 })
 
 #' @describeIn Preset Modify the `Preset` slot in an [MPs()] object
-#' @param lang Character string to select language.
-#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
-#' If selected language isn't available in the object, it defaults to first language
 #' @export
-setMethod("Preset", "MPs", function(x, lang='en') {
-  get_language(x@Preset, lang)
+setMethod("Preset", "MPs", function(x) {
+  x@Preset
 })
 
 #' @describeIn Preset Assign the `Preset` slot in an [MPs()] object
@@ -170,7 +170,13 @@ setMethod("Preset<-", "MPs", function(x, value) {
   x
 })
 
+#' @export
+setMethod("show", "MPs", function(object) {
+  showMPs(object)
+})
 
+
+#' @describeIn MPs Generate a `DT::datatable` object for objects of class `MPs`
 #' @export
 setMethod("Table", "MPs", function(x, lang=NULL) {
   tableMPs(x, lang)
@@ -219,12 +225,9 @@ setMethod("Metadata<-", "OMs", function(x, value) {
 
 
 #' @describeIn Preset Modify the `Preset` slot in an [OMs()] object
-#' @param lang Character string to select language.
-#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
-#' If selected language isn't available in the object, it defaults to first language
 #' @export
-setMethod("Preset", "OMs", function(x, lang='en') {
-  get_language(x@Preset, lang)
+setMethod("Preset", "OMs", function(x) {
+  x@Preset
 })
 
 #' @describeIn Preset Assign the `Preset` slot in an [OMs()] object
@@ -413,7 +416,7 @@ setMethod("plot", "Quilt", function(x, ...) {
 })
 
 #' @export
-setMethod("Preset", "Quilt", function(x, ...) {
+setMethod("Preset", "Quilt", function(x) {
   x@Preset
 })
 
@@ -606,11 +609,7 @@ setMethod("Subtitle<-", "Slick", function(x, value) {
 
 #' @export
 setMethod("show", "Slick", function(object) {
-  cat('An object of class `Slick` \n\n')
-  cat('Title:', Title(object, 'en'), '\n')
-  cat('Subtitle:', Subtitle(object, 'en'), '\n')
-  cat('Author:', paste(Author(object),collapse=', '), '\n')
-
+  showSlick(object)
 })
 
 #' @export
@@ -682,7 +681,7 @@ setMethod("Metadata<-", "Spider", function(x, value) {
 })
 
 #' @export
-setMethod("Preset", "Spider", function(x, ...) {
+setMethod("Preset", "Spider", function(x) {
   x@Preset
 })
 

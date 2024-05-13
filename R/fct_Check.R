@@ -6,7 +6,7 @@
 #'
 #' @export
 #'
-Check <- function(Slick) {
+Check <- function(slick) {
 
-  Slick
+  slick
 }

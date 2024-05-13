@@ -13,10 +13,26 @@ golem::add_module(name = "Sidebar")
 golem::add_module(name = "Home")
 golem::add_module(name = "toplink")
 golem::add_module(name = "Metadata")
+
+
+golem::add_module(name = "Page_Filter")
+golem::add_module(name = "mp_selection")
+golem::add_module(name = "pm_selection")
+golem::add_module(name = "om_selection")
+
+golem::add_module(name = "Global_Filters")
+
+
 golem::add_module(name = "Filter")
+
+golem::add_module(name = "Filter_MP")
+
 golem::add_module(name = "Filter_select")
 
 golem::add_module(name = "subtitle")
+
+
+
 
 
 golem::add_module(name = "MP_Info")
@@ -56,13 +72,19 @@ golem::add_module(name = "Report_Add")
 golem::add_module(name = "Report_Add_Button")
 
 golem::add_module(name = "Zigzag_plot")
+
+golem::add_module(name = "MP_Color")
+
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("wrapper_dropdownbutton")
+golem::add_fct("filters")
+golem::add_fct("colors")
+
 golem::add_fct("Check")
 golem::add_fct("plots")
 
 golem::add_fct("Kobe_plot")
+golem::add_fct('FilterSlick')
 
 golem::add_utils("util", with_test = FALSE)
 golem::add_utils("Table", with_test = FALSE)

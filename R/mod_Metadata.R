@@ -91,7 +91,10 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       slick <- Slick_Object()
       tagList(
         h3(i18n$t('About the Plots')),
-        uiOutput(ns('plotlinks'))
+        div(style='font-size: 16px;',
+            uiOutput(ns('plotlinks'))
+            )
+
       )
     })
 

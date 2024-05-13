@@ -11,7 +11,6 @@ mod_subtitle_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns('subtitle'))
-
   )
 }
 
@@ -23,6 +22,7 @@ mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL){
     ns <- session$ns
 
     output$subtitle <- renderUI({
+
       i18n <- i18n()
 
       if (!is.null(nPM)) {

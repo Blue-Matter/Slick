@@ -4,7 +4,7 @@
 \alias{Check}
 \title{Check a \code{Slick} object}
 \usage{
-Check(Slick)
+Check(slick)
 }
 \value{
 The \code{Slick} object or an error message

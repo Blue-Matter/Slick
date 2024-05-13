@@ -1,4 +1,4 @@
-options(shiny.maxRequestSize=100000*1024^2)
+options(shiny.maxRequestSize=300000*1024^2)
 
 
 #' The application server-side
@@ -45,7 +45,13 @@ app_server <- function(input, output, session) {
 
   # ---- Reactives -----
   Load_Slick_File <- reactiveValues(loaded=FALSE, file=NULL)
+  Global_Slick_Object <- reactiveVal()
   Slick_Object <- reactiveVal()
+
+
+  observeEvent(Global_Slick_Object(),
+               Slick_Object(Global_Slick_Object())
+  )
 
   output$Loaded <- reactive({ Load_Slick_File$loaded })
   outputOptions(output, "Loaded", suspendWhenHidden = FALSE)
@@ -60,9 +66,9 @@ app_server <- function(input, output, session) {
 
 
   # Report - Metadata & MP info etc
-  observeEvent(Slick_Object(), {
+  observeEvent(Global_Slick_Object(), {
     i18n <- i18n()
-    slick <- Slick_Object()
+    slick <- Global_Slick_Object()
     Report$Metadata <- list(Title=(Title(slick, i18n$get_translation_language())),
                          Subtitle=Subtitle(slick, i18n$get_translation_language()),
                          Author=Author(slick),
@@ -83,15 +89,25 @@ app_server <- function(input, output, session) {
 
   mod_About_server("about", i18n)
   mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
-  mod_Home_server("home", i18n, Load_Slick_File, Slick_Object, Report)
+  mod_Home_server("home", i18n, Load_Slick_File, Global_Slick_Object, Report)
+
+  Filtered_Slick_Object <- mod_Global_Filters_server('filters', i18n, Global_Slick_Object, session)
+
+
+  observeEvent(Filtered_Slick_Object(), {
+    Slick_Object(Filtered_Slick_Object())
+  }, ignoreInit = TRUE)
+
   mod_Report_Page_server('Report_Page_1', i18n, Slick_Object, Report)
+
 
   waitress$inc(5)
 
   mod_Metadata_server("metadata", i18n, Slick_Object)
-  mod_MP_Info_server("MPheader", i18n, Slick_Object)
-  mod_OM_Info_server("OMheader", i18n, Slick_Object)
-  mod_PM_Info_server("PMheader", i18n, Slick_Object)
+
+  mod_MP_Info_server("MPheader", i18n, Slick_Object, session)
+  mod_OM_Info_server("OMheader", i18n, Global_Slick_Object)
+  mod_PM_Info_server("PMheader", i18n, Global_Slick_Object)
 
   waitress$inc(5)
 

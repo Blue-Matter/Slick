@@ -2,9 +2,15 @@
 % Please edit documentation in R/class_MPs.R
 \name{MPs}
 \alias{MPs}
-\title{Create or modify a \code{MPs} object}
+\title{Create or modify an \code{MPs} object}
 \usage{
-MPs(Metadata=data.frame(), Preset=list())
+MPs(Metadata=data.frame(), Preset=list()) # create an empty object
+
+MPs() # create an empty object
+
+MPs(Slick_Object) # return `MPs` from object of class `Slick`
+
+MPs(Slick_Object) <- MPs(Metadata=data.frame(), Preset=list() # Assign `MPs` to object of class `Slick`
 }
 \arguments{
 \item{Metadata}{A data.frame with a specific structure, describing the details of
@@ -12,11 +18,16 @@ the management procedures. See \code{Details} section.}
 
 \item{Preset}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See \code{Details} section.}
 }
+\value{
+An object of class \code{MPs}
+}
 \description{
 An \code{MPs} object contains information about the management procedures (MPs)
 in the \code{\link[=Slick]{Slick()}} object.
 }
 \details{
+\code{MPs()} creates an empty \code{MPs} object.
+
 Each slot of the \code{MPs} object can be accessed or modified by the corresponding
 accessor function. See \code{Examples} sections below for more details.
 \subsection{Metadata}{
@@ -30,14 +41,11 @@ where there is no room for a full label.
 \item Color: A character vector with the colors to use to display the MPs in the \code{\link[=App]{App()}}. Optional.
 If not provided, the App will try to set some sensible colors.
 }
-\subsection{Multi-language support}{
 
 For multi-language support, the \code{Metadata} slot can be populated with a named
 list: names \code{en}, \code{es}, and \code{fr} for English, Spanish, and French respectively.
 The data.frame within each list element must have identical structure; i.e., the same number of rows
 and the column names in each list element must be identical.
-}
-
 }
 
 \subsection{Preset}{
@@ -51,21 +59,27 @@ The values must be <= n MPs.
 \examples{
 
 myMPs <- MPs()
-Metadata(myMPs) <- data.frame(Code=c('MP1', 'MP2'),
-                              Label=c('Management Procedure 1', 'Management Procedure 2'),
+Metadata(myMPs) <- data.frame(Code=c('MP1', 'MP2', 'MP3'),
+                              Label=c('Management Procedure 1',
+                                      'Management Procedure 2',
+                                      'Management Procedure 3'),
                               Description=c('This is the description for Management Procedure 1',
-                                            'This is the description for Management Procedure 2')
+                                            'This is the description for Management Procedure 2',
+                                            'This is the description for Management Procedure 3')
                               )
 Preset(myMPs) <- list(All=1:3, FirstTwo=1:2)
+
 
 
 # Multi-language
 df_es <- Metadata(myMPs)
 df_fr <- Metadata(myMPs)
 df_es$Description <- c("This is the Spanish description for Management Procedure 1",
-                       "This is the Spanish description for Management Procedure 2")
+                       "This is the Spanish description for Management Procedure 2",
+                       "This is the Spanish description for Management Procedure 3")
 df_fr$Description <- c("This is the French description for Management Procedure 1",
-                       "This is the French description for Management Procedure 2")
+                       "This is the French description for Management Procedure 2",
+                       "This is the French description for Management Procedure 3")
 
 Metadata(myMPs) <- list(en=Metadata(myMPs),
                         es=df_es,

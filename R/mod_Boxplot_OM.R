@@ -10,7 +10,7 @@
 mod_Boxplot_OM_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns('page'))
+    uiOutput(ns('results'))
   )
 }
 
@@ -24,25 +24,8 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$page <- renderUI({
-      vals <- filtered_slick() |> Boxplot() |> Value()
-
-      i18n <- i18n()
-      tagList(
-        fluidRow(
-          column(3,
-                 h4(strong(i18n$t("Reading this Chart"))),
-                 htmlOutput(ns('reading'))
-          ),
-          column(9,
-                 uiOutput(ns('results'))
-          )
-        )
-      )
-    })
-
     plot_width_calc <- reactive({
-      dd <<- window_dims()
+      dd <- window_dims()
       val <- dd[1] * 0.6
       paste0(val, 'px')
     })
@@ -56,7 +39,6 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     output$selectedtype <- reactive({
       plottype()
     })
-
     outputOptions(output, "selectedtype", suspendWhenHidden = FALSE)
 
     output$results <- renderUI({
@@ -143,40 +125,6 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
         })
       }
     })
-
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
-    })
-
-    output$reading <- renderUI({
-      i18n <- i18n()
-      mp_metadata <- filtered_slick() |> MPs() |> Metadata()
-
-      icon_text <- paste('<i class="fas fa-circle fa-sm" style="color:', mp_metadata$Color, ';"></i>', mp_metadata$Label, '<br/>')
-      icon_text <- paste(icon_text, collapse=" ")
-      tagList(
-        p(strong('Key'), br(),
-          i18n$t('Management Procedure'),
-          br(),
-          HTML(icon_text)),
-        p(
-          i18n$t('This chart compares the performance of '), nMP(),
-          i18n$t(' management procedures (MP) for '), nOM(),
-          i18n$t(' operating models.')
-        ),
-        p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance')
-        ),
-        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
-          i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
-        ),
-        img(src='www/img/Boxplot.jpg', width='100%')
-      )
-    })
-
-
-
-
-
   })
 }
 

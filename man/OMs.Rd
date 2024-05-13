@@ -2,44 +2,64 @@
 % Please edit documentation in R/class_OMs.R
 \name{OMs}
 \alias{OMs}
-\title{Generic function for \code{OMs} objects}
+\title{Create or modify an \code{OMs} object}
 \usage{
-OMs(Design, Description, Label, Default)
+OMs()
 }
 \arguments{
+\item{Metadata}{A data.frame with a specific structure, describing the details of
+the operating models. See \code{Details} section}
+
 \item{Design}{A \code{data.frame} with the design matrix for the OMs. The columns
-must be named with the factor names. The rows contain the factor levels for each OM.}
+must be named with the factor names. The rows contain the factor levels for each OM. See \code{Details} section}
 
-\item{Description}{A list of length n factors (i.e., \code{ncol(Design)}), with each
-element a character vector of length n levels (i.e., \code{lapply(lapply(Design, unique), length)}),
-with a description of the factor levels.}
-
-\item{Label}{(optional) A list with the same structure as \code{Description},
-with a short label to be used in the plots. If missing, the label will be the
-factor level.}
-
-\item{Default}{(optional) TODO}
+\item{Preset}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See \code{Details} section.}
 }
 \value{
 An object of class \code{OMs}
 }
 \description{
-Creates or populates a new \code{OMs} object, or returns or assigns the \code{OMs} slot in objects of class \code{Slick}
+An \code{OMs} object contains information about the operating models (MPs)
+in the \code{\link[=Slick]{Slick()}} object.
 }
 \details{
-Creates an empty \code{OMs} object, or specifies the design matrix, description, and labels of the operating models
-(OMs) included in the Slick Data object.
+\code{OMs()} creates an empty \code{OMs} object.
 
-Also used to return or assign the \code{OMs} slot for objects of class \code{Slick}
+Each slot of the \code{OMs} object can be accessed or modified by the corresponding
+accessor function. See \code{Examples} sections below for more details.
+\subsection{Metadata}{
+
+The \code{Metadata} data.frame must have n OMs rows and the following columns:
+\itemize{
+\item Code: A short character string for identifying the MPs. Used in the \code{\link[=App]{App()}} in places
+where there is no room for a full label.
+\item Label: A long character string (one word or max two words) for identifying the MPs.
+\item Description: A longer character string providing a description of the MPs.
+\item Color: A character vector with the colors to use to display the MPs in the \code{\link[=App]{App()}}. Optional.
+If not provided, the App will try to set some sensible colors.
+}
+}
+
+\subsection{Design}{
+}
+
+\subsection{Preset}{
+}
 }
 \examples{
-Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
-Description <- list(c('Natural mortality (M) = 0.1',
-                      'Natural mortality (M) = 0.2',
-                      'Natural mortality (M) = 0.3'),
-                    c('Steepness (h) = 0.7',
-                      'Steepness (h) = 0.9'))
-Label <- list(c(M=0.1, M=0.2, M=0.3),
-               c(h=0.7, h=0.9))
-myOMs <- OMs(Design, Description, Label)
+
+myOMs <- OMs()
+
+Metadata(myOMs) <- data.frame()
+
+
+# Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
+#' Description <- list(c('Natural mortality (M) = 0.1',
+#'                       'Natural mortality (M) = 0.2',
+#'                       'Natural mortality (M) = 0.3'),
+#'                     c('Steepness (h) = 0.7',
+#'                       'Steepness (h) = 0.9'))
+#' Label <- list(c(M=0.1, M=0.2, M=0.3),
+#'                c(h=0.7, h=0.9))
+#' myOMs <- OMs(Design, Description, Label)
 }

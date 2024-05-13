@@ -1,40 +1,47 @@
 # ---- Class OMs ----
 
-#' Generic function for `OMs` objects
+#' Create or modify an `OMs` object
 #'
-#' Creates or populates a new `OMs` object, or returns or assigns the `OMs` slot in objects of class `Slick`
+#' An `OMs` object contains information about the operating models (MPs)
+#' in the [Slick()] object.
 #'
-#' Creates an empty `OMs` object, or specifies the design matrix, description, and labels of the operating models
-#' (OMs) included in the Slick Data object.
+#' `OMs()` creates an empty `OMs` object.
 #'
-#' Also used to return or assign the `OMs` slot for objects of class `Slick`
+#' Each slot of the `OMs` object can be accessed or modified by the corresponding
+#' accessor function. See `Examples` sections below for more details.
+#'
+#' @param Metadata A data.frame with a specific structure, describing the details of
+#' the operating models. See `Details` section
 #'
 #' @param Design A `data.frame` with the design matrix for the OMs. The columns
-#' must be named with the factor names. The rows contain the factor levels for each OM.
-#' @param Description A list of length n factors (i.e., `ncol(Design)`), with each
-#' element a character vector of length n levels (i.e., `lapply(lapply(Design, unique), length)`),
-#' with a description of the factor levels.
-#' @param Label (optional) A list with the same structure as `Description`,
-#'  with a short label to be used in the plots. If missing, the label will be the
-#'  factor level.
-#' @param Default (optional) TODO
+#' must be named with the factor names. The rows contain the factor levels for each OM. See `Details` section
+#'
+#' @param Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
+#'
+#' @details
+#'
+#' ### Metadata
+#' The `Metadata` data.frame must have n OMs rows and the following columns:
+#'    - Code: A short character string for identifying the MPs. Used in the [App()] in places
+#'    where there is no room for a full label.
+#'    - Label: A long character string (one word or max two words) for identifying the MPs.
+#'    - Description: A longer character string providing a description of the MPs.
+#'    - Color: A character vector with the colors to use to display the MPs in the [App()]. Optional.
+#'    If not provided, the App will try to set some sensible colors.
+#'
+#' ### Design
+#'
+#' ### Preset
+#'
+#'
+#'
+#'
 #'
 #' @return An object of class `OMs`
-#' @include aa_generics.R
-#' @include class_Slick.R
-#' @usage OMs(Design, Description, Label, Default)
+#' @usage OMs()
 #' @export
 #'
-#' @examples
-#' Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
-#' Description <- list(c('Natural mortality (M) = 0.1',
-#'                       'Natural mortality (M) = 0.2',
-#'                       'Natural mortality (M) = 0.3'),
-#'                     c('Steepness (h) = 0.7',
-#'                       'Steepness (h) = 0.9'))
-#' Label <- list(c(M=0.1, M=0.2, M=0.3),
-#'                c(h=0.7, h=0.9))
-#' myOMs <- OMs(Design, Description, Label)
+#' @example inst/examples/OMs.R
 OMs <- setClass("OMs",
                 slots=c(Metadata='dataframe_list',
                         Design='data.frame',

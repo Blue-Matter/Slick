@@ -22,18 +22,11 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_subtitle_server(id, i18n, nOM, nMP)
-
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
                                       kobe='Kobe'))
 
-    Filter_Selected<- mod_Filter_server(id, i18n, Slick_Object,
-                                        slot='Kobe',
-                                        parent_session=session,
-                                        incPM=FALSE)
-
-    mod_Kobe_overall_server("Kobe_overall_1", i18n, filtered_slick,
+    selected_quantile <- mod_Kobe_overall_server("Kobe_overall_1", i18n, filtered_slick,
                             plottype,
                             nOM, nMP, nPM, parent_session=session,
                             window_dims)
@@ -43,34 +36,21 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
                          nOM, nMP, nPM, parent_session=session,
                          window_dims)
 
+    mod_subtitle_server(id, i18n, nOM, nMP)
+
+
+    Filter_Selected <- mod_Page_Filter_server("kobefilter",i18n, Slick_Object,
+                                              slot='Kobe', minPM=1, FALSE)
+
     # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
 
     filtered_slick <- reactive({
-      if (is.null(Slick_Object())) return(NULL)
-      slick <- Slick_Object()
-      selected_OMs <- Filter_Selected$OMs
-      selected_MPs <- Filter_Selected$MPs
-
-      kobe <- Kobe(slick)
-
-      dd <- dim(Value(kobe))
-      if (length(selected_OMs)==dd[2]) {
-        # filter OMs
-        if (!is.null(selected_OMs)) {
-          Value(kobe) <- Value(kobe)[,selected_OMs,,,, drop=FALSE]
-
-        }
-        # filter MPs
-        if (!is.null(selected_MPs)) {
-          Value(kobe) <- Value(kobe)[,,selected_MPs,,, drop=FALSE]
-          metadata <- Metadata(MPs(slick))
-          Metadata(MPs(slick)) <- metadata[selected_MPs,]
-        }
-
-      }
-      Kobe(slick) <- kobe
-      slick
+      FilterSlick(Slick_Object(),
+                  as.numeric(Filter_Selected$MPs),
+                  as.numeric(Filter_Selected$OMs),
+                  as.numeric(Filter_Selected$PMs),
+                  'Kobe')
     })
 
     dims <- reactive({
@@ -105,7 +85,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                 title=h3(strong(i18n$t('Kobe'))),
                                 br(),
                                 column(12, mod_subtitle_ui(ns(id))),
-                                column(5,
+                                column(12,
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns("plotselect"),
                                          choiceNames = c(i18n$t('Overall'),
@@ -114,20 +94,66 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                          choiceValues=c('overall',  'kobetime')
                                        )
                                 ),
-                                column(12,
+                                column(3,
+                                       conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                        uiOutput(ns('reading_overall'))
+                                       ),
+                                       conditionalPanel("input.plotselect=='kobetime'", ns=ns,
+                                                        uiOutput(ns('reading_time'))
+
+                                       ),
+                                       mod_Page_Filter_ui(ns("kobefilter"))
+                                ),
+                                column(9,
                                        conditionalPanel("input.plotselect=='overall'", ns=ns,
                                                         mod_Kobe_overall_ui(ns("Kobe_overall_1"))
                                        ),
                                        conditionalPanel("input.plotselect=='kobetime'", ns=ns,
                                                         mod_Kobe_time_ui(ns("Kobe_time_1"))
                                        )
-                                ),
-                                sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
-                                                                         icon=icon('fa-xl fa-filter', class='fa-regular'),
-                                                                         column(12, align = 'left', class='multicol',
-                                                                                mod_Filter_ui(ns(id))
-                                                                         )
                                 )
+        )
+      )
+    })
+
+
+    output$reading_overall <- renderUI({
+      i18n <- i18n()
+      slick <- filtered_slick()
+      mp_metadata <- slick |> MPs() |> Metadata()
+      time_info <- slick |> Kobe() |> Time()
+      yrs <- time_info[[1]]
+      quant_text <- selected_quantile() * 100
+
+      yr.txt <- paste0(min(yrs), '-', max(yrs))
+      tagList(
+        p(i18n$t('This chart compares trade-offs in'), nMP(),
+          i18n$t(' management procedures for '), nOM(),
+          i18n$t(' operating models by measuring two co-dependent performance metrics: fishing mortality (vertical axis) and biomass (horizontal axis)')
+        ),
+        p(
+          HTML('<i class="fas fa-circle fa-sm"></i>'),
+          i18n$t('The large colored dots represent the median value for the final year of the projection period: '),
+          yr.txt),
+        p(i18n$t('The small colored dots indicate the median value in the first year of the projections, and the colored lines show how the median values change over time.')
+        ),
+        p( i18n$t('The white dotted lines around dots are error bars. The default represents'),
+           HTML(paste0(quant_text, 'th')),
+           i18n$t('percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
+        )
+      )
+    })
+
+    output$reading_time <- renderUI({
+      i18n <- i18n()
+      tagList(
+        p(i18n$t('This chart compares and ranks projected median values for '), nOM(),
+          i18n$t('operating models over time for '), nMP(),
+          i18n$t('management procedures and shows the levels of uncertainty.')),
+        p(i18n$t('Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.')
+        ),
+        img(src='www/img/KobeTime_corrected.jpg',
+            style="width: 100%"
         )
       )
     })

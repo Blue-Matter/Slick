@@ -1,7 +1,9 @@
-#' Create or modify a `MPs` object
+#' Create or modify an `MPs` object
 #'
 #' An `MPs` object contains information about the management procedures (MPs)
 #' in the [Slick()] object.
+#'
+#' `MPs()` creates an empty `MPs` object.
 #'
 #' Each slot of the `MPs` object can be accessed or modified by the corresponding
 #' accessor function. See `Examples` sections below for more details.
@@ -12,7 +14,8 @@
 #' @param Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
 #'
 #' @details
-#' ## Metadata
+#'
+#' ### Metadata
 #' The `Metadata` data.frame must have n MPs rows and the following columns:
 #'    - Code: A short character string for identifying the MPs. Used in the [App()] in places
 #'    where there is no room for a full label.
@@ -21,22 +24,26 @@
 #'    - Color: A character vector with the colors to use to display the MPs in the [App()]. Optional.
 #'    If not provided, the App will try to set some sensible colors.
 #'
-#' ### Multi-language support
 #' For multi-language support, the `Metadata` slot can be populated with a named
 #' list: names `en`, `es`, and `fr` for English, Spanish, and French respectively.
 #' The data.frame within each list element must have identical structure; i.e., the same number of rows
 #' and the column names in each list element must be identical.
 #'
-#' ## Preset
+#' ### Preset
 #' The `Preset` slot is an optional named list to add preset buttons for the Management
 #' Procedure filters in the [App()]. The name of the list element will appear as a button
 #' in the [App()]. Each list element should contain numeric values specifying the MPs to include.
 #' The values must be <= n MPs.
 #'
+#' @return An object of class `MPs`
+#'
 #' @example inst/examples/MPs.R
 #'
 #' @export
-#' @usage MPs(Metadata=data.frame(), Preset=list())
+#' @usage MPs(Metadata=data.frame(), Preset=list()) # create an empty object
+#' @usage MPs() # create an empty object
+#' @usage MPs(Slick_Object) # return `MPs` from object of class `Slick`
+#' @usage MPs(Slick_Object) <- MPs(Metadata=data.frame(), Preset=list() # Assign `MPs` to object of class `Slick`
 #'
 MPs <- setClass("MPs",
                 slots=c(Metadata='dataframe_list',
@@ -58,14 +65,46 @@ validMPs <- function(object) {
   df <- object@Metadata
 
   if (inherits(df, 'data.frame')) {
+    nMPs <- nrow(df)
     check_mps_dataframe(df)
   } else if (inherits(df, 'list')) {
-    lapply(df, check_mps_dataframe)
+    chk <- lapply(df, check_mps_dataframe) |> unlist()
+    if (!is.null(chk))
+      return(chk)
+    nMPs <- lapply(df, nrow) |> unlist()
+    if (!all(nMPs==nMPs[1]))
+      return('Different number of MPs in the named list')
   }
+
+  # TODO - check preset
+  nmps <- max(nMPs)
+  pr <- Preset(object)
+  if (length(pr)>0) {
+    pr_max <- lapply(pr, max) |> unlist() |> max()
+    if (pr_max>nmps)
+      return('Preset is incorrect. Cannot have values large than nMPs')
+  }
+
   TRUE
 }
 
 setValidity('MPs', validMPs)
+
+showMPs <- function(MPs) {
+  cat('An object of class `MPs` \n\n')
+  mps <- Metadata(MPs)
+  cat('Metadata:\n')
+  print(mps)
+  pr <- Preset(MPs)
+  cat('\nPreset:')
+  if (length(pr)<1) {
+    cat(' None')
+  } else {
+    cat('\n')
+    print(Preset(MPs))
+  }
+
+}
 
 # initialize ----
 setMethod("initialize", "MPs", function(.Object,

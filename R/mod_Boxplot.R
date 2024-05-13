@@ -25,24 +25,22 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                       metadatatab='Overview',
                                       boxplot='Boxplot'))
 
-    Filter_Selected<- mod_Filter_server(id, i18n, Slick_Object,
-                                        slot='Boxplot',
-                                        parent_session=session)
-
     mod_Boxplot_overall_server("Boxplot_overall_1",
                                i18n, filtered_slick, plottype,
-                               nOM, nMP, nPM, parent_session,
+                               nOM, nMP, nPM, parent_session=session,
                                window_dims)
 
     mod_Boxplot_OM_server("Boxplot_OM_1", i18n, filtered_slick, plottype,
-                          nOM, nMP, nPM, parent_session,
+                          nOM, nMP, nPM, parent_session=session,
                           window_dims)
 
     mod_subtitle_server(id, i18n, nOM, nMP)
 
+    Filter_Selected <- mod_Page_Filter_server("boxplotfilter",i18n, Slick_Object,
+                                              slot='Boxplot', minPM=1)
+
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
-
 
     output$page <- renderUI({
       i18n <- i18n()
@@ -53,7 +51,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                 title=h3(strong(i18n$t('Boxplot'))),
                                 br(),
                                 column(12, mod_subtitle_ui(ns(id))),
-                                column(5,
+
+                                column(3,
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns("plotselect"),
                                          choiceNames = c(i18n$t('Overall'),
@@ -62,8 +61,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                          choiceValues=c('overall',  'byom')
                                        )
                                 ),
-                                column(2),
-                                column(5,
+                                column(9,
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns('plottype'),
                                          choiceNames  = c(i18n$t('Boxplot'),
@@ -78,63 +76,79 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
 
                                        )
                                 ),
-                                column(12,
+                                column(3,
+                                       conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                        uiOutput(ns("reading_overall"))
+                                       ),
+                                       conditionalPanel("input.plotselect=='byom'", ns=ns,
+                                                        uiOutput(ns("reading_om"))
+                                       ),
+                                       p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance.')),
+                                       img(src='www/img/Boxplot.jpg', width='100%'),
+
+                                       mod_Page_Filter_ui(ns("boxplotfilter"))
+
+
+                                ),
+                                column(9,
                                        conditionalPanel("input.plotselect=='overall'", ns=ns,
                                                         mod_Boxplot_overall_ui(ns("Boxplot_overall_1"))
                                        ),
                                        conditionalPanel("input.plotselect=='byom'", ns=ns,
                                                         mod_Boxplot_OM_ui(ns("Boxplot_OM_1"))
                                        )
-                                ),
-                                sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
-                                                                         icon=icon('fa-xl fa-filter', class='fa-regular'),
-                                                                         column(12, align = 'left', class='multicol',
-                                                                                mod_Filter_ui(ns(id))
-                                                                                )
                                 )
         )
       )
     })
 
+
+    output$reading_overall <- renderUI({
+      i18n <- i18n()
+      tagList(
+        h4(strong(i18n$t("Reading this Chart"))),
+        p(
+          i18n$t('This chart compares the performance of '), nMP(),
+          i18n$t(' management procedures (MP) across '), nOM(),
+          i18n$t(' operating models.')
+        )
+      )
+    })
+
+
+    output$reading_om <- renderUI({
+      i18n <- i18n()
+      tagList(
+        h4(strong(i18n$t("Reading this Chart"))),
+        p(
+          i18n$t('This chart compares the performance of '), nMP(),
+          i18n$t(' management procedures (MP) for '), nOM(),
+          i18n$t(' operating models.')
+        )
+      )
+    })
+
+
     plottype <- reactive({
       match(input$plottype, c('boxplot', 'violin', 'both'))
     })
 
+    observeEvent(Slick_Object(), {
+      filtered_slick()
+    })
+
     filtered_slick <- reactive({
-      if (is.null(Slick_Object())) return(NULL)
-      slick <- Slick_Object()
-      selected_OMs <- Filter_Selected$OMs
-      selected_MPs <- Filter_Selected$MPs
-      selected_PMs <- Filter_Selected$PMs
-
-      boxplot <- Boxplot(slick)
-
-      dd <- dim(Value(boxplot))
-      if (length(selected_OMs)==dd[2]) {
-        # filter OMs
-        if (!is.null(selected_OMs)) {
-          Value(boxplot) <- Value(boxplot)[,selected_OMs,,, drop=FALSE]
-
-        }
-        # filter MPs
-        if (!is.null(selected_MPs)) {
-          Value(boxplot) <- Value(boxplot)[,,selected_MPs,, drop=FALSE]
-          metadata <- Metadata(MPs(slick))
-          Metadata(MPs(slick)) <- metadata[selected_MPs,]
-        }
-        # filter PMs
-        if (!is.null(selected_PMs)) {
-          Metadata(boxplot) <- Metadata(boxplot)[selected_PMs, ]
-          Value(boxplot) <- Value(boxplot)[,,,selected_PMs, drop=FALSE]
-        }
-
-      }
-      Boxplot(slick) <- boxplot
-      slick
+      out <- FilterSlick(Slick_Object(),
+                  as.numeric(Filter_Selected$MPs),
+                  as.numeric(Filter_Selected$OMs),
+                  as.numeric(Filter_Selected$PMs),
+                  'Boxplot')
+      out
     })
 
     dims <- reactive({
-      d <- filtered_slick() |>
+      slick <- filtered_slick()
+      slick |>
         Boxplot() |>
         Value() |>
         dim()
@@ -154,9 +168,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
         Metadata() |>
         nrow()
     })
-
-
-
   })
 }
 

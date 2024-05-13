@@ -1,23 +1,28 @@
 
-tableMPs <- function(MPs, lang) {
+tableMPs <- function(MPs, lang=NULL) {
   df <- Metadata(MPs, lang)
-  tab_df <- df |> dplyr::select(-Color)
+  if (!is.null(df$Color)) {
+    tab_df <- df |> dplyr::select(-Color)
+  } else {
+    tab_df <- df
+  }
+
   cnames <- colnames(tab_df)
 
-  DT::datatable(tab_df,
+  tab <- DT::datatable(tab_df,
                 extensions = 'Responsive',
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F)) |>
-    DT::formatStyle(cnames[1],
-                    color = DT::styleEqual(df[[cnames[1]]],
-                                           df$Color))
-  #
-  # DT::formatStyle(cnames[2],
-  #                 color = DT::styleEqual(df[[cnames[2]]],
-  #                                        df$Color)
-  # )
+                               ordering=F))
+  if (!is.null(df$Color)) {
+    tab <- tab |>
+      DT::formatStyle(cnames[1],
+                      color = DT::styleEqual(df[[cnames[1]]],
+                                             df$Color))
+  }
+  tab
+
 }
 
 tableOMs <- function(OMs, lang, type='factor') {

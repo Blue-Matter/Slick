@@ -138,6 +138,12 @@ setMethod("initialize", "Slick", function(.Object,
 
 validSlick <- function(object) {
 
+  if (length(object@Title)>0) {
+    if (inherits(object@Title, 'list')) {
+      names(object@Title %in% c('en', 'es', 'fr'))
+    }
+  }
+
   # MPs
   obj <- MPs(object)
   if (inherits(obj, 'data.frame')) {
@@ -152,28 +158,11 @@ validSlick <- function(object) {
     if (!all(unlist(lapply(test, is.null)))) return(test)
   }
 
-  # OMs
-
-  ## metadata
-
-  ## design
-#
-#   obj <- Metadata(OMs(object))
-#   if (inherits(obj, 'data.frame')) {
-#     test <- check_data.frame(obj,
-#                              req=c('Factor', 'Level', 'Description'),
-#                              opt=c('Set'))
-#     if (!is.null(test)) return(test)
-#   }
-#   if (inherits(obj, 'list')) {
-#     test <- lapply(obj, check_data.frame, req=c('Factor', 'Level', 'Description'),
-#                    opt=c('Set'))
-#     if (!all(unlist(lapply(test, is.null)))) return(test)
-#   }
-
-
   TRUE
 }
+
+
+
 
 setValidity('Slick', validSlick)
 
@@ -213,4 +202,43 @@ newSlick <- function(Title=NULL,
   validObject(obj)
   obj
 }
+
+showSlick <- function(slick) {
+  cat('An object of class `Slick` \n\n')
+  cat('Title:', Title(slick, 'en'), '\n')
+  cat('Subtitle:', Subtitle(slick, 'en'), '\n')
+  cat('Date:', paste(Date(slick), collapse=''), '\n')
+  cat('Author:', paste(Author(slick),collapse=', '), '\n')
+  cat('Email:', paste(Email(slick),collapse=', '), '\n')
+  cat('Institution:', paste(Institution(slick),collapse=', '), '\n')
+
+  intro_text <- Introduction(slick)
+
+  if (length(intro_text)>0) {
+    if (nchar(intro_text) > 50) {
+      cat('Introduction:', paste0(substr(Introduction(slick), 1, 50), ' ...\n'))
+    } else {
+      cat('Introduction:', Introduction(slick))
+    }
+
+  } else {
+    cat('Introduction:')
+  }
+
+  # MPs
+  cat('\n\nMPs:')
+  MPs <- MPs(slick)
+  meta <- Metadata(MPs)
+  if (nrow(meta)<1) {
+    cat('None specified.')
+  } else {
+    cat('\n')
+    print(meta)
+  }
+
+
+}
+
+
+
 

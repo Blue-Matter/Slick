@@ -24,7 +24,7 @@ Slick_theme <- function() {
 
 # -- header ----
 header <- function() {
-  dashboardHeader2(title = tagList(shiny.i18n::usei18n(set_translator())),
+  shinydashboardPlus::dashboardHeader(title = tagList(shiny.i18n::usei18n(set_translator())),
   leftUi = tagList(
     shinyWidgets::dropdownButton(
       label = "Switch Language",
@@ -52,6 +52,7 @@ header <- function() {
     ),
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
+                       inputId ='mpdropdown',
                        width=700,
                        label = "Management Procedures",
                        status = "primary",
@@ -61,6 +62,7 @@ header <- function() {
     ),
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
+                       inputId ='omdropdown',
                        width=700,
                        label = "Operating Models",
                        status = "primary",
@@ -70,6 +72,7 @@ header <- function() {
     ),
     conditionalPanel('output.Loaded>0',
                      shinyWidgets::dropdownButton(
+                       inputId ='pmdropdown',
                        width=700,
                        label = "Performance Indicators",
                        status = "primary",
@@ -78,21 +81,22 @@ header <- function() {
                      )
     )
   ),
-  controlbarIcon=shiny::icon('filter')
+  controlbarIcon=icon('fa-xl fa-filter', class='fa-regular')
   )
 }
 
 
 # -- rhs controlbar ----
 controlbar <- function() {
-  shinydashboardPlus::dashboardControlbar(disable = TRUE)
-  # shinydashboardPlus::dashboardControlbar(overlay = FALSE,
-  #                      width=450,
-  #                      skin='light',
-  #                      collapsed = TRUE,
-  #                      mod_Filters_ui('filters')
-  #
-  # )
+
+  shinydashboardPlus::dashboardControlbar(overlay = FALSE,
+                                          id='controlbar',
+                                          width=450,
+                                          skin='light',
+                                          collapsed = TRUE,
+                                          mod_Global_Filters_ui('filters')
+
+  )
 }
 
 # -- lhs sidebar ----
@@ -185,6 +189,7 @@ golem_add_external_resources <- function() {
     "www",
     app_sys("app/www")
   )
+  shiny::addResourcePath("sbs", system.file("www", package="shinyBS"))
 
   tags$head(
     favicon(),
@@ -198,6 +203,8 @@ golem_add_external_resources <- function() {
       '.modal-dialog { width: fit-content !important; }'
     ),
     tags$script(src="https://kit.fontawesome.com/579eb08a76.js"),
+
+
     fresh::use_theme(Slick_theme()),
     waiter::useWaiter(),
     shinyjs::useShinyjs(),

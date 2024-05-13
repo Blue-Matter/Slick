@@ -1,4 +1,34 @@
 
+make_checkboxes <- function(object, ns) {
+  metadata <- Metadata(object)
+  if (!is.null(metadata$Code)) {
+    selected <- initial_selected(object)
+    ll <- list(
+      checkboxGroupInput(ns('filter1'),
+                         label='',
+                         selected=selected,
+                         inline=T,
+                         choiceNames=metadata$Code,
+                         choiceValues=seq_along(metadata$Code))
+    )
+  }
+  if (!is.null(metadata$Factor)) {
+    factors <- unique(metadata$Factor)
+    ll <- lapply(1:length(factors), function(i) {
+      levels <- metadata |> dplyr::filter(Factor==factors[i]) |>
+        dplyr::select(Level)
+      selected <- initial_selected(object, factor=i)
+      checkboxGroupInput(ns(paste0("filter",i)),
+                         label=factors[i],
+                         selected=selected,
+                         inline=TRUE,
+                         choiceNames=levels$Level,
+                         choiceValues=seq_along(levels$Level))
+    })
+  }
+  ll
+}
+
 filterOMs <- function(slick, Filter_Selected, input) {
   keep <- array(T,dim(Design(slick)))
   for(fac in 1:ncol(Design(slick))) {
@@ -16,7 +46,7 @@ filterOMs <- function(slick, Filter_Selected, input) {
     # select all if none are selected
     shinyjs::click('reset_button')
   } else {
-    Filter_Selected$selected <- apply(keep,1,all)
+    Filter_Selected$selected <- which(apply(keep,1,all))
   }
 }
 
@@ -60,35 +90,7 @@ initial_selected <- function(object, preset=1, factor=1) {
 }
 
 
-make_checkboxes <- function(object, ns) {
-  metadata <- Metadata(object)
-  if (!is.null(metadata$Code)) {
-    selected <- initial_selected(object)
-    ll <- list(
-      checkboxGroupInput(ns('filter1'),
-                         label='',
-                         selected=selected,
-                         inline=T,
-                         choiceNames=metadata$Code,
-                         choiceValues=seq_along(metadata$Code))
-    )
-  }
-  if (!is.null(metadata$Factor)) {
-    factors <- unique(metadata$Factor)
-    ll <- lapply(1:length(factors), function(i) {
-      levels <- metadata |> dplyr::filter(Factor==factors[i]) |>
-        dplyr::select(Level)
-      selected <- initial_selected(object, factor=i)
-      checkboxGroupInput(ns(paste0("filter",i)),
-                         label=factors[i],
-                         selected=selected,
-                         inline=TRUE,
-                         choiceNames=levels$Level,
-                         choiceValues=seq_along(levels$Level))
-    })
-  }
-  ll
-}
+
 
 
 updateCheckbox_OM <- function(object, preset=1) {

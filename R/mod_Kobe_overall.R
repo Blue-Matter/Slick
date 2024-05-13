@@ -28,11 +28,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       i18n <- i18n()
       tagList(
         fluidRow(
-          column(3,
-                 h4(strong(i18n$t("Reading this Chart"))),
-                 htmlOutput(ns('reading'))
-          ),
-          column(7,
+          column(10,
                  shinycssloaders::withSpinner(plotOutput(ns('results'),
                                                          height=plot_height(),
                                                          width=plot_width()))
@@ -53,9 +49,9 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
     plot_height <- plot_width_calc |> debounce(500)
 
     output$results <- renderPlot({
-      req(filtered_slick())
-      req(input$xaxis)
-      req(input$yaxis)
+      # req(filtered_slick())
+      # req(input$xaxis)
+      # req(input$yaxis)
       slick <- filtered_slick()
 
       Kobe_plot(slick,
@@ -67,9 +63,6 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
                 selected_quantile())
     })
 
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
-    })
 
     output$controls <- renderUI({
       i18n <- i18n()
@@ -85,12 +78,12 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
         h4(i18n$t('Set Maximum Axis Value')),
         numericInput(ns('xaxis'),
                      'X Axis',
-                     2,
+                     initX(),
                      0,
                      step=0.25),
         numericInput(ns('yaxis'),
                      'Y Axis',
-                     2,
+                     initY(),
                      0,
                      step=0.25),
         checkboxInput(ns('histline'),
@@ -104,6 +97,22 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       input$selectquant
     })
 
+    initX <- reactive({
+      slick <- filtered_slick()
+      if (is.null(slick)) return(2)
+      kobe <- Kobe(slick)
+      val <- max(apply(Value(kobe)[,,,1,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      ceiling(val)
+    })
+
+    initY <- reactive({
+      slick <- filtered_slick()
+      if (is.null(slick)) return(2)
+      kobe <- Kobe(slick)
+      val <- max(apply(Value(kobe)[,,,2,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      ceiling(val)
+    })
+
     x_axis_val <- reactive({
       input$xaxis
     })
@@ -112,39 +121,11 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       input$yaxis
     })
 
-    x_axis <- x_axis_val |> debounce(300)
-    y_axis <- y_axis_val |> debounce(300)
+    x_axis <- x_axis_val |> debounce(500)
+    y_axis <- y_axis_val |> debounce(500)
 
-    output$reading <- renderUI({
-      i18n <- i18n()
-      slick <- filtered_slick()
-      mp_metadata <-slick |> MPs() |> Metadata()
-      time_info <- slick |> Kobe() |> Time()
-      yrs <- time_info[[1]]
-      quant_text <- selected_quantile() * 100
 
-      yr.txt <- paste0(min(yrs), '-', max(yrs))
-      tagList(
-        p(i18n$t('This chart compares trade-offs in'), nMP(),
-          i18n$t(' management procedures for '), nOM(),
-          i18n$t(' operating models by measuring two co-dependent performance metrics: fishing mortality (vertical axis) and biomass (horizontal axis)')
-        ),
-        p(
-          HTML('<i class="fas fa-circle fa-sm"></i>'),
-          i18n$t('The large colored dots represent the median value for the final year of the projection period: '),
-          yr.txt),
-        p(i18n$t('The small colored dots indicate the median value in the first year of the projections, and the colored lines show how the median values change over time.')
-          ),
-        p( i18n$t('The white dotted lines around dots are error bars. The default represents'),
-           HTML(paste0(quant_text, 'th')),
-           i18n$t('percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
-        ),
-        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
-          i18n$t('button to filter the Management Procedures and Operating Models included in the plot.')
-        )
-      )
-    })
-
+    selected_quantile
 
   })
 }
