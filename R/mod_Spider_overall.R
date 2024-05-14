@@ -25,32 +25,12 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
-    })
 
     output$overall_Spider <- renderUI({
       i18n <- i18n()
       tagList(
-        fluidRow(
-          column(3,
-                 h4(strong(i18n$t("Reading this Chart"))),
-                 htmlOutput(ns('readingMP'))
-          ),
-          column(6,
-                 uiOutput(ns('overallscore')),
-                 shinycssloaders::withSpinner(
-                   plotOutput(ns('spider_plot'), height=plot_height())
-                 )
-          ),
-          column(3,
-                 h4(i18n$t('Management Procedures')),
-                 htmlOutput(ns('MPlist')),
-
-                 h4(i18n$t('Performance Indicators')),
-                 shinycssloaders::withSpinner(plotOutput(ns('PM_outline'), width=125, height=125)),
-                 htmlOutput(ns('PMlist'))
-          )
+        shinycssloaders::withSpinner(
+          plotOutput(ns('spider_plot'), height=plot_height())
         )
       )
     })
@@ -70,74 +50,6 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       plot_height()
     }, height=function() {
       plot_height()
-    })
-
-    output$MPlist <- renderUI({
-      slick <- filtered_slick()
-      metadata <- slick |> MPs() |> Metadata()
-      nMP <- nrow(metadata)
-      icon_text <- paste('<i class="fas fa-hexagon fa-sm" style="color:',
-                         metadata$Color, ';"></i>', '  ',metadata$Label, '<br/>')
-      icon_text <- paste(icon_text, collapse=" ")
-
-      if (nMP>0) {
-        tagList(
-          p(
-            HTML(icon_text)
-          )
-        )
-      }
-    })
-
-    output$PM_outline <- renderPlot({
-      if (nPM()>2) {
-        pm_outline_plot(nPM())
-      }
-    }, width=125, height=125)
-
-    output$PMlist <- renderUI({
-      n.PM <- nPM()
-      metadata <- Metadata(Spider(filtered_slick()))
-      PM.name <- metadata$Label
-      lets <- LETTERS[1:n.PM]
-
-      icon_shape <- paste('<span class="circle"">', lets, '</span>')
-      if (n.PM >2) {
-        text <- rep('', n.PM)
-        for (i in 1:n.PM) {
-          text[i] <- paste(icon_shape[i], PM.name[i])
-        }
-        tagList(
-          p(HTML(paste(text, collapse="<br>")), width='100%')
-        )
-      }
-    })
-
-    output$readingMP <- renderUI({
-      i18n <- i18n()
-      if (nMP()>0 & nPM()>0 & nOM()>0) {
-        if (nPM()<3) {
-          tagList(p(i18n$t('Please select 3 or more Performance Indicators')))
-        } else {
-          tagList(
-            p(i18n$t('This chart'),
-              strong(i18n$t('compares the performance of '), nMP(),
-                     i18n$t(' management procedures (MP) against '), nPM(),
-                     i18n$t(' performance indicators.'))),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
-              i18n$t(' operating models.')),
-
-            p(tags$i(class="fa-regular fa-hexagon"),
-              i18n$t('The lines in the spider plot connect individual scores of the performance indicators for each management procedure. Scores closer to the exterior edge indicate better performance.')
-            ),
-            p(i18n$t('Use the'), actionLink(ns('openfilter'),
-                                            i18n$t('Filter'),
-                                            icon=icon('fa-lg fa-filter', class='fa-regular')),
-              i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
-            )
-          )
-        }
-      }
     })
 
   })

@@ -41,7 +41,7 @@ setValidity('Quilt', validQuilt)
 newQuilt <- function(Metadata=NULL,
                      Value=NULL,
                      Preset=NULL,
-                     Colors=c('#088ebc', 'white')) {
+                     Colors=c('#0AFF12', '#FC0828')) {
   Quilt <- new('Quilt', Metadata, Value, Preset, Colors)
   validObject(Quilt)
   Quilt

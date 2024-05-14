@@ -10,17 +10,8 @@
 mod_Timeseries_byOM_ui <- function(id){
   ns <- NS(id)
   tagList(
-    div(class='top_border',
-        column(2,
-               br(),
-               uiOutput(ns('MPlist')),
-               uiOutput(ns('selections'))
-               ),
-        column(10,
-               uiOutput(ns('page'))
-               )
-
-    )
+    uiOutput(ns('selections')),
+    uiOutput(ns('page'))
   )
 }
 
@@ -32,6 +23,11 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                        window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    timeseries <- reactiveVal()
+
+    observeEvent(filtered_slick(),
+                 timeseries(filtered_slick()))
 
     values <- reactive({
       filtered_slick() |>
@@ -48,22 +44,58 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
     output$selections <- renderUI({
       i18n <- i18n()
       tagList(
-        radioButtons(ns('plotoption'),
-                     i18n$t('Plot Option'),
-                     choiceNames = i18n$t(c('Median', 'Individual Simulation')),
-                     choiceValues= c('median', 'sim')
-        ),
-        conditionalPanel("input.plotoption=='sim'", ns=ns,
-                         shinyWidgets::pickerInput(
-                           inputId = ns('selectsim'),
-                           label = i18n$t('Individual Simulation(s):'),
-                           choices = sims(),
-                           multiple = FALSE,
-                           width='fit'
-                         )
+        fluidRow(
+          column(3,
+                 radioButtons(ns('plotoption'),
+                              i18n$t('Plot Option'),
+                              choiceNames = i18n$t(c('Median', 'Individual Simulation')),
+                              choiceValues= c('median', 'sim')
+                 )
+          ),
+          column(6,
+                 conditionalPanel("input.plotoption=='sim'", ns=ns,
+                                  column(6,
+                                         shinyWidgets::pickerInput(
+                                           inputId = ns('selectsim'),
+                                           label = i18n$t('Individual Simulation:'),
+                                           choices = sims(),
+                                           multiple = FALSE,
+                                           width='fit'
+                                         )
+                                  ),
+                                  column(6,
+                                         shinyjs::hidden(
+                                           shinyWidgets::actionBttn(ns('updateplot'),
+                                                                    i18n$t('Update Plots'))
+                                         )
+                                  )
+
+                 )
+          )
         )
+
       )
     })
+
+
+
+    observeEvent(input$plotoption, {
+      if (input$plotoption != 'sim') {
+        shinyjs::hide('updateplot')
+        timeseries(filtered_slick())
+      } else {
+        shinyjs::show('updateplot')
+      }
+
+    })
+
+    observeEvent(input$updateplot, {
+      shinyjs::hide('updateplot')
+      slick <- filtered_slick()
+      sim <- as.numeric(input$selectsim)
+      slick@Timeseries@Value <- slick@Timeseries@Value[sim,,,,,drop=FALSE]
+      timeseries(slick)
+    }, ignoreInit = TRUE)
 
 
     output$page <- renderUI({
@@ -99,18 +131,18 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
     })
 
     make_plots <- reactive({
-      if (is.null(filtered_slick()))
+      if (is.null(timeseries()))
         return(NULL)
       if (is.null(pm_ind()))
         return(NULL)
       if (is.null(yrange()))
         return(NULL)
-      dd <- filtered_slick() |> Timeseries() |> Value() |>  dim()
+      dd <- timeseries() |> Timeseries() |> Value() |>  dim()
       plot_list <- list()
       if (dd[2]==nOM()) {
 
         for (i in 1:nOM()) {
-          plot_list[[i]] <- Timeseries_plot(filtered_slick(),
+          plot_list[[i]] <- Timeseries_plot(timeseries(),
                                             pm_ind(),
                                             mp_ind=NULL,
                                             i,
@@ -129,27 +161,14 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
             my_i <- i
             plotname <- paste("plot", my_i, sep="")
             output[[plotname]] <- renderPlot({
-              thisplot[[my_i]]
+              thisplot[[my_i]] +
+                ggplot2::coord_cartesian(ylim=yrange())
             })
           })
         }
       }
     })
 
-    output$MPlist <- renderUI({
-      i18n <- i18n()
-      mp_metadata <- filtered_slick() |> MPs() |> Metadata()
-      MPcols <- mp_metadata$Color
-      MPnames <- mp_metadata$Label
-
-      text <- paste0("<p> <b class='horizline' style=' border-top: .3rem solid ", MPcols, ";'></b>",
-                     MPnames, "</p>")
-      text <- paste(text, collapse=" ")
-      tagList(
-        strong(i18n$t("Management Procedure")),
-        HTML(text)
-      )
-    })
 
   })
 }

@@ -19,7 +19,8 @@ mod_filter_selection_ui <- function(id){
 #' mp_selection Server Functions
 #'
 #' @noRd
-mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRUE){
+mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRUE,
+                                        incIcons=TRUE, icon='circle'){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -111,8 +112,22 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
         mp_metadata <- metadata()
         if (length(mp_metadata)>0) {
           for (i in 1:nrow(mp_metadata)) {
-            ll[[i]] <- HTML(paste(icon('fa-circle', class='fa-solid',
-                                       style=paste('color:', mp_metadata$Color[i], ';')),  mp_metadata$Code[i]))
+            if (incIcons) {
+              if (icon=='circle') {
+                ll[[i]] <- HTML(paste(icon('fa-circle', class='fa-solid',
+                                           style=paste('color:', mp_metadata$Color[i], ';')),  mp_metadata$Code[i]))
+              } else if (icon=='hexagon') {
+                ll[[i]] <- HTML(paste(icon('fa-hexagon', class='fa-solid',
+                                           style=paste('color:', mp_metadata$Color[i], ';')),  mp_metadata$Code[i]))
+              } else {
+                ll[[i]] <- HTML(paste(icon('fa-chart-line', class='fa-solid',
+                                           style=paste('color:', mp_metadata$Color[i], ';')),  mp_metadata$Code[i]))
+              }
+
+            } else {
+              ll[[i]] <- mp_metadata$Code[i]
+            }
+
           }
         }
       } else {

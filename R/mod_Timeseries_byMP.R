@@ -10,9 +10,7 @@
 mod_Timeseries_byMP_ui <- function(id){
   ns <- NS(id)
   tagList(
-    div(class='top_border',
-        uiOutput(ns('page'))
-    )
+    uiOutput(ns('page'))
   )
 }
 
@@ -68,7 +66,8 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
             my_i <- i
             plotname <- paste("plot", my_i, sep="")
             output[[plotname]] <- renderPlot({
-              thisplot[[my_i]]
+              thisplot[[my_i]] +
+                ggplot2::coord_cartesian(ylim=yrange())
             })
           })
         }

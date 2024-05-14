@@ -17,7 +17,7 @@ mod_subtitle_ui <- function(id){
 #' subtitle Server Functions
 #'
 #' @noRd
-mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL){
+mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -26,7 +26,7 @@ mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL){
       i18n <- i18n()
 
       if (!is.null(nPM)) {
-        if (nPM() <=2) {
+        if (nPM() <=minPM) {
           return(
             tagList(
               div(class='page_title',

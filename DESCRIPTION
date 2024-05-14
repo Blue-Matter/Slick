@@ -13,9 +13,12 @@ License: GPL-2
 Depends:
     R (>= 3.5.0)
 Imports:
+    colorspace,
+    colourpicker,
     config,
     dplyr,
     DT,
+    esquisse,
     flextable,
     fresh,
     ggplot2,
@@ -27,18 +30,16 @@ Imports:
     shiny,
     shiny.i18n,
     shinyalert,
+    shinyBS,
     shinycssloaders,
     shinydashboard,
     shinydashboardPlus,
     shinyhelper,
     shinyjs,
     shinyWidgets,
-    stringi,
     tibble,
-    tools,
     waiter
 Suggests: 
-    DiagrammeR,
     knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -93,7 +94,6 @@ Collate:
     'mod_PM_Info.R'
     'mod_Page_Filter.R'
     'mod_Quilt.R'
-    'mod_Quilt_plot.R'
     'mod_Report_Add.R'
     'mod_Report_Add_Button.R'
     'mod_Report_Page.R'
@@ -103,12 +103,10 @@ Collate:
     'mod_Spider_MP.R'
     'mod_Spider_OM.R'
     'mod_Spider_overall.R'
-    'mod_Spider_plot.R'
     'mod_Timeseries.R'
     'mod_Timeseries_byMP.R'
     'mod_Timeseries_byOM.R'
     'mod_Timeseries_overall.R'
-    'mod_TradeOff_plot.R'
     'mod_Tradeoff.R'
     'mod_filter_selection.R'
     'mod_filter_selection_OM.R'

@@ -17,14 +17,19 @@ mod_Page_Filter_ui <- function(id){
 #' Page_Filter Server Functions
 #'
 #' @noRd
-mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM, incPM=TRUE){
+mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=TRUE,
+                                   incIcons=TRUE, icon='circle'){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
 
-    selected_mps <- mod_filter_selection_server("filter_mp", i18n, Slick_Object, slot='MPs', minN=1)
+    selected_mps <- mod_filter_selection_server("filter_mp", i18n, Slick_Object, slot='MPs',
+                                                minN=1, incIcons=incIcons,
+                                                icon=icon)
     selected_oms <- mod_filter_selection_om_server("filter_om", i18n, Slick_Object)
-    selected_pms <- mod_filter_selection_server("filter_pm", i18n, Slick_Object, slot=slot, minN=minPM, incPM)
+    selected_pms <- mod_filter_selection_server("filter_pm", i18n, Slick_Object,
+                                                slot=slot, minN=minPM, incPM)
+
 
     output$filters <- renderUI({
       i18n <- i18n()
@@ -50,8 +55,6 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM, incPM=TR
       )
 
     })
-
-
 
 
     # detect first change

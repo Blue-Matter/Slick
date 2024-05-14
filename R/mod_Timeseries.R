@@ -20,24 +20,17 @@ mod_Timeseries_ui <- function(id){
                             column(12,
                                    uiOutput(ns('groupbuttons'))
                             ),
-                            column(4,
-                                   uiOutput(ns('reading'))
-                            ),
-                            column(4,
-                                   img(src='www/img/Line.jpg', width="100%")
-                            ),
-                            column(3,
-                                   uiOutput(ns('picker')),
-                                   uiOutput(ns('yaxisrange'))
-                            ),
-                            column(12,
-                                   uiOutput(ns('plots'))
-                            ),
-                            sidebar = shinydashboardPlus::boxSidebar(id=ns('filtersidebar'),
-                                                                     icon=icon('fa-xl fa-filter', class='fa-regular'),
-                                                                     column(12, align = 'left', class='multicol',
-                                                                            mod_Filter_ui(ns(id))
-                                                                     )
+                            fluidRow(
+                              column(3,
+                                     uiOutput(ns('reading')),
+                                     img(src='www/img/Line.jpg', width="100%"),
+                                     uiOutput(ns('picker')),
+                                     uiOutput(ns('yaxisrange')),
+                                     mod_Page_Filter_ui(ns("timeseriesfilter"))
+                              ),
+                              column(9,
+                                     uiOutput(ns('plots'))
+                              )
                             )
     )
   )
@@ -56,11 +49,9 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
 
     mod_subtitle_server(id, i18n, nOM, nMP)
 
-    Filter_Selected<- mod_Filter_server(id, i18n, Slick_Object,
-                                        slot='Timeseries',
-                                        parent_session=session,
-                                        incPM=FALSE)
-
+    Filter_Selected <- mod_Page_Filter_server("timeseriesfilter",i18n, Slick_Object,
+                                              slot='Timeseries', incPM=FALSE,
+                                              icon='chart-line')
 
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,
@@ -75,22 +66,21 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                pm_ind, yrange, nOM,
                                window_dims)
 
-    selected_plot <- reactive({
-      input$plotselect
-    })
+
 
     output$plots <- renderUI({
-      req(selected_plot())
 
-      if (selected_plot() =='overall') {
-        return(mod_Timeseries_overall_ui(ns("Timeseries_overall_1")))
-      }
-      if (selected_plot() =='bymp') {
-        return(mod_Timeseries_byMP_ui(ns("Timeseries_byMP_1")))
-      }
-      if (selected_plot() =='byom') {
-        return(mod_Timeseries_byOM_ui(ns("Timeseries_byOM_1")))
-      }
+      tagList(
+        conditionalPanel("input.plotselect=='overall'", ns=ns,
+                         mod_Timeseries_overall_ui(ns("Timeseries_overall_1"))
+        ),
+        conditionalPanel("input.plotselect=='bymp'", ns=ns,
+                         mod_Timeseries_byMP_ui(ns("Timeseries_byMP_1"))
+        ),
+        conditionalPanel("input.plotselect=='byom'", ns=ns,
+                         mod_Timeseries_byOM_ui(ns("Timeseries_byOM_1"))
+        )
+      )
     })
 
     output$title <- renderUI({
@@ -154,36 +144,12 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
       ll
     })
 
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar')
-    })
-
-
-
     filtered_slick <- reactive({
-      if (is.null(Slick_Object())) return(NULL)
-      slick <- Slick_Object()
-      selected_OMs <- Filter_Selected$OMs
-      selected_MPs <- Filter_Selected$MPs
-
-      timeseries <- Timeseries(slick)
-
-      dd <- dim(Value(timeseries))
-      if (length(selected_OMs)==dd[2]) {
-        # filter OMs
-        if (!is.null(selected_OMs)) {
-          Value(timeseries) <- Value(timeseries)[,selected_OMs,,,, drop=FALSE]
-
-        }
-        # filter MPs
-        if (!is.null(selected_MPs)) {
-          Value(timeseries) <- Value(timeseries)[,,selected_MPs,, ,drop=FALSE]
-          metadata <- Metadata(MPs(slick))
-          Metadata(MPs(slick)) <- metadata[selected_MPs,]
-        }
-      }
-      Timeseries(slick) <- timeseries
-      slick
+      FilterSlick(Slick_Object(),
+                  as.numeric(Filter_Selected$MPs),
+                  as.numeric(Filter_Selected$OMs),
+                  as.numeric(Filter_Selected$PMs),
+                  'Timeseries')
     })
 
     values <- reactive({
@@ -270,9 +236,9 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
       i18n <- i18n()
       tagList(
         p(i18n$t('This chart shows a stock status variables over time, for '), nMP(),
-          i18n$t('management procedures and level of uncertainty across'), nsim(),
-          i18n$t('different simulation runs and '), nOM(), i18n$t('operating models')
-        )
+          i18n$t('management procedures and'), nOM(), i18n$t('Operating Models.')),
+        p(i18n$t('The results are either shown as the median across'), nsim(),
+          i18n$t('simulations, or for a specific simulation.'))
         # p('Target and limit reference points are shown in green and red, respectively, if they have been specified.'),
       )
     })
@@ -286,10 +252,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
         conditionalPanel("input.plotselect=='bymp'", ns=ns,
                          uiOutput(ns('readingMP'))),
         conditionalPanel("input.plotselect=='byom'", ns=ns,
-                         uiOutput(ns('readingOM'))),
-        p(i18n$t('Use the'), actionLink(ns('openfilter'), i18n$t('Filter'), icon=icon('fa-lg fa-filter', class='fa-regular')),
-          i18n$t('button to filter the Management Procedures and Operating Models shown in the chart.')
-        )
+                         uiOutput(ns('readingOM')))
       )
     })
 

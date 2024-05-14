@@ -20,55 +20,26 @@ mod_Spider_MP_ui <- function(id){
 #'
 #' @noRd
 mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent_session,
-                                 relative_scale){
+                                 relative_scale, OS_button){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
-    })
-
 
     output$MP_Spider <- renderUI({
       i18n <- i18n()
       tagList(
-        fluidRow(
-        column(3,
-               h4(strong(i18n$t("Reading this Chart"))),
-               htmlOutput(ns('readingMP')),
-               br(),
-               uiOutput(ns('OSbutton'))
-        ),
-        column(9,
-               column(9,
-                      uiOutput(ns('overallscore')),
-                      shinycssloaders::withSpinner(
-                        plotOutput(ns('filled_hex'), height='auto')
-                      )
-               ),
-               column(3,
-                      h4(i18n$t('Performance Indicators')),
-                      shinycssloaders::withSpinner(plotOutput(ns('PM_outline'), width=125, height=125)),
-                      htmlOutput(ns('PMlist'))
-               )
-
+        uiOutput(ns('overallscore')),
+        shinycssloaders::withSpinner(
+          plotOutput(ns('filled_hex'), height='auto')
         )
-      )
       )
     })
 
-    output$PM_outline <- renderPlot({
-      if (nPM()>2) {
-        pm_outline_plot(nPM())
-      }
-    }, width=125, height=125)
-
     output$overallscore <- renderUI({
       i18n <- i18n()
-      if (is.null(input$OS_button)) {
+      if (is.null(OS_button())) {
         return(br())
       }
-      if (input$OS_button) {
+      if (OS_button()) {
         h4(strong(i18n$t('Overall scores')), i18n$t('(average of '), nPM(),
            i18n$t('performance indicators)'))
       } else {
@@ -77,9 +48,12 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
     })
 
     output$filled_hex <- renderPlot({
-      if (nPM()<3)
+      if (nPM()<3) {
+        print('nPM<3')
         return(NULL)
-      include_avg <- input$OS_button
+      }
+
+      include_avg <- OS_button()
       if (!is.null(relative_scale()) & !is.null(include_avg)) {
         Spiderplot(filtered_slick(),
                    lang=i18n()$get_translation_language(),
@@ -98,63 +72,6 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
       n.row <- ceiling(nMPs/4)
       n.col <- ceiling(nMPs/n.row)
       175*n.col
-    })
-
-    output$readingMP <- renderUI({
-      i18n <- i18n()
-      if (nMP()>0 & nPM()>0 & nOM()>0) {
-        if (nPM()<3) {
-          tagList(p(i18n$t('Please select 3 or more Performance Indicators')))
-        } else {
-          tagList(
-            p(i18n$t('This chart'),
-              strong(i18n$t('compares the performance of '), nMP(),
-                     i18n$t(' management procedures (MP) against '), nPM(),
-                     i18n$t(' performance indicators.'))),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
-              i18n$t(' operating models.')),
-            p(HTML('<i class="fa-solid fa-hexagon"></i>'),
-              i18n$t('The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance')),
-            p(i18n$t('These summary values assume equal weighting and equal scaling of performance indicators.')),
-            p(i18n$t('Use the'), actionLink(ns('openfilter'),
-                                            i18n$t('Filter'),
-                                            icon=icon('fa-lg fa-filter', class='fa-regular')),
-              i18n$t('button to filter the Management Procedures, Operating Models, and Performance Indicators.')
-            )
-
-          )
-        }
-      }
-    })
-
-    output$OSbutton <- renderUI({
-      i18n <- i18n()
-      tagList(
-        h4(i18n$t('Overall Score')),
-        shinyWidgets::switchInput(
-          inputId = ns("OS_button"),
-          handleWidth = 80, labelWidth = 40,
-          inline = TRUE, width = "130px",
-          value=TRUE)
-      )
-    })
-
-    output$PMlist <- renderUI({
-      n.PM <- nPM()
-      metadata <- Metadata(Spider(filtered_slick()))
-      PM.name <- metadata$Label
-      lets <- LETTERS[1:n.PM]
-
-      icon_shape <- paste('<span class="circle"">', lets, '</span>')
-      if (n.PM >2) {
-        text <- rep('', n.PM)
-        for (i in 1:n.PM) {
-          text[i] <- paste(icon_shape[i], PM.name[i])
-        }
-        tagList(
-          p(HTML(paste(text, collapse="<br>")), width='100%')
-        )
-      }
     })
 
 

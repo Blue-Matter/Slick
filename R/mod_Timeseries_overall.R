@@ -10,12 +10,7 @@
 mod_Timeseries_overall_ui <- function(id){
   ns <- NS(id)
   tagList(
-    div(class='top_border',
-        column(1),
-        column(10,  uiOutput(ns('plot'))
-        ),
-        column(1)
-    )
+    uiOutput(ns('plot'))
   )
 }
 
@@ -28,10 +23,15 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$plot1 <- renderPlot({
+    timeseriesplot <- reactive({
       req(pm_ind())
-      req(yrange())
       Timeseries_plot(filtered_slick(), pm_ind())
+    })
+
+    output$plot1 <- renderPlot({
+       p <- timeseriesplot()
+       p + ggplot2::coord_cartesian(ylim=yrange())
+
     })
 
     output$plot <- renderUI({
