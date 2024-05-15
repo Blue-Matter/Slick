@@ -30,6 +30,8 @@ mod_Resources_server <- function(id, i18n){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    Resources <- Slick::Resources
+
     output$content <-  renderUI({
       headings <- Resources$Heading |> unique()
 
