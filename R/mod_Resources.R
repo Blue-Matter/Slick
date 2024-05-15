@@ -31,6 +31,7 @@ mod_Resources_server <- function(id, i18n){
     ns <- session$ns
 
     Resources <- Slick::Resources
+    Footnotes <- Slick::Footnotes
 
     output$content <-  renderUI({
       headings <- Resources$Heading |> unique()
