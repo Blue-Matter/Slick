@@ -17,7 +17,7 @@ set_translator <- function() {
 get_languages <- function() {
   languages <- set_translator()$get_languages()
 
-  language_codes <- read.csv(system.file('language-codes.csv', package = 'Slick'))
+
   ind <- match(languages, language_codes[,1])
   lang_names <- language_codes[ind,2]
 

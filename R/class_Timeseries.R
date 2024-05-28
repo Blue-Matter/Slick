@@ -44,6 +44,6 @@ newTimeseries <- function(Metadata=NULL,
                     Value,
                     Preset)
 
-  validObject(Timeseries)
+  methods::validObject(Timeseries)
   Timeseries
 }

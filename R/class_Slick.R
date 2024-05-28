@@ -199,7 +199,7 @@ newSlick <- function(Title=NULL,
              Timeseries,
              Tradeoff)
 
-  validObject(obj)
+  methods::validObject(obj)
   obj
 }
 

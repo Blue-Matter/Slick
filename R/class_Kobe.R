@@ -41,6 +41,6 @@ newKobe <- function(Metadata=NULL,
   Kobe <- new('Kobe',
               Metadata,
               Time, Value, Preset)
-  validObject(Kobe)
+  methods::validObject(Kobe)
   Kobe
 }

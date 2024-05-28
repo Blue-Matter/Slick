@@ -37,7 +37,7 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
 
     output$results <- renderUI({
       i18n <- i18n()
-      slick <<- filtered_slick()
+      slick <- filtered_slick()
       if (nMP() >=2) {
         if (nPM()<3) {
           tagList(

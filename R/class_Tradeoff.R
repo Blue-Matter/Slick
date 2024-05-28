@@ -41,6 +41,6 @@ newTradeoff <- function(Metadata=NULL,
                      Preset=NULL,
                      Selected=NULL) {
   Tradeoff <- new('Tradeoff', Metadata, Value, Preset, Selected)
-  validObject(Tradeoff)
+  methods::validObject(Tradeoff)
   Tradeoff
 }

@@ -21,6 +21,8 @@ MSE <- runMSE(OM, MPs=all_MPs, parallel = TRUE)
 saveRDS(MSE, 'dev/Examples/Example_1.mse')
 
 
+# ---------------------------------------------------------------------------- #
+
 MSE <- readRDS('dev/Examples/Example_1.mse')
 
 # Calculate Performance Metrics
@@ -113,7 +115,7 @@ Check <- function(slick) {
     error <- add_error(error)
   }
 
-  mps_valid <- validObject(slick@MPs, test=TRUE)
+  mps_valid <- methods::validObject(slick@MPs, test=TRUE)
   nMPs <- nrow(Metadata(slick@MPs))
   if (nMPs<2) {
     print_error(error)

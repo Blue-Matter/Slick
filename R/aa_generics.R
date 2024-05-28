@@ -1,4 +1,6 @@
 
+show <- function(object) methods::show(object)
+
 #' @include class_Boxplot.R
 #' @include class_Kobe.R
 #' @include class_MPs.R
@@ -28,6 +30,49 @@ get_language <- function(value, lang) {
   }
   value
 }
+
+
+# ---- MPs ----
+
+#' @describeIn MPs A generic function
+#' @export
+setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
+
+
+#' @describeIn MPs Create a new object of class [MPs()]
+#' @param x An object of class [data.frame()] or [list()]
+#' @export
+setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
+
+#' @describeIn MPs Create a new object of class [MPs()]
+#' @param missingOrNULL missing or NULL
+#' @param ... additional arguments (not used)
+#' @export
+setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
+
+
+#' @describeIn MPs Return the [MPs()] object from an object of class [Slick()]
+#' @param lang optional.character string length 2 to specify language (if available).  'en', 'es', or 'fr'
+#' @export
+setMethod("MPs", "Slick", function(x, lang=NULL) {
+  get_language(x@MPs, lang)
+} )
+
+
+
+#' @describeIn MPs Assign an object of class [MPs()] to an object of class [Slick()]
+#' @export
+setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
+
+#' @describeIn MPs Assign an object of class [MPs()] to an object of class [Slick()]
+#' @param Slick An object of class [Slick()]
+#' @param value An object of class [MPs()]
+#' @export
+setMethod("MPs<-", "Slick", function(Slick, value) {
+  Slick@MPs <- value
+  methods::validObject(Slick)
+  Slick
+})
 
 
 # ---- setGenerics -----
@@ -63,8 +108,15 @@ setGeneric("Metadata", function(x, ...) standardGeneric("Metadata"))
 setGeneric("Metadata<-", function(x, value) standardGeneric("Metadata<-"))
 
 
-setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
-setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
+# #' @param x Either an object of class [Slick()], class [data.frame()] or NULL (empty)
+# #' @param ... Extra named arguments passed to [MPs()]
+# #' @rdname MPs
+# #' @export
+# setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
+
+# #' @rdname MPs
+# #' @export
+# setGeneric("MPs<-", function(x, value) standardGeneric("MPs<-"))
 
 setGeneric("OMs", function(x, ...) standardGeneric("OMs"))
 setGeneric("OMs<-", function(x, value) standardGeneric("OMs<-"))
@@ -118,7 +170,7 @@ setGeneric("Value<-", function(x, value) standardGeneric("Value<-"))
 #' @export
 setMethod("Metadata<-", "Boxplot", function(x, value) {
   x@Metadata <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -127,16 +179,12 @@ setMethod("Table", "Boxplot", function(x, lang=NULL) {
   tableBoxplot(x, lang)
 })
 
-## MPs ----
 
-#' @export
-#' @noRd
-setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
 
-#' @export
-#' @noRd
-setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
 
+
+
+## Metadata ----
 #' @describeIn Metadata Modify the `Metadata` slot in an [MPs()] object
 #' @param lang Character string to select language.
 #' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively.
@@ -151,9 +199,11 @@ setMethod("Metadata", "MPs", function(x, lang='en') {
 #' @export
 setMethod("Metadata<-", "MPs", function(x, value) {
   x@Metadata <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
+
+## Preset ----
 
 #' @describeIn Preset Modify the `Preset` slot in an [MPs()] object
 #' @export
@@ -166,7 +216,7 @@ setMethod("Preset", "MPs", function(x) {
 #' @export
 setMethod("Preset<-", "MPs", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -176,7 +226,7 @@ setMethod("show", "MPs", function(object) {
 })
 
 
-#' @describeIn MPs Generate a `DT::datatable` object for objects of class `MPs`
+#' @describeIn Table Generate a `DT::datatable` object for objects of class `MPs`
 #' @export
 setMethod("Table", "MPs", function(x, lang=NULL) {
   tableMPs(x, lang)
@@ -196,7 +246,7 @@ setMethod("Design<-", "OMs", function(x, value) {
   }
 
   x@Design <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -218,7 +268,7 @@ setMethod("Metadata", "OMs", function(x, lang='en') {
 #' @export
 setMethod("Metadata<-", "OMs", function(x, value) {
   x@Metadata <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -234,7 +284,7 @@ setMethod("Preset", "OMs", function(x) {
 #' @export
 setMethod("Preset<-", "OMs", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -287,7 +337,7 @@ setMethod("Preset", "Boxplot", function(x) {
 #' @export
 setMethod("Preset<-", "Boxplot", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -303,7 +353,7 @@ setMethod("Value", "Boxplot", function(x) {x@Value})
 #' @export
 setMethod("Value<-", "Boxplot", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -343,7 +393,7 @@ setMethod("Preset", "Kobe", function(x) {
 #' @export
 setMethod("Preset<-", "Kobe", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -359,7 +409,7 @@ setMethod("Time", "Kobe", function(x) {x@Time})
 #' @export
 setMethod("Time<-", "Kobe", function(x, value) {
   x@Time <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -369,7 +419,7 @@ setMethod("Value", "Kobe", function(x) {x@Value})
 #' @export
 setMethod("Value<-", "Kobe", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -394,7 +444,7 @@ setMethod("Colors", "Quilt", function(x) {x@Colors})
 #' @export
 setMethod("Colors<-", "Quilt", function(x, value) {
   x@Colors <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -423,7 +473,7 @@ setMethod("Preset", "Quilt", function(x) {
 #' @export
 setMethod("Preset<-", "Quilt", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -438,7 +488,7 @@ setMethod("Value", "Quilt", function(x) {x@Value})
 #' @export
 setMethod("Value<-", "Quilt", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -455,7 +505,7 @@ setMethod("Author", "Slick", function(x) {
 setMethod("Author<-", "Slick", function(x, value) {
   if (is.null(value)) return(x)
   x@Author <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -465,7 +515,7 @@ setMethod("Boxplot","Slick",function(x) x@Boxplot)
 #' @export
 setMethod("Boxplot<-", "Slick", function(x, value) {
   x@Boxplot <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -478,7 +528,7 @@ setMethod("Date<-", "Slick", function(x, value) {
   if (inherits(value, 'POSIXct'))
     value <- value |> as.Date() |> as.character()
   x@Date <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -488,7 +538,7 @@ setMethod("Design", "Slick", function(x) {x@OMs@Design})
 #' @export
 setMethod("Design<-", "Slick", function(x, value) {
   x@OMs@Design <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -502,7 +552,7 @@ setMethod("Email", "Slick", function(x) {
 setMethod("Email<-", "Slick", function(x, value) {
   if (is.null(value)) return(x)
   x@Email <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -515,7 +565,7 @@ setMethod("Institution", "Slick", function(x) {
 setMethod("Institution<-", "Slick", function(x, value) {
   if (is.null(value)) return(x)
   x@Institution <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -528,7 +578,7 @@ setMethod("Introduction", "Slick", function(x, lang=NULL) {
 setMethod("Introduction<-", "Slick", function(x, value) {
   if (is.null(value)) return(x)
   x@Introduction <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -541,27 +591,16 @@ setMethod("Kobe", "Slick", function(x) {
 #' @export
 setMethod("Kobe<-", "Slick", function(x, value) {
   x@Kobe <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
-#' @export
-setMethod("MPs", "Slick", function(x, lang=NULL) {
-  get_language(x@MPs, lang)
-} )
-
-#' @export
-setMethod("MPs<-", "Slick", function(x, value) {
-  x@MPs <- value
-  validObject(x)
-  x
-})
 
 #' assign an OMs object
 #' @export
 setMethod("OMs<-", "Slick", function(x, value) {
   x@OMs <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -585,7 +624,7 @@ setMethod("Quilt<-", "Slick", function(x, value) {
 #' @export
 setMethod("Spider<-", "Slick", function(x, value) {
   x@Spider <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -603,7 +642,7 @@ setMethod("Subtitle", "Slick", function(x, lang=NULL) {
 #' @export
 setMethod("Subtitle<-", "Slick", function(x, value) {
   x@Subtitle <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -620,7 +659,7 @@ setMethod("Title", "Slick", function(x, lang=NULL) {
 #' @export
 setMethod("Title<-", "Slick", function(x, value) {
   x@Title <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -630,7 +669,7 @@ setMethod("Timeseries","Slick",function(x) x@Timeseries)
 #' @export
 setMethod("Timeseries<-", "Slick", function(x, value) {
   x@Timeseries <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -642,7 +681,7 @@ setMethod("Tradeoff", "Slick", function(x) {
 #' @export
 setMethod("Tradeoff<-", "Slick", function(x, value) {
   x@Tradeoff <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 ## Spider ----
@@ -663,7 +702,7 @@ setMethod("Spider","Slick",function(x) x@Spider)
 #' @export
 setMethod("Spider<-", "Slick", function(x, value) {
   x@Spider <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -688,7 +727,7 @@ setMethod("Preset", "Spider", function(x) {
 #' @export
 setMethod("Preset<-", "Spider", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -706,7 +745,7 @@ setMethod("Value", "Spider", function(x) {
 #' @export
 setMethod("Value<-", "Spider", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -729,7 +768,7 @@ setMethod("Timeseries","Slick",function(x) x@Timeseries)
 #' @export
 setMethod("Timeseries<-", "Slick", function(x, value) {
   x@Timeseries <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -747,7 +786,7 @@ setMethod("Preset", "Timeseries", function(x) {
 #' @export
 setMethod("Preset<-", "Timeseries", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -762,7 +801,7 @@ setMethod("Time", "Timeseries", function(x) {x@Time})
 #' @export
 setMethod("Time<-", "Timeseries", function(x, value) {
   x@Time <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -772,7 +811,7 @@ setMethod("Value", "Timeseries", function(x) {x@Value})
 #' @export
 setMethod("Value<-", "Timeseries", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -804,7 +843,7 @@ setMethod("Preset", "Tradeoff", function(x) {
 #' @export
 setMethod("Preset<-", "Tradeoff", function(x, value) {
   x@Preset <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -816,7 +855,7 @@ setMethod("Selected", "Tradeoff", function(x) {
 #' @export
 setMethod("Selected<-", "Tradeoff", function(x, value) {
   x@Selected <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 
@@ -833,7 +872,7 @@ setMethod("Value", "Tradeoff", function(x) {
 #' @export
 setMethod("Value<-", "Tradeoff", function(x, value) {
   x@Value <- value
-  validObject(x)
+  methods::validObject(x)
   x
 })
 

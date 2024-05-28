@@ -50,7 +50,7 @@ mod_About_server <- function(id, i18n){
                  column(4,
                         tags$a(href='https://www.bluematterscience.com/', target="_blank",
                                tags$div(
-                                 tags$img(src='www/img/logos/Blue Matter colour.png', height = '114', width ='216')
+                                 tags$img(src='www/img/logos/Blue_Matter_colour.png', height = '114', width ='216')
 
                                )
                         )

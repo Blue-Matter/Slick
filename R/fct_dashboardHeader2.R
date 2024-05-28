@@ -1,7 +1,6 @@
 tagAssert <- shinydashboardPlus:::tagAssert
 
 # modified shinydashboardPlus::dashboardHeader to include the words 'Filter'
-#' @export
 dashboardHeader2 <- function (..., title = NULL, titleWidth = NULL, disable = FALSE,
                               .list = NULL, leftUi = NULL, controlbarIcon = shiny::icon("gears"),
                               fixed = FALSE) {

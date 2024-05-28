@@ -34,6 +34,6 @@ newSpider <- function(Metadata=NULL,
                       Value=NULL,
                       Preset=NULL) {
   Spider <- new('Spider', Metadata, Value, Preset)
-  validObject(Spider)
+  methods::validObject(Spider)
   Spider
 }

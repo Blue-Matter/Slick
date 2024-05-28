@@ -146,9 +146,6 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
 
 
 BoxPlot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'), byOM=FALSE) {
-  slick <<- slick
-  pm <<- pm
-
   boxplot <- slick |> Boxplot()
   values <- boxplot |> Value()
   dd <- dim(values)

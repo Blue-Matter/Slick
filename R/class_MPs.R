@@ -1,17 +1,11 @@
-#' Create or modify an `MPs` object
+
+#' MPs S4 class and functions
 #'
 #' An `MPs` object contains information about the management procedures (MPs)
 #' in the [Slick()] object.
 #'
-#' `MPs()` creates an empty `MPs` object.
-#'
-#' Each slot of the `MPs` object can be accessed or modified by the corresponding
-#' accessor function. See `Examples` sections below for more details.
-#'
-#'
-#' @param Metadata A data.frame with a specific structure, describing the details of
-#' the management procedures. See `Details` section.
-#' @param Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
+#' @slot Metadata A data.frame with a specific structure, describing the details of the management procedures. See `Details` section.
+#' @slot Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
 #'
 #' @details
 #'
@@ -29,23 +23,18 @@
 #' The data.frame within each list element must have identical structure; i.e., the same number of rows
 #' and the column names in each list element must be identical.
 #'
+#' The Metadata slot is accessed with `Metadata(MPs)` and modified with `Metadata(MPs) <- data.frame()`
+#'
 #' ### Preset
 #' The `Preset` slot is an optional named list to add preset buttons for the Management
 #' Procedure filters in the [App()]. The name of the list element will appear as a button
 #' in the [App()]. Each list element should contain numeric values specifying the MPs to include.
 #' The values must be <= n MPs.
 #'
-#' @return An object of class `MPs`
+#' The Preset slot is accessed with `Preset(MPs)` and modified with `Preset(MPs) <- `list()`
 #'
 #' @example inst/examples/MPs.R
-#'
-#' @export
-#' @usage MPs(Metadata=data.frame(), Preset=list()) # create an empty object
-#' @usage MPs() # create an empty object
-#' @usage MPs(Slick_Object) # return `MPs` from object of class `Slick`
-#' @usage MPs(Slick_Object) <- MPs(Metadata=data.frame(), Preset=list() # Assign `MPs` to object of class `Slick`
-#'
-MPs <- setClass("MPs",
+setClass("MPs",
                 slots=c(Metadata='dataframe_list',
                         Preset='list'
                 )
@@ -126,3 +115,6 @@ newMPs <- function(Metadata=NULL,
                    Preset=NULL) {
   new('MPs', Metadata, Preset)
 }
+
+
+

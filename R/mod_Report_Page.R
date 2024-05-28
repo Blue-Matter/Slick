@@ -114,7 +114,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
         file.copy(file.path(app_sys(), "Report_Template.Rmd"),
                   tempReport, overwrite = TRUE)
 
-        params <<- list(Metadata=Report$Metadata,
+        params <- list(Metadata=Report$Metadata,
                         Quilt=Report$Quilt,
                         Tradeoff=Report$Tradeoff,
                         Spider=Report$Spider,

@@ -34,6 +34,6 @@ newBoxplot <- function(Metadata=NULL,
                       Value=NULL,
                       Preset=NULL) {
   Boxplot <- new('Boxplot', Metadata, Value, Preset)
-  validObject(Boxplot)
+  methods::validObject(Boxplot)
   Boxplot
 }

@@ -71,11 +71,11 @@ Timeseries_plot <- function(slick, pm_ind=1,
                             om=NULL,
                             sims=NULL) {
 
-  slick <<- slick
-  pm_ind <<- pm_ind
-  mp_ind <<- mp_ind
-  om <<- om
-  sims <<- sims
+  # slick <<- slick
+  # pm_ind <<- pm_ind
+  # mp_ind <<- mp_ind
+  # om <<- om
+  # sims <<- sims
 
   if (length(pm_ind)<1) return(NULL)
 
