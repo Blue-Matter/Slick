@@ -86,7 +86,7 @@ The Preset slot is accessed with \code{Preset(MPs)} and modified with \verb{Pres
 \itemize{
 \item \code{MPs()}: A generic function
 
-\item \code{MPs(Slick) <- value}: description
+\item \code{MPs(Slick) <- value}: Assign an object of class \code{\link[=MPs]{MPs()}} to an object of class \code{\link[=Slick]{Slick()}}
 
 }}
 \section{Slots}{

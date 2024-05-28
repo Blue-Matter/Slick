@@ -51,7 +51,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
 
     Filter_Selected <- mod_Page_Filter_server("timeseriesfilter",i18n, Slick_Object,
                                               slot='Timeseries', incPM=FALSE,
-                                              icon='chart-line')
+                                              icon='chart-line',
+                                              button_description='OM Filters')
 
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,
@@ -236,9 +237,10 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
       i18n <- i18n()
       tagList(
         p(i18n$t('This chart shows a stock status variables over time, for '), nMP(),
-          i18n$t('management procedures and'), nOM(), i18n$t('Operating Models.')),
-        p(i18n$t('The results are either shown as the median across'), nsim(),
-          i18n$t('simulations, or for a specific simulation.'))
+          i18n$t('management procedures and'), nOM(), i18n$t('individual Operating Models.')),
+        p(i18n$t('The results are shown for 1 operating model at a time, either as the median across'), nsim(),
+          i18n$t('simulations, or for a specific simulation.')),
+        p(i18n$t('Click the “Operating Model” dropdown in the top menu for details of each OM.'))
         # p('Target and limit reference points are shown in green and red, respectively, if they have been specified.'),
       )
     })

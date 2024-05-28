@@ -16,8 +16,8 @@
 
 
 
-#  slick <- obj <-  readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick')
-# slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/WSKJ.slick'))
+#  slick <- obj <-  readRDS('inst/case_studies/NSWO.rda')
+# slick <- Update( readRDS('inst/case_studies/WSKJ.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/SLICKobj.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick'))
 # slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick')

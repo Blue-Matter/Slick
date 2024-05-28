@@ -94,7 +94,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 h4(i18n$t('Load an Example')),
                                 selectInput(ns('example_input'),
                                             label=i18n$t('Example'),
-                                            choices=Slick::case_study_df$Example,
+                                            choices=case_study_df$Example,
                                             selected=NULL
                                 ),
                                 actionButton(ns("example_upload"), i18n$t("Load"),
@@ -112,7 +112,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       },
       content = function(file) {
         Name <- input$example_input
-        File <- Slick::case_study_df$Object[match(Name, Slick::case_study_df$Example)]
+        File <- case_study_df$Object[match(Name, case_study_df$Example)]
         obj <- readRDS(app_sys(paste0(File, '.rda')))
         obj <- Update(obj)
         saveRDS(obj, file)
@@ -140,7 +140,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
 
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
-          File <- Slick::case_study_df$Object[match(Load_Slick_File$file, Slick::case_study_df$Example)]
+          File <- case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)]
           slick <- readRDS(app_sys(paste0(File, '.rda')))
           check_slick_file(slick)
         }

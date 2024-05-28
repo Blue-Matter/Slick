@@ -67,14 +67,19 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
     output$controls <- renderUI({
       i18n <- i18n()
       tagList(
-        h4(i18n$t('Select Percentiles')),
-        sliderInput(ns('selectquant'),
-                    i18n$t('Percentile'),
-                    0,
-                    1,
-                    0.75,
-                    step=0.05
-        ),
+        h4(i18n$t('Error Bars')),
+        checkboxInput(ns('show_percentiles'),
+                      i18n$t('Include Error Bars?'),
+                      value=TRUE),
+        conditionalPanel("output.showerrorbars", ns=ns,
+                         sliderInput(ns('selectquant'),
+                                     i18n$t('Percentile'),
+                                     0,
+                                     1,
+                                     0.75,
+                                     step=0.05
+                                     )
+                         ),
         h4(i18n$t('Set Maximum Axis Value')),
         numericInput(ns('xaxis'),
                      'X Axis',
@@ -87,13 +92,20 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
                      0,
                      step=0.25),
         checkboxInput(ns('histline'),
-                      i18n$t('Include historical line?'),
-                      value=TRUE)
+                      i18n$t('Show line for entire projection period?'),
+                      value=FALSE)
       )
     })
 
+    output$showerrorbars <- reactive({
+      input$show_percentiles==TRUE
+    })
+    outputOptions(output, "showerrorbars", suspendWhenHidden = FALSE)
+
     selected_quantile <- reactive({
       req(input$selectquant)
+      if (input$show_percentiles == FALSE)
+        return(0)
       input$selectquant
     })
 

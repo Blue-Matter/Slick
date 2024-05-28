@@ -86,6 +86,17 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                        p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance.')),
 
 
+                                       conditionalPanel("input.plottype=='boxplot'", ns=ns,
+                                                        tagList(
+                                                          p(i18n$t('Results can also be shown as violin plots by selecting the button on the right.'))
+                                                        )
+                                       ),
+                                       conditionalPanel("input.plottype!='boxplot'", ns=ns,
+                                                        tagList(
+                                                          p(i18n$t('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.'))
+                                                        )
+                                       ),
+
                                        img(src='www/img/Boxplot.jpg', width='100%'),
 
 

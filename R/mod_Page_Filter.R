@@ -18,7 +18,7 @@ mod_Page_Filter_ui <- function(id){
 #'
 #' @noRd
 mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=TRUE,
-                                   incIcons=TRUE, icon='circle'){
+                                   incIcons=TRUE, icon='circle', button_description='OM and PI Filters'){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -34,7 +34,8 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=
     output$filters <- renderUI({
       i18n <- i18n()
       tagList(
-        helper2(h4(strong(i18n$t('Filters')))),
+        h4(strong(i18n$t('Filters'))),
+        # helper2(h4(strong(i18n$t('Filters')))),
         shinyjs::hidden(shinyWidgets::actionBttn(ns("FilterButton"),
                                                  label=i18n$t("Apply Filters"),
                                                  icon("filter", verify_fa=FALSE),
@@ -44,7 +45,7 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=
         div(align = 'left', class='multicol',
             mod_filter_selection_ui(ns("filter_mp")),
             shinyBS::bsCollapse(
-              shinyBS::bsCollapsePanel(i18n$t('More Filters'),
+              shinyBS::bsCollapsePanel(button_description,
                                        mod_filter_selection_om_ui(ns("filter_om")),
                                        mod_filter_selection_ui(ns("filter_pm"))
 

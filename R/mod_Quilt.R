@@ -81,17 +81,13 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                          column(3,
                                                 h4(strong(i18n$t("Reading this Chart"))),
                                                 htmlOutput(ns('reading')),
-                                                mod_Page_Filter_ui(ns("quiltfilter"))
+                                                mod_Page_Filter_ui(ns("quiltfilter")),
+                                                uiOutput(ns('quiltcolors'))
                                          ),
                                          column(9,
                                                 # mod_Report_Add_Button_ui(ns('report_button')),
                                                 br(),
-                                                uiOutput(ns('quilttable')),
-                                                column(2),
-                                                column(3,
-                                                       uiOutput(ns('quiltcolors'))
-                                                       ),
-                                                column(8)
+                                                uiOutput(ns('quilttable'))
 
                                          )
                                        )
@@ -176,7 +172,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
                  span(hightxt, style=highcolorstyle()),
                  i18n$t('to the'),
                  span(lowtxt, style=lowcolorstyle()),
-                 i18n$t('for the performance indicator in each column.')
+                 i18n$t('for the performance indicator in each column. Higher values indicated better performance.')
       )
       )
     })
@@ -186,10 +182,12 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
     })
 
     highcolorstyle <- reactive({
-      paste('color:', paste0(colors()[1], 90))
+      # paste('color:', paste0(colors()[1], 100))
+      paste('color:', colors()[1])
     })
     lowcolorstyle <- reactive({
-      paste('color:', paste0(colors()[2], 90))
+      # paste('color:', paste0(colors()[1], 100))
+      paste('color:', colors()[1])
     })
 
 

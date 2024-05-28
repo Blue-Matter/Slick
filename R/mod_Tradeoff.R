@@ -24,7 +24,8 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
     ns <- session$ns
 
     Filter_Selected <- mod_Page_Filter_server("tradeofffilter",i18n, Slick_Object,
-                                              slot='Tradeoff', incPM=FALSE)
+                                              slot='Tradeoff', incPM=FALSE,
+                                              button_description='OM Filters')
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
@@ -69,7 +70,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
       i18n <- i18n()
       tagList(
 
-        p(i18n$t('This chart plots the tradeoffs between two performance indicators for '),
+        p(i18n$t('This chart plots the tradeoffs between any two performance indicators (select on right) for '),
           nMP(), i18n$t('management procedures (MP).'))
 
       )
@@ -127,7 +128,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
       i18n <- i18n()
       pm_codes <- PM_codes()
       tagList(
-        p(i18n$t('Select the Performance Indicators to show on the X and Y axes of the Trade-Off plot:')),
+        p(i18n$t('Select the Performance Indicators to show on the X and Y axes of the Tradeoff plot:')),
         shinyWidgets::pickerInput(
           inputId = ns('xPM'),
           label = i18n$t("X-Axis Performance Indicator"),

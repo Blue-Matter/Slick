@@ -40,7 +40,8 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
 
 
     Filter_Selected <- mod_Page_Filter_server("kobefilter",i18n, Slick_Object,
-                                              slot='Kobe', minPM=1, FALSE)
+                                              slot='Kobe', minPM=1, FALSE,
+                                              button_description='OM Filters')
 
     # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
@@ -139,7 +140,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
         ),
         p( i18n$t('The white dotted lines around dots are error bars. The default represents'),
            HTML(paste0(quant_text, 'th')),
-           i18n$t('percentiles, but that can be changed using the "Select Percentiles" scale at the right.')
+           i18n$t('percentiles, but that can be changed using the "Percentiles" scale at the right. The error bars can be removed with the checkbox on the right side.')
         )
       )
     })
@@ -147,7 +148,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
     output$reading_time <- renderUI({
       i18n <- i18n()
       tagList(
-        p(i18n$t('This chart compares and ranks projected median values for '), nOM(),
+        p(i18n$t('This chart compares the projected median values for '), nOM(),
           i18n$t('operating models over time for '), nMP(),
           i18n$t('management procedures and shows the levels of uncertainty.')),
         p(i18n$t('Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.')

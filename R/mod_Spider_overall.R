@@ -46,7 +46,6 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(relative_scale()))
         Spiderplot_all_MPs(filtered_slick(), relative_scale=relative_scale())
     }, width=function() {
-      dims <- window_dims()
       plot_height()
     }, height=function() {
       plot_height()

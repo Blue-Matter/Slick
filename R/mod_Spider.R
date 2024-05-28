@@ -75,13 +75,14 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                              inputId = ns("RS_button"),
                                              handleWidth = 60,
                                              labelWidth = 100,
+                                             size='large',
                                              inline=TRUE,
                                              label=i18n$t('Relative Scale'),
                                              width = "auto"
                                            ),
                                            content = get_relative_scale_md(),
                                            size='s'),
-                                         style='float:right')
+                                         style='float:right;')
                                 ),
                                 column(3,
                                        h4(strong(i18n$t("Reading this Chart"))),
@@ -178,9 +179,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report){
                      i18n$t(' performance indicators.')),
             p(i18n$t('Each value is the median performance indicator over '), nOM(),
               i18n$t(' operating models.')),
-            p(HTML('<i class="fa-regular fa-hexagon"></i>'),
-              i18n$t('The colored polygons represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance')),
-            p(i18n$t('These summary values assume equal weighting and equal scaling of performance indicators.'))
+            p(i18n$t('Larger polygon areas indicate better overall performance.'))
+
 
           )
         }

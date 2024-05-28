@@ -183,7 +183,7 @@ Timeseries_plot <- function(slick, pm_ind=1,
 
   if (length(om)==1) {
     PM_lab <- ''
-    p <- p +  ggplot2::labs(title=om) +
+    p <- p +  ggplot2::labs(title=paste('OM', om)) +
       ggplot2::theme(plot.title =ggplot2::element_text(colour='#D6501C',
                                                        face='bold',
                                                        hjust = 0.5)) +
@@ -194,7 +194,8 @@ Timeseries_plot <- function(slick, pm_ind=1,
     ggplot2::expand_limits(y=0) +
     ggplot2::labs(x=time_lab, y=PM_lab, color='') +
     ggplot2::scale_y_continuous(label=scales::comma) +
-    ggplot2::theme(axis.title = ggplot2::element_text(size=16, face='bold'),
+    ggplot2::theme(title= ggplot2::element_text(size=20, face='bold'),
+                   axis.title = ggplot2::element_text(size=14, face='bold'),
                    axis.text = ggplot2::element_text(size=14),
                    legend.text = ggplot2::element_text(size=14)) +
     ggplot2::scale_x_continuous(expand = c(0, 0))

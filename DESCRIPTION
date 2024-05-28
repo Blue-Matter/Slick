@@ -51,7 +51,6 @@ RoxygenNote: 7.3.1
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
-    'TESTING.R'
     'a_classunions.R'
     'a_imports.R'
     'class_Timeseries.R'

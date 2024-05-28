@@ -30,8 +30,8 @@ mod_Resources_server <- function(id, i18n){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    Resources <- Slick::Resources
-    Footnotes <- Slick::Footnotes
+    # Resources <- Resources
+    # Footnotes <- Footnotes
 
     output$content <-  renderUI({
       headings <- Resources$Heading |> unique()
@@ -64,15 +64,15 @@ mod_Resources_server <- function(id, i18n){
         )
       })
 
-      footnote_list <- lapply(Footnotes$Number, function(x) {
-        tagList(
-          p(tags$sup(Footnotes$Number[x]), Footnotes$Footnote[x])
-        )
-      })
+      # footnote_list <- lapply(Footnotes$Number, function(x) {
+      #   tagList(
+      #     p(tags$sup(Footnotes$Number[x]), Footnotes$Footnote[x])
+      #   )
+      # })
 
       tagList(
-        do.call(tagList, output_list),
-        do.call(tagList, footnote_list)
+        do.call(tagList, output_list)
+        # do.call(tagList, footnote_list)
       )
     })
   })
