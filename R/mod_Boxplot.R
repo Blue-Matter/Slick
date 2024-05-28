@@ -84,7 +84,10 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                                         uiOutput(ns("reading_om"))
                                        ),
                                        p(i18n$t('All performance indicators are defined such that higher values mean better performance and lower values mean worse performance.')),
+
+
                                        img(src='www/img/Boxplot.jpg', width='100%'),
+
 
                                        mod_Page_Filter_ui(ns("boxplotfilter"))
 

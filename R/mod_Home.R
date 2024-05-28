@@ -45,12 +45,11 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 status = "primary",
                                 title=strong(i18n$t('About Slick')),
                                 p(i18n$t(
-                                  'Slick is a decision analysis tool that presents the outcomes of candidate harvest strategies across various states of nature, accounting for uncertainty. Slick is interactive and allows users to filter results live in order to explore robustness and performance.'
+                                  'Slick is a decision analysis tool that presents the outcomes of candidate management procedures (MPs), also known as harvest strategies, across various states of nature, accounting for uncertainty. It is interactive and allows users to filter results live in order to explore robustness and performance.'
                                 )),
                                 p(i18n$t(
-                                  'While Slick can be applied to any decision analysis context it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish.'
-                                ))
-        ),
+                                  'While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the '), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), ')')
+                                ),
       )
     })
 
@@ -64,7 +63,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 tags$ol(
                                   tags$li(
                                     strong(i18n$t('Load a Slick Data File:')),
-                                    p(i18n$t('To use Slick, you need to either choose from one of the examples, or upload a Slick Data file. Consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n$t('for information on creating a Slick Data file.'))
+                                    p(i18n$t('To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.')),
+                                    p(i18n$t('Consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n$t('for information on creating a Slick Data file.'))
                                   ),
                                   tags$li(
                                     strong(i18n$t('Explore the Results:')),
