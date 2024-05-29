@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  Slick Developer Guide: Slick Developer Guide.html
-  Slick User Guide: Slick User Guide.html
   developer_guide: developer_guide.html
-last_built: 2024-03-21T19:51Z
+  slick1: slick1.html
+  slick2: slick2.html
+last_built: 2024-05-29T06:46Z
 urls:
   reference: https://blue-matter.github.io/Slick/reference
   article: https://blue-matter.github.io/Slick/articles
