@@ -1,7 +1,7 @@
 
 #' MPs S4 class and functions
 #'
-#' An `MPs` object contains information about the management procedures (MPs)
+#' An object of class `MPs` contains information about the management procedures (MPs)
 #' in the [Slick()] object.
 #'
 #' @slot Metadata A data.frame with a specific structure, describing the details of the management procedures. See `Details` section.

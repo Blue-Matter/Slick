@@ -3,41 +3,31 @@
 \docType{class}
 \name{MPs-class}
 \alias{MPs-class}
-\alias{MPs}
-\alias{MPs,dataframe_list-method}
 \alias{MPs,missingOrNULL-method}
+\alias{MPs,dataframe_list-method}
 \alias{MPs,Slick-method}
-\alias{MPs<-}
 \alias{MPs<-,Slick-method}
 \title{MPs S4 class and functions}
 \usage{
-MPs(x, ...)
+MPs() # Create an empty MPs() object
 
-\S4method{MPs}{dataframe_list}(x, ...)
+MPs(Metadata=data.frame(), Preset=list()) # Populate a MPs() object
 
-\S4method{MPs}{missingOrNULL}(x, ...)
+MPs(Slick, lang='en') # return MPs slot from Slick object
 
-\S4method{MPs}{Slick}(x, lang = NULL)
-
-MPs(Slick) <- value
-
-\S4method{MPs}{Slick}(Slick) <- value
+MPs(Slick) <- MPs() # assign an MPs object to the MPs slot in Slick object
 }
 \arguments{
-\item{x}{An object of class \code{\link[=data.frame]{data.frame()}} or \code{\link[=list]{list()}}}
-
-\item{...}{additional arguments (not used)}
-
-\item{lang}{optional.character string length 2 to specify language (if available).  'en', 'es', or 'fr'}
+\item{lang}{Optional. Character string length 2 to specify language (if available).  'en', 'es', or 'fr'}
 
 \item{Slick}{An object of class \code{\link[=Slick]{Slick()}}}
 
-\item{value}{An object of class \code{\link[=MPs]{MPs()}}}
+\item{Metadata}{A \code{\link[=data.frame]{data.frame()}} with a specific structure. See \code{Details}}
 
-\item{missingOrNULL}{missing or NULL}
+\item{Preset}{An optional \code{\link[=list]{list()}} with a specific structure. See \code{Details}}
 }
 \description{
-An \code{MPs} object contains information about the management procedures (MPs)
+An object of class \code{MPs} contains information about the management procedures (MPs)
 in the \code{\link[=Slick]{Slick()}} object.
 }
 \details{
@@ -73,18 +63,11 @@ The Preset slot is accessed with \code{Preset(MPs)} and modified with \verb{Pres
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{MPs(dataframe_list)}: Create a new object of class \code{\link[=MPs]{MPs()}}
-
 \item \code{MPs(missingOrNULL)}: Create a new object of class \code{\link[=MPs]{MPs()}}
 
+\item \code{MPs(dataframe_list)}: Create a new object of class \code{\link[=MPs]{MPs()}}
+
 \item \code{MPs(Slick)}: Return the \code{\link[=MPs]{MPs()}} object from an object of class \code{\link[=Slick]{Slick()}}
-
-\item \code{MPs(Slick) <- value}: Assign an object of class \code{\link[=MPs]{MPs()}} to an object of class \code{\link[=Slick]{Slick()}}
-
-}}
-\section{Functions}{
-\itemize{
-\item \code{MPs()}: A generic function
 
 \item \code{MPs(Slick) <- value}: Assign an object of class \code{\link[=MPs]{MPs()}} to an object of class \code{\link[=Slick]{Slick()}}
 

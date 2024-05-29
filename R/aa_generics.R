@@ -34,39 +34,38 @@ get_language <- function(value, lang) {
 
 # ---- MPs ----
 
-#' @describeIn MPs A generic function
 #' @export
 setGeneric("MPs", function(x, ...) standardGeneric("MPs"))
 
 
 #' @describeIn MPs Create a new object of class [MPs()]
-#' @param x An object of class [data.frame()] or [list()]
-#' @export
-setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
-
-#' @describeIn MPs Create a new object of class [MPs()]
-#' @param missingOrNULL missing or NULL
-#' @param ... additional arguments (not used)
+#' @usage MPs() # Create an empty MPs() object
 #' @export
 setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
 
+#' @describeIn MPs Create a new object of class [MPs()]
+#' @usage MPs(Metadata=data.frame(), Preset=list()) # Populate a MPs() object
+#' @param Metadata A [data.frame()] with a specific structure. See `Details`
+#' @param Preset An optional [list()] with a specific structure. See `Details`
+#' @export
+setMethod("MPs","dataframe_list",function(x, ...) newMPs(x, ...))
+
 
 #' @describeIn MPs Return the [MPs()] object from an object of class [Slick()]
-#' @param lang optional.character string length 2 to specify language (if available).  'en', 'es', or 'fr'
+#' @param lang Optional. Character string length 2 to specify language (if available).  'en', 'es', or 'fr'
+#' @usage MPs(Slick, lang='en') # return MPs slot from Slick object
 #' @export
 setMethod("MPs", "Slick", function(x, lang=NULL) {
   get_language(x@MPs, lang)
 } )
 
 
-
-#' @describeIn MPs Assign an object of class [MPs()] to an object of class [Slick()]
 #' @export
 setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
 
 #' @describeIn MPs Assign an object of class [MPs()] to an object of class [Slick()]
 #' @param Slick An object of class [Slick()]
-#' @param value An object of class [MPs()]
+#' @usage MPs(Slick) <- MPs() # assign an MPs object to the MPs slot in Slick object
 #' @export
 setMethod("MPs<-", "Slick", function(Slick, value) {
   Slick@MPs <- value
