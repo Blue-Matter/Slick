@@ -1,34 +1,115 @@
-Package: Slick
 Type: Package
+Package: Slick
 Title: Decision Analysis
-Version: 1.0.16
+Version: 1.0.9005
 Authors@R: c(
-    person("Tom", "Carruthers",, "tom@bluematterscience.com", role=c("aut", "cre")),
-    person("Adrian", "Hordyk",, "adrian@bluematterscience.com", "aut"))
+    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
+    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
+  )
 Maintainer: Tom Carruthers <tom@bluematterscience.com>
-Description: Slick presents the performance of multiple management objects across multiple states of nature. 
+Description: Slick presents the performance of multiple management objects
+    across multiple states of nature.
 License: GPL-2
+Depends:
+    R (>= 3.5.0)
 Imports:
+    colorspace,
+    colourpicker,
+    config,
     dplyr,
-    DiagrammeR,
     DT,
+    esquisse,
+    flextable,
     fresh,
     ggplot2,
     ggrepel,
-    MSEtool,
-    snowfall,
+    golem,
+    grDevices,
+    methods,
+    rmarkdown,
+    scales,
     shiny,
+    shiny.i18n,
+    shinyalert,
     shinyBS,
+    shinycssloaders,
     shinydashboard,
     shinydashboardPlus,
-    shiny.i18n,
+    shinyhelper,
     shinyjs,
-    shinyalert,
-    shinycssloaders,
     shinyWidgets,
-    readxl,
-    tidyr,
+    tibble,
     waiter
+Suggests: 
+    knitr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Collate: 
+    'RunSlick.R'
+    'Slick_tools.R'
+    'a_classunions.R'
+    'a_imports.R'
+    'class_Timeseries.R'
+    'class_Tradeoff.R'
+    'class_Spider.R'
+    'class_Kobe.R'
+    'class_Boxplot.R'
+    'class_Quilt.R'
+    'class_OMs.R'
+    'class_MPs.R'
+    'class_Slick.R'
+    'aa_generics.R'
+    'app_config.R'
+    'app_server.R'
+    'app_ui.R'
+    'fct_Check.R'
+    'fct_FilterSlick.R'
+    'fct_Kobe_plot.R'
+    'fct_Update.R'
+    'fct_colors.R'
+    'fct_dashboardHeader2.R'
+    'fct_filters.R'
+    'fct_plots.R'
+    'fct_translator.R'
+    'misc.R'
+    'mod_About.R'
+    'mod_Boxplot.R'
+    'mod_Boxplot_OM.R'
+    'mod_Boxplot_overall.R'
+    'mod_Filter_select.R'
+    'mod_Global_Filters.R'
+    'mod_Home.R'
+    'mod_Kobe.R'
+    'mod_Kobe_overall.R'
+    'mod_Kobe_time.R'
+    'mod_MP_Color.R'
+    'mod_MP_Info.R'
+    'mod_Metadata.R'
+    'mod_OM_Info.R'
+    'mod_PM_Info.R'
+    'mod_Page_Filter.R'
+    'mod_Quilt.R'
+    'mod_Report_Add.R'
+    'mod_Report_Add_Button.R'
+    'mod_Report_Page.R'
+    'mod_Resources.R'
+    'mod_Sidebar.R'
+    'mod_Spider.R'
+    'mod_Spider_MP.R'
+    'mod_Spider_OM.R'
+    'mod_Spider_overall.R'
+    'mod_Timeseries.R'
+    'mod_Timeseries_byMP.R'
+    'mod_Timeseries_byOM.R'
+    'mod_Timeseries_overall.R'
+    'mod_Tradeoff.R'
+    'mod_filter_selection.R'
+    'mod_filter_selection_OM.R'
+    'mod_subtitle.R'
+    'mod_toplink.R'
+    'utils_Table.R'
+    'utils_util.R'

@@ -1,5 +1,7 @@
-# obj<-readRDS("inst/shiny_apps/SLICK/data/case_studies/SLICKobj.rda")
-#
+slick<-readRDS("inst/shiny_apps/SLICK/data/case_studies/WSKJ.slick")
+slick <- Update(slick)
+
+
 # obj<-readRDS("inst/shiny_apps/SLICK/data/case_studies/NSWO.slick")
 # obj <- readRDS('inst/shiny_apps/SLICK/data/case_studies/WSKJ.slick')
 #

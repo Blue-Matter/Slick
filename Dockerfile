@@ -1,7 +1,5 @@
-# build the Docker image from the base image 'openanalytics/r-base'
-# this is an Ubuntu 16.04 LTS with a recent R version.
-# this image is available on Docker hub at https://hub.docker.com/r/openanalytics/r-base/
-FROM openanalytics/r-base
+
+FROM rocker/r-ubuntu
 
 # add the maintainer of this Docker image (this should be you in this case)
 LABEL maintainer "Adrian Hordyk <adrian@bluematterscience.com>"
@@ -18,16 +16,19 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libssh2-1-dev \
 	libfontconfig1-dev \
-	libxml2-dev
-
+	libxml2-dev \
+	libharfbuzz-dev \
+	libfribidi-dev \
+	libtiff-dev
 
 	#libcurl4-gnutls-dev \
 
 # install basic shiny functionality to R
 RUN R -e "install.packages(c('shiny', 'rmarkdown', 'remotes'), repos='https://cloud.r-project.org/')"
 
+
 # install Slick
-RUN R -e "remotes::install_github(c('blue-matter/Slick'), dependencies=TRUE)"
+RUN R -e "remotes::install_github('blue-matter/Slick', ref='dev', dependencies=TRUE)"
 
 
 # instruct Docker to expose port 3838 to the outside world
@@ -35,4 +36,4 @@ RUN R -e "remotes::install_github(c('blue-matter/Slick'), dependencies=TRUE)"
 EXPOSE 3838
 
 # finally, instruct how to launch the Shiny app when the container is started
-CMD ["R", "-e", "Slick::Slick(host='0.0.0.0', port=3838)"]
+CMD ["R", "-e", "Slick::App(host='0.0.0.0', port=3838)"]

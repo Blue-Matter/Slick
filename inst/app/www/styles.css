@@ -1,0 +1,268 @@
+/* Default styles for pages */
+
+
+.tabbable > .nav > li > a  {
+   background-color: white !important;
+   color:black !important;
+   }
+.tabbable > .nav > li[class=active] > a  {
+   background-color: #37638a !important;
+   color:white !important;
+   }
+
+
+a:visited {
+  color: purple;
+}
+
+.main-sidebar {
+  font-size: 16px;
+}
+
+#sidebarItemExpanded > ul > :last-child {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: red;
+      }
+
+
+.vertical-tab-panel h4 {
+  font-size: 12px;
+}
+
+
+/* pages */
+
+.page_reading {
+  padding-top: 15px;
+  padding-right: 20px;
+}
+
+.page_reading_rb {
+  padding-top: 15px;
+  padding-right: 20px;
+  border-right-style: solid;
+  border-right-color: #D6501C;
+  border-width: 1px;
+}
+
+.page_summary {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #D6501C;
+  background-color: #f2f3f5;
+  padding: 15px;
+}
+
+pre {
+  background-color: #f2f3f5;
+  border-style: none;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+
+.left_border {
+  border-left-style: solid;
+  border-left-color: #D6501C;
+  border-width: 1px;
+  padding-left: 40px;
+}
+
+.right_border {
+  border-right-style: solid;
+  border-right-color: #D6501C;
+  border-width: 1px;
+}
+
+.bottom_border {
+  border-bottom-style: solid;
+  border-bottom-color: #D6501C;
+  border-width: 1px;
+}
+
+.top_border {
+  border-top-style: solid;
+  border-top-color: #D6501C;
+  border-width: 1px;
+}
+
+.shiny_plot-output .shiny-bound-output {
+  float: left;
+}
+
+
+.multicol .shiny-options-group {
+     -ms-column-count: 2;
+     -webkit-column-count: 2; /* Chrome, Safari, Opera */
+     -moz-column-count: 2;    /* Firefox */
+     column-count: 2;
+     -moz-column-fill: balanced;
+     -column-fill: balanced;
+}
+
+.multicol2 .shiny-options-group {
+     -ms-column-count: 2;
+     -webkit-column-count: 2; /* Chrome, Safari, Opera */
+     -moz-column-count: 2;    /* Firefox */
+     column-count: 2;
+     -moz-column-fill: balanced;
+     -column-fill: balanced;
+}
+
+
+.checkbox-inline {
+   display:flex;
+   margin-left: 0;
+   margin-right: 10px;
+}
+
+.checkbox-inline+.checkbox-inline {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+
+.large-bullet {
+  font-size: 36px;
+  float: left;
+  position: relative;
+
+  bottom: .45em;
+
+}
+/*
+
+
+ /*
+
+.non_tech_filters {
+  float: right;
+}
+*/
+
+
+
+/*
+.perftable {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: olive;
+}
+
+.filled_hex {
+  border-left-style: solid;
+  border-left-color: #D6501C;
+  border-bottom-style: solid;
+  border-bottom-color: #D6501C;
+  border-width: 1px;
+  padding-left: 15px;
+}
+
+.spider_plot {
+  border-left-style: solid;
+  border-left-color: #D6501C;
+  border-right-style: solid;
+  border-right-color: #D6501C;
+  border-width: 1px;
+  padding-left: 15px;
+}
+
+*/
+
+
+
+.page_title #title {
+  color: #D6501C;
+  font-weight: bold;
+  font-size: 26px;
+
+}
+
+
+.page_title #subtitle {
+  color: #D6501C;
+  font-size: 18px;
+  padding-bottom: 20px;
+}
+
+
+
+.page_reading h4 {
+  color: #D6501C;
+}
+
+.page_reading_rb h4 {
+  color: #D6501C;
+}
+
+.OM_name {
+  color: #D6501C;
+  text-align:center;
+}
+
+
+.page_reading p {
+  color: black;
+}
+
+
+.page_glossary h3 {
+  color: #D6501C;
+}
+
+
+.page_glossary h4 {
+  color: #D6501C;
+}
+
+
+.lah {
+  text-align: left;
+}
+
+
+.circle {
+  display: inline-block;
+  width:20px;
+  height:20px;
+  line-height: 20px;
+
+  border-radius:50%;
+  background: #A9a9a9;
+
+  font-size:14px;
+  color:white;
+  text-align:center;
+
+
+}
+
+.horizline{
+   text-align: left;
+    display: inline-block;
+    content: "";
+    border-top: .3rem solid;
+    width: 4rem;
+    margin: 0 1rem;
+    transform: translateY(-0.5rem);
+}
+
+
+
+.bootstrap-switch .bootstrap-switch-handle-on,
+.bootstrap-switch .bootstrap-switch-handle-off,
+.bootstrap-switch .bootstrap-switch-label {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.box {
+   box-shadow: none !important;
+}
+
+.direct-chat-contacts {
+  z-index: 2 !important;
+}
