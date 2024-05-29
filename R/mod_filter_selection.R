@@ -12,6 +12,7 @@ mod_filter_selection_ui <- function(id){
   tagList(
     uiOutput(ns('selections')),
     uiOutput(ns('presets')),
+    uiOutput(ns('globalMPsettings')),
     br()
   )
 }
@@ -20,7 +21,8 @@ mod_filter_selection_ui <- function(id){
 #'
 #' @noRd
 mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRUE,
-                                        incIcons=TRUE, icon='circle'){
+                                        incIcons=TRUE, icon='circle',
+                                        home_session=NULL, includeGlobalMPSettings=TRUE){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -133,7 +135,6 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
       } else {
         ll <- metadata()$Code
       }
-
       ll
     })
 
@@ -154,7 +155,7 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
     })
 
     output$selections <- renderUI({
-      if (!include)   return(NULL)
+      if (!include) return(NULL)
 
       i18n <- i18n()
       choiceNames <- choice_names()
@@ -173,6 +174,17 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
       }
     })
 
+    output$globalMPsettings <- renderUI({
+      if (slot !='MPs') return(NULL)
+      if (!includeGlobalMPSettings) return(NULL)
+      i18n <- i18n()
+      actionLink(ns('openGlobal'), h4(i18n$t('Global MP Settings')))
+    })
+
+    observeEvent(input$openGlobal, {
+      shinydashboardPlus::updateControlbar('controlbar', home_session)
+    })
+
     outputOptions(output, "selections", suspendWhenHidden = FALSE)
 
     observeEvent(input$label, {
@@ -180,6 +192,10 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
         shinyjs::click('mpdropdown', asis=TRUE)
       } else {
         shinyjs::click('pmdropdown', asis=TRUE)
+        shinyjs::delay(60,
+          updateTabsetPanel(session=home_session, inputId="pmdropdown", selected = slot)
+        )
+
       }
     })
 
@@ -194,13 +210,11 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
       shinyjs::click('reset_button')
     })
 
+
+
     reactive(
       Filter_Selected$selected
     )
-
-
-
-
   })
 }
 

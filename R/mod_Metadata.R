@@ -139,7 +139,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
       if (length(Value(Tradeoff(Slick_Object())))>0) {
         info <- list(p(actionLink(ns('tradeoff'), 'Tradeoff: ', icon("chart-scatter")),
-                       i18n$t('A scatter plot comparing two performance indicators')))
+                       i18n$t('A scatter plot comparing two performance indicators.')))
         linklist <- append(linklist, info)
       }
       tagList(linklist)

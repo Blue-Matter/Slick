@@ -18,7 +18,7 @@ mod_Kobe_ui <- function(id){
 #' Kobe Server Functions
 #'
 #' @noRd
-mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -36,12 +36,17 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
                          nOM, nMP, nPM, parent_session=session,
                          window_dims)
 
-    mod_subtitle_server(id, i18n, nOM, nMP)
+    mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
+
+    OMtext <- reactive(
+      'over'
+    )
 
 
     Filter_Selected <- mod_Page_Filter_server("kobefilter",i18n, Slick_Object,
                                               slot='Kobe', minPM=1, FALSE,
-                                              button_description='OM Filters')
+                                              button_description='OM Filters',
+                                              home_session=home_session)
 
     # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
@@ -52,6 +57,10 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report){
                   as.numeric(Filter_Selected$OMs),
                   as.numeric(Filter_Selected$PMs),
                   'Kobe')
+    })
+
+    observeEvent(Slick_Object(), {
+      filtered_slick()
     })
 
     dims <- reactive({

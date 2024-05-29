@@ -19,7 +19,7 @@ mod_Spider_ui <- function(id){
 #' Spider Server Functions
 #'
 #' @noRd
-mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -27,10 +27,18 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                       metadatatab='Overview',
                                       quilt='Spider'))
 
-    mod_subtitle_server('spidersubtitle', i18n, nOM, nMP, nPM, minPM=3)
+    mod_subtitle_server('spidersubtitle', i18n, nOM, nMP, nPM, minPM=3,
+                        OMtext=OMtext)
+
+    OMtext <- reactive({
+      if (input$plotselect != 'byom')
+        return('over')
+      return('show')
+    })
 
     Filter_Selected <- mod_Page_Filter_server("spiderfilter",i18n, Slick_Object,
-                                              slot='Spider', minPM=3, icon='hexagon')
+                                              slot='Spider', minPM=3, icon='hexagon',
+                                              home_session=home_session)
 
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
                          nOM, nMP, nPM, parent_session,

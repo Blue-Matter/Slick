@@ -23,6 +23,20 @@ mod_MP_Color_server <- function(id, i18n, slick){
 
     output$page <- renderUI({
       i18n <- i18n()
+      # tagList(
+      #   column(12,
+      #          h4(i18n$t('MP Color Settings')),
+      #          p(i18n$t('Modify the colors of the MP or select from an existing palette')),
+      #          uiOutput(ns('colorpickerselect')),
+      #          uiOutput(ns('customcolors')),
+      #          shinyWidgets::actionBttn(ns("applycolors"),
+      #                                   label=i18n$t("Apply Color Selections"),
+      #                                   icon("gear", verify_fa=FALSE),
+      #                                   color='danger',size='sm',
+      #                                   block=T, style="fill")
+      #          )
+      # )
+
       tagList(
         column(12,
                br(),
@@ -30,9 +44,9 @@ mod_MP_Color_server <- function(id, i18n, slick){
                  shinyBS::bsCollapsePanel(title=i18n$t('MP Color Settings'),
                                           value='color',
                                           tagList(
-                                            p(i18n$t('Modify the colors of the MP or select from an existing palette')),
-                                            uiOutput(ns('colorpickerselect')),
+                                            p(i18n$t('Click the colored box of each MP to select a different color, or select from an existing color palette at the bottom.')),
                                             uiOutput(ns('customcolors')),
+                                            uiOutput(ns('colorpickerselect')),
                                             shinyWidgets::actionBttn(ns("applycolors"),
                                                                      label=i18n$t("Apply Color Selections"),
                                                                      icon("gear", verify_fa=FALSE),

@@ -18,17 +18,22 @@ mod_Page_Filter_ui <- function(id){
 #'
 #' @noRd
 mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=TRUE,
-                                   incIcons=TRUE, icon='circle', button_description='OM and PI Filters'){
+                                   incIcons=TRUE, icon='circle',
+                                   button_description='OM and PI Filters',
+                                   home_session=NULL){
+
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
 
     selected_mps <- mod_filter_selection_server("filter_mp", i18n, Slick_Object, slot='MPs',
                                                 minN=1, incIcons=incIcons,
-                                                icon=icon)
+                                                icon=icon,
+                                                home_session=home_session)
     selected_oms <- mod_filter_selection_om_server("filter_om", i18n, Slick_Object)
     selected_pms <- mod_filter_selection_server("filter_pm", i18n, Slick_Object,
-                                                slot=slot, minN=minPM, incPM)
+                                                slot=slot, minN=minPM, incPM,
+                                                home_session=home_session)
 
 
     output$filters <- renderUI({
@@ -104,6 +109,11 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=
     observeEvent(selected_pms(), {
       shinyjs::show("FilterButton")
     }, ignoreInit = TRUE)
+
+    observeEvent(Slick_Object(), {
+      shinyjs::delay(600,
+                     shinyjs::click("FilterButton"))
+    })
 
     Filter_Selected <- reactiveValues()
 

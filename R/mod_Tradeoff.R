@@ -19,19 +19,23 @@ mod_Tradeoff_ui <- function(id){
 #' Tradeoff Server Functions
 #'
 #' @noRd
-mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
+                                home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     Filter_Selected <- mod_Page_Filter_server("tradeofffilter",i18n, Slick_Object,
                                               slot='Tradeoff', incPM=FALSE,
-                                              button_description='OM Filters')
+                                              button_description='OM Filters',
+                                              home_session=home_session)
 
     mod_toplink_server(id, links=list(hometab='Home',
                                       metadatatab='Overview',
                                       tradeoff='Tradeoff'))
 
-    mod_subtitle_server(id, i18n, nOM, nMP)
+    mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
+
+    OMtext <- reactive('over')
 
     filtered_slick <- reactive({
       FilterSlick(Slick_Object(),
@@ -58,7 +62,9 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                 ),
                                 column(6,
                                        mod_Report_Add_Button_ui(ns('report_button')),
-                                       plotOutput(ns('tradeoffplot'), height=plot_height_d(), width=plot_width_d())
+                                       plotOutput(ns('tradeoffplot'),
+                                                  height=plot_height_d(),
+                                                  width=plot_width_d())
                                 ),
                                 column(3, uiOutput(ns('pmselection')))
 

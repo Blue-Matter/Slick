@@ -54,7 +54,7 @@ header <- function() {
                      shinyWidgets::dropdownButton(
                        inputId ='mpdropdown',
                        width=700,
-                       label = "Management Procedures",
+                       label = "MPs",
                        status = "primary",
                        circle = FALSE,
                        mod_MP_Info_ui("MPheader")
@@ -64,7 +64,7 @@ header <- function() {
                      shinyWidgets::dropdownButton(
                        inputId ='omdropdown',
                        width=700,
-                       label = "Operating Models",
+                       label = "OMs",
                        status = "primary",
                        circle = FALSE,
                        mod_OM_Info_ui("OMheader")
@@ -74,7 +74,7 @@ header <- function() {
                      shinyWidgets::dropdownButton(
                        inputId ='pmdropdown',
                        width=700,
-                       label = "Performance Indicators",
+                       label = "PIs",
                        status = "primary",
                        circle = FALSE,
                        mod_PM_Info_ui("PMheader")
@@ -89,7 +89,7 @@ header <- function() {
 # -- rhs controlbar ----
 controlbar <- function() {
 
-  shinydashboardPlus::dashboardControlbar(overlay = FALSE,
+  shinydashboardPlus::dashboardControlbar(overlay = TRUE,
                                           id='controlbar',
                                           width=450,
                                           skin='light',

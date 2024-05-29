@@ -39,7 +39,8 @@ mod_Timeseries_ui <- function(id){
 #' Timeseries Server Functions
 #'
 #' @noRd
-mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
+                                  home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -47,12 +48,20 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                       metadatatab='Overview',
                                       timeseries='Timeseries'))
 
-    mod_subtitle_server(id, i18n, nOM, nMP)
+    mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
+
+    OMtext <- reactive({
+      req(input$plotselect)
+      if (input$plotselect != 'byom')
+        return('over')
+      return('show')
+    })
 
     Filter_Selected <- mod_Page_Filter_server("timeseriesfilter",i18n, Slick_Object,
                                               slot='Timeseries', incPM=FALSE,
                                               icon='chart-line',
-                                              button_description='OM Filters')
+                                              button_description='OM Filters',
+                                              home_session=home_session)
 
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,

@@ -63,13 +63,17 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
 
 
     mp_colors <- mod_MP_Color_server("MP_Color_1",i18n, Slick_Object)
-    selected_mps <- mod_filter_selection_server("filter_mp", i18n, slick_in, slot='MPs', minN=1)
+    selected_mps <- mod_filter_selection_server("filter_mp", i18n, slick_in,
+                                                slot='MPs', minN=1,
+                                                includeGlobalMPSettings=FALSE)
 
     output$heading <- renderUI({
       i18n <- i18n()
       tagList(
-        h3(i18n$t('Global Management Procedure Filter')),
-        p(i18n$t('These Management Procedure filters will apply globally to all plots.'))
+        h3(i18n$t('Global MP Settings')),
+        p(i18n$t('These Management Procedure settings will apply to all plots.')),
+        p(i18n$t('MPs that are deselected here will not be displayed in any plots.')),
+        p(i18n$t('The MP Color Settings will change the colors of the MPs in all plots.'))
       )
     })
 
@@ -86,7 +90,7 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
       i18n <- i18n()
       shinyjs::hidden(
         shinyWidgets::actionBttn(ns("FilterButton"),
-                                 label=i18n$t("Apply Global Filters"),
+                                 label=i18n$t("Apply Global MP Filter"),
                                  icon("filter", verify_fa=FALSE),
                                  color='danger',size='sm',
                                  block=T, style="fill")

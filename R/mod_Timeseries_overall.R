@@ -194,7 +194,7 @@ Timeseries_plot <- function(slick, pm_ind=1,
     ggplot2::expand_limits(y=0) +
     ggplot2::labs(x=time_lab, y=PM_lab, color='') +
     ggplot2::scale_y_continuous(label=scales::comma) +
-    ggplot2::theme(title= ggplot2::element_text(size=20, face='bold'),
+    ggplot2::theme(title= ggplot2::element_text(size=18, face='bold'),
                    axis.title = ggplot2::element_text(size=14, face='bold'),
                    axis.text = ggplot2::element_text(size=14),
                    legend.text = ggplot2::element_text(size=14)) +

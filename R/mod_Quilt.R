@@ -19,7 +19,7 @@ mod_Quilt_ui <- function(id){
 
 #' Quilt Server Functions
 #' @noRd
-mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -27,14 +27,25 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
                                       metadatatab='Overview',
                                       quilt='Quilt'))
 
-    mod_subtitle_server('quiltsubtitle', i18n, nOM, nMP, nPM, minPM=1)
+    mod_subtitle_server('quiltsubtitle', i18n, nOM, nMP, nPM, minPM=1, OMtext=OMtext)
+
+    OMtext <- reactive({
+      'over'
+    })
 
     Filter_Selected <- mod_Page_Filter_server("quiltfilter",i18n, Slick_Object,
-                                              slot='Quilt', minPM=2, incIcons=FALSE)
+                                              slot='Quilt', minPM=2, incIcons=FALSE,
+                                              home_session=home_session)
 
     quilt_slick <- reactiveVal()
-    observeEvent(Slick_Object(),
-                 quilt_slick(Slick_Object()))
+
+    observeEvent(Slick_Object(), {
+      quilt_slick(Slick_Object())
+    })
+
+    observeEvent(Slick_Object(), {
+      filtered_slick()
+    })
 
     filtered_slick <- reactive({
       FilterSlick(quilt_slick(),
@@ -182,12 +193,12 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report){
     })
 
     highcolorstyle <- reactive({
-      # paste('color:', paste0(colors()[1], 100))
-      paste('color:', colors()[1])
+      paste('color:', paste0(colors()[1], 99))
+      # paste('color:', colors()[1])
     })
     lowcolorstyle <- reactive({
-      # paste('color:', paste0(colors()[1], 100))
-      paste('color:', colors()[1])
+      paste('color:', paste0(colors()[2],99))
+      # paste('color:', colors()[2])
     })
 
 

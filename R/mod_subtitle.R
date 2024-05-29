@@ -17,7 +17,8 @@ mod_subtitle_ui <- function(id){
 #' subtitle Server Functions
 #'
 #' @noRd
-mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3){
+mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3,
+                                OMtext=NULL){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -40,9 +41,23 @@ mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3){
 
 
       if (nOM()>0 & nMP()>0) {
-        str <- paste0(nMP(),
-                      i18n$t(' Management Procedures. Median values over '), nOM(),
-                      i18n$t(' Operating Models.'))
+        if (OMtext() == 'over') {
+          str <- paste0(nMP(),
+                        i18n$t(' Management Procedures. Median values over '),
+                        nOM(),
+                        i18n$t(' Operating Models.'))
+        }
+        if (OMtext() == 'for') {
+          str <- paste0(nMP(),
+                        i18n$t(' Management Procedures. Median values over simulations for '), nOM(),
+                        i18n$t(' Operating Models.'))
+        }
+        if (OMtext() == 'show') {
+          str <- paste0(nMP(),
+                        i18n$t(' Management Procedures. '), nOM(),
+                        i18n$t(' Operating Models.'))
+        }
+
       } else {
         str <-''
       }

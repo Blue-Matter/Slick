@@ -17,7 +17,7 @@ mod_Boxplot_ui <- function(id){
 #' Boxplot Server Functions
 #'
 #' @noRd
-mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
+mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -34,10 +34,17 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report){
                           nOM, nMP, nPM, parent_session=session,
                           window_dims)
 
-    mod_subtitle_server(id, i18n, nOM, nMP)
+    mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
+
+    OMtext <- reactive({
+      if (input$plotselect == 'overall')
+        return('over')
+      return('show')
+    })
 
     Filter_Selected <- mod_Page_Filter_server("boxplotfilter",i18n, Slick_Object,
-                                              slot='Boxplot', minPM=1)
+                                              slot='Boxplot', minPM=1,
+                                              home_session=home_session)
 
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)

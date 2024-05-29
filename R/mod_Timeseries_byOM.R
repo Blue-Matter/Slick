@@ -89,6 +89,10 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
 
     })
 
+    observeEvent(input$selectsim, {
+      shinyjs::show('updateplot')
+    })
+
     observeEvent(input$updateplot, {
       shinyjs::hide('updateplot')
       slick <- filtered_slick()
