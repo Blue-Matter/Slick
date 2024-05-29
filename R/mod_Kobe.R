@@ -48,8 +48,8 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
                                               button_description='OM Filters',
                                               home_session=home_session)
 
-    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
 
     filtered_slick <- reactive({
       FilterSlick(Slick_Object(),

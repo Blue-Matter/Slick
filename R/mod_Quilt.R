@@ -96,7 +96,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
                                                 uiOutput(ns('quiltcolors'))
                                          ),
                                          column(9,
-                                                # mod_Report_Add_Button_ui(ns('report_button')),
+                                                mod_Report_Add_Button_ui(ns('report_button')),
                                                 br(),
                                                 uiOutput(ns('quilttable'))
 

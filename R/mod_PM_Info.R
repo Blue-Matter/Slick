@@ -23,7 +23,7 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
 
     output$PMinfo <- renderUI({
       i18n <- i18n()
-      tabsetPanel(type = "tabs",
+      tabsetPanel(type = "tabs", id='pmtabsetpanel',
                   tabPanel(i18n$t("Boxplot"),
                            br(),
                            DT::dataTableOutput(session$ns('PM_Boxplot'))),
@@ -50,7 +50,7 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
     })
 
     output$PM_Kobe <- DT::renderDataTable({
-      Table(Boxplot(Slick_Object()), i18n()$get_translation_language())
+      Table(Kobe(Slick_Object()), i18n()$get_translation_language())
     })
 
     output$PM_Quilt <- DT::renderDataTable({

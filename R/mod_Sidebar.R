@@ -57,11 +57,11 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
 
                       shinydashboard::menuItem(i18n$t("Tradeoff"),
                                                tabName = "tradeoff",
-                                               icon = icon('chart-scatter')) #,
+                                               icon = icon('chart-scatter')),
 
-                      # shinydashboard::menuItem(i18n$t("Report"),
-                      #                          tabName = "report",
-                      #                          icon = icon("print"))
+                      shinydashboard::menuItem(i18n$t("Report"),
+                                               tabName = "report",
+                                               icon = icon("print"))
       )
 
       ll

@@ -192,8 +192,9 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
         shinyjs::click('mpdropdown', asis=TRUE)
       } else {
         shinyjs::click('pmdropdown', asis=TRUE)
-        shinyjs::delay(60,
-          updateTabsetPanel(session=home_session, inputId="pmdropdown", selected = slot)
+        shinyjs::delay(10,
+          updateTabsetPanel(session=home_session,
+                            inputId="pmtabsetpanel", selected = slot)
         )
 
       }

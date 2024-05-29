@@ -46,8 +46,12 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                               slot='Boxplot', minPM=1,
                                               home_session=home_session)
 
-    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
+    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
+    #
+    # observeEvent(button_pushed(), {
+    #   shiny::showModal(mod_Report_Add_ui(ns("Report_Add_1")))
+    # })
 
     output$page <- renderUI({
       i18n <- i18n()

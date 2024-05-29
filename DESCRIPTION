@@ -80,7 +80,6 @@ Collate:
     'mod_Boxplot.R'
     'mod_Boxplot_OM.R'
     'mod_Boxplot_overall.R'
-    'mod_Filter.R'
     'mod_Filter_select.R'
     'mod_Global_Filters.R'
     'mod_Home.R'

@@ -138,10 +138,10 @@ body <- function() {
       ),
       shinydashboard::tabItem(tabName = "tradeoff",
                               mod_Tradeoff_ui("Tradeoff")
-      ) #,
-      # shinydashboard::tabItem(tabName = "report",
-      #                         mod_Report_Page_ui("Report_Page_1")
-      # )
+      ),
+      shinydashboard::tabItem(tabName = "report",
+                              mod_Report_Page_ui("Report_Page_1")
+      )
     )
   )
 }
