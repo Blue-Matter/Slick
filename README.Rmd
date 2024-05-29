@@ -41,5 +41,5 @@ The Slick App can be run locally by installing the `Slick` R package from GitHub
 # install.packages("remotes")
 remotes::install_github("Blue-Matter/Slick")
 library(Slick)
-Slick()
+App()
 ```
