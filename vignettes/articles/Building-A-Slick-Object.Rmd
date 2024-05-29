@@ -1,0 +1,112 @@
+---
+title: "Building A Slick Object"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Slick)
+```
+
+# Introduction
+
+`Slick` is a decision analysis tool that presents the outcomes of potential policy options across various states of nature. The App allows for the simultaneous presentation of various performance indicators and can account for uncertainty in the states of nature. Slick is interactive and allows users to filter results live in order to explore robustness and performance. 
+
+While Slick could be applied to any decision analysis context, it was specifically designed to investigate the performance of fisheries management procedures tested by management strategy evaluation (MSE). 
+
+## Purpose of this document
+
+This document is a guide for analysts who wish to use `Slick` to summarize their MSE results. It describes the format of the `Slick` object, and provides examples for how to create and populate a `Slick` object.
+
+## Prerequisites
+
+To use `Slick` you need to install the `Slick` R package from [Github Repository](https://github.com/Blue-Matter/Slick):
+
+```{r, eval=FALSE} 
+# install.packages('pak)
+pak::pkg_install('blue-matter/Slick')
+```
+
+## Accessing the App
+
+The App includes example `Slick` objects that can be downloaded and examined in the R environment.
+
+### Online
+
+The Slick App is freely available [online](https://shiny.bluematterscience.com/app/slick). 
+
+### Offline
+
+You can also run the App locally on your computer. To do so install the [Slick R package](https://github.com/Blue-Matter/Slick) and use the `App()` function:
+
+```{r offline, eval=F}
+library(Slick)
+App()
+```
+
+## Reporting Issues and Bugs
+
+Please use the [Issues](https://github.com/Blue-Matter/Slick/issues) feature in the GitHub repository to report issues or bugs. Please be sure to include a reproducible example so the issue can be recreated for de-bugging. [Pull Requests](https://github.com/Blue-Matter/Slick/pulls) are also welcome.
+
+# Simulating MSE Results
+
+`Slick` is platform agnostic and can be used with results from any MSE framework, provided they are formatted into a compatible `Slick` object.
+
+For the purposes of this Developer's Guide, we are using the [`openMSE`](https://openMSE.com) framework to simulate some MSE results. 
+
+To reproduce the code in this section, `openMSE` needs to be installed:
+
+```{r, eval=FALSE}
+install.packages('blue-matter/openMSE')
+```
+
+Here we are creating an example operating model (OM) with 50 simulations, and then projecting the fishery under three different management procedures (MPs): `SP_4010`, `AvC`, and `IT5`. 
+
+```{r simMSE, message=FALSE, warning=FALSE, cache=TRUE}
+library(openMSE)
+
+OM <- new('OM', 
+          Stock=MSEtool::Albacore, 
+          Fleet=MSEtool::Generic_IncE, 
+          Obs=MSEtool::Generic_Obs, 
+          Imp=MSEtool::Perfect_Imp, 
+          nsim=50)
+
+MSE <- runMSE(OM, 
+              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              parallel = TRUE,
+              silent=TRUE)
+
+```
+
+The details of the OM and MPs are not important for this Developer's Guide. However, if you wish to learn more about them you can access the help documentation for each object, for example:
+
+```{r, eval=FALSE}
+?SP_4010
+
+?Albacore
+```
+
+
+# Building a Slick Object
+
+All MSE results are stored in an object of class `Slick`.  
+
+A new `Slick` object can be created with:
+```{r}
+MySlick <- Slick()
+
+```
+
+The help documentation for the Slick object can be found [here](../reference/Slick.html)
+
+
+
+# 
+
+
