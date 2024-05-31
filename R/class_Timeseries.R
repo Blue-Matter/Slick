@@ -1,4 +1,34 @@
-#' Create a new `Timeseries` object
+#' `Timeseries` S4 class and functions
+#'
+#' An object of class `Timeseries` contains information for the Time Series chart.
+#' The `Timeseries` function is used both to create and modify an object of class [Timeseries]
+#' and to access and assign the `Timeseries` slot in an object of class [Slick]. See `Details`.
+#'
+#' @details
+#' ## Creating objects of class [Timeseries]
+#' - `Timeseries()` creates a new object of class [Timeseries]
+#' - `Timeseries(object)` assigns the [Metadata] slot in an object of class [Timeseries],
+#' where `object` is either a `data.frame` or a named `list`.  See `Metadata` section below.
+#'
+#' ## Accessing and assigning `Timeseries` slot in objects of class [Slick]
+#' TODO
+#'
+#' ## Metadata
+#' TODO
+#'
+#' ## Time
+#' TODO
+#'
+#' ## Value
+#' TODO
+#'
+#' ## Preset
+#' TODO
+#'
+#' @slot Metadata TODO
+#' @slot Time TODO
+#' @slot Value TODO
+#' @slot Preset TODO
 #'
 #' @return An object of class `Timeseries`
 #' @export

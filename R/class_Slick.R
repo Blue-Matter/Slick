@@ -19,47 +19,46 @@ check_data.frame <- function(obj, req, opt) {
 
 # ---- Slick Class ----
 
-#' Create a `Slick` object
+#' `Slick` S4 class and functions
 #'
 #' Each slot of the `Slick` object can be accessed or modified by the corresponding
 #' accessor function. See Examples sections below for more details.
 #'
-#' @param Title Title for the `Slick` object. A character string. For multiple languages,
+#' @slot Title Title for the `Slick` object. A character string. For multiple languages,
 #' use a named list with names: `en`, `es`, `fr` for the three supported languages.
 #'
-#' @param Subtitle Subtitle for the `Slick` object. A character string or a named list with
+#' @slot Subtitle Subtitle for the `Slick` object. A character string or a named list with
 #' languages: `en`, `es`, `fr`
 #'
-#' @param Date Either an object of class `Date` or character string.
+#' @slot Date Either an object of class `Date` or character string.
 #' Date the Slick object was created. Defaults to `Sys.Date()`
 #'
-#' @param Author A character vector with name(s) of author(s) for the `Slick` object
-#' @param Email A character vector with email addresses for the author(s). Optional.
+#' @slot Author A character vector with name(s) of author(s) for the `Slick` object
+#' @slot Email A character vector with email addresses for the author(s). Optional.
 #' Must be same length as `Author`
-#' @param Institution A character vector with institution details for the author(s). Optional.
+#' @slot Institution A character vector with institution details for the author(s). Optional.
 #' Must be same length as `Author`
 #'
-#' @param Introduction Introduction text for the `Slick` object. Supports all markdown formatting.
+#' @slot Introduction Introduction text for the `Slick` object. Supports all markdown formatting.
 #' For multiple languages, use a named list with names: `en`, `es`, `fr` for the
 #' three supported languages.
 #'
-#' @param MPs An object of class [MPs()]
-#' @param OMs An object of class [OMs()]
-#' @param Boxplot An object of class [Boxplot()]
-#' @param Kobe An object of class [Kobe()]
-#' @param Quilt An object of class [Quilt()]
-#' @param Spider An object of class [Spider()]
-#' @param Timeseries An object of class [Timeseries()]
-#' @param Tradeoff An object of class [Tradeoff()]
+#' @slot MPs An object of class [MPs()]
+#' @slot OMs An object of class [OMs()]
+#' @slot Boxplot An object of class [Boxplot()]
+#' @slot Kobe An object of class [Kobe()]
+#' @slot Quilt An object of class [Quilt()]
+#' @slot Spider An object of class [Spider()]
+#' @slot Timeseries An object of class [Timeseries()]
+#' @slot Tradeoff An object of class [Tradeoff()]
 #'
 #'
 #' @usage Slick()
-#'
+#' @include class_Boxplot.R
 #' @include class_MPs.R
 #' @include class_OMs.R
 #' @include class_Quilt.R
 #' @include class_Spider.R
-#' @include class_Boxplot.R
 #' @include class_Kobe.R
 #' @include class_Timeseries.R
 #' @rdname Slick
@@ -239,6 +238,37 @@ showSlick <- function(slick) {
 
 }
 
+# ---- Boxplot ----
+setMethod("Boxplot","Slick",function(Code) Code@Boxplot)
 
 
+#' @rdname Boxplot-methods
+#' @param Slick An object of class [Slick-class()]
+#' @param value An object of class [Boxplot-class()]
+#' @export
+setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
+
+
+setMethod("Boxplot<-", "Slick", function(Slick, value) {
+  Slick@Boxplot <- value
+  methods::validObject(Slick)
+  Slick
+})
+
+# ---- Kobe ----
+setMethod("Kobe","Slick",function(Code) Code@Kobe)
+
+
+#' @rdname Kobe-methods
+#' @param Slick An object of class [Slick-class()]
+#' @param value An object of class [Kobe-class()]
+#' @export
+setGeneric("Kobe<-", function(Slick, value) standardGeneric("Kobe<-"))
+
+
+setMethod("Kobe<-", "Slick", function(Slick, value) {
+  Slick@Kobe <- value
+  methods::validObject(Slick)
+  Slick
+})
 

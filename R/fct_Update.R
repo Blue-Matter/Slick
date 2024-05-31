@@ -16,7 +16,7 @@
 
 
 
-#  slick <- obj <-  readRDS('inst/case_studies/NSWO.rda')
+#  slick <- obj <-  readRDS('inst/NSWO.rda')
 # slick <- Update( readRDS('inst/case_studies/WSKJ.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/SLICKobj.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick'))
@@ -53,10 +53,10 @@ Update <- function(slick) {
   Introduction(slick) <- intro
 
   # MPs
-  MPs(slick) <- MPs(Metadata=data.frame(Code=slick_in$MP$Codes,
-                                      Label=slick_in$MP$Labels,
-                                      Description=slick_in$MP$Description,
-                                      Color=slick_in$Misc$Cols$MP))
+  MPs(slick) <- MPs(data.frame(Code=slick_in$MP$Codes,
+                               Label=slick_in$MP$Labels,
+                               Description=slick_in$MP$Description,
+                               Color=slick_in$Misc$Cols$MP))
 
   # OMs
   oms <- OMs()

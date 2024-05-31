@@ -1,13 +1,39 @@
 
-#' MPs S4 class and functions
+
+#' `MPs` S4 class and functions
 #'
+<<<<<<< Updated upstream
 #' An `MPs` object contains information about the management procedures (MPs)
 #' in the [Slick()] object.
+=======
+#' An object of class `MPs` contains information about the management procedures (MPs)
+#' in the [Slick()] object. The `MPs` function is used both to create and modify an object of class [MPs()] and to access
+#' and assign the `MPs` slot in an object of class [Slick()]. See `Details`.
+>>>>>>> Stashed changes
 #'
 #' @slot Metadata A data.frame with a specific structure, describing the details of the management procedures. See `Details` section.
 #' @slot Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
 #'
 #' @details
+#'
+#' ## Creating objects of class [MPs()]
+#' - `MPs()` creates a new object of class [MPs()]
+#'  - `MPs(object)` creates an `MPs` object with `object` assigned to the [Metadata()] slot,
+#' where `object` is either a `data.frame` or a named `list`.  See `Metadata` section below.
+#'  - `MPs(object, value)` creates an `MPs` object with `object` assigned to the [Metadata]
+#'   slot and `value` assigned to the `Preset` slot,  where `object` is as described above,
+#'   and `value` is a named `list`.  See `Preset` section below.
+#'
+#' ## Accessing and assigning slots in objects of class [MPs]
+#' - The `Metadata` slot is accessed with `Metadata(MPs)` and modified with `Metadata(MPs) <- value`
+#'- The `Preset` slot is accessed with `Preset(MPs)` and modified with `Preset(MPs) <- value`
+#'
+#' See [Metadata()] and [Preset()] for more details.
+#'
+#' ## Accessing and assigning `MPs` slot in objects of class [Slick()]
+#'  - `MPs(object)` accesses the `MPs` slot in an object of class [Slick()]
+#'  - `MPs(object) <- value` assigns the `MPs` slot in an object of class [Slick()],
+#'  where `value` is an object of class [MPs()]
 #'
 #' ### Metadata
 #' The `Metadata` data.frame must have n MPs rows and the following columns:
@@ -23,8 +49,6 @@
 #' The data.frame within each list element must have identical structure; i.e., the same number of rows
 #' and the column names in each list element must be identical.
 #'
-#' The Metadata slot is accessed with `Metadata(MPs)` and modified with `Metadata(MPs) <- data.frame()`
-#'
 #' ### Preset
 #' The `Preset` slot is an optional named list to add preset buttons for the Management
 #' Procedure filters in the [App()]. The name of the list element will appear as a button
@@ -32,8 +56,8 @@
 #' The values must be <= n MPs.
 #'
 #' The Preset slot is accessed with `Preset(MPs)` and modified with `Preset(MPs) <- `list()`
-#'
 #' @example inst/examples/MPs.R
+#' @docType class
 setClass("MPs",
                 slots=c(Metadata='dataframe_list',
                         Preset='list'

@@ -1,7 +1,33 @@
-# ---- Class Quilt ----
-#' Create a new `Quilt` object
+#' `Tradeoff` S4 class and functions
 #'
-#' @return An object of class `Quilt`
+#' An object of class `Tradeoff` contains information for the Time Series chart.
+#' The `Tradeoff` function is used both to create and modify an object of class [Tradeoff]
+#' and to access and assign the `Tradeoff` slot in an object of class [Slick]. See `Details`.
+#'
+#' @details
+#' ## Creating objects of class [Tradeoff]
+#' - `Tradeoff()` creates a new object of class [Tradeoff]
+#'
+#' ## Accessing and assigning `Tradeoff` slot in objects of class [Slick]
+#' TODO
+#'
+#' ## Metadata
+#' TODO
+
+#' ## Value
+#' TODO
+#'
+#' ## Preset
+#' TODO
+#'
+#' ## Selected
+#'
+#' @slot Metadata TODO
+#' @slot Value TODO
+#' @slot Preset TODO
+#' @slot Selected TODO
+#'
+#' @return An object of class `Tradeoff`
 #' @export
 #'
 Tradeoff <- setClass("Tradeoff",

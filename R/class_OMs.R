@@ -1,44 +1,27 @@
 # ---- Class OMs ----
 
-#' Create or modify an `OMs` object
+#' `OMs` S4 class and functions
 #'
 #' An `OMs` object contains information about the operating models (MPs)
 #' in the [Slick()] object.
 #'
-#' `OMs()` creates an empty `OMs` object.
-#'
-#' Each slot of the `OMs` object can be accessed or modified by the corresponding
-#' accessor function. See `Examples` sections below for more details.
-#'
-#' @param Metadata A data.frame with a specific structure, describing the details of
-#' the operating models. See `Details` section
-#'
-#' @param Design A `data.frame` with the design matrix for the OMs. The columns
-#' must be named with the factor names. The rows contain the factor levels for each OM. See `Details` section
-#'
-#' @param Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
-#'
 #' @details
+#' TODO
 #'
-#' ### Metadata
-#' The `Metadata` data.frame must have n OMs rows and the following columns:
-#'    - Code: A short character string for identifying the MPs. Used in the [App()] in places
-#'    where there is no room for a full label.
-#'    - Label: A long character string (one word or max two words) for identifying the MPs.
-#'    - Description: A longer character string providing a description of the MPs.
-#'    - Color: A character vector with the colors to use to display the MPs in the [App()]. Optional.
-#'    If not provided, the App will try to set some sensible colors.
+#' ## Metadata
+#' TODO
 #'
-#' ### Design
+#' ## Design
+#' TODO
 #'
-#' ### Preset
+#' ## Preset
+#' TODO
 #'
-#'
-#'
-#'
+#' @slot Metadata TODO
+#' @slot Design TODO
+#' @slot Preset TODO
 #'
 #' @return An object of class `OMs`
-#' @usage OMs()
 #' @export
 #'
 #' @example inst/examples/OMs.R

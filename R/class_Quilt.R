@@ -1,5 +1,30 @@
-# ---- Class Quilt ----
-#' Create a new `Quilt` object
+
+
+#' `Quilt` S4 class and functions
+#'
+#' An object of class `Quilt` contains information for the Quilt chart.
+#' The `Quilt` function is used both to create and modify an object of class [Quilt]
+#' and to access and assign the `Quilt` slot in an object of class [Slick]. See `Details`.
+#'
+#' @details
+#' TODO
+#'
+#' ## Metadata
+#' TODO
+#'
+#' ## Value
+#' TODO
+#'
+#' ## Preset
+#' TODO
+#'
+#' ## Colors
+#' TODO
+#'
+#' @slot Metadata TODO
+#' @slot Value TODO
+#' @slot Preset TODO
+#' @slot Color TODO
 #'
 #' @return An object of class `Quilt`
 #' @export
