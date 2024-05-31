@@ -1,0 +1,243 @@
+---
+title: "Building A Slick Object"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Slick)
+```
+
+# Introduction
+
+`Slick` is a decision analysis tool that presents the outcomes of potential policy options across various states of nature. The App allows for the simultaneous presentation of various performance indicators and can account for uncertainty in the states of nature. Slick is interactive and allows users to filter results live in order to explore robustness and performance. 
+
+While Slick could be applied to any decision analysis context, it was specifically designed to investigate the performance of fisheries management procedures tested by management strategy evaluation (MSE). 
+
+## Purpose of this document
+
+This document is a guide for analysts who wish to use `Slick` to summarize their MSE results. It describes the format of the `Slick` object, and provides examples for how to create and populate a `Slick` object.
+
+## Prerequisites
+
+To use `Slick` you need to install the `Slick` R package from [Github Repository](https://github.com/Blue-Matter/Slick):
+
+```{r, eval=FALSE} 
+# install.packages('pak)
+pak::pkg_install('blue-matter/Slick')
+```
+
+## Accessing the App
+
+The App includes example `Slick` objects that can be downloaded and examined in the R environment.
+
+### Online
+
+The Slick App is freely available [online](https://shiny.bluematterscience.com/app/slick). 
+
+### Offline
+
+You can also run the App locally on your computer. To do so install the [Slick R package](https://github.com/Blue-Matter/Slick) and use the `App()` function:
+
+```{r offline, eval=F}
+library(Slick)
+App()
+```
+
+## Reporting Issues and Bugs
+
+Please use the [Issues](https://github.com/Blue-Matter/Slick/issues) feature in the GitHub repository to report issues or bugs. Please be sure to include a reproducible example so the issue can be recreated for de-bugging. [Pull Requests](https://github.com/Blue-Matter/Slick/pulls) are also welcome.
+
+# Simulating MSE Results
+
+`Slick` is platform agnostic and can be used with results from any MSE framework, provided they are formatted into a compatible `Slick` object.
+
+For the purposes of this Developer's Guide, we are using the [`openMSE`](https://openMSE.com) framework to simulate some MSE results. 
+
+To reproduce the code in this section, `openMSE` needs to be installed:
+
+```{r, eval=FALSE}
+install.packages('blue-matter/openMSE')
+```
+
+Here we are creating an example operating model (OM) with 50 simulations, and then projecting the fishery under three different management procedures (MPs): `SP_4010`, `AvC`, and `IT5`. 
+
+```{r simMSE, message=FALSE, warning=FALSE, cache=TRUE}
+library(openMSE)
+
+OM_1 <- new('OM', 
+          Stock=MSEtool::Albacore, 
+          Fleet=MSEtool::Generic_IncE, 
+          Obs=MSEtool::Generic_Obs, 
+          Imp=MSEtool::Perfect_Imp, 
+          nsim=50)
+
+MSE_1 <- runMSE(OM_1, 
+              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              parallel = TRUE,
+              silent=TRUE)
+
+```
+
+A second OM 
+
+```{r simMSE1, message=FALSE, warning=FALSE, cache=TRUE}
+
+OM_2 <- OM_1
+OM_2@M <- OM_1@M * 0.75
+
+MSE_2 <- runMSE(OM_2, 
+              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              parallel = TRUE,
+              silent=TRUE)
+
+
+
+```
+
+```{r simMSE1, message=FALSE, warning=FALSE, cache=TRUE}
+
+OM_3 <- OM_1
+OM_3@M <- OM_1@M * 1.33
+
+MSE_3 <- runMSE(OM_3, 
+              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              parallel = TRUE,
+              silent=TRUE)
+
+
+```
+
+
+```{r, include=FALSE}
+if (exists(MSE_1)) {
+  saveRDS(MSE_1, '../../dev/Examples/MSE_1.mse')
+  saveRDS(MSE_2, '../../dev/Examples/MSE_2.mse')
+  saveRDS(MSE_3, '../../dev/Examples/MSE_3.mse')
+}
+
+```
+
+The details of the OM and MPs are not important for this Developer's Guide. However, if you wish to learn more about them you can access the help documentation for each object, for example:
+
+```{r, eval=FALSE}
+?SP_4010
+
+?Albacore
+```
+
+
+# Building the Slick Object
+
+All MSE results are stored in an object of class `Slick`.  
+
+A new `Slick` object can be created with:
+```{r}
+slick <- Slick()
+
+
+#TODO show Slick - empty
+
+Check(slick)
+# missing Title
+# missing Author 
+# missing Introduction
+
+# step through code below with Check
+
+```
+
+## Title, Author details, and Introduction 
+
+```{r}
+Title(slick) <- 'An Example Slick Object'
+Subtitle(slick) <- "[Created in the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
+Author(slick) <- 'Adrian Hordyk'
+Email(slick) <-  "<a href='mailto:adrian@bluematterscience.com'>adrian@bluematterscience.com</a>"
+Institution(slick) <- "<a href='bluematterscience.com'> Blue Matter Science </a>"
+
+Introduction(slick) <- "
+This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
+
+The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).
+
+
+"
+ 
+#TODO strip whitespace at begining and end
+```
+
+## Management Procedures
+
+```{r mps}
+mps <- MPs()
+
+Metadata(mps) <- data.frame(Code=MSE@MPs,
+                    Label=c('Surplus Production + 40-10 HCR', 
+                            'Average Catch', 
+                            'Iterative Target'),
+                    Description=c('TAC is set with a surplus production assessment model with a 40-10 harvest control rule. See [here](https://samtool.openmse.com/reference/Model-based-MP.html) for details.',
+                                  'TAC is fixed to the average catch from the historical period. See [here](https://dlmtool.openmse.com/reference/AvC.html) for details.',
+                                  'An index target MP where the TAC is modified according to current index levels (mean index over last 5 years) relative to a target level. See [here](https://dlmtool.openmse.com/reference/IT5.html) for details.' 
+                    )
+)
+
+Preset(mps) <- list('All'=1:3,
+                      'Model-Free'=2:3)
+
+MPs(slick) <- mps
+
+
+# TODO set colors when missing
+# check Metadata markdown works 
+```
+
+## Operating Models 
+
+## Plots 
+
+
+### Boxplot 
+
+```{r boxplot PMs}
+
+t = P10(MSE)
+dim(t@Prob)
+?Yield
+
+```
+
+```{r boxplot}
+
+
+
+Metadata(myBoxplot) <- data.frame(Code=)
+
+Boxplot(MySlick) <- myBoxplot
+
+
+## Test Check - should work with one 
+```
+
+## Kobe
+
+## Quilt
+
+## Spider
+
+## Timeseries
+
+## Tradeoff
+
+
+
+```{r}
+saveRDS(MySlick, 'C:/users/user/desktop/slick.slick')
+```
+
+
