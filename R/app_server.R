@@ -1,4 +1,4 @@
-options(shiny.maxRequestSize=300000*1024^2)
+options(shiny.maxRequestSize=100*1024^2)
 
 
 #' The application server-side
