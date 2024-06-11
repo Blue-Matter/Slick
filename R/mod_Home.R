@@ -64,7 +64,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                   tags$li(
                                     strong(i18n$t('Load a Slick Data File:')),
                                     p(i18n$t('To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.')),
-                                    p(i18n$t('Consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n$t('for information on creating a Slick Data file.'))
+                                    p(i18n$t('Consult the'), a(href='https://slick.bluematterscience.com/', "Slick Homepage",  target="_blank"),
+                                      i18n$t('for information on creating a Slick Data file.'))
                                   ),
                                   tags$li(
                                     strong(i18n$t('Explore the Results:')),
@@ -79,6 +80,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     })
 
     output$load <- renderUI({
+      options(shiny.maxRequestSize=200*1024^2)
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=3,
@@ -87,7 +89,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 title=strong(i18n$t('Load Slick Data')),
                                 # uiOutput(ns('overviewlink')),
                                 h4(i18n$t('Load your MSE Results')),
-                                fileInput(ns("load"), accept=c("slick",".slick"),
+                                fileInput(ns("load"),
+                                          accept=c("slick",".slick", 'rdat', '.rdat', 'rda', '.rda'),
                                           label = i18n$t("From file (.slick)"),
                                           buttonLabel=list(icon("folder",verify_fa = FALSE))
                                 ),
@@ -170,19 +173,21 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
         slick <- Update(slick)
 
       # check
-      slick <- try(Check(slick))
+      # TODO update
+      check <- try(Check(slick))
 
-      if (inherits(slick, 'try-error')) {
+      if (inherits(check, 'try-error')) {
         shinyalert::shinyalert('Invalid Slick object',
                                'Use `Check(`slick_object`)` to see the errors',
                                type='error')
       }
 
       # set MP colors
-      slick <- slick
-      #
+      if (any(nchar(slick@MPs@Color)<2)) {
+        nMPs <- length(slick@MPs@Code)
+        Color(slick@MPs) <- default_mp_colors(nMPs)
+      }
       Slick_Object(slick)
-
 
       # jump to metadata tab
       shinyjs::delay(10,

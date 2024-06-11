@@ -3,168 +3,93 @@
 \docType{class}
 \name{MPs-class}
 \alias{MPs-class}
-<<<<<<< Updated upstream
-\alias{MPs}
-\alias{MPs,dataframe_list-method}
-\alias{MPs,missingOrNULL-method}
-\alias{MPs,Slick-method}
-\alias{MPs<-}
-\alias{MPs<-,Slick-method}
-\title{MPs S4 class and functions}
-\usage{
-MPs(x, ...)
-
-\S4method{MPs}{dataframe_list}(x, ...)
-
-\S4method{MPs}{missingOrNULL}(x, ...)
-
-\S4method{MPs}{Slick}(x, lang = NULL)
-
-MPs(Slick) <- value
-
-\S4method{MPs}{Slick}(Slick) <- value
-}
-\arguments{
-\item{x}{An object of class \code{\link[=data.frame]{data.frame()}} or \code{\link[=list]{list()}}}
-
-\item{...}{additional arguments (not used)}
-
-\item{lang}{optional.character string length 2 to specify language (if available).  'en', 'es', or 'fr'}
-
-\item{Slick}{An object of class \code{\link[=Slick]{Slick()}}}
-
-\item{value}{An object of class \code{\link[=MPs]{MPs()}}}
-
-\item{missingOrNULL}{missing or NULL}
-}
-\description{
-An \code{MPs} object contains information about the management procedures (MPs)
-in the \code{\link[=Slick]{Slick()}} object.
-=======
+\alias{show,MPs-method}
 \title{\code{MPs} S4 class and functions}
+\usage{
+\S4method{show}{MPs}(object)
+}
 \description{
 An object of class \code{MPs} contains information about the management procedures (MPs)
-in the \code{\link[=Slick]{Slick()}} object. The \code{MPs} function is used both to create and modify an object of class \code{\link[=MPs]{MPs()}} and to access
-and assign the \code{MPs} slot in an object of class \code{\link[=Slick]{Slick()}}. See \code{Details}.
->>>>>>> Stashed changes
+in a \code{\link[=Slick-class]{Slick-class()}} object. Like all S4 objects in \code{Slick}, slots in this
+object can be accessed and assigned using functions corresponding to slot name.
+See \code{\link[=MPs]{MPs()}} and the the \verb{See Also} section below.
 }
 \details{
-\subsection{Creating objects of class \code{\link[=MPs]{MPs()}}}{
+Objects of class \code{MPs} are created with \code{MPs()}
+\subsection{Multi-Language Support}{
+
+Text with multi-language supported can be provided as a named list. Available languages:
 \itemize{
-\item \code{MPs()} creates a new object of class \code{\link[=MPs]{MPs()}}
-\item \code{MPs(object)} creates an \code{MPs} object with \code{object} assigned to the \code{\link[=Metadata]{Metadata()}} slot,
-where \code{object} is either a \code{data.frame} or a named \code{list}.  See \code{Metadata} section below.
-\item \code{MPs(object, value)} creates an \code{MPs} object with \code{object} assigned to the \link{Metadata}
-slot and \code{value} assigned to the \code{Preset} slot,  where \code{object} is as described above,
-and \code{value} is a named \code{list}.  See \code{Preset} section below.
+\item \code{en}: English (default)
+\item \code{es}: Spanish
+\item \code{fr}: French
 }
 }
 
-\subsection{Accessing and assigning slots in objects of class \link{MPs}}{
-\itemize{
-\item The \code{Metadata} slot is accessed with \code{Metadata(MPs)} and modified with \code{Metadata(MPs) <- value}
-\item The \code{Preset} slot is accessed with \code{Preset(MPs)} and modified with \code{Preset(MPs) <- value}
-}
+\subsection{Note}{
 
-See \code{\link[=Metadata]{Metadata()}} and \code{\link[=Preset]{Preset()}} for more details.
-}
-
-\subsection{Accessing and assigning \code{MPs} slot in objects of class \code{\link[=Slick]{Slick()}}}{
-\itemize{
-\item \code{MPs(object)} accesses the \code{MPs} slot in an object of class \code{\link[=Slick]{Slick()}}
-\item \code{MPs(object) <- value} assigns the \code{MPs} slot in an object of class \code{\link[=Slick]{Slick()}},
-where \code{value} is an object of class \code{\link[=MPs]{MPs()}}
-}
-\subsection{Metadata}{
-
-The \code{Metadata} data.frame must have n MPs rows and the following columns:
-\itemize{
-\item Code: A short character string for identifying the MPs. Used in the \code{\link[=App]{App()}} in places
-where there is no room for a full label.
-\item Label: A long character string (one word or max two words) for identifying the MPs.
-\item Description: A longer character string providing a description of the MPs.
-\item Color: A character vector with the colors to use to display the MPs in the \code{\link[=App]{App()}}. Optional.
-If not provided, the App will try to set some sensible colors.
-}
-
-For multi-language support, the \code{Metadata} slot can be populated with a named
-list: names \code{en}, \code{es}, and \code{fr} for English, Spanish, and French respectively.
-The data.frame within each list element must have identical structure; i.e., the same number of rows
-and the column names in each list element must be identical.
-}
-
-\subsection{Preset}{
-
-The \code{Preset} slot is an optional named list to add preset buttons for the Management
-Procedure filters in the \code{\link[=App]{App()}}. The name of the list element will appear as a button
-in the \code{\link[=App]{App()}}. Each list element should contain numeric values specifying the MPs to include.
-The values must be <= n MPs.
-
-The Preset slot is accessed with \code{Preset(MPs)} and modified with \verb{Preset(MPs) <- }list()`
-}
-
+Character strings in \code{Code}, \code{Label}, and \code{Description} must all be same length
+as the number of management procedures (\code{nMPs}) in the plot objects \code{Boxplot},
+\code{Kobe}, \code{Quilt}, \code{Spider}, \code{Timeseries}, and \code{Tradeoff}.
 }
 }
-<<<<<<< Updated upstream
 \section{Methods (by generic)}{
 \itemize{
-\item \code{MPs(dataframe_list)}: Create a new object of class \code{\link[=MPs]{MPs()}}
-
-\item \code{MPs(missingOrNULL)}: Create a new object of class \code{\link[=MPs]{MPs()}}
-
-\item \code{MPs(Slick)}: Return the \code{\link[=MPs]{MPs()}} object from an object of class \code{\link[=Slick]{Slick()}}
-
-\item \code{MPs(Slick) <- value}: Assign an object of class \code{\link[=MPs]{MPs()}} to an object of class \code{\link[=Slick]{Slick()}}
+\item \code{show(MPs)}: Show objects of class \code{MPs}
 
 }}
-\section{Functions}{
-\itemize{
-\item \code{MPs()}: A generic function
-
-\item \code{MPs(Slick) <- value}: Assign an object of class \code{\link[=MPs]{MPs()}} to an object of class \code{\link[=Slick]{Slick()}}
-
-}}
-=======
->>>>>>> Stashed changes
 \section{Slots}{
 
 \describe{
-\item{\code{Metadata}}{A data.frame with a specific structure, describing the details of the management procedures. See \code{Details} section.}
+\item{\code{Code}}{A \emph{short} code for the Management Procedures in this \code{Slick} object.
+A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
 
-\item{\code{Preset}}{An optional named list of preset buttons for filters in the \code{\link[=App]{App()}}. See \code{Details} section.}
+\item{\code{Label}}{A short label for the  Management Procedures in this \code{Slick} object.
+Can be longer than \code{Code} but recommended to keep short as possible so it shows clearly in plots and tables.
+A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
+
+\item{\code{Description}}{A description for the Management Procedures in this \code{Slick} object.
+Can include Markdown, see \code{Examples}.
+A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
+
+\item{\code{Color}}{A character vector of colors for the MPs.}
+
+\item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
+element will appear as a button in the \code{\link[=App]{App()}}.}
 }}
 
 \examples{
 
 myMPs <- MPs()
-Metadata(myMPs) <- data.frame(Code=c('MP1', 'MP2', 'MP3'),
-                              Label=c('Management Procedure 1',
-                                      'Management Procedure 2',
-                                      'Management Procedure 3'),
-                              Description=c('This is the description for Management Procedure 1',
-                                            'This is the description for Management Procedure 2',
-                                            'This is the description for Management Procedure 3')
-                              )
+Code(myMPs) <- c('MP1', 'MP2', 'MP3')
+Label(myMPs) <- c('Management Procedure 1',
+                  'Management Procedure 2',
+                  'Management Procedure 3')
+Description(myMPs) <- c('This is the description for Management Procedure 1',
+                        'This is the description for Management Procedure 2',
+                        'This is the description for Management Procedure 3')
+
 Preset(myMPs) <- list(All=1:3, FirstTwo=1:2)
 
 
+myMPs
 
 # Multi-language
-df_es <- Metadata(myMPs)
-df_fr <- Metadata(myMPs)
-df_es$Description <- c("This is the Spanish description for Management Procedure 1",
-                       "This is the Spanish description for Management Procedure 2",
-                       "This is the Spanish description for Management Procedure 3")
-df_fr$Description <- c("This is the French description for Management Procedure 1",
-                       "This is the French description for Management Procedure 2",
-                       "This is the French description for Management Procedure 3")
-
-Metadata(myMPs) <- list(en=Metadata(myMPs),
-                        es=df_es,
-                        fr=df_fr)
-
+Description(myMPs) <- list(en=c('This is the English description for Management Procedure 1',
+                             'This is the English description for Management Procedure 2',
+                             'This is the English description for Management Procedure 3'),
+                           es=c("This is the Spanish description for Management Procedure 1",
+                             "This is the Spanish description for Management Procedure 2",
+                             "This is the Spanish description for Management Procedure 3"),
+                           fr=c("This is the French description for Management Procedure 1",
+                             "This is the French description for Management Procedure 2",
+                             "This is the French description for Management Procedure 3")
+                           )
 
 Metadata(myMPs)
 Metadata(myMPs, 'es')
 Metadata(myMPs, 'fr')
+}
+\seealso{
+\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Preset]{Preset()}}
 }

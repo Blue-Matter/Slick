@@ -23,11 +23,11 @@ mod_OM_Info_server <- function(id, i18n, Slick_Object){
     ns <- session$ns
 
     output$OM_factors <- DT::renderDataTable({
-      Table(OMs(Slick_Object()), i18n()$get_translation_language(), 'factor')
+      tableOMs(OMs(Slick_Object()), i18n()$get_translation_language(), 'factor')
     })
 
     output$OM_design <- DT::renderDataTable({
-      Table(OMs(Slick_Object()), i18n()$get_translation_language(), 'design')
+      tableOMs(OMs(Slick_Object()), i18n()$get_translation_language(), 'design')
 
     })
 

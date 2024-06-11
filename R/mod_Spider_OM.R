@@ -105,7 +105,6 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
     })
 
 
-
   })
 }
 

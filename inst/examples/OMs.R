@@ -14,3 +14,8 @@ Metadata(myOMs) <- data.frame()
 #'                c(h=0.7, h=0.9))
 #' myOMs <- OMs(Design, Description, Label)
 
+#' mySlick <- Slick()
+#' Design(mySlick) <- data.frame(M=c(0.1, 0.2, 0.3),
+#'                               h=c(0.6, 0.7, 0.8)
+#'                              )
+#' Design(mySlick)

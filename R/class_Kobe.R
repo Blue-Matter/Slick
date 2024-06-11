@@ -27,17 +27,20 @@
 #' @slot Code `r code_PI_param()`
 #' @slot Label `r label_PI_param() `
 #' @slot Description `r description_PI_param()`
-#' @slot Time A data.frame with a single column of values for the projection time-steps.
-#' The column name will be used as the label in the `Kobe Time` plot. Use a named list for
+#' @slot Time A numeric vector with values for the projection time-steps. Must
+#' match length `nTS` in `Value`
+#' @slot TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the `Kobe Time` plot. Use a named list for
 #' multiple languages.
 #' @slot Value A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP), performance indicator (PI),
 #' and projection time-steps (nTS)
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
 #' @slot Preset `r preset_param()`
+#' @slot Target Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
+#' @slot Limit Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
 #'
 #' @seealso [Kobe-methods()], [Code()], [Label()], [Description()],
-#'  [Metadata()], [Value()], [Preset()]
+#' [Value()], [Preset()]
 #'
 #' @example inst/examples/Kobe.R
 #' @docType class
@@ -47,24 +50,36 @@ setClass("Kobe",
          slots=c(Code='character_list',
                  Label='character_list',
                  Description='character_list',
-                 Time='dataframe_list',
+                 Time='numeric',
+                 TimeLab='character_list',
                  Value='array',
-                 Preset='list'
+                 Preset='list',
+                 Target='numericOrNULL',
+                 Limit='numericOrNULL'
          )
 )
 
 ## ---- Initialize ----
 setMethod("initialize", "Kobe", function(.Object,
-                                         Code=NULL,
-                                         Label=NULL,
-                                         Description=NULL,
-                                         Time=NULL,
-                                         Value=NULL,
-                                         Preset=NULL) {
-  .Object@Metadata <- use_ifnot_NULL('Metadata', Metadata, .Object)
-  .Object@Time <- use_ifnot_NULL('Time', Time, .Object)
-  .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
-  .Object@Preset <- use_ifnot_NULL('Preset', Preset, .Object)
+                                         Code='',
+                                         Label='',
+                                         Description='',
+                                         Time=numeric(),
+                                         TimeLab='Year',
+                                         Value=array(),
+                                         Preset=list(),
+                                         Target=1,
+                                         Limit=NULL) {
+  .Object@Code <- Code
+  .Object@Label <- Label
+  .Object@Description <- Description
+  .Object@Time <- Time
+  .Object@TimeLab <- TimeLab
+  .Object@Value <- Value
+  .Object@Preset <- Preset
+  .Object@Target <- Target
+  .Object@Limit <- Limit
+  methods::validObject(.Object)
   .Object
 })
 
@@ -78,164 +93,195 @@ validKobe <- function(object) {
 
 setValidity('Kobe', validKobe)
 
-## ---- New ----
-newKobe <- function(Code='',
-                    Label='',
-                    Description='',
-                    Time=data.frame(),
-                    Value=array(),
-                    Preset=list()) {
-  Kobe <- new('Kobe',
-              Code,
-              Label,
-              Description,
-              Time,
-              Value,
-              Preset)
-  methods::validObject(Kobe)
-  Kobe
-}
-
 
 # ---- Methods ----
 
+#' @describeIn Kobe-methods Create an empty `Kobe` object
+setMethod("Kobe", 'missing', function() new('Kobe'))
 
-#' Methods for Creating, Accessing and Assigning `Kobe` objects
-#'
-#' An object of class `Kobe` contains information for the Kobe chart.
-#' The `Kobe` function is used both to create and modify an [Kobe-class()] object.
-#' and to access and assign `Kobe` for an object of class [Slick-class()].
-#' See `Details`.
-#'
-#' The Kobe plot typically shows B/BMSY (or something similar) on the x-axis, and
-#' F/FMSY (or something similar) on the y-axis.
-#'
-#' ## Performance Indicators
-#' There must be exactly two performance indicators (PIs).
-#' The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
-#' on the y-axis (e.g., F/FMSY)
-#'
-#' ## Multi-Language Support
-#' Text with multi-language supported can be provided as a named list. Available languages:
-#' - `en`: English (default)
-#' - `es`: Spanish
-#' - `fr`: French
-#'
-#' ## Note
-#' Character strings in `Code`, `Label`, and `Description` must all be same length
-#' as the number of performance indicators (`nPIs`) in `Value`
-#'
-#' @param Code `r code_PI_param()`
-#' @param Label  `r label_PI_param() `
-#' @param Description `r description_PI_param()`
-#' @param Time A data.frame with a single column of values for the projection time-steps.
-#' The column name will be used as the label in the `Kobe Time` plot. Use a named list for
-#' multiple languages.
-#' @param Value A numeric array with the stochastic performance indicator values for each
-#' simulation (sim), operating model (OM), management procedure (MP), performance indicator (PI),
-#' and projection time-steps (nTS).
-#' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
-#' @param Preset `r preset_param()`
-#'
-#' @details
-#' - `Kobe()`: creates an empty `Kobe` object
-#' - `Kobe(Code, ...)`: creates a populated `Kobe` object
-#' - `Kobe(Slick)`: returns the `Kobe` from a `Slick` object
-#' - `Kobe(Slick) <- Kobe`: assigns a `Kobe` object to a `Slick` object
-#'
-#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to access and assign the values for an
-#' existing `Kobe` object, see `Examples`
-#'
-#' @rdname Kobe-methods
-#' @docType methods
-#' @example inst/examples/Kobe.R
-#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
+#' @describeIn Kobe-methods Create a populated `Kobe` object
+setMethod("Kobe", c('character'),
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit))
+
+#' @describeIn Kobe-methods Create a populated `Kobe` object
+setMethod("Kobe", c('list'),
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit))
+
+
+
+## Code ----
+
+#' @describeIn Code Return `Code` from a [Kobe-class()] object
+setMethod("Code", 'Kobe', function(object, lang='en') {
+  get_language(object@Code, lang)
+})
+
+
+#' @describeIn Code Assign `Code` to a [Kobe-class()] object
+setMethod("Code<-", 'Kobe', function(object, value) {
+  object@Code <- value
+  methods::validObject(object)
+  object
+})
+
+## Label ----
+
+#' @describeIn Code Return `Label` from a [Kobe-class()] object
+setMethod("Label", 'Kobe', function(object, lang='en') {
+  get_language(object@Label, lang)
+})
+
+
+#' @describeIn Code Assign `Label` to a [Kobe-class()] object
+setMethod("Label<-", 'Kobe', function(object, value) {
+  object@Label <- value
+  methods::validObject(object)
+  object
+})
+
+## Description ----
+
+#' @describeIn Code Return `Description` from a [Kobe-class()] object
+setMethod("Description", 'Kobe', function(object, lang='en') {
+  get_language(object@Description, lang)
+})
+
+
+#' @describeIn Code Assign `Description` to a [Kobe-class()] object
+setMethod("Description<-", 'Kobe', function(object, value) {
+  object@Description <- value
+  methods::validObject(object)
+  object
+})
+
+## Value ----
+#' @describeIn Value  Return `Value` from a [Kobe-class()] object
+setMethod("Value", 'Kobe', function(object) {
+  object@Value
+})
+
+#' @describeIn Value Assign `Value` to a [Kobe-class()] object
+setMethod("Value<-", "Kobe", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Value <- value
+  methods::validObject(object)
+  object
+})
+
+## Preset ----
+
+#' @describeIn Preset Return `Preset` from a [Kobe-class()] object
+setMethod("Preset", 'Kobe', function(object) {
+  object@Preset
+})
+
+#' @describeIn Preset Assign `Preset` to a [Kobe-class()] object
+setMethod("Preset<-", "Kobe", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Preset <- value
+  methods::validObject(object)
+  object
+})
+
+
+## Time ----
+#' @describeIn Time Return `Time` from a [Kobe-class()] object
+setMethod("Time", "Kobe", function(object) {object@Time})
+
+#' @describeIn Time Assign `Time` to a [Kobe-class()] object
+setMethod("Time<-", "Kobe", function(object, value) {
+  object@Time <- value
+  methods::validObject(object)
+  object
+})
+
+
+## TimeLab ----
+#' @describeIn TimeLab Return `TimeLab` from a [Kobe-class()] object
+setMethod("TimeLab", "Kobe", function(object, lang='es') {
+  get_language(object@TimeLab, lang)
+})
+
+
+#' @describeIn TimeLab Assign `TimeLab` to a [Kobe-class()] object
+setMethod("TimeLab<-", "Kobe", function(object, value) {
+  object@TimeLab <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+## Target ----
+
+#' @describeIn Target Return `Target` from a [Kobe-class()] object
+setMethod("Target", "Kobe", function(object) {
+  object@Target
+})
+
+
+#' @describeIn Target Assign `Target` to a [Kobe-class()] object
+setMethod("Target<-", "Kobe", function(object, value) {
+  object@Target <- value
+  methods::validObject(object)
+  object
+})
+
+## Limit ----
+
+#' @describeIn Target Return `Limit` from a [Kobe-class()] object
+setMethod("Limit", "Kobe", function(object) {
+  object@Limit
+})
+
+
+#' @describeIn Target Assign `Limit` to a [Kobe-class()] object
+setMethod("Limit<-", "Kobe", function(object, value) {
+  object@Limit <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+##  Show ----
+
+
+## Metadata ----
+
+
+#' @describeIn Metadata Return Metadata for [Kobe-class()] objects
 #' @export
-setGeneric("Kobe", function(Code,
-                            Label,
-                            Description,
-                            Time,
-                            Value,
-                            Preset) standardGeneric("Kobe"))
+setMethod('Metadata', 'Kobe', function(object, lang='en') {
+  data.frame(Code=object@Code,
+             Label=get_language(object@Label, lang),
+             Description=get_language(object@Description, lang))
 
-setMethod("Kobe", signature(Code="missing",
-                            Label='missing',
-                            Description='missing',
-                            Time='missing',
-                            Value='missing',
-                            Preset='missing'), function() newKobe())
-
-setMethod("Kobe", signature(Code="character_list",
-                            Label='character_list',
-                            Description='character_list',
-                            Time='dataframe_list',
-                            Value='array',
-                            Preset='missing'),
-          function(Code, Label, Description, Time, Value) newKobe(Code, Label, Description, Time, Value))
-
-setMethod("Kobe", signature(Code="character_list",
-                            Label='character_list',
-                            Description='character_list',
-                            Time='dataframe_list',
-                            Value='array',
-                            Preset='list'),
-          function(Code, Label, Description, Time, Value, Preset) newKobe(Code, Label, Description, Time, Value,Preset))
+})
 
 
-## --- Show ----
+#' @describeIn Metadata Assign Metadata for [Kobe-class()] objects
+setMethod("Metadata<-", "Kobe", function(object, value) {
 
-#' @rdname Kobe-class
-#' @param object An object of class [Kobe-class()]
-#' @export
-setMethod("show", "Kobe", function(object) {
-  cat('An object of class `Kobe` \n\n')
+  names <- c('Code', 'Label', 'Description')
+  object <- check_assign_dataframe(object, names, value)
+  methods::validObject(object)
+  object
+})
 
+# Check ----
+#' @describeIn Check Check [Kobe-class()] objects for errors
+setMethod('Check', 'Kobe', function(object, skip_warnings) {
 
+  ll <- CheckList()
+  ll@object <- class(object)
 
-  # cat('Performance Indicators: \n')
-  # metadata <- Metadata(object)
-  #
-  # if (all(apply(metadata,1, nchar)[,1]==0)) {
-  #   cat('Not populated\n')
-  #   print(metadata)
-  # } else {
-  #   print(metadata)
-  # }
-  #
-  # cat('\nPerformance Indicators:\n')
-  # if (all(is.na(object@Value))) {
-  #   cat('Not populated\n')
-  # } else {
-  #   dd <- dim(object@Value)
-  #   dims <- c('nsim', 'nOM', 'nMP', 'nPI')
-  #   txt <- rep(NA, length(dd))
-  #   for (i in seq_along(dd)) {
-  #     txt[i] <- paste0(dims[i], ':', dd[i])
-  #   }
-  #   cat(txt)
-  #   cat('\n')
-  #   if (length(dd) < length(dims)) {
-  #     cat('\nWARNING: too few dimensions in `Value`')
-  #   }
-  #   if (length(dd) > length(dims)) {
-  #     cat('\nWARNING: too many dimensions in `Value`')
-  #   }
-  #
-  # }
-  #
-  # if (!(all(apply(metadata,1, nchar)[,1]==0)) && (length(dd) == length(dims)) & !all(is.na(object@Value))) {
-  #   if (nrow(metadata) != dd[4])
-  #     cat('\nWARNING:\n The PI dimension in `Value` (dimension 4) does not match the number of performance indicators described in `Code`, `Label`, and `Description`\n')
-  # }
-  #
-  #
-  # preset <- object@Preset
-  # cat('\nPresets: \n')
-  # if (length(preset)<1) {
-  #   cat('None')
-  # } else {
-  #   print(object@Preset)
-  # }
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
 
 
+  ll
 })

@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Decision Analysis
-Version: 1.0.9005
+Version: 1.0.9006
 Authors@R: c(
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
@@ -50,33 +50,28 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Collate: 
     'RunSlick.R'
-    'Slick_functions.R'
     'Slick_tools.R'
     'a_classunions.R'
     'a_imports.R'
-    'class_Timeseries.R'
-    'class_Tradeoff.R'
-    'class_Spider.R'
-    'class_Kobe.R'
-    'class_Quilt.R'
-    'class_OMs.R'
-    'class_MPs.R'
-    'class_Boxplot.R'
-    'class_Slick.R'
     'aa_generics.R'
     'app_config.R'
     'app_server.R'
     'app_ui.R'
-    'fct_Check.R'
-    'fct_Code.R'
-    'fct_Colors.R'
-    'fct_Description.R'
+    'class_Boxplot.R'
+    'class_Check.R'
+    'class_Kobe.R'
+    'class_MPs.R'
+    'class_OMs.R'
+    'class_Quilt.R'
+    'class_Tradeoff.R'
+    'class_Timeseries.R'
+    'class_Spider.R'
+    'class_Slick.R'
     'fct_Design.R'
     'fct_FilterSlick.R'
     'fct_Kobe_plot.R'
-    'fct_Label.R'
-    'fct_Metadata.R'
     'fct_Update.R'
+    'fct_colors.R'
     'fct_dashboardHeader2.R'
     'fct_plots.R'
     'fct_translator.R'

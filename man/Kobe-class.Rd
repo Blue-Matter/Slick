@@ -3,14 +3,7 @@
 \docType{class}
 \name{Kobe-class}
 \alias{Kobe-class}
-\alias{show,Kobe-method}
 \title{S4 class Kobe}
-\usage{
-\S4method{show}{Kobe}(object)
-}
-\arguments{
-\item{object}{An object of class \code{\link[=Kobe-class]{Kobe-class()}}}
-}
 \description{
 Slots can be accessed and assigned using functions corresponding to slot name.
 See \verb{See Also} section below.
@@ -54,8 +47,10 @@ A character string length \code{nPI} or a named list for multi-language support.
 Can include Markdown, see \code{Examples}.
 A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
 
-\item{\code{Time}}{A data.frame with a single column of values for the projection time-steps.
-The column name will be used as the label in the \verb{Kobe Time} plot. Use a named list for
+\item{\code{Time}}{A numeric vector with values for the projection time-steps. Must
+match length \code{nTS} in \code{Value}}
+
+\item{\code{TimeLab}}{Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the \verb{Kobe Time} plot. Use a named list for
 multiple languages.}
 
 \item{\code{Value}}{A numeric array with the stochastic performance indicator values for each
@@ -63,7 +58,12 @@ simulation (sim), operating model (OM), management procedure (MP), performance i
 and projection time-steps (nTS)
 Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, \code{nPI}, \code{nTS})}
 
-\item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. See \code{Examples}}
+\item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
+element will appear as a button in the \code{\link[=App]{App()}}.}
+
+\item{\code{Target}}{Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).}
+
+\item{\code{Limit}}{Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
 }}
 
 \examples{
@@ -81,6 +81,8 @@ kobe <- Kobe(Code=c('PI1', 'PI2', 'PI3'),
 
 kobe
 
+# ADD TIME
+
 # Code(boxplot)
 # Metadata(boxplot)
 #
@@ -94,5 +96,5 @@ kobe
 }
 \seealso{
 \code{\link[=Kobe-methods]{Kobe-methods()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
-\code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
+\code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

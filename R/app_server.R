@@ -1,4 +1,4 @@
-options(shiny.maxRequestSize=300000*1024^2)
+options(shiny.maxRequestSize=200*1024^2)
 
 
 #' The application server-side
@@ -88,7 +88,7 @@ app_server <- function(input, output, session) {
   mod_Resources_server('resources', i18n)
 
   mod_About_server("about", i18n)
-  mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
+  mod_Sidebar_server("sidebar", i18n, Load_Slick_File, Slick_Object)
   mod_Home_server("home", i18n, Load_Slick_File, Global_Slick_Object, Report)
 
   Filtered_Slick_Object <- mod_Global_Filters_server('filters', i18n, Global_Slick_Object, session)

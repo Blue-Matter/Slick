@@ -70,6 +70,7 @@ Here we are creating an example operating model (OM) with 50 simulations, and th
 ```{r simMSE, message=FALSE, warning=FALSE, cache=TRUE}
 library(openMSE)
 
+
 OM_1 <- new('OM', 
           Stock=MSEtool::Albacore, 
           Fleet=MSEtool::Generic_IncE, 
@@ -77,8 +78,10 @@ OM_1 <- new('OM',
           Imp=MSEtool::Perfect_Imp, 
           nsim=50)
 
+MPs <- c('SP_4010', 'AvC', 'IT5')
+
 MSE_1 <- runMSE(OM_1, 
-              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              MPs=MPs, 
               parallel = TRUE,
               silent=TRUE)
 
@@ -92,7 +95,7 @@ OM_2 <- OM_1
 OM_2@M <- OM_1@M * 0.75
 
 MSE_2 <- runMSE(OM_2, 
-              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              MPs=MPs, 
               parallel = TRUE,
               silent=TRUE)
 
@@ -106,7 +109,7 @@ OM_3 <- OM_1
 OM_3@M <- OM_1@M * 1.33
 
 MSE_3 <- runMSE(OM_3, 
-              MPs=c('SP_4010', 'AvC', 'IT5'), 
+              MPs=MPs, 
               parallel = TRUE,
               silent=TRUE)
 
@@ -158,8 +161,8 @@ Check(slick)
 Title(slick) <- 'An Example Slick Object'
 Subtitle(slick) <- "[Created in the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
 Author(slick) <- 'Adrian Hordyk'
-Email(slick) <-  "<a href='mailto:adrian@bluematterscience.com'>adrian@bluematterscience.com</a>"
-Institution(slick) <- "<a href='bluematterscience.com'> Blue Matter Science </a>"
+Email(slick) <-  "[adrian\@bluematterscience.com](mailto:adrian@bluematterscience.com)"
+Institution(slick) <- "[Blue Matter Science](bluematterscience.com)"
 
 Introduction(slick) <- "
 This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
@@ -168,24 +171,19 @@ The introduction can include paragraphs as well as Markdown such as *italics* an
 
 
 "
- 
-#TODO strip whitespace at begining and end
 ```
 
 ## Management Procedures
 
 ```{r mps}
-mps <- MPs()
-
-Metadata(mps) <- data.frame(Code=MSE@MPs,
-                    Label=c('Surplus Production + 40-10 HCR', 
-                            'Average Catch', 
-                            'Iterative Target'),
-                    Description=c('TAC is set with a surplus production assessment model with a 40-10 harvest control rule. See [here](https://samtool.openmse.com/reference/Model-based-MP.html) for details.',
-                                  'TAC is fixed to the average catch from the historical period. See [here](https://dlmtool.openmse.com/reference/AvC.html) for details.',
-                                  'An index target MP where the TAC is modified according to current index levels (mean index over last 5 years) relative to a target level. See [here](https://dlmtool.openmse.com/reference/IT5.html) for details.' 
-                    )
-)
+mps <- MPs(Code=MPs,
+           Label=c('Surplus Production + 40-10 HCR', 
+                   'Average Catch', 
+                   'Iterative Target'),
+           Description=c('TAC is set with a surplus production assessment model with a 40-10 harvestcontrol rule. See [here](https://samtool.openmse.com/reference/Model-based-MP.html) for details.',
+                         'TAC is fixed to the average catch from the historical period. See [here](https://dlmtool.openmse.com/reference/AvC.html) for details.',
+                         'An index target MP where the TAC is modified according to current index levels (mean index over last 5 years) relative to a target level. See [here](https://dlmtool.openmse.com/reference/IT5.html) for details.' 
+                    ))
 
 Preset(mps) <- list('All'=1:3,
                       'Model-Free'=2:3)

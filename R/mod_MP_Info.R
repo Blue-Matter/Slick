@@ -26,7 +26,7 @@ mod_MP_Info_server <- function(id, i18n, Slick_Object, parent_session){
     output$MPinfo <- DT::renderDataTable({
       i18n <- i18n()
       slick <- Slick_Object()
-      Table(MPs(slick), i18n$get_translation_language())
+      tableMPs(MPs(slick), i18n$get_translation_language())
     })
 
     output$changecolors <- renderUI({

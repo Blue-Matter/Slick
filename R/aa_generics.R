@@ -1,939 +1,710 @@
 
 show <- function(object) methods::show(object)
 
-#' @include class_Boxplot.R
-#' @include class_Kobe.R
-#' @include class_MPs.R
-#' @include class_OMs.R
-#' @include class_Quilt.R
-#' @include class_Slick.R
-#' @include class_Spider.R
-#' @include class_Tradeoff.R
-#' @include class_Timeseries.R
-NULL
+# ---- Boxplot ----
 
-get_language <- function(value, lang) {
-  if (is.null(lang))
-    return(value)
-
-  if (inherits(value, 'data.frame')) {
-    return(value)
-  }
-  if (inherits(value, 'list')) {
-    if (is.null(names(value)))
-      return(value)
-    if (!lang %in% names(value)) {
-      warning(lang, ' not found. Using default', call.=FALSE)
-      return(value[[1]])
-    }
-    return(value[[lang]])
-  }
-  value
-}
-
-
-
-
-
-
-# ---- MPs ----
-
-#' @describeIn MPs A generic function
+#' Methods for Creating, Accessing and Assigning `Boxplot` objects
+#'
+#' The `Boxplot` function is used both to create and modify an [Boxplot-class()] object.
+#' and to access and assign `Boxplot` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' @details
+#' Objects of class `Boxplot` are created with `Boxplot()`
+#'
+#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to
+#' access and assign the values for an existing `Boxplot` object, see `Examples`
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value
+#'
+#' ## Defaults
+#' `Defaults` is used to select the plot options that are selected in the Boxplot.
+#' It is a list of length 2, with the following requirements for the list elements:
+#'
+#' 1. A character string. Options: 'overall' (default) or 'byom'
+#' 2. A character string. Options: 'boxplot' (default), 'violin', or 'both'
+#'
+#' If unrecognized values are entered, the defaults will be used.
+#'
+#' @param Code `r code_PI_param()`
+#' @param Label  `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Value  A numeric array with the stochastic performance indicator values for each
+#' simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
+#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`)
+#' @param Preset `r preset_param()`
+#' @param Defaults A list object with default selections for the Boxplot
+#'
+#'
+#' @rdname Boxplot-methods
+#' @docType methods
+#' @example inst/examples/Boxplot.R
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()], [Defaults()]
 #' @export
-setGeneric("MPs", function(Metadata, value) standardGeneric("MPs"))
+setGeneric("Boxplot", function(Code='',
+                               Label='',
+                               Description='',
+                               Value=array(),
+                               Preset=list(),
+                               Defaults=list('overall', 'boxplot')) standardGeneric("Boxplot"))
 
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param value Optional. Either a [list()] with a specific structure,
-#' a character string specifying language (if available), or an object of class [MPs()]. See `Details`
-#' @rdname MPs
-setMethod("MPs", c("missing", 'missing'), function() newMPs())
 
-<<<<<<< Updated upstream
-#' @describeIn MPs Create a new object of class [MPs()]
-#' @param x An object of class [data.frame()] or [list()]
-=======
-#' @rdname MPs
+
+#' @rdname Boxplot-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Boxplot-class()] object
 #' @export
-setMethod("MPs", c("data.frame", 'missing'), function(Metadata) newMPs(Metadata))
+setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 
-#' @rdname MPs
->>>>>>> Stashed changes
+# ---- Check ----
+
+#' Check an object for errors or issues
+#'
+#' Checks S4 objects to check for warnings and errors
+#'
+#' @param object An object of class: [Slick-class()], [MPs-class()],
+#' [OMs-class()] or the six chart types: [Boxplot-class()], [Kobe-class()],
+#' [Quilt-class()], [Spider-class()], [Timeseries-class()],
+#' and [Tradeoff-class()].
+#' @param skip_warnings Logical. Only report errors?
+#' @return A list if errors or warnings are found, or TRUE otherwise.
 #' @export
-setMethod("MPs", c("list", 'missing'), function(Metadata) newMPs(Metadata))
+setGeneric("Check", function(object, skip_warnings=FALSE) standardGeneric("Check"))
 
-#' @describeIn MPs Create a new object of class [MPs()]
-#' @param missingOrNULL missing or NULL
-#' @param ... additional arguments (not used)
+
+# ---- Code ----
+
+#' Access or assign `Code`, `Label`, and `Description` for a valid object class
+#'
+#'
+#' @param object `r object_Code_param()`
+#' @param lang `r lang_param()`
+#'
+#' @details
+#' `Code`, `Label`, and `Description` must all be equal length.
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' See `Examples`
+#'
+#' @example inst/examples/Code.R
+#'
+#' @seealso [Label()], [Description()], [MPs-class()], [Boxplot-class()],
+#' [Kobe-class()], [Quilt-class()], [Spider-class()],
+#' [Timeseries-class()], [Tradeoff-class()]
 #' @export
-setMethod("MPs","missingOrNULL",function(x, ...) newMPs(...))
+setGeneric("Code", function(object, lang='en') standardGeneric("Code"))
 
-
-<<<<<<< Updated upstream
-#' @describeIn MPs Return the [MPs()] object from an object of class [Slick()]
-#' @param lang optional.character string length 2 to specify language (if available).  'en', 'es', or 'fr'
-=======
-#' @rdname MPs
->>>>>>> Stashed changes
+#' @rdname Code
+#' @param value A character vector or a named list for multi-language
 #' @export
-setMethod("MPs", c("data.frame", 'list'), function(Metadata, value) newMPs(Metadata, value))
+setGeneric("Code<-", function(object, value) standardGeneric("Code<-"))
 
-#' @rdname MPs
+# ---- Color ----
+
+#' Access or assign `Color` for `MPs` and `Quilt` objects
+#' @param object An [MPs-class()] or [Quilt-class()] object
+#'
 #' @export
-setMethod("MPs", c("list", 'list'), function(Metadata, value) newMPs(Metadata, value))
+setGeneric("Color", function(object) standardGeneric("Color"))
 
-
-#' @rdname MPs
+#' @param value A character vector formatted to match the class of `object`. See the documentation for
+#' corresponding `object` class for more details.
+#' @rdname Color
 #' @export
-setMethod("MPs", c('Slick', 'character'), function(Metadata, value) {
-  get_language(Metadata@MPs, lang=value)
-} )
+setGeneric("Color<-", function(object, value) standardGeneric("Color<-"))
 
+# ---- Defaults ----
 
-#' @rdname MPs
+#' Set default selections for the plots in the `App()`
+#' @param object A plot object
+#'
+#' @details
+#' In development.
+#'
 #' @export
-setMethod("MPs", c('Slick', 'missing'), function(Metadata) {
-  get_language(Metadata@MPs, lang='en')
-} )
+setGeneric("Defaults", function(object) standardGeneric("Defaults"))
+
+
+#' @rdname Defaults
+#' @param value A list of default selections for the [App()]
+#' @export
+setGeneric("Defaults<-", function(object, value) standardGeneric("Defaults<-"))
+
+
+# ---- Description ----
+
+#' @rdname Code
+#' @export
+setGeneric("Description", function(object, lang='en') standardGeneric("Description"))
+
+
+#' @rdname Code
+#' @param value A character vector or a named list for multi-language support
+#' @export
+setGeneric("Description<-", function(object, value) standardGeneric("Description<-"))
+
+# ---- Design -----
+
+#' Return the Design matrix from an `OMs` object
+#'
+#' @param object An [OMs-class()] or [Slick-class()] object.
+#' @return The Design matrix from an `OMs` object in a `Slick` object
+#' @export
+setGeneric("Design", function(object) standardGeneric("Design"))
+
+#' @rdname Design
+#' @param value A `data.frame` with the Design matrix
+#' @export
+setGeneric("Design<-", function(object, value) standardGeneric("Design<-"))
 
 
 
-#' @describeIn MPs Assign an object of class [MPs()] to an object of class [Slick()]
+
+# ---- Factors ----
+
+#' Return the Factors matrix from an `OMs` object
+#'
+#' Checks S4 objects to check for warnings and errors
+#'
+#' @param object An [OMs-class()] or [Slick-class()] object.
+#' @param lang `r lang_param()`
+#' @return The Design matrix from an `OMs` object in a `Slick` object
+#' @export
+setGeneric("Factors", function(object, lang='en') standardGeneric("Factors"))
+
+#' @rdname Factors
+#' @param value A `data.frame` with the Factors
+#' @export
+setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
+
+
+
+
+
+# ---- Kobe ----
+
+#' Methods for Creating, Accessing and Assigning `Kobe` objects
+#'
+#' The `Kobe` function is used both to create and modify an [Kobe-class()] object.
+#' and to access and assign `Kobe` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' Objects of class `Kobe` are created with `Kobe()`
+#'
+#' The Kobe plot typically shows B/BMSY (or something similar) on the x-axis, and
+#' F/FMSY (or something similar) on the y-axis.
+#'
+#' ## Performance Indicators
+#' There must be exactly two performance indicators (PIs).
+#' The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
+#' on the y-axis (e.g., F/FMSY)
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value`
+#'
+#' @param Code `r code_PI_param()`
+#' @param Label  `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Time A numeric vector with values for the projection time-steps. Must
+#' match length `nTS` in `Value`
+#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the `Kobe Time` plot. Use a named list for
+#' multiple languages.
+#' @param Value A numeric array with the stochastic performance indicator values for each
+#' simulation (sim), operating model (OM), management procedure (MP), performance indicator (PI),
+#' and projection time-steps (nTS).
+#' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
+#' @param Preset `r preset_param()`
+#' @param Target Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
+#' @param Limit Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
+#'
+#' @rdname Kobe-methods
+#' @docType methods
+#' @example inst/examples/Kobe.R
+#' @seealso [Code()], [Label()], [Description()], [Time()], [TimeLab(), [Value()], [Preset()],
+#' [Target()] and [Limit()]
+#' @export
+setGeneric("Kobe", function(Code='',
+                            Label='',
+                            Description='',
+                            Time=numeric(),
+                            TimeLab='Year',
+                            Value=array(),
+                            Preset=list(),
+                            Target=1,
+                            Limit=1) standardGeneric("Kobe"))
+
+
+
+#' @rdname Kobe-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Kobe-class()] object
+#' @export
+setGeneric("Kobe<-", function(Slick, value) standardGeneric("Kobe<-"))
+
+
+# ---- Label ----
+
+#' @rdname Code
+#' @export
+setGeneric("Label", function(object, lang='en') standardGeneric("Label"))
+
+
+#' @rdname Code
+#' @export
+setGeneric("Label<-", function(object, value) standardGeneric("Label<-"))
+
+
+
+# ---- Limit -----
+
+#' @rdname Target
+#' @export
+setGeneric("Limit", function(object) standardGeneric("Limit"))
+
+#' @export
+#' @rdname Target
+setGeneric("Limit<-", function(object, value) standardGeneric("Limit<-"))
+
+
+
+# ---- Metadata ----
+
+#' Return `Code`, `Label`, `Description` and other information from an object
+#'
+#' @param object A [Slick-class()], [MPs-class()], [Boxplot-class()], [Kobe-class()],
+#' [Quilt-class()], [Spider-class()], [Timeseries-class()], or [Tradeoff-class()] object
+#' @param lang `r lang_param()`
+#' @return `A data.frame`
+#' @export
+setGeneric("Metadata", function(object, lang='en')
+  standardGeneric("Metadata"))
+
+#' @rdname Metadata
+#' @param value Replacement value for `Metadata()` in the corresponding `object`.
+#' See help documentation for the relevant object class for details.
+#' @export
+setGeneric("Metadata<-", function(object, value) standardGeneric("Metadata<-"))
+
+
+# ---- MPs -----
+
+#' Methods for Creating, Accessing and Assigning `MPs` objects
+#'
+#' The `MPs` function is used both to create and modify an [MPs-class()] object.
+#' and to access and assign `MPs` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' Objects of class `MPs` are created with `MPs()`
+#'
+#' @param Code `r code_MP_param()`
+#' @param Label  `r label_MP_param() `
+#' @param Description `r description_MP_param()`
+#' @param Color A character vector of colors for the MPs.
+#' @param Preset `r preset_param()`
+#'
+#'
+#' Use [Code()], [Label()], [Description()], and [Preset()] to access
+#' and assign the values for an existing `MPs` object, see `Examples`.
+#'
+#' @rdname MPs-methods
+#' @docType methods
+#' @example inst/examples/MPs.R
+#' @seealso [Code()], [Label()], [Description()], [Color()], [Metadata()], [Preset()]
+#' @export
+setGeneric("MPs", function(Code='',
+                           Label='',
+                           Description='',
+                           Color='',
+                           Preset=list()) standardGeneric('MPs'))
+
+
+#' @rdname MPs-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [MPs-class()] object
 #' @export
 setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
 
-#' @rdname MPs
-#' @param Slick An object of class [Slick()]
-<<<<<<< Updated upstream
-#' @param value An object of class [MPs()]
-=======
->>>>>>> Stashed changes
+
+# ---- OMs -----
+
+
+#' Methods for Creating, Accessing and Assigning `OMs` objects
+#'
+#' The `OMs` function is used both to create and modify an [OMs-class()] object.
+#' and to access and assign `OMs` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' @param Factors A `data.frame` with column headings `Factor`, `Level`, and `Description`.
+#'  See `Details`
+#' @param Design A `data.frame` with `nFactor` columns
+#'  (i.e., `length(unique(Factors$Factor))`), and `nOM`
+#' rows. See `Details`
+#' @param Preset `r preset_param()`
+#'
+#' @details
+#'
+#' ## Factors
+#' `Factors` can be accessed and assigned using `Factors(myslick)` and
+#' `Factors(myslick) <- data.frame()` respectively.
+#'
+#' The `Factor` column should be character strings with the name of each factor,
+#' while the `Level` column is a `numeric` or `character` value with the level for the
+#' corresponding factor.
+#'
+#' The `Description` column is a description for each row, i.e., a unique factor and level.
+#' See `Examples`.
+#'
+#' ## Design
+#' The `Design` matrix is `nOM` rows and `nFactor` columns. The values in each column should
+#' either be `numeric` values indicating the levels for the corresponding factor,
+#' or the actual level values (i.e., `Factors$Level`) that correspond to each OM. See `Examples`.
+#'
+#' Use [Factors()], [Design()], and [Preset()] to access
+#' and assign the values for an existing `OMs` object, see `Examples`.
+#'
+#' @rdname OMs-methods
+#' @docType methods
+#' @example inst/examples/OMs.R
+#' @seealso [OMs-class()], [Factors()], [Design()], [Preset()]
 #' @export
-setMethod("MPs<-", "Slick", function(Slick, value) {
-  Slick@MPs <- value
-  methods::validObject(Slick)
-  Slick
-})
+setGeneric("OMs", function(Factors=data.frame(),
+                           Design=data.frame(),
+                           Preset=list()) standardGeneric('OMs')
+)
 
 
-#
-# ---- OMs ----
-
-#' @export
-setGeneric("OMs", function(Metadata, Design, Preset) standardGeneric("OMs"))
-
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param Design A `data.frame` with the design matrix for the `OMs` object. See `Details`
-#' @param Preset An optional named list. See `Details`
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("missing", 'missing', 'missing'), function() newOMs())
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("data.frame", 'missing', 'missing'), function(Metadata) newOMs(Metadata))
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("list", 'missing', 'missing'), function(Metadata) newOMs(Metadata))
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("data.frame", 'data.frame', 'missing'),
-          function(Metadata, Design) newOMs(Metadata, Design))
-
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("data.frame", 'data.frame', 'list'),
-          function(Metadata, Design, Preset) newOMs(Metadata, Design, Preset))
-
-
-#' @rdname OMs
-#' @export
-setMethod("OMs", c("Slick"),
-          function(Metadata) Metadata@OMs)
-
-#' @rdname OMs
-#' @param Slick An object of class [Slick]
-#' @param value An object of class [OMs]
+#' @rdname OMs-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [OMs-class()] object
 #' @export
 setGeneric("OMs<-", function(Slick, value) standardGeneric("OMs<-"))
 
-#' @rdname OMs
-#' @export
-setMethod("OMs<-", c("Slick"),
-          function(Slick, value) {
-            Slick@MPs <- value
-            methods::validObject(Slick)
-            Slick
-})
-
-
 
 # ---- Preset ----
-setGeneric("Preset", function(object) standardGeneric("Preset"))
 
-#' Assign or access the `Preset` slot
-#' @param object An object of class [Boxplot], [Kobe], [Quilt],
-#' [Spider], [Timeseries], [Tradeoff], or [MPs]
+#' Assign or access `Preset` for a valid object class
+#' @param object An object of class [Boxplot-class()], [Kobe-class()], [Quilt-class()],
+#' [Spider-class()], [Timeseries-class()], or [Tradeoff-class()]
 #'
 #' @export
-#' @rdname Preset
-setMethod("Preset", 'Boxplot', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'Kobe', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'Quilt', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'Spider', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'Timeseries', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'Tradeoff', function(object) {
-  object@Preset
-})
-
-#' @export
-#' @rdname Preset
-setMethod("Preset", 'MPs', function(object) {
-  object@Preset
-})
-
-
-setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
+setGeneric("Preset", function(object) standardGeneric("Preset"))
 
 #' @param value A `list`, formatted to match the class of `object`. See the documentation for
 #' corresponding `object` class for more details.
 #' @rdname Preset
 #' @export
-setMethod("Preset<-", "Boxplot", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
+setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 
 
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "Kobe", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
 
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "Quilt", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "Spider", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "Timeseries", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "Tradeoff", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
-
-
-#' @rdname Preset
-#' @export
-setMethod("Preset<-", "MPs", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
 
 # ---- Quilt ----
+
+#' Methods for Creating, Accessing and Assigning `Quilt` objects
+#'
+#' The `Quilt` function is used both to create and modify an [Quilt-class()] object.
+#' and to access and assign `Quilt` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' @details
+#' Objects of class `Quilt` are created with `Quilt()`
+#'
+#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()], [Color()],
+#' [MinValue], and [MaxValue] functions to access and assign the values for
+#' an existing `Quilt` object, see `Examples`
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value`
+#'
+#' @param Code `r code_PI_param()`
+#' @param Label `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Value A numeric array with the stochastic performance indicator values for each
+#' operating model (OM), management procedure (MP), and performance indicator (PI).
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' @param Preset `r preset_param()`
+#' @param Color A character vector length 2 of colors for the maximum and minimum
+#' values in the chart.
+#' @param MinValue Numeric vector length `nPI` with the minimum possible value for the
+#' respective PIs. Defaults to 0.
+#' @param MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
+#' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
+#'
+#'
+#' @rdname Quilt-methods
+#' @docType methods
+#' @example inst/examples/Quilt.R
+#' @seealso [Code()], [Label()], [Description()], [Color()], [Metadata()], [Preset()],
+#' [Color()], [MinValue()], [MaxValue()]
 #' @export
-setGeneric("Quilt", function(Metadata, Value, Preset, Colors) standardGeneric("Quilt"))
+setGeneric("Quilt", function(Code='',
+                             Label='',
+                             Description='',
+                             Value=array(),
+                             Preset=list(),
+                             Color=c('white', 'darkblue'),
+                             MinValue=0,
+                             MaxValue=as.numeric(NA)) standardGeneric('Quilt'))
 
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param Value An `array` with the values for the `Quilt` chart. See `Details`.
-#' a character string specifying language (if available), or an object of class [MPs()]. See `Details`
-#' @param Preset An optional named list. See `Details`.
-#' @param Colors A character vector of length 2 specifying the colors for
-#' the maximum and minimum values in the Quilt chart
-#' @rdname Quilt
+
+#' @rdname Quilt-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Quilt-class()] object
 #' @export
-setMethod("Quilt", c("missing", 'missing', 'missing', 'missing'), function() newQuilt())
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("data.frame"),
-          function(Metadata) newQuilt(Metadata))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("list"),
-          function(Metadata) newQuilt(Metadata))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("data.frame", 'array'),
-          function(Metadata, Value) newQuilt(Metadata, Value))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("list", 'array'),
-          function(Metadata, Value) newQuilt(Metadata, Value))
-
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("data.frame", 'array', 'list', 'missing'),
-          function(Metadata, Value, Preset) newQuilt(Metadata, Value, Preset))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("list", 'array', 'list', 'missing'),
-          function(Metadata, Value, Preset) newQuilt(Metadata, Value, Preset))
-
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("data.frame", 'array', 'list', 'character'),
-          function(Metadata, Value, Preset, Colors) newQuilt(Metadata, Value, Preset, Colors))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", c("list", 'array', 'list', 'character'),
-          function(Metadata, Value, Preset, Colors) newQuilt(Metadata, Value, Preset, Colors))
-
-#' @rdname Quilt
-#' @export
-setMethod("Quilt", "Slick", function(Metadata) Metadata@Quilt)
-
 setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 
-#' @rdname Quilt
-#' @param Slick An object of class [Slick]
-#' @param value An object of class [Quilt]
-#' @export
-setMethod("Quilt<-", "Slick", function(Slick, value) {
-  object@Quilt <- value
-  methods::validObject(object)
-  object
-})
 
 
-# ---- Selected ----
-
-setGeneric("Selected", function(Tradeoff) standardGeneric("Selected"))
-
-#' Assign or access the `Selected` slot in an object of class [Tradeoff]
-#'
-#' @param Tradeoff An object of class [Tradeoff]
-#' @examples
-#' tradeoff <- Tradeoff()
-#' Selected(tradeoff) <- c(1,2)
-#' Selected(tradeoff)
-#' @rdname Selected
-#' @export
-setMethod("Selected", "Tradeoff", function(Tradeoff) {
-  Tradeoff@Selected
-})
-
-setGeneric("Selected<-", function(Tradeoff, value) standardGeneric("Selected<-"))
 
 
-#' @rdname Selected
-#' @param value A character or numeric vector length 2. See [Tradeoff]
-#' @export
-setMethod("Selected<-", "Tradeoff", function(Tradeoff, value) {
-  Tradeoff@Selected <- value
-  methods::validObject(Tradeoff)
-  Tradeoff
-})
+
 
 
 # ---- Spider ----
 
+#' Methods for Creating, Accessing and Assigning `Spider` objects
+#'
+#' The `Spider` function is used both to create and modify an [Spider-class()] object.
+#' and to access and assign `Spider` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' @details
+#' Objects of class `Spider` are created with `Spider()`
+#'
+#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to
+#' access and assign the values for an existing `Spider` object, see `Examples`
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value
+#' @param Code `r code_PI_param()`
+#' @param Label  `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Value  A numeric array with the stochastic performance indicator values for each
+#' operating model (OM), management procedure (MP), and performance indicator (PI).
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' @param Preset `r preset_param()`
+#'
+#'
+#' @rdname Spider-methods
+#' @docType methods
+#' @example inst/examples/Spider
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
 #' @export
-setGeneric("Spider", function(Metadata, Value, Preset) standardGeneric("Spider"))
+setGeneric("Spider", function(Code='',
+                              Label='',
+                              Description='',
+                              Value=array(),
+                              Preset=list()) standardGeneric("Spider"))
 
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param Preset An optional named list. See `Details`.
-#' @rdname Spider
+
+#' @rdname Spider-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Spider-class()] object
 #' @export
-setMethod("Spider", c("missing", 'missing', 'missing'), function() newSpider())
-
-
-
-#' @rdname Spider
-#' @export
-setMethod("Spider", c("data.frame", 'missing', 'missing'),
-          function(Metadata) newSpider(Metadata))
-
-
-#' @rdname Spider
-#' @export
-setMethod("Spider", c("list", 'missing', 'missing'),
-          function(Metadata) newSpider(Metadata))
-
-
-#' @rdname Spider
-#' @export
-setMethod("Spider", c("list", 'array', 'missing'),
-          function(Metadata, Value) newSpider(Metadata, Value))
-
-#' @rdname Spider
-#' @export
-setMethod("Spider", c("list", 'array', 'list'),
-          function(Metadata, Value, Preset) newSpider(Metadata, Value, Preset))
-
-
-#' @rdname Spider
-#' @export
-setMethod("Spider","Slick",function(Metadata) Metadata@Spider)
-
-
 setGeneric("Spider<-", function(Slick, value) standardGeneric("Spider<-"))
 
-#' @rdname Spider
-#' @param Slick An object of class [Slick]
-#' @param value An object of class [Spider]
+
+# ---- Target ----
+
+#' Access or assign `Target` and `Limit` for object of class `Kobe` or `Timeseries`
 #' @export
-setMethod("Spider<-", "Slick", function(Slick, value) {
-  Slick@Spider <- value
-  methods::validObject(Slick)
-  Slick
-})
-
-
-
-
-# ---- Table ----
+setGeneric("Target", function(object) standardGeneric("Target"))
 
 #' @export
-setGeneric("Table", function(object, lang, type) standardGeneric("Table"))
-
-#' Create a DT::datatable table from information in Metadata slot
-#'
-#' Create a [DT::datatable] table from information in [Metadata] slot.
-#'
-#' @param object An object of class [Boxplot], [Kobe], [Quilt],
-#' [Spider], [Timeseries], [Tradeoff], or [MPs] or [OMs]
-#' @param lang Optional text string specifying the language (if available).
-#' Either 'en', 'es', or 'fr' for English, Spanish, or French respectively
-#'
-#' @export
-#' @rdname Table
-setMethod("Table", c("Boxplot", 'character'), function(object, lang) {
-  tableBoxplot(object, lang)
-})
-
-
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Boxplot", 'missing'), function(object) {
-  tableBoxplot(object, lang='en')
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("Kobe", 'character'), function(object, lang) {
-  tableKobe(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Kobe", 'missing'), function(object) {
-  tableKobe(object, lang='en')
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("Quilt", 'character'), function(object, lang) {
-  tableQuilt(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Quilt", 'missing'), function(object) {
-  tableQuilt(object, lang='en')
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("Spider", 'character'), function(object, lang) {
-  tableSpider(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Spider", 'missing'), function(object) {
-  tableSpider(object, lang='en')
-})
-
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("Timeseries", 'character'), function(object, lang) {
-  tableTimeseries(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Timeseries", 'missing'), function(object) {
-  tableTimeseries(object, lang='en')
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("Tradeoff", 'character'), function(object, lang) {
-  tableTradeoff(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("Tradeoff", 'missing'), function(object) {
-  tableTradeoff(object, lang='en')
-})
-
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("MPs", 'character'), function(object, lang) {
-  tableMPs(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("MPs", 'missing'), function(object) {
-  tableMPs(object, lang='en')
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table", c("OMs", 'character'), function(object, lang) {
-  tableOMs(object, lang)
-})
-
-#' @export
-#' @rdname Table
-setMethod("Table",  c("OMs", 'missing'), function(object) {
-  tableOMs(object, lang='en')
-})
-
-#' @export
-#' @param type For objects of class [OMs], create a table for the 'factor' or 'design' slot?
-#' @rdname Table
-setMethod("Table", c("OMs", 'character', 'character'), function(object, lang, type) {
-  tableOMs(object, lang, type)
-})
+#' @rdname Target
+setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 
 
 # ---- Time ----
 
+#' Access or assign `Time` for object of class `Kobe` or `Timeseries`
 #' @export
 setGeneric("Time", function(object) standardGeneric("Time"))
 
-#' Access or assign the Time slot in object of class `Kobe` or `Timeseries`
-#'
-#' Access or assign the Time slot in object of class [Kobe] or [Timeseries]
+#' @export
 #' @rdname Time
-#' @export
-setMethod("Time", "Kobe", function(object) {object@Time})
-
-#' @export
-setMethod("Time", "Timeseries", function(object) {object@Time})
-
-
-#' @export
 setGeneric("Time<-", function(object, value) standardGeneric("Time<-"))
-#' @export
-#' @rdname Time
-#' @param value A list or data.frame formatted for the class of `object`
-setMethod("Time<-", "Kobe", function(object, value) {
-  object@Time <- value
-  methods::validObject(object)
-  object
-})
 
-#' @export
-#' @rdname Time
-setMethod("Time<-", "Timeseries", function(object, value) {
-  object@Time <- value
-  methods::validObject(object)
-  object
-})
 
+# ---- TimeLab ----
+
+#' Access or assign `TimeLab` in a `Kobe` or `Timeseries` object
+#'
+#' @param object A [Kobe-class()] or [Timeseries-class] object
+#' @export
+setGeneric("TimeLab", function(object, lang='en') standardGeneric("TimeLab"))
+
+#' @rdname TimeLab
+#' @param value A character string to assign to `TimeLab` in `object`.
+#' @param lang `r lang_param()`
+#' @export
+setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 
 # ---- Timeseries ----
 
-
+#' Methods for Creating, Accessing and Assigning `Timeseries` objects
+#'
+#' An object of class `Timeseries` contains information for the Time Series chart.
+#' The `Timeseries` function is used both to create and modify an [Timeseries-class()] object,
+#' and to access and assign `Timeseries` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value`
+#'
+#' @param Code `r code_PI_param()`
+#' @param Label `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Time A numeric vector with values for the historical and projection time-steps. Must
+#' match length `nTS` in `Value`
+#' @param TimeNow A numeric value matching the last historical timestep in `Time`
+#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the `Kobe Time` plot. Use a named list for
+#' multiple languages.
+#' @param Value A numeric array with the stochastic performance indicator values for each
+#' simulation (sim), operating model (OM), management procedure (MP),  performance indicator (PI),
+#' and historical + projection timestep (nTS).
+#' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
+#' @param Preset `r preset_param()`
+#' @param Target Numeric vector length `nPI` with the target value for the PIs.
+#' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
+#'
+#' @seealso [Timeseries-methods()], [Code()], [Label()], [Description()],
+#'  [Metadata()], [Value()], [Preset()]
+#'
+#'
+#' @details
+#' Objects of class `Timeseries` are created with `Timeseries()`
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to access and assign the values for an
+#' existing `Timeseries` object, see `Examples`
+#'
+#' @rdname Timeseries-methods
+#' @docType methods
+#' @example inst/examples/Timeseries.R
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
 #' @export
-setGeneric("Timeseries", function(Metadata, Time, Value, Preset) standardGeneric("Timeseries"))
+setGeneric("Timeseries", function(Code='',
+                                  Label='',
+                                  Description='',
+                                  Time=numeric(),
+                                  TimeNow=numeric(),
+                                  TimeLab='Year',
+                                  Value=array(),
+                                  Preset=list(),
+                                  Target=NULL,
+                                  Limit=NULL) standardGeneric("Timeseries"))
 
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param Time TODO
-#' @param Value An `array` with the values for the `Timeseries` chart. See `Details`.
-#' a character string specifying language (if available), or an object of class [MPs()]. See `Details`
-#' @param Preset An optional named list. See `Details`.
-#' @rdname Timeseries
-setMethod("Timeseries", c("missing", 'missing', 'missing', 'missing'), function() newTimeseries())
 
-
-#' @rdname Timeseries
+#' @rdname Timeseries-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Timeseries-class()] object
 #' @export
-setMethod("Timeseries", c("data.frame", 'missing', 'missing', 'missing'),
-          function(Metadata) newTimeseries(Metadata))
-
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'missing', 'missing'),
-          function(Metadata) newTimeseries(Metadata))
-
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'data.frame'),
-          function(Metadata, Time) newTimeseries(Metadata, Time))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'list'),
-          function(Metadata, Time) newTimeseries(Metadata, Time))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'data.frame'),
-          function(Metadata, Time) newTimeseries(Metadata, Time))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'list'),
-          function(Metadata, Time) newTimeseries(Metadata, Time))
-
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'data.frame', 'array'),
-          function(Metadata, Time, Value) newTimeseries(Metadata, Time, Value))
-
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'list', 'array'),
-          function(Metadata, Time, Value) newTimeseries(Metadata, Time, Value))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'data.frame', 'array'),
-          function(Metadata, Time, Value) newTimeseries(Metadata, Time, Value))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'list', 'array'),
-          function(Metadata, Time, Value) newTimeseries(Metadata, Time, Value))
-
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'list', 'array', 'list'),
-          function(Metadata, Time, Value, Preset) newTimeseries(Metadata, Time, Value, Preset))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'data.frame', 'array', 'list'),
-          function(Metadata, Time, Value, Preset) newTimeseries(Metadata, Time, Value, Preset))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("list", 'list', 'array', 'list'),
-          function(Metadata, Time, Value, Preset) newTimeseries(Metadata, Time, Value, Preset))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries", c("data.frame", 'data.frame', 'array', 'list'),
-          function(Metadata, Time, Value, Preset) newTimeseries(Metadata, Time, Value, Preset))
-
-#' @rdname Timeseries
-#' @export
-setMethod("Timeseries","Slick",function(Metadata) Metadata@Timeseries)
-
-
 setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"))
-
-#' @rdname Timeseries
-#' @param Slick An object of class [Slick]
-#' @param value An object of class [Timeseries]
-#' @export
-setMethod("Timeseries<-", "Slick", function(Slick, value) {
-  Slick@Timeseries <- value
-  methods::validObject(Slick)
-  Slick
-})
-
-
-
 
 # ---- Tradeoff ----
 
-setGeneric("Tradeoff", function(Metadata, Value, Preset, Selected) standardGeneric("Tradeoff"))
-
-
-#' @param Metadata An object of class [data.frame()] or [list()] formatted for the
-#' `Metadata` slot. See `Details`. Or an object of class [Slick].
-#' @param Value An `array` with the values for the `Boxplot` chart. See `Details`.
-#' @param Preset An optional named list. See `Details`.
-#' @param Selected TODO
-#' @rdname Tradeoff
+#' Methods for Creating, Accessing and Assigning `Tradeoff` objects
+#'
+#' The `Tradeoff` function is used both to create and modify an [Tradeoff-class()] object.
+#' and to access and assign `Tradeoff` for an object of class [Slick-class()].
+#' See `Details`.
+#'
+#' Objects of class `Tradeoff` are created with `Tradeoff()`
+#'
+#'
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
+#'
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of performance indicators (`nPIs`) in `Value`
+#'
+#' @rdname Tradeoff-methods
+#' @docType methods
+#' @example inst/examples/Tradeoff
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
 #' @export
-setMethod("Tradeoff", c("missing", 'missing', 'missing', 'missing'), function() newTradeoff())
+setGeneric("Tradeoff", function(Code='',
+                                Label='',
+                                Description='',
+                                Value=array(),
+                                Preset=list()) standardGeneric("Tradeoff"))
 
 
-#' @rdname Tradeoff
+#' @rdname Tradeoff-methods
+#' @param Slick A [Slick-class()] object
+#' @param value A [Tradeoff-class()] object
 #' @export
-setMethod("Tradeoff", c("data.frame", 'missing', 'missing', 'missing'),
-          function(Metadata) newTradeoff(Metadata))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("data.frame", 'array', 'missing', 'missing'),
-          function(Metadata, Value) newTradeoff(Metadata, Value))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("data.frame", 'array', 'list', 'missing'),
-          function(Metadata, Value, Preset) newTradeoff(Metadata, Value, Preset))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("data.frame", 'array', 'list', 'character'),
-          function(Metadata, Value, Preset, Selected) newTradeoff(Metadata, Value, Preset, Selected))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("data.frame", 'array', 'list', 'numeric'),
-          function(Metadata, Value, Preset, Selected) newTradeoff(Metadata, Value, Preset, Selected))
-
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("list", 'missing', 'missing', 'missing'),
-          function(Metadata) newTradeoff(Metadata))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("list", 'array', 'missing', 'missing'),
-          function(Metadata, Value) newTradeoff(Metadata, Value))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("list", 'array', 'list', 'missing'),
-          function(Metadata, Value, Preset) newTradeoff(Metadata, Value, Preset))
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("list", 'array', 'list', 'character'),
-          function(Metadata, Value, Preset, Selected) newTradeoff(Metadata, Value, Preset, Selected))
-
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", c("list", 'array', 'list', 'numeric'),
-          function(Metadata, Value, Preset, Selected) newTradeoff(Metadata, Value, Preset, Selected))
-
-
-#' @rdname Tradeoff
-#' @export
-setMethod("Tradeoff", "Slick", function(Metadata) {
-  Metadata@Tradeoff
-})
-
-
 setGeneric("Tradeoff<-", function(Slick, value) standardGeneric("Tradeoff<-"))
 
-#' @rdname Tradeoff
-#' @param An object of class [Slick]
-#' @param An object of class [Tradeoff]
-#' @export
-setMethod("Tradeoff<-", "Slick", function(Slick, value) {
-  Slick@Tradeoff <- value
-  methods::validObject(Slick)
-  Slick
-})
+
+
 
 # ---- Value ----
+
+#' Assign or access `Value` for a valid object class
+#' @param object An object of class [Boxplot-class()], [Kobe-class()], [Quilt-class()],
+#' [Spider-class()], [Timeseries-class()], or [Tradeoff-class()]
+#' @export
 setGeneric("Value", function(object) standardGeneric("Value"))
 
-#' Assign or access the `Value` slot
-#' @param object An object of class [Boxplot], [Kobe], [Quilt],
-#' [Spider], [Timeseries], or [Tradeoff]
-#' @export
 #' @rdname Value
-setMethod("Value", 'Boxplot', function(object) {
-  object@Value
-})
-
+#' @param value An `array`, formatted to match the class of `object`. See the documentation for
+#' corresponding `object` class for more details.
 #' @export
-#' @rdname Value
-setMethod("Value", 'Kobe', function(object) {
-  object@Value
-})
-
-#' @export
-#' @rdname Value
-setMethod("Value", 'Quilt', function(object) {
-  object@Value
-})
-
-#' @export
-#' @rdname Value
-setMethod("Value", 'Spider', function(object) {
-  object@Value
-})
-
-#' @export
-#' @rdname Value
-setMethod("Value", 'Timeseries', function(object) {
-  object@Value
-})
-
-#' @export
-#' @rdname Value
-setMethod("Value", 'Tradeoff', function(object) {
-  object@Value
-})
-
-
 setGeneric("Value<-", function(object, value) standardGeneric("Value<-"))
 
-#' @param value An [array], formatted to match the class of `object`. See the documentation for
-#' corresponding `object` class for more details.
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Boxplot", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Kobe", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Quilt", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Spider", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Timeseries", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-#' @rdname Value
-#' @export
-setMethod("Value<-", "Tradeoff", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
-
-# ---- Slick ----
-
-
-# ---- show ----
-
-#' @export
-setMethod("show", "MPs", function(object) {
-  showMPs(object)
-})
-
-
-#' @export
-setMethod("show", "Slick", function(object) {
-  showSlick(object)
-})
 
 
 
-# ---- plot ----
 
-#' @export
-setMethod("plot", "Quilt", function(x, ...) {
- plotQuilt(x, ...)
-})
+
+
 
 
 

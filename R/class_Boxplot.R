@@ -1,10 +1,12 @@
 
 # ---- Class ----
 
-#' S4 class Boxplot
+#' S4 class `Boxplot`
 #'
-#' Slots can be accessed and assigned using functions corresponding to slot name.
-#' See `See Also` section below.
+#' Objects of class `Boxplot` are used to store information for the Boxplot and Violin plots.
+#' Like all S4 objects in `Slick`, slots in this object can be accessed and
+#' assigned using functions corresponding to slot name. See [Boxplot()] and the
+#' the `See Also` section below.
 #'
 #' @details
 #' Objects of class `Boxplot` are created with `Boxplot()`
@@ -26,8 +28,9 @@
 #' simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
+#' @slot Defaults A list object with default selections for the Boxplot. See [Boxplot()]
 #'
-#' @seealso [Boxplot-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Boxplot()], [Code()], [Label()], [Description()],
 #'  [Metadata()], [Value()], [Preset()]
 #'
 #' @example inst/examples/Boxplot.R
@@ -38,7 +41,8 @@ setClass("Boxplot",
                  Label='character_list',
                  Description='character_list',
                  Value='array',
-                 Preset='list'
+                 Preset='list',
+                 Defaults='list'
          )
 )
 
@@ -48,12 +52,15 @@ setMethod("initialize", "Boxplot", function(.Object,
                                             Label='',
                                             Description='',
                                             Value=array(),
-                                            Preset=list()) {
-  .Object@Code <- use_ifnot_NULL('Code', Code, .Object)
-  .Object@Label <- use_ifnot_NULL('Label', Label, .Object)
-  .Object@Description <- use_ifnot_NULL('Description', Description, .Object)
-  .Object@Value <- use_ifnot_NULL('Value', Value, .Object)
-  .Object@Preset <- use_ifnot_NULL('Preset', Preset, .Object)
+                                            Preset=list(),
+                                            Defaults=list('overall', 'boxplot')) {
+  .Object@Code <- Code
+  .Object@Label <- Label
+  .Object@Description <- Description
+  .Object@Value <- Value
+  .Object@Preset <- Preset
+  .Object@Defaults <- Defaults
+  methods::validObject(.Object)
   .Object
 })
 
@@ -67,116 +74,158 @@ validBoxplot <- function(object) {
 
 setValidity('Boxplot', validBoxplot)
 
-## ---- New ----
-newBoxplot <- function(Code='',
-                       Label='',
-                       Description='',
-                       Value=array(),
-                       Preset=list()) {
-  Boxplot <- new('Boxplot', Code, Label, Description, Value, Preset)
-  methods::validObject(Boxplot)
-  Boxplot
-}
-
-
 
 # ---- Methods ----
 
+## Boxplot ----
 
-#' Methods for Creating, Accessing and Assigning `Boxplot` objects
-#'
-#' An object of class `Boxplot` contains information for the Boxplot chart.
-#' The `Boxplot` function is used both to create and modify an [Boxplot-class()] object.
-#' and to access and assign `Boxplot` for an object of class [Slick-class()].
-#' See `Details`.
-#'
-#' @param Code `r code_PI_param()`
-#' @param Label  `r label_PI_param() `
-#' @param Description `r description_PI_param()`
-#' @param Value  A numeric array with the stochastic performance indicator values for each
-#' simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`)
-#' @param Preset `r preset_param()`
-#'
-#' @details
-#' - `Boxplot()`: creates an empty `Boxplot` object
-#' - `Boxplot(Code, ...)`: creates a populated `Boxplot` object
-#' - `Boxplot(Slick)`: returns the `Boxplot` from a `Slick` object
-#' - `Boxplot(Slick) <- Boxplot`: assigns a `Boxplot` object to a `Slick` object
-#'
-#' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to access and assign the values for an
-#' existing `Boxplot` object, see `Examples`
-#'
-#' @rdname Boxplot-methods
-#' @docType methods
-#' @example inst/examples/Boxplot.R
-#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
+#' @describeIn Boxplot-methods Create an empty `Boxplot` object
+setMethod("Boxplot", 'missing', function() new('Boxplot'))
+
+#' @describeIn Boxplot-methods Create a populated `Boxplot` object
+setMethod("Boxplot", 'character_list',
+          function(Code, Label, Description, Value, Preset, Defaults)
+            new('Boxplot', Code, Label, Description, Value, Preset, Defaults))
+
+
+
+## Check ----
+
+#' @describeIn Check Check [Boxplot-class()] objects for errors
+setMethod('Check', 'Boxplot', function(object, skip_warnings) {
+
+  ll <- CheckList()
+  ll@object <- class(object)
+
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
+
+  # ll@errors <- append(ll@errors, check_metadata(object))
+  #
+  # nOM <- max(length(object@Code),
+  #             length(object@Label),
+  #             length(object@Description)
+  # )
+  #
+  #
+  # if (nMPs>0) {
+  #   # check numbers and names
+  #   ll@errors <- append(ll@errors, check_Preset(object@Preset, nMPs))
+  #   Preset <- object@Preset
+  # }
+  #
+  # if (length(ll@errors)<1)
+  #   ll@complete <- TRUE
+
+  ll
+})
+
+
+## Code ----
+
+#' @describeIn Code Return `Code` from a [Boxplot-class()] object
+setMethod("Code", 'Boxplot', function(object, lang='en') {
+  get_language(object@Code, lang)
+})
+
+
+#' @describeIn Code Assign `Code` to a [Boxplot-class()] object
+setMethod("Code<-", 'Boxplot', function(object, value) {
+  object@Code <- value
+  methods::validObject(object)
+  object
+})
+
+## Defaults ----
+
+#' @describeIn Defaults Defaults `Code` from a [Boxplot-class()] object
+setMethod("Defaults", 'Boxplot', function(object) {
+  object@Defaults
+})
+
+
+#' @describeIn Defaults Assign `Defaults` to a [Boxplot-class()] object
+setMethod("Defaults<-", 'Boxplot', function(object, value) {
+  object@Defaults <- value
+  methods::validObject(object)
+  object
+})
+
+## Description ----
+
+#' @describeIn Code Return `Description` from a [Boxplot-class()] object
+setMethod("Description", 'Boxplot', function(object, lang='en') {
+  get_language(object@Description, lang)
+})
+
+
+## Label ----
+
+#' @describeIn Code Return `Label` from a [Boxplot-class()] object
+setMethod("Label", 'Boxplot', function(object, lang='en') {
+  get_language(object@Label, lang)
+})
+
+
+#' @describeIn Code Assign `Label` to a [Boxplot-class()] object
+setMethod("Label<-", 'Boxplot', function(object, value) {
+  object@Label <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+#' @describeIn Code Assign `Description` to a [Boxplot-class()] object
+setMethod("Description<-", 'Boxplot', function(object, value) {
+  object@Description <- value
+  methods::validObject(object)
+  object
+})
+
+## Metadata ----
+
+#' @describeIn Metadata Return Metadata for [Boxplot-class()] objects
 #' @export
-setGeneric("Boxplot", function(Code,
-                               Label,
-                               Description,
-                               Value,
-                               Preset) standardGeneric("Boxplot"))
+setMethod('Metadata', 'Boxplot', function(object, lang='en') {
+  data.frame(Code=object@Code,
+             Label=get_language(object@Label, lang),
+             Description=get_language(object@Description, lang))
+
+})
 
 
-setMethod("Boxplot", signature(Code="missing",
-                               Label='missing',
-                               Description='missing',
-                               Value='missing',
-                               Preset='missing'), function() newBoxplot())
+#' @describeIn Metadata Assign Metadata for [Boxplot-class()] objects
+setMethod("Metadata<-", "Boxplot", function(object, value) {
 
-setMethod("Boxplot", c("character_list", 'missing','missing','missing', 'missing'),
-          function(Code) newBoxplot(Code))
-
-setMethod("Boxplot", c("character_list", 'character_list','missing','missing', 'missing'),
-          function(Code, Label) newBoxplot(Code, Label))
-
-setMethod("Boxplot", c("character_list", 'character_list','character_list','missing', 'missing'),
-          function(Code, Label, Description) newBoxplot(Code, Label, Description))
-
-setMethod("Boxplot", c("character_list", 'character_list','character_list','array', 'missing'),
-          function(Code, Label, Description, Value) newBoxplot(Code, Label, Description, Value))
-
-setMethod("Boxplot", c("character_list", 'character_list','character_list','array', 'list'),
-          function(Code, Label, Description, Value, Preset) newBoxplot(Code, Label, Description, Value, Preset))
+  names <- c('Code', 'Label', 'Description')
+  object <- check_assign_dataframe(object, names, value)
+  methods::validObject(object)
+  object
+})
 
 
-setMethod("Boxplot", c("missing", 'character_list','missing','missing', 'missing'),
-          function(Label) newBoxplot(Label=Label))
+## Preset ----
 
-setMethod("Boxplot", c("missing", 'character_list','character_list','missing', 'missing'),
-          function(Label, Description) newBoxplot(Label=Label, Description=Description))
+#' @describeIn Preset Return `Preset` from a [Boxplot-class()] object
+setMethod("Preset", 'Boxplot', function(object) {
+  object@Preset
+})
 
-setMethod("Boxplot", c("missing", 'character_list','character_list','array', 'missing'),
-          function(Label, Description, Value) newBoxplot(Label=Label, Description=Description, Value=Value))
-
-setMethod("Boxplot", c("missing", 'character_list','character_list','array', 'list'),
-          function(Label, Description, Value, Preset) newBoxplot(Label=Label, Description=Description, Value=Value, Preset=Preset))
+#' @describeIn Preset Assign `Preset` slot from a [Boxplot-class()] object
+setMethod("Preset<-", "Boxplot", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Preset <- value
+  methods::validObject(object)
+  object
+})
 
 
 
-setMethod("Boxplot", c("missing", 'missing','character_list','missing', 'missing'),
-          function(Description) newBoxplot(Description=Description))
+## Show ----
 
-setMethod("Boxplot", c("missing", 'missing','character_list','array', 'missing'),
-          function(Description, Value) newBoxplot(Description=Description, Value=Value))
-
-setMethod("Boxplot", c("missing", 'missing','character_list','array', 'list'),
-          function(Description, Value, Preset) newBoxplot(Description=Description, Value=Value, Preset=Preset))
-
-
-
-setMethod("Boxplot", c("missing", 'missing','missing','array', 'missing'),
-          function(Value) newBoxplot(Value=Value))
-
-setMethod("Boxplot", c('missing', 'missing','missing','missing', 'list'),
-          function(Preset) newBoxplot(Preset=Preset))
-
-
-
-## --- Show ----
-
-#' @rdname Boxplot-class
+#' @describeIn Boxplot Show objects of class `Boxplot`
 #' @param object An object of class [Boxplot-class()]
 #' @export
 setMethod("show", "Boxplot", function(object) {
@@ -213,10 +262,10 @@ setMethod("show", "Boxplot", function(object) {
 
   }
 
-  if (!(all(apply(metadata,1, nchar)[,1]==0)) && (length(dd) == length(dims)) & !all(is.na(object@Value))) {
-    if (nrow(metadata) != dd[4])
-      cat('\nWARNING:\n The PI dimension in `Value` (dimension 4) does not match the number of performance indicators described in `Code`, `Label`, and `Description`\n')
-  }
+  # if (!(all(apply(metadata,1, nchar)[,1]==0)) && (length(dd) == length(dims)) & !all(is.na(object@Value))) {
+  #   if (nrow(metadata) != dd[4])
+  #     cat('\nWARNING:\n The PI dimension in `Value` (dimension 4) does not match the number of performance indicators described in `Code`, `Label`, and `Description`\n')
+  # }
 
 
   preset <- object@Preset
@@ -226,8 +275,23 @@ setMethod("show", "Boxplot", function(object) {
   } else {
     print(object@Preset)
   }
-
-
 })
+
+
+## Value ----
+#' @describeIn Value  Return `Value` from a [Boxplot-class()] object
+setMethod("Value", 'Boxplot', function(object) {
+  object@Value
+})
+
+#' @describeIn Value Assign `Value` to a [Boxplot-class()] object
+setMethod("Value<-", "Boxplot", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Value <- value
+  methods::validObject(object)
+  object
+})
+
+
 
 

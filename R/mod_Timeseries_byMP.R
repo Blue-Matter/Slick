@@ -51,7 +51,9 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
       plot_list <- list()
       if (dd[3]==nMP()) {
         for (i in 1:nMP()) {
-          plot_list[[i]] <- Timeseries_plot(filtered_slick(), pm_ind(), i)
+          plot_list[[i]] <- plotTimeseries(filtered_slick(), pm_ind(),
+                                            MP_ind=i,
+                                           includeHist=FALSE)
         }
       }
       plot_list

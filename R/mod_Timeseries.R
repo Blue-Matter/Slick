@@ -173,7 +173,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       selected <- as.numeric(input$selectSV)
       if (length(selected)<1)
         selected <- 1
-      quantile(val[,,,selected,], 0.95)
+      quantile(val[,,,selected,], 0.95, na.rm=TRUE)
     })
 
     ymax <- reactive({

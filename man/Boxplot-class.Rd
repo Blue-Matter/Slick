@@ -4,7 +4,7 @@
 \name{Boxplot-class}
 \alias{Boxplot-class}
 \alias{show,Boxplot-method}
-\title{S4 class Boxplot}
+\title{S4 class \code{Boxplot}}
 \usage{
 \S4method{show}{Boxplot}(object)
 }
@@ -12,8 +12,10 @@
 \item{object}{An object of class \code{\link[=Boxplot-class]{Boxplot-class()}}}
 }
 \description{
-Slots can be accessed and assigned using functions corresponding to slot name.
-See \verb{See Also} section below.
+Objects of class \code{Boxplot} are used to store information for the Boxplot and Violin plots.
+Like all S4 objects in \code{Slick}, slots in this object can be accessed and
+assigned using functions corresponding to slot name. See \code{\link[=Boxplot]{Boxplot()}} and the
+the \verb{See Also} section below.
 }
 \details{
 Objects of class \code{Boxplot} are created with \code{Boxplot()}
@@ -33,6 +35,11 @@ Character strings in \code{Code}, \code{Label}, and \code{Description} must all 
 as the number of performance indicators (\code{nPIs}) in \code{Value}
 }
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{show(Boxplot)}: Show objects of class \code{Boxplot}
+
+}}
 \section{Slots}{
 
 \describe{
@@ -51,7 +58,10 @@ A character string length \code{nPI} or a named list for multi-language support.
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
 Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
 
-\item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. See \code{Examples}}
+\item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
+element will appear as a button in the \code{\link[=App]{App()}}.}
+
+\item{\code{Defaults}}{A list object with default selections for the Boxplot. See \code{\link[=Boxplot]{Boxplot()}}}
 }}
 
 \examples{
@@ -82,6 +92,6 @@ boxplot
 
 }
 \seealso{
-\code{\link[=Boxplot-methods]{Boxplot-methods()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
+\code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
 \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

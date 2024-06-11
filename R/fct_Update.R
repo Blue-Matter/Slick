@@ -17,11 +17,17 @@
 
 
 #  slick <- obj <-  readRDS('inst/NSWO.rda')
-# slick <- Update( readRDS('inst/case_studies/WSKJ.rda'))
+# slick <- Update(readRDS('inst/NSWO.rda'))
+# slick <- Update( readRDS('inst/WSKJ.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/SLICKobj.rda'))
 # slick <- Update( readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick'))
 # slick <- readRDS('inst/shiny_apps/Slick/data/case_studies/NSWO.slick')
 
+# slick <- Update(readRDS('inst/NSWO.rda'))
+# Defaults(Boxplot(slick))[[1]] <- 'byom'
+# Defaults(Boxplot(slick))[[2]] <- 'both'
+#
+# saveRDS(slick, 'C:/users/user/downloads/slick.slick')
 
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
@@ -53,14 +59,13 @@ Update <- function(slick) {
   Introduction(slick) <- intro
 
   # MPs
-  MPs(slick) <- MPs(data.frame(Code=slick_in$MP$Codes,
-                               Label=slick_in$MP$Labels,
-                               Description=slick_in$MP$Description,
-                               Color=slick_in$Misc$Cols$MP))
+  MPs(slick) <- MPs(Code=slick_in$MP$Codes,
+                    Label=slick_in$MP$Labels,
+                    Description=slick_in$MP$Description,
+                    Color=slick_in$Misc$Cols$MP)
 
   # OMs
   oms <- OMs()
-
   df_list <- list()
   for (i in seq_along(slick_in$OM$Codes)) {
     df_list[[i]] <- data.frame(Factor=slick_in$OM$Factor_Labels[i],
@@ -68,8 +73,7 @@ Update <- function(slick) {
                                Description=slick_in$OM$Description[[i]])
   }
 
-  Metadata(oms) <- do.call('rbind', df_list)
-
+  Factors(oms) <-  do.call('rbind', df_list)
   Design(oms) <-slick_in$OM$Design
   colnames(Design(oms)) <- slick_in$OM$Factor_Labels
 
@@ -83,59 +87,82 @@ Update <- function(slick) {
 
   OMs(slick) <- oms
 
+
   # Boxplot
-  Boxplot(slick) <- Boxplot(data.frame(Code=slick_in$Perf$Stoch$Codes,
-                                       Label=slick_in$Perf$Stoch$Labels,
-                                       Description=slick_in$Perf$Stoch$Description),
-                            slick_in$Perf$Stoch$Values)
+  Boxplot(slick) <- Boxplot(Code=slick_in$Perf$Stoch$Codes,
+                            Label=slick_in$Perf$Stoch$Labels,
+                            Description=slick_in$Perf$Stoch$Description,
+                            Value=slick_in$Perf$Stoch$Values,
+                            Preset=list())
 
   # Kobe
-
   # ref points
-  # targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
-  # limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
-  #
-  # unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind))
+  targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
+  if (!is.na(targ_ind)) {
+    Target <- unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind))
+  } else {
+    Target <- NULL
+  }
 
-  Kobe(slick) <- Kobe(Metadata=data.frame(Code=slick_in$Perf$Proj$Codes,
-                                          Label=slick_in$Perf$Proj$Labels,
-                                          Description=slick_in$Perf$Proj$Description,
-                                          Target=rep(1, length(slick_in$Perf$Proj$Codes))
-                                          ),
-                      Time=data.frame(Year=slick_in$Perf$Proj$Times),
-                      Value=slick_in$Perf$Proj$Values)
+  limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
+  if (!is.na(limit_ind)) {
+    Limit <- unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', limit_ind))
+  } else {
+    Limit <- NULL
+  }
+
+  time_lab <-  slick_in$Perf$Proj$Time_lab
+  if (is.null(time_lab)) time_lab <- 'Year'
+
+  Kobe(slick) <- Kobe(Code=slick_in$Perf$Proj$Codes,
+                      Label=slick_in$Perf$Proj$Labels,
+                      Description=slick_in$Perf$Proj$Description,
+                      Time=slick_in$Perf$Proj$Times,
+                      TimeLab =time_lab,
+                      Value=slick_in$Perf$Proj$Values,
+                      Target=Target,
+                      Limit=Limit
+                      )
 
   # Quilt
-  Quilt(slick) <- Quilt(data.frame(Code=slick_in$Perf$Det$Codes,
-                                 Label=slick_in$Perf$Det$Labels,
-                                 Description=slick_in$Perf$Det$Description,
-                                 MinValue=0,
-                                 MaxValue=1),
-                        Value=slick_in$Perf$Det$Values)
+  Quilt(slick) <- Quilt(Code=slick_in$Perf$Det$Codes,
+                        Label=slick_in$Perf$Det$Labels,
+                        Description=slick_in$Perf$Det$Description,
+                        Value=slick_in$Perf$Det$Values,
+                        Preset=list(),
+                        Color=c('white', 'blue'),
+                        MinValue=0,
+                        MaxValue=1
+                        )
 
   # Spider
-  Spider(slick) <- Spider(data.frame(Code=slick_in$Perf$Det$Codes,
-                                   Label=slick_in$Perf$Det$Labels,
-                                   Description=slick_in$Perf$Det$Description,
-                                   MinValue=0,
-                                   MaxValue=1),
-                        slick_in$Perf$Det$Values)
+  Spider(slick) <- Spider(Code=slick_in$Perf$Det$Codes,
+                          Label=slick_in$Perf$Det$Labels,
+                          Description=slick_in$Perf$Det$Description,
+                          Value=slick_in$Perf$Det$Values,
+                          Preset=list())
+
 
 
   # TimeSeries
-  time_df <- data.frame(Year=slick_in$StateVar$Times, Period='Historical')
-  time_df$Period[time_df$Year > slick_in$StateVar$TimeNow] <- 'Projection'
+  Timeseries(slick) <- Timeseries(Code=slick_in$StateVar$Codes,
+                                  Label=slick_in$StateVar$Labels,
+                                  Description=slick_in$StateVar$Description,
+                                  Time=slick_in$StateVar$Times,
+                                  TimeNow=slick_in$StateVar$TimeNow,
+                                  TimeLab='Year',
+                                  Value=slick_in$StateVar$Values,
+                                  Preset=list(),
+                                  Target=NULL,
+                                  Limit=NULL)
 
-  Timeseries(slick) <- Timeseries(Metadata=data.frame(Code=slick_in$StateVar$Codes,
-                                                    Label=slick_in$StateVar$Labels,
-                                                    Description=slick_in$StateVar$Description),
-                                Time=time_df,
-                                Value=slick_in$StateVar$Values)
+
 
   # Tradeoff
-  Tradeoff(slick) <- Tradeoff(Metadata=data.frame(Code=slick_in$Perf$Det$Codes,
-                                                  Label=slick_in$Perf$Det$Labels,
-                                                  Description=slick_in$Perf$Det$Description),
-                              Value=slick_in$Perf$Det$Values)
+  Tradeoff(slick) <- Tradeoff(Code=slick_in$Perf$Det$Codes,
+                              Label=slick_in$Perf$Det$Labels,
+                              Description=slick_in$Perf$Det$Description,
+                              Value=slick_in$Perf$Det$Values,
+                              Preset=list())
   slick
 }

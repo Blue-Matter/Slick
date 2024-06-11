@@ -42,7 +42,6 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
       'over'
     )
 
-
     Filter_Selected <- mod_Page_Filter_server("kobefilter",i18n, Slick_Object,
                                               slot='Kobe', minPM=1, FALSE,
                                               button_description='OM Filters',
@@ -87,6 +86,11 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
 
 
     output$page <- renderUI({
+      chk <- Check(filtered_slick())
+      if (chk@empty$Kobe) {
+        return(NULL)
+      }
+
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,

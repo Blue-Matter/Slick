@@ -25,6 +25,10 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
     ns <- session$ns
 
     output$page <- renderUI({
+      req(filtered_slick())
+      chk <- Check(filtered_slick())
+      if (chk@empty$Kobe) return(NULL)
+
       i18n <- i18n()
       tagList(
         fluidRow(
