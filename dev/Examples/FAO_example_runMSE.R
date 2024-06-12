@@ -29,6 +29,7 @@ all_MPs <- all_MPs[!grepl('ref', all_MPs)]
 all_MPs <- all_MPs[!grepl('DDSS', all_MPs)]
 all_MPs <- all_MPs[!grepl('SCA', all_MPs)]
 all_MPs <- all_MPs[!grepl('SSS', all_MPs)]
+all_MPs <- all_MPs[!grepl('Lratio', all_MPs)]
 
 Hist <- Simulate(OM, silent=TRUE)
 saveRDS(Hist, 'dev/Examples/Example_1.hist')

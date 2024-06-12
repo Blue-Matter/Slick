@@ -58,12 +58,12 @@ Slick is freely available [online](https://shiny.bluematterscience.com/app/slick
 
 ### Offline
 
-You can also run the App locally on your computer. To do so install the [R package](https://github.com/Blue-Matter/Slick) and use the `Slick()` function:
+You can also run the App locally on your computer. To do so install the [R package](https://github.com/Blue-Matter/Slick) and use the `ApP()` function:
 
 
 ```{r offline, eval=F}
 library(Slick)
-Slick()
+App()
 ```
 
 ## Reporting Issues and Bugs

@@ -47,7 +47,7 @@ print_metadata <- function(text, type='Code', heading='Multi-language list') {
 
 print_preset <- function(Preset) {
   if (length(Preset)<1) {
-    usethis::ui_line('None')
+    usethis::ui_line(c('{usethis::ui_code("Preset")}'))
 
   } else {
     print_metadata(Preset, type='Preset', heading=NULL)
@@ -64,11 +64,8 @@ print_errors <- function(object) {
       for (i in seq_along(object@errors)) {
         usethis::ui_oops(c(nms[i], object@errors[[i]]))
       }
-
-    } else {
-      usethis::ui_done('No errors')
     }
-  } else if (inherits(object@errors, 'list')) {
+  }else if (inherits(object@errors, 'list')) {
     for (i in seq_along(object@errors)) {
       object_names <- names(object@errors)
       usethis::ui_info('{usethis::ui_value(object_names[i])}')
@@ -77,31 +74,66 @@ print_errors <- function(object) {
         for (j in seq_along(object@errors[[i]])) {
           usethis::ui_oops(c(nms[j], object@errors[[i]][j]))
         }
-
-      } else {
-        usethis::ui_done('No errors')
       }
-
     }
-
   }
+}
 
+print_warnings <- function(object) {
+  if (inherits(object@warnings, 'logical')) {
+    if (length(object@warnings)>0) {
+      nms <- names(object@warnings)
+      for (i in seq_along(object@warnings)) {
+        usethis::ui_oops(c(nms[i], object@warnings[[i]]))
+      }
+    }
+  }else if (inherits(object@warnings, 'list')) {
+    object_names <- names(object@warnings)
+    for (i in seq_along(object@warnings)) {
+      if (length(object_names[i])>0)
+        usethis::ui_info('{usethis::ui_value(object_names[i])}')
+      if (length(object@warnings[[i]])>0) {
+        nms <- names(object@warnings[[i]])
+        for (j in seq_along(object@warnings[[i]])) {
+          usethis::ui_oops(c(nms[j], object@warnings[[i]][j]))
+        }
+      }
+    }
+  }
 }
 
 
-
+# show method ----
 setMethod('show', 'CheckList', function(object) {
 
-
   usethis::ui_info('Checking: {usethis::ui_value(object@object)}')
-  # Errors
-  print_errors(object)
+  if (object@empty) {
+    usethis::ui_line('Object is empty')
+  } else {
+    # Errors
+    print_errors(object)
 
-  # Warnings
+    # Warnings
+    print_warnings(object)
 
-  # Messages
+    # Messages
 
-  # Status
+    # Status
+    if (object@complete) {
+      usethis::ui_done('Complete')
+    } else {
+      if (length(object@errors)>0) {
+        usethis::ui_oops('Errors in object')
+      } else if (!object@complete) {
+        usethis::ui_oops('Object incomplete')
+      }
+
+
+    }
+
+
+  }
+
 })
 
 
@@ -183,11 +215,18 @@ check_metadata <- function(object) {
   lDescription <- length(object@Description)
 
   if (sum(c(lCode, lLabel, lDescription)>1)>1) {
-    if (any(c(lCode != lLabel,
-              lLabel != lLabel,
-              lCode != lLabel))) {
-      out$Metadata <- '`Code`, `Label`, and `Description` must be equal length'
+    if (any(nchar(object@Description) >0)) {
+      if (any(c(lCode != lLabel,
+                lLabel != lDescription,
+                lCode != lDescription))) {
+        out$Metadata <- '`Code`, `Label`, and `Description` must be equal length'
+      }
+    } else {
+      if (any(c(lCode != lLabel))) {
+        out$Metadata <- '`Code`, and `Label` must be equal length'
+      }
     }
+
   }
   out
 }

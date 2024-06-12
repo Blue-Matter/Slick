@@ -7,10 +7,10 @@
 #' object can be accessed and assigned using functions corresponding to slot name.
 #' See [MPs()] and the the `See Also` section below.
 #'
-#' @slot Code `r code_MP_param()`
-#' @slot Label `r label_MP_param() `
+#' @slot Code `r code_MP_param()` *Required*
+#' @slot Label `r label_MP_param()` *Required*
 #' @slot Description `r description_MP_param()`
-#' @slot Color A character vector of colors for the MPs.
+#' @slot Color A character vector of colors for the MPs. Defaults will be used if not populated
 #' @slot Preset `r preset_param()`
 #'
 #' @details
@@ -101,7 +101,16 @@ setMethod('Check', 'MPs', function(object, skip_warnings) {
   if (ll@empty) return(ll)
   ll@empty <- FALSE
 
+  # check metadata errors
   ll@errors <- append(ll@errors, check_metadata(object))
+
+  # check metadata complete
+  if (any(nchar(object@Code)<1))
+    ll@warnings <- append(ll@warnings, '`Code` is required')
+
+  if (any(nchar(object@Label)<1))
+    ll@warnings <- append(ll@warnings, '`Label` is required')
+
 
   nMPs <- max(length(object@Code),
               length(object@Label),
@@ -115,7 +124,7 @@ setMethod('Check', 'MPs', function(object, skip_warnings) {
     # Preset <- object@Preset
   }
 
-  if (length(ll@errors)<1)
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
     ll@complete <- TRUE
 
   ll
@@ -232,6 +241,9 @@ setMethod("show", "MPs", function(object) {
   print_metadata(object@Label, 'Label')
   cat('\n')
   print_metadata(object@Description, 'Description')
+
+  cat('\n')
+  print_metadata(object@Color, 'Color')
 
   # Preset
   cat('\n')

@@ -122,6 +122,9 @@ df <- data.frame(x=pgk@Mean, y=lty@Mean, MP=pgk@MPs)
 library(ggplot2)
 library(ggrepel)
 
+df <- df |> dplyr::filter(x>0.60, x<0.7) |>
+  dplyr::arrange(y)
+
 ggplot(df, aes(x=x, y=y, color=MP)) +
   geom_point() +
   ggrepel::geom_label_repel(aes(label=MP)) +
@@ -133,7 +136,7 @@ ggplot(df, aes(x=x, y=y, color=MP)) +
 # Select 3 MPs
 MSE@MPs |> sort()
 
-MP_select <- c('SPmod', 'Itarget1', 'SPSRA')
+MP_select <- c('SPmod', 'Itarget1', 'DAAC')
 
 
 df <- data.frame(x=pgk@Mean, y=lty@Mean, MP=pgk@MPs)
@@ -171,10 +174,10 @@ It is designed to demonstrate some of the features of Slick. See the [Slick Webs
 
 MPs <- MPs()
 
-Metadata(MPs) <- data.frame(Code=MSE@MPs,
-                            Label=c('Surplus Production Slope',
-                                    'Incremental Index Target',
-                                    'SP Stock Reduction Analysis'),
+Metadata(MPs) <- data.frame(Code=c('MP 1',
+                                   'MP 2',
+                                   'MP 3'),
+                            Label=c('MP 1', 'MP 2', 'MP 3'),
                             Description=c('A model-free method where the TAC is incrementally adjusted based on the estimated trend in surplus production.',
                                           'A model-free method where the TAC is incrementally adjusted (starting from reference level that is a fraction of mean recent catches) to reach a index level.',
                                           'A surplus production stock reduction analysis that uses a demographically derived prior for intrinsic rate of increase.'
@@ -295,9 +298,13 @@ apply(MSE@Catch[,1,], 2, median)
 apply(MSE@Catch[,2,], 2, median)
 apply(MSE@Catch[,3,], 2, median)
 
+MSE@Catch[,3,1]
+
 p1 <- plotTimeseries(slick, size.axis.title = 8, size.axis.text = 8)
 p2 <- plotTimeseries(slick, 2,size.axis.title = 8, size.axis.text = 8)
 time_series <- cowplot::plot_grid(p1, p2, nrow=1)
+
+time_series
 
 ggsave('dev/Examples/time_series.png', time_series, width=6.2, height=3)
 

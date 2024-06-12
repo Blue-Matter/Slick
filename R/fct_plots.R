@@ -56,6 +56,7 @@ colorRampAlpha <- function(..., n, alpha) {
 #' @param size.title Numeric length 1. Size for plot title
 #' @param size.axis.title Numeric length 1. Size for axis title
 #' @param size.axis.text Numeric length 1. Size for axis text
+#' @param size.mp.label Numeric length 1. Size of MP labels. Set to NULL for no MP labels
 #' @param targ_color Color for the target line (if it exists in `Target(Timeseries(slick))`)
 #' @param targ_name Label for the target line
 #' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
@@ -207,11 +208,16 @@ plotTimeseries <- function(slick,
       ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
       ggplot2::scale_color_manual(values=MP_colors) +
       ggplot2::guides(color='none')
-      # ggrepel::geom_text_repel(data=meddf_last,
-      #                          ggplot2::aes(x=x, y=Median,
-      #                                       label=MP),
-      #                          color=MP_colors,
-      #                          size=size.mp.label)
+
+    if (!is.null(size.mp.label)) {
+      p <- p + ggrepel::geom_text_repel(data=meddf_last,
+                                        ggplot2::aes(x=x, y=Median,
+                                                     label=MP),
+                                        color=MP_colors,
+                                        size=size.mp.label,
+                                        min.segment.length=2)
+    }
+
   }
 
 
