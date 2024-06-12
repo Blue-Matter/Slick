@@ -188,7 +188,7 @@ setMethod("Metadata<-", "Tradeoff", function(object, value) {
 
 # ---- Check ----
 #' @describeIn Check Check [Tradeoff-class()] objects for errors
-setMethod('Check', 'Tradeoff', function(object, skip_warnings) {
+setMethod('Check', 'Tradeoff', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

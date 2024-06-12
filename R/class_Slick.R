@@ -214,7 +214,7 @@ setMethod("Timeseries<-","Slick",function(Slick, value) {
 
 ## ---- Check ----
 #' @describeIn Check Check [Slick-class()] objects for errors
-setMethod('Check', 'Slick', function(object, skip_warnings) {
+setMethod('Check', 'Slick', function(object) {
 
   ll <- CheckList()
   ll@object <- 'Slick'

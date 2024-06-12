@@ -62,7 +62,9 @@ setMethod("initialize", "OMs", function(.Object,
 ## ---- Validate ----
 
 validOMs <- function(object) {
-  TRUE
+  chk <- Check(object)
+  if (chk@empty) return(TRUE)
+  if (length(chk@errors)>0) return(chk@errors)
 }
 
 setValidity('OMs', validOMs)
@@ -121,10 +123,12 @@ setMethod("Preset<-", "OMs", function(object, value) {
 })
 
 
+
+
 ## ---- Check ----
 
 #' @describeIn Check Check [OMs-class()] objects for errors
-setMethod('Check', 'OMs', function(object, skip_warnings) {
+setMethod('Check', 'OMs', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)
@@ -133,22 +137,29 @@ setMethod('Check', 'OMs', function(object, skip_warnings) {
   if (ll@empty) return(ll)
   ll@empty <- FALSE
 
-  # ll@errors <- append(ll@errors, check_metadata(object))
-  #
-  # nOM <- max(length(object@Code),
-  #             length(object@Label),
-  #             length(object@Description)
-  # )
-  #
-  #
-  # if (nMPs>0) {
-  #   # check numbers and names
-  #   ll@errors <- append(ll@errors, check_Preset(object@Preset, nMPs))
-  #   Preset <- object@Preset
-  # }
-  #
-  # if (length(ll@errors)<1)
-  #   ll@complete <- TRUE
+  # check Factors
+  ll@errors <- append(ll@errors, check_factors(object))
+
+  if (is.list(object@Factors) & !is.data.frame(object@Factors)) {
+    if (length(object@Factors)<1) {
+      ll@warnings  <- append(ll@warnings, '`Factors` required')
+    } else {
+      if (nrow(object@Factors[[1]])<1)
+        ll@warnings  <- append(ll@warnings, '`Factors` required')
+    }
+  } else {
+    if (nrow(object@Factors)<1)
+      ll@warnings  <- append(ll@warnings, '`Factors` required')
+  }
+
+  # check Design
+  ll@errors <- append(ll@errors, check_design(object))
+  if (nrow(object@Design)<1)
+      ll@warnings  <- append(ll@warnings, '`Design` required')
+
+
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
+    ll@complete <- TRUE
 
   ll
 })
@@ -156,5 +167,16 @@ setMethod('Check', 'OMs', function(object, skip_warnings) {
 
 
 
-## ---- Show ----
+## Show ----
+
+#' @describeIn OMs Show objects of class `OMs`
+#' @export
+setMethod("show", "OMs", function(object) {
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
+    print_errors(chk)
+  print_factors(object@Factors)
+  print_design(object@Design)
+  print_preset(object@Preset)
+})
 

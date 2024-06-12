@@ -273,7 +273,7 @@ setMethod("Metadata<-", "Kobe", function(object, value) {
 
 # Check ----
 #' @describeIn Check Check [Kobe-class()] objects for errors
-setMethod('Check', 'Kobe', function(object, skip_warnings) {
+setMethod('Check', 'Kobe', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

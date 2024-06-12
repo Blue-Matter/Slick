@@ -115,7 +115,7 @@ setMethod("Timeseries", c('list'),
 
 ## Check ----
 #' @describeIn Check Check [Timeseries-class()] objects for errors
-setMethod('Check', 'Timeseries', function(object, skip_warnings) {
+setMethod('Check', 'Timeseries', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

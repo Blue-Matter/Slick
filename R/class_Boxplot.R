@@ -92,7 +92,7 @@ setMethod("Boxplot", 'character_list',
 ## Check ----
 
 #' @describeIn Check Check [Boxplot-class()] objects for errors
-setMethod('Check', 'Boxplot', function(object, skip_warnings) {
+setMethod('Check', 'Boxplot', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

@@ -74,10 +74,9 @@ setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 #' [OMs-class()] or the six chart types: [Boxplot-class()], [Kobe-class()],
 #' [Quilt-class()], [Spider-class()], [Timeseries-class()],
 #' and [Tradeoff-class()].
-#' @param skip_warnings Logical. Only report errors?
-#' @return A list if errors or warnings are found, or TRUE otherwise.
+#' @return Prints messages to the console
 #' @export
-setGeneric("Check", function(object, skip_warnings=FALSE) standardGeneric("Check"))
+setGeneric("Check", function(object) standardGeneric("Check"))
 
 
 # ---- Code ----

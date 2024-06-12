@@ -185,7 +185,7 @@ setMethod("Metadata<-", "Spider", function(object, value) {
 ## ---- Check ----
 
 #' @describeIn Check Check [Spider-class()] objects for errors
-setMethod('Check', 'Spider', function(object, skip_warnings) {
+setMethod('Check', 'Spider', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

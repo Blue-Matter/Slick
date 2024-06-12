@@ -265,7 +265,7 @@ setMethod("Metadata<-", "Quilt", function(object, value) {
 
 # Check ----
 #' @describeIn Check Check [Quilt-class()] objects for errors
-setMethod('Check', 'Quilt', function(object, skip_warnings) {
+setMethod('Check', 'Quilt', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)

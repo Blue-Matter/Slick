@@ -92,7 +92,7 @@ setMethod("MPs", c('character_list'),
 
 ## Check ----
 #' @describeIn Check Check [MPs-class()] objects for errors
-setMethod('Check', 'MPs', function(object, skip_warnings) {
+setMethod('Check', 'MPs', function(object) {
 
   ll <- CheckList()
   ll@object <- class(object)
@@ -223,36 +223,14 @@ setMethod("Color<-", "MPs", function(object, value) {
 #' @describeIn MPs Show objects of class `MPs`
 #' @export
 setMethod("show", "MPs", function(object) {
-  chk <- Check(object)
-
-  if (chk@empty) {
-    usethis::ui_info('An empty object of class {usethis::ui_value(class(object))}')
-  } else {
-    usethis::ui_info('An object of class {usethis::ui_value(class(object))}')
-  }
-
-  if (length(chk@errors)>0) {
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
     print_errors(chk)
-  }
-
-  cat('\n')
   print_metadata(object@Code)
-  cat('\n')
   print_metadata(object@Label, 'Label')
-  cat('\n')
   print_metadata(object@Description, 'Description')
-
-  cat('\n')
   print_metadata(object@Color, 'Color')
-
-  # Preset
-  cat('\n')
   print_preset(object@Preset)
-
-
-
-
-
 })
 
 
