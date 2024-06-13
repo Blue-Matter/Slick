@@ -34,8 +34,8 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     })
 
     Filter_Selected <- mod_Page_Filter_server("quiltfilter",i18n, Slick_Object,
-                                              slot='Quilt', minPM=2, incIcons=FALSE,
-                                              home_session=home_session)
+                                               slot='Quilt', minPM=2, incIcons=FALSE,
+                                               home_session=home_session)
 
     quilt_slick <- reactiveVal()
 
@@ -78,6 +78,9 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
 
 
     output$page <- renderUI({
+      req(Slick_Object())
+      chk <- Check(Slick_Object())
+      if (chk@empty$Quilt) return(NULL)
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,
@@ -129,7 +132,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     output$colorpickerselect <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
-      cols <- Colors(Quilt(slick))
+      cols <- Color(Quilt(slick))
 
       tagList(
         colourpicker::colourInput(ns('highcolor'),
@@ -145,7 +148,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
       newcols <- c(input$highcolor, input$lowcolor)
       slick <- filtered_slick()
       quilt <- Quilt(slick)
-      Colors(quilt) <- newcols
+      Color(quilt) <- newcols
       Quilt(slick) <- quilt
       quilt_slick(slick)
     })
@@ -189,7 +192,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     })
 
     colors <- reactive({
-      filtered_slick() |> Quilt() |> Colors()
+      filtered_slick() |> Quilt() |> Color()
     })
 
     highcolorstyle <- reactive({

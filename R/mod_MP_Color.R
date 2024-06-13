@@ -66,8 +66,7 @@ mod_MP_Color_server <- function(id, i18n, slick){
                  )
 
     mp_cols_default <- reactive({
-      metadata <- slick() |> MPs() |> Metadata()
-      metadata$Color
+      slick() |> MPs() |> Color()
     })
 
     mp_metadata_all <- reactive({
@@ -94,9 +93,10 @@ mod_MP_Color_server <- function(id, i18n, slick){
 
     palette_list <- reactive({
       ll <- list()
-      palettes <- c('Default', 'ArmyRose', 'Earth', 'Fall', 'Geyser', 'TealRose', 'Temps', 'Tropic')
+      palettes <- c('Default', 'Pastel1', 'Dark2', 'Dark3', 'Set2', 'Set3', 'Warm',
+                    'Cold', 'Harmonic', 'Dynamic')
       for (l in 2:length(palettes)) {
-        ll[[l]] <- colorspace::divergex_hcl(nMPs(), palettes[l])
+        ll[[l]] <- colorspace::qualitative_hcl(nMPs(), palettes[l])
       }
       ll[[1]] <- mp_cols_default()
       names(ll) <- palettes

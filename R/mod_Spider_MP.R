@@ -25,6 +25,11 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
     ns <- session$ns
 
     output$MP_Spider <- renderUI({
+      chk <- Check(filtered_slick())
+      if (chk@empty$Spider) {
+        return(NULL)
+      }
+
       i18n <- i18n()
       tagList(
         uiOutput(ns('overallscore')),

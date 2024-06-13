@@ -1,3 +1,28 @@
+filterOMs <- function(slick, Filter_Selected, input) {
+  keep <- array(T,dim(Design(slick)))
+  for(fac in 1:ncol(Design(slick))) {
+    design <- Design(OMs(slick))
+    design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],  function(x) {
+      x <- factor(x, ordered=TRUE, levels=unique(x))
+    })
+    design[] <- lapply(design,  as.numeric)
+    factor_numbers <- design[,fac]
+    factor_numbers <- as.numeric(factor(factor_numbers))
+    selected_factors <<- as.numeric(input[[paste0("filter",fac)]])
+    keep[,fac] <- factor_numbers%in% selected_factors
+
+  }
+
+
+
+  if (any(colSums(keep)==0)) {
+    # select all if none are selected
+    shinyjs::click('reset_button')
+  } else {
+    Filter_Selected$selected <- which(apply(keep,1,all))
+  }
+}
+
 updateCheckbox_OM <- function(object, preset=1) {
   factors <- colnames(Design(object))
   for(i in 1:length(factors)) {
@@ -8,7 +33,7 @@ updateCheckbox_OM <- function(object, preset=1) {
 }
 
 initial_selected_OM <- function(object, preset=1, factor=1, include_preset=TRUE) {
-  metadata <- Metadata(object)
+  metadata <- Factors(object)
   factors <- unique(metadata$Factor)
   metadata <- metadata |> dplyr::filter(Factor==factors[factor])
   presets <- Preset(object)
@@ -24,14 +49,6 @@ initial_selected_OM <- function(object, preset=1, factor=1, include_preset=TRUE)
   presets[[preset]][[factor]]
 }
 
-updateCheckbox_OM <- function(object, preset=1) {
-  factors <- colnames(Design(object))
-  for(i in 1:length(factors)) {
-    selected <- initial_selected_OM(object, preset, factor=i)
-    updateCheckboxGroupInput(inputId=paste0("filter",i),
-                             selected=selected)
-  }
-}
 
 
 #' om_selection UI Function
@@ -60,7 +77,9 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
     ns <- session$ns
 
     object <- reactive({
-      OMs(slick())
+      slick <- slick()
+      if (!is.null(slick))
+        OMs(slick())
     })
 
     presets <- reactive({
@@ -86,9 +105,22 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
     }, ignoreInit =TRUE)
 
 
-    metadata <- reactive({
-      Metadata(object(), i18n()$get_translation_language())
-    })
+    observeEvent(input[['preset5']],{
+      updateCheckbox_OM(object(), 5)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset6']],{
+      updateCheckbox_OM(object(), 6)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset7']],{
+      updateCheckbox_OM(object(), 7)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset8']],{
+      updateCheckbox_OM(object(), 8)
+    }, ignoreInit =TRUE)
+
 
     # preset buttons (if they exist) and an invisible reset button
     # resets if none are selected
@@ -119,11 +151,16 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
       )
     })
 
+    factors <- reactive({
+      req(object())
+      Factors(object())
+    })
     om_checkboxes <- reactive({
-      factors <- unique(metadata()$Factor)
+      req(object())
+      factors <- unique(factors()$Factor)
       if (length(factors)>0) {
         ll <- lapply(1:length(factors), function(i) {
-          levels <- metadata() |> dplyr::filter(Factor==factors[i]) |>
+          levels <- factors() |> dplyr::filter(Factor==factors[i]) |>
             dplyr::select(Level)
           checkboxGroupInput(ns(paste0("filter",i)),
                              label=factors[i],
@@ -166,7 +203,7 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
             filterOMs(slick, Filter_Selected, input)
           }, ignoreInit =TRUE)
         } else {
-          metadata <- Metadata(object())
+          metadata <- Design(object())
           keep <- rep(TRUE, nrow(metadata))
           keep <- 1:nrow(metadata) %in% input$filter1
           if (sum(keep)==0) {

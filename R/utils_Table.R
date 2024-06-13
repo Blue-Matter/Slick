@@ -28,7 +28,7 @@ tableMPs <- function(MPs, lang=NULL) {
 tableOMs <- function(OMs, lang, type='factor') {
 
   if (type=='factor') {
-    return(DT::datatable(Metadata(OMs, lang),
+    return(DT::datatable(Factors(OMs, lang),
                          extensions = 'Responsive',
                          selection='none',
                          options = list(dom = 't',
@@ -59,7 +59,6 @@ tableBoxplot <- function(boxplot, lang=NULL) {
 
 tableKobe <- function(kobe, lang=NULL) {
   df <- Metadata(kobe, lang)
-  df <- df |> dplyr::select(-Target)
   DT::datatable(df,escape=FALSE,
                 extensions = 'Responsive',
                 selection='none',
@@ -70,9 +69,7 @@ tableKobe <- function(kobe, lang=NULL) {
 
 
 tableQuilt <- function(quilt, lang=NULL) {
-
-  df <- Metadata(quilt, lang) |>
-    dplyr::select(-MinValue, -MaxValue)
+  df <- Metadata(quilt, lang)
   DT::datatable(df,
                 extensions = 'Responsive',
                 selection='none',
@@ -84,8 +81,7 @@ tableQuilt <- function(quilt, lang=NULL) {
 
 tableSpider <- function(spider, lang=NULL) {
 
-  df <- Metadata(spider, lang) |>
-    dplyr::select(-MinValue, -MaxValue)
+  df <- Metadata(spider, lang)
   DT::datatable(df,
                 extensions = 'Responsive',
                 selection='none',

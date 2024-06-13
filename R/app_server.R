@@ -1,4 +1,4 @@
-options(shiny.maxRequestSize=100*1024^2)
+options(shiny.maxRequestSize=200*1024^2)
 
 
 #' The application server-side
@@ -11,7 +11,6 @@ app_server <- function(input, output, session) {
 
   # helper
   shinyhelper::observe_helpers(help_dir=file.path(app_sys(), 'app/helpfiles'))
-
 
   # dimensions of the brower window
   window_dims <- reactive(input$dimension)
@@ -47,6 +46,13 @@ app_server <- function(input, output, session) {
   Load_Slick_File <- reactiveValues(loaded=FALSE, file=NULL)
   Global_Slick_Object <- reactiveVal()
   Slick_Object <- reactiveVal()
+
+  loaded_slick <- golem::get_golem_options('slick')
+  if (!is.null(loaded_slick)) {
+    slick <- check_slick_file(loaded_slick)
+    Global_Slick_Object(slick)
+    Load_Slick_File$loaded <- TRUE
+  }
 
 
   observeEvent(Global_Slick_Object(),
@@ -88,7 +94,7 @@ app_server <- function(input, output, session) {
   mod_Resources_server('resources', i18n)
 
   mod_About_server("about", i18n)
-  mod_Sidebar_server("sidebar", i18n, Load_Slick_File)
+  mod_Sidebar_server("sidebar", i18n, Load_Slick_File, Slick_Object)
   mod_Home_server("home", i18n, Load_Slick_File, Global_Slick_Object, Report)
 
   Filtered_Slick_Object <- mod_Global_Filters_server('filters', i18n, Global_Slick_Object, session)
@@ -124,5 +130,4 @@ app_server <- function(input, output, session) {
   mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report, session)
 
   waitress$close()
-
 }

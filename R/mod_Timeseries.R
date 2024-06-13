@@ -173,7 +173,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       selected <- as.numeric(input$selectSV)
       if (length(selected)<1)
         selected <- 1
-      quantile(val[,,,selected,], 0.95)
+      quantile(val[,,,selected,], 0.95, na.rm=TRUE)
     })
 
     ymax <- reactive({
@@ -249,7 +249,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
           i18n$t('management procedures and'), nOM(), i18n$t('individual Operating Models.')),
         p(i18n$t('The results are shown for 1 operating model at a time, either as the median across'), nsim(),
           i18n$t('simulations, or for a specific simulation.')),
-        p(i18n$t('Click the “Operating Model” dropdown in the top menu for details of each OM.'))
+        p(i18n$t('Click the "Operating Model" dropdown in the top menu for details of each OM.'))
         # p('Target and limit reference points are shown in green and red, respectively, if they have been specified.'),
       )
     })

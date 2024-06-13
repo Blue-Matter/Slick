@@ -146,11 +146,10 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       if (dd[2]==nOM()) {
 
         for (i in 1:nOM()) {
-          plot_list[[i]] <- Timeseries_plot(timeseries(),
+          plot_list[[i]] <- plotTimeseries(timeseries(),
                                             pm_ind(),
-                                            mp_ind=NULL,
-                                            i,
-                                            sims=NULL)
+                                            MP_ind=NULL,
+                                            i)
         }
       }
       plot_list

@@ -1,120 +1,283 @@
+# ---- Class ----
 
-#' MPs S4 class and functions
+#' `MPs` S4 class and functions
 #'
-#' An `MPs` object contains information about the management procedures (MPs)
-#' in the [Slick()] object.
+#' An object of class `MPs` contains information about the management procedures (MPs)
+#' in a [Slick-class()] object. Like all S4 objects in `Slick`, slots in this
+#' object can be accessed and assigned using functions corresponding to slot name.
+#' See [MPs()] and the the `See Also` section below.
 #'
-#' @slot Metadata A data.frame with a specific structure, describing the details of the management procedures. See `Details` section.
-#' @slot Preset An optional named list of preset buttons for filters in the [App()]. See `Details` section.
+#' @slot Code `r code_MP_param()` *Required*
+#' @slot Label `r label_MP_param()` *Required*
+#' @slot Description `r description_MP_param()`
+#' @slot Color A character vector of colors for the MPs. Defaults will be used if not populated
+#' @slot Preset `r preset_param()`
 #'
 #' @details
 #'
-#' ### Metadata
-#' The `Metadata` data.frame must have n MPs rows and the following columns:
-#'    - Code: A short character string for identifying the MPs. Used in the [App()] in places
-#'    where there is no room for a full label.
-#'    - Label: A long character string (one word or max two words) for identifying the MPs.
-#'    - Description: A longer character string providing a description of the MPs.
-#'    - Color: A character vector with the colors to use to display the MPs in the [App()]. Optional.
-#'    If not provided, the App will try to set some sensible colors.
+#' Objects of class `MPs` are created with `MPs()`
 #'
-#' For multi-language support, the `Metadata` slot can be populated with a named
-#' list: names `en`, `es`, and `fr` for English, Spanish, and French respectively.
-#' The data.frame within each list element must have identical structure; i.e., the same number of rows
-#' and the column names in each list element must be identical.
+#' ## Multi-Language Support
+#' Text with multi-language supported can be provided as a named list. Available languages:
+#' - `en`: English (default)
+#' - `es`: Spanish
+#' - `fr`: French
 #'
-#' The Metadata slot is accessed with `Metadata(MPs)` and modified with `Metadata(MPs) <- data.frame()`
+#' ## Note
+#' Character strings in `Code`, `Label`, and `Description` must all be same length
+#' as the number of management procedures (`nMPs`) in the plot objects `Boxplot`,
+#' `Kobe`, `Quilt`, `Spider`, `Timeseries`, and `Tradeoff`.
 #'
-#' ### Preset
-#' The `Preset` slot is an optional named list to add preset buttons for the Management
-#' Procedure filters in the [App()]. The name of the list element will appear as a button
-#' in the [App()]. Each list element should contain numeric values specifying the MPs to include.
-#' The values must be <= n MPs.
-#'
-#' The Preset slot is accessed with `Preset(MPs)` and modified with `Preset(MPs) <- `list()`
 #'
 #' @example inst/examples/MPs.R
+#' @seealso [Code()], [Label()], [Description()], [Preset()]
+#' @export
 setClass("MPs",
-                slots=c(Metadata='dataframe_list',
-                        Preset='list'
-                )
+         slots=c(Code='character_list',
+                 Label='character_list',
+                 Description='character_list',
+                 Color='character',
+                 Preset='list'
+         )
 )
 
-check_mps_dataframe <- function(df) {
-  if (nrow(df)>0) {
-    nms <- names(df)
-    if (!all(c('Code', 'Label', 'Description') %in% nms)) {
-      return('Metadata must be a data.frame with columns: Code, Label, and Description')
-    }
-  }
 
-}
+setMethod("initialize", "MPs", function(.Object,
+                                        Code='',
+                                        Label='',
+                                        Description='',
+                                        Color='',
+                                        Preset=list()) {
+  .Object@Code <- Code
+  .Object@Label <- Label
+  .Object@Description <- Description
+  if (all(nchar(Color)==0) & length(Code)>1) {
+    nMP <- length(Code)
+    Color <- default_mp_colors(nMP)
+  }
+  .Object@Color <- Color
+  .Object@Preset <- Preset
+  methods::validObject(.Object)
+  .Object
+})
+
+## Validate ----
 
 validMPs <- function(object) {
-  df <- object@Metadata
 
-  if (inherits(df, 'data.frame')) {
-    nMPs <- nrow(df)
-    check_mps_dataframe(df)
-  } else if (inherits(df, 'list')) {
-    chk <- lapply(df, check_mps_dataframe) |> unlist()
-    if (!is.null(chk))
-      return(chk)
-    nMPs <- lapply(df, nrow) |> unlist()
-    if (!all(nMPs==nMPs[1]))
-      return('Different number of MPs in the named list')
-  }
 
-  # TODO - check preset
-  nmps <- max(nMPs)
-  pr <- Preset(object)
-  if (length(pr)>0) {
-    pr_max <- lapply(pr, max) |> unlist() |> max()
-    if (pr_max>nmps)
-      return('Preset is incorrect. Cannot have values large than nMPs')
-  }
+  chk <- Check(object)
+  if (chk@empty) return(TRUE)
+  if (length(chk@errors)>0) return(chk@errors)
+
 
   TRUE
 }
 
 setValidity('MPs', validMPs)
 
-showMPs <- function(MPs) {
-  cat('An object of class `MPs` \n\n')
-  mps <- Metadata(MPs)
-  cat('Metadata:\n')
-  print(mps)
-  pr <- Preset(MPs)
-  cat('\nPreset:')
-  if (length(pr)<1) {
-    cat(' None')
-  } else {
-    cat('\n')
-    print(Preset(MPs))
+
+
+# Methods ----
+
+#' @describeIn MPs-methods Create an empty `MPs` object
+setMethod("MPs", 'missing', function() new('MPs'))
+
+#' @describeIn MPs-methods Create a populated `MPs` object
+setMethod("MPs", c('character_list'),
+          function(Code, Label, Description, Color, Preset)
+            new('MPs', Code, Label, Description, Color, Preset))
+
+
+
+## Check ----
+#' @describeIn Check Check [MPs-class()] objects for errors
+setMethod('Check', 'MPs', function(object) {
+
+  ll <- CheckList()
+  ll@object <- class(object)
+
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
+
+  # check metadata errors
+  ll@errors <- append(ll@errors, check_metadata(object))
+
+  # check metadata complete
+  if (any(nchar(object@Code)<1))
+    ll@warnings <- append(ll@warnings, '`Code` is required')
+
+  if (any(nchar(object@Label)<1))
+    ll@warnings <- append(ll@warnings, '`Label` is required')
+
+
+  nMPs <- max(length(object@Code),
+              length(object@Label),
+              length(object@Description)
+              )
+
+
+  if (nMPs>0) {
+    # check numbers and names
+    #ll@errors <- append(ll@errors, check_Preset(object@Preset, nMPs))
+    # Preset <- object@Preset
   }
 
-}
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
+    ll@complete <- TRUE
 
-# initialize ----
-setMethod("initialize", "MPs", function(.Object,
-                                        Metadata=NULL,
-                                        Preset=NULL) {
-
-  if (!is.null(Metadata)) {
-    .Object@Metadata <- Metadata
-  }
-
-  if (!is.null(Preset)) {
-    .Object@Preset <- Preset
-  }
-
-  .Object
+  ll
 })
 
-newMPs <- function(Metadata=NULL,
-                   Preset=NULL) {
-  new('MPs', Metadata, Preset)
-}
+
+## Code ----
+
+
+#' @describeIn Code Return `Code` from a [MPs-class()] object
+setMethod("Code", 'MPs', function(object, lang='en') {
+  get_language(object@Code, lang)
+})
+
+
+#' @describeIn Code Assign `Code` to a [MPs-class()] object
+setMethod("Code<-", 'MPs', function(object, value) {
+  object@Code <- value
+
+  # add default colors
+  if (any(nchar(object@Code))>0) {
+    if (any(nchar(object@Color))<1) {
+      object@Color <- default_mp_colors(length(object@Code))
+    }
+  }
+
+  methods::validObject(object)
+  object
+})
+
+## Label ----
+
+#' @describeIn Code Return `Label` from a [MPs-class()] object
+setMethod("Label", 'MPs', function(object, lang='en') {
+  get_language(object@Label, lang)
+})
+
+
+#' @describeIn Code Assign `Label` to a [MPs-class()] object
+setMethod("Label<-", 'MPs', function(object, value) {
+  object@Label <- value
+  methods::validObject(object)
+  object
+})
+
+## Description ----
+
+#' @describeIn Code Return `Description` from a [MPs-class()] object
+setMethod("Description", 'MPs', function(object, lang='en') {
+  get_language(object@Description, lang)
+})
+
+
+#' @describeIn Code Assign `Description` to a [MPs-class()] object
+setMethod("Description<-", 'MPs', function(object, value) {
+  object@Description <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+## Preset ----
+
+#' @describeIn Preset Return `Preset` from a [MPs-class()] object
+setMethod("Preset", 'MPs', function(object) {
+  object@Preset
+})
+
+#' @describeIn Preset Assign `Preset` to a [MPs-class()] object
+setMethod("Preset<-", "MPs", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Preset <- value
+  methods::validObject(object)
+  object
+})
+
+
+## Color ----
+#' @describeIn Color Return `Color` from a [MPs-class()] object
+setMethod("Color", 'MPs', function(object) {
+  object@Color
+})
+
+#' @describeIn Color Preset Assign `Color` to a [MPs-class()] object
+setMethod("Color<-", "MPs", function(object, value) {
+  object@Color <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+## Show ----
+
+#' @describeIn MPs Show objects of class `MPs`
+#' @export
+setMethod("show", "MPs", function(object) {
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
+    print_errors(chk)
+  print_metadata(object@Code)
+  print_metadata(object@Label, 'Label')
+  print_metadata(object@Description, 'Description')
+  print_metadata(object@Color, 'Color')
+  print_preset(object@Preset)
+})
+
+
+
+
+
+
+## Metadata ----
+
+#' @describeIn Metadata Return Metadata for [MPs-class()] objects
+#' @export
+setMethod('Metadata', 'MPs', function(object, lang='en') {
+  data.frame(Code=object@Code,
+             Label=get_language(object@Label, lang),
+             Description=get_language(object@Description, lang),
+             Color=object@Color)
+
+})
+
+
+#' @describeIn Metadata Assign Metadata for [MPs-class()] objects
+setMethod("Metadata<-", "MPs", function(object, value) {
+
+  names <- c('Code', 'Label', 'Description')
+  object <- check_assign_dataframe(object, names, value)
+  if (!is.null(value$Color)) {
+    object@Color <- value$Color
+  }
+  # add default colors
+  if (any(nchar(object@Code))>0) {
+    if (any(nchar(object@Color))<1) {
+      object@Color <- default_mp_colors(length(object@Code))
+    }
+  }
+
+  methods::validObject(object)
+  object
+})
+
+
+
+
+
+
+
+
+
 
 
 

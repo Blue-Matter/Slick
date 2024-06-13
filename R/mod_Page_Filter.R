@@ -25,12 +25,12 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-
     selected_mps <- mod_filter_selection_server("filter_mp", i18n, Slick_Object, slot='MPs',
                                                 minN=1, incIcons=incIcons,
                                                 icon=icon,
                                                 home_session=home_session)
     selected_oms <- mod_filter_selection_om_server("filter_om", i18n, Slick_Object)
+
     selected_pms <- mod_filter_selection_server("filter_pm", i18n, Slick_Object,
                                                 slot=slot, minN=minPM, incPM,
                                                 home_session=home_session)

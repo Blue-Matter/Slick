@@ -1,3 +1,21 @@
+get_language <- function(value, lang) {
+  if (is.null(lang))
+    return(value)
+
+  if (inherits(value, 'data.frame')) {
+    return(value)
+  }
+  if (inherits(value, 'list')) {
+    if (is.null(names(value)))
+      return(value)
+    if (!lang %in% names(value)) {
+      warning(lang, ' not found. Using default', call.=FALSE)
+      return(value[[1]])
+    }
+    return(value[[lang]])
+  }
+  value
+}
 
 
 na_if_empty <- function(val) {
@@ -25,3 +43,20 @@ roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10)) {
   if(length(x) != 1) stop("'x' must be of length 1")
   10^floor(log10(x)) * nice[[which(x <= 10^floor(log10(x)) * nice)[[1]]]]
 }
+
+check_assign_dataframe <- function(object, names, value) {
+  chk <- names %in% colnames(value)
+  missing <- names[!chk]
+  if (length(missing)>0)
+    stop(paste('`value` must be a data.frame with column names:',
+               paste(names, collapse=', ')), call. = FALSE)
+  for (nm in names) {
+    slot(object, nm) <- value[[nm]]
+  }
+  object
+}
+
+default_mp_colors <- function(nMP) {
+  colorspace::qualitative_hcl(nMP, 'Dark2')
+}
+

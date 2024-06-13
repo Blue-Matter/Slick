@@ -29,11 +29,13 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
     selected_quantile <- mod_Kobe_overall_server("Kobe_overall_1", i18n, filtered_slick,
                             plottype,
                             nOM, nMP, nPM, parent_session=session,
+                            xvar, yvar,
                             window_dims)
 
     mod_Kobe_time_server("Kobe_time_1", i18n, filtered_slick,
                          plottype,
                          nOM, nMP, nPM, parent_session=session,
+                         xvar, yvar,
                          window_dims)
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
@@ -41,7 +43,6 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
     OMtext <- reactive(
       'over'
     )
-
 
     Filter_Selected <- mod_Page_Filter_server("kobefilter",i18n, Slick_Object,
                                               slot='Kobe', minPM=1, FALSE,
@@ -87,6 +88,11 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
 
 
     output$page <- renderUI({
+      chk <- Check(filtered_slick())
+      if (chk@empty$Kobe) {
+        return(NULL)
+      }
+
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,
@@ -112,6 +118,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
                                                         uiOutput(ns('reading_time'))
 
                                        ),
+                                       uiOutput(ns('axis_choices')),
                                        mod_Page_Filter_ui(ns("kobefilter"))
                                 ),
                                 column(9,
@@ -127,6 +134,41 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
     })
 
 
+
+    Codes <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick)) {
+        slick@Kobe@Code
+      }
+
+    })
+
+    Choices <- reactive({
+      Code <- Codes()
+      ll <-  as.list(1:length(Code))
+      names(ll) <- Code
+      ll
+    })
+    output$axis_choices <- renderUI({
+      i18n <- i18n()
+      slick <- filtered_slick()
+      if (!is.null(slick)) {
+        tagList(
+          column(6,shiny::selectInput(ns('xchoice'), i18n$t('X Axis'), choices=Choices(), selected=1)),
+          column(6,shiny::selectInput(ns('ychoice'), i18n$t('Y Axis'), choices=Choices(), selected=2))
+        )
+      }
+    })
+
+    xvar <- reactive({
+      as.numeric(input$xchoice)
+    })
+
+    yvar <- reactive({
+      as.numeric(input$ychoice)
+    })
+
+
     output$reading_overall <- renderUI({
       i18n <- i18n()
       slick <- filtered_slick()
@@ -139,7 +181,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
       tagList(
         p(i18n$t('This chart compares trade-offs in'), nMP(),
           i18n$t(' management procedures for '), nOM(),
-          i18n$t(' operating models by measuring two co-dependent performance metrics: fishing mortality (vertical axis) and biomass (horizontal axis)')
+          i18n$t(' operating models by measuring two co-dependent performance metrics, typically a measure of fishing mortality (vertical axis) and biomass (horizontal axis)')
         ),
         p(
           HTML('<i class="fas fa-circle fa-sm"></i>'),

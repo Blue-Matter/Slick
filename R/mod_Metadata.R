@@ -7,6 +7,14 @@ get_authors <- function(slick) {
   authors
 }
 
+get_email <- function(slick) {
+  email <- Email(slick)
+  if (length(email)>1)
+    return(paste(paste0(1:length(email), '. ', email), collapse=', '))
+
+  email
+}
+
 get_institution <- function(slick) {
   institutions <- Institution(slick)
   if (length(institutions)>1)
@@ -76,11 +84,10 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
         strong(Subtitle(slick, i18n$get_translation_language())),
         p(strong(i18n$t('Created:')), Date(slick)),
         p(strong(i18n$t('Author:')), get_authors(slick)),
+        shiny::markdown(paste(i18n$t('**Email:**'), get_email(slick))),
         p(strong(i18n$t('Institution:')), get_institution(slick)),
         h4(strong(i18n$t('Summary'))),
         shiny::markdown((Introduction(slick, i18n$get_translation_language())))
-
-
       )
     })
 
@@ -103,41 +110,42 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       i18n <- i18n()
       linklist <- list()
 
-      if (length(Value(Boxplot(Slick_Object())))>0) {
+      if (!all(is.na(Value(Timeseries(slick))))) {
+        info <- list(p(actionLink(ns('timeseries'), 'Time Series: ', icon("chart-line-up-down")),
+                       i18n$t("Plots the time series of a user-specified variable (e.g., yield, biomass) during the historical period and the projection period for each management procedure.")
+        ))
+        linklist <- append(linklist, info)
+      }
+
+      if (!all(is.na(Value(Boxplot(slick))))) {
         info <- list(p(actionLink(ns('boxplot'), 'Boxplot: ', icon("fa-regular fa-chart-candlestick")),
                        i18n$t("A box plot, also called a box and whisker plot, displays the minimum, first quartile, median, third quartile, and maximum from a set of results. The boxplot tab includes an option to display the data as a violin plot, which is similar to a boxplot but also shows the density of data at different values.")
         ))
         linklist <- append(linklist, info)
       }
 
-      if (length(Value(Kobe(Slick_Object())))>0) {
+      if (!all(is.na(Value(Kobe(slick))))) {
         info <- list(p(actionLink(ns('kobe'), 'Kobe: ', icon("table-cells-large")),
                        i18n$t("A trade-off plot comparing the performance of MPs with respect to biomass (on the x-axis) and fishing mortality (on the y-axis).  The Kobe tab includes an option to display the data as a Kobe time plot, which shows the percentage of runs that fall in each of the Kobe quadrants in each projection year.")
         ))
         linklist <- append(linklist, info)
       }
 
-      if (length(Value(Quilt(Slick_Object())))>0) {
+      if (!all(is.na(Value(Quilt(slick))))) {
         info <- list(p(actionLink(ns('quilt'), 'Quilt: ', icon("table-cells")),
                   i18n$t('A table of performance indicators for each management procedure. Darker shading indicates better performance.')))
         linklist <- append(linklist, info)
       }
 
-      if (length(Value(Spider(Slick_Object())))>0) {
+      if  (!all(is.na(Value(Spider(slick))))) {
         info <- list(p(actionLink(ns('spider'), 'Spider: ', icon("fa-hexagon", class='fas')),
                        i18n$t("Also sometimes referred to as Radar charts or web diagrams, these plots show results for three or more performance indicators, each represented on an axis starting from the same center point.")
         ))
         linklist <- append(linklist, info)
       }
 
-      if (length(Value(Timeseries(Slick_Object())))>0) {
-        info <- list(p(actionLink(ns('timeseries'), 'Timeseries: ', icon("chart-line-up-down")),
-                       i18n$t("Plots the time-series of a user-specified variable (e.g., yield, biomass) during the historical period and the projection period for each management procedure.")
-        ))
-        linklist <- append(linklist, info)
-      }
 
-      if (length(Value(Tradeoff(Slick_Object())))>0) {
+      if (!all(is.na(Value(Tradeoff(slick))))) {
         info <- list(p(actionLink(ns('tradeoff'), 'Tradeoff: ', icon("chart-scatter")),
                        i18n$t('A scatter plot comparing two performance indicators.')))
         linklist <- append(linklist, info)

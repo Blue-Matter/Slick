@@ -53,8 +53,34 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     #   shiny::showModal(mod_Report_Add_ui(ns("Report_Add_1")))
     # })
 
+    selected_plotselect <- reactive({
+      slick <- Slick_Object()
+      selected <- 'overall'
+      if (!is.null(slick)) {
+        selected <- Defaults(Boxplot(slick))[[1]]
+        if (!selected %in% c('overall',  'byom'))
+          selected <- 'overall'
+      }
+      selected
+    })
+
+    selected_plot_type <- reactive({
+      slick <- Slick_Object()
+      selected <- 'boxplot'
+      if (!is.null(slick)) {
+        selected <- Defaults(Boxplot(slick))[[2]]
+        if (!selected %in% c('boxplot', 'violin', 'both'))
+          selected <- 'boxplot'
+      }
+      selected
+    })
+
     output$page <- renderUI({
       i18n <- i18n()
+      if(all(is.na(slick@Boxplot@Value))) {
+        return(tagList('No values in object'))
+      }
+
       tagList(
         shinydashboardPlus::box(width=12,
                                 status='primary',
@@ -69,10 +95,12 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                          choiceNames = c(i18n$t('Overall'),
                                                          i18n$t('By Operating Model')
                                          ),
-                                         choiceValues=c('overall',  'byom')
+                                         choiceValues=c('overall',  'byom'),
+                                         selected=selected_plotselect()
                                        )
                                 ),
                                 column(9,
+
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns('plottype'),
                                          choiceNames  = c(i18n$t('Boxplot'),
@@ -83,7 +111,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                            yes = tags$i(class = "fa fa-check-square",
                                                         style = "color: steelblue"),
                                            no = tags$i(class = "fa fa-square-o",
-                                                       style = "color: steelblue"))
+                                                       style = "color: steelblue")),
+                                         selected=selected_plot_type()
 
                                        )
                                 ),

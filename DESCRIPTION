@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Decision Analysis
-Version: 1.1.1
+Version: 1.0.9006
 Authors@R: c(
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
@@ -13,6 +13,7 @@ License: GPL-2
 Depends:
     R (>= 3.5.0)
 Imports:
+    cli,
     colorspace,
     colourpicker,
     config,
@@ -24,6 +25,7 @@ Imports:
     ggplot2,
     ggrepel,
     golem,
+    graphics,
     grDevices,
     methods,
     rmarkdown,
@@ -38,10 +40,14 @@ Imports:
     shinyhelper,
     shinyjs,
     shinyWidgets,
+    stats,
     tibble,
+    utils,
     waiter
 Suggests: 
     knitr,
+    MSEtool,
+    openMSE,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -53,28 +59,30 @@ Collate:
     'Slick_tools.R'
     'a_classunions.R'
     'a_imports.R'
-    'class_Timeseries.R'
-    'class_Tradeoff.R'
-    'class_Spider.R'
-    'class_Kobe.R'
-    'class_Boxplot.R'
-    'class_Quilt.R'
-    'class_OMs.R'
-    'class_MPs.R'
-    'class_Slick.R'
     'aa_generics.R'
     'app_config.R'
     'app_server.R'
     'app_ui.R'
-    'fct_Check.R'
+    'class_Boxplot.R'
+    'class_Check.R'
+    'class_Kobe.R'
+    'class_MPs.R'
+    'class_OMs.R'
+    'class_Quilt.R'
+    'class_Tradeoff.R'
+    'class_Timeseries.R'
+    'class_Spider.R'
+    'class_Slick.R'
     'fct_FilterSlick.R'
     'fct_Kobe_plot.R'
     'fct_Update.R'
+    'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
-    'fct_filters.R'
     'fct_plots.R'
     'fct_translator.R'
+    'make_Slick_old.R'
+    'man_functions.R'
     'misc.R'
     'mod_About.R'
     'mod_Boxplot.R'

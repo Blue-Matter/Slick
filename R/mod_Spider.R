@@ -56,6 +56,12 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
 
 
     output$page <- renderUI({
+
+      chk <- Check(filtered_slick())
+      if (chk@empty$Spider) {
+        return(NULL)
+      }
+
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,

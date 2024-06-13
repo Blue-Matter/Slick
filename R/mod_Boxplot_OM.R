@@ -92,6 +92,8 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     make_plots <- reactive({
       if (is.null(filtered_slick()))
         return(NULL)
+      if (is.na(nPM()))
+        return(NULL)
       dd <- filtered_slick() |> Boxplot() |> Value() |>
         dim()
       plot_list <- list()

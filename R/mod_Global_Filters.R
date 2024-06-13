@@ -10,22 +10,35 @@ filter_mps <- function(slick, mps) {
   Metadata(MPs(slick)) <- metadata[mps,]
 
   val <- slick |> Boxplot() |> Value()
-  Value(Boxplot(slick)) <- val[,,mps,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Boxplot(slick)) <- val[,,mps,,drop=FALSE]
+  }
+
 
   val <- slick |> Kobe() |> Value()
-  Value(Kobe(slick)) <- val[,,mps,,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Kobe(slick)) <- val[,,mps,,,drop=FALSE]
+  }
 
   val <- slick |> Quilt() |> Value()
-  Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
+  }
 
   val <- slick |> Spider() |> Value()
-  Value(Spider(slick)) <- val[,mps,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Spider(slick)) <- val[,mps,,drop=FALSE]
+  }
 
   val <- slick |> Timeseries() |> Value()
-  Value(Timeseries(slick)) <- val[,,mps,,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Timeseries(slick)) <- val[,,mps,,,drop=FALSE]
+  }
 
   val <- slick |> Tradeoff() |> Value()
-  Value(Tradeoff(slick)) <- val[,mps,,drop=FALSE]
+  if (!all(is.na(val))) {
+    Value(Tradeoff(slick)) <- val[,mps,,drop=FALSE]
+  }
 
   slick
 }
