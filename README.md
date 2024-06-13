@@ -42,5 +42,5 @@ from GitHub:
 # install.packages("remotes")
 remotes::install_github("Blue-Matter/Slick")
 library(Slick)
-Slick()
+App()
 ```
