@@ -286,7 +286,7 @@ quilt_kable <- function(Values, metadata_pm, cols) {
 
   for (i in 1:ncol(Values)) {
     minVal <- metadata_pm$MinValue[i]
-    maxVal <- max(metadata_pm$MaxValue[i], Values[,i])
+    maxVal <- max(metadata_pm$MaxValue[i], Values[,i], na.rm=TRUE)
 
     cuts <- seq(minVal, maxVal, by=0.1*maxVal)
     levels <- cut(Values[,i], breaks=cuts, include.lowest=TRUE) |> as.numeric()
@@ -337,14 +337,13 @@ quilt_DT <- function(Values, metadata_pm, cols) {
 
 plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
+  quilt <-  Quilt(slick)
 
-  quilt <<-  Quilt(slick)
-  MP_labels <<- MP_labels
-  kable <<- kable
+  # quilt <<-  Quilt(slick)
+  # MP_labels <<- MP_labels
+  # kable <<- kable
+  # lang=NULL
 
-  # MP_labels <- MP_labels
-  # lang <- lang
-  # kable <- kable
 
   Values <- Value(quilt) |>
     apply(2:3, median) |>
@@ -586,6 +585,7 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
   }
 
   par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
+
 
   for (i in 1:nMPs) {
     # draw blank shape

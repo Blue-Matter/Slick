@@ -20,6 +20,7 @@ mod_Kobe_overall_ui <- function(id){
 mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
                                     plottype,
                                     nOM, nMP, nPM, parent_session,
+                                    xvar, yvar,
                                     window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -59,7 +60,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       slick <- filtered_slick()
 
       Kobe_plot(slick,
-                xvar=1, yvar=2,
+                xvar=xvar(), yvar=yvar(),
                 ts=NA,
                 xmax=x_axis(),
                 ymax=y_axis(),

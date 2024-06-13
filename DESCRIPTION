@@ -13,6 +13,7 @@ License: GPL-2
 Depends:
     R (>= 3.5.0)
 Imports:
+    cli,
     colorspace,
     colourpicker,
     config,
@@ -24,6 +25,7 @@ Imports:
     ggplot2,
     ggrepel,
     golem,
+    graphics,
     grDevices,
     methods,
     rmarkdown,
@@ -38,10 +40,14 @@ Imports:
     shinyhelper,
     shinyjs,
     shinyWidgets,
+    stats,
     tibble,
+    utils,
     waiter
 Suggests: 
     knitr,
+    MSEtool,
+    openMSE,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -67,14 +73,15 @@ Collate:
     'class_Timeseries.R'
     'class_Spider.R'
     'class_Slick.R'
-    'fct_Design.R'
     'fct_FilterSlick.R'
     'fct_Kobe_plot.R'
     'fct_Update.R'
+    'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
     'fct_plots.R'
     'fct_translator.R'
+    'make_Slick_old.R'
     'man_functions.R'
     'misc.R'
     'mod_About.R'

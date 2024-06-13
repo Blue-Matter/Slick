@@ -15,36 +15,34 @@
 \alias{Check,Slick-method}
 \title{Check an object for errors or issues}
 \usage{
-Check(object, skip_warnings = FALSE)
+Check(object)
 
-\S4method{Check}{Boxplot}(object, skip_warnings = FALSE)
+\S4method{Check}{Boxplot}(object)
 
-\S4method{Check}{Kobe}(object, skip_warnings = FALSE)
+\S4method{Check}{Kobe}(object)
 
-\S4method{Check}{MPs}(object, skip_warnings = FALSE)
+\S4method{Check}{MPs}(object)
 
-\S4method{Check}{OMs}(object, skip_warnings = FALSE)
+\S4method{Check}{OMs}(object)
 
-\S4method{Check}{Quilt}(object, skip_warnings = FALSE)
+\S4method{Check}{Quilt}(object)
 
-\S4method{Check}{Tradeoff}(object, skip_warnings = FALSE)
+\S4method{Check}{Tradeoff}(object)
 
-\S4method{Check}{Timeseries}(object, skip_warnings = FALSE)
+\S4method{Check}{Timeseries}(object)
 
-\S4method{Check}{Spider}(object, skip_warnings = FALSE)
+\S4method{Check}{Spider}(object)
 
-\S4method{Check}{Slick}(object, skip_warnings = FALSE)
+\S4method{Check}{Slick}(object)
 }
 \arguments{
 \item{object}{An object of class: \code{\link[=Slick-class]{Slick-class()}}, \code{\link[=MPs-class]{MPs-class()}},
 \code{\link[=OMs-class]{OMs-class()}} or the six chart types: \code{\link[=Boxplot-class]{Boxplot-class()}}, \code{\link[=Kobe-class]{Kobe-class()}},
 \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}}, \code{\link[=Timeseries-class]{Timeseries-class()}},
 and \code{\link[=Tradeoff-class]{Tradeoff-class()}}.}
-
-\item{skip_warnings}{Logical. Only report errors?}
 }
 \value{
-A list if errors or warnings are found, or TRUE otherwise.
+Prints messages to the console
 }
 \description{
 Checks S4 objects to check for warnings and errors

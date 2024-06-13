@@ -28,6 +28,10 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
   x_targ <- targets[xvar]
   y_targ <- targets[yvar]
 
+  # currently hard-coded to 1
+  x_targ <- 1 #targets[xvar]
+  y_targ <- 1 # targets[yvar]
+
   mp_metadata <- slick |> MPs() |> Metadata()
   mp_names <- factor(mp_metadata$Code, ordered = TRUE, levels=mp_metadata$Code)
   values <- kobe |> Value()
@@ -141,6 +145,10 @@ Kobe_time_plot <- function(slick, mp=1, xvar=1, yvar=2) {
     targets <- rep(targets, 2)
   x_targ <- targets[xvar]
   y_targ <- targets[yvar]
+
+  # hard coded for now
+  x_targ <- 1 #targets[xvar]
+  y_targ <- 1 # targets[yvar]
 
   values <- kobe |> Value()
 

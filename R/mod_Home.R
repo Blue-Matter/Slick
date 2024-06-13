@@ -136,16 +136,18 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
     })
 
-
-    loaded_slick <- reactiveVal()
-
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
-
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
           File <- case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)]
           slick <- readRDS(app_sys(paste0(File, '.rda')))
-          check_slick_file(slick)
+          slick <- check_slick_file(slick)
+          Slick_Object(slick)
+
+          # jump to metadata tab
+          shinyjs::delay(10,
+                         shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+          )
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
           slick <- try(readRDS(Load_Slick_File$file$datapath))
@@ -154,48 +156,17 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                    'Could not import file. Is it a Slick object created with `saveRDS?`',
                                    type='error')
           } else {
-            check_slick_file(slick)
+            slick <- check_slick_file(slick)
+            Slick_Object(slick)
+
+            # jump to metadata tab
+            shinyjs::delay(10,
+                           shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+            )
           }
         }
       }
     })
-
-    check_slick_file <- function(slick) {
-      if (!inherits(slick, 'Slick')) {
-        shinyalert::shinyalert('Incorrect File Type',
-                               'The loaded file is not a Slick object',
-                               type='error')
-        return(NULL)
-      }
-
-      # update
-      if (!isS4(slick))
-        slick <- Update(slick)
-
-      # check
-      # TODO update
-      check <- try(Check(slick))
-
-      if (inherits(check, 'try-error')) {
-        shinyalert::shinyalert('Invalid Slick object',
-                               'Use `Check(`slick_object`)` to see the errors',
-                               type='error')
-      }
-
-      # set MP colors
-      if (any(nchar(slick@MPs@Color)<2)) {
-        nMPs <- length(slick@MPs@Code)
-        Color(slick@MPs) <- default_mp_colors(nMPs)
-      }
-      Slick_Object(slick)
-
-      # jump to metadata tab
-      shinyjs::delay(10,
-                     shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
-      )
-
-    }
-
 
   })
 }

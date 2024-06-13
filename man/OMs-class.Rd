@@ -3,7 +3,11 @@
 \docType{class}
 \name{OMs-class}
 \alias{OMs-class}
+\alias{show,OMs-method}
 \title{\code{OMs} S4 class and functions}
+\usage{
+\S4method{show}{OMs}(object)
+}
 \description{
 An object of class \code{OMs} contains information about the operating models (MPs)
 in the \code{\link[=Slick]{Slick()}} object. Like all S4 objects in \code{Slick}, slots in this
@@ -36,6 +40,11 @@ either be \code{numeric} values indicating the levels for the corresponding fact
 or the actual level values (i.e., \code{Factors$Level}) that correspond to each OM. See \code{Examples}.
 }
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{show(OMs)}: Show objects of class \code{OMs}
+
+}}
 \section{Slots}{
 
 \describe{

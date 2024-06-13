@@ -89,7 +89,7 @@ MSE_1 <- runMSE(OM_1,
 
 A second OM 
 
-```{r simMSE1, message=FALSE, warning=FALSE, cache=TRUE}
+```{r simMSE2, message=FALSE, warning=FALSE, cache=TRUE}
 
 OM_2 <- OM_1
 OM_2@M <- OM_1@M * 0.75
@@ -103,7 +103,7 @@ MSE_2 <- runMSE(OM_2,
 
 ```
 
-```{r simMSE1, message=FALSE, warning=FALSE, cache=TRUE}
+```{r simMSE3, message=FALSE, warning=FALSE, cache=TRUE}
 
 OM_3 <- OM_1
 OM_3@M <- OM_1@M * 1.33
@@ -161,7 +161,7 @@ Check(slick)
 Title(slick) <- 'An Example Slick Object'
 Subtitle(slick) <- "[Created in the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
 Author(slick) <- 'Adrian Hordyk'
-Email(slick) <-  "[adrian\@bluematterscience.com](mailto:adrian@bluematterscience.com)"
+Email(slick) <-  "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
 Institution(slick) <- "[Blue Matter Science](bluematterscience.com)"
 
 Introduction(slick) <- "

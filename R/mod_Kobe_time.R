@@ -20,6 +20,7 @@ mod_Kobe_time_ui <- function(id){
 mod_Kobe_time_server <- function(id,i18n, filtered_slick,
                                  plottype,
                                  nOM, nMP, nPM, parent_session,
+                                 xvar, yvar,
                                  window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -54,7 +55,7 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
       if (dd[3]==nMP()) {
         for (i in 1:nMP()) {
 
-          plot_list[[i]] <- Kobe_time_plot(slick, i)
+          plot_list[[i]] <- Kobe_time_plot(slick, i, xvar(), yvar())
         }
       }
       plot_list

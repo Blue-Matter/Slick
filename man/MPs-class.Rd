@@ -42,17 +42,19 @@ as the number of management procedures (\code{nMPs}) in the plot objects \code{B
 
 \describe{
 \item{\code{Code}}{A \emph{short} code for the Management Procedures in this \code{Slick} object.
-A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
+A character string length \code{nMP} or a named list for multi-language support. See \code{Details}
+\emph{Required}}
 
 \item{\code{Label}}{A short label for the  Management Procedures in this \code{Slick} object.
 Can be longer than \code{Code} but recommended to keep short as possible so it shows clearly in plots and tables.
-A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
+A character string length \code{nMP} or a named list for multi-language support. See \code{Details}
+\emph{Required}}
 
 \item{\code{Description}}{A description for the Management Procedures in this \code{Slick} object.
 Can include Markdown, see \code{Examples}.
 A character string length \code{nMP} or a named list for multi-language support. See \code{Details}}
 
-\item{\code{Color}}{A character vector of colors for the MPs.}
+\item{\code{Color}}{A character vector of colors for the MPs. Defaults will be used if not populated}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}

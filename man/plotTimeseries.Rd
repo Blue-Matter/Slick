@@ -69,6 +69,8 @@ values are calculated as median across OMs.}
 
 \item{size.axis.text}{Numeric length 1. Size for axis text}
 
+\item{size.mp.label}{Numeric length 1. Size of MP labels. Set to NULL for no MP labels}
+
 \item{targ_color}{Color for the target line (if it exists in \code{Target(Timeseries(slick))})}
 
 \item{targ_name}{Label for the target line}

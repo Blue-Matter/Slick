@@ -48,7 +48,7 @@ Update <- function(slick) {
 
   Date(slick) <- slick_in$Misc$Date
   Author(slick) <- slick_in$Misc$Author
-  Email(slick) <- slick_in$Misc$Contact
+  Email(slick) <- ifelse(is.na(slick_in$Misc$Contact), '', slick_in$Misc$Contact)
   Institution(slick) <- slick_in$Misc$Institution
 
   intro <- slick_in$Text$Introduction
@@ -64,6 +64,13 @@ Update <- function(slick) {
                     Description=slick_in$MP$Description,
                     Color=slick_in$Misc$Cols$MP)
 
+  # check colors
+  ncol <- length(MPs(slick)@Color)
+  nMPs <- length(MPs(slick)@Code)
+  if (ncol<nMPs) {
+    MPs(slick)@Color <- default_mp_colors(nMPs)
+  }
+
   # OMs
   oms <- OMs()
   df_list <- list()
@@ -73,9 +80,9 @@ Update <- function(slick) {
                                Description=slick_in$OM$Description[[i]])
   }
 
-  Factors(oms) <-  do.call('rbind', df_list)
-  Design(oms) <-slick_in$OM$Design
-  colnames(Design(oms)) <- slick_in$OM$Factor_Labels
+  oms@Factors <-  do.call('rbind', df_list)
+  oms@Design <- as.data.frame(slick_in$OM$Design)
+  colnames(Design(oms)) <- unique(oms@Factors$Factor) # slick_in$OM$Factor_Labels
 
   for (i in 1:ncol(Design(oms))) {
     Design(oms)[,i] <- slick_in$OM$Codes[[i]][Design(oms)[,i]]
@@ -99,7 +106,16 @@ Update <- function(slick) {
   # ref points
   targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
   if (!is.na(targ_ind)) {
-    Target <- unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', targ_ind))
+    lens <- unlist(lapply(slick_in$Perf$Proj$RefPoints, length))
+    ind <- which(lens>=targ_ind)
+    if (length(ind)>0) {
+      Target <- rep(NA, length(slick_in$Perf$Proj$RefPoints))
+      for (i in ind) {
+        Target[i] <- slick_in$Perf$Proj$RefPoints[[i]][targ_ind]
+      }
+    } else {
+      Target <- NULL
+    }
   } else {
     Target <- NULL
   }
@@ -130,7 +146,7 @@ Update <- function(slick) {
                         Description=slick_in$Perf$Det$Description,
                         Value=slick_in$Perf$Det$Values,
                         Preset=list(),
-                        Color=c('white', 'blue'),
+                        Color=c('blue', 'white'),
                         MinValue=0,
                         MaxValue=1
                         )
