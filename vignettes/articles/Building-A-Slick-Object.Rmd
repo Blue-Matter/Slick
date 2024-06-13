@@ -118,7 +118,7 @@ MSE_3 <- runMSE(OM_3,
 
 
 ```{r, include=FALSE}
-if (exists(MSE_1)) {
+if (exists('MSE_1')) {
   saveRDS(MSE_1, '../../dev/Examples/MSE_1.mse')
   saveRDS(MSE_2, '../../dev/Examples/MSE_2.mse')
   saveRDS(MSE_3, '../../dev/Examples/MSE_3.mse')
