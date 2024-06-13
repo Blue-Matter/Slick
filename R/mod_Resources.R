@@ -12,9 +12,9 @@ mod_Resources_ui <- function(id){
   tagList(
     fluidRow(
       column(width = 12,
-             h3('Slick Developer Manual'),
-             p(a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html',
-                 'Developer Guide',
+             h3('Developer Resources'),
+             p(a(href='https://slick.bluematterscience.com/',
+                 'Slick Package Homepage',
                  target="_blank")),
              h3('MSE-Related Resources'),
              htmlOutput(ns('content'))

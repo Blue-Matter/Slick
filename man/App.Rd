@@ -2,10 +2,17 @@
 % Please edit documentation in R/RunSlick.R
 \name{App}
 \alias{App}
-\title{Run a Shiny Application}
+\title{Run the Slick App in the local browser}
 \usage{
 App(...)
 }
+\arguments{
+\item{...}{Additional arguments. Not used.}
+}
 \description{
-\code{App} runs the Slick Shiny Application
+An online hosted version of the Slick App is available
+\href{https://shiny.bluematterscience.com/app/slick}{here}
+}
+\details{
+\code{App()} runs the Slick Shiny Application
 }

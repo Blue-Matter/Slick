@@ -41,8 +41,7 @@ mod_About_server <- function(id, i18n){
                  column(4,
                         tags$a(href='https://harveststrategies.org/', target="_blank",
                                tags$div(
-                                 tags$img(src='www/img/logos/HSlogo_C_RGB_round_small.png', height = '100', width ='100'),
-                                 p('harveststrategies.org')
+                                 tags$img(src='www/img/logos/HSLogo.png', height = '100', width ='100')
                                )
                         )
                  ),

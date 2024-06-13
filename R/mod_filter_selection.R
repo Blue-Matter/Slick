@@ -159,7 +159,6 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
 
       i18n <- i18n()
       choiceNames <- choice_names()
-
       if (length(choiceNames)>0) {
         tagList(
           shiny::checkboxGroupInput(

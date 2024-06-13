@@ -28,9 +28,13 @@ run_app <- function(
 }
 
 
-#' Run a Shiny Application
+#' Run the Slick App in the local browser
 #'
-#' `App` runs the Slick Shiny Application
+#' An online hosted version of the Slick App is available
+#' [here](https://shiny.bluematterscience.com/app/slick)
+#'
+#' `App()` runs the Slick Shiny Application
+#' @param ... Additional arguments. Not used.
 #'
 #' @export
 App <- function(...) {

@@ -109,24 +109,24 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
     initial_selected <- reactive({
       slick <- Slick_Object()
       if (!is.null(slick)) {
-        return(Selected(Tradeoff(slick)))
+        # return(Selected(Tradeoff(slick)))
       }
       NULL
     })
 
     initial_x <- reactive({
-      selected <- initial_selected()
-      if (length(selected>0)) {
-        return(selected[1])
-      }
+      # selected <- initial_selected()
+      # if (length(selected>0)) {
+      #   return(selected[1])
+      # }
       PM_codes()[1]
     })
 
     initial_y <- reactive({
-      selected <- initial_selected()
-      if (length(selected>1)) {
-        return(selected[2])
-      }
+      # selected <- initial_selected()
+      # if (length(selected>1)) {
+      #   return(selected[2])
+      # }
       PM_codes()[2]
     })
 

@@ -64,7 +64,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                   tags$li(
                                     strong(i18n$t('Load a Slick Data File:')),
                                     p(i18n$t('To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.')),
-                                    p(i18n$t('Consult the'), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), i18n$t('for information on creating a Slick Data file.'))
+                                    p(i18n$t('Consult the'), a(href='https://slick.bluematterscience.com/', "Slick Homepage",  target="_blank"),
+                                      i18n$t('for information on creating a Slick Data file.'))
                                   ),
                                   tags$li(
                                     strong(i18n$t('Explore the Results:')),
@@ -79,6 +80,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     })
 
     output$load <- renderUI({
+      options(shiny.maxRequestSize=200*1024^2)
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=3,
@@ -87,7 +89,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                 title=strong(i18n$t('Load Slick Data')),
                                 # uiOutput(ns('overviewlink')),
                                 h4(i18n$t('Load your MSE Results')),
-                                fileInput(ns("load"), accept=c("slick",".slick"),
+                                fileInput(ns("load"),
+                                          accept=c("slick",".slick", 'rdat', '.rdat', 'rda', '.rda'),
                                           label = i18n$t("From file (.slick)"),
                                           buttonLabel=list(icon("folder",verify_fa = FALSE))
                                 ),
@@ -133,16 +136,18 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
     })
 
-
-    loaded_slick <- reactiveVal()
-
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
-
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
           File <- case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)]
           slick <- readRDS(app_sys(paste0(File, '.rda')))
-          check_slick_file(slick)
+          slick <- check_slick_file(slick)
+          Slick_Object(slick)
+
+          # jump to metadata tab
+          shinyjs::delay(10,
+                         shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+          )
         }
         if (inherits(Load_Slick_File$file, 'data.frame')) {
           slick <- try(readRDS(Load_Slick_File$file$datapath))
@@ -151,46 +156,17 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                    'Could not import file. Is it a Slick object created with `saveRDS?`',
                                    type='error')
           } else {
-            check_slick_file(slick)
+            slick <- check_slick_file(slick)
+            Slick_Object(slick)
+
+            # jump to metadata tab
+            shinyjs::delay(10,
+                           shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
+            )
           }
         }
       }
     })
-
-    check_slick_file <- function(slick) {
-      if (!inherits(slick, 'Slick')) {
-        shinyalert::shinyalert('Incorrect File Type',
-                               'The loaded file is not a Slick object',
-                               type='error')
-        return(NULL)
-      }
-
-      # update
-      if (!isS4(slick))
-        slick <- Update(slick)
-
-      # check
-      slick <- try(Check(slick))
-
-      if (inherits(slick, 'try-error')) {
-        shinyalert::shinyalert('Invalid Slick object',
-                               'Use `Check(`slick_object`)` to see the errors',
-                               type='error')
-      }
-
-      # set MP colors
-      slick <- slick
-      #
-      Slick_Object(slick)
-
-
-      # jump to metadata tab
-      shinyjs::delay(10,
-                     shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
-      )
-
-    }
-
 
   })
 }

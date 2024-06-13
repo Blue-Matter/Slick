@@ -17,7 +17,7 @@ mod_Sidebar_ui <- function(id){
 #' Sidebar Server Functions
 #'
 #' @noRd
-mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
+mod_Sidebar_server <- function(id, i18n, Load_Slick_File, Slick_Object){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
@@ -27,6 +27,7 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
       ll[[1]] <- list(shinydashboard::menuItem(i18n$t('Home'),
                                                tabName='hometab',
                                                icon=icon('home')))
+
       ll[[2]] <- list(shinydashboard::menuItem(i18n$t('Home'), tabName='hometab',
                                                icon=icon('house')),
 
@@ -34,6 +35,10 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                                tabName = "metadatatab",
                                                icon = icon('info-circle')
                       ),
+
+                      shinydashboard::menuItem(i18n$t("Timeseries"),
+                                               tabName = "timeseries",
+                                               icon = icon("chart-line-up-down")),
 
                       shinydashboard::menuItem(i18n$t("Boxplot"),
                                                tabName = "boxplot",
@@ -51,10 +56,6 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                                tabName = "spider",
                                                icon = icon("fa-hexagon", class='fas')),
 
-                      shinydashboard::menuItem(i18n$t("Timeseries"),
-                                               tabName = "timeseries",
-                                               icon = icon("chart-line-up-down")),
-
                       shinydashboard::menuItem(i18n$t("Tradeoff"),
                                                tabName = "tradeoff",
                                                icon = icon('chart-scatter')),
@@ -64,12 +65,34 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File){
                                                icon = icon("print"))
       )
 
+
+      slick <- Slick_Object()
+
+      if (!is.null(slick)) {
+        chk <- Check(slick)
+        slick <<- slick
+        LL <- ll
+        map <- data.frame(plot=c("Boxplot", "Kobe", "Quilt",
+                                 "Spider", "Timeseries", "Tradeoff"),
+                          ind=c(4,5,6,7,3,8))
+        for (p in 1:nrow(map)) {
+          if(chk@empty[[ map$plot[p]]]) {
+            ll[[2]][[map$ind[p]]] <- NA
+          }
+        }
+        ll[[2]] <- Filter(function(a) any(!is.na(a)), ll[[2]])
+      }
+
+
       ll
     })
 
     selection <- reactive({
-      if (Load_Slick_File$loaded >=1)
+      if (Load_Slick_File$loaded >=1) {
+
         return(2)
+      }
+
       1
     })
 

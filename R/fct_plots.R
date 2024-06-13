@@ -5,6 +5,279 @@ colorRampAlpha <- function(..., n, alpha) {
 }
 
 
+# ---- Boxplot ----
+
+
+# ---- Kobe ----
+
+
+# ---- Quilt ----
+
+
+# ----- Spider -----
+
+
+# ---- Timeseries ----
+
+
+#' Plot `Timeseries`
+#'
+#' Plots the historical and projected values for a performance indicator.
+#'
+#' By default the Time Series chart plots the median, 25th and 75th quantiles as a
+#' shaded ribbon, and the 10th and 90th quantiles as dashed lines.
+#'
+#' If the plot is by management procedure (MP), the quantiles will be included in the projections. If
+#' multiple MPs are plotted together, only the median across simulations will
+#' be shown in the projections.
+#'
+#' If `OM_ind` isn't specified, the results will be shown as the median across
+#' operating models.
+#'
+#'
+#'
+#' @param slick A [Slick-class()] object
+#' @param PM_ind A numeric value specifying the performance indicator to plot
+#' @param MP_ind A numeric value specifying the MP to plot. Defaults to NULL
+#' which shows all MPs
+#' @param OM_ind A numeric value specifying the OM to plot. Defaults to NULL where
+#' values are calculated as median across OMs.
+#' @param includeHist Logical. Include the historical period in the projections?
+#' @param col_line Color for the median line (historical)
+#' @param fill_ribbon1 Fill color for the inner ribbon
+#' @param col_ribbon1  Color of the line for inner ribbon
+#' @param quants1 Quantiles for the inner ribbon. Numeric length 2
+#' @param fill_ribbon2 Fill color for the outer ribbon
+#' @param col_ribbon2 Color of the line for outer ribbon
+#' @param linetype_ribbon2 Line type for outer ribbon
+#' @param quants2 Quantiles for the outer ribbon. Numeric length 2.
+#' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
+#' `Description` works as well, but you probably don't want to do that.
+#' @param size.title Numeric length 1. Size for plot title
+#' @param size.axis.title Numeric length 1. Size for axis title
+#' @param size.axis.text Numeric length 1. Size for axis text
+#' @param size.mp.label Numeric length 1. Size of MP labels. Set to NULL for no MP labels
+#' @param targ_color Color for the target line (if it exists in `Target(Timeseries(slick))`)
+#' @param targ_name Label for the target line
+#' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
+#' @param lim_name Label for the limit line
+#' @param inc_y_label Include the label for the y-axis?
+#'
+#' @seealso [Timeseries(), Timeseries-class()]
+#' @return A `ggplot2` object
+#' @export
+#'
+plotTimeseries <- function(slick,
+                           PM_ind=1,
+                           MP_ind=NULL,
+                           OM_ind=NULL,
+                           includeHist=TRUE,
+                           col_line='darkgray',
+                           fill_ribbon1='#ededed',
+                           col_ribbon1='#ededed',
+                           quants1=c(0.25, 0.75),
+                           fill_ribbon2='white',
+                           col_ribbon2='#c9c9c9',
+                           linetype_ribbon2='dashed',
+                           quants2=c(0.1, 0.9),
+                           MP_label='Code',
+                           size.title=18,
+                           size.axis.title=14,
+                           size.axis.text=14,
+                           size.mp.label=6,
+                           targ_color='green',
+                           targ_name='Target',
+                           lim_color='red',
+                           lim_name='Limit',
+                           inc_y_label=TRUE,
+                           sims=NULL) {
+
+  # if (length(PM_ind)<1) return(NULL)
+
+  timeseries <- Timeseries(slick)
+  values <- Value(timeseries)
+  times <- Time(timeseries)
+  time_lab <- TimeLab(timeseries)
+  time_now <- TimeNow(timeseries)
+  target <- Target(timeseries)
+  limit <- Limit(timeseries)
+  metadata <- Metadata(timeseries)
+  PM_lab <- metadata$Label[PM_ind]
+
+  if (PM_ind>nrow(metadata)) {
+    stop('`PM_ind` is greater than the number of performance indicators in `Timeseries(slick))`')
+  }
+
+  hist.yr.ind <- which(times<=time_now) |> max()
+  hist.yrs <-  times[1:hist.yr.ind]
+  proj.yr.ind <- (hist.yr.ind+1):length(times)
+  proj.yrs <- times[proj.yr.ind]
+  mps <- MPs(slick)
+  nMP <- length(mps@Code)
+  MP_lab <- slot(mps, MP_label)
+  MP_colors <- Color(mps)
+
+  nOMs <- dim(values)[2]
+  if(is.null(OM_ind)) {
+    oms <- 1:nOMs
+  } else {
+    if (length(OM_ind)>1)
+      stop('`OM_ind` must be NULL or numeric length 1')
+
+    if (OM_ind>nOMs) {
+      stop('`OM_ind` is greater than number of OMs in `Timeseries(slick)`')
+    }
+    oms <- OM_ind
+  }
+
+  if (is.null(sims)) {
+    sims <- 1:dim(values)[1]
+  }
+
+  p <- ggplot2::ggplot()
+
+
+  if (includeHist) {
+    # Historical Period
+    med.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, median, na.rm=TRUE)
+    quant.1.hist <- apply(values[sims,oms,1,PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants1, na.rm=TRUE)
+    quant.2.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants2, na.rm=TRUE)
+
+    Hist_df <- data.frame(x=hist.yrs,
+                          Median=med.hist,
+                          Lower1=quant.1.hist[1,],
+                          Upper1=quant.1.hist[2,],
+                          Lower2=quant.2.hist[1,],
+                          Upper2=quant.2.hist[2,])
+
+
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2), data=Hist_df,
+                                  color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
+      ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=Hist_df,
+                           fill=fill_ribbon1, col=col_ribbon1) +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Median), data=Hist_df,
+                         color=col_line)
+  }
+
+
+  # Projection
+  med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
+  meddf <- data.frame(x=rep(proj.yrs, each=nMP),
+                      MP=MP_lab,
+                      Median=as.vector(med.mps))
+  meddf$MP <- factor(meddf$MP, ordered=TRUE, levels=MP_lab)
+
+  if (!is.null(MP_ind)) {
+    if (length(MP_ind)>1)
+      stop('`MP_ind` must be NULL or numeric length 1')
+    if (MP_ind>nMP) {
+      warning('`MP_ind` is greater than `nMP`. Setting to last MP')
+      MP_ind <- nMP
+    }
+
+    # by MP
+    meddf <- meddf |> dplyr::filter(MP%in%MP_lab[MP_ind])
+
+    quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
+    quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
+
+    quant_df <- data.frame(x=rep(proj.yrs, each=1),
+                           MP=MP_lab[MP_ind],
+                           Lower1=as.vector(quant.1.mp[1,,]),
+                           Upper1=as.vector(quant.1.mp[2,,]),
+                           Lower2=as.vector(quant.2.mp[1,,]),
+                           Upper2=as.vector(quant.2.mp[2,,]))
+    quant_df$MP <- factor(quant_df$MP, ordered=TRUE, levels=MP_lab[MP_ind])
+
+    p <- p +
+      ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2), data=quant_df,
+                           color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
+      ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=quant_df,
+                           fill=fill_ribbon1, col=col_ribbon1) +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP[MP_ind]), data=meddf) +
+      ggplot2::scale_color_manual(values=MP_colors[MP_ind]) +
+      ggplot2::guides(color='none') +
+      ggplot2::labs(title=MP_lab[MP_ind]) +
+      ggplot2::theme(plot.title =ggplot2::element_text(colour=MP_colors[MP_ind],
+                                                       face='bold', hjust = 0.5,
+                                                       size=size.title))
+
+  } else {
+    meddf_last <- meddf |> dplyr::filter(x==max(x, na.rm=TRUE))
+    p <- p +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
+      ggplot2::scale_color_manual(values=MP_colors) +
+      ggplot2::guides(color='none')
+
+    if (!is.null(size.mp.label)) {
+      p <- p + ggrepel::geom_text_repel(data=meddf_last,
+                                        ggplot2::aes(x=x, y=Median,
+                                                     label=MP),
+                                        color=MP_colors,
+                                        size=size.mp.label,
+                                        min.segment.length=2)
+    }
+
+  }
+
+
+  if(!is.null(OM_ind)) {
+    # by OM
+    p <- p +  ggplot2::labs(title=paste('OM', oms)) +
+      ggplot2::theme(plot.title =ggplot2::element_text(colour='#D6501C',
+                                                       face='bold',
+                                                       hjust = 0.5,
+                                                       size=size.title)) +
+      ggplot2::guides(color='none')
+  }
+
+
+  # add target and limit lines if they exist
+  if (!is.null(target)) {
+    targ <- target[PM_ind]
+    if (!is.na(targ)) {
+      x_loc <- times[1]
+      if (!includeHist) {
+        x_loc <- time_now+1
+      }
+
+      p <- p + ggplot2::geom_hline(yintercept = targ, color=targ_color,
+                                   alpha=0.5) +
+        ggrepel::geom_text_repel(x=x_loc, ggplot2::aes(y=targ),
+                                 label=targ_name, color=targ_color)
+    }
+  }
+  if (!is.null(limit)) {
+    lim <- limit[PM_ind]
+    if (!is.na(targ)) {
+      x_loc <- times[1]
+      if (!includeHist) {
+        x_loc <- time_now+1
+      }
+
+      p <- p + ggplot2::geom_hline(yintercept = lim, color=lim_color,
+                                   alpha=0.5) +
+        ggrepel::geom_text_repel(x=x_loc, ggplot2::aes(y=lim),
+                                 label=lim_name, color=lim_color)
+    }
+  }
+
+  if (!inc_y_label) PM_lab <- ''
+  p <- p +
+    ggplot2::labs(x=time_lab, y=PM_lab, color='') +
+    ggplot2::scale_y_continuous(label=scales::comma) +
+    ggplot2::theme(axis.title = ggplot2::element_text(size=size.axis.title, face='bold'),
+                   axis.text = ggplot2::element_text(size=size.axis.text)) +
+    ggplot2::theme_bw() +
+    ggplot2::scale_x_continuous(expand = c(0, 0))
+
+  p
+
+}
+
+# ---- Tradeoff ----
+
+
 quilt_kable <- function(Values, metadata_pm, cols) {
 
   table <- flextable::flextable(data.frame(Values) |>
@@ -13,7 +286,7 @@ quilt_kable <- function(Values, metadata_pm, cols) {
 
   for (i in 1:ncol(Values)) {
     minVal <- metadata_pm$MinValue[i]
-    maxVal <- max(metadata_pm$MaxValue[i], Values[,i])
+    maxVal <- max(metadata_pm$MaxValue[i], Values[,i], na.rm=TRUE)
 
     cuts <- seq(minVal, maxVal, by=0.1*maxVal)
     levels <- cut(Values[,i], breaks=cuts, include.lowest=TRUE) |> as.numeric()
@@ -65,9 +338,12 @@ quilt_DT <- function(Values, metadata_pm, cols) {
 plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
   quilt <-  Quilt(slick)
-  # MP_labels <- MP_labels
-  # lang <- lang
-  # kable <- kable
+
+  # quilt <<-  Quilt(slick)
+  # MP_labels <<- MP_labels
+  # kable <<- kable
+  # lang=NULL
+
 
   Values <- Value(quilt) |>
     apply(2:3, median) |>
@@ -85,8 +361,10 @@ plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
 
   metadata_pm <- Metadata(quilt, lang)
+  metadata_pm$MinValue <- MinValue(quilt)
+  metadata_pm$MaxValue <- ifelse(length(MaxValue(quilt)>0),MaxValue(quilt),1)
   colnames(Values) <- metadata_pm$Code
-  cols <- Colors(quilt)
+  cols <- Color(quilt)
   if (kable) {
     return(quilt_kable(Values, metadata_pm, cols))
   }
@@ -94,8 +372,11 @@ plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 }
 
 
-plotTradeoff <- function(slick, mps, XPM, YPM) {
+plotTradeoff <- function(slick, mps=NULL, XPM=NULL, YPM=NULL, lab_size=6, point_size=2) {
 
+  if (is.null(mps)) {
+    mps <- Metadata(MPs(slick))
+  }
   MP_labels <- mps[['Label']]
   MP_color  <- mps[['Color']]
 
@@ -121,20 +402,26 @@ plotTradeoff <- function(slick, mps, XPM, YPM) {
                    Color=MP_color)
 
   xmax <- x_value |> pretty() |> max()
+  xmax <- max(c(xmax, 1))
   ymax <- y_value |> pretty() |> max()
+  ymax <- max(c(ymax, 1))
 
   df$MP <- factor(df$MP, ordered = TRUE, levels=unique(df$MP))
 
   ggplot2::ggplot(df, ggplot2::aes(x=x, y=y, color=MP)) +
-    ggplot2::geom_point(size=3) +
+    ggplot2::geom_point(size=point_size) +
     ggplot2::theme_bw() +
     ggplot2::expand_limits(x=c(0, xmax), y=c(0, ymax)) +
-    ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=6) +
+    ggplot2::scale_x_continuous(expand = c(0, 0)) +
+    ggrepel::geom_text_repel(ggplot2::aes(label=MP), size=lab_size) +
     ggplot2::scale_color_manual(values=df$Color) +
     ggplot2::guides(color='none') +
     ggplot2::labs(x=xlab, y=ylab) +
     ggplot2::theme(axis.title = ggplot2::element_text(size=16),
                    axis.text = ggplot2::element_text(size=12))
+
+
+
 
 }
 
@@ -165,7 +452,7 @@ calcCoord <- function(vert, pm) {
 
 polyCoords <- function(n){
   # https://stackoverflow.com/a/29172340/2885462
-  sq<-2*pi*(0:n)/n
+  sq<-2*3.141593*(0:n)/n
   cbind(sin(sq),cos(sq))
 }
 
@@ -298,6 +585,7 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
   }
 
   par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
+
 
   for (i in 1:nMPs) {
     # draw blank shape

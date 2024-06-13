@@ -20,12 +20,18 @@ mod_Kobe_time_ui <- function(id){
 mod_Kobe_time_server <- function(id,i18n, filtered_slick,
                                  plottype,
                                  nOM, nMP, nPM, parent_session,
+                                 xvar, yvar,
                                  window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
 
     output$page <- renderUI({
+      req(filtered_slick())
+      chk <- Check(filtered_slick())
+      if (chk@empty$Kobe) {
+        return(NULL)
+      }
       i18n <- i18n()
       tagList(
         fluidRow(
@@ -40,12 +46,16 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
       slick <- filtered_slick()
       if (is.null(slick))
         return(NULL)
+      chk <- Check(filtered_slick())
+      if (chk@empty$Kobe) {
+        return(NULL)
+      }
       dd <- slick |> Kobe() |> Value() |>  dim()
       plot_list <- list()
       if (dd[3]==nMP()) {
         for (i in 1:nMP()) {
 
-          plot_list[[i]] <- Kobe_time_plot(slick, i)
+          plot_list[[i]] <- Kobe_time_plot(slick, i, xvar(), yvar())
         }
       }
       plot_list

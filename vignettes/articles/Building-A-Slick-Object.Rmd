@@ -70,17 +70,59 @@ Here we are creating an example operating model (OM) with 50 simulations, and th
 ```{r simMSE, message=FALSE, warning=FALSE, cache=TRUE}
 library(openMSE)
 
-OM <- new('OM', 
+
+OM_1 <- new('OM', 
           Stock=MSEtool::Albacore, 
           Fleet=MSEtool::Generic_IncE, 
           Obs=MSEtool::Generic_Obs, 
           Imp=MSEtool::Perfect_Imp, 
           nsim=50)
 
-MSE <- runMSE(OM, 
-              MPs=c('SP_4010', 'AvC', 'IT5'), 
+MPs <- c('SP_4010', 'AvC', 'IT5')
+
+MSE_1 <- runMSE(OM_1, 
+              MPs=MPs, 
               parallel = TRUE,
               silent=TRUE)
+
+```
+
+A second OM 
+
+```{r simMSE2, message=FALSE, warning=FALSE, cache=TRUE}
+
+OM_2 <- OM_1
+OM_2@M <- OM_1@M * 0.75
+
+MSE_2 <- runMSE(OM_2, 
+              MPs=MPs, 
+              parallel = TRUE,
+              silent=TRUE)
+
+
+
+```
+
+```{r simMSE3, message=FALSE, warning=FALSE, cache=TRUE}
+
+OM_3 <- OM_1
+OM_3@M <- OM_1@M * 1.33
+
+MSE_3 <- runMSE(OM_3, 
+              MPs=MPs, 
+              parallel = TRUE,
+              silent=TRUE)
+
+
+```
+
+
+```{r, include=FALSE}
+if (exists(MSE_1)) {
+  saveRDS(MSE_1, '../../dev/Examples/MSE_1.mse')
+  saveRDS(MSE_2, '../../dev/Examples/MSE_2.mse')
+  saveRDS(MSE_3, '../../dev/Examples/MSE_3.mse')
+}
 
 ```
 
@@ -93,20 +135,107 @@ The details of the OM and MPs are not important for this Developer's Guide. Howe
 ```
 
 
-# Building a Slick Object
+# Building the Slick Object
 
 All MSE results are stored in an object of class `Slick`.  
 
 A new `Slick` object can be created with:
 ```{r}
-MySlick <- Slick()
+slick <- Slick()
+
+
+#TODO show Slick - empty
+
+Check(slick)
+# missing Title
+# missing Author 
+# missing Introduction
+
+# step through code below with Check
 
 ```
 
-The help documentation for the Slick object can be found [here](../reference/Slick.html)
+## Title, Author details, and Introduction 
+
+```{r}
+Title(slick) <- 'An Example Slick Object'
+Subtitle(slick) <- "[Created in the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
+Author(slick) <- 'Adrian Hordyk'
+Email(slick) <-  "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
+Institution(slick) <- "[Blue Matter Science](bluematterscience.com)"
+
+Introduction(slick) <- "
+This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
+
+The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).
+
+
+"
+```
+
+## Management Procedures
+
+```{r mps}
+mps <- MPs(Code=MPs,
+           Label=c('Surplus Production + 40-10 HCR', 
+                   'Average Catch', 
+                   'Iterative Target'),
+           Description=c('TAC is set with a surplus production assessment model with a 40-10 harvestcontrol rule. See [here](https://samtool.openmse.com/reference/Model-based-MP.html) for details.',
+                         'TAC is fixed to the average catch from the historical period. See [here](https://dlmtool.openmse.com/reference/AvC.html) for details.',
+                         'An index target MP where the TAC is modified according to current index levels (mean index over last 5 years) relative to a target level. See [here](https://dlmtool.openmse.com/reference/IT5.html) for details.' 
+                    ))
+
+Preset(mps) <- list('All'=1:3,
+                      'Model-Free'=2:3)
+
+MPs(slick) <- mps
+
+
+# TODO set colors when missing
+# check Metadata markdown works 
+```
+
+## Operating Models 
+
+## Plots 
+
+
+### Boxplot 
+
+```{r boxplot PMs}
+
+t = P10(MSE)
+dim(t@Prob)
+?Yield
+
+```
+
+```{r boxplot}
 
 
 
-# 
+Metadata(myBoxplot) <- data.frame(Code=)
+
+Boxplot(MySlick) <- myBoxplot
+
+
+## Test Check - should work with one 
+```
+
+## Kobe
+
+## Quilt
+
+## Spider
+
+## Timeseries
+
+## Tradeoff
+
+
+
+```{r}
+saveRDS(MySlick, 'C:/users/user/desktop/slick.slick')
+```
 
 

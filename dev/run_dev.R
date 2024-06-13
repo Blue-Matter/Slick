@@ -13,3 +13,5 @@ golem::document_and_reload()
 
 # Run the application
 run_app()
+
+# slick <- readRDS('../nswo-mse/nswo.slick')

@@ -55,7 +55,8 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
 
         )
       } else {
-        tagList(h3(i18n$t('Nothing added to Report yet')))
+        tagList(h3(i18n$t('Report feature coming soon!')))
+        # tagList(h3(i18n$t('Nothing added to Report yet')))
       }
 
     })

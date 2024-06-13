@@ -20,10 +20,17 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
 
   kobe <- Kobe(slick)
   metadata <- Metadata(kobe)
-  times <- Time(kobe)[[1]]
+  times <- Time(kobe)
 
-  x_targ <- metadata$Target[xvar]
-  y_targ <- metadata$Target[yvar]
+  targets <- Target(kobe)
+  if (length(targets)<2)
+    targets <- rep(targets, 2)
+  x_targ <- targets[xvar]
+  y_targ <- targets[yvar]
+
+  # currently hard-coded to 1
+  x_targ <- 1 #targets[xvar]
+  y_targ <- 1 # targets[yvar]
 
   mp_metadata <- slick |> MPs() |> Metadata()
   mp_names <- factor(mp_metadata$Code, ordered = TRUE, levels=mp_metadata$Code)
@@ -106,7 +113,7 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
 
     p <- p +
       ggplot2::geom_line(data=XError, ggplot2::aes(x=x, y=y, group=MP),
-                         color='white', linetype='dotted', size=1) +
+                         color='white', linetype='dotted', linewidth=1) +
       ggplot2::geom_line(data=YError, ggplot2::aes(x=x, y=y, group=MP),
                          color='white', linetype='dotted', linewidth=1)
   }
@@ -131,14 +138,19 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
 Kobe_time_plot <- function(slick, mp=1, xvar=1, yvar=2) {
   kobe <- Kobe(slick)
   metadata <- Metadata(kobe)
-  times <- Time(kobe)[[1]]
+  times <- Time(kobe)
 
-  x_targ <- metadata$Target[xvar]
-  y_targ <- metadata$Target[yvar]
+  targets <- Target(kobe)
+  if (length(targets)<2)
+    targets <- rep(targets, 2)
+  x_targ <- targets[xvar]
+  y_targ <- targets[yvar]
+
+  # hard coded for now
+  x_targ <- 1 #targets[xvar]
+  y_targ <- 1 # targets[yvar]
 
   values <- kobe |> Value()
-
-
 
   mp_metadata <- slick |> MPs() |> Metadata()
   mp_names <- mp_metadata$Label
