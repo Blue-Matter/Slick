@@ -39,6 +39,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
                      returnMSEs=F
 ){
 
+  .Deprecated("Slick")
   # --- Get dims and create new Slick object -------------------------------------------------------------------------
   runMSEs<-is.null(MSElist)
   if(runMSEs){
@@ -202,7 +203,6 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
 #' Creates a blank Slick object
 #'
-#' A function that creates a blank Slick object. The key requirement is that the dimensions of the analysis are known including the Design matrix
 #'
 #' @param name Character string that is the object name (shortened for use in menus etc.)
 #' @param nPerf An integer vector of the number of deterministic (nD), stochastic (nS) and projected (nP) performance metrics
@@ -218,7 +218,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 #' @export
 
 NewSlick<-function(name = "Unnamed Slick Object", nPerf=list(nD=5, nS=6, nP=7), nMPs=5, nsim=10, nProjYr=50, nStateVar=2, nHistYr=55, Design=expand.grid(1:2, 1:2)){
-
+  .Deprecated("Slick")
   out<-list()
   nOM<-nrow(Design)  # number of OMs (MSE runs)
   nFac<-ncol(Design) # number of design factors
@@ -318,7 +318,7 @@ NewSlick<-function(name = "Unnamed Slick Object", nPerf=list(nD=5, nS=6, nP=7), 
                       KobePoint=c(R=tc(189,16,24),OFing=tc(234,107,31),OF=tc(234,107,31),G=tc(0,123,59)),
                       RefPt=c(target=tc(3,165,79),limit=tc(238,29,35),zeroC=tc(147,182,217)))
 
-  class(out)<-"Slick"
+  class(out)<-"Slick_old"
   out
 
 }

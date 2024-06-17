@@ -27,7 +27,7 @@ mod_About_server <- function(id, i18n){
         h4(i18n$t('About Slick')),
         p(i18n$t('Slick was developed by'), a(href='https://www.bluematterscience.com/', 'Blue Matter Science',  target="_blank"),
           i18n$t("and designed and commissioned by"), a(href='https://oceanfdn.org/', "The Ocean Foundation's",  target="_blank"),
-          i18n$t('International Fisheries Conservation Project and'), a(href='www.harveststrategies.org', "www.harveststrategies.org,",  target="_blank"),
+          i18n$t('International Fisheries Conservation Project and'), a(href='https://www.harveststrategies.org', "harveststrategies.org,",  target="_blank"),
           i18n$t('with support from'), a(href='https://www.pewtrusts.org/', 'The Pew Charitable Trusts,',  target="_blank"),
           i18n$t('and the'),  a(href='https://www.fao.org/in-action/commonoceans/what-we-do/tuna/en/', 'Common Oceans Tuna Fisheries Project,',  target="_blank"),
           i18n$t('which is funded by'),  a(href='https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction', 'GEF',  target="_blank"),
@@ -41,7 +41,7 @@ mod_About_server <- function(id, i18n){
                  column(4,
                         tags$a(href='https://harveststrategies.org/', target="_blank",
                                tags$div(
-                                 tags$img(src='www/img/logos/HSLogo.png', height = '100', width ='100')
+                                 tags$img(src='www/img/logos/HSlogo.png', height = '100', width ='100')
                                )
                         )
                  ),

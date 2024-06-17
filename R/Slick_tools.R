@@ -11,6 +11,7 @@
 #' @export
 PMnorm<-function(obj,det=T,inv=NULL){
 
+
   zero100<-function(x)((x-min(x))/(max(x)-min(x)))*100
 
   if(det){

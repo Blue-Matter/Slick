@@ -3,14 +3,7 @@
 \docType{class}
 \name{Boxplot-class}
 \alias{Boxplot-class}
-\alias{show,Boxplot-method}
-\title{S4 class \code{Boxplot}}
-\usage{
-\S4method{show}{Boxplot}(object)
-}
-\arguments{
-\item{object}{An object of class \code{\link[=Boxplot-class]{Boxplot-class()}}}
-}
+\title{\code{Boxplot} S4 Object Class}
 \description{
 Objects of class \code{Boxplot} are used to store information for the Boxplot and Violin plots.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
@@ -35,11 +28,6 @@ Character strings in \code{Code}, \code{Label}, and \code{Description} must all 
 as the number of performance indicators (\code{nPIs}) in \code{Value}
 }
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{show(Boxplot)}: Show objects of class \code{Boxplot}
-
-}}
 \section{Slots}{
 
 \describe{
@@ -56,7 +44,7 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{\code{Value}}{A numeric array with the stochastic performance indicator values for each
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}

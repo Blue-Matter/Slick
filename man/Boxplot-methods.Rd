@@ -51,7 +51,7 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}

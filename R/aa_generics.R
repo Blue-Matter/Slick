@@ -12,6 +12,7 @@ show <- function(object) methods::show(object)
 #' @details
 #' Objects of class `Boxplot` are created with `Boxplot()`
 #'
+#'
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to
 #' access and assign the values for an existing `Boxplot` object, see `Examples`
 #'
@@ -39,7 +40,7 @@ show <- function(object) methods::show(object)
 #' @param Description `r description_PI_param()`
 #' @param Value  A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`).
 #' @param Preset `r preset_param()`
 #' @param Defaults A list object with default selections for the Boxplot
 #'
@@ -76,7 +77,7 @@ setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 #' and [Tradeoff-class()].
 #' @return Prints messages to the console
 #' @export
-setGeneric("Check", function(object) standardGeneric("Check"))
+setGeneric("Check", function(object, ...) standardGeneric("Check"))
 
 
 # ---- Code ----
@@ -207,7 +208,6 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' F/FMSY (or something similar) on the y-axis.
 #'
 #' ## Performance Indicators
-#' There must be exactly two performance indicators (PIs).
 #' The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
 #' on the y-axis (e.g., F/FMSY)
 #'
@@ -233,8 +233,8 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' and projection time-steps (nTS).
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
 #' @param Preset `r preset_param()`
-#' @param Target Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
-#' @param Limit Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
+#' @param Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
+#' @param Limit Numeric vector length `nPI` with the limit value for the PIs. Shows as red line on Kobe plot. NULL to ignore.
 #'
 #' @rdname Kobe-methods
 #' @docType methods
@@ -338,10 +338,10 @@ setGeneric("MPs", function(Code='',
 
 
 #' @rdname MPs-methods
-#' @param Slick A [Slick-class()] object
+#' @param object A [Slick-class()] object
 #' @param value A [MPs-class()] object
 #' @export
-setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
+setGeneric("MPs<-", function(object, value) standardGeneric("MPs<-"))
 
 
 # ---- OMs -----
@@ -393,10 +393,10 @@ setGeneric("OMs", function(Factors=data.frame(),
 
 
 #' @rdname OMs-methods
-#' @param Slick A [Slick-class()] object
+#' @param object A [Slick-class()] object
 #' @param value A [OMs-class()] object
 #' @export
-setGeneric("OMs<-", function(Slick, value) standardGeneric("OMs<-"))
+setGeneric("OMs<-", function(object, value) standardGeneric("OMs<-"))
 
 
 # ---- Preset ----
@@ -537,6 +537,10 @@ setGeneric("Spider", function(Code='',
 setGeneric("Spider<-", function(Slick, value) standardGeneric("Spider<-"))
 
 
+
+
+
+
 # ---- Target ----
 
 #' Access or assign `Target` and `Limit` for object of class `Kobe` or `Timeseries`
@@ -662,6 +666,15 @@ setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
 #' as the number of performance indicators (`nPIs`) in `Value`
+#'
+#' @param Code `r code_PI_param()`
+#' @param Label `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Value A numeric array with the stochastic performance indicator values for each
+#' operating model (OM), management procedure (MP),  performance indicator (PI),
+#' and historical + projection timestep (nTS).
+#' Dimensions: c(nOM`, `nMP`, `nPI`)
+#' @param Preset `r preset_param()`
 #'
 #' @rdname Tradeoff-methods
 #' @docType methods

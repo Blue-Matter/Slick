@@ -12,9 +12,8 @@ See \verb{See Also} section below.
 Objects of class \code{Kobe} are created with \code{Kobe()}
 \subsection{Performance Indicators}{
 
-There must be exactly two performance indicators (PIs).
-The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
-on the y-axis (e.g., F/FMSY)
+By default, the first PI will be on the x-axis (usually B/BMSY or something similar) and the second
+on the y-axis (e.g., F/FMSY). The Slick \code{\link[=App]{App()}} provides dropdowns for selecting other PIs.
 }
 
 \subsection{Multi-Language Support}{
@@ -61,9 +60,12 @@ Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, \code{nPI}, \code{nTS})}
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
 
-\item{\code{Target}}{Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).}
+\item{\code{Target}}{Numeric vector length \code{nPI} with the target value for the PIs. Defines the color quadrants on the Kobe plot.
+Defaults to 1.}
 
-\item{\code{Limit}}{Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
+\item{\code{Limit}}{Numeric vector length \code{nPI} with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
+
+\item{\code{Defaults}}{A list object with default selections for the Kobe See \code{\link[=Kobe]{Kobe()}}}
 }}
 
 \examples{

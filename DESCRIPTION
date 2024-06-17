@@ -1,12 +1,12 @@
 Type: Package
 Package: Slick
-Title: Decision Analysis
-Version: 1.0.9006
+Title: Interactive Visualization of MSE Results
+Version: 1.0.9007
 Authors@R: c(
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
   )
-Maintainer: Tom Carruthers <tom@bluematterscience.com>
+Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
 Description: Slick presents the performance of multiple management objects
     across multiple states of nature.
 License: GPL-2

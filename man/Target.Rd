@@ -6,14 +6,14 @@
 \alias{Limit<-}
 \alias{Target}
 \alias{Target<-}
-\alias{Target,Kobe-method}
-\alias{Target<-,Kobe-method}
 \alias{Limit,Kobe-method}
 \alias{Limit<-,Kobe-method}
-\alias{Target,Timeseries-method}
-\alias{Target<-,Timeseries-method}
+\alias{Target,Kobe-method}
+\alias{Target<-,Kobe-method}
 \alias{Limit,Timeseries-method}
 \alias{Limit<-,Timeseries-method}
+\alias{Target,Timeseries-method}
+\alias{Target<-,Timeseries-method}
 \title{Access or assign \code{Target} and \code{Limit} for object of class \code{Kobe} or \code{Timeseries}}
 \usage{
 Limit(object)
@@ -24,41 +24,41 @@ Target(object)
 
 Target(object) <- value
 
-\S4method{Target}{Kobe}(object)
-
-\S4method{Target}{Kobe}(object) <- value
-
 \S4method{Limit}{Kobe}(object)
 
 \S4method{Limit}{Kobe}(object) <- value
 
-\S4method{Target}{Timeseries}(object)
+\S4method{Target}{Kobe}(object)
 
-\S4method{Target}{Timeseries}(object) <- value
+\S4method{Target}{Kobe}(object) <- value
 
 \S4method{Limit}{Timeseries}(object)
 
 \S4method{Limit}{Timeseries}(object) <- value
+
+\S4method{Target}{Timeseries}(object)
+
+\S4method{Target}{Timeseries}(object) <- value
 }
 \description{
 Access or assign \code{Target} and \code{Limit} for object of class \code{Kobe} or \code{Timeseries}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{Target(Kobe)}: Return \code{Target} from a \code{\link[=Kobe-class]{Kobe-class()}} object
-
-\item \code{Target(Kobe) <- value}: Assign \code{Target} to a \code{\link[=Kobe-class]{Kobe-class()}} object
-
 \item \code{Limit(Kobe)}: Return \code{Limit} from a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Limit(Kobe) <- value}: Assign \code{Limit} to a \code{\link[=Kobe-class]{Kobe-class()}} object
 
-\item \code{Target(Timeseries)}: Return \code{Target} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+\item \code{Target(Kobe)}: Return \code{Target} from a \code{\link[=Kobe-class]{Kobe-class()}} object
 
-\item \code{Target(Timeseries) <- value}: Assign \code{Target} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+\item \code{Target(Kobe) <- value}: Assign \code{Target} to a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Limit(Timeseries)}: Return \code{Limit} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 \item \code{Limit(Timeseries) <- value}: Assign \code{Limit} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+\item \code{Target(Timeseries)}: Return \code{Target} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+\item \code{Target(Timeseries) <- value}: Assign \code{Target} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 }}

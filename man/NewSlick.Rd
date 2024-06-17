@@ -36,7 +36,7 @@ NewSlick(
 An object of class \linkS4class{Slick}
 }
 \description{
-A function that creates a blank Slick object. The key requirement is that the dimensions of the analysis are known including the Design matrix
+Creates a blank Slick object
 }
 \author{
 T. Carruthers

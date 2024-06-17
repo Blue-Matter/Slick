@@ -99,7 +99,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       plot_list <- list()
       if (dd[4]==nPM()) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- BoxPlot(filtered_slick(), i, 'all', TRUE)
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE)
         }
       }
       plot_list

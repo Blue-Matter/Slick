@@ -45,6 +45,25 @@ Tradeoff(Slick) <- value
 \S4method{Tradeoff}{Slick}(Slick) <- value
 }
 \arguments{
+\item{Code}{A \emph{short} code for the Performance Indicators for this object.
+A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
+
+\item{Label}{A short label for the Performance Indicators for this object. Used to label axes on charts.
+Can be longer than \code{Code} but recommended to keep short as possible so it shows clearly in plots and tables.
+A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
+
+\item{Description}{A description for the Performance Indicators for this object.
+Can include Markdown, see \code{Examples}.
+A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
+
+\item{Value}{A numeric array with the stochastic performance indicator values for each
+operating model (OM), management procedure (MP),  performance indicator (PI),
+and historical + projection timestep (nTS).
+Dimensions: c(nOM\verb{, }nMP\verb{, }nPI`)}
+
+\item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
+element will appear as a button in the \code{\link[=App]{App()}}.}
+
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
 \item{value}{A \code{\link[=Tradeoff-class]{Tradeoff-class()}} object}
