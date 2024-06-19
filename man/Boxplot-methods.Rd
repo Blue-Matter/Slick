@@ -70,6 +70,8 @@ See \code{Details}.
 \details{
 Objects of class \code{Boxplot} are created with \code{Boxplot()}
 
+Use \code{\link[=plotBoxplot]{plotBoxplot()}} to create the boxplot from the console.
+
 Use the  \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}} functions to
 access and assign the values for an existing \code{Boxplot} object, see \code{Examples}
 \subsection{Multi-Language Support}{
@@ -139,5 +141,6 @@ boxplot
 
 }
 \seealso{
-\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}
+\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}},
+\code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}, \code{\link[=plotBoxplot]{plotBoxplot()}}
 }

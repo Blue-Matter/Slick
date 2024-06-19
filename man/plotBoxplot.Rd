@@ -4,7 +4,13 @@
 \alias{plotBoxplot}
 \title{Plot \code{Boxplot}}
 \usage{
-plotBoxplot(slick, pm = 1, type = c("boxplot", "violin", "both"), byOM = FALSE)
+plotBoxplot(
+  slick,
+  pm = 1,
+  type = c("boxplot", "violin", "both", "all"),
+  byOM = FALSE,
+  include_x_labs = FALSE
+)
 }
 \arguments{
 \item{slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
@@ -14,6 +20,11 @@ plotBoxplot(slick, pm = 1, type = c("boxplot", "violin", "both"), byOM = FALSE)
 \item{type}{Character string specifying the plot type.}
 
 \item{byOM}{Logical. Facet the plots by operating model?}
+
+\item{include_x_labs}{Logical. Include MP labels on x-axis?}
+}
+\value{
+A \code{ggplot2} object, or a list of \code{ggplot2} objects
 }
 \description{
 Plots boxplot, violin plot, or a combined box+violin plot for information stored

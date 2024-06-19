@@ -12,6 +12,8 @@ show <- function(object) methods::show(object)
 #' @details
 #' Objects of class `Boxplot` are created with `Boxplot()`
 #'
+#' Use [plotBoxplot()] to create the boxplot from the console.
+#'
 #'
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to
 #' access and assign the values for an existing `Boxplot` object, see `Examples`
@@ -48,7 +50,8 @@ show <- function(object) methods::show(object)
 #' @rdname Boxplot-methods
 #' @docType methods
 #' @example inst/examples/Boxplot.R
-#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()], [Defaults()]
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()],
+#' [Preset()], [Defaults()], [plotBoxplot()]
 #' @export
 setGeneric("Boxplot", function(Code='',
                                Label='',
@@ -586,6 +589,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' and to access and assign `Timeseries` for an object of class [Slick-class()].
 #' See `Details`.
 #'
+#' Use [plotTimeseries()] to create the boxplot from the console.
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -608,7 +612,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
 #'
 #' @seealso [Timeseries-methods()], [Code()], [Label()], [Description()],
-#'  [Metadata()], [Value()], [Preset()]
+#'  [Metadata()], [Value()], [Preset()], [plotTimeseries()]
 #'
 #'
 #' @details

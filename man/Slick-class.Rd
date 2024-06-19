@@ -130,7 +130,7 @@ library(Slick)
 slick <- Slick()
 
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
+Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
