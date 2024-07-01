@@ -38,8 +38,13 @@
 #' @export
 #'
 Update <- function(slick_in) {
-  if (isS4(slick_in))
+  if (isS4(slick_in)) {
+    chkKobe <- try(slick_in@Kobe@Defaults, silent = TRUE)
+    if (inherits(chkKobe, 'try-error'))
+      slick_in@Kobe@Defaults <- list()
     return(slick_in)
+  }
+
 
   slick <- Slick()
   Title(slick) <- slick_in$Text$Title

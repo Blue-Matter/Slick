@@ -80,6 +80,9 @@ values are calculated as median across OMs.}
 \item{lim_name}{Label for the limit line}
 
 \item{inc_y_label}{Include the label for the y-axis?}
+
+\item{sims}{Optional. Numeric values indicating the simulations to include. Defaults
+to all.}
 }
 \value{
 A \code{ggplot2} object
@@ -99,5 +102,5 @@ If \code{OM_ind} isn't specified, the results will be shown as the median across
 operating models.
 }
 \seealso{
-\code{\link[=Timeseries(), Timeseries-class]{Timeseries(), Timeseries-class()}}
+\code{\link[=Timeseries-methods]{Timeseries-methods()}}, \code{\link[=Timeseries-class]{Timeseries-class()}}
 }

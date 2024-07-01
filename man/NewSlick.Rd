@@ -30,7 +30,7 @@ NewSlick(
 
 \item{nHistYr}{Integer, the number of historical years for state variables}
 
-\item{Design}{A design matrix of factor levels \link{SN, factor}}
+\item{Design}{A design matrix of factor levels \verb{SN, factor}}
 }
 \value{
 An object of class \linkS4class{Slick}

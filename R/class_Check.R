@@ -18,6 +18,7 @@ setMethod("initialize", "CheckList", function(.Object) {
 
 
 # show method ----
+#' @describeIn show Print a `CheckList` object
 setMethod('show', 'CheckList', function(object) {
 
   cli::cli_h2('Checking: {.val {object@object}}')

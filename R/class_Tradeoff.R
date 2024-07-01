@@ -2,7 +2,7 @@
 #'
 #' Objects of class `Tradeoff` are used to store information for the Tradeoff plot.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Tradeoff()] and the
+#' assigned using functions corresponding to slot name. See [Tradeoff-methods()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -232,7 +232,7 @@ setMethod("Metadata<-", "Tradeoff", function(object, value) {
 
 ## --- Show ----
 
-#' @export
+#' @describeIn show Print a [Tradeoff-class()] object
 setMethod("show", "Tradeoff", function(object) {
   dim_names <- c("nOM", "nMP", "nPI")
 

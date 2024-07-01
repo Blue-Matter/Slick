@@ -106,7 +106,7 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nOM(), function(mm) {
           plotname <- paste("plot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width(),
                                                   height=plot_height()))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())

@@ -5,7 +5,7 @@
 #' An object of class `OMs` contains information about the operating models (MPs)
 #' in the [Slick()] object. Like all S4 objects in `Slick`, slots in this
 #' object can be accessed and assigned using functions corresponding to slot name.
-#' See [OMs()] and the the `See Also` section below.
+#' See [OMs-methods()] and the the `See Also` section below.
 #'
 #' @slot Factors A `data.frame` with column headings `Factor`, `Level`, and `Description`. See `Details`
 #' @slot Design A `data.frame` with `nFactor` columns (i.e., `length(unique(Factors$Factor))`), and `nOM`
@@ -169,8 +169,7 @@ setMethod('Check', 'OMs', function(object) {
 
 ## Show ----
 
-
-#' @export
+#' @describeIn show Print a [OMs-class()] object
 setMethod("show", "OMs", function(object) {
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)

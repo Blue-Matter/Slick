@@ -279,16 +279,6 @@ Code(boxplot)
 Label(boxplot)
 Description(boxplot)
 
-# Slick Object
-mySlick <- Slick()
-Code(mySlick, 'Boxplot') <- Code(boxplot)
-Label(mySlick, 'Boxplot') <- Label(boxplot)
-Description(mySlick, 'Boxplot') <- Description(boxplot)
-
-Code(mySlick, type='Boxplot')
-Label(mySlick, type='Boxplot')
-Description(mySlick, type='Boxplot')
-
 # Multi-Language
 Description(boxplot) <- list(en=c('This is the English description for PI 1',
                                   'This is the English description for PI 2',

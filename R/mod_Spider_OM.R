@@ -50,7 +50,7 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
             tagList(
               h4(mm, class='OM_name', style = "font-size:18px;"),
               div(
-                shinycssloaders::withSpinner(plotOutput(ns(plotname),
+                loading_spinner(plotOutput(ns(plotname),
                                                         width='90px', height=hgt)),
                 style="padding-right:50px;  background-color: #f2f2f2;;"
               )

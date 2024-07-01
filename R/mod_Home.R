@@ -141,6 +141,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
         if (inherits(Load_Slick_File$file, 'character')) {
           File <- case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)]
           slick <- readRDS(app_sys(paste0(File, '.rda')))
+          slick <- Update(slick)
           slick <- check_slick_file(slick)
           Slick_Object(slick)
 

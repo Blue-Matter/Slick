@@ -20,9 +20,12 @@ colorRampAlpha <- function(..., n, alpha) {
 #' @param include_x_labs Logical. Include MP labels on x-axis?
 #'
 #' @return A `ggplot2` object, or a list of `ggplot2` objects
+#' @example inst/examples/Boxplot.R
 #' @export
 plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
-                        byOM=FALSE, include_x_labs=FALSE) {
+                        byOM=FALSE, include_x_labs=TRUE) {
+  if (missing(slick))
+    stop('First argument must be Slick object')
   boxplot <- slick |> Boxplot()
   values <- boxplot |> Value()
   type <- match.arg(type)
@@ -31,10 +34,24 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   if (pm > dd[4])
     return(NULL)
 
+  nMP <- dd[3]
+
   Val <- values[,,,pm]
 
   mp_metadata <- slick |> MPs() |> Metadata()
-  mp_names <- mp_metadata$Label
+
+  if (all(nchar(mp_metadata$Color)<1)) {
+    mp_colors <- default_mp_colors(nMP)
+  } else {
+    mp_colors <-  mp_metadata$Color
+  }
+
+  if (all(nchar(mp_metadata$Color)<1)) {
+    mp_names <-paste('MP ', 1:nMP)
+  } else {
+    mp_names <-  mp_metadata$Label
+  }
+
   pm_names <- slick |> Boxplot() |> Metadata() |> dplyr::pull('Label')
 
   df <- data.frame(Sim=1:dd[1],
@@ -57,8 +74,8 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   ymax <- max(c(1, pretty(box_df$upp2)))
 
   p <- ggplot2::ggplot(df, ggplot2::aes(x=MP, color=MP, fill=MP)) +
-    ggplot2::scale_fill_manual(values=mp_metadata$Color) +
-    ggplot2::scale_color_manual(values=mp_metadata$Color) +
+    ggplot2::scale_fill_manual(values=mp_colors) +
+    ggplot2::scale_color_manual(values=mp_colors) +
     ggplot2::guides(color='none', fill='none')    +
     ggplot2::labs(x='tt', y='', title=pm_names[pm]) +
     ggplot2::expand_limits(y=c(0, ymax)) +
@@ -149,8 +166,6 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 #' If `OM_ind` isn't specified, the results will be shown as the median across
 #' operating models.
 #'
-#'
-#'
 #' @param slick A [Slick-class()] object
 #' @param PM_ind A numeric value specifying the performance indicator to plot
 #' @param MP_ind A numeric value specifying the MP to plot. Defaults to NULL
@@ -177,8 +192,10 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 #' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
 #' @param lim_name Label for the limit line
 #' @param inc_y_label Include the label for the y-axis?
+#' @param sims Optional. Numeric values indicating the simulations to include. Defaults
+#' to all.
 #'
-#' @seealso [Timeseries(), Timeseries-class()]
+#' @seealso [Timeseries-methods()], [Timeseries-class()]
 #' @return A `ggplot2` object
 #' @export
 #'

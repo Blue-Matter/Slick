@@ -40,6 +40,10 @@ Check(object, ...)
 \code{\link[=OMs-class]{OMs-class()}} or the six chart types: \code{\link[=Boxplot-class]{Boxplot-class()}}, \code{\link[=Kobe-class]{Kobe-class()}},
 \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}}, \code{\link[=Timeseries-class]{Timeseries-class()}},
 and \code{\link[=Tradeoff-class]{Tradeoff-class()}}.}
+
+\item{...}{Additional arguments}
+
+\item{req_dims}{Required dimensions for \code{Value} slot. Used internally}
 }
 \value{
 Prints messages to the console

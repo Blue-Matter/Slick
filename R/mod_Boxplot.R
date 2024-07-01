@@ -21,9 +21,9 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      boxplot='Boxplot'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   boxplot='Boxplot'))
 
     mod_Boxplot_overall_server("Boxplot_overall_1",
                                i18n, filtered_slick, plottype,
@@ -73,6 +73,24 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
           selected <- 'boxplot'
       }
       selected
+    })
+
+    plot_object <- reactive({
+      byOM <- FALSE
+      if (input$plotselect != 'overall')
+        byOM <- TRUE
+      p_type <- switch(plottype(),
+                       '1'='boxplot',
+                       '2'='violin',
+                       '3'='both'
+      )
+
+      p_list <- list()
+      for (i in 1:nPM()) {
+        p_list[[i]] <- plotBoxplot(filtered_slick(), i, p_type, byOM, FALSE)
+      }
+      cowplot::plot_grid(plotlist=p_list)
+
     })
 
     output$page <- renderUI({

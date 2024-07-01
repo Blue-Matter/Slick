@@ -14,12 +14,8 @@ Depends:
     R (>= 3.5.0)
 Imports:
     cli,
-    colorspace,
-    colourpicker,
-    config,
     dplyr,
     DT,
-    esquisse,
     flextable,
     fresh,
     ggplot2,
@@ -34,7 +30,6 @@ Imports:
     shiny.i18n,
     shinyalert,
     shinyBS,
-    shinycssloaders,
     shinydashboard,
     shinydashboardPlus,
     shinyhelper,
@@ -45,9 +40,12 @@ Imports:
     utils,
     waiter
 Suggests: 
+    colourpicker,
+    colorspace,
+    esquisse,
     knitr,
     MSEtool,
-    openMSE,
+    shinycssloaders,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -79,6 +77,7 @@ Collate:
     'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
+    'fct_misc.R'
     'fct_plots.R'
     'fct_translator.R'
     'make_Slick_old.R'

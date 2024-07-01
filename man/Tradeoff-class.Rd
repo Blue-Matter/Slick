@@ -7,7 +7,7 @@
 \description{
 Objects of class \code{Tradeoff} are used to store information for the Tradeoff plot.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
-assigned using functions corresponding to slot name. See \code{\link[=Tradeoff]{Tradeoff()}} and the
+assigned using functions corresponding to slot name. See \code{\link[=Tradeoff-methods]{Tradeoff-methods()}} and the
 the \verb{See Also} section below.
 }
 \details{

@@ -168,7 +168,7 @@ app_ui <- function(request) {
       body=body(),
       controlbar=controlbar(),
       title='Slick',
-      shinydashboardPlus::dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
+      shinydashboardPlus::dashboardFooter(left = paste0("Slick version:", slickVersion()),
                       right = tags$a(href='https://harveststrategies.org/',
                                      target="_blank", paste0("harveststrategies.org ", format(Sys.Date(), "%Y"))))
     )

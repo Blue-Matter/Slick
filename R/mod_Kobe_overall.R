@@ -18,7 +18,6 @@ mod_Kobe_overall_ui <- function(id){
 #'
 #' @noRd
 mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
-                                    plottype,
                                     nOM, nMP, nPM, parent_session,
                                     xvar, yvar,
                                     window_dims){
@@ -34,7 +33,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       tagList(
         fluidRow(
           column(10,
-                 shinycssloaders::withSpinner(plotOutput(ns('results'),
+                 loading_spinner(plotOutput(ns('results'),
                                                          height=plot_height(),
                                                          width=plot_width()))
           ),

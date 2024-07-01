@@ -18,7 +18,6 @@ mod_Kobe_time_ui <- function(id){
 #'
 #' @noRd
 mod_Kobe_time_server <- function(id,i18n, filtered_slick,
-                                 plottype,
                                  nOM, nMP, nPM, parent_session,
                                  xvar, yvar,
                                  window_dims){
@@ -36,7 +35,7 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
       tagList(
         fluidRow(
           column(12,
-                 shinycssloaders::withSpinner(uiOutput(ns('kobetimeplots')))
+                 loading_spinner(uiOutput(ns('kobetimeplots')))
           )
         )
       )
@@ -66,7 +65,7 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nMP(), function(mm) {
           plotname <- paste("plot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(ns(plotname), width='300px', height='300px'))
+          loading_spinner(plotOutput(ns(plotname), width='300px', height='300px'))
         })
         plot_output_list$cellArgs=list(style = 'width: 320px;')
         do.call(flowLayout, plot_output_list)

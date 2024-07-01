@@ -40,6 +40,11 @@ Target(object) <- value
 
 \S4method{Target}{Timeseries}(object) <- value
 }
+\arguments{
+\item{object}{A \code{\link[=Kobe-class]{Kobe-class()}} or \code{\link[=Timeseries]{Timeseries()}} class object}
+
+\item{value}{Value to assign to \code{Target}}
+}
 \description{
 Access or assign \code{Target} and \code{Limit} for object of class \code{Kobe} or \code{Timeseries}
 }
@@ -60,5 +65,10 @@ Access or assign \code{Target} and \code{Limit} for object of class \code{Kobe} 
 \item \code{Target(Timeseries)}: Return \code{Target} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 \item \code{Target(Timeseries) <- value}: Assign \code{Target} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{Target(object) <- value}: Assign \code{value} to \code{object@Target}
 
 }}

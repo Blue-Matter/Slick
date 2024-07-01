@@ -60,7 +60,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("boxplot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width()))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -71,7 +71,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("violin", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width()))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -82,7 +82,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("both", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width()))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -99,7 +99,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       plot_list <- list()
       if (dd[4]==nPM()) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE)
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE, FALSE)
         }
       }
       plot_list

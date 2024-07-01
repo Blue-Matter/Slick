@@ -41,16 +41,16 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                                               home_session=home_session)
 
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, parent_session,
+                         nOM, nMP, nPM,
                          relative_scale=relative_scale, OS_button)
     mod_Spider_OM_server("Spider_OM_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, parent_session,
+                         nOM, nMP, nPM, home_session,
                          relative_scale=relative_scale,
                          OS_button)
 
     mod_Spider_overall_server("Spider_overall_1",
                               i18n, filtered_slick,
-                              nOM, nMP, nPM, parent_session,
+                              nOM, nMP, nPM,
                               relative_scale=relative_scale,
                               window_dims)
 
@@ -116,7 +116,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                                       ),
                                 column(3,
                                        h4(i18n$t('Performance Indicators')),
-                                       shinycssloaders::withSpinner(plotOutput(ns('PM_outline'),
+                                       loading_spinner(plotOutput(ns('PM_outline'),
                                                                                width=125, height=125)),
                                        htmlOutput(ns('PMlist'))
                                        )

@@ -12,3 +12,13 @@ dev_history.R
 $run_dev.*
 ^.here$
 ^vignettes/articles$
+^Dockerfile$
+^build_site\.R$
+^check_show_dev\.R$
+^example_Slick\.R$
+^load_development\.R$
+^load_local_objects\.R$
+^testFile\.R$
+^test_slick_objects\.R$
+^translate_lang\.csv$
+^translation\.json$

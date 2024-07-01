@@ -18,7 +18,7 @@ mod_Spider_overall_ui <- function(id){
 #'
 #' @noRd
 mod_Spider_overall_server <- function(id, i18n, filtered_slick,
-                                      nOM, nMP, nPM, parent_session,
+                                      nOM, nMP, nPM,
                                       relative_scale=relative_scale,
                                       window_dims){
 
@@ -29,7 +29,7 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
     output$overall_Spider <- renderUI({
       i18n <- i18n()
       tagList(
-        shinycssloaders::withSpinner(
+        loading_spinner(
           plotOutput(ns('spider_plot'), height=plot_height())
         )
       )
