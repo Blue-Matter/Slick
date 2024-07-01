@@ -4,16 +4,10 @@
     <loc>https://blue-matter.github.io/Slick/404.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/articles/developer_guide.html</loc>
+    <loc>https://blue-matter.github.io/Slick/articles/DevelopersGuide.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://blue-matter.github.io/Slick/articles/slick1.html</loc>
-  </url>
-  <url>
-    <loc>https://blue-matter.github.io/Slick/articles/slick2.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/authors.html</loc>
@@ -28,28 +22,58 @@
     <loc>https://blue-matter.github.io/Slick/reference/App.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Boxplot.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Boxplot-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Boxplot-methods.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/reference/Check.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Kobe.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Code.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Color.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Defaults.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Design.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Factors.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Kobe-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Kobe-methods.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/reference/MPs-class.html</loc>
   </url>
   <url>
+    <loc>https://blue-matter.github.io/Slick/reference/MPs-methods.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Make_Slick.html</loc>
+  </url>
+  <url>
     <loc>https://blue-matter.github.io/Slick/reference/Metadata.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/OMs-Slick-method.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/MinValue.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/OMs-set-Slick-method.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/NewSlick.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/OMs.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/OMs-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/OMs-methods.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/reference/PMnorm.html</loc>
@@ -58,27 +82,60 @@
     <loc>https://blue-matter.github.io/Slick/reference/Preset.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Quilt.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Quilt-class.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Slick.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Quilt-methods.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Spider.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Slick-class.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Timeseries.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/SlickFunctions.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/Tradeoff.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/Spider-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Spider-methods.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Target.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Time.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/TimeLab.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/TimeNow.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Timeseries-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Timeseries-methods.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Tradeoff-class.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Tradeoff-methods.html</loc>
   </url>
   <url>
     <loc>https://blue-matter.github.io/Slick/reference/Update.html</loc>
   </url>
   <url>
+    <loc>https://blue-matter.github.io/Slick/reference/Value.html</loc>
+  </url>
+  <url>
     <loc>https://blue-matter.github.io/Slick/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://blue-matter.github.io/Slick/reference/run_app.html</loc>
+    <loc>https://blue-matter.github.io/Slick/reference/plotBoxplot.html</loc>
+  </url>
+  <url>
+    <loc>https://blue-matter.github.io/Slick/reference/plotTimeseries.html</loc>
   </url>
 </urlset>
