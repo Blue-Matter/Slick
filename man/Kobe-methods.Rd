@@ -81,9 +81,9 @@ Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, \code{nPI}, \code{nTS})}
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
 
-\item{Target}{Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).}
+\item{Target}{Numeric vector length \code{nPI} with the target value for the PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).}
 
-\item{Limit}{Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
+\item{Limit}{Numeric vector length \code{nPI} with the limit value for the PIs. Shows as red line on Kobe plot. NULL to ignore.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
@@ -101,7 +101,6 @@ The Kobe plot typically shows B/BMSY (or something similar) on the x-axis, and
 F/FMSY (or something similar) on the y-axis.
 \subsection{Performance Indicators}{
 
-There must be exactly two performance indicators (PIs).
 The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
 on the y-axis (e.g., F/FMSY)
 }

@@ -1,0 +1,304 @@
+---
+title: "Developer's Guide"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Slick)
+```
+
+# Introduction
+
+This document is a guide for analysts who wish to use `Slick` to summarize their MSE results. It describes the format of the `Slick` object, and provides examples demonstrating how to create and populate a `Slick` object.
+
+
+## Reporting Issues and Bugs
+
+Please use the [Issues](https://github.com/Blue-Matter/Slick/issues) feature in the GitHub repository to report issues or bugs. Please be sure to include a reproducible example so the issue can be recreated for de-bugging. [Pull Requests](https://github.com/Blue-Matter/Slick/pulls) are also welcome.
+
+
+# The `Slick` Object
+
+To use `Slick`, MSE results must be compiled into a `Slick` class object. The `Slick` object contains all of the information shown in the plots and tables, as well as metadata information such as title, introduction, and author details. Help documentation for the `Slick` class object can be found [here](../reference/Slick-class.html).
+
+To create a `Slick` object, simply use the `Slick()` function:
+
+```{r}
+slick <- Slick()
+```
+
+`slick` is now an empty `Slick` class object:
+
+```{r}
+slick
+```
+
+
+
+## Title, Author details, and Introduction
+
+The Title, Subtitle, Author, Email, and Institution components of the `Slick` object are populated with the corresponding functions. These are optional, but useful when presenting the Slick results in the App:
+
+```{r}
+Title(slick) <- 'An Example Slick Object'
+Subtitle(slick) <- "This is the subtitle"
+Author(slick) <- 'Adrian Hordyk'
+Email(slick) <-  "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
+Institution(slick) <- "[Blue Matter Science](bluematterscience.com)"
+```
+
+The same functions are used to return the information stored in each component:
+
+```{r}
+Title(slick)
+Subtitle(slick) 
+Author(slick) 
+Email(slick)
+Institution(slick)
+```
+
+With the exception of `Date`, Markdown can be used to include links, text styling, etc. For example,
+
+```{r}
+Introduction(slick) <- "
+This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
+
+The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).
+
+
+"
+```
+
+The Markdown will be automatically converted to HTML in the App:
+
+```{r}
+Introduction(slick, markdown = TRUE) 
+```
+
+
+### Multi-language 
+
+`Title`, `Subtitle`, and `Introduction` support multiple languages. Currently three languages are supported:
+
+- `en`: English
+- `es`: Spanish
+- `fr`: French
+
+Multiple languages can included by providing a named list:
+
+```{r}
+Title(slick) <- list(en='This is the English Title',
+                     es='This is the Spanish Title',
+                     fr='This is the French Title')
+
+```
+
+```{r}
+Title(slick)
+Title(slick, 'es')
+Title(slick, 'fr')
+```
+
+# The `MPs` object
+
+The [`MPs` object](../reference/MPs-methods.html) contains the codes, labels, and descriptions of the management procedures (MPs) included in the `Slick` object.
+
+`Code`, and `Label` are required. 
+
+In this example, there are four MPs:
+
+
+```{r}
+mps <- MPs()
+Code(mps) <- c('MP1', 'MP2', 'MP3', 'MP4')
+Label(mps) <- c('MP 1', 'MP 2', 'MP 3', 'MP 4')
+Description(mps) <- c('MP 1 is an example', 
+                 'MP 2 is another example',
+                 'Another example',
+                 'The final example')
+
+```
+
+This could have also been done as:
+```{r}
+mps <- MPs(Code=c('MP1', 
+                  'MP2', 
+                  'MP3', 
+                  'MP4'),
+           Label=c('MP 1',
+                   'MP 2', 
+                   'MP 3', 
+                   'MP 4'),
+           Description = c('MP 1 is an example', 
+                           'MP 2 is another example',
+                           'Another example',
+                           'The final example'))
+
+```
+
+`Color` is used to set the colors of the MPs shown in the plots. If not specified, default colors will be used:
+
+```{r}
+Color(mps)
+```
+
+`Preset` is an optional named list, with numeric values indicating the MPs to be selected by the `Preset` buttons:
+
+```{r}
+Preset(mps) <- list('All'=1:4,
+                    'Last 2'=3:4)
+```
+
+Add `mp` to the `slick` object
+
+```{r}
+MPs(slick) <- mps
+```
+
+
+# The `OMs` Object
+The `OMs` object describes the structure of the operating models contained with the `Slick` object. All `Slick` objects must have a completed `OMs` object.
+
+The easiest way to build a `Slick` object is to create and populate the sub-components and then add them to the `Slick` object.
+
+
+Create an [`OMs` object](../reference/OMs-methods.html):
+
+```{r oms}
+oms <- OMs()
+```
+
+The `OMs` object contains two mandatory slots (`Factors` and `Design`) and one optional slot (`Preset`).
+
+## Factors
+
+`Factors` is a `data.frame` with column headings **Factor**, **Level**, and **Description**. It is used to describe the various factors, and levels within each factor, of the operating models included in the `Slick` object.
+
+Here is a simple example of a `Slick` object that includes results from 6 OMs, spanning three levels on uncertainty in natural mortality (M) and two levels of steepness (h):
+
+```{r}
+Factors(oms) <- data.frame(Factor=c(rep('M',3), rep('h',2)),
+                           Level=c(0.1,0.2,0.3,0.7,0.9),
+                           Description=c('Natural Mortality = 0.1',
+                                         'Natural Mortality = 0.2',
+                                         'Natural Mortality = 0.3',
+                                         'Steepness = 0.7',
+                                         'Steepness = 0.9')
+                           )
+
+Factors(oms)
+```
+
+## Design 
+
+The `Design` matrix is `nOM` rows and `nFactor` columns. The values in each column should either be numeric values indicating the levels for the corresponding factor, or the actual level values (i.e., `Factors$Level`) that correspond to each OM. The column names of `Design` must match the names of the factors (i.e, `Factors$Level`).
+
+Here is the `Design` matrix corresponding with the `Factors` above:
+
+```{r design}
+Design(oms) <- data.frame(M=c(0.1, 0.1, 0.2, 0.2, 0.3,0.3),
+                          h=rep(c(0.7, 0.9), 3)
+)
+Design(oms)
+```
+
+## Preset
+
+`Preset` is optional. It is used to add buttons to the `Slick` [App](../reference/App.html) where users can rapidly select different sets of OMs.
+
+For `OMs` objects, `Preset` is a multi-level list. Each element in first level lists must be named. The names are used to display the 'Preset' button in the App. 
+
+The second level of each named list element must be a list length `nFactors`, which each element containing numeric values representing the levels within each factor that should be included under that preset.
+
+For example:
+```{r}
+Preset(oms) <- list('Low h'=list(1:3, 1),
+                    'High h'=list(1:3, 2))
+```
+
+
+The `OMs` object is now complete.
+
+The `Check` function can be used to make sure there are no errors:
+
+```{r}
+Check(oms)
+```
+
+Once the `OMs` object is complete, it can be added to the `Slick` object:
+
+```{r}
+OMs(slick) <- oms
+```
+
+
+# Plotting Objects
+
+At least one of the six plot objects must be included in a `Slick` object. 
+
+## `Boxplot`
+
+`Code`, `Label`, and `Value` are required. 
+```{r boxplot}
+boxplot <- Boxplot(Code=c('PI 1', 'PI 2', 'PI 3'),
+                   Label=c('Perf. Ind. 1', 'Perf. Ind. 2', 'Perf. Ind. 3'),
+                   Description=c('This is the description of PI 1',
+                                 'This is the description of PI 2',
+                                 'This is the description of PI 3'))
+```
+
+`Value` is a numeric array containing the values of the performance indicators included in the `Boxplot` object. `Value` must have dimensions `c(nsim, nOM, nMP, nPI)`.
+
+```{r}
+
+Value(boxplot) <- array(runif(1E4), dim=c(50, 6, 4, 3))
+
+```
+
+
+```{r}
+Boxplot(slick) <- boxplot
+```
+
+### Checking and Testing
+
+The `Slick` object is now complete with the minimum requirements:
+
+1. A complete `MPs` object
+1. A complete `OMs` object
+1. and at least one complete plotting object (`Boxplot` in this case)
+
+The `Slick` object can be checked for completeness with the `Check` function:
+
+```{}
+Check(slick)
+```
+
+The `App` function can be used to run the app locally. Passing a `Slick` object as a named argument loads the object directly into the App:
+
+```{r, eval=FALSE}
+App(slick=slick)
+```
+
+## `Kobe` 
+
+## `Quilt`
+
+
+## `Spider`
+
+## `Timeseries`
+
+
+## `Tradeoff`
+
+
+
+
+

@@ -169,12 +169,12 @@ setMethod('Check', 'OMs', function(object) {
 
 ## Show ----
 
-#' @describeIn OMs Show objects of class `OMs`
+
 #' @export
 setMethod("show", "OMs", function(object) {
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)
-    print_errors(chk)
+    print_errors(chk@errors)
   print_factors(object@Factors)
   print_design(object@Design)
   print_preset(object@Preset)

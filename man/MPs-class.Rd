@@ -3,11 +3,7 @@
 \docType{class}
 \name{MPs-class}
 \alias{MPs-class}
-\alias{show,MPs-method}
 \title{\code{MPs} S4 class and functions}
-\usage{
-\S4method{show}{MPs}(object)
-}
 \description{
 An object of class \code{MPs} contains information about the management procedures (MPs)
 in a \code{\link[=Slick-class]{Slick-class()}} object. Like all S4 objects in \code{Slick}, slots in this
@@ -33,11 +29,6 @@ as the number of management procedures (\code{nMPs}) in the plot objects \code{B
 \code{Kobe}, \code{Quilt}, \code{Spider}, \code{Timeseries}, and \code{Tradeoff}.
 }
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{show(MPs)}: Show objects of class \code{MPs}
-
-}}
 \section{Slots}{
 
 \describe{

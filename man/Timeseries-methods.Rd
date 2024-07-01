@@ -102,6 +102,7 @@ and to access and assign \code{Timeseries} for an object of class \code{\link[=S
 See \code{Details}.
 }
 \details{
+Use \code{\link[=plotTimeseries]{plotTimeseries()}} to create the boxplot from the console.
 \subsection{Note}{
 
 Character strings in \code{Code}, \code{Label}, and \code{Description} must all be same length
@@ -138,7 +139,7 @@ existing \code{Timeseries} object, see \code{Examples}
 }}
 \seealso{
 \code{\link[=Timeseries-methods]{Timeseries-methods()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
-\code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
+\code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=plotTimeseries]{plotTimeseries()}}
 
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

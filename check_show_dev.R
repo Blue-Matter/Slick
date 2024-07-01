@@ -94,7 +94,7 @@ Label(MPs) <- list(en=paste('EN MP', 1:2),
 ## Empty ----
 
 object <- OMs()
-OMs
+object
 
 Check(object)
 
@@ -149,7 +149,7 @@ Preset(object) <- list('Reference'=list(1:3, 1:3, 1),
 
 object
 
- Check(object)
+Check(object)
 
 
 ## Multi-language ----
@@ -251,33 +251,214 @@ Factors(object) <- data.frame(Factor=c(rep('M',3),
                                             'Illegal, unreported, or unregulated catches')
 )
 
+
+# error
 Design(object) <- data.frame(M=1, h=2, Sett=3)
 
-## UP TO HERE
+# error
 Design(object) <- data.frame(M=1, h=2, Set=3)
+
+
+
+# ok
+Design(object) <- data.frame(M=1:3, h=1:3, Set=1:6)
+
+# ok
+Design(object) <- data.frame(M=c(0.1, 0.2, 0.3),
+                             h=c(0.69, 0.8, 0.88),
+                             Set=1:6)
+# ok
+Design(object) <- data.frame(M=c('0.1', '0.2', '0.3'),
+                             h=c(0.69, 0.8, 0.88),
+                             Set=1:6)
+
 
 object
 Check(object)
 
 
-
-
-
-
-
-
-
 # Boxplot ----
+
+## Empty ----
+object <- Boxplot()
+object
+
+Check(object)
+
+## Complete ----
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,6,4))
+
+object
+Check(object)
+
+## Errors
+
+# error
+object <- Boxplot()
+Value(object) <- array(runif(100), dim=c(1,2))
+
+# ok
+object <- Boxplot()
+Value(object) <- array(runif(100), dim=c(1,1,1,3))
+
 
 # Kobe ----
 
+## Empty ----
+object <- Kobe()
+object
+
+Check(object)
+
+## Minimum ----
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,6,4, 51))
+
+object
+Check(object)
+
+## Complete ----
+Time(object) <- 1950:2000
+Target(object) <- c(1,2,3, 4)
+Limit(object) <- 3
+
+object
+Check(object)
+
+
 # Quilt ----
+## Empty ----
+object <- Quilt()
+object
+Check(object)
+
+## Minimum Complete ----
+object <- Quilt()
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,4))
+
+object
+
+Check(object)
+
+
 
 # Spider ----
+## Empty ----
+object <- Spider()
+object
+Check(object)
+
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,4))
+
+object
+
+Check(object)
+
 
 # Timeseries ----
 
+## Empty ----
+object <- Timeseries()
+object
+Check(object)
+
+
+## Minimum Complete ----
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,6,4, 51))
+Time(object) <- 1950:2000
+TimeNow(object) <- 1995
+object
+Check(object)
+
+
 # Tradeoff ----
 
+## Empty ----
+object <- Tradeoff()
+object
+Check(object)
+
+## Minimum Complete ----
+object <- Tradeoff()
+nPI <- 4
+Code(object) <- c('AAVY', 'LTY', 'STY', 'Something Else')
+Label(object) <- paste('PI', 1:nPI)
+Value(object) <- array(runif(100), dim=c(3,2,4))
+
+object
+Check(object)
+
+
 # Slick ----
+
+## Empty
+object <- Slick()
+
+object
+
+Check(object)
+
+## Meta text
+Title(object) <- 'This is the Title'
+Subtitle(object) <- 'This is the sub title'
+Author(object) <- c('Author 1', 'Author 2')
+Email(object) <- c('email 1 ')
+Institution(object) <- c('one', 'two', 'three')
+
+Introduction(object) <- '
+This is the introduction.
+
+This is a new paragraph.
+
+This is some **bold** text.
+'
+
+# MPs
+nMP <- 4
+mps <- MPs()
+Code(mps) <- paste('MP', 1:nMP)
+Label(mps) <- paste('MP', 1:nMP)
+
+Description(mps) <- paste('Description', 1:nMP)
+Color(mps) <- c('red', 'blue', 'green', 'red')
+Preset(mps) <- list(All=c(1:4),
+                    `First Two`=1:2)
+
+MPs(object) <- mps
+
+object
+
+
+# multi language tests
+object <- Slick()
+Check(object)
+Introduction(object) <- list(en='
+This is the introduction.
+
+This is a new paragraph.
+
+This i
+',
+                             es=' This is the spanish intro',
+                             fr='this is the french intro'
+)
+
+object
+
+Boxplot(object) <- Boxplot()
+
 

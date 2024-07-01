@@ -4,10 +4,10 @@
 \alias{Update}
 \title{Updates an old object of class \code{Slick} to new S4 class \code{Slick}}
 \usage{
-Update(slick)
+Update(slick_in)
 }
 \arguments{
-\item{slick}{An S3 object of class \code{Slick}}
+\item{slick_in}{An S3 object of class \code{Slick}}
 }
 \value{
 An S4 object of class \code{Slick}

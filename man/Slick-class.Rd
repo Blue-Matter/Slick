@@ -4,81 +4,59 @@
 \name{Slick-class}
 \alias{Slick-class}
 \alias{Slick}
-\alias{Timeseries,Slick-method}
-\alias{Timeseries<-,Slick-method}
-\alias{Design,Slick-method}
-\alias{Design<-,Slick-method}
-\alias{Factors,Slick-method}
-\alias{Factors<-,Slick-method}
-\alias{show,Slick-method}
-\alias{Title}
-\alias{Title<-}
-\alias{Subtitle}
-\alias{Subtitle<-}
-\alias{Date}
-\alias{Date<-}
-\alias{Author}
-\alias{Author<-}
-\alias{Email}
-\alias{Email<-}
-\alias{Institution}
-\alias{Institution<-}
-\alias{Introduction}
-\alias{Introduction<-}
-\title{S4 class \code{Slick} and associated functions}
+\title{Create a \code{Slick} class object}
 \usage{
-\S4method{Timeseries}{Slick}(Code)
-
-\S4method{Timeseries}{Slick}(Slick) <- value
-
-\S4method{Design}{Slick}(object)
-
-\S4method{Design}{Slick}(object) <- value
-
-\S4method{Factors}{Slick}(object, lang = "en")
-
-\S4method{Factors}{Slick}(object) <- value
-
-\S4method{show}{Slick}(object)
-
-Title(object, lang = "en", markdown = FALSE)
-
-Title(object) <- value
-
-Subtitle(object, lang = "en", markdown = FALSE)
-
-Subtitle(object) <- value
-
-Date(object)
-
-Date(object) <- value
-
-Author(object, markdown = FALSE)
-
-Author(object) <- value
-
-Email(object, markdown = FALSE)
-
-Email(object) <- value
-
-Institution(object, lang = "en", markdown = FALSE)
-
-Institution(object) <- value
-
-Introduction(object, lang = "en", markdown = FALSE)
-
-Introduction(object) <- value
+Slick(
+  Title = "",
+  Subtitle = "",
+  Date = Sys.Date(),
+  Author = "",
+  Email = "",
+  Institution = "",
+  Introduction = "",
+  MPs = NULL,
+  OMs = NULL,
+  Boxplot = NULL,
+  Kobe = NULL,
+  Quilt = NULL,
+  Spider = NULL,
+  Timeseries = NULL,
+  Tradeoff = NULL
+)
 }
 \arguments{
-\item{value}{The value to assign to the object. See \code{Slots} for format of the
-relevant object class}
+\item{Title}{Title for the \code{Slick} object. A character string. For multiple languages,
+use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
 
-\item{object}{An object of class \code{\link[=Slick-class]{Slick-class()}}}
+\item{Subtitle}{Subtitle for the \code{Slick} object. A character string or a named list with
+languages: \code{en}, \code{es}, \code{fr}}
 
-\item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+\item{Date}{Date the Slick object was created. Text in format 'YYYY-MM-DD' or class \code{Date} e.g., \code{Sys.Date()}}
 
-\item{markdown}{Logical. Process markdown?}
+\item{Author}{A character vector with Author(s) names. The length of the vector should equal the number of authors.}
+
+\item{Email}{A character vector with email addresses for the author(s). Must be same length as \code{Author}. Can include Markdown.}
+
+\item{Institution}{A character vector with institution details for the author(s). Must be same length as \code{Author}. Can include Markdown.}
+
+\item{Introduction}{Introduction text for the \code{Slick} object. Supports all markdown formatting. Character string, must be length 1.
+For multiple languages, use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
+
+\item{MPs}{An object of class \code{\link[=MPs-class]{MPs-class()}}}
+
+\item{OMs}{An object of class \code{\link[=OMs-class]{OMs-class()}}}
+
+\item{Boxplot}{An object of class \code{\link[=Boxplot-class]{Boxplot-class()}}}
+
+\item{Kobe}{An object of class \code{\link[=Kobe-class]{Kobe-class()}}}
+
+\item{Quilt}{An object of class \code{\link[=Quilt-class]{Quilt-class()}}}
+
+\item{Spider}{An object of class \code{\link[=Spider-class]{Spider-class()}}}
+
+\item{Timeseries}{An object of class \code{\link[=Timeseries-class]{Timeseries-class()}}}
+
+\item{Tradeoff}{An object of class \code{\link[=Tradeoff-class]{Tradeoff-class()}}}
 }
 \description{
 The \code{Slick} class is the main object class used in the \code{Slick} package. It
@@ -104,52 +82,9 @@ Text with multi-language supported can be provided as a named list. Available la
 All functions with the exception of \code{Date} support Markdown.
 }
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{Timeseries(Slick)}: Return \code{Timeseries} from a \code{\link[=Slick-class]{Slick-class()}} object
-
-\item \code{Timeseries(Slick) <- value}: Assign \code{Timeseries} to a \code{\link[=Slick-class]{Slick-class()}} object
-
-\item \code{Design(Slick)}: Access the operating model \code{Design} matrix
-
-\item \code{Design(Slick) <- value}: Assign the operating model \code{Design} matrix
-
-\item \code{Factors(Slick)}: Access the operating model \code{Factors} table
-
-\item \code{Factors(Slick) <- value}: Assign the operating model \code{Factors} table
-
-\item \code{show(Slick)}: Show objects of class \code{Slick}
-
-}}
 \section{Functions}{
 \itemize{
-\item \code{Title()}: Access \code{Title}, Multi-language support
-
-\item \code{Title(object) <- value}: Assign \code{Title}, Multi-language support
-
-\item \code{Subtitle()}: Access \code{Subtitle}, Multi-language support
-
-\item \code{Subtitle(object) <- value}: Assign \code{Subtitle}, Multi-language support
-
-\item \code{Date()}: Access \code{Date}
-
-\item \code{Date(object) <- value}: Assign \code{Date}
-
-\item \code{Author()}: Access \code{Author}
-
-\item \code{Author(object) <- value}: Assign \code{Author}
-
-\item \code{Email()}: Access \code{Email}
-
-\item \code{Email(object) <- value}: Assign \code{Email}
-
-\item \code{Institution()}: Access \code{Institution}
-
-\item \code{Institution(object) <- value}: Assign \code{Institution}
-
-\item \code{Introduction()}: Access \code{Introduction}
-
-\item \code{Introduction(object) <- value}: Assign \code{Introduction}, can include Markdown. See \code{Examples}
+\item \code{Slick()}: Create a \code{\link[=Slick-class]{Slick-class()}} object
 
 }}
 \section{Slots}{
@@ -190,11 +125,12 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 }}
 
 \examples{
+library(Slick)
 # Assign values to a new `Slick` object
 slick <- Slick()
 
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/Building-A-Slick-Object.Rmd)"
+Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
@@ -221,5 +157,7 @@ Introduction(slick)
 }
 \seealso{
 \code{\link[=MPs]{MPs()}}, \code{\link[=OMs]{OMs()}}, \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Kobe]{Kobe()}}, \code{\link[=Quilt]{Quilt()}},
-\code{\link[=Spider]{Spider()}}, \code{\link[=Timeseries]{Timeseries()}}, \code{\link[=Tradeoff]{Tradeoff()}}, and \code{\link[=Check]{Check()}}
+\code{\link[=Spider]{Spider()}}, \code{\link[=Timeseries]{Timeseries()}}, \code{\link[=Tradeoff]{Tradeoff()}}, \code{\link[=Check]{Check()}},
+\code{\link[=Title]{Title()}}, \code{\link[=Subtitle]{Subtitle()}}, \code{\link[=Date]{Date()}}, \code{\link[=Author]{Author()}}, \code{\link[=Email]{Email()}},
+\code{\link[=Institution]{Institution()}}, \code{\link[=Introduction]{Introduction()}}
 }

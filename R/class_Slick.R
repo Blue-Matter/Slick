@@ -3,7 +3,7 @@
 
 # ---- Class ----
 
-#' S4 class `Slick` and associated functions
+#' Create a `Slick` class object
 #'
 #' The `Slick` class is the main object class used in the `Slick` package. It
 #' contains sub-objects for the management procedures [MPs()], operating models [OMs()],
@@ -15,7 +15,6 @@
 #'
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
 #' assigned using functions corresponding to slot name. See `Usage` and `Functions` section.
-#'
 #'
 #' ## Multi-Language Support
 #' Text with multi-language supported can be provided as a named list. Available languages:
@@ -42,7 +41,9 @@
 #' @slot Tradeoff An object of class [Tradeoff-class()]
 #'
 #' @seealso [MPs()], [OMs()], [Boxplot()], [Kobe()], [Quilt()],
-#' [Spider()], [Timeseries()], [Tradeoff()], and [Check()]
+#' [Spider()], [Timeseries()], [Tradeoff()], [Check()],
+#' [Title()], [Subtitle()], [Date()], [Author()], [Email()],
+#' [Institution()], [Introduction()]
 #'
 #' @include class_MPs.R
 #' @include class_OMs.R
@@ -58,7 +59,7 @@
 #' @docType class
 #' @export
 #'
-Slick <- setClass("Slick",
+setClass("Slick",
          slots=c(Title='character_list',
                  Subtitle='character_list',
                  Date='date_character',
@@ -134,26 +135,21 @@ check_data.frame <- function(obj, req, opt) {
   NULL
 }
 validSlick <- function(object) {
-
-  if (length(object@Title)>0) {
-    if (inherits(object@Title, 'list')) {
-      names(object@Title %in% c('en', 'es', 'fr'))
+  chk <- Check(object)
+  if (is.list(chk@empty)) {
+    for (i in seq_along(chk@errors)) {
+     if (length(chk@errors[[i]])>0) {
+       return(chk@errors[[i]])
+     }
+      if(all(unlist(chk@empty)))
+        return(TRUE)
     }
+  } else {
+    if (chk@empty) return(TRUE)
+    if (length(chk@errors)>0) return(chk@errors)
   }
 
-  # MPs
-  obj <- MPs(object)
-  if (inherits(obj, 'data.frame')) {
-    test <- check_data.frame(obj,
-                             req=c('Code', 'Label', 'Description'),
-                             opt=c('Color', 'Default'))
-    if (!is.null(test)) return(test)
-  }
-  if (inherits(obj, 'list')) {
-    test <- lapply(obj, check_data.frame, req=c('Code', 'Label', 'Description'),
-                   opt=c('Color', 'Default'))
-    if (!all(unlist(lapply(test, is.null)))) return(test)
-  }
+
   TRUE
 }
 
@@ -161,21 +157,40 @@ setValidity('Slick', validSlick)
 
 
 ## ---- New ----
-newSlick <- function(Title=NULL,
-                     Subtitle=NULL,
-                     Date=NULL,
-                     Author=NULL,
-                     Email=NULL,
-                     Institution=NULL,
-                     Introduction=NULL,
-                     MPs=NULL,
-                     OMs=NULL,
-                     Boxplot=NULL,
-                     Kobe=NULL,
-                     Quilt=NULL,
-                     Spider=NULL,
-                     Timeseries=NULL,
-                     Tradeoff=NULL) {
+
+#' @describeIn Slick Create a [Slick-class()] object
+#' @param Title `r title_param()`
+#' @param Subtitle `r subtitle_param()`
+#' @param Date `r date_param()`
+#' @param Author `r author_param()`
+#' @param Email `r email_param()`
+#' @param Institution `r institution_param()`
+#' @param Introduction `r introduction_param()`
+#' @param MPs An object of class [MPs-class()]
+#' @param OMs An object of class [OMs-class()]
+#' @param Boxplot An object of class [Boxplot-class()]
+#' @param Kobe An object of class [Kobe-class()]
+#' @param Quilt An object of class [Quilt-class()]
+#' @param Spider An object of class [Spider-class()]
+#' @param Timeseries An object of class [Timeseries-class()]
+#' @param Tradeoff An object of class [Tradeoff-class()]
+#' @export
+Slick <- function(Title='',
+                  Subtitle='',
+                  Date=Sys.Date(),
+                  Author='',
+                  Email='',
+                  Institution='',
+                  Introduction='',
+                  MPs=NULL,
+                  OMs=NULL,
+                  Boxplot=NULL,
+                  Kobe=NULL,
+                  Quilt=NULL,
+                  Spider=NULL,
+                  Timeseries=NULL,
+                  Tradeoff=NULL) {
+
   obj <- new('Slick',
              Title,
              Subtitle,
@@ -200,39 +215,57 @@ newSlick <- function(Title=NULL,
 
 # ---- Methods ----
 
-#' @describeIn Slick Return `Timeseries` from a [Slick-class()] object
-setMethod("Timeseries","Slick",function(Code) Code@Timeseries)
-
-#' @describeIn Slick Assign `Timeseries` to a [Slick-class()] object
-setMethod("Timeseries<-","Slick",function(Slick, value) {
-  Slick@Timeseries <- value
-  methods::validObject(Slick)
-  Slick
-})
-
 
 
 ## ---- Check ----
+
+
+
+
 #' @describeIn Check Check [Slick-class()] objects for errors
 setMethod('Check', 'Slick', function(object) {
 
+
+  # check metadata stuff
   ll <- CheckList()
   ll@object <- 'Slick'
   ll@complete <- list()
   ll@empty <- list()
 
+
+  ll@errors$Title <- unlist(check_lang_list(object@Title))
+  ll@errors$Subtitle <- unlist(check_lang_list(object@Subtitle))
+  ll@errors$Introduction <- unlist(check_lang_list(object@Introduction))
+
   obj_classes <- c('MPs', 'OMs', 'Boxplot',
                    'Quilt', 'Kobe', 'Spider',
                    'Timeseries', 'Tradeoff')
 
+  nOM <- nrow(object@OMs@Design)
+  mps <- Code(MPs(object))
+  nMPs <- ifelse(all(nchar(mps)<1), 0, length(mps))
+
   for (cl in obj_classes) {
-    chk <- Check(slot(object, cl))
+    req_dims <- value_dimensions(cl)
+    if (!is.null(req_dims)) {
+      check_dims <- rep(NA, length(req_dims))
+      if (nOM>0) {
+        check_dims[match('nOM',req_dims)] <- nOM
+      }
+      if (nMPs>0) {
+        check_dims[match('nMP',req_dims)] <- nMPs
+      }
+
+      chk <- Check(slot(object, cl), check_dims)
+    } else {
+      chk <- Check(slot(object, cl))
+    }
+
     ll@complete[[cl]] <- chk@complete
     ll@empty[[cl]] <- chk@empty
     ll@errors[[cl]] <- chk@errors
-
+    ll@warnings[[cl]] <- chk@warnings
   }
-
   ll
 })
 
@@ -240,11 +273,11 @@ setMethod('Check', 'Slick', function(object) {
 ## ---- Design ----
 
 #' @param object A [Slick-class()] object
-#' @describeIn Slick Access the operating model `Design` matrix
+#' @describeIn Design Access the operating model `Design` matrix from a [Slick-class()] object
 setMethod('Design', 'Slick', function(object) object@OMs@Design)
 
 #' @param object A [Slick-class()] object
-#' @describeIn Slick Assign the operating model `Design` matrix
+#' @describeIn Design Assign the operating model `Design` matrix to a [Slick-class()] object
 setMethod('Design<-', 'Slick', function(object,value) {
   object@OMs@Design <- value
   methods::validObject(object)
@@ -254,14 +287,14 @@ setMethod('Design<-', 'Slick', function(object,value) {
 ## ---- Factors ----
 
 #' @param object A [Slick-class()] object
-#' @describeIn Slick Access the operating model `Factors` table
+#' @describeIn Factors Access the operating model `Factors` table from a [Slick-class()] object
 setMethod('Factors', 'Slick', function(object, lang='en')
   get_language(object@OMs@Factors,lang)
 )
 
 
 #' @param object A [Slick-class()] object
-#' @describeIn Slick Assign the operating model `Factors` table
+#' @describeIn Factors Assign the operating model `Factors` table to a [Slick-class()] object
 setMethod('Factors<-', 'Slick', function(object,value) {
   object@OMs@Factors <- value
   methods::validObject(object)
@@ -270,43 +303,40 @@ setMethod('Factors<-', 'Slick', function(object,value) {
 
 
 
-
 ## --- Show ----
 
-#' @describeIn Slick Show objects of class `Slick`
-#' @param object An object of class [Slick-class()]
 #' @export
 setMethod("show", "Slick", function(object) {
-  cat('An object of class `Slick` \n\n')
-  cat('Title:', Title(object, 'en'), '\n')
-  cat('Subtitle:', Subtitle(object, 'en'), '\n')
-  cat('Date:', paste(Date(object), collapse=''), '\n')
-  cat('Author:', paste(Author(object),collapse=', '), '\n')
-  cat('Email:', paste(Email(object),collapse=', '), '\n')
-  cat('Institution:', paste(Institution(object),collapse=', '), '\n')
 
-  intro_text <- Introduction(object)
+  chk <- print_show_heading(object)
 
-  if (length(intro_text)>0) {
-    if (nchar(intro_text) > 50) {
-      cat('Introduction:', paste0(substr(Introduction(object), 1, 50), ' ...\n'))
+  print_metadata(object@Title, 'Title', addNum = FALSE)
+  print_metadata(object@Subtitle, 'Subtitle', addNum = FALSE)
+  print_metadata(object@Date, 'Date', addNum = FALSE)
+  print_metadata(object@Author, 'Author')
+  print_metadata(object@Email, 'Email')
+  print_metadata(object@Institution, 'Institution')
+  print_metadata(object@Introduction, 'Introduction', addNum = FALSE)
+
+
+  obj_classes <- c('MPs', 'OMs', 'Boxplot',
+                   'Quilt', 'Kobe', 'Spider',
+                   'Timeseries', 'Tradeoff')
+
+  for (cl in obj_classes) {
+    temp <- slot(object,cl)
+    chk <-  Check(temp)
+    cli::cli_h2('{.code {chk@object}}')
+    if (chk@empty) {
+      cli::cli_alert_info('Object is empty')
     } else {
-      cat('Introduction:', Introduction(object))
+      if (length(chk@errors)>0)
+        print_errors(chk@errors)
+      if (length(chk@warnings)>0)
+        print_warnings(chk@warnings)
+      if (chk@complete)
+        cli::cli_alert_success('Complete')
     }
-
-  } else {
-    cat('Introduction:')
-  }
-
-  # MPs
-  cat('\n\nMPs:')
-  mps <- MPs(object)
-  meta <- Metadata(mps)
-  if (nrow(meta)<1) {
-    cat('None specified.')
-  } else {
-    cat('\n')
-    print(meta)
   }
 
 })
@@ -318,12 +348,8 @@ setMethod("MPs", 'Slick', function(Code) {
   Code@MPs
 })
 
-#' @rdname MPs-methods
-#' @param object A [Slick-class()] object
-#' @param value An [MPs-class()] object
-#' @export
-setGeneric("MPs<-", function(object, value) standardGeneric("MPs<-"))
 
+#' @describeIn MPs-methods Assign an [MPs-class()] object to a [Slick()] object
 setMethod("MPs<-", "Slick", function(object, value) {
   object@MPs <- value
   if (any(nchar(Color(object@MPs)))<1) {
@@ -342,11 +368,6 @@ setMethod("OMs", 'Slick', function(Factors) {
   Factors@OMs
 })
 
-#' @rdname OMs-methods
-#' @param object A [Slick-class()] object
-#' @param value An [OMs-class()] object
-#' @export
-setGeneric("OMs<-", function(object, value) standardGeneric("OMs<-"))
 
 setMethod("OMs<-", "Slick", function(object, value) {
   object@OMs <- value
@@ -437,14 +458,23 @@ setMethod("Tradeoff<-", "Slick", function(Slick, value) {
 
 
 
-## Functions ----
+## Slick Object Functions ----
 
 process_markdown <- function(val, markdown) {
   if (markdown) val <- shiny::markdown(val)
   val
 }
 
-#' @describeIn Slick Access `Title`, Multi-language support
+
+#' Slick Object Functions
+#'
+#' @name SlickFunctions
+NULL
+
+
+
+#' @describeIn SlickFunctions Access `Title`, Multi-language support
+#' @param object A [Slick-class()] object
 #' @param lang `r lang_param()`
 #' @param markdown Logical. Process markdown?
 #' @export
@@ -452,7 +482,7 @@ Title <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Title, lang), markdown)
 }
 
-#' @describeIn Slick Assign `Title`, Multi-language support
+#' @describeIn SlickFunctions Assign `Title`, Multi-language support
 #' @param value The value to assign to the object. See `Slots` for format of the
 #' relevant object class
 #' @export
@@ -464,13 +494,13 @@ Title <- function(object, lang='en', markdown=FALSE) {
 
 
 
-#' @describeIn Slick Access `Subtitle`, Multi-language support
+#' @describeIn SlickFunctions Access `Subtitle`, Multi-language support
 #' @export
 Subtitle <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Subtitle, lang), markdown)
 }
 
-#' @describeIn Slick Assign `Subtitle`, Multi-language support
+#' @describeIn SlickFunctions Assign `Subtitle`, Multi-language support
 #' @export
 `Subtitle<-` <- function(object,  value) {
   object@Subtitle <- value
@@ -478,13 +508,13 @@ Subtitle <- function(object, lang='en', markdown=FALSE) {
   object
 }
 
-#' @describeIn Slick Access `Date`
+#' @describeIn SlickFunctions Access `Date`
 #' @export
 Date <- function(object) {
   object@Date
 }
 
-#' @describeIn Slick Assign `Date`
+#' @describeIn SlickFunctions Assign `Date`
 #' @export
 `Date<-` <- function(object, value) {
   if (is.null(value)) return(object)
@@ -497,13 +527,13 @@ Date <- function(object) {
 }
 
 
-#' @describeIn Slick Access `Author`
+#' @describeIn SlickFunctions Access `Author`
 #' @export
 Author <- function(object, markdown=FALSE) {
   process_markdown(object@Author, markdown)
 }
 
-#' @describeIn Slick Assign `Author`
+#' @describeIn SlickFunctions Assign `Author`
 #' @export
 `Author<-` <- function(object,  value) {
   object@Author <- value
@@ -512,13 +542,13 @@ Author <- function(object, markdown=FALSE) {
 }
 
 
-#' @describeIn Slick Access `Email`
+#' @describeIn SlickFunctions Access `Email`
 #' @export
 Email <- function(object, markdown=FALSE) {
   process_markdown(object@Email, markdown)
 }
 
-#' @describeIn Slick Assign `Email`
+#' @describeIn SlickFunctions Assign `Email`
 #' @export
 `Email<-` <- function(object,  value) {
   object@Email <- value
@@ -527,13 +557,13 @@ Email <- function(object, markdown=FALSE) {
 }
 
 
-#' @describeIn Slick Access `Institution`
+#' @describeIn SlickFunctions Access `Institution`
 #' @export
 Institution <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Institution, lang), markdown)
 }
 
-#' @describeIn Slick Assign `Institution`
+#' @describeIn SlickFunctions Assign `Institution`
 #' @export
 `Institution<-` <- function(object,  value) {
   object@Institution <- value
@@ -541,13 +571,13 @@ Institution <- function(object, lang='en', markdown=FALSE) {
   object
 }
 
-#' @describeIn Slick Access `Introduction`
+#' @describeIn SlickFunctions Access `Introduction`
 #' @export
 Introduction <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Introduction, lang), markdown)
 }
 
-#' @describeIn Slick Assign `Introduction`, can include Markdown. See `Examples`
+#' @describeIn SlickFunctions Assign `Introduction`, can include Markdown. See `Examples`
 #' @export
 `Introduction<-` <- function(object,  value) {
   object@Introduction <- value

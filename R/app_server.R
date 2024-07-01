@@ -106,7 +106,6 @@ app_server <- function(input, output, session) {
 
   mod_Report_Page_server('Report_Page_1', i18n, Slick_Object, Report)
 
-
   waitress$inc(5)
 
   mod_Metadata_server("metadata", i18n, Slick_Object)

@@ -15,9 +15,9 @@
 \alias{Check,Slick-method}
 \title{Check an object for errors or issues}
 \usage{
-Check(object)
+Check(object, ...)
 
-\S4method{Check}{Boxplot}(object)
+\S4method{Check}{Boxplot}(object, req_dims = c(NA, NA, NA, NA))
 
 \S4method{Check}{Kobe}(object)
 

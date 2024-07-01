@@ -7,6 +7,121 @@ colorRampAlpha <- function(..., n, alpha) {
 
 # ---- Boxplot ----
 
+#' Plot `Boxplot`
+#'
+#' Plots boxplot, violin plot, or a combined box+violin plot for information stored
+#' in a [Boxplot-class] object
+#'
+#'
+#' @param slick A [Slick-class()] object
+#' @param pm Numeric value indicating the performance metric to plot from the `Boxplot-class` object
+#' @param type Character string specifying the plot type.
+#' @param byOM Logical. Facet the plots by operating model?
+#' @param include_x_labs Logical. Include MP labels on x-axis?
+#'
+#' @return A `ggplot2` object, or a list of `ggplot2` objects
+#' @export
+plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
+                        byOM=FALSE, include_x_labs=FALSE) {
+  boxplot <- slick |> Boxplot()
+  values <- boxplot |> Value()
+  type <- match.arg(type)
+  dd <- dim(values)
+
+  if (pm > dd[4])
+    return(NULL)
+
+  Val <- values[,,,pm]
+
+  mp_metadata <- slick |> MPs() |> Metadata()
+  mp_names <- mp_metadata$Label
+  pm_names <- slick |> Boxplot() |> Metadata() |> dplyr::pull('Label')
+
+  df <- data.frame(Sim=1:dd[1],
+                   OM=rep(1:dd[2], each=dd[1]),
+                   MP=rep(mp_names, each=dd[1]*dd[2]),
+                   value=as.vector(Val))
+
+  df$MP <- factor(df$MP, ordered=TRUE, levels=mp_names)
+
+  box_df <- data.frame(
+    MP = mp_names,
+    m = tapply(df$value, df$MP, median),
+    low1 = tapply(df$value, df$MP, quantile, 0.25, na.rm = TRUE),
+    upp1 = tapply(df$value, df$MP, quantile, 0.75, na.rm = TRUE),
+    low2 = tapply(df$value, df$MP, min, na.rm = TRUE),
+    upp2 = tapply(df$value, df$MP, max, na.rm = TRUE)
+  )
+  box_df$MP <- factor(box_df$MP, ordered=TRUE, levels=mp_names)
+
+  ymax <- max(c(1, pretty(box_df$upp2)))
+
+  p <- ggplot2::ggplot(df, ggplot2::aes(x=MP, color=MP, fill=MP)) +
+    ggplot2::scale_fill_manual(values=mp_metadata$Color) +
+    ggplot2::scale_color_manual(values=mp_metadata$Color) +
+    ggplot2::guides(color='none', fill='none')    +
+    ggplot2::labs(x='tt', y='', title=pm_names[pm]) +
+    ggplot2::expand_limits(y=c(0, ymax)) +
+    ggplot2::coord_cartesian(clip = 'off') +
+    ggplot2::scale_y_continuous(expand = c(0, 0)) +
+    ggplot2::theme(legend.position='none',
+                   axis.title.x = ggplot2::element_blank(),
+                   axis.text=ggplot2::element_text(size=16),
+                   plot.title = ggplot2::element_text(face="bold"),
+                   axis.ticks.x=ggplot2::element_blank(),
+                   strip.text = ggplot2::element_text(size=14, color='#D6501C'),
+                   strip.background=ggplot2::element_rect(fill=NA)
+    )
+
+
+  if (!include_x_labs) {
+    p <- p + ggplot2::theme(axis.text.x=ggplot2::element_blank())
+  } else {
+    p <- p + ggplot2::theme(axis.text.x=ggplot2::element_text(angle=90, vjust=0.5))
+  }
+
+
+  p1 <- p + ggplot2::geom_linerange(data = box_df,
+                                    ggplot2::aes(x=MP, ymin=low2, ymax=upp2, color=MP)) +
+    ggplot2::geom_pointrange(data = box_df,
+                             ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1, color=MP, fill=MP),
+                             linewidth = 2, shape = 21, inherit.aes = FALSE, size=1.5)
+
+
+
+
+  if (byOM)
+    p1 <- p1 + ggplot2::facet_wrap(~OM)
+
+  p2 <- p + ggplot2::geom_violin(scale='width', ggplot2::aes(y=value))
+
+  if (byOM)
+    p2 <- p2 + ggplot2::facet_wrap(~OM)
+
+
+  p3 <- p +
+    ggplot2::geom_violin(scale='width', ggplot2::aes(y=value)) +
+    ggplot2::geom_linerange(data = box_df, color='black',
+                            ggplot2::aes(x=MP, ymin=low2, ymax=upp2)) +
+    ggplot2::geom_pointrange(data = box_df,
+                             ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1),
+                             linewidth = 2, shape = 21, inherit.aes = FALSE, size=1)
+
+  if (byOM)
+    p3 <- p3 + ggplot2::facet_wrap(~OM)
+
+  if (type=='boxplot') {
+    return(p1)
+  }
+  if (type=='violin') {
+    return(p2)
+  }
+  if (type=='both') {
+    return(p3)
+  }
+  list(p1, p2, p3)
+}
+
 
 # ---- Kobe ----
 

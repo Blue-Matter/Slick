@@ -6,6 +6,7 @@
 \alias{MPs<-}
 \alias{MPs,missing-method}
 \alias{MPs,character_list-method}
+\alias{MPs<-,Slick-method}
 \title{Methods for Creating, Accessing and Assigning \code{MPs} objects}
 \usage{
 MPs(Code = "", Label = "", Description = "", Color = "", Preset = list())
@@ -16,7 +17,7 @@ MPs(object) <- value
 
 \S4method{MPs}{character_list}(Code = "", Label = "", Description = "", Color = "", Preset = list())
 
-MPs(object) <- value
+\S4method{MPs}{Slick}(object) <- value
 }
 \arguments{
 \item{Code}{A \emph{short} code for the Management Procedures in this \code{Slick} object.
@@ -40,9 +41,7 @@ and assign the values for an existing \code{MPs} object, see \code{Examples}.}
 
 \item{object}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
-\item{value}{An \code{\link[=MPs-class]{MPs-class()}} object}
-
-\item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
+\item{value}{A \code{\link[=MPs-class]{MPs-class()}} object}
 }
 \description{
 The \code{MPs} function is used both to create and modify an \code{\link[=MPs-class]{MPs-class()}} object.
@@ -57,6 +56,8 @@ Objects of class \code{MPs} are created with \code{MPs()}
 \item \code{MPs(missing)}: Create an empty \code{MPs} object
 
 \item \code{MPs(character_list)}: Create a populated \code{MPs} object
+
+\item \code{MPs(Slick) <- value}: Assign an \code{\link[=MPs-class]{MPs-class()}} object to a \code{\link[=Slick]{Slick()}} object
 
 }}
 \examples{

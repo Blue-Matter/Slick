@@ -60,9 +60,9 @@ setMethod("initialize", "Tradeoff", function(.Object,
 })
 
 validTradeoff <- function(object) {
-  errors <- list()
-  if (length(errors)>0)
-    return(errors)
+  chk <- Check(object)
+  if (chk@empty) return(TRUE)
+  if (length(chk@errors)>0) return(chk@errors)
   TRUE
 }
 
@@ -86,6 +86,53 @@ setMethod("Tradeoff", c('list'),
 
 
 
+# ---- Check ----
+#' @describeIn Check Check [Tradeoff-class()] objects for errors
+setMethod('Check', 'Tradeoff', function(object) {
+
+  ll <- CheckList()
+  ll@object <- class(object)
+
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
+
+  # check metadata errors
+  ll@errors <- append(ll@errors, check_metadata(object))
+
+  # check metadata complete
+  if (any(nchar(object@Code)<1))
+    ll@warnings <- append(ll@warnings, '`Code` is required')
+
+  if (any(nchar(object@Label)<1))
+    ll@warnings <- append(ll@warnings, '`Label` is required')
+
+  if (is_empty_value(object@Value))
+    ll@warnings <- append(ll@warnings, '`Value` is required')
+
+  if (!is_empty_value(object@Value) & all(is.na(object@Value)))
+    ll@warnings <- append(ll@warnings, '`Value` is all NAs')
+
+  nPI <- NA
+  if (is.list(object@Code)) {
+    if (length(object@Code[[1]])>0 & all(nchar(object@Code[[1]])>0))
+      nPI <- length(object@Code[[1]])
+  } else {
+    if (length(object@Code)>0 & all(nchar(object@Code)>0))
+      nPI <- length(object@Code)
+  }
+
+  req_dimensions <- c(NA, NA, nPI)
+  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
+
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
+    ll@complete <- TRUE
+
+  ll
+
+
+  ll
+})
 
 ## Code ----
 
@@ -98,21 +145,6 @@ setMethod("Code", 'Tradeoff', function(object, lang='en') {
 #' @describeIn Code Assign `Code` to a [Tradeoff-class()] object
 setMethod("Code<-", 'Tradeoff', function(object, value) {
   object@Code <- value
-  methods::validObject(object)
-  object
-})
-
-## Label ----
-
-#' @describeIn Code Return `Label` from a [Tradeoff-class()] object
-setMethod("Label", 'Tradeoff', function(object, lang='en') {
-  get_language(object@Label, lang)
-})
-
-
-#' @describeIn Code Assign `Label` to a [Tradeoff-class()] object
-setMethod("Label<-", 'Tradeoff', function(object, value) {
-  object@Label <- value
   methods::validObject(object)
   object
 })
@@ -146,6 +178,22 @@ setMethod("Value<-", "Tradeoff", function(object, value) {
   object
 })
 
+## Label ----
+
+#' @describeIn Code Return `Label` from a [Tradeoff-class()] object
+setMethod("Label", 'Tradeoff', function(object, lang='en') {
+  get_language(object@Label, lang)
+})
+
+
+#' @describeIn Code Assign `Label` to a [Tradeoff-class()] object
+setMethod("Label<-", 'Tradeoff', function(object, value) {
+  object@Label <- value
+  methods::validObject(object)
+  object
+})
+
+
 ## Preset ----
 
 #' @describeIn Preset Return `Preset` from a [Tradeoff-class()] object
@@ -160,10 +208,6 @@ setMethod("Preset<-", "Tradeoff", function(object, value) {
   methods::validObject(object)
   object
 })
-
-
-## --- Show ----
-
 
 ## Metadata ----
 
@@ -186,17 +230,24 @@ setMethod("Metadata<-", "Tradeoff", function(object, value) {
 })
 
 
-# ---- Check ----
-#' @describeIn Check Check [Tradeoff-class()] objects for errors
-setMethod('Check', 'Tradeoff', function(object) {
+## --- Show ----
 
-  ll <- CheckList()
-  ll@object <- class(object)
+#' @export
+setMethod("show", "Tradeoff", function(object) {
+  dim_names <- c("nOM", "nMP", "nPI")
 
-  ll@empty <- is_empty(object)
-  if (ll@empty) return(ll)
-  ll@empty <- FALSE
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
+    print_errors(chk@errors)
+  print_metadata(object@Code)
+  print_metadata(object@Label, 'Label')
+  print_metadata(object@Description, 'Description')
 
+  print_value(object, dim_names)
+  print_preset(object@Preset)
 
-  ll
 })
+
+
+
+

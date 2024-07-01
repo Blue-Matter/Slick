@@ -64,13 +64,9 @@ setMethod("initialize", "MPs", function(.Object,
 ## Validate ----
 
 validMPs <- function(object) {
-
-
   chk <- Check(object)
   if (chk@empty) return(TRUE)
   if (length(chk@errors)>0) return(chk@errors)
-
-
   TRUE
 }
 
@@ -116,6 +112,11 @@ setMethod('Check', 'MPs', function(object) {
               length(object@Label),
               length(object@Description)
               )
+
+  if (any(nchar(object@Color)>0)) {
+    if (length(object@Color) != nMPs)
+      ll@errors <- append(ll@errors, list(Color= paste0('`Color` must be length `nMPs` (', nMPs, ')')))
+  }
 
 
   if (nMPs>0) {
@@ -220,12 +221,11 @@ setMethod("Color<-", "MPs", function(object, value) {
 
 ## Show ----
 
-#' @describeIn MPs Show objects of class `MPs`
 #' @export
 setMethod("show", "MPs", function(object) {
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)
-    print_errors(chk)
+    print_errors(chk@errors)
   print_metadata(object@Code)
   print_metadata(object@Label, 'Label')
   print_metadata(object@Description, 'Description')

@@ -51,7 +51,7 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -69,6 +69,8 @@ See \code{Details}.
 }
 \details{
 Objects of class \code{Boxplot} are created with \code{Boxplot()}
+
+Use \code{\link[=plotBoxplot]{plotBoxplot()}} to create the boxplot from the console.
 
 Use the  \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}} functions to
 access and assign the values for an existing \code{Boxplot} object, see \code{Examples}
@@ -139,5 +141,6 @@ boxplot
 
 }
 \seealso{
-\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}
+\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}},
+\code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}, \code{\link[=plotBoxplot]{plotBoxplot()}}
 }

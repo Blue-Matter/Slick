@@ -107,3 +107,11 @@ introduction_param <- function() {
   For multiple languages, use a named list with names: `en`, `es`, `fr` for the three supported languages.
   "
 }
+
+
+
+value_dimensions <- function(type='Boxplot') {
+  ll <- list(Boxplot=c('nsim', 'nOM', 'nMP', 'nPI')
+             )
+  ll[[type]]
+}

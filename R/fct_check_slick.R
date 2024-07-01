@@ -1,5 +1,5 @@
 check_slick_file <- function(slick) {
-  if (!inherits(slick, 'Slick') &  (!inherits(slick, 'SLICK'))) {
+  if (!inherits(slick, 'Slick') &  (!inherits(slick, 'SLICK')) & (!inherits(slick, 'Slick_old'))) {
     shinyalert::shinyalert('Incorrect File Type',
                            'The loaded file is not a Slick object',
                            type='error')
