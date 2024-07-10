@@ -93,16 +93,21 @@ is_populated <- function(obj) {
 
 
 update_MPs <- function(slick_in, slick) {
-  MPs(slick) <- MPs(Code=slick_in$MP$Codes,
-                    Label=slick_in$MP$Labels,
-                    Description=slick_in$MP$Description,
-                    Color=slick_in$Misc$Cols$MP)
+  mps <- MPs()
+  mps@Code <- slick_in$MP$Codes
+  mps@Label <- slick_in$MP$Labels
+  mps@Description <- slick_in$MP$Description
+  mps@Color <- slick_in$Misc$Cols$MP
+
   # check colors
-  ncol <- length(MPs(slick)@Color)
-  nMPs <- length(MPs(slick)@Code)
+  ncol <- length(mps@Color)
+  nMPs <- length(mps@Code)
   if (ncol<nMPs) {
-    MPs(slick)@Color <- default_mp_colors(nMPs)
+    mps@Color <- default_mp_colors(nMPs)
   }
+
+  MPs(slick) <- mps
+
   slick
 }
 
