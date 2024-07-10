@@ -32,19 +32,20 @@
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
 #'
-#' @param slick_in An S3 object of class `Slick`
+#' @param slick An S3 object of class `Slick`
 #'
 #' @return An S4 object of class `Slick`
 #' @export
 #'
-Update <- function(slick_in) {
-  if (isS4(slick_in)) {
-    chkKobe <- try(slick_in@Kobe@Defaults, silent = TRUE)
+Update <- function(slick) {
+  if (isS4(slick)) {
+    chkKobe <- try(slick@Kobe@Defaults, silent = TRUE)
     if (inherits(chkKobe, 'try-error'))
-      slick_in@Kobe@Defaults <- list()
-    return(slick_in)
+      slick@Kobe@Defaults <- list()
+    return(slick)
   }
 
+  slick_in <- slick
 
   slick <- Slick()
   Title(slick) <- slick_in$Text$Title
@@ -98,16 +99,21 @@ is_populated <- function(obj) {
 
 
 update_MPs <- function(slick_in, slick) {
-  MPs(slick) <- MPs(Code=slick_in$MP$Codes,
-                    Label=slick_in$MP$Labels,
-                    Description=slick_in$MP$Description,
-                    Color=slick_in$Misc$Cols$MP)
+  mps <- MPs()
+  mps@Code <- slick_in$MP$Codes
+  mps@Label <- slick_in$MP$Labels
+  mps@Description <- slick_in$MP$Description
+  mps@Color <- slick_in$Misc$Cols$MP
+
   # check colors
-  ncol <- length(MPs(slick)@Color)
-  nMPs <- length(MPs(slick)@Code)
+  ncol <- length(mps@Color)
+  nMPs <- length(mps@Code)
   if (ncol<nMPs) {
-    MPs(slick)@Color <- default_mp_colors(nMPs)
+    mps@Color <- default_mp_colors(nMPs)
   }
+
+  MPs(slick) <- mps
+
   slick
 }
 
