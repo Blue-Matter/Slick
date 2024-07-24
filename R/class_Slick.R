@@ -225,7 +225,7 @@ Slick <- function(Title='',
 #' @describeIn Check Check [Slick-class()] objects for errors
 setMethod('Check', 'Slick', function(object) {
 
-
+  object <- Update(object)
   # check metadata stuff
   ll <- CheckList()
   ll@object <- 'Slick'

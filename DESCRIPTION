@@ -1,10 +1,12 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.9007
+Version: 1.0.9008
 Authors@R: c(
-    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
-    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
+    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
+    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
+    person("Quang", "Huynh", , "quang@bluematterscience.com", role = 'aut'),
+    person("Shana", "Miller", , "smiller@oceanfdn.org", role = 'aut')
   )
 Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
 Description: Slick presents the performance of multiple management objects
@@ -16,37 +18,37 @@ Imports:
     cli,
     dplyr,
     DT,
-    flextable,
-    fresh,
     ggplot2,
     ggrepel,
-    golem,
     graphics,
     grDevices,
     methods,
-    rmarkdown,
     scales,
+    stats,
+    tibble,
+    utils
+Suggests: 
+    colourpicker,
+    colorspace,
+    esquisse,
+    flextable,
+    fresh,
+    golem,
+    knitr,
+    MSEtool,
     shiny,
     shiny.i18n,
     shinyalert,
     shinyBS,
+    shinycssloaders,
     shinydashboard,
     shinydashboardPlus,
     shinyhelper,
     shinyjs,
     shinyWidgets,
-    stats,
-    tibble,
-    utils,
+    rmarkdown,
+    testthat (>= 3.0.0),
     waiter
-Suggests: 
-    colourpicker,
-    colorspace,
-    esquisse,
-    knitr,
-    MSEtool,
-    shinycssloaders,
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -74,9 +76,11 @@ Collate:
     'fct_FilterSlick.R'
     'fct_Kobe_plot.R'
     'fct_Update.R'
+    'fct_check_required_packages.R'
     'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
+    'fct_load_casestudies.R'
     'fct_misc.R'
     'fct_plots.R'
     'fct_translator.R'

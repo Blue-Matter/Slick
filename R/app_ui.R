@@ -206,10 +206,12 @@ golem_add_external_resources <- function() {
 
 
     fresh::use_theme(Slick_theme()),
-    waiter::useWaiter(),
     shinyjs::useShinyjs(),
+    waiter::useWaiter(),
+    waiter::useAttendant(),
+    waiter::use_waitress(),
     waiter::waiterPreloader(waiter::spin_fading_circles()),
-    waiter::use_waitress()
+
 
 
   )

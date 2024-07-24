@@ -412,6 +412,10 @@ plotTimeseries <- function(slick,
 
 quilt_kable <- function(Values, metadata_pm, cols) {
 
+  if (!requireNamespace('flextable', quietly = TRUE)) {
+    stop('package `flextable` required for this function')
+  }
+
   table <- flextable::flextable(data.frame(Values) |>
                                   tibble::rownames_to_column('MP'))
 
