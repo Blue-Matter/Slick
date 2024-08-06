@@ -12,6 +12,7 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
+options(shiny.launch.browser = .rs.invokeShinyWindowExternal)
 App()
 
 # slick <- readRDS('../nswo-mse/nswo.slick')

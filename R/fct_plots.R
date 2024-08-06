@@ -140,6 +140,18 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 }
 
 
+#' @describeIn plotBoxplot  Plot multiple Performance Indicators using `cowplot::plot_grid`
+#' @export
+plotBoxplotGrid <- function(slick, type=c('boxplot', 'violin', 'both', 'all'), byOM=FALSE) {
+  type <- match.arg(type)
+  nPM <- length(slick@Boxplot@Code)
+  p_list <- list()
+  for (i in 1:nPM) {
+    p_list[[i]] <- plotBoxplot(slick, i, type, byOM, FALSE)
+  }
+  cowplot::plot_grid(plotlist=p_list)
+}
+
 # ---- Kobe ----
 
 

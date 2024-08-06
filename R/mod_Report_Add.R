@@ -18,12 +18,13 @@ mod_Report_Add_ui <- function(id){
 #'
 #' @noRd
 mod_Report_Add_server <- function(id, i18n, parent_session, Report,
-                                  plot_object=NULL, section=NULL){
+                                  Plot_Object=NULL, section=NULL){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     output$reportModal <- renderUI({
       i18n <- i18n()
+
       modalDialog(
         size='l',
         title=i18n$t('Add to Report'),

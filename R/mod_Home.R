@@ -97,18 +97,40 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                           buttonLabel=list(icon("folder",verify_fa = FALSE))
                                 ),
                                 h4(i18n$t('Load a Case Study')),
+                                p(i18n$t('Select a case study and click the Load button')),
                                 selectInput(ns('case_study_select'),
                                             label=i18n$t('Select Case Study'),
                                             choices=case_studies$Name,
                                             selected=NULL
                                 ),
-                                actionButton(ns("case_study_load"), i18n$t("Load Case Study"),
+                                actionButton(ns("case_study_load"), i18n$t("Load"),
                                              icon("upload", verify_fa = FALSE)),
-                                downloadButton(ns("case_study_download"), i18n$t("Download Case Study"),
-                                               icon("cloud-download", verify_fa = FALSE))
+                                br(),
+                                br(),
+                                p(i18n$t('Click the Download button to download the Slick file')),
+                                downloadButton(ns("case_study_download"), i18n$t("Download"),
+                                                 icon("cloud-download", verify_fa = FALSE))
+                                )
+      )
+    })
+
+    loading_text <- reactive({
+      ind <- match(input$case_study_select, case_studies$Name)
+      paste0('Loading case study (', case_studies$Size[ind], 'Mb)')
+    })
+
+    w <- reactive({
+      waiter::Waiter$new(
+        color = "primary",
+        html = waiter::attendantBar(
+          "the-bar",
+          width = 400,
+          text = loading_text(),
         )
       )
     })
+
+    att <- waiter::Attendant$new("the-bar")
 
     output$case_study_download <- downloadHandler(
       filename = function() {
@@ -116,7 +138,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
         paste0(Name, ".slick", sep="")
       },
       content = function(file) {
-        slick <- download_casestudy(input$case_study_select, case_studies)
+        slick <- download_casestudy(input$case_study_select, case_studies, quiet=FALSE)
         slick <- Update(slick)
         saveRDS(slick, file)
       }
@@ -136,32 +158,16 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
     })
 
-    loading_text <- reactive({
-      ind <- match(input$case_study_select, case_studies$Name)
-      paste0('Loading case study (', case_studies$Size[ind], 'Mb)')
-    })
-
-    w <- reactive({
-      print(loading_text())
-      waiter::Waiter$new(
-        color = "primary",
-        html = waiter::attendantBar(
-          "the-bar",
-          width = 400,
-          text = loading_text(),
-        )
-      )
-    })
-
-    att <- waiter::Attendant$new("the-bar")
 
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
-      w()$show()
-      att$set(40)
-      att$auto()
+
 
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
+          w()$show()
+          att$set(40)
+          att$auto()
+
           slick <- download_casestudy(Load_Slick_File$file, case_studies)
           slick <- Update(slick)
           slick <- check_slick_file(slick)

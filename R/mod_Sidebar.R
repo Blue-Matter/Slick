@@ -36,27 +36,27 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File, Slick_Object){
                                                icon = icon('info-circle')
                       ),
 
-                      shinydashboard::menuItem(i18n$t("Timeseries"),
+                      shinydashboard::menuItem("Time Series",
                                                tabName = "timeseries",
                                                icon = icon("chart-line-up-down")),
 
-                      shinydashboard::menuItem(i18n$t("Boxplot"),
+                      shinydashboard::menuItem("Boxplot",
                                                tabName = "boxplot",
                                                icon = icon("fa-regular fa-chart-candlestick")),
 
-                      shinydashboard::menuItem(i18n$t("Kobe"),
+                      shinydashboard::menuItem("Kobe",
                                                tabName = "kobe",
                                                icon = icon("table-cells-large")),
 
-                      shinydashboard::menuItem(i18n$t("Quilt"),
+                      shinydashboard::menuItem("Quilt",
                                                tabName = "quilt",
                                                icon = icon("table-cells")),
 
-                      shinydashboard::menuItem(i18n$t("Spider"),
+                      shinydashboard::menuItem("Spider",
                                                tabName = "spider",
                                                icon = icon("fa-hexagon", class='fas')),
 
-                      shinydashboard::menuItem(i18n$t("Tradeoff"),
+                      shinydashboard::menuItem("Tradeoff",
                                                tabName = "tradeoff",
                                                icon = icon('chart-scatter')),
 

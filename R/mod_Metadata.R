@@ -43,7 +43,7 @@ make_author_email <- function(Author, Email) {
 mod_Metadata_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
   )
 }
@@ -55,7 +55,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
+    # mod_toplink_server(id, links=list(hometab='Home', metadatatab='Overview'))
 
 
     output$page <- renderUI({
@@ -84,7 +84,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
         strong(Subtitle(slick, i18n$get_translation_language())),
         p(strong(i18n$t('Created:')), Date(slick)),
         p(strong(i18n$t('Author:')), get_authors(slick)),
-        shiny::markdown(paste(i18n$t('**Email:**'), get_email(slick))),
+        shiny::markdown(paste(i18n$t('Email:'), get_email(slick))),
         p(strong(i18n$t('Institution:')), get_institution(slick)),
         h4(strong(i18n$t('Summary'))),
         shiny::markdown((Introduction(slick, i18n$get_translation_language())))

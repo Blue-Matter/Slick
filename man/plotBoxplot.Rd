@@ -2,6 +2,7 @@
 % Please edit documentation in R/fct_plots.R
 \name{plotBoxplot}
 \alias{plotBoxplot}
+\alias{plotBoxplotGrid}
 \title{Plot \code{Boxplot}}
 \usage{
 plotBoxplot(
@@ -10,6 +11,12 @@ plotBoxplot(
   type = c("boxplot", "violin", "both", "all"),
   byOM = FALSE,
   include_x_labs = TRUE
+)
+
+plotBoxplotGrid(
+  slick,
+  type = c("boxplot", "violin", "both", "all"),
+  byOM = FALSE
 )
 }
 \arguments{
@@ -30,6 +37,11 @@ A \code{ggplot2} object, or a list of \code{ggplot2} objects
 Plots boxplot, violin plot, or a combined box+violin plot for information stored
 in a \linkS4class{Boxplot} object
 }
+\section{Functions}{
+\itemize{
+\item \code{plotBoxplotGrid()}: Plot multiple Performance Indicators using \code{cowplot::plot_grid}
+
+}}
 \examples{
 boxplot <- Boxplot(Code=c('PI1', 'PI2', 'PI3'),
                    Label=c('Performance Indicator 1',

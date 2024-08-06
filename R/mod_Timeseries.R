@@ -10,7 +10,7 @@
 mod_Timeseries_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     shinydashboardPlus::box(width=12,
                             status='primary',
                             solidHeader=TRUE,
@@ -44,9 +44,9 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      timeseries='Timeseries'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   timeseries='Timeseries'))
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -95,7 +95,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     output$title <- renderUI({
       i18n <- i18n()
-      h3(strong(i18n$t('Timeseries')))
+      h3(strong('Time Series'))
     })
 
     output$groupbuttons <- renderUI({
@@ -158,7 +158,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       FilterSlick(Slick_Object(),
                   as.numeric(Filter_Selected$MPs),
                   as.numeric(Filter_Selected$OMs),
-                  as.numeric(Filter_Selected$PMs),
+                  NULL,
                   'Timeseries')
     })
 

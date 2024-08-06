@@ -10,7 +10,7 @@
 mod_Report_Page_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     column(2, uiOutput(ns('controls'))),
     column(10, uiOutput(ns('reportpreview')))
   )
@@ -23,9 +23,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      report='Report'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   report='Report'))
 
     ready <- reactive({
       is_populated <- lapply(reactiveValuesToList(Report), lapply, length)
@@ -84,7 +84,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           )
         })
         tagList(
-          h3(i18n$t('Quilt')),
+          h3('Quilt'),
           ll
         )
       }

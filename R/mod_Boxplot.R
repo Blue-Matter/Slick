@@ -9,7 +9,7 @@
 mod_Boxplot_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
   )
 }
@@ -20,6 +20,8 @@ mod_Boxplot_ui <- function(id){
 mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
 
     # mod_toplink_server(id, links=list(hometab='Home',
     #                                   metadatatab='Overview',
@@ -47,11 +49,26 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                               home_session=home_session)
 
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report,
+                          Plot_Object=Plot_Object)
+
 
     observeEvent(button_pushed(), {
-      shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+      byOM <- FALSE
+      if (input$plotselect != 'overall')
+        byOM <- TRUE
+      p_type <- switch(plottype(),
+                       '1'='boxplot',
+                       '2'='violin',
+                       '3'='both'
+      )
+      Plot_Object(plotBoxplotGrid(filtered_slick(), p_type, byOM))
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
     })
+
+
 
     selected_plotselect <- reactive({
       slick <- Slick_Object()
@@ -75,21 +92,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
       selected
     })
 
-    plot_object <- reactive({
-      byOM <- FALSE
-      if (input$plotselect != 'overall')
-        byOM <- TRUE
-      p_type <- switch(plottype(),
-                       '1'='boxplot',
-                       '2'='violin',
-                       '3'='both'
-      )
 
-      p_list <- list()
-      for (i in 1:nPM()) {
-        p_list[[i]] <- plotBoxplot(filtered_slick(), i, p_type, byOM, FALSE)
-      }
-      cowplot::plot_grid(plotlist=p_list)
+    plot_object <- reactive({
 
     })
 
@@ -103,7 +107,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Boxplot'))),
+                                title=h3(strong('Boxplot')),
                                 br(),
                                 column(12, mod_subtitle_ui(ns(id))),
 
@@ -121,9 +125,9 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns('plottype'),
-                                         choiceNames  = c(i18n$t('Boxplot'),
-                                                          i18n$t('Violin'),
-                                                          i18n$t('Both')),
+                                         choiceNames  = c('Boxplot',
+                                                         'Violin',
+                                                          'Both'),
                                          choiceValues = c('boxplot', 'violin', 'both'),
                                          checkIcon = list(
                                            yes = tags$i(class = "fa fa-check-square",

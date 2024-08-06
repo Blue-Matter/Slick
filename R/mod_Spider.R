@@ -10,7 +10,7 @@
 mod_Spider_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
 
   )
@@ -23,9 +23,9 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      quilt='Spider'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   quilt='Spider'))
 
     mod_subtitle_server('spidersubtitle', i18n, nOM, nMP, nPM, minPM=3,
                         OMtext=OMtext)
@@ -67,7 +67,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Spider'))),
+                                title=h3(strong('Spider')),
                                 column(12,
                                        mod_subtitle_ui(ns('spidersubtitle'))
                                 ),
