@@ -351,7 +351,7 @@ check_Value <- function(value, req_dimensions) {
     ind <- !is.na(req_dimensions)
     for (i in seq_along(ind)) {
       if (ind[i]) {
-        if (dd[i] != req_dimensions[i])
+        if (dd[i] < req_dimensions[i])
           out$Value <- append(out$Value,
                               paste('Dimension', i, 'of `Value` must be length', req_dimensions[i])
           )

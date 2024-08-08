@@ -50,9 +50,8 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       if (ready()>0) {
         tagList(
           uiOutput(ns('metadata')),
+          uiOutput(ns('boxplot')),
           uiOutput(ns('quilt'))
-
-
         )
       } else {
         tagList(h3(i18n$t('Report feature coming soon!')))
@@ -61,6 +60,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
 
     })
 
+    # Intro ----
     output$metadata <- renderUI({
       i18n <- i18n()
       tagList(
@@ -72,6 +72,78 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       )
     })
 
+    # Time Series ----
+
+
+    # Boxplot ----
+
+    boxplots <- reactive({
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        plot_output_list <- lapply(1:nplot, function(x) {
+          plotname <- paste0(x, 'boxplot')
+          caption <<- Report$Boxplot$caption[[x]]
+          if (!is.na(caption)) {
+            caption <- p(caption)
+          } else {
+            caption <- NULL
+          }
+          if (!is.null(caption))
+            list(
+              plotOutput(ns(plotname)),
+              caption,
+              actionButton(ns(paste0('del-', plotname)), 'Delete')
+            )
+        })
+        do.call('tagList', plot_output_list)
+      }
+    })
+
+    observeEvent(Report$Boxplot, {
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        for (x in 1:nplot) {
+          local({
+            this_x <- x
+            this_plot <- Report$Boxplot$plot[[this_x]]
+            if (!prod(is.na(this_plot)))
+              output[[paste(this_x, "boxplot", sep="")]] <- renderPlot(this_plot)
+          })
+        }
+      }
+    })
+
+    output$boxplot <- renderUI({
+      TT <<- lapply(Report$Boxplot$plot, is.na)
+      print(TT)
+      if (length(Report$Boxplot$plot)>0) {
+        tagList(
+          h3('Boxplot'),
+          boxplots()
+        )
+      }
+    })
+
+
+    observe({
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        for (x in 1:nplot) {
+          this_x <- x
+          observeEvent(eventExpr = input[[paste0('del-', this_x, "boxplot")]],
+                       handlerExpr = {
+                         Report$Boxplot$plot[[this_x]] <- NA
+                         Report$Boxplot$caption[[this_x]] <- NA
+                       })
+        }
+      }
+    })
+
+
+
+
+
+    # Quilt ----
     output$quilt <- renderUI({
       i18n <- i18n()
       if (length(Report$Quilt$plot)>0) {
@@ -88,9 +160,6 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           ll
         )
       }
-
-
-
     })
 
     extension <- reactive({

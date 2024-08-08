@@ -18,9 +18,18 @@ mod_Report_Add_ui <- function(id){
 #'
 #' @noRd
 mod_Report_Add_server <- function(id, i18n, parent_session, Report,
-                                  Plot_Object=NULL, section=NULL){
+                                  Plot_Object=NULL, section=NULL,
+                                  window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    plot_width_calc <- reactive({
+      dd <- window_dims()
+      val <- dd[1] * 0.9
+      paste0(val, 'px')
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
 
     output$reportModal <- renderUI({
       i18n <- i18n()
@@ -52,15 +61,17 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     })
 
     output$image <- renderUI({
-      obj <- plot_object()
+      obj <- Plot_Object()
       if (inherits(obj, 'flextable')) {
         return(uiOutput(ns('table')))
       }
-      plotOutput(ns('plot'))
+      plotOutput(ns('plot'),
+                 height='400px',
+                 width=plot_width())
     })
 
     output$table <-renderUI({
-      obj <- plot_object()
+      obj <- Plot_Object()
       if (inherits(obj, 'flextable')) {
         obj |>
           flextable::autofit() |>
@@ -69,7 +80,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     })
 
     output$plot <- renderPlot({
-      obj <- plot_object()
+      obj <- Plot_Object()
       if (inherits(obj, 'flextable')) {
         return(NULL)
       }
@@ -84,10 +95,8 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     observeEvent(input$save_new, {
       shiny::removeModal(parent_session)
       # update Report object with plot and caption
-      Report[[section]]$plot <- c(Report[[section]]$plot, list(plot_object()))
+      Report[[section]]$plot <- c(Report[[section]]$plot, list(Plot_Object()))
       Report[[section]]$caption <- append(Report[[section]]$caption, caption())
-
-
     })
 
   })

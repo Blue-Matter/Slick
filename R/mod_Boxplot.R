@@ -50,7 +50,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report,
-                          Plot_Object=Plot_Object)
+                          Plot_Object=Plot_Object, 'Boxplot',
+                          window_dims)
 
 
     observeEvent(button_pushed(), {
@@ -67,6 +68,12 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
       if(!inherits(Plot_Object(), 'NULL'))
         shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
     })
+
+    # observeEvent(list(filtered_slick(), input$plotselect, plottype()), {
+    #   # golem::print_dev('resetting plot object')
+    #   Plot_Object <- reactiveVal()
+    #   # golem::print_dev(inherits(Plot_Object(), 'NULL'))
+    # })
 
 
 
