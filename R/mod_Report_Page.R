@@ -114,14 +114,14 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
     })
 
     output$boxplot <- renderUI({
-      TT <<- lapply(Report$Boxplot$plot, is.na)
-      print(TT)
-      if (length(Report$Boxplot$plot)>0) {
+      TT <- lapply(Report$Boxplot$plot, is.na)
+      if (all(!TT)) {
         tagList(
           h3('Boxplot'),
           boxplots()
         )
       }
+
     })
 
 
