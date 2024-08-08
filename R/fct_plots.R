@@ -31,7 +31,7 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   type <- match.arg(type)
   dd <- dim(values)
 
-  if (pm > dd[4])
+  if (any(pm) > dd[4])
     return(NULL)
 
   nMP <- dd[3]
@@ -57,9 +57,11 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   df <- data.frame(Sim=1:dd[1],
                    OM=rep(1:dd[2], each=dd[1]),
                    MP=rep(mp_names, each=dd[1]*dd[2]),
+                   PM=rep(pm_names[pm], each=prod(dd[1:3])),
                    value=as.vector(Val))
 
   df$MP <- factor(df$MP, ordered=TRUE, levels=mp_names)
+  df$PM <- factor(df$PM, ordered=TRUE, levels=pm_names)
 
   box_df <- data.frame(
     MP = mp_names,
@@ -76,9 +78,15 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   p <- ggplot2::ggplot(df, ggplot2::aes(x=MP, color=MP, fill=MP)) +
     ggplot2::scale_fill_manual(values=mp_colors) +
     ggplot2::scale_color_manual(values=mp_colors) +
-    ggplot2::guides(color='none', fill='none')    +
-    ggplot2::labs(x='tt', y='', title=pm_names[pm]) +
-    ggplot2::expand_limits(y=c(0, ymax)) +
+    ggplot2::guides(color='none', fill='none')
+
+  if (length(pm)>1) {
+    p <- p + ggplot2::facet_wrap(~PM)
+  } else {
+    p <- p + ggplot2::labs(x='tt', y='', title=pm_names[pm])
+  }
+
+  p <- p + ggplot2::expand_limits(y=c(0, ymax)) +
     ggplot2::coord_cartesian(clip = 'off') +
     ggplot2::scale_y_continuous(expand = c(0, 0)) +
     ggplot2::theme(legend.position='none',
@@ -103,9 +111,6 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
     ggplot2::geom_pointrange(data = box_df,
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1, color=MP, fill=MP),
                              linewidth = 2, shape = 21, inherit.aes = FALSE, size=1.5)
-
-
-
 
   if (byOM)
     p1 <- p1 + ggplot2::facet_wrap(~OM)
@@ -145,11 +150,25 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 plotBoxplotGrid <- function(slick, type=c('boxplot', 'violin', 'both', 'all'), byOM=FALSE) {
   type <- match.arg(type)
   nPM <- length(slick@Boxplot@Code)
+
+  nPM <- 9
+  ncol <- min(ceiling(sqrt(nPM)),4)
+  nrow <- ceiling(nPM/ncol)
+  mat <- matrix(1:(nrow*ncol), nrow, ncol, byrow=TRUE)
+
   p_list <- list()
+  rel_heights <- rep(1, nrow)
+  rel_heights[nrow] <- 2
+
   for (i in 1:nPM) {
-    p_list[[i]] <- plotBoxplot(slick, i, type, byOM, FALSE)
+    p <- plotBoxplot(slick, i, type, byOM, TRUE)
+    if (!i %in% mat[nrow,])
+      p <- p + ggplot2::theme(axis.text.x = ggplot2::element_blank())
+    p_list[[i]] <- p
   }
-  cowplot::plot_grid(plotlist=p_list)
+
+  cowplot::plot_grid(plotlist=p_list, nrow=nrow, ncol=ncol,
+                     align='v')
 }
 
 # ---- Kobe ----

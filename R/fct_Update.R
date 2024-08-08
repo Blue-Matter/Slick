@@ -200,20 +200,23 @@ update_Kobe <- function(slick_in, slick) {
   if (is.null(time_lab)) time_lab <- 'Year'
 
   kobe <- Kobe()
+  Value(kobe) <- obj$Values
+  npm <- dim(Value(kobe))[4]
+
   if (is_populated(obj$Codes))
-    Code(kobe) <- obj$Codes
+    Code(kobe) <- obj$Codes[1:npm]
 
   if (is_populated(obj$Labels))
-    Label(kobe) <- obj$Labels
+    Label(kobe) <- obj$Labels[1:npm]
 
   if (is_populated(obj$Description))
-    Description(kobe) <- obj$Description
+    Description(kobe) <- obj$Description[1:npm]
 
   Time(kobe) <- slick_in$Perf$Proj$Times
 
-  Target(kobe) <- Target
-  Limit(kobe) <- Limit
-  Value(kobe) <- obj$Values
+  Target(kobe) <- Target[1:npm]
+  Limit(kobe) <- Limit[1:npm]
+
   Kobe(slick) <- kobe
 
   slick

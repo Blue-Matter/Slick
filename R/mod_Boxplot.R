@@ -63,19 +63,11 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                        '2'='violin',
                        '3'='both'
       )
-      Plot_Object(plotBoxplotGrid(filtered_slick(), p_type, byOM))
+      Plot_Object(plotBoxplot(filtered_slick(), 1:nPM(), p_type, byOM))
 
       if(!inherits(Plot_Object(), 'NULL'))
         shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
     })
-
-    # observeEvent(list(filtered_slick(), input$plotselect, plottype()), {
-    #   # golem::print_dev('resetting plot object')
-    #   Plot_Object <- reactiveVal()
-    #   # golem::print_dev(inherits(Plot_Object(), 'NULL'))
-    # })
-
-
 
     selected_plotselect <- reactive({
       slick <- Slick_Object()
@@ -100,9 +92,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     })
 
 
-    plot_object <- reactive({
-
-    })
 
     output$page <- renderUI({
       i18n <- i18n()

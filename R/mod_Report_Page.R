@@ -82,17 +82,22 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       if (nplot>0) {
         plot_output_list <- lapply(1:nplot, function(x) {
           plotname <- paste0(x, 'boxplot')
-          caption <<- Report$Boxplot$caption[[x]]
+          caption <- Report$Boxplot$caption[[x]]
           if (!is.na(caption)) {
             caption <- p(caption)
           } else {
             caption <- NULL
           }
           if (!is.null(caption))
-            list(
+            tagList(
+              hr(),
               plotOutput(ns(plotname)),
               caption,
-              actionButton(ns(paste0('del-', plotname)), 'Delete')
+              shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
+                                       label='Remove',
+                                       icon('remove'),
+                                       color='danger',size='sm'),
+              hr()
             )
         })
         do.call('tagList', plot_output_list)
@@ -114,8 +119,8 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
     })
 
     output$boxplot <- renderUI({
-      TT <- lapply(Report$Boxplot$plot, is.na)
-      if (all(!TT)) {
+      chk <<- lapply(Report$Boxplot$plot, is.na) |> unlist()
+      if (!all(chk)) {
         tagList(
           h3('Boxplot'),
           boxplots()
