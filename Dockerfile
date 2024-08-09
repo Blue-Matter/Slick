@@ -28,7 +28,7 @@ RUN R -e "install.packages(c('shiny', 'rmarkdown', 'remotes'), repos='https://cl
 
 
 # install Slick
-RUN R -e "remotes::install_github('blue-matter/Slick', ref='shiny_live', dependencies=TRUE)"
+RUN R -e "remotes::install_github('blue-matter/Slick', ref='dev', dependencies=TRUE)"
 
 
 # instruct Docker to expose port 3838 to the outside world
