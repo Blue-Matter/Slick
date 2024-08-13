@@ -34,6 +34,7 @@ Suggests:
     flextable,
     fresh,
     golem,
+    httr,
     knitr,
     MSEtool,
     shiny,

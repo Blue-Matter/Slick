@@ -5,6 +5,9 @@
 #' @export
 #'
 get_casestudies <- function() {
+  if (!requireNamespace('httr', quietly = TRUE))
+    stop('Package `httr` required for this function')
+
   req <- httr::GET("https://api.github.com/repos/blue-matter/slicklibrary/git/trees/master?recursive=1")
   httr::stop_for_status(req)
   filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)

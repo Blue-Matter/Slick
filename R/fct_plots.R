@@ -28,10 +28,12 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
     stop('First argument must be Slick object')
   boxplot <- slick |> Boxplot()
   values <- boxplot |> Value()
+  if (all(is.na(values)))
+    stop('No values in `Boxplot@Value`')
   type <- match.arg(type)
   dd <- dim(values)
 
-  if (any(pm) > dd[4])
+  if (any(pm > dd[4]))
     return(NULL)
 
   nMP <- dd[3]
@@ -52,7 +54,7 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
     mp_names <-  mp_metadata$Label
   }
 
-  pm_names <- slick |> Boxplot() |> Metadata() |> dplyr::pull('Label')
+  pm_names <- slick |> Boxplot() |> Code()
 
   df <- data.frame(Sim=1:dd[1],
                    OM=rep(1:dd[2], each=dd[1]),
@@ -81,9 +83,10 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
     ggplot2::guides(color='none', fill='none')
 
   if (length(pm)>1) {
-    p <- p + ggplot2::facet_wrap(~PM)
+    p <- p + ggplot2::facet_wrap(~PM) +
+      ggplot2::labs(y='')
   } else {
-    p <- p + ggplot2::labs(x='tt', y='', title=pm_names[pm])
+    p <- p + ggplot2::labs(x='', y='', title=pm_names[pm])
   }
 
   p <- p + ggplot2::expand_limits(y=c(0, ymax)) +
