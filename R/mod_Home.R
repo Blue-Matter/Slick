@@ -168,7 +168,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
           att$set(40)
           att$auto()
 
-          slick <- download_casestudy(Load_Slick_File$file, case_studies)
+          slick <- download_casestudy(Load_Slick_File$file, case_studies, silent=TRUE)
           slick <- Update(slick)
           slick <- check_slick_file(slick)
           Slick_Object(slick)

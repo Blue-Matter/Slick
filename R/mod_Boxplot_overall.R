@@ -26,6 +26,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
     ns <- session$ns
 
     Plot_Object <- reactiveVal()
+
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
                           Report,
                           Plot_Object=Plot_Object, 'Boxplot',

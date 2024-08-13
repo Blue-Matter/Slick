@@ -11,8 +11,8 @@ mod_Report_Page_ui <- function(id){
   ns <- NS(id)
   tagList(
     # mod_toplink_ui(ns(id)),
-    column(2, uiOutput(ns('controls'))),
-    column(10, uiOutput(ns('reportpreview')))
+    column(10, uiOutput(ns('reportpreview'))),
+    column(2, uiOutput(ns('controls')))
   )
 }
 
@@ -40,8 +40,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           radioButtons(ns('format'), i18n$t('Report Format'),
                        choiceNames=c('HTML', 'MS Word'),
                        choiceValues=c('.html', '.docx')),
-          downloadButton(ns("report"), "Generate report")
-        )
+          shinyWidgets::downloadBttn(
+            ns("report"), i18n$t("Generate report"))
+          )
       }
     })
 
@@ -54,8 +55,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           uiOutput(ns('quilt'))
         )
       } else {
-        tagList(h3(i18n$t('Report feature coming soon!')))
-        # tagList(h3(i18n$t('Nothing added to Report yet')))
+        tagList(h3(i18n$t('Nothing added to Report yet')))
       }
 
     })
@@ -77,8 +77,25 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
 
     # Boxplot ----
 
+    observeEvent(Report$Boxplot, {
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        for (x in 1:nplot) {
+          local({
+            this_x <- x
+            this_plot <- Report$Boxplot$plot[[this_x]]
+            if (!prod(is.na(this_plot)))
+              output[[paste(this_x, "boxplot", sep="")]] <- renderImage({
+                this_plot
+              }, deleteFile=FALSE)
+          })
+        }
+      }
+    })
+
     boxplots <- reactive({
       nplot <- length(Report$Boxplot$plot)
+
       if (nplot>0) {
         plot_output_list <- lapply(1:nplot, function(x) {
           plotname <- paste0(x, 'boxplot')
@@ -91,7 +108,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           if (!is.null(caption))
             tagList(
               hr(),
-              plotOutput(ns(plotname)),
+              imageOutput(ns(plotname)),
               caption,
               shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
                                        label='Remove',
@@ -104,22 +121,10 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       }
     })
 
-    observeEvent(Report$Boxplot, {
-      nplot <- length(Report$Boxplot$plot)
-      if (nplot>0) {
-        for (x in 1:nplot) {
-          local({
-            this_x <- x
-            this_plot <- Report$Boxplot$plot[[this_x]]
-            if (!prod(is.na(this_plot)))
-              output[[paste(this_x, "boxplot", sep="")]] <- renderPlot(this_plot)
-          })
-        }
-      }
-    })
+
 
     output$boxplot <- renderUI({
-      chk <<- lapply(Report$Boxplot$plot, is.na) |> unlist()
+      chk <- lapply(Report$Boxplot$plot, is.na) |> unlist()
       if (!all(chk)) {
         tagList(
           h3('Boxplot'),
@@ -137,6 +142,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           this_x <- x
           observeEvent(eventExpr = input[[paste0('del-', this_x, "boxplot")]],
                        handlerExpr = {
+                         file.remove(Report$Boxplot$plot[[this_x]]$src)
                          Report$Boxplot$plot[[this_x]] <- NA
                          Report$Boxplot$caption[[this_x]] <- NA
                        })

@@ -12,8 +12,7 @@ download_casestudy(
   case_studies = NULL,
   dir = NULL,
   silent = FALSE,
-  object = TRUE,
-  quiet = TRUE
+  object = TRUE
 )
 }
 \value{

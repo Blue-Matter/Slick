@@ -57,7 +57,10 @@ if (nplots>0) {
   for (l in 1:nplots) {
     if (all(is.na(params[[p]]$plot[[l]])))
       next()
-    subchunkify(params[[p]]$plot[[l]], 10, 6)
+    image <- params[[p]]$plot[[l]]
+    # cat(knitr::include_graphics(image$src))
+    cat(paste0("![](", image$src, ")"), "\n")
+    # subchunkify(params[[p]]$plot[[l]], 10, 6)
     cat(markdown(params[[p]]$caption[[l]]), '\n\n')
     # cat('```\n\n')
   }

@@ -27,7 +27,7 @@ get_casestudies <- function() {
 }
 
 #' @describeIn get_casestudies download a case study file
-download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, object=TRUE, quiet=TRUE) {
+download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, object=TRUE) {
   if (is.null(case_studies))
     case_studies <- get_casestudies()
   ind <- match(name, case_studies$Name)
@@ -47,7 +47,7 @@ download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, 
 
   # curl::curl_download(url,  out_file)
 
-  download.file(url,  out_file,mode ="wb", quiet=quiet)
+  download.file(url,  out_file,mode ="wb", quiet=silent)
   if (object)
     readRDS(out_file)
 }
