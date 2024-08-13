@@ -31,6 +31,10 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
 
     plot_width <- plot_width_calc |> debounce(500)
 
+    set_plot_width <- reactive({
+      paste0(input$plotwidth, 'px')
+    })
+
     output$reportModal <- renderUI({
       i18n <- i18n()
 
@@ -42,14 +46,19 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                  uiOutput(ns('image'))
 
           ),
-          column(12,
+          column(9,
                  textAreaInput(ns('captionText'),
                                i18n$t('Description'),
                                placeholder=i18n$t('Description or caption for chart'),
                                width='100%',
                                height='150px'
                  )
-          )
+          ),
+          column(3,
+                 numericInput(ns('plotwidth'), 'Width', window_dims()[1]*0.9,
+                              min=100, max=window_dims()[1],
+                              step=10)
+                 )
 
         ),
         footer = tagList(
@@ -67,7 +76,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
       }
       plotOutput(ns('plot'),
                  height='400px',
-                 width=plot_width())
+                 width=set_plot_width())
     })
 
     output$table <-renderUI({

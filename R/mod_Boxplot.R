@@ -21,8 +21,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    Plot_Object <- reactiveVal()
-
     # mod_toplink_server(id, links=list(hometab='Home',
     #                                   metadatatab='Overview',
     #                                   boxplot='Boxplot'))
@@ -30,7 +28,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     mod_Boxplot_overall_server("Boxplot_overall_1",
                                i18n, filtered_slick, plottype,
                                nOM, nMP, nPM, parent_session=session,
-                               window_dims)
+                               window_dims, Report)
+
 
     mod_Boxplot_OM_server("Boxplot_OM_1", i18n, filtered_slick, plottype,
                           nOM, nMP, nPM, parent_session=session,
@@ -48,26 +47,26 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                               slot='Boxplot', minPM=1,
                                               home_session=home_session)
 
-    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report,
-                          Plot_Object=Plot_Object, 'Boxplot',
-                          window_dims)
+    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report,
+    #                       Plot_Object=Plot_Object, 'Boxplot',
+    #                       window_dims)
 
 
-    observeEvent(button_pushed(), {
-      byOM <- FALSE
-      if (input$plotselect != 'overall')
-        byOM <- TRUE
-      p_type <- switch(plottype(),
-                       '1'='boxplot',
-                       '2'='violin',
-                       '3'='both'
-      )
-      Plot_Object(plotBoxplot(filtered_slick(), 1:nPM(), p_type, byOM))
-
-      if(!inherits(Plot_Object(), 'NULL'))
-        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
-    })
+    # observeEvent(button_pushed(), {
+    #   byOM <- FALSE
+    #   if (input$plotselect != 'overall')
+    #     byOM <- TRUE
+    #   p_type <- switch(plottype(),
+    #                    '1'='boxplot',
+    #                    '2'='violin',
+    #                    '3'='both'
+    #   )
+    #   Plot_Object(plotBoxplot(filtered_slick(), 1:nPM(), p_type, byOM))
+    #
+    #   if(!inherits(Plot_Object(), 'NULL'))
+    #     shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    # })
 
     selected_plotselect <- reactive({
       slick <- Slick_Object()
@@ -163,7 +162,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
                                 ),
                                 column(9,
-                                       mod_Report_Add_Button_ui(ns('report_button')),
+                                       # mod_Report_Add_Button_ui(ns('report_button')),
                                        conditionalPanel("input.plotselect=='overall'", ns=ns,
                                                         mod_Boxplot_overall_ui(ns("Boxplot_overall_1"))
                                        ),

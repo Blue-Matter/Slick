@@ -10,6 +10,7 @@
 mod_Boxplot_overall_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
     uiOutput(ns('results'))
   )
 }
@@ -20,9 +21,30 @@ mod_Boxplot_overall_ui <- function(id){
 mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
                                        plottype,
                                        nOM, nMP, nPM, parent_session,
-                                       window_dims){
+                                       window_dims, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Boxplot',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      byOM <- FALSE
+      p_type <- switch(plottype(),
+                       '1'='boxplot',
+                       '2'='violin',
+                       '3'='both'
+      )
+      Plot_Object(plotBoxplot(filtered_slick(), 1:nPM(), p_type, byOM))
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
 
 
     plot_width_calc <- reactive({

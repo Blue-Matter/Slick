@@ -83,8 +83,14 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
     ggplot2::guides(color='none', fill='none')
 
   if (length(pm)>1) {
-    p <- p + ggplot2::facet_wrap(~PM) +
-      ggplot2::labs(y='')
+    if (byOM) {
+      p <- p + ggplot2::facet_grid(OM~PM, scales='free_y') +
+        ggplot2::labs(y='')
+    } else {
+      p <- p + ggplot2::facet_wrap(~PM) +
+        ggplot2::labs(y='')
+    }
+
   } else {
     p <- p + ggplot2::labs(x='', y='', title=pm_names[pm])
   }
@@ -115,12 +121,12 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1, color=MP, fill=MP),
                              linewidth = 2, shape = 21, inherit.aes = FALSE, size=1.5)
 
-  if (byOM)
+  if (byOM & length(pm)<2)
     p1 <- p1 + ggplot2::facet_wrap(~OM)
 
   p2 <- p + ggplot2::geom_violin(scale='width', ggplot2::aes(y=value))
 
-  if (byOM)
+  if (byOM & length(pm)<2)
     p2 <- p2 + ggplot2::facet_wrap(~OM)
 
 
@@ -132,7 +138,7 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1),
                              linewidth = 2, shape = 21, inherit.aes = FALSE, size=1)
 
-  if (byOM)
+  if (byOM & length(pm)<2)
     p3 <- p3 + ggplot2::facet_wrap(~OM)
 
   if (type=='boxplot') {
