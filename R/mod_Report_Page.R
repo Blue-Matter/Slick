@@ -57,7 +57,6 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       } else {
         tagList(h3(i18n$t('Nothing added to Report yet')))
       }
-
     })
 
     # Intro ----
@@ -95,7 +94,6 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
 
     boxplots <- reactive({
       nplot <- length(Report$Boxplot$plot)
-
       if (nplot>0) {
         plot_output_list <- lapply(1:nplot, function(x) {
           plotname <- paste0(x, 'boxplot')
@@ -121,8 +119,6 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       }
     })
 
-
-
     output$boxplot <- renderUI({
       chk <- lapply(Report$Boxplot$plot, is.na) |> unlist()
       if (!all(chk)) {
@@ -131,9 +127,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           boxplots()
         )
       }
-
     })
-
 
     observe({
       nplot <- length(Report$Boxplot$plot)
@@ -142,16 +136,14 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           this_x <- x
           observeEvent(eventExpr = input[[paste0('del-', this_x, "boxplot")]],
                        handlerExpr = {
-                         file.remove(Report$Boxplot$plot[[this_x]]$src)
+                         if (!all(is.na(Report$Boxplot$plot[[this_x]])))
+                           file.remove(Report$Boxplot$plot[[this_x]]$src)
                          Report$Boxplot$plot[[this_x]] <- NA
                          Report$Boxplot$caption[[this_x]] <- NA
                        })
         }
       }
     })
-
-
-
 
 
     # Quilt ----
