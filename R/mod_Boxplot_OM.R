@@ -39,7 +39,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     observeEvent(filtered_slick(), {
       if (!is.null(filtered_slick())) {
         n <- nPM()
-        if (n>0) {
+        if (!is.na(n) && length(n)>0 && n>0) {
           for (i in 1:n) {
             nm <- paste0('report_button_boxplot_', i)
             button_boxplot[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
@@ -51,7 +51,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     observeEvent(filtered_slick(), {
       if (!is.null(filtered_slick())) {
         n <- nPM()
-        if (n>0) {
+        if (!is.na(n) && length(n)>0 && n>0) {
           for (i in 1:n) {
             nm <- paste0('report_button_violin_', i)
             button_violin[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
@@ -63,7 +63,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     observeEvent(filtered_slick(), {
       if (!is.null(filtered_slick())) {
         n <- nPM()
-        if (n>0) {
+        if (!is.na(n) && length(n)>0 && n>0) {
           for (i in 1:n) {
             nm <- paste0('report_button_both_', i)
             button_both[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
@@ -75,7 +75,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     observe({
       if (!is.null(filtered_slick())) {
         n <- nPM()
-        if (n>0) {
+        if (!is.na(n) && length(n)>0 && n>0) {
           lapply(1:n, function(i) {
 
             nm1 <- paste0('report_button_boxplot_', i)

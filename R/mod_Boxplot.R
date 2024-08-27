@@ -18,7 +18,7 @@ mod_Boxplot_ui <- function(id){
 #'
 #' @noRd
 mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
-  moduleServer( id, function(input, output, session){
+  moduleServer(id, function(input, output, session){
     ns <- session$ns
 
     # mod_toplink_server(id, links=list(hometab='Home',
@@ -29,7 +29,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                i18n, filtered_slick, plottype,
                                nOM, nMP, nPM, parent_session=session,
                                window_dims, Report)
-
 
     mod_Boxplot_OM_server("Boxplot_OM_1", i18n, filtered_slick, plottype,
                           nOM, nMP, nPM, parent_session=session,

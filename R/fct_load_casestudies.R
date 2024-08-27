@@ -39,7 +39,7 @@ download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, 
   url <- paste0('https://raw.githubusercontent.com/blue-matter/slicklibrary/master/', file)
   url <- gsub(' ', '%20', url)
   if (is.null(dir)) {
-    dir <- getwd()
+    dir <- tempdir()
   }
 
   out_file <- file.path(dir, basename(file))
@@ -47,8 +47,10 @@ download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, 
 
   # curl::curl_download(url,  out_file)
 
-  download.file(url,  out_file,mode ="wb", quiet=silent)
+  download.file(url, out_file, mode ="wb", quiet=silent)
+  on.exit(file.remove(out_file))
   if (object)
-    readRDS(out_file)
+    return(readRDS(out_file))
+
 }
 

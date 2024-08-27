@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.9008
+Version: 1.0.9009
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
