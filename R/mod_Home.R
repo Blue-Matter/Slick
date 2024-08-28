@@ -138,7 +138,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
         paste0(Name, ".slick", sep="")
       },
       content = function(file) {
-        slick <- download_casestudy(input$case_study_select, case_studies, quiet=FALSE)
+        slick <- download_casestudy(input$case_study_select, case_studies, silent=FALSE)
         slick <- Update(slick)
         saveRDS(slick, file)
       }
