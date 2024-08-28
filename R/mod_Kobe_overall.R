@@ -117,7 +117,8 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       slick <- filtered_slick()
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
-      val <- max(apply(Value(kobe)[,,,1,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
+      val <- max(apply(mean_over_OMs[,,1,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       ceiling(val)
     })
 
@@ -125,7 +126,8 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       slick <- filtered_slick()
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
-      val <- max(apply(Value(kobe)[,,,2,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
+      val <- max(apply(mean_over_OMs[,,2,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       ceiling(val)
     })
 

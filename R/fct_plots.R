@@ -1,3 +1,5 @@
+# slick <- readRDS('C:/users/user/downloads/Western Atlantic Skipjack.slick')
+
 
 colorRampAlpha <- function(..., n, alpha) {
   colors <- grDevices::colorRampPalette(...)(n)
@@ -62,17 +64,28 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
                    PM=rep(pm_names[pm], each=prod(dd[1:3])),
                    value=as.vector(Val))
 
+
   df$MP <- factor(df$MP, ordered=TRUE, levels=mp_names)
   df$PM <- factor(df$PM, ordered=TRUE, levels=pm_names)
 
-  box_df <- data.frame(
-    MP = mp_names,
-    m = tapply(df$value, df$MP, median),
-    low1 = tapply(df$value, df$MP, quantile, 0.25, na.rm = TRUE),
-    upp1 = tapply(df$value, df$MP, quantile, 0.75, na.rm = TRUE),
-    low2 = tapply(df$value, df$MP, min, na.rm = TRUE),
-    upp2 = tapply(df$value, df$MP, max, na.rm = TRUE)
-  )
+  box_df <- df |> dplyr::group_by(OM, MP) |>
+    dplyr::mutate(Mean=mean(value, na.rm=TRUE)) |>
+    dplyr::group_by(MP) |>
+    dplyr::summarize(m=median(Mean, na.rm=TRUE),
+              low1=quantile(Mean, 0.25, na.rm=TRUE),
+              upp1=quantile(Mean, 0.75, na.rm=TRUE),
+              low2=min(Mean, na.rm=TRUE),
+              upp2=max(Mean, na.rm=TRUE))
+
+  # box_df <- data.frame(
+  #   MP = mp_names,
+  #   m = tapply(df$value, df$MP, median),
+  #   low1 = tapply(df$value, df$MP, quantile, 0.25, na.rm = TRUE),
+  #   upp1 = tapply(df$value, df$MP, quantile, 0.75, na.rm = TRUE),
+  #   low2 = tapply(df$value, df$MP, min, na.rm = TRUE),
+  #   upp2 = tapply(df$value, df$MP, max, na.rm = TRUE)
+  # )
+
   box_df$MP <- factor(box_df$MP, ordered=TRUE, levels=mp_names)
 
   ymax <- max(c(1, pretty(box_df$upp2)))
@@ -203,7 +216,7 @@ plotBoxplotGrid <- function(slick, type=c('boxplot', 'violin', 'both', 'all'), b
 #' multiple MPs are plotted together, only the median across simulations will
 #' be shown in the projections.
 #'
-#' If `OM_ind` isn't specified, the results will be shown as the median across
+#' If `OM_ind` isn't specified, the results will be shown as the mean across
 #' operating models.
 #'
 #' @param slick A [Slick-class()] object
@@ -211,7 +224,7 @@ plotBoxplotGrid <- function(slick, type=c('boxplot', 'violin', 'both', 'all'), b
 #' @param MP_ind A numeric value specifying the MP to plot. Defaults to NULL
 #' which shows all MPs
 #' @param OM_ind A numeric value specifying the OM to plot. Defaults to NULL where
-#' values are calculated as median across OMs.
+#' values are calculated as mean across OMs.
 #' @param includeHist Logical. Include the historical period in the projections?
 #' @param col_line Color for the median line (historical)
 #' @param fill_ribbon1 Fill color for the inner ribbon
@@ -311,9 +324,14 @@ plotTimeseries <- function(slick,
 
   if (includeHist) {
     # Historical Period
-    med.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, median, na.rm=TRUE)
-    quant.1.hist <- apply(values[sims,oms,1,PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants1, na.rm=TRUE)
-    quant.2.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants2, na.rm=TRUE)
+    mean.hist <- apply(values[,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], c(1,4,5), mean, na.rm=TRUE) # mean over OMs
+    med.hist <- apply(mean.hist, 3, median, na.rm=TRUE) # median over simulations
+    quant.1.hist <- apply(mean.hist, 3, quantile, probs=quants1, na.rm=TRUE)
+    quant.2.hist <- apply(mean.hist, 3, quantile, probs=quants2, na.rm=TRUE)
+
+    # med.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, median, na.rm=TRUE)
+    # quant.1.hist <- apply(values[sims,oms,1,PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants1, na.rm=TRUE)
+    # quant.2.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants2, na.rm=TRUE)
 
     Hist_df <- data.frame(x=hist.yrs,
                           Median=med.hist,
@@ -333,7 +351,9 @@ plotTimeseries <- function(slick,
 
 
   # Projection
-  med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
+  mean.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), mean, na.rm=TRUE)
+  med.mps <- apply(mean.mps, c(2,3), median, na.rm=TRUE)
+  # med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
   meddf <- data.frame(x=rep(proj.yrs, each=nMP),
                       MP=MP_lab,
                       Median=as.vector(med.mps))
@@ -350,8 +370,11 @@ plotTimeseries <- function(slick,
     # by MP
     meddf <- meddf |> dplyr::filter(MP%in%MP_lab[MP_ind])
 
-    quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
-    quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
+    quant.1.mp <- apply(mean.mps, c(2,3), quantile, probs=quants1, na.rm=TRUE)
+    quant.2.mp <- apply(mean.mps, c(2,3), quantile, probs=quants2, na.rm=TRUE)
+
+    # quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
+    # quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
 
     quant_df <- data.frame(x=rep(proj.yrs, each=1),
                            MP=MP_lab[MP_ind],
@@ -522,7 +545,7 @@ plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
 
   Values <- Value(quilt) |>
-    apply(2:3, median) |>
+    apply(2:3, mean, na.rm=TRUE) |>
     signif(3)
   if (all(is.na(Values))) {
     return(NULL)
@@ -558,7 +581,7 @@ plotTradeoff <- function(slick, mps=NULL, XPM=NULL, YPM=NULL, lab_size=6, point_
 
   tradeoff <- slick |> Tradeoff()
   Values <- Value(tradeoff) |>
-    apply(2:3, median) |>
+    apply(2:3, mean) |>
     signif(3)
   if (all(is.na(Values))) {
     return(NULL)
@@ -741,9 +764,9 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
   cols <- slick |> MPs() |>
     Metadata() |> dplyr::pull(Color)
 
-  # median across OMs
+  # mean across OMs
   Values <- slick |> Spider() |>
-    Value() |> apply(2:3, median, na.rm=TRUE)
+    Value() |> apply(2:3, mean, na.rm=TRUE)
 
   if(relative_scale) {
     # make all PMs relative to maximum and minimum values
@@ -786,13 +809,13 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
 
 Spiderplot_all_MPs <- function(slick, relative_scale=FALSE) {
 
-  # median across OMs
+  # mean across OMs
   metadata_MP <- slick |> MPs() |> Metadata()
   nMPs <- nrow(metadata_MP)
 
   spider <- slick |> Spider()
   Values <- spider |>
-    Value() |> apply(2:3, median, na.rm=TRUE)
+    Value() |> apply(2:3, mean, na.rm=TRUE)
 
   metadata_PM <- spider |> Metadata()
   nPMs <- nrow(metadata_PM)
@@ -848,8 +871,8 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
     for (i in 1:nrow(vertices)) lines(c(0, vertices[i,1]), c(0, vertices[i,2]),
                                       col=line.col)
 
-    # Calc median PM over OMs
-    pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), median, na.rm=TRUE)
+    # Calc mean PM over OMs
+    pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), mean, na.rm=TRUE)
     pm <- pm[MPkeep$selected, Detkeep$selected, drop=FALSE]
 
     if (SwitchScale$relative) {

@@ -419,7 +419,7 @@ print_value <- function(object, dim_names, mp_names=NULL) {
 
 
     ind <- which(dim_names %in% c('nMP', 'nPI'))
-    mean <- round(apply(value, ind, mean), 2)
+    mean <- round(apply(value, ind, mean, na.rm=TRUE), 2)
     if (is.null(mp_names))
       mp_names <- paste('MP', 1:dd[ind[1]])
     rownames(mean) <- mp_names

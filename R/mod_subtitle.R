@@ -43,13 +43,13 @@ mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3,
       if (nOM()>0 & nMP()>0) {
         if (OMtext() == 'over') {
           str <- paste0(nMP(),
-                        i18n$t(' Management Procedures. Median values over '),
+                        i18n$t(' Management Procedures. Mean values over '),
                         nOM(),
                         i18n$t(' Operating Models.'))
         }
         if (OMtext() == 'for') {
           str <- paste0(nMP(),
-                        i18n$t(' Management Procedures. Median values over simulations for '), nOM(),
+                        i18n$t(' Management Procedures. Mean values over simulations for '), nOM(),
                         i18n$t(' Operating Models.'))
         }
         if (OMtext() == 'show') {

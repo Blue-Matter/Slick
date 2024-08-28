@@ -191,7 +191,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
             p(i18n$t('This chart compares the performance of '), nMP(),
                      i18n$t(' management procedures (MP) against '), nPM(),
                      i18n$t(' performance indicators.')),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
+            p(i18n$t('Each value is the mean performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(i18n$t('Larger polygon areas indicate better overall performance.'))
 
@@ -211,7 +211,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
             p(i18n$t('This chart compares the performance of '), nMP(),
               i18n$t(' management procedures (MP) against '), nPM(),
               i18n$t(' performance indicators.')),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
+            p(i18n$t('Each value is the mean performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(HTML('<i class="fa-solid fa-hexagon"></i>'),
               i18n$t('The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance')),
