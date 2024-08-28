@@ -20,7 +20,8 @@ mod_Boxplot_OM_ui <- function(id){
 mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
                                   plottype,
                                   nOM, nMP, nPM, parent_session,
-                                  window_dims, Report){
+                                  window_dims, Report,
+                                  selected_oms){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -183,9 +184,10 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       dd <- filtered_slick() |> Boxplot() |> Value() |>
         dim()
       plot_list <- list()
-      if (dd[4]==nPM()) {
+      if (dd[4]==nPM() & length(selected_oms())>0) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE, FALSE)
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE, FALSE,
+                                        OM_labels=selected_oms())
         }
       }
       plot_list

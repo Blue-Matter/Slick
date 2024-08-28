@@ -10,7 +10,8 @@ plotBoxplot(
   pm = 1,
   type = c("boxplot", "violin", "both", "all"),
   byOM = FALSE,
-  include_x_labs = TRUE
+  include_x_labs = TRUE,
+  OM_labels = NULL
 )
 
 plotBoxplotGrid(
@@ -29,6 +30,8 @@ plotBoxplotGrid(
 \item{byOM}{Logical. Facet the plots by operating model?}
 
 \item{include_x_labs}{Logical. Include MP labels on x-axis?}
+
+\item{OM_labels}{Labels for the OMs if \code{byOM==TRUE}. Numeric sequential values used if missing}
 }
 \value{
 A \code{ggplot2} object, or a list of \code{ggplot2} objects

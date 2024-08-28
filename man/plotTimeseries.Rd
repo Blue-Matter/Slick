@@ -9,6 +9,7 @@ plotTimeseries(
   PM_ind = 1,
   MP_ind = NULL,
   OM_ind = NULL,
+  OM_label = NULL,
   includeHist = TRUE,
   col_line = "darkgray",
   fill_ribbon1 = "#ededed",
@@ -40,7 +41,9 @@ plotTimeseries(
 which shows all MPs}
 
 \item{OM_ind}{A numeric value specifying the OM to plot. Defaults to NULL where
-values are calculated as median across OMs.}
+values are calculated as mean across OMs.}
+
+\item{OM_label}{A numeric or character string providing a label for \code{OM_ind}. Defaults to \code{OM_ind} if missing}
 
 \item{includeHist}{Logical. Include the historical period in the projections?}
 
@@ -98,7 +101,7 @@ If the plot is by management procedure (MP), the quantiles will be included in t
 multiple MPs are plotted together, only the median across simulations will
 be shown in the projections.
 
-If \code{OM_ind} isn't specified, the results will be shown as the median across
+If \code{OM_ind} isn't specified, the results will be shown as the mean across
 operating models.
 }
 \seealso{

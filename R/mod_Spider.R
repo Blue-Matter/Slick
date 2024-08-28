@@ -40,13 +40,19 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                                               slot='Spider', minPM=3, icon='hexagon',
                                               home_session=home_session)
 
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
+    })
+
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
                          nOM, nMP, nPM,
                          relative_scale=relative_scale, OS_button)
+
     mod_Spider_OM_server("Spider_OM_1", i18n, filtered_slick,
                          nOM, nMP, nPM, home_session,
                          relative_scale=relative_scale,
-                         OS_button)
+                         OS_button,
+                         selected_oms)
 
     mod_Spider_overall_server("Spider_overall_1",
                               i18n, filtered_slick,
@@ -57,12 +63,11 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
 
     output$page <- renderUI({
 
-      chk <- Check(filtered_slick())
-      if (chk@empty$Spider) {
-        return(NULL)
+      i18n <- i18n()
+      if(all(is.na(slick@Spider@Value))) {
+        return(tagList('No values in object'))
       }
 
-      i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,
                                 status='primary',

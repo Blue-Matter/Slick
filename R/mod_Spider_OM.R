@@ -19,7 +19,8 @@ mod_Spider_OM_ui <- function(id){
 #' @noRd
 mod_Spider_OM_server <- function(id, i18n, filtered_slick,
                                  nOM, nMP, nPM, parent_session,
-                                 relative_scale=relative_scale, OS_button){
+                                 relative_scale=relative_scale, OS_button,
+                                 selected_oms){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -45,10 +46,11 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
           )
         } else {
           hgt <- paste0(90 * nMP(), 'px')
+          om_labels <- selected_oms()
           plot_output_list <- lapply(1:nOM(), function(mm) {
             plotname <- paste("plot", mm, sep="")
             tagList(
-              h4(mm, class='OM_name', style = "font-size:18px;"),
+              h4(om_labels[mm], class='OM_name', style = "font-size:18px;"),
               div(
                 loading_spinner(plotOutput(ns(plotname),
                                                         width='90px', height=hgt)),

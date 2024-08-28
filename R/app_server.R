@@ -111,9 +111,6 @@ app_server <- function(input, output, session) {
     cleanup(isolate(Report$Tradeoff))
   })
 
-
-
-
   # ---- Module Servers ----
   waitress <- waiter::Waitress$new(theme = "overlay-percent") # call the waitress
   waitress$set(5)

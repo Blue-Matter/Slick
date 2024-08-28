@@ -63,6 +63,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                               button_description='OM Filters',
                                               home_session=home_session)
 
+
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,
                                   pm_ind, yrange,
@@ -74,8 +75,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
                                pm_ind, yrange, nOM,
-                               window_dims)
-
+                               window_dims,
+                               selected_oms=selected_oms)
 
 
     output$plots <- renderUI({
@@ -118,13 +119,20 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                 selected=1)
     })
 
+    stepvalue <- reactive({
+      if (ymax()<10)
+        return(0.1)
+      1
+    })
+
     output$yaxisrange <- renderUI({
       i18n <- i18n()
       sliderInput(ns('yaxis'),
                   i18n$t('Y-Axis Maximum'),
                   min=0,
                   max=ymax(),
-                  value=yvalue())
+                  value=yvalue(),
+                  step=stepvalue())
     })
 
     pm_ind_select <- reactive({
@@ -152,6 +160,10 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       }
       names(ll) <- df$Label
       ll
+    })
+
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
     })
 
     filtered_slick <- reactive({

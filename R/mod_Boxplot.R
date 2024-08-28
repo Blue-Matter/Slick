@@ -32,7 +32,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
     mod_Boxplot_OM_server("Boxplot_OM_1", i18n, filtered_slick, plottype,
                           nOM, nMP, nPM, parent_session=session,
-                          window_dims, Report)
+                          window_dims, Report,
+                          selected_oms=selected_oms)
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -45,6 +46,10 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     Filter_Selected <- mod_Page_Filter_server("boxplotfilter",i18n, Slick_Object,
                                               slot='Boxplot', minPM=1,
                                               home_session=home_session)
+
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
+    })
 
     selected_plotselect <- reactive({
       slick <- Slick_Object()
