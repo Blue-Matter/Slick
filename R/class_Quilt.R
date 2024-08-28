@@ -5,7 +5,7 @@
 #'
 #' Objects of class `Quilt` are used to store information for the Quilt chart.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Quilt()] and the
+#' assigned using functions corresponding to slot name. See [Quilt-methods()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -295,7 +295,7 @@ setMethod("Preset<-", "Quilt", function(object, value) {
 
 ##  Show ----
 
-#' @export
+#' @describeIn show Print a [Quilt-class()] object
 setMethod("show", "Quilt", function(object) {
   dim_names <- c("nOM", "nMP", "nPI")
 

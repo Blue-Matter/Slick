@@ -57,6 +57,11 @@ check_assign_dataframe <- function(object, names, value) {
 }
 
 default_mp_colors <- function(nMP) {
+  if (!requireNamespace('colorspace', quietly = TRUE)) {
+    warning('package `colorspace` required')
+    cols <- grDevices::colors()
+    return(cols[sample(length(cols), nMP)])
+  }
   colorspace::qualitative_hcl(nMP, 'Dark2')
 }
 

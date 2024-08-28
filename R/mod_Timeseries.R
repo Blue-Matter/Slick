@@ -10,7 +10,7 @@
 mod_Timeseries_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     shinydashboardPlus::box(width=12,
                             status='primary',
                             solidHeader=TRUE,
@@ -44,9 +44,9 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      timeseries='Timeseries'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   timeseries='Timeseries'))
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -63,6 +63,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                               button_description='OM Filters',
                                               home_session=home_session)
 
+
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,
                                   pm_ind, yrange,
@@ -74,8 +75,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
                                pm_ind, yrange, nOM,
-                               window_dims)
-
+                               window_dims,
+                               selected_oms=selected_oms)
 
 
     output$plots <- renderUI({
@@ -95,7 +96,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     output$title <- renderUI({
       i18n <- i18n()
-      h3(strong(i18n$t('Timeseries')))
+      h3(strong('Time Series'))
     })
 
     output$groupbuttons <- renderUI({
@@ -118,13 +119,20 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                 selected=1)
     })
 
+    stepvalue <- reactive({
+      if (ymax()<10)
+        return(0.1)
+      1
+    })
+
     output$yaxisrange <- renderUI({
       i18n <- i18n()
       sliderInput(ns('yaxis'),
                   i18n$t('Y-Axis Maximum'),
                   min=0,
                   max=ymax(),
-                  value=yvalue())
+                  value=yvalue(),
+                  step=stepvalue())
     })
 
     pm_ind_select <- reactive({
@@ -154,11 +162,15 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       ll
     })
 
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
+    })
+
     filtered_slick <- reactive({
       FilterSlick(Slick_Object(),
                   as.numeric(Filter_Selected$MPs),
                   as.numeric(Filter_Selected$OMs),
-                  as.numeric(Filter_Selected$PMs),
+                  NULL,
                   'Timeseries')
     })
 

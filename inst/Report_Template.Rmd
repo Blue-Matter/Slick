@@ -9,16 +9,35 @@ output:
   pdf_document: default
 params:
   Metadata: NA
-  Quilt: NA
-  Tradeoff: NA
-  Spider: NA
-  Zigzag: NA
+  Timeseries: NA
+  Boxplot: NA
   Kobe: NA
+  Quilt: NA
+  Spider: NA
+  Tradeoff: NA
 ---
 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+nms <- names(params)
+
+subchunkify <- function(g, fig_height=7, fig_width=5) {
+  g_deparsed <- paste0(deparse(
+    function() {g}
+  ), collapse = '')
+
+  sub_chunk <- paste0("```{r sub_chunk_", floor(runif(1) * 10000), ", fig.height=",
+   fig_height, ", fig.width=", fig_width, ", echo=FALSE}",
+  "\n(", 
+    g_deparsed
+    , ")()",
+  "\n`","``
+  ")
+
+  cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
+}
+
 ```
 
 
@@ -28,10 +47,33 @@ knitr::opts_chunk$set(echo = FALSE)
 cat(markdown(params$Metadata$Introduction), '\n')
 ```
 
+```{r boxplot, results='asis'}
+p <- 'Boxplot'
+nplots <- length(params[[p]]$plot)
+
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    # cat(knitr::include_graphics(image$src))
+    cat(paste0("![](", image$src, ")"), "\n")
+    # subchunkify(params[[p]]$plot[[l]], 10, 6)
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+    # cat('```\n\n')
+  }
+}
+
+```
+
+
+
 ```{r results='asis'}
 nms <- names(params)
 nms <- nms[!nms=='Metadata']
-
+nms <- nms[!nms=='Boxplot']
 for (p in nms) {
   nplots <- length(params[[p]]$plot)
   if (nplots>0) {

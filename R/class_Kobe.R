@@ -38,7 +38,7 @@
 #' @slot Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot.
 #'  Defaults to 1.
 #' @slot Limit Numeric vector length `nPI` with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
-#' @slot Defaults A list object with default selections for the Kobe See [Kobe()]
+#' @slot Defaults A list object with default selections for the Kobe See [Kobe-methods()]
 #' @seealso [Kobe-methods()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
@@ -160,7 +160,7 @@ setMethod('Check', 'Kobe', function(object) {
     nTS <- length(Time(object))
   }
   req_dimensions <- c(NA, NA, NA, nPI, nTS)
-  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
+  ll@errors <- append(ll@errors, check_Value(object@Value, req_dimensions))
 
   # Target
   if (!is.null(object@Target) & all(nchar(Code(object))>0)) {
@@ -294,8 +294,7 @@ setMethod("Preset<-", "Kobe", function(object, value) {
 
 ##  Show ----
 
-#' @param object An object of class [Kobe-class()]
-#' @export
+#' @describeIn show Print a [Kobe-class()] object
 setMethod("show", "Kobe", function(object) {
   dim_names <- c("nsim", "nOM", "nMP", "nPI", 'nTS')
 

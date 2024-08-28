@@ -7,9 +7,9 @@
 #' @param MPs A vector of methods (character string) of class MP
 #' @param MP_Desc A vector method descriptions (character string) nMPs long
 #' @param PMs A vector of performance metrics of class PM
-#' @param Design A design matrix of OM runs [run, mod]
+#' @param Design A design matrix of OM runs
 #' @param SN A list of Labels, Codes and Descriptions of the factor levels. Each list item is a factor containing a vector of factor levels.
-#' @param mods A nested list of mods [mod type long]
+#' @param mods A nested list of mods
 #' @param nsim Integer, the number of simulations
 #' @param MSElist An optional list of prerun MSEs
 #' @param fstYr An optional numeric value for first projection year. Otherwise current year is used
@@ -19,7 +19,7 @@
 #' @author T. Carruthers
 #' @export
 Make_Slick<-function(name = "Unnamed Slick object",
-                     OM=testOM,
+                     OM=NULL,
                      MPs=c("DCAC", "AvC", "Fratio", "FMSYref", "FMSYref50","matlenlim"),
                      MP_Desc = NULL,
                      PMs=c("AAVE","AAVY","LTY","P10","P50","P100","PNOF","STY","Yield"),
@@ -40,6 +40,11 @@ Make_Slick<-function(name = "Unnamed Slick object",
 ){
 
   .Deprecated("Slick")
+  if (!requireNamespace('MSEtool', quietly = TRUE))
+    stop('Package `MSEtool` required for this function')
+
+  if (is.null(OM))
+    OM <- MSEtool::testOM
   # --- Get dims and create new Slick object -------------------------------------------------------------------------
   runMSEs<-is.null(MSElist)
   if(runMSEs){
@@ -85,7 +90,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
   if(is.null(MSElist)){
     OMtemp<-OM
     OMtemp@nsim=4
-    MSEtemp<-runMSE(OMtemp,MPs='AvC')
+    MSEtemp<-MSEtool::runMSE(OMtemp,MPs='AvC')
   }else{
     MSEtemp<-MSElist[[1]]
   }
@@ -126,7 +131,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
   if(runMSEs){
     MSElist=list()
-    setup()
+    MSEtool::setup()
   }
 
   for(i in 1:nOM){
@@ -134,7 +139,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
     if(runMSEs){
       OMtemp<-OM
       for(Fac in 1:nFacs)  OMtemp<-mods[[Fac]](OMtemp,Design[i,Fac])
-      MSElist[[i]]<-runMSE(OMtemp,MPs=MPs,parallel=T)
+      MSElist[[i]]<-MSEtool::runMSE(OMtemp,MPs=MPs,parallel=T)
     }
 
     MSEtemp<-MSElist[[i]]
@@ -211,7 +216,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 #' @param nProjYr Integer, the number of projected years
 #' @param nStateVar Integer, the number of state variables
 #' @param nHistYr Integer, the number of historical years for state variables
-#' @param Design A design matrix of factor levels [SN, factor]
+#' @param Design A design matrix of factor levels `SN, factor`
 #'
 #' @return An object of class [Slick-class]
 #' @author T. Carruthers
@@ -302,7 +307,7 @@ NewSlick<-function(name = "Unnamed Slick Object", nPerf=list(nD=5, nS=6, nP=7), 
   # === Misc ================================================================================================================
   out$Misc<-list()
 
-  tc<-function(r,g,b)rgb(r,g,b,maxColorValue=255)
+  tc<-function(r,g,b)grDevices::rgb(r,g,b,maxColorValue=255)
   out$Misc$Author="Anon"
   out$Misc$Contact=NA
   out$Misc$Date=Sys.time()

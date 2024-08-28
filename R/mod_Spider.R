@@ -10,7 +10,7 @@
 mod_Spider_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
 
   )
@@ -23,9 +23,9 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      quilt='Spider'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   quilt='Spider'))
 
     mod_subtitle_server('spidersubtitle', i18n, nOM, nMP, nPM, minPM=3,
                         OMtext=OMtext)
@@ -40,34 +40,39 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                                               slot='Spider', minPM=3, icon='hexagon',
                                               home_session=home_session)
 
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
+    })
+
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, parent_session,
+                         nOM, nMP, nPM,
                          relative_scale=relative_scale, OS_button)
+
     mod_Spider_OM_server("Spider_OM_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, parent_session,
+                         nOM, nMP, nPM, home_session,
                          relative_scale=relative_scale,
-                         OS_button)
+                         OS_button,
+                         selected_oms)
 
     mod_Spider_overall_server("Spider_overall_1",
                               i18n, filtered_slick,
-                              nOM, nMP, nPM, parent_session,
+                              nOM, nMP, nPM,
                               relative_scale=relative_scale,
                               window_dims)
 
 
     output$page <- renderUI({
 
-      chk <- Check(filtered_slick())
-      if (chk@empty$Spider) {
-        return(NULL)
+      i18n <- i18n()
+      if(all(is.na(slick@Spider@Value))) {
+        return(tagList('No values in object'))
       }
 
-      i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Spider'))),
+                                title=h3(strong('Spider')),
                                 column(12,
                                        mod_subtitle_ui(ns('spidersubtitle'))
                                 ),
@@ -116,7 +121,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                                       ),
                                 column(3,
                                        h4(i18n$t('Performance Indicators')),
-                                       shinycssloaders::withSpinner(plotOutput(ns('PM_outline'),
+                                       loading_spinner(plotOutput(ns('PM_outline'),
                                                                                width=125, height=125)),
                                        htmlOutput(ns('PMlist'))
                                        )
@@ -191,7 +196,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
             p(i18n$t('This chart compares the performance of '), nMP(),
                      i18n$t(' management procedures (MP) against '), nPM(),
                      i18n$t(' performance indicators.')),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
+            p(i18n$t('Each value is the mean performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(i18n$t('Larger polygon areas indicate better overall performance.'))
 
@@ -211,7 +216,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
             p(i18n$t('This chart compares the performance of '), nMP(),
               i18n$t(' management procedures (MP) against '), nPM(),
               i18n$t(' performance indicators.')),
-            p(i18n$t('Each value is the median performance indicator over '), nOM(),
+            p(i18n$t('Each value is the mean performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(HTML('<i class="fa-solid fa-hexagon"></i>'),
               i18n$t('The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance')),

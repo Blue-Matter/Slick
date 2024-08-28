@@ -6,7 +6,7 @@
 \usage{
 Make_Slick(
   name = "Unnamed Slick object",
-  OM = testOM,
+  OM = NULL,
   MPs = c("DCAC", "AvC", "Fratio", "FMSYref", "FMSYref50", "matlenlim"),
   MP_Desc = NULL,
   PMs = c("AAVE", "AAVY", "LTY", "P10", "P50", "P100", "PNOF", "STY", "Yield"),
@@ -66,11 +66,11 @@ Make_Slick(
 
 \item{PMs}{A vector of performance metrics of class PM}
 
-\item{Design}{A design matrix of OM runs \link{run, mod}}
+\item{Design}{A design matrix of OM runs}
 
 \item{SN}{A list of Labels, Codes and Descriptions of the factor levels. Each list item is a factor containing a vector of factor levels.}
 
-\item{mods}{A nested list of mods \link{mod type long}}
+\item{mods}{A nested list of mods}
 
 \item{nsim}{Integer, the number of simulations}
 

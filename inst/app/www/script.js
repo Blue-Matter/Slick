@@ -58,3 +58,7 @@ var dimension = [0, 0];
             };
           });
         }
+
+function get_id(clicked_id) {
+  Shiny.setInputValue("report-current_id", clicked_id, {priority: "event"});
+}

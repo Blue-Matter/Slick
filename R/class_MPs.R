@@ -221,7 +221,7 @@ setMethod("Color<-", "MPs", function(object, value) {
 
 ## Show ----
 
-#' @export
+#' @describeIn show Print a [MPs-class()] object
 setMethod("show", "MPs", function(object) {
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)

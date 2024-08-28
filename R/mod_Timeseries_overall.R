@@ -37,7 +37,7 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
     output$plot <- renderUI({
       tagList(
         br(),
-        shinycssloaders::withSpinner(
+        loading_spinner(
           plotOutput(ns('plot1'), width=plot_width(), height=plot_height())
         )
       )

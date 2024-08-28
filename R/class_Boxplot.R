@@ -93,6 +93,7 @@ setMethod("Boxplot", 'character_list',
 ## Check ----
 
 #' @describeIn Check Check [Boxplot-class()] objects for errors
+#' @param req_dims Required dimensions for `Value` slot. Used internally
 setMethod('Check', 'Boxplot', function(object, req_dims=c(NA, NA, NA, NA)) {
   ll <- CheckList()
   ll@object <- class(object)
@@ -127,7 +128,7 @@ setMethod('Check', 'Boxplot', function(object, req_dims=c(NA, NA, NA, NA)) {
   }
 
   req_dims[4] <- nPI
-  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dims))
+  ll@errors <- append(ll@errors, check_Value(object@Value, req_dims))
 
   if (length(ll@errors)<1 & length(ll@warnings)<1)
     ll@complete <- TRUE
@@ -241,9 +242,7 @@ setMethod("Defaults<-", 'Boxplot', function(object, value) {
 
 ## Show ----
 
-
-#' @param object An object of class [Boxplot-class()]
-#' @export
+#' @describeIn show Print a [Boxplot-class()] object
 setMethod("show", "Boxplot", function(object) {
   dim_names <- c("nsim", "nOM", "nMP", "nPI")
 

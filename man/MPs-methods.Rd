@@ -6,6 +6,7 @@
 \alias{MPs<-}
 \alias{MPs,missing-method}
 \alias{MPs,character_list-method}
+\alias{MPs,Slick-method}
 \alias{MPs<-,Slick-method}
 \title{Methods for Creating, Accessing and Assigning \code{MPs} objects}
 \usage{
@@ -16,6 +17,8 @@ MPs(object) <- value
 \S4method{MPs}{missing}()
 
 \S4method{MPs}{character_list}(Code = "", Label = "", Description = "", Color = "", Preset = list())
+
+\S4method{MPs}{Slick}(Code)
 
 \S4method{MPs}{Slick}(object) <- value
 }
@@ -56,6 +59,8 @@ Objects of class \code{MPs} are created with \code{MPs()}
 \item \code{MPs(missing)}: Create an empty \code{MPs} object
 
 \item \code{MPs(character_list)}: Create a populated \code{MPs} object
+
+\item \code{MPs(Slick)}: Return an \code{\link[=MPs-class]{MPs-class()}} object from a \code{\link[=Slick]{Slick()}} object
 
 \item \code{MPs(Slick) <- value}: Assign an \code{\link[=MPs-class]{MPs-class()}} object to a \code{\link[=Slick]{Slick()}} object
 

@@ -1,10 +1,12 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.9007
+Version: 1.0.9010
 Authors@R: c(
-    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
-    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
+    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
+    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
+    person("Quang", "Huynh", , "quang@bluematterscience.com", role = 'aut'),
+    person("Shana", "Miller", , "smiller@oceanfdn.org", role = 'aut')
   )
 Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
 Description: Slick presents the performance of multiple management objects
@@ -14,22 +16,27 @@ Depends:
     R (>= 3.5.0)
 Imports:
     cli,
-    colorspace,
-    colourpicker,
-    config,
     dplyr,
     DT,
-    esquisse,
-    flextable,
-    fresh,
     ggplot2,
     ggrepel,
-    golem,
     graphics,
     grDevices,
     methods,
-    rmarkdown,
     scales,
+    stats,
+    tibble,
+    utils
+Suggests: 
+    colourpicker,
+    colorspace,
+    esquisse,
+    flextable,
+    fresh,
+    golem,
+    httr,
+    knitr,
+    MSEtool,
     shiny,
     shiny.i18n,
     shinyalert,
@@ -40,20 +47,14 @@ Imports:
     shinyhelper,
     shinyjs,
     shinyWidgets,
-    stats,
-    tibble,
-    utils,
+    rmarkdown,
+    testthat (>= 3.0.0),
     waiter
-Suggests: 
-    knitr,
-    MSEtool,
-    openMSE,
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
@@ -76,9 +77,12 @@ Collate:
     'fct_FilterSlick.R'
     'fct_Kobe_plot.R'
     'fct_Update.R'
+    'fct_check_required_packages.R'
     'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
+    'fct_load_casestudies.R'
+    'fct_misc.R'
     'fct_plots.R'
     'fct_translator.R'
     'make_Slick_old.R'

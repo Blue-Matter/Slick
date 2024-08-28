@@ -10,7 +10,7 @@
 mod_Tradeoff_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
 
   )
@@ -29,9 +29,9 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                               button_description='OM Filters',
                                               home_session=home_session)
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      tradeoff='Tradeoff'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   tradeoff='Tradeoff'))
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -51,7 +51,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Tradeoff'))),
+                                title=h3(strong('Tradeoff')),
                                 column(12,
                                        mod_subtitle_ui(ns(id))
                                 ),

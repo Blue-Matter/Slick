@@ -1,3 +1,5 @@
+# slick <- readRDS('C:/users/user/downloads/Western Atlantic Skipjack.slick')
+
 
 colorRampAlpha <- function(..., n, alpha) {
   colors <- grDevices::colorRampPalette(...)(n)
@@ -18,50 +20,105 @@ colorRampAlpha <- function(..., n, alpha) {
 #' @param type Character string specifying the plot type.
 #' @param byOM Logical. Facet the plots by operating model?
 #' @param include_x_labs Logical. Include MP labels on x-axis?
+#' @param OM_labels Labels for the OMs if `byOM==TRUE`. Numeric sequential values used if missing
 #'
 #' @return A `ggplot2` object, or a list of `ggplot2` objects
+#' @example inst/examples/Boxplot.R
 #' @export
 plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
-                        byOM=FALSE, include_x_labs=FALSE) {
+                        byOM=FALSE, include_x_labs=TRUE,
+                        OM_labels=NULL) {
+  if (missing(slick))
+    stop('First argument must be Slick object')
   boxplot <- slick |> Boxplot()
   values <- boxplot |> Value()
+  if (all(is.na(values)))
+    stop('No values in `Boxplot@Value`')
   type <- match.arg(type)
   dd <- dim(values)
 
-  if (pm > dd[4])
+  if (any(pm > dd[4]))
     return(NULL)
+
+  nMP <- dd[3]
 
   Val <- values[,,,pm]
 
   mp_metadata <- slick |> MPs() |> Metadata()
-  mp_names <- mp_metadata$Label
-  pm_names <- slick |> Boxplot() |> Metadata() |> dplyr::pull('Label')
+
+  if (all(nchar(mp_metadata$Color)<1)) {
+    mp_colors <- default_mp_colors(nMP)
+  } else {
+    mp_colors <-  mp_metadata$Color
+  }
+
+  if (all(nchar(mp_metadata$Color)<1)) {
+    mp_names <-paste('MP ', 1:nMP)
+  } else {
+    mp_names <-  mp_metadata$Label
+  }
+
+  pm_names <- slick |> Boxplot() |> Code()
 
   df <- data.frame(Sim=1:dd[1],
                    OM=rep(1:dd[2], each=dd[1]),
                    MP=rep(mp_names, each=dd[1]*dd[2]),
+                   PM=rep(pm_names[pm], each=prod(dd[1:3])),
                    value=as.vector(Val))
 
-  df$MP <- factor(df$MP, ordered=TRUE, levels=mp_names)
 
-  box_df <- data.frame(
-    MP = mp_names,
-    m = tapply(df$value, df$MP, median),
-    low1 = tapply(df$value, df$MP, quantile, 0.25, na.rm = TRUE),
-    upp1 = tapply(df$value, df$MP, quantile, 0.75, na.rm = TRUE),
-    low2 = tapply(df$value, df$MP, min, na.rm = TRUE),
-    upp2 = tapply(df$value, df$MP, max, na.rm = TRUE)
-  )
+  df$MP <- factor(df$MP, ordered=TRUE, levels=mp_names)
+  df$PM <- factor(df$PM, ordered=TRUE, levels=pm_names)
+
+  if (!byOM) {
+    box_df <- df |> dplyr::group_by(Sim, MP) |>
+      dplyr::mutate(Mean=mean(value, na.rm=TRUE)) |>
+      dplyr::group_by(MP) |>
+      dplyr::summarize(m=median(Mean, na.rm=TRUE),
+                       low1=quantile(Mean, 0.25, na.rm=TRUE),
+                       upp1=quantile(Mean, 0.75, na.rm=TRUE),
+                       low2=min(Mean, na.rm=TRUE),
+                       upp2=max(Mean, na.rm=TRUE))
+  } else {
+    box_df <- df |>
+      dplyr::group_by(OM, MP) |>
+      dplyr::summarize(m=median(value, na.rm=TRUE),
+                       low1=quantile(value, 0.25, na.rm=TRUE),
+                       upp1=quantile(value, 0.75, na.rm=TRUE),
+                       low2=min(value, na.rm=TRUE),
+                       upp2=max(value, na.rm=TRUE))
+  }
+
   box_df$MP <- factor(box_df$MP, ordered=TRUE, levels=mp_names)
+
+  if (!is.null(OM_labels)) {
+    OM_labels <- OM_labels
+    nMP <- length(unique(box_df$MP))
+    box_df$OM <- rep(OM_labels, each=nMP)
+    box_df$OM <- factor(box_df$OM, levels=OM_labels, ordered = TRUE)
+  }
 
   ymax <- max(c(1, pretty(box_df$upp2)))
 
-  p <- ggplot2::ggplot(df, ggplot2::aes(x=MP, color=MP, fill=MP)) +
-    ggplot2::scale_fill_manual(values=mp_metadata$Color) +
-    ggplot2::scale_color_manual(values=mp_metadata$Color) +
-    ggplot2::guides(color='none', fill='none')    +
-    ggplot2::labs(x='tt', y='', title=pm_names[pm]) +
-    ggplot2::expand_limits(y=c(0, ymax)) +
+  p <- ggplot2::ggplot(df |>dplyr::select(!OM), ggplot2::aes(x=MP, color=MP, fill=MP)) +
+    ggplot2::scale_fill_manual(values=mp_colors) +
+    ggplot2::scale_color_manual(values=mp_colors) +
+    ggplot2::guides(color='none', fill='none')
+
+  if (length(pm)>1) {
+    if (byOM) {
+      p <- p + ggplot2::facet_grid(OM~PM, scales='free_y') +
+        ggplot2::labs(y='')
+    } else {
+      p <- p + ggplot2::facet_wrap(~PM) +
+        ggplot2::labs(y='')
+    }
+
+  } else {
+    p <- p + ggplot2::labs(x='', y='', title=pm_names[pm])
+  }
+
+  p <- p + ggplot2::expand_limits(y=c(0, ymax)) +
     ggplot2::coord_cartesian(clip = 'off') +
     ggplot2::scale_y_continuous(expand = c(0, 0)) +
     ggplot2::theme(legend.position='none',
@@ -87,15 +144,12 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1, color=MP, fill=MP),
                              linewidth = 2, shape = 21, inherit.aes = FALSE, size=1.5)
 
-
-
-
-  if (byOM)
+  if (byOM & length(pm)<2)
     p1 <- p1 + ggplot2::facet_wrap(~OM)
 
   p2 <- p + ggplot2::geom_violin(scale='width', ggplot2::aes(y=value))
 
-  if (byOM)
+  if (byOM & length(pm)<2)
     p2 <- p2 + ggplot2::facet_wrap(~OM)
 
 
@@ -107,7 +161,7 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
                              ggplot2::aes(x=MP, y=m, ymin=low1, ymax=upp1),
                              linewidth = 2, shape = 21, inherit.aes = FALSE, size=1)
 
-  if (byOM)
+  if (byOM & length(pm)<2)
     p3 <- p3 + ggplot2::facet_wrap(~OM)
 
   if (type=='boxplot') {
@@ -122,6 +176,32 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
   list(p1, p2, p3)
 }
 
+
+#' @describeIn plotBoxplot  Plot multiple Performance Indicators using `cowplot::plot_grid`
+#' @export
+plotBoxplotGrid <- function(slick, type=c('boxplot', 'violin', 'both', 'all'), byOM=FALSE) {
+  type <- match.arg(type)
+  nPM <- length(slick@Boxplot@Code)
+
+  nPM <- 9
+  ncol <- min(ceiling(sqrt(nPM)),4)
+  nrow <- ceiling(nPM/ncol)
+  mat <- matrix(1:(nrow*ncol), nrow, ncol, byrow=TRUE)
+
+  p_list <- list()
+  rel_heights <- rep(1, nrow)
+  rel_heights[nrow] <- 2
+
+  for (i in 1:nPM) {
+    p <- plotBoxplot(slick, i, type, byOM, TRUE)
+    if (!i %in% mat[nrow,])
+      p <- p + ggplot2::theme(axis.text.x = ggplot2::element_blank())
+    p_list[[i]] <- p
+  }
+
+  cowplot::plot_grid(plotlist=p_list, nrow=nrow, ncol=ncol,
+                     align='v')
+}
 
 # ---- Kobe ----
 
@@ -146,17 +226,16 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 #' multiple MPs are plotted together, only the median across simulations will
 #' be shown in the projections.
 #'
-#' If `OM_ind` isn't specified, the results will be shown as the median across
+#' If `OM_ind` isn't specified, the results will be shown as the mean across
 #' operating models.
-#'
-#'
 #'
 #' @param slick A [Slick-class()] object
 #' @param PM_ind A numeric value specifying the performance indicator to plot
 #' @param MP_ind A numeric value specifying the MP to plot. Defaults to NULL
 #' which shows all MPs
 #' @param OM_ind A numeric value specifying the OM to plot. Defaults to NULL where
-#' values are calculated as median across OMs.
+#' values are calculated as mean across OMs.
+#' @param OM_label A numeric or character string providing a label for `OM_ind`. Defaults to `OM_ind` if missing
 #' @param includeHist Logical. Include the historical period in the projections?
 #' @param col_line Color for the median line (historical)
 #' @param fill_ribbon1 Fill color for the inner ribbon
@@ -177,8 +256,10 @@ plotBoxplot <- function(slick, pm=1, type=c('boxplot', 'violin', 'both', 'all'),
 #' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
 #' @param lim_name Label for the limit line
 #' @param inc_y_label Include the label for the y-axis?
+#' @param sims Optional. Numeric values indicating the simulations to include. Defaults
+#' to all.
 #'
-#' @seealso [Timeseries(), Timeseries-class()]
+#' @seealso [Timeseries-methods()], [Timeseries-class()]
 #' @return A `ggplot2` object
 #' @export
 #'
@@ -186,6 +267,7 @@ plotTimeseries <- function(slick,
                            PM_ind=1,
                            MP_ind=NULL,
                            OM_ind=NULL,
+                           OM_label=NULL,
                            includeHist=TRUE,
                            col_line='darkgray',
                            fill_ribbon1='#ededed',
@@ -243,6 +325,8 @@ plotTimeseries <- function(slick,
       stop('`OM_ind` is greater than number of OMs in `Timeseries(slick)`')
     }
     oms <- OM_ind
+    if (is.null(OM_label))
+      OM_label <- OM_ind
   }
 
   if (is.null(sims)) {
@@ -254,9 +338,14 @@ plotTimeseries <- function(slick,
 
   if (includeHist) {
     # Historical Period
-    med.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, median, na.rm=TRUE)
-    quant.1.hist <- apply(values[sims,oms,1,PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants1, na.rm=TRUE)
-    quant.2.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants2, na.rm=TRUE)
+    mean.hist <- apply(values[,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], c(1,4,5), mean, na.rm=TRUE) # mean over OMs
+    med.hist <- apply(mean.hist, 3, median, na.rm=TRUE) # median over simulations
+    quant.1.hist <- apply(mean.hist, 3, quantile, probs=quants1, na.rm=TRUE)
+    quant.2.hist <- apply(mean.hist, 3, quantile, probs=quants2, na.rm=TRUE)
+
+    # med.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, median, na.rm=TRUE)
+    # quant.1.hist <- apply(values[sims,oms,1,PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants1, na.rm=TRUE)
+    # quant.2.hist <- apply(values[sims,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], 5, quantile, probs=quants2, na.rm=TRUE)
 
     Hist_df <- data.frame(x=hist.yrs,
                           Median=med.hist,
@@ -276,7 +365,16 @@ plotTimeseries <- function(slick,
 
 
   # Projection
-  med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
+  if (any(is.na(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE]))) {
+    mean.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), mean, na.rm=TRUE)
+  } else {
+    mean.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), sum)/
+      apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), length)
+  }
+
+
+  med.mps <- apply(mean.mps, c(2,3), median, na.rm=TRUE)
+  # med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
   meddf <- data.frame(x=rep(proj.yrs, each=nMP),
                       MP=MP_lab,
                       Median=as.vector(med.mps))
@@ -293,15 +391,18 @@ plotTimeseries <- function(slick,
     # by MP
     meddf <- meddf |> dplyr::filter(MP%in%MP_lab[MP_ind])
 
-    quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
-    quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
+    quant.1.mp <- apply(mean.mps[,MP_ind,], 2, quantile, probs=quants1, na.rm=TRUE)
+    quant.2.mp <- apply(mean.mps[,MP_ind,], 2, quantile, probs=quants2, na.rm=TRUE)
+
+    # quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
+    # quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
 
     quant_df <- data.frame(x=rep(proj.yrs, each=1),
                            MP=MP_lab[MP_ind],
-                           Lower1=as.vector(quant.1.mp[1,,]),
-                           Upper1=as.vector(quant.1.mp[2,,]),
-                           Lower2=as.vector(quant.2.mp[1,,]),
-                           Upper2=as.vector(quant.2.mp[2,,]))
+                           Lower1=as.vector(quant.1.mp[1,]),
+                           Upper1=as.vector(quant.1.mp[2,]),
+                           Lower2=as.vector(quant.2.mp[1,]),
+                           Upper2=as.vector(quant.2.mp[2,]))
     quant_df$MP <- factor(quant_df$MP, ordered=TRUE, levels=MP_lab[MP_ind])
 
     p <- p +
@@ -338,7 +439,7 @@ plotTimeseries <- function(slick,
 
   if(!is.null(OM_ind)) {
     # by OM
-    p <- p +  ggplot2::labs(title=paste('OM', oms)) +
+    p <- p +  ggplot2::labs(title=paste('OM', OM_label)) +
       ggplot2::theme(plot.title =ggplot2::element_text(colour='#D6501C',
                                                        face='bold',
                                                        hjust = 0.5,
@@ -384,6 +485,7 @@ plotTimeseries <- function(slick,
     ggplot2::theme(axis.title = ggplot2::element_text(size=size.axis.title, face='bold'),
                    axis.text = ggplot2::element_text(size=size.axis.text)) +
     ggplot2::theme_bw() +
+    ggplot2::expand_limits(y=0) +
     ggplot2::scale_x_continuous(expand = c(0, 0))
 
   p
@@ -394,6 +496,10 @@ plotTimeseries <- function(slick,
 
 
 quilt_kable <- function(Values, metadata_pm, cols) {
+
+  if (!requireNamespace('flextable', quietly = TRUE)) {
+    stop('package `flextable` required for this function')
+  }
 
   table <- flextable::flextable(data.frame(Values) |>
                                   tibble::rownames_to_column('MP'))
@@ -452,7 +558,7 @@ quilt_DT <- function(Values, metadata_pm, cols) {
 
 plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
-  quilt <-  Quilt(slick)
+  quilt <- Quilt(slick)
 
   # quilt <<-  Quilt(slick)
   # MP_labels <<- MP_labels
@@ -461,7 +567,7 @@ plotQuilt <- function(slick, MP_labels=NULL, lang=NULL, kable=FALSE) {
 
 
   Values <- Value(quilt) |>
-    apply(2:3, median) |>
+    apply(2:3, mean, na.rm=TRUE) |>
     signif(3)
   if (all(is.na(Values))) {
     return(NULL)
@@ -497,7 +603,7 @@ plotTradeoff <- function(slick, mps=NULL, XPM=NULL, YPM=NULL, lab_size=6, point_
 
   tradeoff <- slick |> Tradeoff()
   Values <- Value(tradeoff) |>
-    apply(2:3, median) |>
+    apply(2:3, mean) |>
     signif(3)
   if (all(is.na(Values))) {
     return(NULL)
@@ -616,10 +722,10 @@ Spiderplot_single_OM <- function(Values_OM, MP_metadata, include_avg=TRUE) {
   highest_score <- Values_OM == max(Values_OM)
 
   if(include_avg) {
-    text_color <- rep('black', length(mean_over_MPs))
-    rgbvals <- grDevices::col2rgb(MP_metadata$Color)
-    luma <- apply(rgbvals, 2, get_luma)
-    text_color[luma<40] <- 'lightgrey'
+    text_color <- rep('#FF4500', length(mean_over_MPs))
+    # rgbvals <- grDevices::col2rgb(MP_metadata$Color)
+    # luma <- apply(rgbvals, 2, get_luma)
+    # text_color[luma<40] <- 'lightgrey'
   }
 
   # plot controls
@@ -680,9 +786,9 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
   cols <- slick |> MPs() |>
     Metadata() |> dplyr::pull(Color)
 
-  # median across OMs
+  # mean across OMs
   Values <- slick |> Spider() |>
-    Value() |> apply(2:3, median, na.rm=TRUE)
+    Value() |> apply(2:3, mean, na.rm=TRUE)
 
   if(relative_scale) {
     # make all PMs relative to maximum and minimum values
@@ -693,10 +799,10 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
   # average MP value across PMs
   if(include_avg) {
     mp.avg <- apply(Values, 1, mean, na.rm=TRUE)
-    text_color <- rep('black', length(mp.avg))
-    rgbvals <- grDevices::col2rgb(cols)
-    luma <- apply(rgbvals, 2, get_luma)
-    text_color[luma<40] <- 'lightgrey'
+    text_color <- rep('#FF4500', length(mp.avg))
+    # rgbvals <- grDevices::col2rgb(cols)
+    # luma <- apply(rgbvals, 2, get_luma)
+    # text_color[luma<40] <- 'lightgrey'
   }
 
   par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
@@ -725,13 +831,13 @@ Spiderplot <- function(slick, lang=NULL, relative_scale=FALSE, include_avg=TRUE)
 
 Spiderplot_all_MPs <- function(slick, relative_scale=FALSE) {
 
-  # median across OMs
+  # mean across OMs
   metadata_MP <- slick |> MPs() |> Metadata()
   nMPs <- nrow(metadata_MP)
 
   spider <- slick |> Spider()
   Values <- spider |>
-    Value() |> apply(2:3, median, na.rm=TRUE)
+    Value() |> apply(2:3, mean, na.rm=TRUE)
 
   metadata_PM <- spider |> Metadata()
   nPMs <- nrow(metadata_PM)
@@ -787,8 +893,8 @@ spiderplot_fun <- function(Det, MPkeep, Detkeep, SNkeep, Object, SwitchScale) {
     for (i in 1:nrow(vertices)) lines(c(0, vertices[i,1]), c(0, vertices[i,2]),
                                       col=line.col)
 
-    # Calc median PM over OMs
-    pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), median, na.rm=TRUE)
+    # Calc mean PM over OMs
+    pm <- apply(Det$mat[SNkeep$selected,,,drop=FALSE], c(2,3), mean, na.rm=TRUE)
     pm <- pm[MPkeep$selected, Detkeep$selected, drop=FALSE]
 
     if (SwitchScale$relative) {

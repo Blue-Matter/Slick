@@ -160,15 +160,13 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-
-
     shinydashboardPlus::dashboardPage(
       header=header(),
       sidebar=sidebar(),
       body=body(),
       controlbar=controlbar(),
       title='Slick',
-      shinydashboardPlus::dashboardFooter(left = paste0("Slick version:", packageVersion('Slick')),
+      shinydashboardPlus::dashboardFooter(left = paste0("Slick version:", slickVersion()),
                       right = tags$a(href='https://harveststrategies.org/',
                                      target="_blank", paste0("harveststrategies.org ", format(Sys.Date(), "%Y"))))
     )
@@ -206,10 +204,12 @@ golem_add_external_resources <- function() {
 
 
     fresh::use_theme(Slick_theme()),
-    waiter::useWaiter(),
     shinyjs::useShinyjs(),
+    waiter::useWaiter(),
+    waiter::useAttendant(),
+    waiter::use_waitress(),
     waiter::waiterPreloader(waiter::spin_fading_circles()),
-    waiter::use_waitress()
+
 
 
   )

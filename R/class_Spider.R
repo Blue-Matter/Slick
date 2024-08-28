@@ -2,7 +2,7 @@
 #'
 #' Objects of class `Spider` are used to store information for the Spider plots.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Spider()] and the
+#' assigned using functions corresponding to slot name. See [Spider-methods()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -203,7 +203,7 @@ setMethod("Metadata<-", "Spider", function(object, value) {
 
 ## Show ----
 
-#' @export
+#' @describeIn show Print a [Spider-class()] object
 setMethod("show", "Spider", function(object) {
   dim_names <- c("nOM", "nMP", "nPI")
 

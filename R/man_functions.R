@@ -111,7 +111,10 @@ introduction_param <- function() {
 
 
 value_dimensions <- function(type='Boxplot') {
-  ll <- list(Boxplot=c('nsim', 'nOM', 'nMP', 'nPI')
-             )
-  ll[[type]]
+  #
+  # NOTE: not currently working because Slick app filters OM dimension in
+  # Value, but doesn't change the OMs reported in Slick@OMs
+  # ll <- list(Boxplot=c('nsim', 'nOM', 'nMP', 'nPI')
+  #            )
+  # ll[[type]]
 }

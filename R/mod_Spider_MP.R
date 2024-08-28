@@ -19,7 +19,7 @@ mod_Spider_MP_ui <- function(id){
 #' Spider_MP Server Functions
 #'
 #' @noRd
-mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent_session,
+mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM,
                                  relative_scale, OS_button){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -33,7 +33,7 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM, parent
       i18n <- i18n()
       tagList(
         uiOutput(ns('overallscore')),
-        shinycssloaders::withSpinner(
+        loading_spinner(
           plotOutput(ns('filled_hex'), height='auto')
         )
       )

@@ -8,7 +8,7 @@ filterOMs <- function(slick, Filter_Selected, input) {
     design[] <- lapply(design,  as.numeric)
     factor_numbers <- design[,fac]
     factor_numbers <- as.numeric(factor(factor_numbers))
-    selected_factors <<- as.numeric(input[[paste0("filter",fac)]])
+    selected_factors <- as.numeric(input[[paste0("filter",fac)]])
     keep[,fac] <- factor_numbers%in% selected_factors
 
   }
