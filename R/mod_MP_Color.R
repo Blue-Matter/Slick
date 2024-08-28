@@ -23,20 +23,6 @@ mod_MP_Color_server <- function(id, i18n, slick){
 
     output$page <- renderUI({
       i18n <- i18n()
-      # tagList(
-      #   column(12,
-      #          h4(i18n$t('MP Color Settings')),
-      #          p(i18n$t('Modify the colors of the MP or select from an existing palette')),
-      #          uiOutput(ns('colorpickerselect')),
-      #          uiOutput(ns('customcolors')),
-      #          shinyWidgets::actionBttn(ns("applycolors"),
-      #                                   label=i18n$t("Apply Color Selections"),
-      #                                   icon("gear", verify_fa=FALSE),
-      #                                   color='danger',size='sm',
-      #                                   block=T, style="fill")
-      #          )
-      # )
-
       tagList(
         column(12,
                br(),
@@ -92,6 +78,10 @@ mod_MP_Color_server <- function(id, i18n, slick){
 
 
     palette_list <- reactive({
+      if (!requireNamespace('colorspace', quietly = TRUE)) {
+        return(p('package `colorspace` required'))
+      }
+
       ll <- list()
       palettes <- c('Default', 'Pastel1', 'Dark2', 'Dark3', 'Set2', 'Set3', 'Warm',
                     'Cold', 'Harmonic', 'Dynamic')
@@ -105,11 +95,12 @@ mod_MP_Color_server <- function(id, i18n, slick){
 
     output$colorpickerselect <- renderUI({
       i18n <- i18n()
-      tagList(
-        esquisse::palettePicker(ns('colorpicker'),
-                                i18n$t('Select a Color Palette'),
-                                choices=palette_list())
-      )
+      if (!requireNamespace('esquisse', quietly = TRUE)) {
+        return(p('package `esquisse` required'))
+      }
+      esquisse::palettePicker(ns('colorpicker'),
+                              i18n$t('Select a Color Palette'),
+                              choices=palette_list())
     })
 
 
@@ -133,6 +124,8 @@ mod_MP_Color_server <- function(id, i18n, slick){
     selected_colors <- reactiveVal()
 
     mp_color_list <- reactive({
+      if (!requireNamespace('colourpicker', quietly = TRUE))
+        return('Package `colourpicker` required')
       nMP <- nMPs()
       metadata <- mp_metadata()
       ll <- list()

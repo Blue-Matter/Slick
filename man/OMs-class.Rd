@@ -8,7 +8,7 @@
 An object of class \code{OMs} contains information about the operating models (MPs)
 in the \code{\link[=Slick]{Slick()}} object. Like all S4 objects in \code{Slick}, slots in this
 object can be accessed and assigned using functions corresponding to slot name.
-See \code{\link[=OMs]{OMs()}} and the the \verb{See Also} section below.
+See \code{\link[=OMs-methods]{OMs-methods()}} and the the \verb{See Also} section below.
 }
 \details{
 \subsection{Multi-Language Support}{

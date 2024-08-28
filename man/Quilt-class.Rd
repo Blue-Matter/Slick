@@ -7,7 +7,7 @@
 \description{
 Objects of class \code{Quilt} are used to store information for the Quilt chart.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
-assigned using functions corresponding to slot name. See \code{\link[=Quilt]{Quilt()}} and the
+assigned using functions corresponding to slot name. See \code{\link[=Quilt-methods]{Quilt-methods()}} and the
 the \verb{See Also} section below.
 }
 \details{

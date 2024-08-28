@@ -1,4 +1,8 @@
 
+#' Generic show method
+#'
+#' @param object Object to print to console
+#' @export
 show <- function(object) methods::show(object)
 
 # ---- Boxplot ----
@@ -78,6 +82,7 @@ setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 #' [OMs-class()] or the six chart types: [Boxplot-class()], [Kobe-class()],
 #' [Quilt-class()], [Spider-class()], [Timeseries-class()],
 #' and [Tradeoff-class()].
+#' @param ... Additional arguments
 #' @return Prints messages to the console
 #' @export
 setGeneric("Check", function(object, ...) standardGeneric("Check"))
@@ -550,8 +555,10 @@ setGeneric("Spider<-", function(Slick, value) standardGeneric("Spider<-"))
 #' @export
 setGeneric("Target", function(object) standardGeneric("Target"))
 
+#' @param object A [Kobe-class()] or [Timeseries()] class object
+#' @param value Value to assign to `Target`
+#' @describeIn Target Assign `value` to `object@Target`
 #' @export
-#' @rdname Target
 setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 
 
@@ -561,8 +568,10 @@ setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 #' @export
 setGeneric("Time", function(object) standardGeneric("Time"))
 
+#' @param object A [Kobe-class()] or [Timeseries()] class object
+#' @param value Value to assign to `Time`
+#' @describeIn Time Assign `value` to `object@Time`
 #' @export
-#' @rdname Time
 setGeneric("Time<-", function(object, value) standardGeneric("Time<-"))
 
 
@@ -601,7 +610,8 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Time A numeric vector with values for the historical and projection time-steps. Must
 #' match length `nTS` in `Value`
 #' @param TimeNow A numeric value matching the last historical timestep in `Time`
-#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the `Kobe Time` plot. Use a named list for
+#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year').
+#' Will be used as the label in the `Kobe Time` plot. Use a named list for
 #' multiple languages.
 #' @param Value A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP),  performance indicator (PI),
@@ -611,7 +621,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Target Numeric vector length `nPI` with the target value for the PIs.
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
 #'
-#' @seealso [Timeseries-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Timeseries-class()], [Code()], [Label()], [Description()],
 #'  [Metadata()], [Value()], [Preset()], [plotTimeseries()]
 #'
 #'

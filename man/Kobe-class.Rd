@@ -65,7 +65,7 @@ Defaults to 1.}
 
 \item{\code{Limit}}{Numeric vector length \code{nPI} with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
 
-\item{\code{Defaults}}{A list object with default selections for the Kobe See \code{\link[=Kobe]{Kobe()}}}
+\item{\code{Defaults}}{A list object with default selections for the Kobe See \code{\link[=Kobe-methods]{Kobe-methods()}}}
 }}
 
 \examples{
@@ -76,7 +76,7 @@ kobe <- Kobe(Code=c('PI1', 'PI2', 'PI3'),
                    Description = c('This is the description for PI 1',
                                    'This is the description for PI 2',
                                    'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
+                   Value=array(runif(600), dim=c(10, 2, 2,3, 5)),
                    Preset=list('PI and P2'=1:2)
 
 )

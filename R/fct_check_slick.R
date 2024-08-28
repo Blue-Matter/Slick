@@ -8,10 +8,14 @@ check_slick_file <- function(slick) {
 
   # update
   if (!isS4(slick))
-    slick <- Update(slick)
+    slick <- try(Update(slick))
 
-  # check
-  # TODO update
+  if (inherits(slick, 'try-error')) {
+    shinyalert::shinyalert('Invalid Slick object',
+                           'Use `Check(`slick_object`)` to see the errors',
+                           type='error')
+  }
+
   check <- try(Check(slick))
 
   if (inherits(check, 'try-error')) {
@@ -19,7 +23,6 @@ check_slick_file <- function(slick) {
                            'Use `Check(`slick_object`)` to see the errors',
                            type='error')
   }
-
   # set MP colors
   if (any(nchar(slick@MPs@Color)<2)) {
     nMPs <- length(slick@MPs@Code)

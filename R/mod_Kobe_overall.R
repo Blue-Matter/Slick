@@ -18,7 +18,6 @@ mod_Kobe_overall_ui <- function(id){
 #'
 #' @noRd
 mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
-                                    plottype,
                                     nOM, nMP, nPM, parent_session,
                                     xvar, yvar,
                                     window_dims){
@@ -34,7 +33,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       tagList(
         fluidRow(
           column(10,
-                 shinycssloaders::withSpinner(plotOutput(ns('results'),
+                 loading_spinner(plotOutput(ns('results'),
                                                          height=plot_height(),
                                                          width=plot_width()))
           ),
@@ -118,7 +117,8 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       slick <- filtered_slick()
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
-      val <- max(apply(Value(kobe)[,,,1,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
+      val <- max(apply(mean_over_OMs[,,1,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       ceiling(val)
     })
 
@@ -126,7 +126,8 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
       slick <- filtered_slick()
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
-      val <- max(apply(Value(kobe)[,,,2,, drop=FALSE], c(3,5), median, na.rm=TRUE))
+      mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
+      val <- max(apply(mean_over_OMs[,,2,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       ceiling(val)
     })
 

@@ -73,8 +73,11 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
     ggplot2::labs(x=metadata$Label[xvar],
                   y=metadata$Label[yvar])
 
-  df <- data.frame(x=as.vector(apply(values[,,,xvar,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
-                   y=as.vector(apply(values[,,,yvar,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
+  mean_over_OM_x <- apply(values[,,,xvar,, drop=FALSE], c(1,3,4,5), mean, na.rm=TRUE)
+  mean_over_OM_y <- apply(values[,,,yvar,, drop=FALSE], c(1,3,4,5), mean, na.rm=TRUE)
+
+  df <- data.frame(x=as.vector(apply(mean_over_OM_x, c(2,4), median, na.rm=TRUE)),
+                   y=as.vector(apply(mean_over_OM_y, c(2,4), median, na.rm=TRUE)),
                    MP=mp_names,
                    time=rep(times, each=nMP))
 
@@ -97,14 +100,13 @@ Kobe_plot <- function(slick, xvar=1, yvar=2,
   # error bars
   if (!is.null(quants)) {
     final_ts <- which.max(times)
-    XError <- data.frame(x=as.vector(apply(values[,,,xvar,final_ts, drop=FALSE], 3,
-                                           quantile, quants, na.rm=TRUE)),
+
+    XError <- data.frame(x=as.vector(apply(mean_over_OM_x, 2, quantile, quants, na.rm=TRUE)),
                          y=rep(cur_df$y, each=2),
                          MP=rep(cur_df$MP, each=2))
 
     YError <- data.frame(x=rep(cur_df$x,each=2),
-                         y=as.vector(apply(values[,,,yvar,final_ts, drop=FALSE], 3,
-                                           quantile, quants, na.rm=TRUE)),
+                         y=as.vector(apply(mean_over_OM_y, 2, quantile, quants, na.rm=TRUE)),
                          MP=rep(cur_df$MP, each=2))
 
     XError$x[XError$x >xmax ] <- xmax
@@ -152,15 +154,17 @@ Kobe_time_plot <- function(slick, mp=1, xvar=1, yvar=2) {
 
   values <- kobe |> Value()
 
+  mean_over_OMs <- apply(values, c(1,3,4,5), mean, na.rm=TRUE)
+
   mp_metadata <- slick |> MPs() |> Metadata()
   mp_names <- mp_metadata$Label
   # make data.frame
   kobe_time_list <- list()
   for (ts in seq_along(times)) {
-    bl <- mean(values[,,mp,xvar,ts] <= x_targ &  values[,,mp,yvar,ts] <= y_targ)
-    br <- mean(values[,,mp,xvar,ts] > x_targ &  values[,,mp,yvar,ts] <= y_targ)
-    tl <- mean(values[,,mp,xvar,ts] <= x_targ &  values[,,mp,yvar,ts] > y_targ)
-    tr <- mean(values[,,mp,xvar,ts] > x_targ &  values[,,mp,yvar,ts] > y_targ)
+    bl <- mean(mean_over_OMs[,mp,xvar,ts] <= x_targ &  mean_over_OMs[,mp,yvar,ts] <= y_targ)
+    br <- mean(mean_over_OMs[,mp,xvar,ts] > x_targ &  mean_over_OMs[,mp,yvar,ts] <= y_targ)
+    tl <- mean(mean_over_OMs[,mp,xvar,ts] <= x_targ &  mean_over_OMs[,mp,yvar,ts] > y_targ)
+    tr <- mean(mean_over_OMs[,mp,xvar,ts] > x_targ &  mean_over_OMs[,mp,yvar,ts] > y_targ)
     kobe_time_list[[ts]] <-  data.frame(x=times[ts], y=c(bl, br, tl, tr), quadrant=c('bl', 'br', 'tl', 'tr'),
                                         MP=mp_names[mp])
   }

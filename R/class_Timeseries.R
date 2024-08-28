@@ -5,7 +5,7 @@
 #'
 #' Objects of class `Timeseries` are used to store information for the Time Series plots.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Timeseries()] and the
+#' assigned using functions corresponding to slot name. See [Timeseries-methods()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -307,7 +307,7 @@ setMethod("Preset<-", "Timeseries", function(object, value) {
 
 ##  Show ----
 
-#' @export
+#' @describeIn show Print a [Timeseries-class()] object
 setMethod("show", "Timeseries", function(object) {
   dim_names <- c("nsim", "nOM", "nMP", "nPI", 'nTS')
 

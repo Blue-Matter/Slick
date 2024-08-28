@@ -7,7 +7,7 @@
 \description{
 Objects of class \code{Spider} are used to store information for the Spider plots.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
-assigned using functions corresponding to slot name. See \code{\link[=Spider]{Spider()}} and the
+assigned using functions corresponding to slot name. See \code{\link[=Spider-methods]{Spider-methods()}} and the
 the \verb{See Also} section below.
 }
 \details{

@@ -7,7 +7,7 @@
 \description{
 Objects of class \code{Timeseries} are used to store information for the Time Series plots.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
-assigned using functions corresponding to slot name. See \code{\link[=Timeseries]{Timeseries()}} and the
+assigned using functions corresponding to slot name. See \code{\link[=Timeseries-methods]{Timeseries-methods()}} and the
 the \verb{See Also} section below.
 }
 \details{

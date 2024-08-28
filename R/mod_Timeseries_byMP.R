@@ -27,7 +27,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nMP(), function(mm) {
           plotname <- paste("plot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width='400px',
+          loading_spinner(plotOutput(session$ns(plotname), width='400px',
                                                   height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())

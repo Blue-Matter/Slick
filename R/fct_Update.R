@@ -32,14 +32,20 @@
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
 #'
-#' @param slick_in An S3 object of class `Slick`
+#' @param slick An S3 object of class `Slick`
 #'
 #' @return An S4 object of class `Slick`
 #' @export
 #'
-Update <- function(slick_in) {
-  if (isS4(slick_in))
-    return(slick_in)
+Update <- function(slick) {
+  if (isS4(slick)) {
+    chkKobe <- try(slick@Kobe@Defaults, silent = TRUE)
+    if (inherits(chkKobe, 'try-error'))
+      slick@Kobe@Defaults <- list()
+    return(slick)
+  }
+
+  slick_in <- slick
 
   slick <- Slick()
   Title(slick) <- slick_in$Text$Title
@@ -194,20 +200,23 @@ update_Kobe <- function(slick_in, slick) {
   if (is.null(time_lab)) time_lab <- 'Year'
 
   kobe <- Kobe()
+  Value(kobe) <- obj$Values
+  npm <- dim(Value(kobe))[4]
+
   if (is_populated(obj$Codes))
-    Code(kobe) <- obj$Codes
+    Code(kobe) <- obj$Codes[1:npm]
 
   if (is_populated(obj$Labels))
-    Label(kobe) <- obj$Labels
+    Label(kobe) <- obj$Labels[1:npm]
 
   if (is_populated(obj$Description))
-    Description(kobe) <- obj$Description
+    Description(kobe) <- obj$Description[1:npm]
 
   Time(kobe) <- slick_in$Perf$Proj$Times
 
-  Target(kobe) <- Target
-  Limit(kobe) <- Limit
-  Value(kobe) <- obj$Values
+  Target(kobe) <- Target[1:npm]
+  Limit(kobe) <- Limit[1:npm]
+
   Kobe(slick) <- kobe
 
   slick

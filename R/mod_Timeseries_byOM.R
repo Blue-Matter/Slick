@@ -20,7 +20,8 @@ mod_Timeseries_byOM_ui <- function(id){
 #' @noRd
 mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nOM,
-                                       window_dims){
+                                       window_dims,
+                                       selected_oms){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -106,7 +107,7 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nOM(), function(mm) {
           plotname <- paste("plot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width(),
                                                   height=plot_height()))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
@@ -144,12 +145,13 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       dd <- timeseries() |> Timeseries() |> Value() |>  dim()
       plot_list <- list()
       if (dd[2]==nOM()) {
-
+        om_labels <- selected_oms()
         for (i in 1:nOM()) {
           plot_list[[i]] <- plotTimeseries(timeseries(),
                                             pm_ind(),
                                             MP_ind=NULL,
-                                            i)
+                                            i,
+                                           OM_label = om_labels[i])
         }
       }
       plot_list

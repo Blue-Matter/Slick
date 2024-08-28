@@ -39,6 +39,7 @@ run_app <- function(
 #'
 #' @export
 App <- function(...) {
+  check_required_packages()
   run_app(...)
 }
 

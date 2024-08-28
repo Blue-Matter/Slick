@@ -225,7 +225,7 @@ Slick <- function(Title='',
 #' @describeIn Check Check [Slick-class()] objects for errors
 setMethod('Check', 'Slick', function(object) {
 
-
+  object <- Update(object)
   # check metadata stuff
   ll <- CheckList()
   ll@object <- 'Slick'
@@ -343,7 +343,7 @@ setMethod("show", "Slick", function(object) {
 
 
 ## ---- MPs ----
-
+#' @describeIn MPs-methods Return an [MPs-class()] object from a [Slick()] object
 setMethod("MPs", 'Slick', function(Code) {
   Code@MPs
 })
@@ -363,12 +363,12 @@ setMethod("MPs<-", "Slick", function(object, value) {
 })
 
 ## ---- OMs ----
-
+#' @describeIn OMs-methods Return an [OMs-class()] object from a [Slick()] object
 setMethod("OMs", 'Slick', function(Factors) {
   Factors@OMs
 })
 
-
+#' @describeIn OMs-methods Assign an [OMs-class()] object to a [Slick()] object
 setMethod("OMs<-", "Slick", function(object, value) {
   object@OMs <- value
   methods::validObject(object)

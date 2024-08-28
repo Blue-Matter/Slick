@@ -10,9 +10,9 @@
 mod_Report_Page_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
-    column(2, uiOutput(ns('controls'))),
-    column(10, uiOutput(ns('reportpreview')))
+    # mod_toplink_ui(ns(id)),
+    column(10, uiOutput(ns('reportpreview'))),
+    column(2, uiOutput(ns('controls')))
   )
 }
 
@@ -23,9 +23,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      report='Report'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   report='Report'))
 
     ready <- reactive({
       is_populated <- lapply(reactiveValuesToList(Report), lapply, length)
@@ -40,8 +40,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           radioButtons(ns('format'), i18n$t('Report Format'),
                        choiceNames=c('HTML', 'MS Word'),
                        choiceValues=c('.html', '.docx')),
-          downloadButton(ns("report"), "Generate report")
-        )
+          shinyWidgets::downloadBttn(
+            ns("report"), i18n$t("Generate report"))
+          )
       }
     })
 
@@ -50,17 +51,15 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       if (ready()>0) {
         tagList(
           uiOutput(ns('metadata')),
+          uiOutput(ns('boxplot')),
           uiOutput(ns('quilt'))
-
-
         )
       } else {
-        tagList(h3(i18n$t('Report feature coming soon!')))
-        # tagList(h3(i18n$t('Nothing added to Report yet')))
+        tagList(h3(i18n$t('Nothing added to Report yet')))
       }
-
     })
 
+    # Intro ----
     output$metadata <- renderUI({
       i18n <- i18n()
       tagList(
@@ -72,6 +71,82 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       )
     })
 
+    # Time Series ----
+
+
+    # Boxplot ----
+
+    observeEvent(Report$Boxplot, {
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        for (x in 1:nplot) {
+          local({
+            this_x <- x
+            this_plot <- Report$Boxplot$plot[[this_x]]
+            if (!prod(is.na(this_plot)))
+              output[[paste(this_x, "boxplot", sep="")]] <- renderImage({
+                this_plot
+              }, deleteFile=FALSE)
+          })
+        }
+      }
+    })
+
+    boxplots <- reactive({
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        plot_output_list <- lapply(1:nplot, function(x) {
+          plotname <- paste0(x, 'boxplot')
+          caption <- Report$Boxplot$caption[[x]]
+          if (!is.na(caption)) {
+            caption <- p(caption)
+          } else {
+            caption <- NULL
+          }
+          if (!is.null(caption))
+            tagList(
+              hr(),
+              imageOutput(ns(plotname)),
+              caption,
+              shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
+                                       label='Remove',
+                                       icon('remove'),
+                                       color='danger',size='sm'),
+              hr()
+            )
+        })
+        do.call('tagList', plot_output_list)
+      }
+    })
+
+    output$boxplot <- renderUI({
+      chk <- lapply(Report$Boxplot$plot, is.na) |> unlist()
+      if (!all(chk)) {
+        tagList(
+          h3('Boxplot'),
+          boxplots()
+        )
+      }
+    })
+
+    observe({
+      nplot <- length(Report$Boxplot$plot)
+      if (nplot>0) {
+        for (x in 1:nplot) {
+          this_x <- x
+          observeEvent(eventExpr = input[[paste0('del-', this_x, "boxplot")]],
+                       handlerExpr = {
+                         if (!all(is.na(Report$Boxplot$plot[[this_x]])))
+                           file.remove(Report$Boxplot$plot[[this_x]]$src)
+                         Report$Boxplot$plot[[this_x]] <- NA
+                         Report$Boxplot$caption[[this_x]] <- NA
+                       })
+        }
+      }
+    })
+
+
+    # Quilt ----
     output$quilt <- renderUI({
       i18n <- i18n()
       if (length(Report$Quilt$plot)>0) {
@@ -84,13 +159,10 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           )
         })
         tagList(
-          h3(i18n$t('Quilt')),
+          h3('Quilt'),
           ll
         )
       }
-
-
-
     })
 
     extension <- reactive({
@@ -115,12 +187,14 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
         file.copy(file.path(app_sys(), "Report_Template.Rmd"),
                   tempReport, overwrite = TRUE)
 
-        params <- list(Metadata=Report$Metadata,
+
+        params <<- list(Metadata=Report$Metadata,
+                        Timeseries=Report$Timeseries,
+                        Boxplot=Report$Boxplot,
+                        Kobe=Report$Kobe,
                         Quilt=Report$Quilt,
-                        Tradeoff=Report$Tradeoff,
                         Spider=Report$Spider,
-                        Zigzag=Report$Zigzag,
-                        Kobe=Report$Kobe)
+                        Tradeoff=Report$Tradeoff)
 
         rmarkdown::render(tempReport,
                           output_format = output_format(),

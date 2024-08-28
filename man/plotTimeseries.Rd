@@ -9,6 +9,7 @@ plotTimeseries(
   PM_ind = 1,
   MP_ind = NULL,
   OM_ind = NULL,
+  OM_label = NULL,
   includeHist = TRUE,
   col_line = "darkgray",
   fill_ribbon1 = "#ededed",
@@ -40,7 +41,9 @@ plotTimeseries(
 which shows all MPs}
 
 \item{OM_ind}{A numeric value specifying the OM to plot. Defaults to NULL where
-values are calculated as median across OMs.}
+values are calculated as mean across OMs.}
+
+\item{OM_label}{A numeric or character string providing a label for \code{OM_ind}. Defaults to \code{OM_ind} if missing}
 
 \item{includeHist}{Logical. Include the historical period in the projections?}
 
@@ -80,6 +83,9 @@ values are calculated as median across OMs.}
 \item{lim_name}{Label for the limit line}
 
 \item{inc_y_label}{Include the label for the y-axis?}
+
+\item{sims}{Optional. Numeric values indicating the simulations to include. Defaults
+to all.}
 }
 \value{
 A \code{ggplot2} object
@@ -95,9 +101,9 @@ If the plot is by management procedure (MP), the quantiles will be included in t
 multiple MPs are plotted together, only the median across simulations will
 be shown in the projections.
 
-If \code{OM_ind} isn't specified, the results will be shown as the median across
+If \code{OM_ind} isn't specified, the results will be shown as the mean across
 operating models.
 }
 \seealso{
-\code{\link[=Timeseries(), Timeseries-class]{Timeseries(), Timeseries-class()}}
+\code{\link[=Timeseries-methods]{Timeseries-methods()}}, \code{\link[=Timeseries-class]{Timeseries-class()}}
 }

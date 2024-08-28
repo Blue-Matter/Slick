@@ -60,24 +60,26 @@ boxplot <- Boxplot(Code=c('PI1', 'PI2', 'PI3'),
                    Description = c('This is the description for PI 1',
                                    'This is the description for PI 2',
                                    'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
+                   Value=array(runif(3000), dim=c(6, 5, 4, 3)),
                    Preset=list('PI and P2'=1:2)
 
 )
 
 boxplot
 
-Code(boxplot)
+Code(boxplot) <- c('LTY', 'STY', 'P50')
 Metadata(boxplot)
 
-# Value(boxplot)
-Value(boxplot) <- array()
 
-Preset(boxplot)
-Preset(boxplot) <- list()
+# Add to `Slick` object
+slick <- Slick()
+Boxplot(slick) <- boxplot
 
-boxplot
+plotBoxplot(slick)
 
+plotBoxplot(slick, type='violin')
+
+plotBoxplot(slick, type='both')
 }
 \seealso{
 \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},

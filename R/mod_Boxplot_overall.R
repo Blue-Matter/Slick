@@ -10,6 +10,7 @@
 mod_Boxplot_overall_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
     uiOutput(ns('results'))
   )
 }
@@ -20,9 +21,31 @@ mod_Boxplot_overall_ui <- function(id){
 mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
                                        plottype,
                                        nOM, nMP, nPM, parent_session,
-                                       window_dims){
+                                       window_dims, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Boxplot',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      byOM <- FALSE
+      p_type <- switch(plottype(),
+                       '1'='boxplot',
+                       '2'='violin',
+                       '3'='both'
+      )
+      Plot_Object(plotBoxplot(filtered_slick(), 1:nPM(), p_type, byOM))
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
 
 
     plot_width_calc <- reactive({
@@ -63,7 +86,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("boxplot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname),
+          loading_spinner(plotOutput(session$ns(plotname),
                                                   width=plot_width(),
                                                   height='300px'))
         })
@@ -76,7 +99,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("violin", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width(),
                                                   height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
@@ -88,7 +111,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("both", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
+          loading_spinner(plotOutput(session$ns(plotname), width=plot_width(),
                                                   height='300px'))
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
@@ -111,7 +134,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plot_list <- list()
       if (dd[4]==nPM()) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all')
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', FALSE, FALSE)
         }
       }
       plot_list

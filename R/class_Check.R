@@ -18,6 +18,7 @@ setMethod("initialize", "CheckList", function(.Object) {
 
 
 # show method ----
+#' @describeIn show Print a `CheckList` object
 setMethod('show', 'CheckList', function(object) {
 
   cli::cli_h2('Checking: {.val {object@object}}')
@@ -350,7 +351,7 @@ check_Value <- function(value, req_dimensions) {
     ind <- !is.na(req_dimensions)
     for (i in seq_along(ind)) {
       if (ind[i]) {
-        if (dd[i] != req_dimensions[i])
+        if (dd[i] < req_dimensions[i])
           out$Value <- append(out$Value,
                               paste('Dimension', i, 'of `Value` must be length', req_dimensions[i])
           )
@@ -418,7 +419,7 @@ print_value <- function(object, dim_names, mp_names=NULL) {
 
 
     ind <- which(dim_names %in% c('nMP', 'nPI'))
-    mean <- round(apply(value, ind, mean), 2)
+    mean <- round(apply(value, ind, mean, na.rm=TRUE), 2)
     if (is.null(mp_names))
       mp_names <- paste('MP', 1:dd[ind[1]])
     rownames(mean) <- mp_names
