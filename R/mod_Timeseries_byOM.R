@@ -21,7 +21,8 @@ mod_Timeseries_byOM_ui <- function(id){
 mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nOM,
                                        window_dims,
-                                       selected_oms){
+                                       selected_oms,
+                                       Report, parent_session){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

@@ -154,6 +154,9 @@ ggplot(df2, aes(x=x, y=y, color=MP)) +
 MSE <- readRDS('dev/Examples/Example_1.mse')
 MSE <- Sub(MSE, MPs=MP_select)
 
+slick@MPs@Code
+Stability(MSE)
+
 # Make Slick object and plots ----
 
 
@@ -300,6 +303,7 @@ apply(MSE@Catch[,3,], 2, median)
 
 MSE@Catch[,3,1]
 
+slick@Timeseries@Label[1] <- 'Biomass relative to BMSY'
 p1 <- plotTimeseries(slick, size.axis.title = 8, size.axis.text = 8)
 p2 <- plotTimeseries(slick, 2,size.axis.title = 8, size.axis.text = 8)
 time_series <- cowplot::plot_grid(p1, p2, nrow=1)
@@ -311,6 +315,7 @@ ggsave('dev/Examples/time_series.png', time_series, width=6.2, height=3)
 plotTimeseries(slick, MP_ind=1)
 plotTimeseries(slick, MP_ind=2, inc_y_label = FALSE)
 plotTimeseries(slick, MP_ind=3, inc_y_label = FALSE)
+
 
 
 apply(MSE@TAC, 2:3, median)

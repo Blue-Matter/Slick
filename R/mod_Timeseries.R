@@ -67,16 +67,22 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
     mod_Timeseries_overall_server("Timeseries_overall_1",
                                   i18n, filtered_slick,
                                   pm_ind, yrange,
-                                  window_dims)
+                                  window_dims,
+                                  Report,
+                                  parent_session=session)
 
     mod_Timeseries_byMP_server("Timeseries_byMP_1", i18n, filtered_slick,
                                pm_ind, yrange, nMP,
-                               window_dims)
+                               window_dims,
+                               Report,
+                               parent_session=session)
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
                                pm_ind, yrange, nOM,
                                window_dims,
-                               selected_oms=selected_oms)
+                               selected_oms=selected_oms,
+                               Report,
+                               parent_session=session)
 
 
     output$plots <- renderUI({

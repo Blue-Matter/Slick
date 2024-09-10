@@ -279,15 +279,16 @@ plotTimeseries <- function(slick,
                            quants2=c(0.1, 0.9),
                            MP_label='Code',
                            size.title=18,
-                           size.axis.title=14,
-                           size.axis.text=14,
+                           size.axis.title=18,
+                           size.axis.text=16,
                            size.mp.label=6,
                            targ_color='green',
                            targ_name='Target',
                            lim_color='red',
                            lim_name='Limit',
                            inc_y_label=TRUE,
-                           sims=NULL) {
+                           sims=NULL,
+                           ncol=4) {
 
   # if (length(PM_ind)<1) return(NULL)
 
@@ -333,7 +334,8 @@ plotTimeseries <- function(slick,
     sims <- 1:dim(values)[1]
   }
 
-  p <- ggplot2::ggplot()
+  p <- ggplot2::ggplot() +
+    ggplot2::theme_bw()
 
 
   if (includeHist) {
@@ -381,42 +383,50 @@ plotTimeseries <- function(slick,
   meddf$MP <- factor(meddf$MP, ordered=TRUE, levels=MP_lab)
 
   if (!is.null(MP_ind)) {
-    if (length(MP_ind)>1)
-      stop('`MP_ind` must be NULL or numeric length 1')
-    if (MP_ind>nMP) {
-      warning('`MP_ind` is greater than `nMP`. Setting to last MP')
-      MP_ind <- nMP
-    }
+    # if (length(MP_ind)>1)
+      # stop('`MP_ind` must be NULL or numeric length 1')
+    # if (MP_ind>nMP) {
+    #   warning('`MP_ind` is greater than `nMP`. Setting to last MP')
+    #   MP_ind <- nMP
+    # }
 
     # by MP
     meddf <- meddf |> dplyr::filter(MP%in%MP_lab[MP_ind])
 
-    quant.1.mp <- apply(mean.mps[,MP_ind,], 2, quantile, probs=quants1, na.rm=TRUE)
-    quant.2.mp <- apply(mean.mps[,MP_ind,], 2, quantile, probs=quants2, na.rm=TRUE)
+
+    quant.1.mp <- apply(mean.mps[,MP_ind,, drop=FALSE], 2:3, quantile, probs=quants1, na.rm=TRUE)
+    quant.2.mp <- apply(mean.mps[,MP_ind,,drop=FALSE], 2:3, quantile, probs=quants2, na.rm=TRUE)
 
     # quant.1.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants1, na.rm=TRUE)
     # quant.2.mp <- apply(values[sims,oms,MP_ind, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), quantile, probs=quants2, na.rm=TRUE)
 
-    quant_df <- data.frame(x=rep(proj.yrs, each=1),
+    quant_df <- data.frame(x=rep(proj.yrs, each=length(MP_ind)),
                            MP=MP_lab[MP_ind],
-                           Lower1=as.vector(quant.1.mp[1,]),
-                           Upper1=as.vector(quant.1.mp[2,]),
-                           Lower2=as.vector(quant.2.mp[1,]),
-                           Upper2=as.vector(quant.2.mp[2,]))
+                           Lower1=as.vector(quant.1.mp[1,,]),
+                           Upper1=as.vector(quant.1.mp[2,,]),
+                           Lower2=as.vector(quant.2.mp[1,,]),
+                           Upper2=as.vector(quant.2.mp[2,,]))
     quant_df$MP <- factor(quant_df$MP, ordered=TRUE, levels=MP_lab[MP_ind])
 
     p <- p +
+      ggplot2::facet_wrap(~MP, ncol=ncol) +
       ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2), data=quant_df,
                            color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
       ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=quant_df,
                            fill=fill_ribbon1, col=col_ribbon1) +
-      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP[MP_ind]), data=meddf) +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
       ggplot2::scale_color_manual(values=MP_colors[MP_ind]) +
-      ggplot2::guides(color='none') +
-      ggplot2::labs(title=MP_lab[MP_ind]) +
-      ggplot2::theme(plot.title =ggplot2::element_text(colour=MP_colors[MP_ind],
-                                                       face='bold', hjust = 0.5,
-                                                       size=size.title))
+      ggplot2::guides(color='none')
+
+    if (length(MP_ind)<2) {
+      p <- p + ggplot2::labs(title=MP_lab[MP_ind]) +
+        ggplot2::theme(plot.title =ggplot2::element_text(colour=MP_colors[MP_ind],
+                                                         face='bold', hjust = 0.5,
+                                                         size=size.title))
+    } else {
+      p <- p + ggplot2::theme(strip.text = ggplot2::element_text(size=size.title))
+    }
+
 
   } else {
     meddf_last <- meddf |> dplyr::filter(x==max(x, na.rm=TRUE))
@@ -479,12 +489,12 @@ plotTimeseries <- function(slick,
   }
 
   if (!inc_y_label) PM_lab <- ''
+
   p <- p +
     ggplot2::labs(x=time_lab, y=PM_lab, color='') +
     ggplot2::scale_y_continuous(label=scales::comma) +
     ggplot2::theme(axis.title = ggplot2::element_text(size=size.axis.title, face='bold'),
                    axis.text = ggplot2::element_text(size=size.axis.text)) +
-    ggplot2::theme_bw() +
     ggplot2::expand_limits(y=0) +
     ggplot2::scale_x_continuous(expand = c(0, 0))
 
