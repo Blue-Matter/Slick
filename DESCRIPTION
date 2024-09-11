@@ -108,6 +108,7 @@ Collate:
     'mod_Report_Add.R'
     'mod_Report_Add_Button.R'
     'mod_Report_Page.R'
+    'mod_Report_Page_plot.R'
     'mod_Resources.R'
     'mod_Sidebar.R'
     'mod_Spider.R'

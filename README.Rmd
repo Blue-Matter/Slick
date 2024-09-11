@@ -33,7 +33,7 @@ MSE involves using closed-loop simulation testing to evaluate and compare the ex
 
 ## Installation
 
-`Slick` will be released on the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) in the future.
+`Slick` will be released on the [CRAN](https://cran.r-project.org/) in the future.
 
 In the meantime, `Slick` can be installed from Github:
 

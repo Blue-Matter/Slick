@@ -66,7 +66,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
 
     output$page <- renderUI({
       loading_spinner(plotOutput(ns('timeseriesMP'),
-                                 width=plot_width(),
+                                 width='100%',
                                  height=plot_height()))
     })
 
@@ -77,10 +77,20 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
         return(NULL)
       if (is.null(yrange()))
         return(NULL)
+
+      slick <<- filtered_slick()
+      pm <<- pm_ind()
+      MP_ind  <<- 1:nMP()
+
+      plotTimeseries(slick, pm, MP_ind)
+
       plotTimeseries(filtered_slick(), pm_ind(),
                      MP_ind=1:nMP(),
                      includeHist=TRUE) +
         ggplot2::coord_cartesian(ylim=yrange())
+
+
+
     })
 
     output$timeseriesMP <- renderPlot({

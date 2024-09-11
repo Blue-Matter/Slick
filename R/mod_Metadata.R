@@ -133,7 +133,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
       if (!all(is.na(Value(Quilt(slick))))) {
         info <- list(p(actionLink(ns('quilt'), 'Quilt: ', icon("table-cells")),
-                  i18n$t('A table of performance indicators for each management procedure. Darker shading indicates better performance.')))
+                  i18n$t('A table of performance indicators for each management procedure, with colored shading to indicate better/worse performance.')))
         linklist <- append(linklist, info)
       }
 

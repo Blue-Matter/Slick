@@ -80,7 +80,7 @@ app_server <- function(input, output, session) {
     Report$Metadata <- list(Title=(Title(slick, i18n$get_translation_language())),
                          Subtitle=Subtitle(slick, i18n$get_translation_language()),
                          Author=Author(slick),
-                         Introduction=Introduction(slick))
+                         Introduction=Introduction(slick, i18n$get_translation_language()))
     Report$Timeseries <- list(plot=list(), caption=list())
     Report$Boxplot <- list(plot=list(), caption=list())
     Report$Kobe <- list(plot=list(), caption=list())

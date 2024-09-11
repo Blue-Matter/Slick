@@ -1,6 +1,4 @@
 
-
-
 # ---- Class ----
 
 #' Create a `Slick` class object
@@ -341,6 +339,17 @@ setMethod("show", "Slick", function(object) {
 
 })
 
+
+## ---- Metadata ----
+#' @describeIn Metadata Return `Author`, `Email`, and `Institution` from [Slick()] objects
+#' @export
+setMethod('Metadata', 'Slick', function(object, lang='en') {
+
+  data.frame(Author=object@Author,
+             Email=object@Email,
+             Institution=object@Institution)
+
+})
 
 ## ---- MPs ----
 #' @describeIn MPs-methods Return an [MPs-class()] object from a [Slick()] object

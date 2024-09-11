@@ -56,6 +56,9 @@ check_assign_dataframe <- function(object, names, value) {
   object
 }
 
+#' Set Default Colors for the MPs
+#'
+#' @export
 default_mp_colors <- function(nMP) {
   if (!requireNamespace('colorspace', quietly = TRUE)) {
     warning('package `colorspace` required')

@@ -3,7 +3,6 @@
 #'
 #' @return A data.frame
 #' @export
-#'
 get_casestudies <- function() {
   if (!requireNamespace('httr', quietly = TRUE))
     stop('Package `httr` required for this function')

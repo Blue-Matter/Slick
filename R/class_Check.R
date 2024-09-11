@@ -239,6 +239,8 @@ check_design <- function(object) {
   }
   if (!is.null(factors)) {
     if (nrow(object@Design)>0) {
+      # nms <- colnames(object@Design)
+      # nsm <- nms[!nms=='Name']
       if (!all(colnames(object@Design) %in% factors))
         out$Design <- "column names of `Design` must match factors in `Factors`"
     }

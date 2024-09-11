@@ -117,12 +117,25 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       )
     })
 
+    # output$picker <- renderUI({
+    #   i18n <- i18n()
+    #   shinyWidgets::pickerInput(ns('selectSV'),
+    #                             i18n$t('Select Variable'),
+    #                             choices=pm_labels(),
+    #                             selected=1)
+    # })
+
     output$picker <- renderUI({
+      PM_labels <- pm_labels()
+      if (length(PM_labels)<1) return(NULL)
       i18n <- i18n()
-      shinyWidgets::pickerInput(ns('selectSV'),
-                                i18n$t('Select Variable'),
-                                choices=pm_labels(),
-                                selected=1)
+      tagList(
+        p(i18n$t('Select Variable:')),
+        shinyWidgets::radioGroupButtons(
+          inputId = ns("selectSV"),
+          choiceNames =names(PM_labels),
+          choiceValues=as.numeric(PM_labels))
+      )
     })
 
     stepvalue <- reactive({

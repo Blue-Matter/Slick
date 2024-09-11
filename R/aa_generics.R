@@ -611,7 +611,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' match length `nTS` in `Value`
 #' @param TimeNow A numeric value matching the last historical timestep in `Time`
 #' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year').
-#' Will be used as the label in the `Kobe Time` plot. Use a named list for
+#' Will be used as the label in the `Timeseries` plot. Use a named list for
 #' multiple languages.
 #' @param Value A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP),  performance indicator (PI),

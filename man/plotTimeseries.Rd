@@ -21,15 +21,16 @@ plotTimeseries(
   quants2 = c(0.1, 0.9),
   MP_label = "Code",
   size.title = 18,
-  size.axis.title = 14,
-  size.axis.text = 14,
+  size.axis.title = 18,
+  size.axis.text = 16,
   size.mp.label = 6,
   targ_color = "green",
   targ_name = "Target",
   lim_color = "red",
   lim_name = "Limit",
   inc_y_label = TRUE,
-  sims = NULL
+  sims = NULL,
+  ncol = 4
 )
 }
 \arguments{

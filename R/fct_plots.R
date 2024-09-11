@@ -337,7 +337,6 @@ plotTimeseries <- function(slick,
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
 
-
   if (includeHist) {
     # Historical Period
     mean.hist <- apply(values[,oms,1, PM_ind,1:hist.yr.ind, drop=FALSE], c(1,4,5), mean, na.rm=TRUE) # mean over OMs
@@ -373,7 +372,6 @@ plotTimeseries <- function(slick,
     mean.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), sum)/
       apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(1,3,5), length)
   }
-
 
   med.mps <- apply(mean.mps, c(2,3), median, na.rm=TRUE)
   # med.mps <- apply(values[sims,oms,, PM_ind,proj.yr.ind, drop=FALSE], c(3,5), median, na.rm=TRUE)
@@ -468,8 +466,8 @@ plotTimeseries <- function(slick,
       }
 
       p <- p + ggplot2::geom_hline(yintercept = targ, color=targ_color,
-                                   alpha=0.5) +
-        ggrepel::geom_text_repel(x=x_loc, ggplot2::aes(y=targ),
+                                     alpha=0.5) +
+        ggrepel::geom_text_repel(x=x_loc, y=targ,
                                  label=targ_name, color=targ_color)
     }
   }
@@ -483,7 +481,7 @@ plotTimeseries <- function(slick,
 
       p <- p + ggplot2::geom_hline(yintercept = lim, color=lim_color,
                                    alpha=0.5) +
-        ggrepel::geom_text_repel(x=x_loc, ggplot2::aes(y=lim),
+        ggrepel::geom_text_repel(x=x_loc, y=lim,
                                  label=lim_name, color=lim_color)
     }
   }

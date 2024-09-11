@@ -71,6 +71,13 @@ reference:
   contents:
   - plotBoxplot
   - plotTimeseries
+- title: 'Other'
+  desc: >
+    S4 Methods and other functions
+  contents:
+  - show
+  - get_casestudies
+  - default_mp_colors
 - title: 'Deprecated'
   desc: >
     Functions still work for backwards compatability, but no longer recommended
