@@ -70,7 +70,6 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File, Slick_Object){
 
       if (!is.null(slick)) {
         chk <- Check(slick)
-        slick <<- slick
         LL <- ll
         map <- data.frame(plot=c("Boxplot", "Kobe", "Quilt",
                                  "Spider", "Timeseries", "Tradeoff"),
