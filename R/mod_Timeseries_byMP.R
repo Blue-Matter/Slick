@@ -78,11 +78,11 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
       if (is.null(yrange()))
         return(NULL)
 
-      slick <<- filtered_slick()
-      pm <<- pm_ind()
-      MP_ind  <<- 1:nMP()
-
-      plotTimeseries(slick, pm, MP_ind)
+      # slick <<- filtered_slick()
+      # pm <<- pm_ind()
+      # MP_ind  <<- 1:nMP()
+      #
+      # plotTimeseries(slick, pm, MP_ind)
 
       plotTimeseries(filtered_slick(), pm_ind(),
                      MP_ind=1:nMP(),
