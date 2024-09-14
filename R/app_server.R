@@ -95,7 +95,6 @@ app_server <- function(input, output, session) {
     nplot <- length(obj$plot)
     if (nplot>0) {
       for (p in 1:nplot) {
-
         if (!is.na(obj$plot[[p]]) & !is.null(obj$plot[[p]]))
           file.remove(obj$plot[[p]]$src)
       }

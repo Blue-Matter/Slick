@@ -77,7 +77,7 @@ match length \code{nTS} in \code{Value}}
 \item{TimeNow}{A numeric value matching the last historical timestep in \code{Time}}
 
 \item{TimeLab}{Character string length 1. Name of the time step (e.g., 'Year').
-Will be used as the label in the \verb{Kobe Time} plot. Use a named list for
+Will be used as the label in the \code{Timeseries} plot. Use a named list for
 multiple languages.}
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
