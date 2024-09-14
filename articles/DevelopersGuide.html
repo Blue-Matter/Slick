@@ -5,30 +5,24 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Slick">
-<title>Developer's Guide • Slick</title>
+<title>Slick Developer's Guide • Slick</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Developer's Guide">
-<meta property="og:description" content="Slick">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Slick Developer's Guide">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,26 +30,22 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/DevelopersGuide.html">Developer's Guide</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/DevelopersGuide.html">Developer's Guide</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+      </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -64,190 +54,229 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Developer's Guide</h1>
+
+      <h1>Slick Developer's Guide</h1>
             
       
-      
+
       <div class="d-none name"><code>DevelopersGuide.Rmd</code></div>
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Slick</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
+<p><code>Slick</code> is an <a href="https://github.com/Blue-Matter/Slick" class="external-link">R package</a> designed for
+visualizing and exploring results of a Management Strategy Evaluation
+(MSE).</p>
+<p><code>Slick</code> allows MSE developers and analysts to prepare
+their MSE results in a standardized data structure, easily generate
+publication quality figures and tables, and present and explore the MSE
+results in an interactive application.</p>
 <p>This document is a guide for analysts who wish to use
-<code>Slick</code> to summarize their MSE results. It describes the
-format of the <code>Slick</code> object, and provides examples
-demonstrating how to create and populate a <code>Slick</code>
-object.</p>
+<code>Slick</code> to summarize and present their MSE results.</p>
+<div class="section level3">
+<h3 id="installing-slick">Installing Slick<a class="anchor" aria-label="anchor" href="#installing-slick"></a>
+</h3>
+<p><code>Slick</code> will be released on the <a href="https://cran.r-project.org/" class="external-link">CRAN</a> in the future.</p>
+<p>In the meantime, <code>Slick</code> can be installed from Github:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages('pak')</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/Slick'</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Slick</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="reporting-issues-and-bugs">Reporting Issues and Bugs<a class="anchor" aria-label="anchor" href="#reporting-issues-and-bugs"></a>
 </h3>
 <p>Please use the <a href="https://github.com/Blue-Matter/Slick/issues" class="external-link">Issues</a> feature in
-the GitHub repository to report issues or bugs. Please be sure to
-include a reproducible example so the issue can be recreated for
-de-bugging. <a href="https://github.com/Blue-Matter/Slick/pulls" class="external-link">Pull
-Requests</a> are also welcome.</p>
+the GitHub repository to report issues or bugs. Be sure to include a
+reproducible example so the issue can be recreated for debugging. <a href="https://github.com/Blue-Matter/Slick/pulls" class="external-link">Pull Requests</a> are
+also welcome.</p>
+</div>
+<div class="section level3">
+<h3 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h3>
+<p><code>Slick</code> was developed by <a href="https://www.bluematterscience.com" class="external-link">Blue Matter Science</a> and
+designed and commissioned by <a href="https://oceanfdn.org/" class="external-link">The Ocean
+Foundation’s</a> International Fisheries Conservation Project and <a href="https://www.harveststrategies.org" class="external-link">harveststrategies.org</a>, with
+support from <a href="https://www.pewtrusts.org" class="external-link">The Pew Charitable
+Trusts</a> and the <a href="https://www.fao.org/in-action/commonoceans/what-we-do/tuna/en/" class="external-link">Common
+Oceans Tuna Fisheries Project</a> which is funded by <a href="https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction" class="external-link">GEF</a>
+and implemented by the <a href="https://www.fao.org/in-action/commonoceans/en/" class="external-link">FAO</a>.</p>
+<p>The prototype figure designs were developed by <a href="https://www.5wgraphics.com/" class="external-link">5W Infographics</a>.</p>
+<p><code>Slick</code> is under going further development. All feedback
+is welcome. Please contact <a href="mailto:smiller@oceanfdn.org?&amp;subject=Slick%20Development">Shana
+Miller</a> with any comments or suggestions for further development.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="the-slick-object">The <code>Slick</code> Object<a class="anchor" aria-label="anchor" href="#the-slick-object"></a>
+<h2 id="app">The Slick App<a class="anchor" aria-label="anchor" href="#app"></a>
 </h2>
-<p>To use <code>Slick</code>, MSE results must be compiled into a
-<code>Slick</code> class object. The <code>Slick</code> object contains
-all of the information shown in the plots and tables, as well as
-metadata information such as title, introduction, and author details.
-Help documentation for the <code>Slick</code> class object can be found
-<a href="../reference/Slick-class.html">here</a>.</p>
-<p>To create a <code>Slick</code> object, simply use the
-<code><a href="../reference/Slick-class.html">Slick()</a></code> function:</p>
+<p><code>Slick</code> can be used to rapidly create standardized plots
+and tables of MSE results directly from the R console. See the sections
+below for examples.</p>
+<p>The plots and tables can also be viewed in the <em>Slick App</em>, an
+interactive application developed with <a href="https://shiny.posit.co/" class="external-link">Shiny</a>. The Slick App allows users to
+upload their data and customize the plots by filtering by management
+procedures, operating models, and performance indicators.</p>
+<p>The App can be launched directly from the R console with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><code>slick</code> is now an empty <code>Slick</code> class
-object:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">slick</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An empty object of class `Slick`</span> <span style="color: #00BBBB;">────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Title`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Subtitle`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Date`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 2024-07-01</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Author`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Email`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Institution`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Introduction`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`MPs`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`OMs`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Boxplot`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Quilt`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Kobe`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Spider`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Timeseries`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Tradeoff`</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The App is also hosted <a href="https://shiny.bluematterscience.com/app/slick" class="external-link">online</a>.</p>
+<p>The online App is publicly accessible and can be used for presenting
+and examining MSE results to stakeholders and decision-makers.</p>
+<p>Analysts can either share their <a href="#slickobject">Slick
+Object</a> with their audience directly so they can upload it into the
+App, or analysts can upload their Slick Object to the <a href="#slick-object-library">Slick Object Library</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="the-slick-plots">The Slick Plots<a class="anchor" aria-label="anchor" href="#the-slick-plots"></a>
+</h2>
+<p>A Slick Object can include the following plots:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Time Series</strong>: Plots the time series of a
+user-specified variable (e.g., yield, biomass) during the historical
+period and the projection period for each management procedure.</li>
+<li>
+<strong>Boxplot</strong>: Displays the minimum, first quartile,
+median, third quartile, and maximum from a set of results. Includes an
+option to display the data as a violin plot.</li>
+<li>
+<strong>Kobe</strong>: Compares the performance of MPs with respect
+to biomass (on the x-axis) and fishing mortality (on the y-axis).
+Includes an option to display the data as a Kobe Time plot, which shows
+the percentage of runs that fall in each of the Kobe quadrants in each
+projection year.</li>
+<li>
+<strong>Quilt</strong>: A table of performance indicators for each
+management procedure, with colored shading to indicate better/worse
+performance.</li>
+<li>
+<strong>Spider</strong>: Shows results for three or more performance
+indicators, each represented on an axis starting from the same center
+point. Sometimes also called a Radar plot.</li>
+<li>
+<strong>Tradeoff</strong>: Scatter plot comparing two performance
+indicators.</li>
+</ol>
+<p>Analysts must include a least one plot in their Slick Object.</p>
+</div>
+<div class="section level2">
+<h2 id="slickobject">The Slick Object<a class="anchor" aria-label="anchor" href="#slickobject"></a>
+</h2>
+<p>To use <code>Slick</code>, MSE results must be compiled into a <a href="../reference/Slick-class.html"><em>Slick Object</em></a>. The
+object is designed to be compatible with results from any MSE
+framework.</p>
+<p>The <em>Slick Object</em> contains all of the information shown in
+the plots and tables, as well as metadata information such as title,
+introduction, and author details.</p>
+<p>The contents of the Slick Object can be grouped into the following
+categories:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Metadata</strong>: information including the title,
+introduction, and author details</li>
+<li>
+<strong>MPs</strong>: details of the <em>Management
+Procedures</em>
+</li>
+<li>
+<strong>OMs</strong>: factors, levels, and other information
+relating to the <em>Operating Models</em>
+</li>
+<li>
+<strong>Plots</strong>: details and values of the <em>Performance
+Indicators</em> for the <code>Slick</code> plots</li>
+</ol>
 <div class="section level3">
-<h3 id="title-author-details-and-introduction">Title, Author details, and Introduction<a class="anchor" aria-label="anchor" href="#title-author-details-and-introduction"></a>
+<h3 id="creating-a-slick-object">Creating a Slick Object<a class="anchor" aria-label="anchor" href="#creating-a-slick-object"></a>
 </h3>
-<p>The Title, Subtitle, Author, Email, and Institution components of the
-<code>Slick</code> object are populated with the corresponding
-functions. These are optional, but useful when presenting the Slick
-results in the App:</p>
+<p>To create a Slick Object, simply use the <code><a href="../reference/Slick-class.html">Slick()</a></code>
+function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The following sections describe the contents of the Slick Object in
+more detail, and provide examples for populating a Slick Object.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
+</h2>
+<p>The <code>Title</code>, <code>Subtitle</code>, <code>Date</code>,
+<code>Author</code>, <code>Email</code>, and <code>Institution</code>
+functions are used to populate the corresponding information in the
+Slick Object.</p>
+<p>These metadata are optional, but are useful when presenting the Slick
+results in the <a href="#app">App</a>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"This is the subtitle"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Adrian Hordyk'</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="st">"[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Blue Matter Science](bluematterscience.com)"</span></span></code></pre></div>
-<p>The same functions are used to return the information stored in each
-component:</p>
+<p>The same functions are used to return the information stored in the
+Slick Object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "An Example Slick Object"</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "This is the subtitle"</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "This is the subtitle"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2024-09-14"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "[Blue Matter Science](bluematterscience.com)"</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="markdown">Markdown<a class="anchor" aria-label="anchor" href="#markdown"></a>
+</h3>
 <p>With the exception of <code>Date</code>, Markdown can be used to
-include links, text styling, etc. For example,</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+include links, text styling, etc, for any of the text in the Slick
+Object. For example:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
+<span><span class="st"></span></span>
 <span><span class="st">This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</span></span>
 <span><span class="st"></span></span>
 <span><span class="st">The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).</span></span>
 <span><span class="st"></span></span>
-<span><span class="st"></span></span>
 <span><span class="st">"</span></span></code></pre></div>
-<p>The Markdown will be automatically converted to HTML in the App:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span>, markdown <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
+<p>The Markdown will be automatically converted to HTML in the App. Use
+the <code>markdown=TRUE</code> argument to print the HTML code in the
+console (in this document the HTML text is rendered directly between the
+horizontal lines):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span>, markdown <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<hr>
 <p>This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</p>
 <p>The introduction can include paragraphs as well as Markdown such as <em>italics</em> and <strong>bold</strong> text and <a href="https://slick.bluematterscience.com" class="external-link">Links</a>.</p>
 
-<div class="section level4">
-<h4 id="multi-language">Multi-language<a class="anchor" aria-label="anchor" href="#multi-language"></a>
-</h4>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="multiple-authors">Multiple Authors<a class="anchor" aria-label="anchor" href="#multiple-authors"></a>
+</h3>
+<p><code>Author</code> should be a character vector with an element for
+each author:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A. Author'</span>, <span class="st">'B. Author'</span><span class="op">)</span></span></code></pre></div>
+<p><code>Email</code>, and <code>Institution</code> must be character
+vectors of the same length as <code>Author</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'[a.author@email.com](mailto:a.author@email.com)'</span>,</span>
+<span>                  <span class="st">'[b.author@email.com](mailto:b.author@email.com)'</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A Institution'</span>, <span class="st">'B Institution'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="multilanguage">Multi-Language Support<a class="anchor" aria-label="anchor" href="#multilanguage"></a>
+</h3>
 <p><code>Title</code>, <code>Subtitle</code>, and
 <code>Introduction</code> support multiple languages. Currently three
 languages are supported:</p>
@@ -260,85 +289,141 @@ languages are supported:</p>
 <code>fr</code>: French</li>
 </ul>
 <p>Multiple languages can included by providing a named list:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="st">'This is the English Title'</span>,</span>
 <span>                     es<span class="op">=</span><span class="st">'This is the Spanish Title'</span>,</span>
 <span>                     fr<span class="op">=</span><span class="st">'This is the French Title'</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the English Title"</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'es'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the Spanish Title"</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'fr'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "This is the English Title"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'es'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "This is the Spanish Title"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'fr'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "This is the French Title"</span></span></code></pre></div>
-</div>
+<p>Most text throughout the Slick Object supports both Markdown and
+multiple languages.</p>
+<p>The <a href="#app">App</a> has a dropdown menu that allows users to
+select their preferred language.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="the-mps-object">The <code>MPs</code> object<a class="anchor" aria-label="anchor" href="#the-mps-object"></a>
+<h2 id="mps-object">MPs Object<a class="anchor" aria-label="anchor" href="#mps-object"></a>
 </h2>
-<p>The <a href="../reference/MPs-methods.html"><code>MPs</code>
-object</a> contains the codes, labels, and descriptions of the
-management procedures (MPs) included in the <code>Slick</code>
-object.</p>
-<p><code>Code</code>, and <code>Label</code> are required.</p>
-<p>In this example, there are four MPs:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>The <a href="../reference/MPs-methods.html">MPs Object</a> contains
+the codes, labels, and descriptions of the management procedures (MPs)
+included in the Slick Object, as well as other options such as the
+colors to use in the plots, and preset buttons that will appear in the
+App.</p>
+<p>All Slick Objects must have a completed MPs Object.</p>
+<p>The easiest way to build a Slick Object is to create and populate the
+sub-components and then add them to the Slick Object.</p>
+<div class="section level3">
+<h3 id="code-label-and-description">Code, Label, and Description<a class="anchor" aria-label="anchor" href="#code-label-and-description"></a>
+</h3>
+<p><code>Code</code>, and <code>Label</code> are both required, as they
+are used in the plots and tables, while <code>Description</code> is
+optional.</p>
+<p>In this example, there are 4 MPs:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>, <span class="st">'MP2'</span>, <span class="st">'MP3'</span>, <span class="st">'MP4'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Code.html">Label</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>, <span class="st">'MP 2'</span>, <span class="st">'MP 3'</span>, <span class="st">'MP 4'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/Code.html">Description</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1 is an example'</span>, </span>
-<span>                 <span class="st">'MP 2 is another example'</span>,</span>
-<span>                 <span class="st">'Another example'</span>,</span>
-<span>                 <span class="st">'The final example'</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/Code.html">Description</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
+<span>                      <span class="st">'This MP is a second example'</span>,</span>
+<span>                      <span class="st">'A third example MP'</span>,</span>
+<span>                      <span class="st">'The final example MP'</span><span class="op">)</span></span></code></pre></div>
 <p>This could have also been done as:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>, </span>
-<span>                  <span class="st">'MP2'</span>, </span>
-<span>                  <span class="st">'MP3'</span>, </span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>,</span>
+<span>                  <span class="st">'MP2'</span>,</span>
+<span>                  <span class="st">'MP3'</span>,</span>
 <span>                  <span class="st">'MP4'</span><span class="op">)</span>,</span>
 <span>           Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>,</span>
-<span>                   <span class="st">'MP 2'</span>, </span>
-<span>                   <span class="st">'MP 3'</span>, </span>
+<span>                   <span class="st">'MP 2'</span>,</span>
+<span>                   <span class="st">'MP 3'</span>,</span>
 <span>                   <span class="st">'MP 4'</span><span class="op">)</span>,</span>
-<span>           Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1 is an example'</span>, </span>
-<span>                           <span class="st">'MP 2 is another example'</span>,</span>
-<span>                           <span class="st">'Another example'</span>,</span>
-<span>                           <span class="st">'The final example'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>           Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
+<span>                           <span class="st">'This MP is a second example'</span>,</span>
+<span>                           <span class="st">'A third example MP'</span>,</span>
+<span>                           <span class="st">'The final example MP'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Or using the <code>Metadata</code> function:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>,</span>
+<span>         <span class="st">'MP2'</span>,</span>
+<span>         <span class="st">'MP3'</span>,</span>
+<span>         <span class="st">'MP4'</span><span class="op">)</span>,</span>
+<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>,</span>
+<span>          <span class="st">'MP 2'</span>,</span>
+<span>          <span class="st">'MP 3'</span>,</span>
+<span>          <span class="st">'MP 4'</span><span class="op">)</span>,</span>
+<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
+<span>                <span class="st">'This MP is a second example'</span>,</span>
+<span>                <span class="st">'A third example MP'</span>,</span>
+<span>                <span class="st">'The final example MP'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Code Label                 Description   Color</span></span>
+<span><span class="co">#&gt; 1  MP1  MP 1       This is an example MP #C87A8A</span></span>
+<span><span class="co">#&gt; 2  MP2  MP 2 This MP is a second example #909646</span></span>
+<span><span class="co">#&gt; 3  MP3  MP 3          A third example MP #00A396</span></span>
+<span><span class="co">#&gt; 4  MP4  MP 4        The final example MP #9189C7</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="color">Color<a class="anchor" aria-label="anchor" href="#color"></a>
+</h3>
 <p><code>Color</code> is used to set the colors of the MPs shown in the
 plots. If not specified, default colors will be used:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "#C87A8A" "#909646" "#00A396" "#9189C7"</span></span></code></pre></div>
-<p><code>Preset</code> is an optional named list, with numeric values
-indicating the MPs to be selected by the <code>Preset</code>
-buttons:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; [1] "#C87A8A" "#909646" "#00A396" "#9189C7"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "cadetblue3"     "bisque4"        "darkgoldenrod1" "cornsilk"</span></span>
+<span></span>
+<span><span class="co"># reset to default colors</span></span>
+<span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/default_mp_colors.html">default_mp_colors</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="preset">Preset<a class="anchor" aria-label="anchor" href="#preset"></a>
+</h3>
+<p><code>Preset</code> is optional. It is used to add buttons to the App
+where users can rapidly select different sets of MPs.</p>
+<p>For an MPs Object, <code>Preset</code> is an optional named list,
+with numeric values indicating the MPs to be selected by the
+<em>Preset</em> buttons in the <a href="#app">App</a>:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'All'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>                    <span class="st">'First 2'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>                    <span class="st">'Last 2'</span><span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p>Add <code>mp</code> to the <code>slick</code> object</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+</div>
+<div class="section level3">
+<h3 id="adding-mps-to-slick-object">Adding MPs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-mps-to-slick-object"></a>
+</h3>
+<p>Once the MPs Object is complete, is can be added to the Slick
+Object:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">mps</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level2">
-<h2 id="the-oms-object">The <code>OMs</code> Object<a class="anchor" aria-label="anchor" href="#the-oms-object"></a>
+<h2 id="oms-object">OMs Object<a class="anchor" aria-label="anchor" href="#oms-object"></a>
 </h2>
-<p>The <code>OMs</code> object describes the structure of the operating
-models contained with the <code>Slick</code> object. All
-<code>Slick</code> objects must have a completed <code>OMs</code>
-object.</p>
-<p>The easiest way to build a <code>Slick</code> object is to create and
-populate the sub-components and then add them to the <code>Slick</code>
-object.</p>
-<p>Create an <a href="../reference/OMs-methods.html"><code>OMs</code>
-object</a>:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<p>The <a href="../reference/OMs-methods.html">OMs Object</a> describes
+the structure of the operating models contained in the Slick Object.</p>
+<p>All <code>Slick</code> objects must have a completed OMs Object.</p>
+<div class="section level3">
+<h3 id="create-an-oms-object">Create an OMs Object<a class="anchor" aria-label="anchor" href="#create-an-oms-object"></a>
+</h3>
+<p>A new OMs Object can be created with the <code>OMs</code>
+function:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The <code>OMs</code> object contains two mandatory slots
-(<code>Factors</code> and <code>Design</code>) and one optional slot
-(<code>Preset</code>).</p>
+<p>The OMs Object contains two mandatory slots (<code>Factors</code> and
+<code>Design</code>) and one optional slot (<code>Preset</code>).</p>
+</div>
 <div class="section level3">
 <h3 id="factors">Factors<a class="anchor" aria-label="anchor" href="#factors"></a>
 </h3>
@@ -346,11 +431,11 @@ object</a>:</p>
 headings <strong>Factor</strong>, <strong>Level</strong>, and
 <strong>Description</strong>. It is used to describe the various
 factors, and levels within each factor, of the operating models included
-in the <code>Slick</code> object.</p>
-<p>Here is a simple example of a <code>Slick</code> object that includes
-results from 6 OMs, spanning three levels on uncertainty in natural
-mortality (M) and two levels of steepness (h):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+in the Slick Object.</p>
+<p>Here is a simple example of a Slick Object that includes results from
+6 OMs, spanning three levels on uncertainty in natural mortality (M) and
+two levels of steepness (h):</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'M'</span>,<span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'h'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span>,<span class="fl">0.7</span>,<span class="fl">0.9</span><span class="op">)</span>,</span>
 <span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Natural Mortality = 0.1'</span>,</span>
@@ -358,7 +443,7 @@ mortality (M) and two levels of steepness (h):</p>
 <span>                                         <span class="st">'Natural Mortality = 0.3'</span>,</span>
 <span>                                         <span class="st">'Steepness = 0.7'</span>,</span>
 <span>                                         <span class="st">'Steepness = 0.9'</span><span class="op">)</span></span>
-<span>                           <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Factor Level             Description</span></span>
@@ -379,7 +464,7 @@ correspond to each OM. The column names of <code>Design</code> must
 match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <p>Here is the <code>Design</code> matrix corresponding with the
 <code>Factors</code> above:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>,<span class="fl">0.3</span><span class="op">)</span>,</span>
 <span>                          h<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.9</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -391,13 +476,17 @@ match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <span><span class="co">#&gt; 4 0.2 0.9</span></span>
 <span><span class="co">#&gt; 5 0.3 0.7</span></span>
 <span><span class="co">#&gt; 6 0.3 0.9</span></span></code></pre></div>
+<p>It can sometimes be helpful to add names or labels to the operating
+models listed in <code>Design</code>. This can be done using
+<code>rownames</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="preset">Preset<a class="anchor" aria-label="anchor" href="#preset"></a>
+<h3 id="preset-1">Preset<a class="anchor" aria-label="anchor" href="#preset-1"></a>
 </h3>
-<p><code>Preset</code> is optional. It is used to add buttons to the
-<code>Slick</code> <a href="../reference/App.html">App</a> where users
-can rapidly select different sets of OMs.</p>
+<p><code>Preset</code> is optional. It is used to add buttons to the <a href="#app">App</a> where users can rapidly select different sets of
+OMs.</p>
 <p>For <code>OMs</code> objects, <code>Preset</code> is a multi-level
 list. Each element in first level lists must be named. The names are
 used to display the ‘Preset’ button in the App.</p>
@@ -406,13 +495,17 @@ used to display the ‘Preset’ button in the App.</p>
 representing the levels within each factor that should be included under
 that preset.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Low h'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>                    <span class="st">'High h'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="adding-oms-to-slick-object">Adding OMs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-oms-to-slick-object"></a>
+</h3>
 <p>The <code>OMs</code> object is now complete.</p>
 <p>The <code>Check</code> function can be used to make sure there are no
 errors:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"OMs"</span> ──</span></span>
@@ -420,22 +513,123 @@ errors:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span></code></pre></div>
 <p>Once the <code>OMs</code> object is complete, it can be added to the
 <code>Slick</code> object:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">oms</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="plotting-objects">Plotting Objects<a class="anchor" aria-label="anchor" href="#plotting-objects"></a>
+<h2 id="example-mses">Example MSEs<a class="anchor" aria-label="anchor" href="#example-mses"></a>
 </h2>
-<p>At least one of the six plot objects must be included in a
-<code>Slick</code> object.</p>
+<p>In order to populate the Slick Plot Objects, we need to generate
+values for the performance indicators for each MP and each OM in our
+Slick Object.</p>
+<p>To do this, we will be using the <a href="https://openmse.com/" class="external-link">openMSE</a> platform. To follow reproduce
+this example, you will need to install the <code>openMSE</code> package
+and run the code in the following sub-sections.</p>
+<p>Alternatively, you can follow the code in the plotting sections below
+by replacing the example values produced here with those from your own
+MSE.</p>
 <div class="section level3">
-<h3 id="boxplot">
-<code>Boxplot</code><a class="anchor" aria-label="anchor" href="#boxplot"></a>
+<h3 id="install-openmse">Install openMSE<a class="anchor" aria-label="anchor" href="#install-openmse"></a>
 </h3>
+</div>
+<div class="section level3">
+<h3 id="generate-operating-models">Generate Operating Models<a class="anchor" aria-label="anchor" href="#generate-operating-models"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="specify-management-procedures">Specify Management Procedures<a class="anchor" aria-label="anchor" href="#specify-management-procedures"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="run-simulations">Run Simulations<a class="anchor" aria-label="anchor" href="#run-simulations"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="define-performance-indicators">Define Performance Indicators<a class="anchor" aria-label="anchor" href="#define-performance-indicators"></a>
+</h3>
+</div>
+</div>
+<div class="section level2">
+<h2 id="time-series-plot">Time Series Plot<a class="anchor" aria-label="anchor" href="#time-series-plot"></a>
+</h2>
+<p>Information for the <em>Time Series</em> plot is stored in a <a href="../reference/Timeseries-class.html">Timeseries Object</a>.</p>
+<p>A <em>Timeseries Object</em> can be created using the
+<code>Timeseries</code> function:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">timeseries</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Timeseries-methods.html">Timeseries</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="code-label-and-description-1">Code, Label, and Description<a class="anchor" aria-label="anchor" href="#code-label-and-description-1"></a>
+</h3>
+<p>Either the <code>Code</code>, <code>Label</code>, and
+<code>Description</code> functions or the <code>Metadata</code> function
+can be used to add the metadata information to a Timeseries Object.</p>
+<p>In this example there are three performance indicators for the
+Timeseries Object:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI 1'</span>, <span class="st">'PI 2'</span>, <span class="st">'PI 3'</span><span class="op">)</span>,</span>
+<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Perf. Ind. 1'</span>, <span class="st">'Perf. Ind. 2'</span>, <span class="st">'Perf. Ind. 3'</span><span class="op">)</span>,</span>
+<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description of PI 1'</span>,</span>
+<span>                <span class="st">'This is the description of PI 2'</span>,</span>
+<span>                <span class="st">'This is the description of PI 3'</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "PI 1" "PI 2" "PI 3"</span></span></code></pre></div>
+<p>All plotting functions support <a href="#multilanguage">Multi-Language Support</a> for the Metadata
+information.</p>
+</div>
+<div class="section level3">
+<h3 id="time-timenow-and-timelab">Time, TimeNow, and TimeLab<a class="anchor" aria-label="anchor" href="#time-timenow-and-timelab"></a>
+</h3>
+<p>The <code>Time</code> slot in the Timeseries Object is a numeric
+vector with the values for the historical and projection time-steps:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1980</span><span class="op">:</span><span class="fl">2040</span></span></code></pre></div>
+<p><code>TimeNow</code> is a numeric value matching the last historical
+time step in <code>Time</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">2024</span></span></code></pre></div>
+<p><code>TimeLab</code> is a character string providing the name of the
+time step in <code>Time</code>. A named list can be used for <a href="#multilanguage">Multi-Language Support</a>:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeLab.html">TimeLab</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Year'</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a>
+</h3>
+<p><code>Value</code> is an array containing the values of the
+performance indicators for each OM and MP in the Slick Object.</p>
+</div>
+<div class="section level3">
+<h3 id="preset-2">Preset<a class="anchor" aria-label="anchor" href="#preset-2"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="target-and-limit">Target and Limit<a class="anchor" aria-label="anchor" href="#target-and-limit"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="plotting-the-timeseries-object">Plotting the Timeseries Object<a class="anchor" aria-label="anchor" href="#plotting-the-timeseries-object"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="adding-timeseries-object-to-slick-object">Adding Timeseries Object to Slick Object<a class="anchor" aria-label="anchor" href="#adding-timeseries-object-to-slick-object"></a>
+</h3>
+</div>
+<div class="section level3">
+<h3 id="testing-the-app">Testing the App<a class="anchor" aria-label="anchor" href="#testing-the-app"></a>
+</h3>
+</div>
+</div>
+<div class="section level2">
+<h2 id="boxplot">
+<code>Boxplot</code><a class="anchor" aria-label="anchor" href="#boxplot"></a>
+</h2>
 <p><code>Code</code>, <code>Label</code>, and <code>Value</code> are
 required.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI 1'</span>, <span class="st">'PI 2'</span>, <span class="st">'PI 3'</span><span class="op">)</span>,</span>
 <span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Perf. Ind. 1'</span>, <span class="st">'Perf. Ind. 2'</span>, <span class="st">'Perf. Ind. 3'</span><span class="op">)</span>,</span>
 <span>                   Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description of PI 1'</span>,</span>
@@ -445,14 +639,14 @@ required.</p>
 performance indicators included in the <code>Boxplot</code> object.
 <code>Value</code> must have dimensions
 <code>c(nsim, nOM, nMP, nPI)</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1E4</span><span class="op">)</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="checking-and-testing">Checking and Testing<a class="anchor" aria-label="anchor" href="#checking-and-testing"></a>
-</h4>
+<div class="section level3">
+<h3 id="checking-and-testing">Checking and Testing<a class="anchor" aria-label="anchor" href="#checking-and-testing"></a>
+</h3>
 <p>The <code>Slick</code> object is now complete with the minimum
 requirements:</p>
 <ol style="list-style-type: decimal">
@@ -467,56 +661,55 @@ the <code>Check</code> function:</p>
 <p>The <code>App</code> function can be used to run the app locally.
 Passing a <code>Slick</code> object as a named argument loads the object
 directly into the App:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="kobe">
+<div class="section level2">
+<h2 id="kobe">
 <code>Kobe</code><a class="anchor" aria-label="anchor" href="#kobe"></a>
-</h3>
+</h2>
 </div>
-<div class="section level3">
-<h3 id="quilt">
+<div class="section level2">
+<h2 id="quilt">
 <code>Quilt</code><a class="anchor" aria-label="anchor" href="#quilt"></a>
-</h3>
+</h2>
 </div>
-<div class="section level3">
-<h3 id="spider">
+<div class="section level2">
+<h2 id="spider">
 <code>Spider</code><a class="anchor" aria-label="anchor" href="#spider"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="timeseries">
-<code>Timeseries</code><a class="anchor" aria-label="anchor" href="#timeseries"></a>
-</h3>
-</div>
+</h2>
 <div class="section level3">
 <h3 id="tradeoff">
 <code>Tradeoff</code><a class="anchor" aria-label="anchor" href="#tradeoff"></a>
 </h3>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+<div class="section level2">
+<h2 id="slick-object-library">Slick Object Library<a class="anchor" aria-label="anchor" href="#slick-object-library"></a>
+</h2>
+<p>TBD</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tom Carruthers, Adrian Hordyk.</p>
+  <p>Developed by Adrian Hordyk, Tom Carruthers, Quang Huynh, Shana Miller.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
