@@ -38,7 +38,7 @@ Suggests:
     fresh,
     httr,
     knitr,
-    MSEtool,
+    openMSE,
     shiny.i18n,
     shinyalert,
     shinyBS,
