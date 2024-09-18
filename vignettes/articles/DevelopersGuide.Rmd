@@ -56,7 +56,7 @@ The plots and tables can also be viewed in the *Slick App*, an interactive appli
 The App can be launched directly from the R console with:
 
 ```{r launch_app, eval=FALSE}
-
+App()
 ```
 
 The App is also hosted [online](https://shiny.bluematterscience.com/app/slick). 
@@ -99,6 +99,43 @@ To create a Slick Object, simply use the `Slick()` function:
 ```
 
 The following sections describe the contents of the Slick Object in more detail, and provide examples for populating a Slick Object.
+
+# Example MSEs
+
+In order to populate the Slick Plot Objects, we need to generate values for the performance indicators for each MP and each OM in our Slick Object.
+
+To do this, we will be using the [openMSE](https://openmse.com/) platform to create example MSE objects for a set of MPs and several different OMs.
+
+To reproduce this example, you will need to install the `openMSE` package and run the code in the following sub-sections. 
+
+Alternatively, you can follow the code in the plotting sections below and replace the example OMs, MPs, and Performance Indicator values shown here with those from your own MSE.
+
+## Install openMSE
+
+```{r eval=FALSE}
+pak::pkg_install('blue-matter/openMSE')
+```
+
+
+```{r load_openMSE, message=FALSE, warning=FALSE}
+
+```
+
+
+## Generate Operating Models
+
+```{r create_OMs}
+
+```
+
+## Specify Management Procedures
+
+## Run Simulations
+
+## Define Performance Indicators
+
+
+
 
 # Metadata 
 
@@ -295,23 +332,6 @@ Once the `OMs` object is complete, it can be added to the `Slick` object:
 
 ```
 
-# Example MSEs
-
-In order to populate the Slick Plot Objects, we need to generate values for the performance indicators for each MP and each OM in our Slick Object.
-
-To do this, we will be using the [openMSE](https://openmse.com/) platform. To follow reproduce this example, you will need to install the `openMSE` package and run the code in the following sub-sections. 
-
-Alternatively, you can follow the code in the plotting sections below by replacing the example values produced here with those from your own MSE.
-
-## Install openMSE
-
-## Generate Operating Models
-
-## Specify Management Procedures
-
-## Run Simulations
-
-## Define Performance Indicators
 
 
 

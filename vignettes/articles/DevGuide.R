@@ -4,8 +4,24 @@ pak::pkg_install('blue-matter/Slick')
 library(Slick)
 
 
-## ---- launch_app  ----
-App()
+
+## ---- load_openMSE ----
+library(openMSE)
+
+## ---- create_OMs ----
+
+OM_Base <- new('OM', Albacore, Generic_IncE, Generic_Obs, nsim=24)
+
+OM_LowM <- OM_HighM <- OM_Base
+OM_LowM@M <- OM_Base@M * 0.75
+OM_HighM@M <- OM_Base@M * 1.3333
+
+MPs <- c('AvC', 'Itarget1', 'MCD', 'SPmod')
+
+MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
+MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
+MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
+
 
 ## ---- create_slick ----
 slick <- Slick()
@@ -188,3 +204,5 @@ TimeNow(timeseries) <- 2024
 
 ## ---- timeseries_timelab ---
 TimeLab(timeseries) <- 'Year'
+
+
