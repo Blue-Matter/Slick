@@ -33,7 +33,7 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
 The Design matrix from an \code{OMs} object in a \code{Slick} object
 }
 \description{
-Checks S4 objects to check for warnings and errors
+Return the Factors matrix from an \code{OMs} object
 }
 \section{Methods (by class)}{
 \itemize{

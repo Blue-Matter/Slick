@@ -1,101 +1,127 @@
 #' FilterSlick
 #'
-#' @description A fct function
+#' Filter a Slick Object
 #'
-#' @return The return value, if any, from executing the function.
+#' Filter a Slick Object by management procedures (MPs),
+#' operating models (OMs), and performance indicators (PIs) for a given plot
 #'
-#' @noRd
-FilterSlick <- function(slick,
-                        selected_MPs=NULL,
-                        selected_OMs=NULL,
-                        selected_PMs=NULL,
-                        fun='Boxplot') {
+#' @param slick An object of class `Slick`
+#' @param MPs Numeric values of the MPs to keep. Default NULL keeps all MPs.
+#' @param OMs Numeric values of the OMs to keep (rows of `OM@Design`). Default NULL keeps all OMs.
+#' @param PIs Numeric values of the PIs in `plot` to keep. Default NULL keeps all PIs.
+#' @param plot The plot to filter the PIs. One of: `Timeseries`, `Boxplot`, `Kobe`,
+#' `Quilt`, `Spider`,  or`Tradeoff`
+#'
+#' @return A filtered Slick Object
+#' @export
+#'
+FilterSlick <- function(slick=NULL,
+                        MPs=NULL,
+                        OMs=NULL,
+                        PIs=NULL,
+                        plot=NULL) {
 
-  if (is.null(slick)) {
-    return(slick)
+  if (is.null(slick))
+    return(NULL)
+
+  if (is.null(plot))
+    cli::cli_abort('Argument `plot` must be specified')
+
+  if (!methods::is(slick, 'Slick'))
+    cli::cli_abort('`slick` must be an object of class `Slick`')
+
+  plot <- match.arg(plot, choices=c('Timeseries', 'Boxplot', 'Kobe',
+                            'Quilt', 'Spider', 'Tradeoff'))
+
+  object <- get(plot)(slick)
+
+  dim_value <- dim(Value(object))
+  len_dim <- length(dim_value)
+
+  nMPs <- length(slick@MPs@Code)
+  nOMs <- nrow(slick@OMs@Design)
+  nPIs <- length(object@Code)
+
+  if (is.null(MPs)) {
+    MPs <- 1:nMPs
+  } else {
+    MPs <- MPs[MPs %in% 1:nMPs]
   }
 
-  object <- get(fun)(slick)
+  if (is.null(OMs)) {
+    OMs <- 1:nOMs
+  } else {
+    OMs <- OMs[OMs %in% 1:nOMs]
+  }
 
-  dd <- dim(Value(object))
-  ll <- length(dd)
+  if (is.null(PIs)) {
+    PIs <- 1:nPIs
+  } else {
+    PIs <- PIs[PIs %in% 1:nPIs]
+  }
 
-  # golem::print_dev(paste('Filter Slick', fun))
-  # object <<- object
-  # selected_MPs <<- selected_MPs
-  # selected_OMs <<- selected_OMs
-  # selected_PMs <<- selected_PMs
-  #
-  # golem::print_dev(selected_MPs)
-  # golem::print_dev(selected_OMs)
-  # golem::print_dev(selected_PMs)
 
-  # OMs
-  if (!is.null(selected_OMs) &  length(selected_OMs)>0) {
-    if (ll==3) {
-      if (all(selected_OMs<=dd[1])) {
-        Value(object) <- Value(object)[selected_OMs,,,drop=FALSE]
+  # Filter OMs
+  if (!is.null(OMs) &  length(OMs)>0) {
+    if (len_dim==3) {
+      if (all(OMs<=dim_value[1])) {
+        Value(object) <- Value(object)[OMs,,,drop=FALSE]
       }
 
     }
-    if (ll==4) {
-      if (all(selected_OMs<=dd[2]))
-        Value(object) <- Value(object)[,selected_OMs,,, drop=FALSE]
+    if (len_dim==4) {
+      if (all(OMs<=dim_value[2]))
+        Value(object) <- Value(object)[,OMs,,, drop=FALSE]
     }
-    if (ll==5) {
-      if (all(selected_OMs<=dd[2]))
-        Value(object) <- Value(object)[,selected_OMs,,,, drop=FALSE]
+    if (len_dim==5) {
+      if (all(OMs<=dim_value[2]))
+        Value(object) <- Value(object)[,OMs,,,, drop=FALSE]
     }
+
+    slick@OMs@Design <- slick@OMs@Design[OMs,, drop=FALSE]
   }
 
-  # MPs
-  if (!is.null(selected_MPs) & length(selected_MPs)>0) {
+  # Filter MPs
+  if (!is.null(MPs) & length(MPs)>0) {
     metadata <- Metadata(MPs(slick))
-    if (ll==3) {
-      if (all(selected_MPs<=dd[2])) {
-        Value(object) <- Value(object)[,selected_MPs,,drop=FALSE]
-        Metadata(MPs(slick)) <- metadata[selected_MPs,]
+    if (len_dim==3) {
+      if (all(MPs<=dim_value[2])) {
+        Value(object) <- Value(object)[,MPs,,drop=FALSE]
+        Metadata(slick@MPs) <- metadata[MPs,]
       }
     }
-    if (ll==4) {
-      if (all(selected_MPs<=dd[3])) {
-        Metadata(MPs(slick)) <- metadata[selected_MPs,]
-        Value(object) <- Value(object)[,,selected_MPs,, drop=FALSE]
+    if (len_dim==4) {
+      if (all(MPs<=dim_value[3])) {
+        Metadata(slick@MPs) <- metadata[MPs,]
+        Value(object) <- Value(object)[,,MPs,, drop=FALSE]
       }
     }
-    if (ll==5) {
-      if (all(selected_MPs<=dd[3])) {
-        Metadata(MPs(slick)) <- metadata[selected_MPs,]
-        Value(object) <- Value(object)[,,selected_MPs,,, drop=FALSE]
+    if (len_dim==5) {
+      if (all(MPs<=dim_value[3])) {
+        Metadata(slick@MPs) <- metadata[MPs,]
+        Value(object) <- Value(object)[,,MPs,,, drop=FALSE]
       }
     }
   }
 
-  # PMs
-  if (!is.null(selected_PMs) & length(selected_PMs)>0) {
-    Metadata(object) <- Metadata(object)[selected_PMs, ]
+  # Filter PIs
+  if (!is.null(PIs) & length(PIs)>0) {
+    Metadata(object) <- Metadata(object)[PIs, ]
 
-    if (ll==3) {
-      if (all(selected_PMs<=dd[3]))
-        Value(object) <- Value(object)[,,selected_PMs,drop=FALSE]
+    if (len_dim==3) {
+      if (all(PMs<=dim_value[3]))
+        Value(object) <- Value(object)[,,PIs,drop=FALSE]
     }
-    if (ll==4) {
-      if (all(selected_PMs<=dd[4]))
-        Value(object) <- Value(object)[,,,selected_PMs, drop=FALSE]
+    if (len_dim==4) {
+      if (all(PIs<=dim_value[4]))
+        Value(object) <- Value(object)[,,,PIs, drop=FALSE]
     }
-    if (ll==5) {
-      if (all(selected_PMs<=dd[4]))
-        Value(object) <- Value(object)[,,,selected_PMs,, drop=FALSE]
+    if (len_dim==5) {
+      if (all(PIs<=dim_value[4]))
+        Value(object) <- Value(object)[,,,PIs,, drop=FALSE]
     }
   }
 
-  if (fun=='Boxplot') Boxplot(slick) <- object
-  if (fun=='Kobe') Kobe(slick) <- object
-  if (fun=='Quilt') Quilt(slick) <- object
-  if (fun=='Spider') Spider(slick) <- object
-  if (fun=='Timeseries') Timeseries(slick) <- object
-  if (fun=='Tradeoff') Tradeoff(slick) <- object
-
-  # golem::print_dev('Done Filter Slick')
+  slot(slick, plot) <- object
   slick
 }

@@ -14,7 +14,7 @@ mod_Timeseries_ui <- function(id){
     shinydashboardPlus::box(width=12,
                             status='primary',
                             solidHeader=TRUE,
-                            title=uiOutput(ns('title')),
+                            title=h3(strong('Time Series')),
                             br(),
                             column(12, mod_subtitle_ui(ns(id))),
                             column(12,
@@ -25,7 +25,12 @@ mod_Timeseries_ui <- function(id){
                                      uiOutput(ns('reading')),
                                      img(src='www/img/Line.jpg', width="100%"),
                                      uiOutput(ns('picker')),
-                                     uiOutput(ns('yaxisrange')),
+                                     uiOutput(ns('y_range')),
+                                     fluidRow(
+                                       column(4,uiOutput(ns('includeQuantile'))),
+                                       column(4,uiOutput(ns('includeLabels'))),
+                                       column(4,uiOutput(ns('includeHist')))
+                                     ),
                                      mod_Page_Filter_ui(ns("timeseriesfilter"))
                               ),
                               column(9,
@@ -69,24 +74,29 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                   pm_ind, yrange,
                                   window_dims,
                                   Report,
-                                  parent_session=session)
+                                  parent_session=session,
+                                  includeQuants, includeLabels,
+                                  includeHist)
 
     mod_Timeseries_byMP_server("Timeseries_byMP_1", i18n, filtered_slick,
                                pm_ind, yrange, nMP,
                                window_dims,
                                Report,
-                               parent_session=session)
+                               parent_session=session,
+                               includeQuants, includeLabels,
+                               includeHist)
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
                                pm_ind, yrange, nOM,
                                window_dims,
                                selected_oms=selected_oms,
                                Report,
-                               parent_session=session)
+                               parent_session=session,
+                               includeQuants, includeLabels,
+                               includeHist)
 
 
     output$plots <- renderUI({
-
       tagList(
         conditionalPanel("input.plotselect=='overall'", ns=ns,
                          mod_Timeseries_overall_ui(ns("Timeseries_overall_1"))
@@ -100,10 +110,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       )
     })
 
-    output$title <- renderUI({
-      i18n <- i18n()
-      h3(strong('Time Series'))
-    })
+
 
     output$groupbuttons <- renderUI({
       i18n <- i18n()
@@ -117,20 +124,22 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       )
     })
 
-    # output$picker <- renderUI({
-    #   i18n <- i18n()
-    #   shinyWidgets::pickerInput(ns('selectSV'),
-    #                             i18n$t('Select Variable'),
-    #                             choices=pm_labels(),
-    #                             selected=1)
-    # })
+    observeEvent(input$plotselect, {
+      if (input$plotselect=='bymp') {
+
+        shinyjs::disable("incLabels")
+      } else {
+        shinyjs::enable("incLabels")
+      }
+    })
+
 
     output$picker <- renderUI({
       PM_labels <- pm_labels()
       if (length(PM_labels)<1) return(NULL)
       i18n <- i18n()
       tagList(
-        p(i18n$t('Select Variable:')),
+        h3(i18n$t('Select Variable:')),
         shinyWidgets::radioGroupButtons(
           inputId = ns("selectSV"),
           choiceNames =names(PM_labels),
@@ -138,21 +147,58 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       )
     })
 
+    output$y_range <- renderUI({
+      i18n <- i18n()
+      sliderInput(ns('yaxis'),
+                  i18n$t('Y-Axis Range'),
+                  min=0,
+                  max=ymax(),
+                  value=yvalue(),
+                  step=stepvalue())
+    })
+
+    output$includeQuantile <- renderUI({
+      i18n <- i18n()
+      checkboxInput(ns('incQuantile'),
+                    i18n$t('Include MP percentiles?'),
+                    TRUE)
+    })
+
+
+
+    output$includeLabels <- renderUI({
+      i18n <- i18n()
+      checkboxInput(ns('incLabels'),
+                    i18n$t('Include MP Labels?'),
+                    TRUE)
+    })
+
+    output$includeHist <- renderUI({
+      i18n <- i18n()
+      checkboxInput(ns('incHist'),
+                    i18n$t('Include Historical?'),
+                    TRUE)
+    })
+
+    includeQuants <- reactive({
+      input$incQuantile
+      })
+
+    includeLabels <- reactive({
+      input$incLabels
+    } )
+
+    includeHist <- reactive({
+      input$incHist
+    })
+
+
     stepvalue <- reactive({
       if (ymax()<10)
         return(0.1)
       1
     })
 
-    output$yaxisrange <- renderUI({
-      i18n <- i18n()
-      sliderInput(ns('yaxis'),
-                  i18n$t('Y-Axis Maximum'),
-                  min=0,
-                  max=ymax(),
-                  value=yvalue(),
-                  step=stepvalue())
-    })
 
     pm_ind_select <- reactive({
       as.numeric(input$selectSV)
@@ -160,11 +206,9 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     pm_ind <- pm_ind_select
 
-    yrange_select <- reactive({
+    yrange <- reactive({
       input$yaxis
     })
-
-    yrange <- yrange_select
 
     sims <- reactive({
       vals <- Slick_Object() |> Timeseries() |> Value()

@@ -1,22 +1,23 @@
-## ---- install_slick ----
-# install.packages('pak')
-pak::pkg_install('blue-matter/Slick')
+
 library(Slick)
-
-
 
 ## ---- load_openMSE ----
 library(openMSE)
 
 ## ---- create_OMs ----
-
-OM_Base <- new('OM', Albacore, Generic_IncE, Generic_Obs, nsim=24)
+nsim <- 12
+OM_Base <- new('OM', Albacore, Generic_IncE, Generic_Obs, nsim=nsim)
+OM_Base@D <- c(0.3,0.4)
 
 OM_LowM <- OM_HighM <- OM_Base
 OM_LowM@M <- OM_Base@M * 0.75
 OM_HighM@M <- OM_Base@M * 1.3333
 
-MPs <- c('AvC', 'Itarget1', 'MCD', 'SPmod')
+## ---- specify_MPs ----
+
+MPs <- c('AvC', 'Itarget1', 'DD', 'SPmod')
+
+## ---- run_MSEs ----
 
 MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
 MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
@@ -25,6 +26,10 @@ MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
 
 ## ---- create_slick ----
 slick <- Slick()
+
+## ---- assign_date ----
+Date(slick)
+Date(slick) <- Sys.Date()
 
 ## ---- write_metadata ----
 Title(slick) <- 'An Example Slick Object'
@@ -59,13 +64,15 @@ Introduction(slick, markdown = TRUE)
 shiny::hr()
 
 ## ---- multi_language_intro_write ----
-Title(slick) <- list(en='This is the English Title',
-                     es='This is the Spanish Title',
-                     fr='This is the French Title')
+Title(slick) <- list(en='An Example Slick Object',
+                     es='Un ejemplo de un objeto Slick',
+                     fr="Un exemple d'objet Slick")
 
 ## ---- multi_language_intro_read ----
 Title(slick)
+
 Title(slick, 'es')
+
 Title(slick, 'fr')
 
 ## ---- multi_author ----
@@ -81,43 +88,41 @@ Institution(slick) <- c('A Institution', 'B Institution')
 
 ## ---- mps_1 -----
 mps <- MPs()
-Code(mps) <- c('MP1', 'MP2', 'MP3', 'MP4')
-Label(mps) <- c('MP 1', 'MP 2', 'MP 3', 'MP 4')
-Description(mps) <- c('This is an example MP',
-                      'This MP is a second example',
-                      'A third example MP',
-                      'The final example MP')
+Code(mps) <- c('AvC', 'Itarget1', 'DD', 'SPmod')
+Label(mps) <- c('Average Catch',
+                'Index Target',
+                'Delay Difference',
+                'Surplus Production')
+
+Description(mps) <- c('TAC is fixed for all years to the average catch from the historical period',
+                      'TAC is iteratively adjusted to reach a target CPUE',
+                      'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$',
+                      'TAC is incrementally adjusted based on the apparent trend in surplus production')
 
 ## ---- mps_2 -----
-mps <- MPs(Code=c('MP1',
-                  'MP2',
-                  'MP3',
-                  'MP4'),
-           Label=c('MP 1',
-                   'MP 2',
-                   'MP 3',
-                   'MP 4'),
-           Description = c('This is an example MP',
-                           'This MP is a second example',
-                           'A third example MP',
-                           'The final example MP'))
+mps <- MPs(Code=c('AvC', 'Itarget1', 'DD', 'SPmod'),
+           Label=c('Average Catch',
+                   'Index Target',
+                   'Delay Difference',
+                   'Surplus Production'),
+           Description = c('TAC is fixed for all years to the average catch from the historical period',
+                           'TAC is iteratively adjusted to reach a target CPUE',
+                           'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$',
+                           'TAC is incrementally adjusted based on the apparent trend in surplus production'))
 
 
 
 ## ---- mps_metadata ----
 Metadata(mps) <- data.frame(
-  Code=c('MP1',
-         'MP2',
-         'MP3',
-         'MP4'),
-  Label=c('MP 1',
-          'MP 2',
-          'MP 3',
-          'MP 4'),
-  Description=c('This is an example MP',
-                'This MP is a second example',
-                'A third example MP',
-                'The final example MP')
+  Code=c('AvC', 'Itarget1', 'DD', 'SPmod'),
+  Label=c('Average Catch',
+          'Index Target',
+          'Delay Difference',
+          'Surplus Production'),
+  Description=c('TAC is fixed for all years to the average catch from the historical period',
+                'TAC is iteratively adjusted to reach a target CPUE',
+                'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$',
+                'TAC is incrementally adjusted based on the apparent trend in surplus production')
 )
 
 Metadata(mps)
@@ -134,8 +139,8 @@ Color(mps) <- default_mp_colors(4)
 
 ## ---- mps_preset ----
 Preset(mps) <- list('All'=1:4,
-                    'First 2'=1:2,
-                    'Last 2'=3:4)
+                    'Model-Free'=1:2,
+                    'Model-Based'=3:4)
 
 ## ---- mps_print ----
 mps
@@ -148,35 +153,31 @@ MPs(slick) <- mps
 oms <- OMs()
 
 ## ---- om_factors ----
-Factors(oms) <- data.frame(Factor=c(rep('M',3), rep('h',2)),
-                           Level=c(0.1,0.2,0.3,0.7,0.9),
-                           Description=c('Natural Mortality = 0.1',
-                                         'Natural Mortality = 0.2',
-                                         'Natural Mortality = 0.3',
-                                         'Steepness = 0.7',
-                                         'Steepness = 0.9')
+Factors(oms) <- data.frame(Factor='M',
+                           Level=c('Base', 'Lower', 'Higher'),
+                           Description=c('Base Case',
+                                         'Lower Natural Mortality',
+                                         'Higher Natural Mortality')
 )
 
 Factors(oms)
 
 ## ---- om_design ----
 
-Design(oms) <- data.frame(M=c(0.1, 0.1, 0.2, 0.2, 0.3,0.3),
-                          h=rep(c(0.7, 0.9), 3)
-)
+Design(oms) <- data.frame(M=c('Base', 'Lower', 'Higher'))
+
 Design(oms)
 
 ## ---- om_design_name
 
-rownames(Design(oms)) <- letters[1:6]
+rownames(Design(oms)) <- c('Base', 'Lower', 'Higher')
 
 ## ---- om_preset ----
 
-Preset(oms) <- list('Low h'=list(1:3, 1),
-                    'High h'=list(1:3, 2))
+Preset(oms) <- list('All'=list(1:3),
+                    'Base'=list(1))
 
-## ---- om_check ----
-Check(oms)
+
 
 ## ---- om_add ----
 OMs(slick) <- oms
@@ -184,20 +185,22 @@ OMs(slick) <- oms
 ## ---- timeseries_create ----
 timeseries <- Timeseries()
 
+
 ## ---- timeseries_metadata ----
 
 Metadata(timeseries) <- data.frame(
-  Code=c('PI 1', 'PI 2', 'PI 3'),
-  Label=c('Perf. Ind. 1', 'Perf. Ind. 2', 'Perf. Ind. 3'),
-  Description=c('This is the description of PI 1',
-                'This is the description of PI 2',
-                'This is the description of PI 3')
-  )
+  Code=c('SB/SBMSY', 'F/FMSY', 'Removals'),
+  Label=c('SB/SBMSY', 'F/FMSY', 'Removals'),
+  Description=c('Spawning biomass relative to equilibrium spawning biomass corresponding with maximum sustainable yield (MSY)',
+                'Fishing mortality relative to F_MSY',
+                'Removals (Landings + Discards)')
+)
 
 Code(timeseries)
 
 ## ---- timeseries_time ----
-Time(timeseries) <- 1980:2040
+Time(timeseries) <- c(rev(seq(2024, by=-1, length.out=50)),
+                      seq(2025, by=1, length.out=50))
 
 ## ---- timeseries_timenow ----
 TimeNow(timeseries) <- 2024
@@ -205,4 +208,151 @@ TimeNow(timeseries) <- 2024
 ## ---- timeseries_timelab ---
 TimeLab(timeseries) <- 'Year'
 
+
+## ---- timeseries_value ----
+nOM <- nrow(Design(slick))
+nMP <- length(Code(mps))
+nPI <- length(Code(timeseries))
+nTS <- length(Time(timeseries))
+
+Value(timeseries) <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
+
+## ---- timeseries_value_calculate ----
+
+# SB/SBMSY
+SB_SBMSY_Base <- abind::abind(replicate(nMP, MSE_Base@SSB_hist) |> aperm(c(1,3,2)),
+                   MSE_Base@SSB,
+                   along=3)/MSE_Base@RefPoint$SSBMSY
+
+SB_SBMSY_LowM <- abind::abind(replicate(nMP, MSE_LowM@SSB_hist) |> aperm(c(1,3,2)),
+                               MSE_LowM@SSB,
+                              along=3)/MSE_LowM@RefPoint$SSBMSY
+
+SB_SBMSY_HighM <- abind::abind(replicate(nMP, MSE_HighM@SSB_hist) |> aperm(c(1,3,2)),
+                               MSE_HighM@SSB,
+                               along=3)/MSE_HighM@RefPoint$SSBMSY
+
+# F/FMSY
+F_FMSY_Base <- abind::abind(replicate(nMP, MSE_Base@FM_hist) |> aperm(c(1,3,2)),
+                            MSE_Base@FM)/MSE_Base@RefPoint$FMSY
+
+F_FMSY_LowM  <- abind::abind(replicate(nMP, MSE_LowM@FM_hist) |> aperm(c(1,3,2)),
+                             MSE_LowM@FM)/MSE_LowM@RefPoint$FMSY
+
+F_FMSY_HighM  <- abind::abind(replicate(nMP, MSE_HighM@FM_hist) |> aperm(c(1,3,2)),
+                              MSE_HighM@FM)/MSE_HighM@RefPoint$FMSY
+
+# Removals
+Removals_Base <- abind::abind(replicate(nMP, apply(MSE_Base@Hist@TSdata$Removals, 1:2, sum))
+                              |> aperm(c(1,3,2)),
+                              MSE_Base@Removals)
+
+Removals_LowM  <- abind::abind(replicate(nMP, apply(MSE_LowM@Hist@TSdata$Removals, 1:2, sum))
+                               |> aperm(c(1,3,2)),
+                               MSE_LowM@Removals)
+
+Removals_HighM  <- abind::abind(replicate(nMP, apply(MSE_HighM@Hist@TSdata$Removals, 1:2, sum))
+                                |> aperm(c(1,3,2)),
+                                MSE_HighM@Removals)
+
+
+
+## ---- timeseries_value_populate ----
+
+# SB/SBMSY
+Value(timeseries)[,1,,1,] <- SB_SBMSY_Base
+Value(timeseries)[,2,,1,] <- SB_SBMSY_LowM
+Value(timeseries)[,3,,1,] <- SB_SBMSY_HighM
+
+# F/FMSY
+Value(timeseries)[,1,,2,] <- F_FMSY_Base
+Value(timeseries)[,2,,2,] <- F_FMSY_LowM
+Value(timeseries)[,3,,2,] <- F_FMSY_HighM
+
+# Removals
+Value(timeseries)[,1,,3,] <- Removals_Base
+Value(timeseries)[,2,,3,] <- Removals_LowM
+Value(timeseries)[,3,,3,] <- Removals_HighM
+
+## ---- timeseries_target ----
+
+Target(timeseries) <- c(1, 0.8, NA)
+Limit(timeseries) <- c(0.5, 1, NA)
+
+## ---- timeseries_check ----
+Check(timeseries)
+
+## ---- timeseries_add ----
+
+Timeseries(slick) <- timeseries
+
+
+## ---- timeseries_plot1 ----
+
+plotTimeseries(slick) # PI 1
+
+plotTimeseries(slick, 2, # PI 2, no quantiles
+               includeQuants = FALSE)
+
+plotTimeseries(slick,3, # PI 3, no quantiles, no MP labels
+               includeQuants = FALSE,
+               includeLabels = FALSE)
+
+## ---- timeseries_plot2 ----
+
+plotTimeseries(slick, byMP=TRUE)
+
+## ---- timeseries_plot3 ----
+
+plotTimeseries(slick, byOM=TRUE)
+
+## ---- timeseries_plot4 ----
+
+plotTimeseries(slick, byOM=TRUE, byMP=TRUE)
+
+## ---- timeseries_plot5 ----
+
+slick_OM1 <- FilterSlick(slick, OMs=1, plot='Timeseries')
+
+plotTimeseries(slick_OM1, byOM=TRUE)
+plotTimeseries(slick_OM1) # same plot
+
+## ---- boxplot_create ----
+
+boxplot <- Boxplot(Code=c('SB/SBSMY 25', 'SB/SBSMY 50', 'TAC 25'),
+                   Label=c('SB/SBMSY Year 25', 'SB/SBSMY Year 50', 'TAC Year 25'),
+                   Description=c('SB/SBMSY in the 25th projection year',
+                                 'SB/SBMSY in the last year',
+                                 'TAC in the 25th projection year'))
+
+## ---- boxplot_value ----
+
+nOM <- nrow(Design(slick))
+nMP <- length(Code(mps))
+nPI <- length(Code(boxplot))
+
+Value(boxplot) <- array(NA, dim=c(nsim, nOM, nMP, nPI))
+
+Value(boxplot)[,1,,1] <- MSE_Base@SB_SBMSY[,,25]
+Value(boxplot)[,2,,1] <- MSE_LowM@SB_SBMSY[,,25]
+Value(boxplot)[,3,,1] <- MSE_HighM@SB_SBMSY[,,25]
+
+Value(boxplot)[,1,,2] <- MSE_Base@SB_SBMSY[,,50]
+Value(boxplot)[,2,,2] <- MSE_LowM@SB_SBMSY[,,50]
+Value(boxplot)[,3,,2] <- MSE_HighM@SB_SBMSY[,,50]
+
+Value(boxplot)[,1,,3] <- MSE_Base@TAC[,,25]
+Value(boxplot)[,2,,3] <- MSE_LowM@TAC[,,25]
+Value(boxplot)[,3,,3] <- MSE_HighM@TAC[,,25]
+
+## ---- boxplot_add ----
+Boxplot(slick) <- boxplot
+
+## ---- boxplot_plot ----
+
+plotBoxplot(slick)
+plotBoxplot(slick, type='violin')
+plotBoxplot(slick, type='both')
+
+plotBoxplot(slick, 2, byOM=TRUE)
 

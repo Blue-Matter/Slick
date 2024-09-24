@@ -24,6 +24,7 @@ Imports:
     graphics,
     grDevices,
     methods,
+    patchwork,
     scales,
     shiny,
     stats,
@@ -84,6 +85,8 @@ Collate:
     'fct_dashboardHeader2.R'
     'fct_load_casestudies.R'
     'fct_misc.R'
+    'fct_plotBoxplot.R'
+    'fct_plotTimeseries.R'
     'fct_plots.R'
     'fct_translator.R'
     'make_Slick_old.R'

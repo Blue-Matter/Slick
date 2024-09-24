@@ -21,10 +21,10 @@ mod_Timeseries_byMP_ui <- function(id){
 mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nMP,
                                        window_dims,
-                                       Report, parent_session){
+                                       Report, parent_session,
+                                       includeQuants, includeLabels, includeHist){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
 
     Plot_Object <- reactiveVal()
 
@@ -36,7 +36,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
 
     observeEvent(button_pushed(), {
-      Plot_Object(timeseriesplot()+ ggplot2::coord_cartesian(ylim=yrange()))
+      Plot_Object(timeseriesplot() + ggplot2::coord_cartesian(ylim=yrange()))
 
       if(!inherits(Plot_Object(), 'NULL'))
         shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
@@ -70,6 +70,11 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                                  height=plot_height()))
     })
 
+
+    output$timeseriesMP <- renderPlot({
+      timeseriesplot()
+    })
+
     timeseriesplot <- reactive({
       if (is.null(filtered_slick()))
         return(NULL)
@@ -78,24 +83,18 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
       if (is.null(yrange()))
         return(NULL)
 
-      # slick <<- filtered_slick()
-      # pm <<- pm_ind()
-      # MP_ind  <<- 1:nMP()
-      #
-      # plotTimeseries(slick, pm, MP_ind)
 
       plotTimeseries(filtered_slick(), pm_ind(),
-                     MP_ind=1:nMP(),
-                     includeHist=TRUE) +
+                     byMP=TRUE,
+                     includeQuants =includeQuants(),
+                     includeLabels =includeLabels(),
+                     includeHist = includeHist()) +
         ggplot2::coord_cartesian(ylim=yrange())
 
 
 
     })
 
-    output$timeseriesMP <- renderPlot({
-      timeseriesplot()
-    })
 
 
     plot_width_text <- reactive({

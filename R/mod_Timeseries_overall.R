@@ -20,7 +20,9 @@ mod_Timeseries_overall_ui <- function(id){
 #' @noRd
 mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
                                           pm_ind, yrange,
-                                          window_dims, Report, parent_session){
+                                          window_dims, Report, parent_session,
+                                          includeQuants, includeLabels, includeHist
+                                          ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -42,7 +44,10 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
 
     timeseriesplot <- reactive({
       req(pm_ind())
-      plotTimeseries(filtered_slick(), pm_ind())
+      plotTimeseries(filtered_slick(), pm_ind(),
+                     includeQuants =includeQuants(),
+                     includeLabels =includeLabels(),
+                     includeHist = includeHist())
     })
 
     output$plot1 <- renderPlot({

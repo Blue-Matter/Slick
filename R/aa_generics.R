@@ -185,8 +185,6 @@ setGeneric("Design<-", function(object, value) standardGeneric("Design<-"))
 
 #' Return the Factors matrix from an `OMs` object
 #'
-#' Checks S4 objects to check for warnings and errors
-#'
 #' @param object An [OMs-class()] or [Slick-class()] object.
 #' @param lang `r lang_param()`
 #' @return The Design matrix from an `OMs` object in a `Slick` object

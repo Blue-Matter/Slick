@@ -95,7 +95,7 @@ app_server <- function(input, output, session) {
     nplot <- length(obj$plot)
     if (nplot>0) {
       for (p in 1:nplot) {
-        if (!is.na(obj$plot[[p]]) & !is.null(obj$plot[[p]]))
+        if (!all(is.na(obj$plot[[p]])) & !is.null(obj$plot[[p]]))
           file.remove(obj$plot[[p]]$src)
       }
     }
@@ -140,15 +140,16 @@ app_server <- function(input, output, session) {
 
   mod_Boxplot_server("Boxplot", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
-  mod_Kobe_server("Kobe", i18n, Slick_Object, window_dims, Report, session)
-  waitress$inc(5)
-  mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims, Report, session)
-  waitress$inc(5)
-  mod_Spider_server("Spider", i18n, Slick_Object, window_dims, Report, session)
-  waitress$inc(5)
+  # mod_Kobe_server("Kobe", i18n, Slick_Object, window_dims, Report, session)
+  # waitress$inc(5)
+  # mod_Quilt_server("Quilt", i18n, Slick_Object, window_dims, Report, session)
+  # waitress$inc(5)
+  # mod_Spider_server("Spider", i18n, Slick_Object, window_dims, Report, session)
+  # waitress$inc(5)
+
   mod_Timeseries_server("Timeseries_1", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
-  mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report, session)
+  # mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report, session)
 
   waitress$close()
 }
