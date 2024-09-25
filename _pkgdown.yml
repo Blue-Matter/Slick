@@ -32,6 +32,7 @@ reference:
   - Timeseries
   - Tradeoff
   - Update
+  - FilterSlick
 - title: "Access and Assign Functions"
   desc: >
     Functions to access and assign
