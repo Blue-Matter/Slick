@@ -111,27 +111,35 @@ Miller</a> with any comments or suggestions for further development.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="app">The Slick App<a class="anchor" aria-label="anchor" href="#app"></a>
+<h2 id="slickobject">The Slick Object<a class="anchor" aria-label="anchor" href="#slickobject"></a>
 </h2>
-<p><code>Slick</code> can be used to rapidly create standardized plots
-and tables of MSE results directly from the R console. See the sections
-below for examples.</p>
-<p>The plots and tables can also be viewed in the <em>Slick App</em>, an
-interactive application developed with <a href="https://shiny.posit.co/" class="external-link">Shiny</a>. The Slick App allows users to
-upload their data and customize the plots by filtering by management
-procedures, operating models, and performance indicators.</p>
-<p>The App can be launched directly from the R console with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The App is also hosted <a href="https://shiny.bluematterscience.com/app/slick" class="external-link">online</a>.</p>
-<p>The online App is publicly accessible and can be used for presenting
-and examining MSE results to stakeholders and decision-makers.</p>
-<p>Analysts can either share their <a href="#slickobject">Slick
-Object</a> with their audience directly so they can upload it into the
-App, or analysts can upload their Slick Object to the <a href="#slick-object-library">Slick Object Library</a>.</p>
+<p>To use <code>Slick</code>, MSE results must be compiled into a <a href="../reference/Slick-class.html"><em>Slick Object</em></a>. The
+object is designed to be compatible with results from any MSE
+framework.</p>
+<p>The <em>Slick Object</em> contains all of the information shown in
+the plots and tables, as well as metadata information such as title,
+introduction, and author details.</p>
+<p>The contents of the Slick Object can be grouped into the following
+categories:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Metadata</strong>: information including the title,
+introduction, and author details</li>
+<li>
+<strong>MPs</strong>: details of the <em>Management
+Procedures</em>
+</li>
+<li>
+<strong>OMs</strong>: factors, levels, and other information
+relating to the <em>Operating Models</em>
+</li>
+<li>
+<strong>Plots</strong>: details and values of the <em>Performance
+Indicators</em> for the Slick Plots</li>
+</ol>
 </div>
 <div class="section level2">
-<h2 id="the-slick-plots">The Slick Plots<a class="anchor" aria-label="anchor" href="#the-slick-plots"></a>
+<h2 id="slickplot">The Slick Plots<a class="anchor" aria-label="anchor" href="#slickplot"></a>
 </h2>
 <p>A Slick Object can include the following plots:</p>
 <ol style="list-style-type: decimal">
@@ -161,52 +169,38 @@ point. Sometimes also called a Radar plot.</li>
 <strong>Tradeoff</strong>: Scatter plot comparing two performance
 indicators.</li>
 </ol>
-<p>Analysts must include a least one plot in their Slick Object.</p>
+<p>A valid Slick Object must include at least one Slick Plot.</p>
 </div>
 <div class="section level2">
-<h2 id="slickobject">The Slick Object<a class="anchor" aria-label="anchor" href="#slickobject"></a>
+<h2 id="app">The Slick App<a class="anchor" aria-label="anchor" href="#app"></a>
 </h2>
-<p>To use <code>Slick</code>, MSE results must be compiled into a <a href="../reference/Slick-class.html"><em>Slick Object</em></a>. The
-object is designed to be compatible with results from any MSE
-framework.</p>
-<p>The <em>Slick Object</em> contains all of the information shown in
-the plots and tables, as well as metadata information such as title,
-introduction, and author details.</p>
-<p>The contents of the Slick Object can be grouped into the following
-categories:</p>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Metadata</strong>: information including the title,
-introduction, and author details</li>
-<li>
-<strong>MPs</strong>: details of the <em>Management
-Procedures</em>
-</li>
-<li>
-<strong>OMs</strong>: factors, levels, and other information
-relating to the <em>Operating Models</em>
-</li>
-<li>
-<strong>Plots</strong>: details and values of the <em>Performance
-Indicators</em> for the <code>Slick</code> plots</li>
-</ol>
-<div class="section level3">
-<h3 id="creating-a-slick-object">Creating a Slick Object<a class="anchor" aria-label="anchor" href="#creating-a-slick-object"></a>
-</h3>
-<p>To create a Slick Object, simply use the <code><a href="../reference/Slick-class.html">Slick()</a></code>
-function:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The following sections describe the contents of the Slick Object in
-more detail, and provide examples for populating a Slick Object.</p>
-</div>
+<p><code>Slick</code> can be used to rapidly create standardized plots
+and tables of MSE results directly from the R console. See the sections
+below for examples.</p>
+<p>The plots and tables can also be viewed in the <em>Slick App</em>, an
+interactive application developed with <a href="https://shiny.posit.co/" class="external-link">Shiny</a>. The Slick App allows users to
+upload their data and customize the plots by filtering by management
+procedures, operating models, and performance indicators.</p>
+<p>The App can be launched directly from the R console with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The App is also hosted <a href="https://shiny.bluematterscience.com/app/slick" class="external-link">online</a>.</p>
+<p>The online App is publicly accessible and can be used for presenting
+and examining MSE results to stakeholders and decision-makers.</p>
+<p>Analysts can either share their <a href="#slickobject">Slick
+Object</a> with their audience directly for them to upload into the App,
+or analysts can upload their Slick Object to the <a href="#slick-object-library">Slick Object Library</a>, where it will be
+added to the list of Slick Objects that can be loaded directly within
+the App.</p>
 </div>
 <div class="section level2">
 <h2 id="example-mses">Example MSEs<a class="anchor" aria-label="anchor" href="#example-mses"></a>
 </h2>
-<p>In order to populate the Slick Plot Objects, we need to generate
-values for the performance indicators for each MP and each OM in our
-Slick Object.</p>
+<p>In order to populate the example Slick Object, we need to define some
+operating models (OMs), and some management procedures (MPs), and
+generate some quantitative values for the <em>Performance
+Indicators</em> relating to each <a href="#slickplot">Slick
+Plot</a>.</p>
 <p>To do this, we will be using the <a href="https://openmse.com/" class="external-link">openMSE</a> platform to create example MSE
 objects for a set of MPs and several different OMs.</p>
 <p>To reproduce this example, you will need to install the
@@ -218,39 +212,116 @@ here with those from your own MSE.</p>
 <div class="section level3">
 <h3 id="install-openmse">Install openMSE<a class="anchor" aria-label="anchor" href="#install-openmse"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/openMSE'</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://openmse.com/" class="external-link">openMSE</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="generate-operating-models">Generate Operating Models<a class="anchor" aria-label="anchor" href="#generate-operating-models"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">OM_Base</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">'OM'</span>, <span class="va">Albacore</span>, <span class="va">Generic_IncE</span>, <span class="va">Generic_Obs</span>, nsim<span class="op">=</span><span class="fl">24</span><span class="op">)</span></span>
+<p>In this example, we are creating three operating models:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Base</strong>: Base Case model for an (entirely fictional)
+Albacore fishery</li>
+<li>
+<strong>Low M</strong>: A robustness model where natural mortality
+(<em>M</em>) is 25% lower than the Base Case model</li>
+<li>
+<strong>High M</strong>: A robustness model were <em>M</em> is 33%
+higher than the Base Case model</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">12</span></span>
+<span><span class="va">OM_Base</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">'OM'</span>, <span class="va">Albacore</span>, <span class="va">Generic_IncE</span>, <span class="va">Generic_Obs</span>, nsim<span class="op">=</span><span class="va">nsim</span><span class="op">)</span></span>
+<span><span class="va">OM_Base</span><span class="op">@</span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">OM_LowM</span> <span class="op">&lt;-</span> <span class="va">OM_HighM</span> <span class="op">&lt;-</span> <span class="va">OM_Base</span></span>
 <span><span class="va">OM_LowM</span><span class="op">@</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">OM_Base</span><span class="op">@</span><span class="va">M</span> <span class="op">*</span> <span class="fl">0.75</span></span>
-<span><span class="va">OM_HighM</span><span class="op">@</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">OM_Base</span><span class="op">@</span><span class="va">M</span> <span class="op">*</span> <span class="fl">1.3333</span></span>
-<span></span>
-<span><span class="va">MPs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'MCD'</span>, <span class="st">'SPmod'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">MSE_Base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MSEtool/man/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_Base</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">MSE_LowM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MSEtool/man/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_LowM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">MSE_HighM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MSEtool/man/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">OM_HighM</span><span class="op">@</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">OM_Base</span><span class="op">@</span><span class="va">M</span> <span class="op">*</span> <span class="fl">1.3333</span></span></code></pre></div>
+<p>Each OM has 12 individual simulations (<code>nsim=12</code>). The OMs
+include uncertainty in the life-history parameters and the depletion at
+the end of the historical period (<code>D=c(0.3,0.4)</code>).</p>
 </div>
 <div class="section level3">
 <h3 id="specify-management-procedures">Specify Management Procedures<a class="anchor" aria-label="anchor" href="#specify-management-procedures"></a>
 </h3>
+<p>We are using four example management procedures from the
+<code>DLMtool</code> package:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>AvC</strong>: the TAC is fixed for all years to the average
+catch from the historical period</li>
+<li>
+<strong>Itarget1</strong>: the TAC is iteratively adjusted to reach
+a target CPUE</li>
+<li>
+<strong>DD</strong>: A simple delay-difference assessment model is
+used to estimate current biomass
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>B</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(B)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>U</mi><mrow><mi>M</mi><mi>S</mi><mi>Y</mi></mrow></msub><annotation encoding="application/x-tex">U_{MSY}</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">TAC</mtext><mo>=</mo><msub><mi>U</mi><mrow><mi>M</mi><mi>S</mi><mi>Y</mi></mrow></msub><mi>B</mi></mrow><annotation encoding="application/x-tex">\text{TAC}= U_{MSY}B</annotation></semantics></math>
+</li>
+<li>
+<strong>SPmod</strong>: TAC is incrementally adjusted based on the
+apparent trend in surplus production.</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MPs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span></span></code></pre></div>
+<p>These MPs are only being used here as examples, so the details don’t
+really matter. But if you’re interested you can see the <a href="https://dlmtool.openmse.com/reference/index.html" class="external-link"><code>DLMtool</code>
+help documentation</a> for more details on each MP.</p>
 </div>
 <div class="section level3">
 <h3 id="run-simulations">Run Simulations<a class="anchor" aria-label="anchor" href="#run-simulations"></a>
 </h3>
+<p>The <code>runMSE</code> function is used to spool up the historical
+fishery dynamics and run the closed-loop simulation testing of the four
+MPs for each of the three OMS:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MSE_Base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_Base</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">MSE_LowM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_LowM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">MSE_HighM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>In the sections below, these MSE objects will be used to calculate
+the performance indicators for each <a href="#slickplot">Slick
+Plot</a>.</p>
 </div>
-<div class="section level3">
-<h3 id="define-performance-indicators">Define Performance Indicators<a class="anchor" aria-label="anchor" href="#define-performance-indicators"></a>
-</h3>
 </div>
+<div class="section level2">
+<h2 id="creating-a-slick-object">Creating a Slick Object<a class="anchor" aria-label="anchor" href="#creating-a-slick-object"></a>
+</h2>
+<p>To create a Slick Object, simply use the <code><a href="../reference/Slick-class.html">Slick()</a></code>
+function:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><code>slick</code> is an S4 object of class <code>Slick</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Slick"</span></span>
+<span><span class="co">#&gt; attr(,"package")</span></span>
+<span><span class="co">#&gt; [1] "Slick"</span></span></code></pre></div>
+<p>The slots in class <code>Slick</code> objects correspond to
+information such as the title, subtitle, and author of the
+<code>Slick</code> object, the operating models (OMs), and management
+procedures (MPs) included in the <code>Slick</code> object, and the
+details corresponding to each of the <a href="#slickplot">Slick
+Plots</a>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">slotNames</span><span class="op">(</span><span class="st">'Slick'</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "Title"        "Subtitle"     "Date"         "Author"       "Email"       </span></span>
+<span><span class="co">#&gt;  [6] "Institution"  "Introduction" "MPs"          "OMs"          "Boxplot"     </span></span>
+<span><span class="co">#&gt; [11] "Kobe"         "Quilt"        "Spider"       "Timeseries"   "Tradeoff"</span></span></code></pre></div>
+<p>Each slot can be accessed and assigned using a function corresponding
+to the slot name; e.g.:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2024-09-25"</span></span>
+<span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The sections below provide examples for populating the
+<code>Slick</code> object.</p>
 </div>
 <div class="section level2">
 <h2 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
@@ -261,7 +332,7 @@ functions are used to populate the corresponding information in the
 Slick Object.</p>
 <p>These metadata are optional, but are useful when presenting the Slick
 results in the <a href="#app">App</a>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"This is the subtitle"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -270,13 +341,13 @@ results in the <a href="#app">App</a>:</p>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Blue Matter Science](bluematterscience.com)"</span></span></code></pre></div>
 <p>The same functions are used to return the information stored in the
 Slick Object:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "This is the subtitle"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-09-18"</span></span>
+<span><span class="co">#&gt; [1] "2024-09-25"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -289,7 +360,7 @@ Slick Object:</p>
 <p>With the exception of <code>Date</code>, Markdown can be used to
 include links, text styling, etc, for any of the text in the Slick
 Object. For example:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st"></span></span>
 <span><span class="st">This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</span></span>
@@ -301,7 +372,7 @@ Object. For example:</p>
 the <code>markdown=TRUE</code> argument to print the HTML code in the
 console (in this document the HTML text is rendered directly between the
 horizontal lines):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span>, markdown <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <hr>
 <p>This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</p>
@@ -314,11 +385,11 @@ horizontal lines):</p>
 </h3>
 <p><code>Author</code> should be a character vector with an element for
 each author:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A. Author'</span>, <span class="st">'B. Author'</span><span class="op">)</span></span></code></pre></div>
 <p><code>Email</code>, and <code>Institution</code> must be character
 vectors of the same length as <code>Author</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'[a.author@email.com](mailto:a.author@email.com)'</span>,</span>
 <span>                  <span class="st">'[b.author@email.com](mailto:b.author@email.com)'</span><span class="op">)</span></span>
 <span></span>
@@ -329,8 +400,8 @@ vectors of the same length as <code>Author</code>:</p>
 <h3 id="multilanguage">Multi-Language Support<a class="anchor" aria-label="anchor" href="#multilanguage"></a>
 </h3>
 <p><code>Title</code>, <code>Subtitle</code>, and
-<code>Introduction</code> support multiple languages. Currently three
-languages are supported:</p>
+<code>Introduction</code> support multiple languages. Three languages
+are supported:</p>
 <ul>
 <li>
 <code>en</code>: English</li>
@@ -340,17 +411,19 @@ languages are supported:</p>
 <code>fr</code>: French</li>
 </ul>
 <p>Multiple languages can included by providing a named list:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="st">'This is the English Title'</span>,</span>
-<span>                     es<span class="op">=</span><span class="st">'This is the Spanish Title'</span>,</span>
-<span>                     fr<span class="op">=</span><span class="st">'This is the French Title'</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="st">'An Example Slick Object'</span>,</span>
+<span>                     es<span class="op">=</span><span class="st">'Un ejemplo de un objeto Slick'</span>,</span>
+<span>                     fr<span class="op">=</span><span class="st">"Un exemple d'objet Slick"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the English Title"</span></span>
+<span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
+<span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'es'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the Spanish Title"</span></span>
+<span><span class="co">#&gt; [1] "Un ejemplo de un objeto Slick"</span></span>
+<span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'fr'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the French Title"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Un exemple d'objet Slick"</span></span></code></pre></div>
 <p>Most text throughout the Slick Object supports both Markdown and
 multiple languages.</p>
 <p>The <a href="#app">App</a> has a dropdown menu that allows users to
@@ -375,64 +448,72 @@ sub-components and then add them to the Slick Object.</p>
 are used in the plots and tables, while <code>Description</code> is
 optional.</p>
 <p>In this example, there are 4 MPs:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>, <span class="st">'MP2'</span>, <span class="st">'MP3'</span>, <span class="st">'MP4'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/Code.html">Label</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>, <span class="st">'MP 2'</span>, <span class="st">'MP 3'</span>, <span class="st">'MP 4'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/Code.html">Description</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
-<span>                      <span class="st">'This MP is a second example'</span>,</span>
-<span>                      <span class="st">'A third example MP'</span>,</span>
-<span>                      <span class="st">'The final example MP'</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Code.html">Label</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
+<span>                <span class="st">'Index Target'</span>,</span>
+<span>                <span class="st">'Delay Difference'</span>,</span>
+<span>                <span class="st">'Surplus Production'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Code.html">Description</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'TAC is fixed for all years to the average catch from the historical period'</span>,</span>
+<span>                      <span class="st">'TAC is iteratively adjusted to reach a target CPUE'</span>,</span>
+<span>                      <span class="st">'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$'</span>,</span>
+<span>                      <span class="st">'TAC is incrementally adjusted based on the apparent trend in surplus production'</span><span class="op">)</span></span></code></pre></div>
 <p>This could have also been done as:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>,</span>
-<span>                  <span class="st">'MP2'</span>,</span>
-<span>                  <span class="st">'MP3'</span>,</span>
-<span>                  <span class="st">'MP4'</span><span class="op">)</span>,</span>
-<span>           Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>,</span>
-<span>                   <span class="st">'MP 2'</span>,</span>
-<span>                   <span class="st">'MP 3'</span>,</span>
-<span>                   <span class="st">'MP 4'</span><span class="op">)</span>,</span>
-<span>           Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
-<span>                           <span class="st">'This MP is a second example'</span>,</span>
-<span>                           <span class="st">'A third example MP'</span>,</span>
-<span>                           <span class="st">'The final example MP'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span>,</span>
+<span>           Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
+<span>                   <span class="st">'Index Target'</span>,</span>
+<span>                   <span class="st">'Delay Difference'</span>,</span>
+<span>                   <span class="st">'Surplus Production'</span><span class="op">)</span>,</span>
+<span>           Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'TAC is fixed for all years to the average catch from the historical period'</span>,</span>
+<span>                           <span class="st">'TAC is iteratively adjusted to reach a target CPUE'</span>,</span>
+<span>                           <span class="st">'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$'</span>,</span>
+<span>                           <span class="st">'TAC is incrementally adjusted based on the apparent trend in surplus production'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Or using the <code>Metadata</code> function:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP1'</span>,</span>
-<span>         <span class="st">'MP2'</span>,</span>
-<span>         <span class="st">'MP3'</span>,</span>
-<span>         <span class="st">'MP4'</span><span class="op">)</span>,</span>
-<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'MP 1'</span>,</span>
-<span>          <span class="st">'MP 2'</span>,</span>
-<span>          <span class="st">'MP 3'</span>,</span>
-<span>          <span class="st">'MP 4'</span><span class="op">)</span>,</span>
-<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is an example MP'</span>,</span>
-<span>                <span class="st">'This MP is a second example'</span>,</span>
-<span>                <span class="st">'A third example MP'</span>,</span>
-<span>                <span class="st">'The final example MP'</span><span class="op">)</span></span>
+<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span>,</span>
+<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
+<span>          <span class="st">'Index Target'</span>,</span>
+<span>          <span class="st">'Delay Difference'</span>,</span>
+<span>          <span class="st">'Surplus Production'</span><span class="op">)</span>,</span>
+<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'TAC is fixed for all years to the average catch from the historical period'</span>,</span>
+<span>                <span class="st">'TAC is iteratively adjusted to reach a target CPUE'</span>,</span>
+<span>                <span class="st">'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$'</span>,</span>
+<span>                <span class="st">'TAC is incrementally adjusted based on the apparent trend in surplus production'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   Code Label                 Description   Color</span></span>
-<span><span class="co">#&gt; 1  MP1  MP 1       This is an example MP #C87A8A</span></span>
-<span><span class="co">#&gt; 2  MP2  MP 2 This MP is a second example #909646</span></span>
-<span><span class="co">#&gt; 3  MP3  MP 3          A third example MP #00A396</span></span>
-<span><span class="co">#&gt; 4  MP4  MP 4        The final example MP #9189C7</span></span></code></pre></div>
+<span><span class="co">#&gt;       Code              Label</span></span>
+<span><span class="co">#&gt; 1      AvC      Average Catch</span></span>
+<span><span class="co">#&gt; 2 Itarget1       Index Target</span></span>
+<span><span class="co">#&gt; 3       DD   Delay Difference</span></span>
+<span><span class="co">#&gt; 4    SPmod Surplus Production</span></span>
+<span><span class="co">#&gt;                                                                                                          Description</span></span>
+<span><span class="co">#&gt; 1                                         TAC is fixed for all years to the average catch from the historical period</span></span>
+<span><span class="co">#&gt; 2                                                                 TAC is iteratively adjusted to reach a target CPUE</span></span>
+<span><span class="co">#&gt; 3 Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$</span></span>
+<span><span class="co">#&gt; 4                                    TAC is incrementally adjusted based on the apparent trend in surplus production</span></span>
+<span><span class="co">#&gt;     Color</span></span>
+<span><span class="co">#&gt; 1 #C87A8A</span></span>
+<span><span class="co">#&gt; 2 #909646</span></span>
+<span><span class="co">#&gt; 3 #00A396</span></span>
+<span><span class="co">#&gt; 4 #9189C7</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="color">Color<a class="anchor" aria-label="anchor" href="#color"></a>
 </h3>
 <p><code>Color</code> is used to set the colors of the MPs shown in the
 plots. If not specified, default colors will be used:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "#C87A8A" "#909646" "#00A396" "#9189C7"</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colors.html" class="external-link">colors</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "aquamarine2"   "darkorange4"   "darkgoldenrod" "darkkhaki"</span></span>
+<span><span class="co">#&gt; [1] "darkorange1" "cyan1"       "coral"       "darkcyan"</span></span>
 <span></span>
 <span><span class="co"># reset to default colors</span></span>
 <span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/default_mp_colors.html">default_mp_colors</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
@@ -445,17 +526,17 @@ where users can rapidly select different sets of MPs.</p>
 <p>For an MPs Object, <code>Preset</code> is an optional named list,
 with numeric values indicating the MPs to be selected by the
 <em>Preset</em> buttons in the <a href="#app">App</a>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'All'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
-<span>                    <span class="st">'First 2'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
-<span>                    <span class="st">'Last 2'</span><span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<span>                    <span class="st">'Model-Free'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
+<span>                    <span class="st">'Model-Based'</span><span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adding-mps-to-slick-object">Adding MPs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-mps-to-slick-object"></a>
 </h3>
 <p>Once the MPs Object is complete, is can be added to the Slick
 Object:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">mps</span></span></code></pre></div>
 </div>
 </div>
@@ -470,7 +551,7 @@ the structure of the operating models contained in the Slick Object.</p>
 </h3>
 <p>A new OMs Object can be created with the <code>OMs</code>
 function:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The OMs Object contains two mandatory slots (<code>Factors</code> and
 <code>Design</code>) and one optional slot (<code>Preset</code>).</p>
@@ -486,23 +567,19 @@ in the Slick Object.</p>
 <p>Here is a simple example of a Slick Object that includes results from
 6 OMs, spanning three levels on uncertainty in natural mortality (M) and
 two levels of steepness (h):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'M'</span>,<span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'h'</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span>,<span class="fl">0.7</span>,<span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Natural Mortality = 0.1'</span>,</span>
-<span>                                         <span class="st">'Natural Mortality = 0.2'</span>,</span>
-<span>                                         <span class="st">'Natural Mortality = 0.3'</span>,</span>
-<span>                                         <span class="st">'Steepness = 0.7'</span>,</span>
-<span>                                         <span class="st">'Steepness = 0.9'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="st">'M'</span>,</span>
+<span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span>,</span>
+<span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>,</span>
+<span>                                         <span class="st">'Lower Natural Mortality'</span>,</span>
+<span>                                         <span class="st">'Higher Natural Mortality'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   Factor Level             Description</span></span>
-<span><span class="co">#&gt; 1      M   0.1 Natural Mortality = 0.1</span></span>
-<span><span class="co">#&gt; 2      M   0.2 Natural Mortality = 0.2</span></span>
-<span><span class="co">#&gt; 3      M   0.3 Natural Mortality = 0.3</span></span>
-<span><span class="co">#&gt; 4      h   0.7         Steepness = 0.7</span></span>
-<span><span class="co">#&gt; 5      h   0.9         Steepness = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt;   Factor  Level              Description</span></span>
+<span><span class="co">#&gt; 1      M   Base                Base Case</span></span>
+<span><span class="co">#&gt; 2      M  Lower  Lower Natural Mortality</span></span>
+<span><span class="co">#&gt; 3      M Higher Higher Natural Mortality</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
@@ -515,23 +592,19 @@ correspond to each OM. The column names of <code>Design</code> must
 match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <p>Here is the <code>Design</code> matrix corresponding with the
 <code>Factors</code> above:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>,<span class="fl">0.3</span><span class="op">)</span>,</span>
-<span>                          h<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.9</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     M   h</span></span>
-<span><span class="co">#&gt; 1 0.1 0.7</span></span>
-<span><span class="co">#&gt; 2 0.1 0.9</span></span>
-<span><span class="co">#&gt; 3 0.2 0.7</span></span>
-<span><span class="co">#&gt; 4 0.2 0.9</span></span>
-<span><span class="co">#&gt; 5 0.3 0.7</span></span>
-<span><span class="co">#&gt; 6 0.3 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt;        M</span></span>
+<span><span class="co">#&gt; 1   Base</span></span>
+<span><span class="co">#&gt; 2  Lower</span></span>
+<span><span class="co">#&gt; 3 Higher</span></span></code></pre></div>
 <p>It can sometimes be helpful to add names or labels to the operating
 models listed in <code>Design</code>. This can be done using
 <code>rownames</code>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="preset-1">Preset<a class="anchor" aria-label="anchor" href="#preset-1"></a>
@@ -546,25 +619,52 @@ used to display the ‘Preset’ button in the App.</p>
 representing the levels within each factor that should be included under
 that preset.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Low h'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>                    <span class="st">'High h'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'All'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>                    <span class="st">'Base'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adding-oms-to-slick-object">Adding OMs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-oms-to-slick-object"></a>
 </h3>
-<p>The <code>OMs</code> object is now complete.</p>
+<p>The <code>OMs</code> object is now complete:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">oms</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An object of class `OMs`</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Factors`</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Factor  Level              Description</span></span>
+<span><span class="co">#&gt; 1      M   Base                Base Case</span></span>
+<span><span class="co">#&gt; 2      M  Lower  Lower Natural Mortality</span></span>
+<span><span class="co">#&gt; 3      M Higher Higher Natural Mortality</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Design`</span> ──</span></span>
+<span><span class="co">#&gt;             M</span></span>
+<span><span class="co">#&gt; Base     Base</span></span>
+<span><span class="co">#&gt; Lower   Lower</span></span>
+<span><span class="co">#&gt; Higher Higher</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">`Preset`</span> ──</span></span>
+<span><span class="co">#&gt; ── All</span></span>
+<span><span class="co">#&gt; 1</span></span>
+<span><span class="co">#&gt; 2</span></span>
+<span><span class="co">#&gt; 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Base </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 1</span></span></code></pre></div>
 <p>The <code>Check</code> function can be used to make sure there are no
 errors:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"OMs"</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span></code></pre></div>
 <p>Once the <code>OMs</code> object is complete, it can be added to the
 <code>Slick</code> object:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">oms</span></span></code></pre></div>
 </div>
 </div>
@@ -574,7 +674,7 @@ errors:</p>
 <p>Information for the <em>Time Series</em> plot is stored in a <a href="../reference/Timeseries-class.html">Timeseries Object</a>.</p>
 <p>A <em>Timeseries Object</em> can be created using the
 <code>Timeseries</code> function:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timeseries</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Timeseries-methods.html">Timeseries</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="code-label-and-description-1">Code, Label, and Description<a class="anchor" aria-label="anchor" href="#code-label-and-description-1"></a>
@@ -584,17 +684,17 @@ errors:</p>
 can be used to add the metadata information to a Timeseries Object.</p>
 <p>In this example there are three performance indicators for the
 Timeseries Object:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI 1'</span>, <span class="st">'PI 2'</span>, <span class="st">'PI 3'</span><span class="op">)</span>,</span>
-<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Perf. Ind. 1'</span>, <span class="st">'Perf. Ind. 2'</span>, <span class="st">'Perf. Ind. 3'</span><span class="op">)</span>,</span>
-<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description of PI 1'</span>,</span>
-<span>                <span class="st">'This is the description of PI 2'</span>,</span>
-<span>                <span class="st">'This is the description of PI 3'</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span>, <span class="st">'Removals'</span><span class="op">)</span>,</span>
+<span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span>, <span class="st">'Removals'</span><span class="op">)</span>,</span>
+<span>  Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Spawning biomass relative to equilibrium spawning biomass corresponding with maximum sustainable yield (MSY)'</span>,</span>
+<span>                <span class="st">'Fishing mortality relative to F_MSY'</span>,</span>
+<span>                <span class="st">'Removals (Landings + Discards)'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "PI 1" "PI 2" "PI 3"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "SB/SBMSY" "F/FMSY"   "Removals"</span></span></code></pre></div>
 <p>All plotting functions support <a href="#multilanguage">Multi-Language Support</a> for the Metadata
 information.</p>
 </div>
@@ -602,86 +702,267 @@ information.</p>
 <h3 id="time-timenow-and-timelab">Time, TimeNow, and TimeLab<a class="anchor" aria-label="anchor" href="#time-timenow-and-timelab"></a>
 </h3>
 <p>The <code>Time</code> slot in the Timeseries Object is a numeric
-vector with the values for the historical and projection time-steps:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1980</span><span class="op">:</span><span class="fl">2040</span></span></code></pre></div>
+vector with the values for the historical and projection time-steps. In
+this example, we have 50 historical years and 50 projection years:</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2024</span>, by<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code>TimeNow</code> is a numeric value matching the last historical
-time step in <code>Time</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+time step (i.e., current time) in <code>Time</code>:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">2024</span></span></code></pre></div>
 <p><code>TimeLab</code> is a character string providing the name of the
 time step in <code>Time</code>. A named list can be used for <a href="#multilanguage">Multi-Language Support</a>:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeLab.html">TimeLab</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Year'</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a>
 </h3>
-<p><code>Value</code> is an array containing the values of the
-performance indicators for each OM and MP in the Slick Object.</p>
+<p><code>Value</code> is a 5-dimensional array containing the values of
+the performance indicators for each simulation, OM, MP, performance
+indicator, and time-step (historical and projection):</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This chunk of code calculates the three performance indicators for
+each OM from the <code>openMSE</code> results generated above. You can
+ignore it if you have your own MSE data.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SB/SBMSY</span></span>
+<span><span class="va">SB_SBMSY_Base</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SSB_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                   <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SSB</span>,</span>
+<span>                   along<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">SSBMSY</span></span>
+<span></span>
+<span><span class="va">SB_SBMSY_LowM</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SSB_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                               <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SSB</span>,</span>
+<span>                              along<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">SSBMSY</span></span>
+<span></span>
+<span><span class="va">SB_SBMSY_HighM</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SSB_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                               <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SSB</span>,</span>
+<span>                               along<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">SSBMSY</span></span>
+<span></span>
+<span><span class="co"># F/FMSY</span></span>
+<span><span class="va">F_FMSY_Base</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_Base</span><span class="op">@</span><span class="va">FM_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                            <span class="va">MSE_Base</span><span class="op">@</span><span class="va">FM</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">FMSY</span></span>
+<span></span>
+<span><span class="va">F_FMSY_LowM</span>  <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">FM_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                             <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">FM</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">FMSY</span></span>
+<span></span>
+<span><span class="va">F_FMSY_HighM</span>  <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">FM_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                              <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">FM</span><span class="op">)</span><span class="op">/</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">RefPoint</span><span class="op">$</span><span class="va">FMSY</span></span>
+<span></span>
+<span><span class="co"># Removals</span></span>
+<span><span class="va">Removals_Base</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">Hist</span><span class="op">@</span><span class="va">TSdata</span><span class="op">$</span><span class="va">Removals</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="va">sum</span><span class="op">)</span><span class="op">)</span></span>
+<span>                              <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                              <span class="va">MSE_Base</span><span class="op">@</span><span class="va">Removals</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Removals_LowM</span>  <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">Hist</span><span class="op">@</span><span class="va">TSdata</span><span class="op">$</span><span class="va">Removals</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="va">sum</span><span class="op">)</span><span class="op">)</span></span>
+<span>                               <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                               <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">Removals</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Removals_HighM</span>  <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">Hist</span><span class="op">@</span><span class="va">TSdata</span><span class="op">$</span><span class="va">Removals</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="va">sum</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">Removals</span><span class="op">)</span></span></code></pre></div>
+<p>Once the performance indicators have been calculated for the Time
+Series plot, they can be added to the <code>Value</code> slot:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SB/SBMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">SB_SBMSY_Base</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">SB_SBMSY_LowM</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">SB_SBMSY_HighM</span></span>
+<span></span>
+<span><span class="co"># F/FMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">F_FMSY_Base</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">F_FMSY_LowM</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">F_FMSY_HighM</span></span>
+<span></span>
+<span><span class="co"># Removals</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">3</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Removals_Base</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">3</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Removals_LowM</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">3</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Removals_HighM</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="preset-2">Preset<a class="anchor" aria-label="anchor" href="#preset-2"></a>
 </h3>
+<p>Each plotting object has a <code>Preset</code> slot. However, this
+feature is not currently supported for <code>Timeseries</code>
+plots.</p>
 </div>
 <div class="section level3">
 <h3 id="target-and-limit">Target and Limit<a class="anchor" aria-label="anchor" href="#target-and-limit"></a>
 </h3>
-</div>
-<div class="section level3">
-<h3 id="plotting-the-timeseries-object">Plotting the Timeseries Object<a class="anchor" aria-label="anchor" href="#plotting-the-timeseries-object"></a>
-</h3>
+<p><code>Target</code> and <code>Limit</code> are optional. They are
+used to provide horizontal lines on the time series plot indicating the
+target and limit (if applicable) for a performance indicator. The color
+and labels can be</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Target.html">Target</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.8</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Target.html">Limit</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adding-timeseries-object-to-slick-object">Adding Timeseries Object to Slick Object<a class="anchor" aria-label="anchor" href="#adding-timeseries-object-to-slick-object"></a>
 </h3>
+<p>Once the Timeseries Object is complete it can be checked:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Timeseries"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span></code></pre></div>
+<p>and then added to our Slick Object:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Timeseries-methods.html">Timeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">timeseries</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="testing-the-app">Testing the App<a class="anchor" aria-label="anchor" href="#testing-the-app"></a>
+<h3 id="plotting-the-timeseries-object">Plotting the Timeseries Object<a class="anchor" aria-label="anchor" href="#plotting-the-timeseries-object"></a>
 </h3>
-</div>
-</div>
-<div class="section level2">
-<h2 id="boxplot">
-<code>Boxplot</code><a class="anchor" aria-label="anchor" href="#boxplot"></a>
-</h2>
-<p><code>Code</code>, <code>Label</code>, and <code>Value</code> are
-required.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI 1'</span>, <span class="st">'PI 2'</span>, <span class="st">'PI 3'</span><span class="op">)</span>,</span>
-<span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Perf. Ind. 1'</span>, <span class="st">'Perf. Ind. 2'</span>, <span class="st">'Perf. Ind. 3'</span><span class="op">)</span>,</span>
-<span>                   Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description of PI 1'</span>,</span>
-<span>                                 <span class="st">'This is the description of PI 2'</span>,</span>
-<span>                                 <span class="st">'This is the description of PI 3'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><code>Value</code> is a numeric array containing the values of the
-performance indicators included in the <code>Boxplot</code> object.
-<code>Value</code> must have dimensions
-<code>c(nsim, nOM, nMP, nPI)</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<p>The <code>plotTimeseries</code> function is used to generate the Time
+Series plot:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="co"># PI 1</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-1.png" width="700"></p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1E4</span><span class="op">)</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span>, <span class="co"># PI 2, no quantiles</span></span>
+<span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-2.png" width="700"></p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>,<span class="fl">3</span>, <span class="co"># PI 3, no quantiles, no MP labels</span></span>
+<span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>               includeLabels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-3.png" width="700"></p>
+<p>The plot can be faceted by management procedure:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot2-1.png" width="700"></p>
+<p>or by operating model:</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot3-1.png" width="700"></p>
+<p>or both:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot4-1.png" width="700"></p>
+<p>See <a href="../reference/plotTimeseries.html"><code>?plotTimeseries</code></a>
+for information on more ways to modify the Time Series plot.</p>
+<p>By default, the time series values are calculated as the mean over
+the operating models. The <code>FilterSlick</code> function can be used
+to filter the Slick Object to specific OMs, MPs, or PIs.</p>
+<p>Here we are filtering to only include the Base Case OM (OM 1):</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">slick_OM1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, OMs<span class="op">=</span><span class="fl">1</span>, plot<span class="op">=</span><span class="st">'Timeseries'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-1.png" width="700"></p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span><span class="op">)</span> <span class="co"># same plot</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-2.png" width="700"></p>
+</div>
 <div class="section level3">
 <h3 id="checking-and-testing">Checking and Testing<a class="anchor" aria-label="anchor" href="#checking-and-testing"></a>
 </h3>
-<p>The <code>Slick</code> object is now complete with the minimum
-requirements:</p>
+<p>The Slick Object is now complete with the minimum requirements:</p>
 <ol style="list-style-type: decimal">
-<li>A complete <code>MPs</code> object</li>
-<li>A complete <code>OMs</code> object</li>
-<li>and at least one complete plotting object (<code>Boxplot</code> in
+<li>A complete <code>MPs</code> Object</li>
+<li>A complete <code>OMs</code> Object</li>
+<li>and at least one complete Plot Object (<code>Timeseries</code> in
 this case)</li>
 </ol>
-<p>The <code>Slick</code> object can be checked for completeness with
-the <code>Check</code> function:</p>
-<pre><code><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre>
-<p>The <code>App</code> function can be used to run the app locally.
-Passing a <code>Slick</code> object as a named argument loads the object
-directly into the App:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<p>The Slick Object can be checked for completeness with the
+<code>Check</code> function:</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Slick"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"MPs"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"OMs"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Boxplot"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Quilt"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Kobe"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Spider"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Timeseries"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Checking: <span style="color: #0000BB;">"Tradeoff"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span></code></pre></div>
+<p>and loaded directly into the <code>App</code> as a named
+argument:</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="boxplot-plot">Boxplot Plot<a class="anchor" aria-label="anchor" href="#boxplot-plot"></a>
+</h2>
+<p>The documentation for the remaining plots is briefer and assumes
+you’ve read the <a href="#time-series-plot">Time Series Plot</a>
+section.</p>
+<p>Information for the <em>Boxplot</em> is stored in a <a href="../reference/Boxplot-class.html">Boxplot Object</a>.</p>
+<p>A <em>Boxplot Object</em> can be created using the
+<code>Boxplot</code> function. Here we are populating the metadata
+directly when we create the <code>Boxplot</code> object:</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBSMY 25'</span>, <span class="st">'SB/SBSMY 50'</span>, <span class="st">'TAC 25'</span><span class="op">)</span>,</span>
+<span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY Year 25'</span>, <span class="st">'SB/SBSMY Year 50'</span>, <span class="st">'TAC Year 25'</span><span class="op">)</span>,</span>
+<span>                   Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY in the 25th projection year'</span>,</span>
+<span>                                 <span class="st">'SB/SBMSY in the last year'</span>,</span>
+<span>                                 <span class="st">'TAC in the 25th projection year'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><code>Value</code> is a numeric array containing the values of the
+performance indicators included in the <code>Boxplot</code> object.
+<code>Value</code> must have dimensions
+<code>c(nsim, nOM, nMP, nPI)</code>:</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">50</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">50</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SB_SBMSY</span><span class="op">[</span>,,<span class="fl">50</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-1.png" width="700"></p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-2.png" width="700"></p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'both'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-3.png" width="700"></p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-4.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="kobe">
@@ -719,7 +1000,7 @@ directly into the App:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
