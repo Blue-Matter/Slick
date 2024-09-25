@@ -10,6 +10,7 @@
 mod_Kobe_overall_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
     uiOutput(ns('page'))
   )
 }
@@ -17,12 +18,60 @@ mod_Kobe_overall_ui <- function(id){
 #' Kobe_overall Server Functions
 #'
 #' @noRd
-mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
-                                    nOM, nMP, nPM, parent_session,
+mod_Kobe_overall_server <- function(id, i18n,
+                                    filtered_slick,
+                                    parent_session,
                                     xvar, yvar,
-                                    window_dims){
+                                    window_dims,
+                                    Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Kobe',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      Plot_Object(kobeplot())
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
+
+    kobeplot <- reactive({
+      plotKobe(filtered_slick(),
+               xPI=xvar(),
+               yPI=yvar(),
+               TS=NA,
+               xmax=x_axis(),
+               ymax=y_axis(),
+               hist_traj =input$histline,
+               percentile=selected_quantile())
+    })
+
+
+    nOM <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        nrow(slick@OMs@Design)
+    })
+
+    nMP <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        length(slick@MPs@Code)
+    })
+
+    nPM <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        length(slick@Kobe@Code)
+    })
 
     output$page <- renderUI({
       req(filtered_slick())
@@ -45,7 +94,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
 
     plot_width_calc <- reactive({
       dd <- window_dims()
-      val <- dd[1] * 0.4
+      val <- dd[1] * 0.3
       paste0(val, 'px')
     })
 
@@ -53,20 +102,8 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
     plot_height <- plot_width_calc |> debounce(500)
 
     output$results <- renderPlot({
-      # req(filtered_slick())
-      # req(input$xaxis)
-      # req(input$yaxis)
-      slick <- filtered_slick()
-
-      Kobe_plot(slick,
-                xvar=xvar(), yvar=yvar(),
-                ts=NA,
-                xmax=x_axis(),
-                ymax=y_axis(),
-                inc_line=input$histline,
-                selected_quantile())
+      kobeplot()
     })
-
 
     output$controls <- renderUI({
       i18n <- i18n()
@@ -100,6 +137,7 @@ mod_Kobe_overall_server <- function(id, i18n, filtered_slick,
                       value=FALSE)
       )
     })
+
 
     output$showerrorbars <- reactive({
       input$show_percentiles==TRUE

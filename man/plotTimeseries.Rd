@@ -101,7 +101,7 @@ to all.}
 A \code{ggplot2} object
 }
 \description{
-Plots the historical and projected values for a performance indicator.
+Plot the historical and projected values for a performance indicator.
 }
 \details{
 If \code{byOM==FALSE} the results are shown as the mean across operating models.

@@ -356,3 +356,93 @@ plotBoxplot(slick, type='both')
 
 plotBoxplot(slick, 2, byOM=TRUE)
 
+
+## ---- kobe_create ----
+
+kobe <- Kobe(Code=c('SB/SBMSY', 'F/FMSY'),
+             Label=c('SB/SBMSY', 'F/FMSY'),
+             Description = c('Spawning biomass relative to SB_MSY',
+                             'Fishing mortality relative to F_MSY')
+)
+
+## ---- kobe_time ----
+
+Time(kobe) <- seq(2025, by=1, length.out=OM_Base@proyears)
+
+## ---- kobe_value ----
+
+nOM <- nrow(Design(slick))
+nMP <- length(Code(mps))
+nPI <- length(Code(kobe))
+nTS <- length(Time(kobe))
+
+Value(kobe) <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
+
+Value(kobe)[,1,,1,] <- MSE_Base@SB_SBMSY
+Value(kobe)[,2,,1,] <- MSE_LowM@SB_SBMSY
+Value(kobe)[,3,,1,] <- MSE_HighM@SB_SBMSY
+
+Value(kobe)[,1,,2,] <- MSE_Base@F_FMSY
+Value(kobe)[,2,,2,] <- MSE_LowM@F_FMSY
+Value(kobe)[,3,,2,] <- MSE_HighM@F_FMSY
+
+## ---- kobe_add ----
+
+Kobe(slick) <- kobe
+
+## ---- kobe_plot ----
+
+plotKobe(slick)
+
+## ---- kobe_time ----
+
+plotKobe(slick, Time=TRUE)
+
+## ---- quilt_create ----
+
+quilt <- Quilt(Code=c('PGK',
+                      'P100',
+                      'PNOF',
+                      'Mean TAC'),
+               Label=c('Prob. Green Kobe',
+                       'Prob SB>SBMSY',
+                       'Prob. Not Overfishing',
+                       'Mean Total Allowable Catch'),
+               Description = c('Probability of being in the green region of Kobe plot over the projection period',
+                               'Probability spawning biomass is greater than SB_MSY over the projection period',
+                               'Probability of not overfishing over the projection period',
+                               'Mean Total Allowable Catch over the projection period'))
+
+## ---- quilt_value ----
+
+nPI <- length(Code(quilt))
+
+Value(quilt) <- array(NA, dim=c(nOM, nMP, nPI))
+
+Value(quilt)[1,,1] <- apply(MSE_Base@SB_SBMSY > 1 & MSE_Base@F_FMSY < 1, 2, mean)
+Value(quilt)[2,,1] <- apply(MSE_LowM@SB_SBMSY > 1 & MSE_LowM@F_FMSY < 1, 2, mean)
+Value(quilt)[3,,1] <- apply(MSE_HighM@SB_SBMSY > 1 & MSE_HighM@F_FMSY < 1, 2, mean)
+
+Value(quilt)[1,,2] <- apply(MSE_Base@SB_SBMSY > 1, 2, mean)
+Value(quilt)[2,,2] <- apply(MSE_LowM@SB_SBMSY > 1, 2, mean)
+Value(quilt)[3,,2] <- apply(MSE_HighM@SB_SBMSY > 1, 2, mean)
+
+Value(quilt)[1,,3] <- apply(MSE_Base@F_FMSY < 1, 2, mean)
+Value(quilt)[2,,3] <- apply(MSE_LowM@F_FMSY < 1, 2, mean)
+Value(quilt)[3,,3] <- apply(MSE_HighM@F_FMSY < 1, 2, mean)
+
+Value(quilt)[1,,4] <- apply(MSE_Base@TAC, 2, mean)
+Value(quilt)[2,,4] <- apply(MSE_LowM@TAC, 2, mean)
+Value(quilt)[3,,4] <- apply(MSE_HighM@TAC, 2, mean)
+
+## ---- quilt_maxvalue ----
+MinValue(quilt) <- c(0,0,0,NA)
+MaxValue(quilt) <- c(1,1,1,NA)
+
+## ---- quilt_add ----
+Check(quilt)
+
+Quilt(slick) <- quilt
+
+## ---- quilt_plot ----
+

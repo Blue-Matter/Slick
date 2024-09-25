@@ -62,7 +62,7 @@ setMethod("initialize", "Quilt", function(.Object,
                                           Value=array(),
                                           Preset=list(),
                                           Color='',
-                                          MinValue=0,
+                                          MinValue=numeric(),
                                           MaxValue=numeric()
                                           ) {
   .Object@Code <- Code

@@ -62,7 +62,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
 
 
     output$page <- renderUI({
-
+      slick <- filtered_slick()
       i18n <- i18n()
       if(all(is.na(slick@Spider@Value))) {
         return(tagList('No values in object'))

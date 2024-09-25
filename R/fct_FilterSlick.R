@@ -109,7 +109,7 @@ FilterSlick <- function(slick=NULL,
     Metadata(object) <- Metadata(object)[PIs, ]
 
     if (len_dim==3) {
-      if (all(PMs<=dim_value[3]))
+      if (all(PIs<=dim_value[3]))
         Value(object) <- Value(object)[,,PIs,drop=FALSE]
     }
     if (len_dim==4) {

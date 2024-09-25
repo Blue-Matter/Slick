@@ -1,15 +1,6 @@
-# slick <- readRDS('C:/users/user/downloads/slick.slick')
-# slick <- readRDS('C:/users/user/downloads/Western Atlantic Skipjack.slick')
-# slick <- readRDS('C:/users/user/downloads/North Atlantic Swordfish (3).slick')
-# plotTimeseries(slick, PI=1)
-#
-# devtools::load_all()
-
-
-
 #' Plot `Timeseries`
 #'
-#' Plots the historical and projected values for a performance indicator.
+#' Plot the historical and projected values for a performance indicator.
 #'
 #' If `byOM==FALSE` the results are shown as the mean across operating models.
 #'
@@ -78,6 +69,8 @@ plotTimeseries <- function(slick,
                            lim_name='Limit',
                            inc_y_label=TRUE,
                            sims=NULL) {
+
+  # browser()
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -193,6 +186,17 @@ plotTimeseries <- function(slick,
 
     quant_df$MP <- factor(quant_df$MP, ordered=TRUE, levels=MP_lab)
     quant_df$OM <- factor(quant_df$OM, levels=om_names, ordered = TRUE)
+
+    # if (includeHist) {
+    #   hist_last <- Hist_df |> dplyr::filter(x==max(x)) |>
+    #     dplyr::select(x, Median, OM)
+    #   hist_last <- replicate(nMP, hist_last, simplify = FALSE)
+    #   hist_last <- do.call("rbind", hist_last)
+    #
+    #   hist_last$MP <- rep(unique(meddf$MP), each=nOM)
+    #   meddf <- dplyr::bind_rows(hist_last, meddf)
+    #
+    # }
 
     if (includeQuants) {
       if (byMP) {

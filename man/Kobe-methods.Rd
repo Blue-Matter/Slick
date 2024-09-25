@@ -20,7 +20,7 @@ Kobe(
   Value = array(),
   Preset = list(),
   Target = 1,
-  Limit = 1
+  Limit = NULL
 )
 
 Kobe(Slick) <- value
@@ -36,7 +36,7 @@ Kobe(Slick) <- value
   Value = array(),
   Preset = list(),
   Target = 1,
-  Limit = 1
+  Limit = NULL
 )
 
 \S4method{Kobe}{list}(
@@ -48,7 +48,7 @@ Kobe(Slick) <- value
   Value = array(),
   Preset = list(),
   Target = 1,
-  Limit = 1
+  Limit = NULL
 )
 
 \S4method{Kobe}{Slick}(Code)

@@ -38,7 +38,10 @@ Suggests:
     flextable,
     fresh,
     httr,
+    kable,
+    kableExtra,
     knitr,
+    magick,
     openMSE,
     shiny.i18n,
     shinyalert,
@@ -51,7 +54,8 @@ Suggests:
     shinyWidgets,
     rmarkdown,
     testthat (>= 3.0.0),
-    waiter
+    waiter,
+    webshot
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -77,7 +81,6 @@ Collate:
     'class_Spider.R'
     'class_Slick.R'
     'fct_FilterSlick.R'
-    'fct_Kobe_plot.R'
     'fct_Update.R'
     'fct_check_required_packages.R'
     'fct_check_slick.R'
@@ -86,6 +89,8 @@ Collate:
     'fct_load_casestudies.R'
     'fct_misc.R'
     'fct_plotBoxplot.R'
+    'fct_plotKobe.R'
+    'fct_plotQuilt.R'
     'fct_plotTimeseries.R'
     'fct_plots.R'
     'fct_translator.R'

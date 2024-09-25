@@ -86,7 +86,6 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     plot_details <- reactive({
       obj <- Plot_Object()
       outfile <- tempfile(fileext='.png')
-      ggplot2::ggsave(outfile, obj, width=plot_size$width, height=plot_size$height)
 
       info <- list(src = outfile,
                    contentType = 'image/png',
@@ -94,6 +93,27 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                    height = '100%',
                    alt = "",
                    deleteFile=FALSE)
+
+      if (inherits(obj, 'flextable')) {
+
+        if (!requireNamespace('magick', quietly = TRUE))
+          stop('Package `magick` required for this function')
+
+        if (!requireNamespace('webshot2', quietly = TRUE))
+          stop('Package `webshot2` required for this function')
+
+        obj <- obj |>
+          flextable::autofit() |>
+          flextable::htmltools_value()
+
+        tempfile <- tempfile(fileext='.html')
+        kableExtra::save_kable(obj, tempfile)
+        webshot2::webshot(tempfile, outfile, delay=3)
+        file.remove(tempfile)
+      } else {
+        ggplot2::ggsave(outfile, obj, width=plot_size$width, height=plot_size$height)
+      }
+
       info
     })
 
@@ -106,6 +126,15 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
       )
 
     output$displayplot <- renderUI({
+      obj <<- Plot_Object()
+      if (inherits(obj, 'flextable')) {
+        TT <<- obj |>
+          flextable::autofit() |>
+          flextable::htmltools_value()
+        print('done')
+        return(TT)
+      }
+
       t <- Plot_Info()
       if (!is.null(t)) {
         return(tagList(

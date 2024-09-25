@@ -71,6 +71,7 @@ reference:
     Plotting routines and other functions
   contents:
   - plotBoxplot
+  - plotKobe
   - plotTimeseries
 - title: 'Other'
   desc: >

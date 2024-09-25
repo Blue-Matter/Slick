@@ -17,7 +17,7 @@ Quilt(
   Value = array(),
   Preset = list(),
   Color = c("white", "darkblue"),
-  MinValue = 0,
+  MinValue = as.numeric(NA),
   MaxValue = as.numeric(NA)
 )
 
@@ -32,7 +32,7 @@ Quilt(Slick) <- value
   Value = array(),
   Preset = list(),
   Color = c("white", "darkblue"),
-  MinValue = 0,
+  MinValue = as.numeric(NA),
   MaxValue = as.numeric(NA)
 )
 

@@ -46,11 +46,9 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
 
     observeEvent(button_pushed(), {
       Plot_Object(timeseriesplot())
-
       if(!inherits(Plot_Object(), 'NULL'))
         shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
     })
-
 
     plot_width_calc <- reactive({
       dd <- window_dims()
@@ -90,7 +88,8 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       if (is.null(yrange()))
         return(NULL)
 
-      plotTimeseries(timeseries(), pm_ind(),
+      plotTimeseries(timeseries(),
+                     pm_ind(),
                      byOM=TRUE,
                      includeQuants =includeQuants(),
                      includeLabels =includeLabels(),
@@ -98,17 +97,12 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
         ggplot2::coord_cartesian(ylim=yrange())
 
 
-
     })
-
-
-
 
     values <- reactive({
       filtered_slick() |>
         Timeseries() |>
         Value()
-
     })
 
     sims <- reactive({

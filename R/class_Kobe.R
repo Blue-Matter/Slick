@@ -69,7 +69,7 @@ setMethod("initialize", "Kobe", function(.Object,
                                          TimeLab='Year',
                                          Value=array(),
                                          Preset=list(),
-                                         Target=1,
+                                         Target=NULL,
                                          Limit=NULL,
                                          Defaults=list('overall')) {
   .Object@Code <- Code
@@ -106,6 +106,7 @@ setMethod("Kobe", 'missing', function() new('Kobe'))
 setMethod("Kobe", c('character'),
           function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit)
             new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit))
+
 
 #' @describeIn Kobe-methods Create a populated `Kobe` object
 setMethod("Kobe", c('list'),

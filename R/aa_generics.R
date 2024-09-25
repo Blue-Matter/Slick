@@ -256,7 +256,7 @@ setGeneric("Kobe", function(Code='',
                             Value=array(),
                             Preset=list(),
                             Target=1,
-                            Limit=1) standardGeneric("Kobe"))
+                            Limit=NULL) standardGeneric("Kobe"))
 
 
 
@@ -475,7 +475,7 @@ setGeneric("Quilt", function(Code='',
                              Value=array(),
                              Preset=list(),
                              Color=c('white', 'darkblue'),
-                             MinValue=0,
+                             MinValue=as.numeric(NA),
                              MaxValue=as.numeric(NA)) standardGeneric('Quilt'))
 
 
