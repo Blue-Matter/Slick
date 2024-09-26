@@ -10,8 +10,6 @@ check_required_packages <- function() {
                     'kable',
                     'kableExtra',
                     'knitr',
-                    'magick',
-                    'MSEtool',
                     'shiny',
                     'shiny.i18n',
                     'shinyalert',
@@ -23,8 +21,7 @@ check_required_packages <- function() {
                     'shinyjs',
                     'shinyWidgets',
                     'rmarkdown',
-                    'waiter',
-                    'webshot')
+                    'waiter')
 
   checks <- lapply(app_packages, requireNamespace, quietly = TRUE) |> unlist()
   df <- data.frame(Package=app_packages, Installed=checks) |>

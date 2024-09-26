@@ -38,10 +38,8 @@ Suggests:
     flextable,
     fresh,
     httr,
-    kable,
     kableExtra,
     knitr,
-    magick,
     openMSE,
     shiny.i18n,
     shinyalert,
@@ -54,8 +52,7 @@ Suggests:
     shinyWidgets,
     rmarkdown,
     testthat (>= 3.0.0),
-    waiter,
-    webshot
+    waiter
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
