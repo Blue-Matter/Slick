@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/DevelopersGuide: DevelopersGuide.html
-last_built: 2024-09-25T16:09Z
+last_built: 2024-09-26T03:41Z
 urls:
   reference: https://blue-matter.github.io/Slick/reference
   article: https://blue-matter.github.io/Slick/articles
