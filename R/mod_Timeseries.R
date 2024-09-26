@@ -26,11 +26,6 @@ mod_Timeseries_ui <- function(id){
                                      img(src='www/img/Line.jpg', width="100%"),
                                      uiOutput(ns('picker')),
                                      uiOutput(ns('y_range')),
-                                     fluidRow(
-                                       column(4,uiOutput(ns('includeQuantile'))),
-                                       column(4,uiOutput(ns('includeLabels'))),
-                                       column(4,uiOutput(ns('includeHist')))
-                                     ),
                                      mod_Page_Filter_ui(ns("timeseriesfilter"))
                               ),
                               column(9,
@@ -98,6 +93,11 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     output$plots <- renderUI({
       tagList(
+        fluidRow(
+          column(4,uiOutput(ns('includeQuantile'))),
+          column(4,uiOutput(ns('includeLabels'))),
+          column(4,uiOutput(ns('includeHist')))
+        ),
         conditionalPanel("input.plotselect=='overall'", ns=ns,
                          mod_Timeseries_overall_ui(ns("Timeseries_overall_1"))
         ),

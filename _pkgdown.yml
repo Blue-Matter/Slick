@@ -73,6 +73,7 @@ reference:
   - plotBoxplot
   - plotKobe
   - plotQuilt
+  - plotSpider
   - plotTimeseries
 - title: 'Other'
   desc: >

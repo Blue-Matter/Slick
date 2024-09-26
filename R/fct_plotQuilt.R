@@ -100,8 +100,9 @@ plotQuilt <- function(slick, MP_label='Code', minmax=FALSE, shading=TRUE,
       shading_list[[i]]$cuts <- seq(minVal[i], maxVal[i], length.out=11)
       shading_list[[i]]$levels <- cut(Values[,i],
                                       breaks= shading_list[[i]]$cuts, include.lowest=TRUE) |> as.numeric()
-      shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
-                                                     n=length( shading_list[[i]]$cuts)+1, alpha=alpha))
+      shading_list[[i]]$values <- colorRampAlpha(Color(quilt),
+                                                     n=length( shading_list[[i]]$cuts)+1,
+                                                 alpha=alpha)
     }
   }
 

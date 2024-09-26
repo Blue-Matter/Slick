@@ -446,3 +446,43 @@ Quilt(slick) <- quilt
 
 ## ---- quilt_plot ----
 
+plotQuilt(slick)
+plotQuilt(slick, kable = TRUE, minmax = TRUE, shading=FALSE)
+
+
+## ---- spider_create ----
+
+spider <- Spider(Code=c('P100',
+                      'P50',
+                      'PNOF'),
+               Label=c('Prob SB>SBMSY',
+                       'Prob SB>0.5SBMSY',
+                       'Prob. Not Overfishing'),
+               Description = c('Probability spawning biomass is greater than SB_MSY over the projection period',
+                               'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period',
+                               'Probability of not overfishing over the projection period'))
+
+
+## ---- spider_value ----
+
+nPI <- length(Code(spider))
+
+Value(spider) <- array(NA, dim=c(nOM, nMP, nPI))
+
+Value(spider)[1,,1] <- apply(MSE_Base@SB_SBMSY > 1 & MSE_Base@F_FMSY < 1, 2, mean)
+Value(spider)[2,,1] <- apply(MSE_LowM@SB_SBMSY > 1 & MSE_LowM@F_FMSY < 1, 2, mean)
+Value(spider)[3,,1] <- apply(MSE_HighM@SB_SBMSY > 1 & MSE_HighM@F_FMSY < 1, 2, mean)
+
+Value(spider)[1,,2] <- apply(MSE_Base@SB_SBMSY > 0.5, 2, mean)
+Value(spider)[2,,2] <- apply(MSE_LowM@SB_SBMSY > 0.5, 2, mean)
+Value(spider)[3,,2] <- apply(MSE_HighM@SB_SBMSY > 0.5, 2, mean)
+
+Value(spider)[1,,3] <- apply(MSE_Base@F_FMSY < 1, 2, mean)
+Value(spider)[2,,3] <- apply(MSE_LowM@F_FMSY < 1, 2, mean)
+Value(spider)[3,,3] <- apply(MSE_HighM@F_FMSY < 1, 2, mean)
+
+
+## ---- spider_add ----
+
+## ---- spider_plot ----
+

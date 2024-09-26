@@ -230,7 +230,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     output$colortext <- renderUI({
       i18n <- i18n()
       hightxt <- i18n$t("highest value")
-      lowtxt <- i18n$t("lowest value")
+      lowtxt <- i18n$t(" lowest value ")
       HTML(paste(i18n$t('The color shading indicates values ranging between the'),
                  span(hightxt, style=highcolorstyle()),
                  i18n$t('to the'),
