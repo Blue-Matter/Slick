@@ -72,6 +72,7 @@ reference:
   contents:
   - plotBoxplot
   - plotKobe
+  - plotQuilt
   - plotTimeseries
 - title: 'Other'
   desc: >
