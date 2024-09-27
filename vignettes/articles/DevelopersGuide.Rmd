@@ -558,9 +558,71 @@ A *Boxplot Object* can be created using the `Boxplot` function. Here we are popu
 
 # `Kobe`
 
+```{r kobe_create}
+
+```
+
+```{r kobe_time}
+
+```
+
+```{r kobe_value}
+
+```
+
+```{r kobe_add}
+
+```
+
+```{r kobe_plot}
+
+```
+
+
+```{r kobe_time}
+
+```
+
 # `Quilt`
 
+```{r quilt_create}
+
+```
+
+```{r quilt_value}
+
+```
+
+```{r quilt_maxvalue}
+
+```
+
+```{r quilt_add}
+
+```
+
+```{r quilt_plot}
+
+```
+
 # `Spider`
+
+```{r spider_create}
+
+```
+
+```{r spider_value}
+
+```
+
+```{r spider_add}
+
+```
+
+```{r spider_plot}
+
+```
+
 
 ## `Tradeoff`
 

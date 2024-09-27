@@ -454,13 +454,16 @@ plotQuilt(slick, kable = TRUE, minmax = TRUE, shading=FALSE)
 
 spider <- Spider(Code=c('P100',
                       'P50',
-                      'PNOF'),
+                      'PNOF',
+                      'Yield'),
                Label=c('Prob SB>SBMSY',
                        'Prob SB>0.5SBMSY',
-                       'Prob. Not Overfishing'),
+                       'Prob. Not Overfishing',
+                       'Prob. Mean Yield > 50%'),
                Description = c('Probability spawning biomass is greater than SB_MSY over the projection period',
                                'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period',
-                               'Probability of not overfishing over the projection period'))
+                               'Probability of not overfishing over the projection period',
+                               'Probability mean yield is greater than 50% of the reference yield'))
 
 
 ## ---- spider_value ----
@@ -469,20 +472,35 @@ nPI <- length(Code(spider))
 
 Value(spider) <- array(NA, dim=c(nOM, nMP, nPI))
 
-Value(spider)[1,,1] <- apply(MSE_Base@SB_SBMSY > 1 & MSE_Base@F_FMSY < 1, 2, mean)
-Value(spider)[2,,1] <- apply(MSE_LowM@SB_SBMSY > 1 & MSE_LowM@F_FMSY < 1, 2, mean)
-Value(spider)[3,,1] <- apply(MSE_HighM@SB_SBMSY > 1 & MSE_HighM@F_FMSY < 1, 2, mean)
+Value(spider)[1,,1] <- MSEtool::P100(MSE_Base)@Mean
+Value(spider)[2,,1] <- MSEtool::P100(MSE_LowM)@Mean
+Value(spider)[3,,1] <- MSEtool::P100(MSE_HighM)@Mean
 
-Value(spider)[1,,2] <- apply(MSE_Base@SB_SBMSY > 0.5, 2, mean)
-Value(spider)[2,,2] <- apply(MSE_LowM@SB_SBMSY > 0.5, 2, mean)
-Value(spider)[3,,2] <- apply(MSE_HighM@SB_SBMSY > 0.5, 2, mean)
+Value(spider)[1,,2] <- MSEtool::P50(MSE_Base)@Mean
+Value(spider)[2,,2] <- MSEtool::P50(MSE_LowM)@Mean
+Value(spider)[3,,2] <- MSEtool::P50(MSE_HighM)@Mean
 
-Value(spider)[1,,3] <- apply(MSE_Base@F_FMSY < 1, 2, mean)
-Value(spider)[2,,3] <- apply(MSE_LowM@F_FMSY < 1, 2, mean)
-Value(spider)[3,,3] <- apply(MSE_HighM@F_FMSY < 1, 2, mean)
+Value(spider)[1,,3] <- MSEtool::PNOF(MSE_Base)@Mean
+Value(spider)[2,,3] <- MSEtool::PNOF(MSE_LowM)@Mean
+Value(spider)[3,,3] <- MSEtool::PNOF(MSE_HighM)@Mean
 
+
+Value(spider)[1,,4] <- MSEtool::LTY(MSE_Base)@Mean
+Value(spider)[2,,4] <- MSEtool::LTY(MSE_LowM)@Mean
+Value(spider)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
 
 ## ---- spider_add ----
+Spider(slick) <- spider
+
 
 ## ---- spider_plot ----
 
+plotSpider(slick)
+
+plotSpider(slick, byMP=TRUE)
+
+plotSpider(slick, byOM=TRUE)
+
+# TT <- slick
+#
+# slick <- readRDS('C:/users/adrian/downloads/Western Atlantic Skipjack Tuna.slick')
