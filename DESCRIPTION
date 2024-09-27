@@ -88,6 +88,7 @@ Collate:
     'fct_plotBoxplot.R'
     'fct_plotKobe.R'
     'fct_plotQuilt.R'
+    'fct_plotSpider.R'
     'fct_plotTimeseries.R'
     'fct_plots.R'
     'fct_translator.R'
