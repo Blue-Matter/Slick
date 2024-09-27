@@ -7,7 +7,6 @@ check_required_packages <- function() {
                     'flextable',
                     'fresh',
                     'golem',
-                    'kable',
                     'kableExtra',
                     'knitr',
                     'shiny',
