@@ -499,7 +499,7 @@ plotSpider(slick)
 
 plotSpider(slick, byMP=TRUE)
 
-plotSpider(slick, byOM=TRUE)
+plotSpider(slick, byOM=TRUE, incMean = FALSE)
 
 # TT <- slick
 #

@@ -62,7 +62,8 @@ plotSpider <- function(slick,
                                 size.mp.label, size.mean,
                                 size.max.value,
                                 fill=fill,
-                                incMax)
+                                incMax,
+                                incMean)
 
       plot_list <- plot_list[ord]
       plot_list[[1]] <- plot_list[[1]] +
@@ -92,7 +93,8 @@ plotSpider <- function(slick,
                                 size.mp.label, size.mean,
                                size.max.value,
                                fill,
-                               incMax)
+                               incMax,
+                               incMean)
       p <- patchwork::wrap_plots(plot_list, ncol=ncol)
 
 
@@ -120,7 +122,8 @@ spider_by_MP <- function(df, mp_labels,
                          size.mean,
                          size.max.value,
                          fill,
-                         incMax) {
+                         incMax,
+                         incMean) {
   meanMP <- apply(df[,-1], 1, mean, na.rm=TRUE)
   plot_list <- list()
 
