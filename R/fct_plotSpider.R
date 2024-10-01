@@ -1,3 +1,98 @@
+
+# plotSpider(slick)
+#
+# plotSpider(slick, byMP=TRUE)
+#
+# plotSpider(slick, byMP = TRUE)
+#
+# plotSpider(slick, byOM = TRUE)
+#
+
+normalize <- function(x) {
+  return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
+}
+
+calcCoord <- function(vert, pm) {
+  flipy <- flipx <- FALSE
+  if (vert[1]< 0) {
+    flipx <- TRUE
+    vert[1] <- abs(vert[1])
+  }
+
+  if (vert[2] < 0) {
+    flipy <- TRUE
+    vert[2] <- abs(vert[2])
+  }
+
+  theta <- atan(vert[2]/vert[1])
+  y <- sin(theta) * pm
+  if (flipy) y <- -y
+  x <- sqrt(pm^2 - y^2)
+  if (flipx) x <- -x
+  data.frame(x,y)
+}
+
+
+polyCoords <- function(n){
+  # https://stackoverflow.com/a/29172340/2885462
+  sq<-2*3.141593*(0:n)/n
+  cbind(sin(sq),cos(sq))
+}
+
+
+
+
+
+
+# borrowed and modified from TeachingDemos::shadowtext
+shadowtext <- function(x, y=NULL, labels, col='white', bg='black',
+         theta= seq(pi/32, 2*pi, length.out=64), r=0.1, cex=1, ... ) {
+
+  xy <- grDevices::xy.coords(x,y)
+  fx <- graphics::grconvertX(xy$x, to='nfc')
+  fy <- graphics::grconvertY(xy$y, to='nfc')
+  fxo <- r*graphics::strwidth('A', units='figure', cex=cex)
+  fyo <- r*graphics::strheight('A', units='figure', cex=cex)
+
+  for (i in theta) {
+    text(graphics::grconvertX(fx + cos(i)*fxo, from="nfc"),
+         graphics::grconvertY(fy + sin(i)*fyo, from="nfc"),
+         labels, cex=cex, col=bg, ...)
+  }
+  text(xy$x, xy$y, labels, cex=cex, col=col, ... )
+}
+
+
+Spider_outline <- function(nPI,
+                           grid.fill='#f2f3f5',
+                           grid.line='black',
+                           pt.col='darkgrey',
+                           text.col='white',
+                           maxVal=101,
+                           pt.cex=5,
+                           inc.grid=TRUE,
+                           PI.labels=TRUE) {
+
+  vertices <- polyCoords(nPI) * maxVal
+  if (!inc.grid)
+    grid.line <- NA
+  plot(vertices, type="l", col=grid.line, axes=FALSE, xlab="", ylab="", xpd=NA)
+
+  if (!is.na(grid.fill))
+    polygon(vertices, col=grid.fill, border=grid.line)
+
+  lines(vertices*0.66, type="l", col=grid.line, xpd=NA)
+  lines(vertices*0.33, type="l", col=grid.line, xpd=NA)
+  for (i in 1:(nrow(vertices)-1)) {
+    lines(x=c(0, vertices[i,1]),
+          y=c(0, vertices[i,2]), col=grid.line)
+    if (PI.labels) {
+      points(x=vertices[i,1], y=vertices[i,2], pch=16, col=pt.col, cex=pt.cex, xpd=NA)
+      text(x=vertices[i,1], y=vertices[i,2], col=text.col, LETTERS[i], xpd=NA)
+    }
+  }
+}
+
 #' Plot `Spider`
 #'
 #' A Spider or Radar plot
@@ -12,18 +107,32 @@
 plotSpider <- function(slick,
                        byOM=FALSE,
                        byMP=FALSE,
-                       incMean=FALSE,
-                       incMax=FALSE,
+                       incMean=TRUE,
+                       incMax=TRUE,
+                       relScale=FALSE,
                        size.pi.label=6,
                        size.mean=4,
                        size.mp.label=16,
                        size.max.value=4,
                        size.om.title=5,
                        col.om.title="#D6501C",
-                       relScale=FALSE,
-                       fill=byMP|byOM,
+                       cex.om.title=2,
+                       col.Mean="white",
+                       bg.Mean='black',
+                       grid.fill='#f2f3f5',
+                       grid.line='black',
+                       fill=byMP|all(byOM),
+                       inc.grid=TRUE,
+                       PI.labels=!(byMP|all(byOM)),
                        MP_label='Code',
-                       ncol=4) {
+                       mp.lwd=3,
+                       alpha=0.3,
+                       ncol=4,
+                       pm.avg.cex=2.2,
+                       incMPtitle=byMP,
+                       mplab.cex=2.2,
+                       max.pt.cex=2,
+                       max.pt.col='darkred') {
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -40,80 +149,259 @@ plotSpider <- function(slick,
   if (!chk@complete)
     cli::cli_abort('`Spider` in this `Slick` object is incomplete. Use  {.code Check(slick)}')
 
-  if (byOM) {
-    Values <-  Value(spider)
-    dd <- dim(Values)
-    nOM <- dd[1]
-    nMP <- dd[2]
-    nPI <- dd[3]
+  Values <-  Value(spider)
+  maxVal <- max(Values)
+  minVal <- min(Values)
+  if (minVal<0)
+    cli::cli_abort('PI Values cannot be negative')
+  if (maxVal<=1) {
+    Values <- Values * 100
+  }
+  if (max(Values)>100) {
+    cli::cli_abort('PI Values cannot be >100')
+  }
+  nOM <- dim(Values)[1]
 
-    om_names <- rownames(slick@OMs@Design)
-    om_list <- list()
-    for (om in 1:nOM) {
-      df <- data.frame(Values[om,,])
-      meanMP <- apply(df[,-1], 1, mean, na.rm=TRUE)
-      ord <- order(meanMP, decreasing =TRUE)
-      colnames(df) <-  toupper(letters[seq_along(spider@Code)])
-      df <- df |> dplyr::mutate(MP=slick@MPs@Code) |>
-        dplyr::select(MP, toupper(letters[seq_along(spider@Code)]))
+  if (!all(byOM)) {
+    Values <- Values |> apply(2:3, mean, na.rm=TRUE)
 
-      plot_list <- spider_by_MP(df, mp_labels='', mp_colors,
-                                size.pi.label=0,
-                                size.mp.label, size.mean,
-                                size.max.value,
-                                fill=fill,
-                                incMax,
-                                incMean)
-
-      plot_list <- plot_list[ord]
-      plot_list[[1]] <- plot_list[[1]] +
-        ggplot2::labs(title=om_names[om]) +
-        ggplot2::theme(title = ggplot2::element_text(size=size.om.title,
-                                                     color=col.om.title))
-
-      om_list[[om]] <- patchwork::wrap_plots(plot_list, ncol=1)
-
+    if (relScale) {
+      Values <- apply(Values, 2, normalize) * 100
+      Values[!is.finite(Values)] <- 100
     }
 
-    p <- patchwork::wrap_plots(om_list, ncol=min(5,nOM))
-
-  } else {
-    Values <- Value(spider) |> apply(2:3, mean, na.rm=TRUE)
     nMP <- nrow(Values)
     nPI <- ncol(Values)
 
-    df <- data.frame(Values)
-    colnames(df) <-  toupper(letters[seq_along(spider@Code)])
-    df <- df |> dplyr::mutate(MP=slick@MPs@Code) |>
-      dplyr::select(MP, toupper(letters[seq_along(spider@Code)]))
+    vertices <- polyCoords(nPI) * 100
 
+    # df <- data.frame(Values)
+    # colnames(df) <-  toupper(letters[seq_along(spider@Code)])
+    # df <- df |> dplyr::mutate(MP=slick@MPs@Code) |>
+    #   dplyr::select(MP, toupper(letters[seq_along(spider@Code)]))
+
+    if (!byMP) {
+      par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
+      Spider_outline(nPI, grid.fill, grid.line, inc.grid = inc.grid,
+                     PI.labels = PI.labels)
+      for (i in 1:nMP) {
+        coords <- NULL
+        for (j in 1:nPI) {
+          pts <- calcCoord(vertices[j,], Values[i,j])
+          coords <- rbind(coords, pts )
+        }
+        coords <- rbind(coords, coords[1,])
+        if (fill)
+          polygon(coords, col=grDevices::adjustcolor(mp_colors[i], alpha),
+                  border=mp_colors[i])
+        lines(coords, col=mp_colors[i], lwd=mp.lwd)
+      }
+    }
     if (byMP) {
-      plot_list <- spider_by_MP(df, mp_labels, mp_colors,
-                                size.pi.label=0,
-                                size.mp.label, size.mean,
-                               size.max.value,
-                               fill,
-                               incMax,
-                               incMean)
-      p <- patchwork::wrap_plots(plot_list, ncol=ncol)
+      n.row <- ceiling(nMP/ncol)
+      n.col <- ceiling(nMP/n.row)
 
+      par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
 
-    } else {
+      for (i in 1:nMP) {
+        Spider_outline(nPI, grid.fill, grid.line, inc.grid = inc.grid,
+                       PI.labels = PI.labels)
 
-      p <- suppressWarnings(myggradar(df, group.point.size=0,
-                     draw.points = FALSE,
-                     values.radar='',
-                     group.colours=mp_colors,
-                     fill=fill,
-                     plot.legend=FALSE))
+        coords <- NULL
+        for (j in 1:nPI) {
+          pts <- calcCoord(vertices[j,], Values[i,j])
+          coords <- rbind(coords, pts )
+        }
+        coords <- rbind(coords, coords[1,])
+        if (fill)
+          polygon(coords, col=mp_colors[i],
+                  border=mp_colors[i])
 
+        #lines(coords, col=mp_colors[i], lwd=mp.lwd)
 
+        if (incMax) {
+          max.ind <- which(Values[i,] == max(Values[i,]))
+          if (length(max.ind)>0) {
+            points(coords[max.ind,], cex=max.pt.cex, col=max.pt.col, pch=16)
+          }
+        }
 
+        if (incMean) {
+          mp.avg <- mean(Values[i,], na.rm=TRUE)
+          shadowtext(0,0, round(mp.avg), col=col.Mean, bg=bg.Mean, cex=pm.avg.cex)
+        }
+        if (incMPtitle)
+          text(0, 100, mp_labels[i], xpd=NA, col='black', cex=mplab.cex,
+               pos=3)
+
+      }
     }
   }
-  suppressWarnings(p)
+
+
+  if (all(byOM)) {
+    if (is.numeric(byOM))
+      om <- byOM
+    if (is.logical(byOM))
+      om <- 1:nOM
+
+    OM_names <- rownames(slick@OMs@Design)
+
+    dd <- dim(Values)
+    nMP <- dd[2]
+    nPI <- dd[3]
+    nOM <- length(om)
+
+    par(mfcol=c(nMP, nOM), oma=c(0,0,2.2,0), mar=c(1,1,1,1), bg='#F8F8F8')
+
+    for (o in om) {
+      values <- Values[o,,]
+      mean_over_MPs <- apply(values, 1, mean, na.rm=TRUE)
+      MP_order <- rev(order(mean_over_MPs))
+
+      if (relScale) {
+        values <- apply(values, 2, normalize) * 100
+        values[!is.finite(values)] <- 100
+      }
+
+      vertices <- polyCoords(nPI) * 100
+
+      if (all(is.finite(vertices))) {
+        for (i in MP_order) {
+          Spider_outline(nPI, grid.fill, grid.line, inc.grid = inc.grid,
+                         PI.labels = PI.labels)
+          if (i == MP_order[1])
+            mtext(OM_names[o], side=3, outer=FALSE,
+                  col=col.om.title, cex=cex.om.title)
+
+          coords <- NULL
+          for (j in 1:nPI) {
+            pts <- calcCoord(vertices[j,], values[i,j])
+            coords <- rbind(coords, pts )
+          }
+          coords <- rbind(coords, coords[1,])
+          if (fill)
+            polygon(coords, col=mp_colors[i],
+                    border=mp_colors[i])
+
+          if (incMax) {
+            max.ind <- which(values[i,] == max(values[i,]))
+            if (length(max.ind)>0) {
+              points(coords[max.ind,], cex=max.pt.cex, col=max.pt.col, pch=16)
+            }
+          }
+
+          if (incMean) {
+            mp.avg <- mean(values[i,], na.rm=TRUE)
+            shadowtext(0,0, round(mp.avg), col=col.Mean, bg=bg.Mean, cex=pm.avg.cex)
+          }
+        }
+      }
+    }
+  }
 }
 
+
+
+
+
+
+
+
+
+
+
+############################### GGPLOT VERSION ################################
+# NOT CURRENTLY USED
+# SLOW FOR LOOPING OVER MPS
+
+
+#   if (byMP) {
+#     plot_list <- spider_by_MP(df, mp_labels, mp_colors,
+#                               size.pi.label=0,
+#                               size.mp.label, size.mean,
+#                               size.max.value,
+#                               fill,
+#                               incMax,
+#                               incMean)
+#     p <- patchwork::wrap_plots(plot_list, ncol=ncol)
+#
+#
+#   }
+#
+#   if (byOM) {
+#
+#     dd <- dim(Values)
+#     nOM <- dd[1]
+#     nMP <- dd[2]
+#     nPI <- dd[3]
+#
+#     om_names <- rownames(slick@OMs@Design)
+#     om_list <- list()
+#     for (om in 1:nOM) {
+#       df <- data.frame(Values[om,,])
+#       meanMP <- apply(df[,-1], 1, mean, na.rm=TRUE)
+#       ord <- order(meanMP, decreasing =TRUE)
+#       colnames(df) <-  toupper(letters[seq_along(spider@Code)])
+#       df <- df |> dplyr::mutate(MP=slick@MPs@Code) |>
+#         dplyr::select(MP, toupper(letters[seq_along(spider@Code)]))
+#
+#       plot_list <- spider_by_MP(df, mp_labels='', mp_colors,
+#                                 size.pi.label=0,
+#                                 size.mp.label, size.mean,
+#                                 size.max.value,
+#                                 fill=fill,
+#                                 incMax,
+#                                 incMean)
+#
+#       plot_list <- plot_list[ord]
+#       plot_list[[1]] <- plot_list[[1]] +
+#         ggplot2::labs(title=om_names[om]) +
+#         ggplot2::theme(title = ggplot2::element_text(size=size.om.title,
+#                                                      color=col.om.title))
+#
+#       om_list[[om]] <- patchwork::wrap_plots(plot_list, ncol=1)
+#
+#     }
+#
+#     p <- patchwork::wrap_plots(om_list, ncol=min(5,nOM))
+#
+#   } else {
+#     Values <- Values |> apply(2:3, mean, na.rm=TRUE)
+#     nMP <- nrow(Values)
+#     nPI <- ncol(Values)
+#
+#     df <- data.frame(Values)
+#     colnames(df) <-  toupper(letters[seq_along(spider@Code)])
+#     df <- df |> dplyr::mutate(MP=slick@MPs@Code) |>
+#       dplyr::select(MP, toupper(letters[seq_along(spider@Code)]))
+#
+#     if (byMP) {
+#       plot_list <- spider_by_MP(df, mp_labels, mp_colors,
+#                                 size.pi.label=0,
+#                                 size.mp.label, size.mean,
+#                                 size.max.value,
+#                                 fill,
+#                                 incMax,
+#                                 incMean)
+#       p <- patchwork::wrap_plots(plot_list, ncol=ncol)
+#
+#
+#     } else {
+#
+#       p <- suppressWarnings(myggradar(df, group.point.size=0,
+#                                       draw.points = FALSE,
+#                                       values.radar='',
+#                                       group.colours=mp_colors,
+#                                       fill=fill,
+#                                       plot.legend=FALSE))
+#
+#
+#
+#     }
+#   }
+#   suppressWarnings(p)
+# }
 
 spider_by_MP <- function(df, mp_labels,
                          mp_colors,

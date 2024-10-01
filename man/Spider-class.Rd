@@ -44,6 +44,9 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{\code{Value}}{A numeric array with the stochastic performance indicator values for each
 operating model (OM), management procedure (MP), and performance indicator (PI).
+Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI}).
+All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
+multiplied by 100 in the plot.
 Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI})}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list

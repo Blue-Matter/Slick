@@ -30,8 +30,7 @@ mod_Quilt_ui <- function(id){
                                        column(9,
                                               mod_Report_Add_Button_ui(ns('report_button')),
                                               br(),
-                                              DT::dataTableOutput(ns('quilttable'))
-
+                                              uiOutput(ns('quilttable'))
                                        )
                                      )
                               )
@@ -103,16 +102,21 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
       i18n <- i18n()
       tagList(
         fluidRow(
-          column(6,
+          column(4,
                  checkboxInput(ns('shading'),
                                i18n$t('Shading?'),
                                TRUE)
                  ),
-          column(6,
+          column(4,
                  checkboxInput(ns('minmax'),
                                i18n$t('Min-Max Color Scaling?'),
                                FALSE)
-                 )
+                 ),
+          column(4,
+                 checkboxInput(ns('static'),
+                               i18n$t('Static Table?'),
+                               FALSE)
+          )
         )
       )
     })
@@ -127,7 +131,11 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
       out <- input$shading
       if (length(out)<1) return(TRUE)
       out
-
+    })
+    Static <- reactive({
+      out <- input$static
+      if (length(out)<1) return(FALSE)
+      out
     })
 
     values <- reactive({
@@ -203,7 +211,30 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
       quilt_slick(slick)
     })
 
-    output$quilttable <- DT::renderDataTable({
+    output$quilttable <- renderUI({
+      static <- Static()
+      if (length(static)<1)
+        static <- FALSE
+
+      if (static) {
+        return(
+          htmlOutput(ns('quilttableKable'))
+        )
+      } else {
+        return(
+          DT::dataTableOutput(ns('quilttableDT'))
+        )
+      }
+    })
+
+    output$quilttableKable <- renderUI({
+      req(quilt_slick)
+      plotQuilt(quilt_slick(), minmax = MinMax(), shading=Shading(), kable=TRUE) |>
+        flextable::autofit() |> flextable::htmltools_value()
+    })
+
+
+    output$quilttableDT <- DT::renderDataTable({
       req(quilt_slick)
       plotQuilt(quilt_slick(), minmax = MinMax(), shading=Shading())
       # plot_object() |> flextable::autofit() |> flextable::htmltools_value()

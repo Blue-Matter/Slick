@@ -496,11 +496,22 @@ Spider(slick) <- spider
 ## ---- spider_plot ----
 
 plotSpider(slick)
+plotSpider(slick, fill=TRUE)
+plotSpider(slick, fill=TRUE, PI.labels=FALSE)
 
 plotSpider(slick, byMP=TRUE)
+plotSpider(slick, byOM=1:5)
+plotSpider(slick, byOM=TRUE)
 
-plotSpider(slick, byOM=TRUE, incMean = FALSE)
+
+
+
+
+saveRDS('C:/users/user/desktop/slick.slick')
 
 # TT <- slick
 #
-# slick <- readRDS('C:/users/adrian/downloads/Western Atlantic Skipjack Tuna.slick')
+# slick <- readRDS('C:/Users/User/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')
+#
+# plotSpider(slick)
+# plotSpider(slick, byOM=1:4)

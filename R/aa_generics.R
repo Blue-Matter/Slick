@@ -520,7 +520,9 @@ setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 #' @param Description `r description_PI_param()`
 #' @param Value  A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`).
+#' All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
+#' multiplied by 100 in the plot.
 #' @param Preset `r preset_param()`
 #'
 #'

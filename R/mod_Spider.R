@@ -44,6 +44,13 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
       as.numeric(Filter_Selected$OMs)
     })
 
+    mod_Spider_overall_server("Spider_overall_1",
+                              i18n, filtered_slick,
+                              nOM, nMP, nPM,
+                              relative_scale=relative_scale,
+                              window_dims,
+                              Report)
+
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
                          nOM, nMP, nPM,
                          relative_scale=relative_scale, OS_button)
@@ -54,11 +61,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                          OS_button,
                          selected_oms)
 
-    mod_Spider_overall_server("Spider_overall_1",
-                              i18n, filtered_slick,
-                              nOM, nMP, nPM,
-                              relative_scale=relative_scale,
-                              window_dims)
+
 
 
     output$page <- renderUI({
@@ -259,7 +262,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
 
     output$PM_outline <- renderPlot({
       if (nPM()>2) {
-        pm_outline_plot(nPM())
+        par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
+        Spider_outline(nPM(), pt.cex=3)
       }
     }, width=125, height=125)
 
