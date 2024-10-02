@@ -38,21 +38,21 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
       }
     })
 
-    observe({
-      nplot <- length(Report[[PlotName]]$plot)
-      if (nplot>0) {
-        for (x in 1:nplot) {
-          this_x <- x
-          observeEvent(eventExpr = input[[paste0('del-', this_x, tolower(PlotName))]],
-                       handlerExpr = {
-                         if (!all(is.na(Report[[PlotName]]$plot[[this_x]])))
-                           file.remove(Report[[PlotName]]$plot[[this_x]]$src)
-                         Report[[PlotName]]$plot[[this_x]] <- NA
-                         Report[[PlotName]]$caption[[this_x]] <- NA
-                       })
-        }
-      }
-    })
+    # observe({
+    #   nplot <- length(Report[[PlotName]]$plot)
+    #   if (nplot>0) {
+    #     for (x in 1:nplot) {
+    #       this_x <- x
+    #       observeEvent(eventExpr = input[[paste0('del-', this_x, tolower(PlotName))]],
+    #                    handlerExpr = {
+    #                      if (!all(is.na(Report[[PlotName]]$plot[[this_x]])))
+    #                        file.remove(Report[[PlotName]]$plot[[this_x]]$src)
+    #                        Report[[PlotName]]$plot[[this_x]] <- NA
+    #                        Report[[PlotName]]$caption[[this_x]] <- NA
+    #                    })
+    #     }
+    #   }
+    # })
 
     plotlist <- reactive({
       nplot <- length(Report[[PlotName]]$plot)
@@ -68,12 +68,12 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
           if (!is.null(caption))
             tagList(
               hr(),
-              imageOutput(ns(plotname)),
+              imageOutput(ns(plotname), height='auto'),
               caption,
-              shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
-                                       label='Remove',
-                                       icon('remove'),
-                                       color='danger',size='sm'),
+              # shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
+              #                          label='Remove',
+              #                          icon('remove'),
+              #                          color='danger',size='sm'),
               hr()
             )
         })

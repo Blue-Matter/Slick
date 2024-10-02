@@ -394,7 +394,7 @@ setMethod("Time<-", "Kobe", function(object, value) {
 
 ## TimeLab ----
 #' @describeIn TimeLab Return `TimeLab` from a [Kobe-class()] object
-setMethod("TimeLab", "Kobe", function(object, lang='es') {
+setMethod("TimeLab", "Kobe", function(object, lang='en') {
   get_language(object@TimeLab, lang)
 })
 

@@ -30,7 +30,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
 
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
                           Report,
-                          Plot_Object=Plot_Object, 'Timeseries',
+                          Plot_Object=Plot_Object, 'Time Series',
                           window_dims)
 
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
@@ -88,7 +88,8 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                      byMP=TRUE,
                      includeQuants =includeQuants(),
                      includeLabels =includeLabels(),
-                     includeHist = includeHist()) +
+                     includeHist = includeHist(),
+                     lang=i18n()$get_translation_language()) +
         ggplot2::coord_cartesian(ylim=yrange())
 
 

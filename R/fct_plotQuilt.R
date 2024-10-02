@@ -1,4 +1,9 @@
 
+colorRampAlpha <- function(..., n, alpha) {
+  colors <- grDevices::colorRampPalette(...)(n)
+  paste(colors, sprintf("%x", ceiling(255*alpha)), sep="")
+}
+
 #' Plot `Quilt`
 #'
 #' Create a Quilt plot (unless `shading==FALSE` in which case it's just a table)

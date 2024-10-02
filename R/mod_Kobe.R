@@ -218,7 +218,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
       slick <- filtered_slick()
       mp_metadata <- slick |> MPs() |> Metadata()
       time_info <- slick |> Kobe() |> Time()
-      yrs <- time_info[[1]]
+      yrs <- time_info
       quant_text <- selected_quantile() * 100
 
       yr.txt <- paste0(min(yrs), '-', max(yrs))

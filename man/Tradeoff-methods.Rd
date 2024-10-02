@@ -57,9 +57,8 @@ Can include Markdown, see \code{Examples}.
 A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
-operating model (OM), management procedure (MP),  performance indicator (PI),
-and historical + projection timestep (nTS).
-Dimensions: c(nOM\verb{, }nMP\verb{, }nPI`)}
+operating model (OM), management procedure (MP),  and performance indicator (PI)
+Dimensions: c(\code{nOM}, \code{nMP}, \code{nPI})}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}

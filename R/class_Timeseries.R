@@ -412,7 +412,7 @@ TimeNow <- function(Timeseries) {
 
 ## TimeLab ----
 #' @describeIn TimeLab Return `TimeLab` from a [Timeseries-class()] object
-setMethod("TimeLab", "Timeseries", function(object, lang='es') {
+setMethod("TimeLab", "Timeseries", function(object, lang='en') {
   get_language(object@TimeLab, lang)
 })
 

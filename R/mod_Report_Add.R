@@ -63,7 +63,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
           br()
         ),
         footer = tagList(
-          modalButton("Cancel"),
+          div(modalButton("Cancel"), style='float:left;'),
           actionButton(ns("save_new"), i18n$t("Add to Report"), icon=icon('pen'))
         )
 
@@ -72,13 +72,20 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
 
     plot_size <- reactiveValues(width=5, height=5)
 
-    observeEvent(input$update_plot, {
-      p <- plot_details()
-      if (!is.null(p))
-        file.remove(p$src)
-
+    observeEvent(input$plotwidth, {
       plot_size$width <- input$plotwidth
+    })
+
+    observeEvent(input$plotheight, {
       plot_size$height <- input$plotheight
+    })
+
+
+    observeEvent(Plot_Object(), {
+      Plot_Info(plot_details())
+    })
+
+    observeEvent(input$update_plot, {
       Plot_Info(plot_details())
     })
 
@@ -89,12 +96,24 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
 
       info <- list(src = outfile,
                    contentType = 'image/png',
-                   width = '800px',
+                   width = '100%',
                    height = '100%',
                    alt = "",
                    deleteFile=FALSE)
 
-      if (inherits(obj, 'flextable')) {
+      if (inherits(obj, 'list')) {
+        LL <- obj
+        fun <- LL$plotFunction
+        LL$plotFunction <- NULL
+
+        png(outfile,
+            width=plot_size$width,
+            height=plot_size$height,
+            units='in', res=400)
+        do.call(fun,LL)
+        dev.off()
+
+      } else if (inherits(obj, 'flextable')) {
 
         if (!requireNamespace('magick', quietly = TRUE))
           stop('Package `magick` required for this function')
@@ -111,14 +130,12 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
         webshot2::webshot(tempfile, outfile, delay=3)
         file.remove(tempfile)
       } else {
-        ggplot2::ggsave(outfile, obj, width=plot_size$width, height=plot_size$height)
+        ggplot2::ggsave(outfile,
+                        obj,
+                        width=plot_size$width,
+                        height=plot_size$height)
       }
-
       info
-    })
-
-    observeEvent(Plot_Object(), {
-      Plot_Info(plot_details())
     })
 
     output$figure <- renderImage(
@@ -126,19 +143,18 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
       )
 
     output$displayplot <- renderUI({
-      obj <<- Plot_Object()
+      obj <- Plot_Object()
       if (inherits(obj, 'flextable')) {
         TT <<- obj |>
           flextable::autofit() |>
           flextable::htmltools_value()
-        print('done')
         return(TT)
       }
 
       t <- Plot_Info()
       if (!is.null(t)) {
         return(tagList(
-          imageOutput(ns('figure'), width='800px', height='auto')
+          imageOutput(ns('figure'), width='auto', height='400px')
         )
         )
       } else {
@@ -171,7 +187,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
 
     observeEvent(input$save_new, {
       shiny::removeModal(parent_session)
-      # update Report object with plot and caption
+      Plot_Info(plot_details())
       Report[[section]]$plot <- c(Report[[section]]$plot, list(Plot_Info()))
       Report[[section]]$caption <- append(Report[[section]]$caption, caption())
     })

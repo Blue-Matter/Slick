@@ -67,8 +67,8 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
                             solidHeader=TRUE,
                             status = "primary",
                             tagList(
-                              column(8, uiOutput(ns('metadata'))),
-                              column(4, uiOutput(ns('plotinfo')))
+                              uiOutput(ns('metadata')),
+                              uiOutput(ns('plotinfo'))
                               )
         )
       )
@@ -80,14 +80,20 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
       i18n <- i18n()
       slick <- Slick_Object()
       tagList(
-        h3(Title(slick, i18n$get_translation_language())),
-        strong(Subtitle(slick, i18n$get_translation_language())),
-        p(strong(i18n$t('Created:')), Date(slick)),
-        p(strong(i18n$t('Author:')), get_authors(slick)),
-        shiny::markdown(paste(i18n$t('Email:'), get_email(slick))),
-        p(strong(i18n$t('Institution:')), get_institution(slick)),
-        h4(strong(i18n$t('Summary'))),
-        shiny::markdown((Introduction(slick, i18n$get_translation_language())))
+        shinydashboard::box(
+          title=strong(Title(slick, i18n$get_translation_language())),
+          width=8,
+          solidHeader=FALSE,
+          status = "primary",
+          strong(Subtitle(slick, i18n$get_translation_language())),
+          p(strong(i18n$t('Created:')), Date(slick)),
+          p(strong(i18n$t('Author:')), get_authors(slick)),
+          shiny::markdown(paste(i18n$t('Email:'), get_email(slick))),
+          p(strong(i18n$t('Institution:')), get_institution(slick)),
+          h4(strong(i18n$t('Summary'))),
+          shiny::markdown((Introduction(slick, i18n$get_translation_language())))
+        )
+
       )
     })
 
@@ -96,13 +102,15 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     output$plotinfo <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
-      tagList(
-        h3(i18n$t('About the Plots')),
-        div(style='font-size: 16px;',
+      shinydashboard::box(
+        title=strong(i18n$t('About the Plots')),
+        width=4,
+        solidHeader=FALSE,
+        status = "primary",
+        div(style='font-size: 14px;',
             uiOutput(ns('plotlinks'))
-            )
-
-      )
+          )
+        )
     })
 
     output$plotlinks <- renderUI({

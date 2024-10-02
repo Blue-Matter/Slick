@@ -9,7 +9,7 @@ output:
   pdf_document: default
 params:
   Metadata: NA
-  Timeseries: NA
+  Time Series: NA
   Boxplot: NA
   Kobe: NA
   Quilt: NA
@@ -68,32 +68,96 @@ if (nplots>0) {
 
 ```
 
+```{r kobe, results='asis'}
+p <- 'Kobe'
+nplots <- length(params[[p]]$plot)
 
-
-```{r results='asis'}
-nms <- names(params)
-nms <- nms[!nms=='Metadata']
-nms <- nms[!nms=='Boxplot']
-for (p in nms) {
-  nplots <- length(params[[p]]$plot)
-  if (nplots>0) {
-    cat(paste('##', p), '\n')
-    for (l in 1:nplots) {
-      if (p =='Quilt') {
-        cat(knitr::knit_print(
-          params[[p]]$plot[[l]] |> flextable::autofit()
-        ))
-        
-        
-      } else {
-        print(params[[p]]$plot[[l]])
-      }
-      cat(markdown(params[[p]]$caption[[l]]), '\n\n')
-    }
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    cat(paste0("![](", image$src, ")"), "\n")
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
   }
 }
 
 ```
+
+```{r quilt, results='asis'}
+p <- 'Quilt'
+nplots <- length(params[[p]]$plot)
+
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    cat(paste0("![](", image$src, ")"), "\n")
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+  }
+}
+
+```
+
+```{r spider, results='asis'}
+p <- 'Spider'
+nplots <- length(params[[p]]$plot)
+
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    cat(paste0("![](", image$src, ")"), "\n")
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+  }
+}
+
+```
+
+```{r timeseries, results='asis'}
+p <- 'Time Series'
+nplots <- length(params[[p]]$plot)
+
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    cat(paste0("![](", image$src, ")"), "\n")
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+  }
+}
+
+```
+
+```{r tradeoff, results='asis'}
+p <- 'Tradeoff'
+nplots <- length(params[[p]]$plot)
+
+if (nplots>0) {
+  cat(paste('##', p), '\n')
+  
+  for (l in 1:nplots) {
+    if (all(is.na(params[[p]]$plot[[l]])))
+      next()
+    image <- params[[p]]$plot[[l]]
+    cat(paste0("![](", image$src, ")"), "\n")
+    cat(markdown(params[[p]]$caption[[l]]), '\n\n')
+  }
+}
+
+```
+
 
 
 

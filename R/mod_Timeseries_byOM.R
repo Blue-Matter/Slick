@@ -38,7 +38,7 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
 
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
                           Report,
-                          Plot_Object=Plot_Object, 'Timeseries',
+                          Plot_Object=Plot_Object, 'Time Series',
                           window_dims)
 
 
@@ -104,7 +104,8 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                      byOM=TRUE,
                      includeQuants =includeQuants(),
                      includeLabels =includeLabels(),
-                     includeHist = includeHist()) +
+                     includeHist = includeHist(),
+                     lang=i18n()$get_translation_language()) +
         ggplot2::coord_cartesian(ylim=yrange())
 
 

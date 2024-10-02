@@ -22,7 +22,8 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
                                       nOM, nMP, nPM,
                                       relative_scale=relative_scale,
                                       window_dims,
-                                      Report){
+                                      Report,
+                                      parent_session){
 
   moduleServer(id, function(input, output, session){
     ns <- session$ns
@@ -37,14 +38,14 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
     button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
 
     observeEvent(button_pushed(), {
-      # make png image
-      Plot_Object(spiderPlot())
-      shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+      LL <- list()
+      LL$plotFunction <- plotSpider
+      LL$slick <- filtered_slick()
+      LL$relScale <- relative_scale()
+      Plot_Object(LL)
       if(!inherits(Plot_Object(), 'NULL')) {
-        print('here')
         shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
       }
-
     })
 
 
@@ -52,7 +53,8 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       i18n <- i18n()
       tagList(
         loading_spinner(
-          plotOutput(ns('spider_plot'), height=plot_height())
+          plotOutput(ns('spider_plot'), height=plot_height(),
+                     width=plot_width())
         )
       )
     })
@@ -62,7 +64,14 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       dims[1]*0.4
     })
 
+    plot_width_calc <- reactive({
+      dims <- window_dims()
+      dims[1]*0.4
+    })
+
     plot_height <- plot_height_calc |> debounce(500)
+
+    plot_width <- plot_width_calc |> debounce(500)
 
     spiderPlot <- reactive({
       req(relative_scale)
@@ -75,7 +84,7 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
       if (!is.null(relative_scale()))
         spiderPlot()
     }, width=function() {
-      plot_height()
+      plot_width()
     }, height=function() {
       plot_height()
     })

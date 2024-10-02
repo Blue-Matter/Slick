@@ -198,10 +198,9 @@ plotSpider <- function(slick,
       }
     }
     if (byMP) {
+      ncol <- min(nMP,4)
       n.row <- ceiling(nMP/ncol)
-      n.col <- ceiling(nMP/n.row)
-
-      par(mfrow=c(n.row, n.col), mar=c(3,3,3,3), oma=rep(0,4))
+      par(mfrow=c(n.row, ncol), mar=rep(1,4), oma=c(0,0,2,0))
 
       for (i in 1:nMP) {
         Spider_outline(nPI, grid.fill, grid.line, inc.grid = inc.grid,
@@ -231,7 +230,7 @@ plotSpider <- function(slick,
           shadowtext(0,0, round(mp.avg), col=col.Mean, bg=bg.Mean, cex=pm.avg.cex)
         }
         if (incMPtitle)
-          text(0, 100, mp_labels[i], xpd=NA, col='black', cex=mplab.cex,
+          text(0, 101, mp_labels[i], xpd=NA, col='black', cex=mplab.cex,
                pos=3)
 
       }
@@ -250,6 +249,14 @@ plotSpider <- function(slick,
     dd <- dim(Values)
     nMP <- dd[2]
     nPI <- dd[3]
+    nOM <- dd[1]
+    if (max(om) > nOM) {
+      cli::cli_alert_danger('max of numeric argument `byOM` is greater than
+                            number of OMs')
+      return(NULL)
+    }
+
+
     nOM <- length(om)
 
     par(mfcol=c(nMP, nOM), oma=c(0,0,2.2,0), mar=c(1,1,1,1), bg='#F8F8F8')
@@ -271,7 +278,7 @@ plotSpider <- function(slick,
           Spider_outline(nPI, grid.fill, grid.line, inc.grid = inc.grid,
                          PI.labels = PI.labels)
           if (i == MP_order[1])
-            mtext(OM_names[o], side=3, outer=FALSE,
+            mtext(OM_names[o], side=3, outer=FALSE, line=1,
                   col=col.om.title, cex=cex.om.title)
 
           coords <- NULL

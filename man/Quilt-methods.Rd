@@ -16,7 +16,7 @@ Quilt(
   Description = "",
   Value = array(),
   Preset = list(),
-  Color = c("white", "darkblue"),
+  Color = c("darkblue", "lightblue"),
   MinValue = as.numeric(NA),
   MaxValue = as.numeric(NA)
 )
@@ -31,7 +31,7 @@ Quilt(Slick) <- value
   Description = "",
   Value = array(),
   Preset = list(),
-  Color = c("white", "darkblue"),
+  Color = c("darkblue", "lightblue"),
   MinValue = as.numeric(NA),
   MaxValue = as.numeric(NA)
 )
@@ -63,7 +63,7 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 values in the chart.}
 
 \item{MinValue}{Numeric vector length \code{nPI} with the minimum possible value for the
-respective PIs. Defaults to 0.}
+respective PIs. Defaults to minimum PI value in \code{Value} (averaged across OMs in some cases)}
 
 \item{MaxValue}{Numeric vector length \code{nPI} with the maximum possible value (i.e., best performance)
 for the respective PIs. Defaults to maximum PI value in \code{Value} (averaged across OMs in some cases).}

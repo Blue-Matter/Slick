@@ -31,7 +31,7 @@
 #' @slot Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
 #' @slot MinValue Numeric vector length `nPI` with the minimum possible value for the
-#' respective PIs. Defaults to 0.
+#' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @slot MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
 #'
@@ -61,7 +61,7 @@ setMethod("initialize", "Quilt", function(.Object,
                                           Description='',
                                           Value=array(),
                                           Preset=list(),
-                                          Color='',
+                                          Color=c('darkblue', 'lightblue'),
                                           MinValue=numeric(),
                                           MaxValue=numeric()
                                           ) {

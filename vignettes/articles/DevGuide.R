@@ -346,15 +346,27 @@ Value(boxplot)[,2,,3] <- MSE_LowM@TAC[,,25]
 Value(boxplot)[,3,,3] <- MSE_HighM@TAC[,,25]
 
 ## ---- boxplot_add ----
+Check(boxplot)
 Boxplot(slick) <- boxplot
 
-## ---- boxplot_plot ----
+## ---- boxplot_plot1 ----
 
 plotBoxplot(slick)
+
+## ---- boxplot_plot2 ----
+
 plotBoxplot(slick, type='violin')
+
+## ---- boxplot_plot3 ----
+
 plotBoxplot(slick, type='both')
 
-plotBoxplot(slick, 2, byOM=TRUE)
+## ---- boxplot_plot4 ----
+plotBoxplot(slick, byOM=TRUE)
+
+## ---- boxplot_plot5 ----
+plotBoxplot(FilterSlick(slick, MPs=1:3, OMs=1:2, plot='Boxplot'),
+            byOM=TRUE)
 
 
 ## ---- kobe_create ----
@@ -387,14 +399,14 @@ Value(kobe)[,2,,2,] <- MSE_LowM@F_FMSY
 Value(kobe)[,3,,2,] <- MSE_HighM@F_FMSY
 
 ## ---- kobe_add ----
-
+Check(kobe)
 Kobe(slick) <- kobe
 
 ## ---- kobe_plot ----
 
 plotKobe(slick)
 
-## ---- kobe_time ----
+## ---- kobe_timeplot ----
 
 plotKobe(slick, Time=TRUE)
 
@@ -445,9 +457,14 @@ Check(quilt)
 Quilt(slick) <- quilt
 
 ## ---- quilt_plot ----
-
 plotQuilt(slick)
-plotQuilt(slick, kable = TRUE, minmax = TRUE, shading=FALSE)
+
+## ---- quilt_plot2 ----
+plotQuilt(slick, minmax=TRUE)
+
+## ---- quilt_plot3 ----
+
+plotQuilt(slick, shading=FALSE, kable=TRUE)
 
 
 ## ---- spider_create ----
@@ -490,28 +507,79 @@ Value(spider)[2,,4] <- MSEtool::LTY(MSE_LowM)@Mean
 Value(spider)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
 
 ## ---- spider_add ----
+Check(spider)
+
 Spider(slick) <- spider
 
 
 ## ---- spider_plot ----
 
 plotSpider(slick)
+
+## ---- spider_plot1 ----
 plotSpider(slick, fill=TRUE)
-plotSpider(slick, fill=TRUE, PI.labels=FALSE)
 
+## ---- spider_plot2 ----
 plotSpider(slick, byMP=TRUE)
-plotSpider(slick, byOM=1:5)
-plotSpider(slick, byOM=TRUE)
+
+## ---- spider_plot3 ----
+plotSpider(slick, byOM=TRUE, incMean = FALSE)
+
+
+## ---- tradeoff_create ----
+
+tradeoff <- Tradeoff(Code=c('P100',
+                        'P50',
+                        'PNOF',
+                        'Yield'),
+                 Label=c('Prob SB>SBMSY',
+                         'Prob SB>0.5SBMSY',
+                         'Prob. Not Overfishing',
+                         'Prob. Mean Yield > 50%'),
+                 Description = c('Probability spawning biomass is greater than SB_MSY over the projection period',
+                                 'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period',
+                                 'Probability of not overfishing over the projection period',
+                                 'Probability mean yield is greater than 50% of the reference yield'))
 
 
 
+## ---- tradeoff_value ----
+
+nPI <- length(Code(tradeoff))
+
+Value(tradeoff) <- array(NA, dim=c(nOM, nMP, nPI))
+
+Value(tradeoff)[1,,1] <- MSEtool::P100(MSE_Base)@Mean
+Value(tradeoff)[2,,1] <- MSEtool::P100(MSE_LowM)@Mean
+Value(tradeoff)[3,,1] <- MSEtool::P100(MSE_HighM)@Mean
+
+Value(tradeoff)[1,,2] <- MSEtool::P50(MSE_Base)@Mean
+Value(tradeoff)[2,,2] <- MSEtool::P50(MSE_LowM)@Mean
+Value(tradeoff)[3,,2] <- MSEtool::P50(MSE_HighM)@Mean
+
+Value(tradeoff)[1,,3] <- MSEtool::PNOF(MSE_Base)@Mean
+Value(tradeoff)[2,,3] <- MSEtool::PNOF(MSE_LowM)@Mean
+Value(tradeoff)[3,,3] <- MSEtool::PNOF(MSE_HighM)@Mean
 
 
-saveRDS('C:/users/user/desktop/slick.slick')
+Value(tradeoff)[1,,4] <- MSEtool::LTY(MSE_Base)@Mean
+Value(tradeoff)[2,,4] <- MSEtool::LTY(MSE_LowM)@Mean
+Value(tradeoff)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
 
-# TT <- slick
-#
-# slick <- readRDS('C:/Users/User/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')
-#
-# plotSpider(slick)
-# plotSpider(slick, byOM=1:4)
+## ---- tradeoff_add ----
+Check(tradeoff)
+
+Tradeoff(slick) <- tradeoff
+
+## ---- tradeoff_plot ----
+
+plotTradeoff(slick)
+
+## ---- tradeoff_plot2 ----
+
+plotTradeoff(slick, 1:2, 3:4)
+
+# saveRDS(slick, 'C:/users/adrian/desktop/slick.slick')
+
+# Testslick <- readRDS('C:/Users/adrian/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')
+

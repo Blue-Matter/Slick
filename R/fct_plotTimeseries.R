@@ -35,6 +35,7 @@
 #' @param inc_y_label Include the label for the y-axis?
 #' @param sims Optional. Numeric values indicating the simulations to include. Defaults
 #' to all.
+#' @param lang. Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
 #'
 #' @seealso [Timeseries-methods()], [Timeseries-class()]
 #' @return A `ggplot2` object
@@ -68,7 +69,8 @@ plotTimeseries <- function(slick,
                            lim_color='red',
                            lim_name='Limit',
                            inc_y_label=TRUE,
-                           sims=NULL) {
+                           sims=NULL,
+                           lang='en') {
 
   # browser()
 
@@ -85,7 +87,7 @@ plotTimeseries <- function(slick,
 
   values <- Value(timeseries)
   times <- Time(timeseries)
-  time_lab <- TimeLab(timeseries)
+  time_lab <- TimeLab(timeseries, lang=lang)
   time_now <- TimeNow(timeseries)
   target <- Target(timeseries)
   limit <- Limit(timeseries)

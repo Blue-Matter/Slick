@@ -27,7 +27,8 @@ plotKobe(
   xmax = 2,
   ymax = 2,
   hist_traj = FALSE,
-  ncol = 4
+  ncol = 4,
+  lang = "en"
 )
 }
 \arguments{
@@ -79,6 +80,8 @@ which means the terminal projection time-step}
 
 \item{percentile.}{Numeric value specifying the percentile for the x and y percentile bars.
 Use NULL to remove percentile lines.}
+
+\item{lang.}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
 }
 \value{
 A \code{ggplot2} object

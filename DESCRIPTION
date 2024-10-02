@@ -90,7 +90,7 @@ Collate:
     'fct_plotQuilt.R'
     'fct_plotSpider.R'
     'fct_plotTimeseries.R'
-    'fct_plots.R'
+    'fct_plotTradeoff.R'
     'fct_translator.R'
     'make_Slick_old.R'
     'man_functions.R'

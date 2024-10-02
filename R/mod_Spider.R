@@ -11,7 +11,42 @@ mod_Spider_ui <- function(id){
   ns <- NS(id)
   tagList(
     # mod_toplink_ui(ns(id)),
-    uiOutput(ns('page'))
+    shinydashboardPlus::box(width=12,
+                            status='primary',
+                            solidHeader=TRUE,
+                            title=h3(strong('Spider')),
+                            column(12,
+                                   mod_subtitle_ui(ns('spidersubtitle'))
+                            ),
+                            column(8,
+                                   uiOutput(ns('radioplotselect'))
+                            ),
+                            column(4,
+                                   div(
+                                     uiOutput(ns('switch_button'))        ,
+                                     style='float:right;')
+                            ),
+                            column(3,
+                                   htmlOutput(ns('reading')),
+                                   mod_Page_Filter_ui(ns("spiderfilter"))
+                            ),
+                            column(6,
+                                   conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                    mod_Spider_overall_ui(ns("Spider_overall_1"))
+                                   ),
+                                   conditionalPanel("input.plotselect=='bymp'", ns=ns,
+                                                    mod_Spider_MP_ui(ns("Spider_MP_1"))
+                                   ),
+                                   conditionalPanel("input.plotselect=='byom'", ns=ns,
+                                                    mod_Spider_OM_ui(ns("Spider_OM_1"))
+                                   )
+                            ),
+                            column(3,
+                                   uiOutput(ns('PIind')),
+                                   htmlOutput(ns('PMlist'))
+                            )
+    )
+
 
   )
 }
@@ -31,6 +66,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                         OMtext=OMtext)
 
     OMtext <- reactive({
+      req(input$plotselect)
       if (input$plotselect != 'byom')
         return('over')
       return('show')
@@ -49,21 +85,54 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                               nOM, nMP, nPM,
                               relative_scale=relative_scale,
                               window_dims,
-                              Report)
+                              Report,
+                              parent_session=session)
 
     mod_Spider_MP_server("Spider_MP_1", i18n, filtered_slick,
                          nOM, nMP, nPM,
-                         relative_scale=relative_scale, OS_button)
+                         relative_scale=relative_scale, OS_button,
+                         window_dims,
+                         Report,
+                         parent_session=session)
 
     mod_Spider_OM_server("Spider_OM_1", i18n, filtered_slick,
-                         nOM, nMP, nPM, home_session,
+                         nOM, nMP, nPM,
                          relative_scale=relative_scale,
                          OS_button,
-                         selected_oms)
+                         selected_oms,
+                         Report,
+                         parent_session=session)
 
 
 
+    output$radioplotselect <- renderUI({
+      i18n <- i18n()
+      shinyWidgets::radioGroupButtons(
+        inputId = ns("plotselect"),
+        choiceNames = c(i18n$t('Overall'),
+                        i18n$t('By Management Procedure'),
+                        i18n$t('By Operating Model')
+        ),
+        choiceValues=c('overall', 'bymp',  'byom'),
+        justified = TRUE
+      )
+    })
 
+    output$switch_button <- renderUI({
+      i18n <- i18n()
+      helper2(
+        shinyWidgets::switchInput(
+          inputId = ns("RS_button"),
+          handleWidth = 60,
+          labelWidth = 100,
+          size='large',
+          inline=TRUE,
+          label=i18n$t('Relative Scale'),
+          width = "auto"
+        ),
+        content = get_relative_scale_md(),
+        size='s')
+    })
     output$page <- renderUI({
       slick <- filtered_slick()
       i18n <- i18n()
@@ -71,65 +140,7 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
         return(tagList('No values in object'))
       }
 
-      tagList(
-        shinydashboardPlus::box(width=12,
-                                status='primary',
-                                solidHeader=TRUE,
-                                title=h3(strong('Spider')),
-                                column(12,
-                                       mod_subtitle_ui(ns('spidersubtitle'))
-                                ),
-                                column(8,
-                                       shinyWidgets::radioGroupButtons(
-                                         inputId = ns("plotselect"),
-                                         choiceNames = c(i18n$t('Overall'),
-                                                         i18n$t('By Management Procedure'),
-                                                         i18n$t('By Operating Model')
-                                         ),
-                                         choiceValues=c('overall', 'bymp',  'byom'),
-                                         justified = TRUE
-                                       )
-                                ),
-                                column(4,
-                                       div(
-                                         helper2(
-                                           shinyWidgets::switchInput(
-                                             inputId = ns("RS_button"),
-                                             handleWidth = 60,
-                                             labelWidth = 100,
-                                             size='large',
-                                             inline=TRUE,
-                                             label=i18n$t('Relative Scale'),
-                                             width = "auto"
-                                           ),
-                                           content = get_relative_scale_md(),
-                                           size='s'),
-                                         style='float:right;')
-                                ),
-                                column(3,
-                                       h4(strong(i18n$t("Reading this Chart"))),
-                                       htmlOutput(ns('reading')),
-                                       mod_Page_Filter_ui(ns("spiderfilter"))
-                                       ),
-                                column(6,
-                                       conditionalPanel("input.plotselect=='overall'", ns=ns,
-                                                        mod_Spider_overall_ui(ns("Spider_overall_1"))
-                                       ),
-                                       conditionalPanel("input.plotselect=='bymp'", ns=ns,
-                                                        mod_Spider_MP_ui(ns("Spider_MP_1"))
-                                       ),
-                                       conditionalPanel("input.plotselect=='byom'", ns=ns,
-                                                        mod_Spider_OM_ui(ns("Spider_OM_1"))
-                                       )
-                                      ),
-                                column(3,
-                                       h4(i18n$t('Performance Indicators')),
-                                       loading_spinner(plotOutput(ns('PM_outline'),
-                                                                               width=125, height=125)),
-                                       htmlOutput(ns('PMlist'))
-                                       )
-        )
-      )
+
     })
 
     relative_scale <- reactive({
@@ -171,8 +182,18 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
       paste('relative_scale', lang, sep='_')
     })
 
-    output$reading <- renderUI({
+    output$PIind <- renderUI({
+      i18n <- i18n()
       tagList(
+        h4(i18n$t('Performance Indicators')),
+        loading_spinner(plotOutput(ns('PM_outline'),
+                                   width=125, height=125)),
+      )
+    })
+    output$reading <- renderUI({
+      i18n <- i18n()
+      tagList(
+        h4(strong(i18n$t("Reading this Chart"))),
         conditionalPanel("input.plotselect=='overall'", ns=ns,
                          uiOutput(ns('readingoverall'))
         ),
@@ -197,8 +218,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
         } else {
           tagList(
             p(i18n$t('This chart compares the performance of '), nMP(),
-                     i18n$t(' management procedures (MP) against '), nPM(),
-                     i18n$t(' performance indicators.')),
+              i18n$t(' management procedures (MP) against '), nPM(),
+              i18n$t(' performance indicators.')),
             p(i18n$t('Each value is the mean performance indicator over '), nOM(),
               i18n$t(' operating models.')),
             p(i18n$t('Larger polygon areas indicate better overall performance.'))

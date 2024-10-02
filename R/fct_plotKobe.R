@@ -29,6 +29,7 @@
 #' @param ymax Maximum value for the yx-axis. Values greater than `ymax` will be shown at `ymax`
 #' @param hist_traj Logical. Plot the historical trajectories?
 #' @param ncol Numeric. Number of columns for Kobe Time
+#' @param lang. Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
 #' @seealso [Kobe-methods()], [Kobe-class()]
 #' @return A `ggplot2` object
 #' @export
@@ -55,7 +56,8 @@ plotKobe <- function(slick,
                      xmax=2,
                      ymax=2,
                      hist_traj=FALSE,
-                     ncol=4) {
+                     ncol=4,
+                     lang='en') {
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -71,7 +73,7 @@ plotKobe <- function(slick,
 
   metadata <- Metadata(kobe)
   times <- Time(kobe)
-  timelab <- TimeLab(kobe)
+  timelab <- TimeLab(kobe, lang)
 
 
   axis_labels <- slot(kobe, axis_label)

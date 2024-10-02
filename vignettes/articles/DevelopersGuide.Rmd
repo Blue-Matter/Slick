@@ -547,84 +547,240 @@ A *Boxplot Object* can be created using the `Boxplot` function. Here we are popu
 
 ```
 
+
+Check the `Boxplot` object and add to the Slick Object:
+
 ```{r boxplot_add}
 
 ```
 
-```{r boxplot_plot}
+
+The `plotBoxplot` function is used to create the Boxplot from a Slick Object:
+
+```{r boxplot_plot1}
+
+```
+
+There is an option for violin plots:
+
+```{r boxplot_plot2}
+
+```
+ 
+or both types:
+
+```{r boxplot_plot3}
+
+```
+
+The `byOM=TRUE` argument creates a boxplot for a given performance indicator for each OM in the Slick Object:
+
+```{r boxplot_plot4}
 
 ```
 
 
-# `Kobe`
+See [`?plotBoxplot`](../reference/plotBoxplot.html) for more options for the `plotBoxplot` function.
+
+The `FilterSlick` can be used to filter the OMs and/or MPs to include in a given plot:
+
+```{r boxplot_plot5}
+
+```
+
+
+
+# Kobe Plot
+
+Information for the *Kobe Plot* is stored in a [Kobe Object](../reference/Kobe-class.html).
+
+A *Kobe Object* can be created using the `Kobe` function. Here we are populating the metadata directly when we create the `Kobe` object:
 
 ```{r kobe_create}
 
 ```
 
+The `Time` slot of a Kobe Object contains numeric values for the projection time-steps:
+
 ```{r kobe_time}
 
 ```
+
+`Value` is a numeric array containing the values of the performance indicators included in the `Kobe` Object. `Value` must have dimensions `c(nsim, nOM, nMP, nPI, nTS)`:
 
 ```{r kobe_value}
 
 ```
 
+
+Check and add to the Slick Object:
+
 ```{r kobe_add}
 
 ```
+
+Plot the Kobe plot:
 
 ```{r kobe_plot}
 
 ```
 
+Plot the Kobe Time plot:
 
-```{r kobe_time}
+```{r kobe_timeplot}
 
 ```
 
-# `Quilt`
+See [`?plotKobe`](../reference/plotKobe.html) for more options for the `plotKobe` function.
+
+
+# Quilt Plot
+
+Information for the *Quilt Plot* is stored in a [Quilt Object](../reference/Quilt-class.html).
+
+A *Quilt Object* can be created using the `Quilt` function. Here we are populating the metadata directly when we create the `Quilt` object:
+
 
 ```{r quilt_create}
 
 ```
 
+
+`Value` is a numeric array containing the values of the performance indicators included in the `Quilt` Object. `Value` must have dimensions `c(nOM, nMP, nPI)`:
+
 ```{r quilt_value}
 
 ```
+
+The `MinValue` and `MaxValue` functions can be used to set minimum and maximum values for calculating the colored shading for each PI:
 
 ```{r quilt_maxvalue}
 
 ```
 
+Check and add to the Slick Object:
+
 ```{r quilt_add}
 
 ```
+
+The default Quilt plot:
 
 ```{r quilt_plot}
 
 ```
 
-# `Spider`
+Shading scaled between minimum and maximum for each PI:
+
+```{r quilt_plot2}
+
+```
+
+
+A static table with no shading:
+```{r quilt_plot3}
+
+```
+
+See [`?plotQuilt`](../reference/plotQuilt.html) for more options for the `plotQuilt` function.
+
+
+# Spider Plot
+
+Information for the *Spider Plot* is stored in a [Spider Object](../reference/Spider-class.html).
+
+A *Spider Object* can be created using the `Spider` function. Here we are populating the metadata directly when we create the `Spider` object:
+
 
 ```{r spider_create}
 
 ```
 
+
+`Value` is a numeric array containing the values of the performance indicators included in the `Spider` Object. `Value` must have dimensions `c(nOM, nMP, nPI)`:
+
 ```{r spider_value}
 
 ```
+
+There are a few things to consider for the `Value` of the Spider plot:
+
+1. The values for each Performance Indicator must be on the same scale, with high values indicating better performance
+2. Values cannot be negative
+3. All values should be between 0 and 1, or between 0 and 100, with 1 or 100 representing the highest possible value for a Performance Indicator.
+
+Check and add to the Slick Object:
 
 ```{r spider_add}
 
 ```
 
+The default Spider Plot:
+
 ```{r spider_plot}
 
 ```
 
+Option to include fill color:
 
-## `Tradeoff`
+```{r spider_plot1}
+
+```
+
+Plot by MP:
+```{r spider_plot2}
+
+```
+
+Or by OM and MP:
+```{r spider_plot3}
+
+```
+
+See [`?plotSpider`](../reference/plotSpider.html) for more options for the `plotSpider` function.
+
+
+# Tradeoff Plot
+
+Information for the *Tradeoff Plot* is stored in a [Tradeoff Object](../reference/Tradeoff-class.html).
+
+A *Tradeoff Object* can be created using the `Tradeoff` function. Here we are populating the metadata directly when we create the `Tradeoff` object:
+
+```{r tradeoff_create}
+
+```
+
+Here we are using the same Performance Indicators as those in the Spider Plot.
+
+
+`Value` is a numeric array containing the values of the performance indicators included in the `Tradeoff` Object. `Value` must have dimensions `c(nOM, nMP, nPI)`:
+
+```{r tradeoff_value}
+
+```
+
+
+Check and add to the Slick Object:
+
+```{r tradeoff_add}
+
+```
+
+The default Tradeoff Plot:
+
+```{r tradeoff_plot}
+
+```
+
+Tradeoff Plot with multiple Performance Indicators:
+
+```{r tradeoff_plot2}
+
+```
+
+
+See [`?plotTradeoff`](../reference/plotTradeoff.html) for more options for the `plotTradeoff` function.
+
 
 # Slick Object Library
 

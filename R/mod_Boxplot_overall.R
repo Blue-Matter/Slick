@@ -54,12 +54,17 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   1:nPM(),
                   type='boxplot')
-    })
+    }, height=function() {
+      plot_height()
+    },
+    width=function() {
+      width=plot_width()
+    } )
 
     output$boxplots <- renderUI({
       tagList(
         loading_spinner(
-          plotOutput(ns('boxplot_plot'), width=plot_width(), height=plot_height())
+          plotOutput(ns('boxplot_plot'))
         )
       )
     })
@@ -68,12 +73,17 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   1:nPM(),
                   type='violin')
-    })
+    }, height=function() {
+      plot_height()
+    },
+    width=function() {
+      width=plot_width()
+    } )
 
     output$violins <- renderUI({
       tagList(
         loading_spinner(
-          plotOutput(ns('violin_plot'), width=plot_width(), height=plot_height())
+          plotOutput(ns('violin_plot'))
         )
       )
     })
@@ -82,12 +92,17 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   1:nPM(),
                   type='both')
-    })
+    }, height=function() {
+      plot_height()
+    },
+    width=function() {
+      width=plot_width()
+    } )
 
     output$both <- renderUI({
       tagList(
         loading_spinner(
-          plotOutput(ns('both_plot'), width=plot_width(), height=plot_height())
+          plotOutput(ns('both_plot'))
         )
       )
     })
@@ -96,20 +111,22 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
     plot_width_calc <- reactive({
       dd <- window_dims()
       val <- dd[1] * 0.6
-      paste0(val, 'px')
+      # paste0(val, 'px')
+      val
     })
 
     plot_width <- plot_width_calc |> debounce(500)
 
-    # plot_width_text <- reactive({
-    #   paste0('width: ', plot_width(), '; height: 320px;')
-    #
-    # })
 
     plot_height_calc <- reactive({
-      dd <- window_dims()
-      val <- dd[2] * 0.6
-      paste0(val, 'px')
+      npi <- nPM()
+      if (is.null(npi))
+        npi <- 1
+      width <- plot_width_calc()
+      nrow <- ceiling(npi/4)
+      ncol <- min(npi,4)
+      max(width/ncol * nrow, 250)
+      # paste0(val, 'px')
     })
 
     plot_height <- plot_height_calc |> debounce(500)

@@ -76,12 +76,12 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
     })
 
 
-    mod_Report_Page_plot_server('timeseries', 'Timeseries', Report)
+    mod_Report_Page_plot_server('timeseries', 'Time Series', Report)
     mod_Report_Page_plot_server('boxplot', 'Boxplot', Report)
     mod_Report_Page_plot_server('kobe', 'Kobe', Report)
     mod_Report_Page_plot_server('quilt', 'Quilt', Report)
     mod_Report_Page_plot_server('spider', 'Spider', Report)
-    mod_Report_Page_plot_server('tradeoff', 'Trade-off', Report)
+    mod_Report_Page_plot_server('tradeoff', 'Tradeoff', Report)
 
     extension <- reactive({
       req(input$format)
@@ -106,7 +106,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
                   tempReport, overwrite = TRUE)
 
         params <- list(Metadata=Report$Metadata,
-                        Timeseries=Report$Timeseries,
+                        'Time Series'=Report[['Time Series']],
                         Boxplot=Report$Boxplot,
                         Kobe=Report$Kobe,
                         Quilt=Report$Quilt,

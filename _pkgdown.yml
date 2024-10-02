@@ -75,6 +75,7 @@ reference:
   - plotQuilt
   - plotSpider
   - plotTimeseries
+  - plotTradeoff
 - title: 'Other'
   desc: >
     S4 Methods and other functions

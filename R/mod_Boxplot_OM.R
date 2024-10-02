@@ -119,7 +119,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     plot_height_calc <- reactive({
       if (!is.null(filtered_slick())) {
         nom <- nOM()
-        return(max(ceiling(nom/4) * 250, 250))
+        return(max(ceiling(nom/4) * 300, 300))
       } else {
         return(400)
       }

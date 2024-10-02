@@ -458,7 +458,7 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' @param Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
 #' @param MinValue Numeric vector length `nPI` with the minimum possible value for the
-#' respective PIs. Defaults to 0.
+#' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @param MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
 #'
@@ -474,7 +474,7 @@ setGeneric("Quilt", function(Code='',
                              Description='',
                              Value=array(),
                              Preset=list(),
-                             Color=c('white', 'darkblue'),
+                             Color=c('darkblue', 'lightblue'),
                              MinValue=as.numeric(NA),
                              MaxValue=as.numeric(NA)) standardGeneric('Quilt'))
 
@@ -685,9 +685,8 @@ setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"
 #' @param Label `r label_PI_param() `
 #' @param Description `r description_PI_param()`
 #' @param Value A numeric array with the stochastic performance indicator values for each
-#' operating model (OM), management procedure (MP),  performance indicator (PI),
-#' and historical + projection timestep (nTS).
-#' Dimensions: c(nOM`, `nMP`, `nPI`)
+#' operating model (OM), management procedure (MP),  and performance indicator (PI)
+#' Dimensions: c(`nOM`, `nMP`, `nPI`)
 #' @param Preset `r preset_param()`
 #'
 #' @rdname Tradeoff-methods
