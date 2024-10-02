@@ -3,6 +3,7 @@ check_required_packages <- function() {
   app_packages <- c('fresh',
                     'colourpicker',
                     'colorspace',
+                    'cowplot',
                     'esquisse',
                     'flextable',
                     'fresh',
