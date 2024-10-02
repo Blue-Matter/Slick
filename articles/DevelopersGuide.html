@@ -51,8 +51,16 @@
 
 
 
-
-<div class="row">
+<link href="DevelopersGuide_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="DevelopersGuide_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="DevelopersGuide_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="DevelopersGuide_files/datatables-binding-0.33/datatables.js"></script><link href="DevelopersGuide_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="DevelopersGuide_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="DevelopersGuide_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="DevelopersGuide_files/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet">
+<script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script><link href="DevelopersGuide_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="DevelopersGuide_files/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="DevelopersGuide_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="DevelopersGuide_files/selectize-0.12.0/selectize.min.js"></script><link href="DevelopersGuide_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="DevelopersGuide_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="DevelopersGuide_files/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+<script src="DevelopersGuide_files/tabwid-1.1.3/tabwid.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Slick Developer's Guide</h1>
@@ -318,7 +326,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-09-26"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-02"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -347,7 +355,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "This is the subtitle"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-09-26"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-02"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -948,41 +956,366 @@ performance indicators included in the <code>Boxplot</code> object.
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span></code></pre></div>
+<p>Check the <code>Boxplot</code> object and add to the Slick
+Object:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Boxplot"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
+<p>The <code>plotBoxplot</code> function is used to create the Boxplot
+from a Slick Object:</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot1-1.png" width="700"></p>
+<p>There is an option for violin plots:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-2.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot2-1.png" width="700"></p>
+<p>or both types:</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'both'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-3.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot3-1.png" width="700"></p>
+<p>The <code>byOM=TRUE</code> argument creates a boxplot for a given
+performance indicator for each OM in the Slick Object:</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot4-1.png" width="700"></p>
+<p>See <a href="../reference/plotBoxplot.html"><code>?plotBoxplot</code></a> for
+more options for the <code>plotBoxplot</code> function.</p>
+<p>The <code>FilterSlick</code> can be used to filter the OMs and/or MPs
+to include in a given plot:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, MPs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, OMs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, plot<span class="op">=</span><span class="st">'Boxplot'</span><span class="op">)</span>,</span>
+<span>            byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot5-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="kobe-plot">Kobe Plot<a class="anchor" aria-label="anchor" href="#kobe-plot"></a>
+</h2>
+<p>Information for the <em>Kobe Plot</em> is stored in a <a href="../reference/Kobe-class.html">Kobe Object</a>.</p>
+<p>A <em>Kobe Object</em> can be created using the <code>Kobe</code>
+function. Here we are populating the metadata directly when we create
+the <code>Kobe</code> object:</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Kobe-methods.html">Kobe</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span>
+<span>             Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span>
+<span>             Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Spawning biomass relative to SB_MSY'</span>,</span>
+<span>                             <span class="st">'Fishing mortality relative to F_MSY'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The <code>Time</code> slot of a Kobe Object contains numeric values
+for the projection time-steps:</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">OM_Base</span><span class="op">@</span><span class="va">proyears</span><span class="op">)</span></span></code></pre></div>
+<p><code>Value</code> is a numeric array containing the values of the
+performance indicators included in the <code>Kobe</code> Object.
+<code>Value</code> must have dimensions
+<code>c(nsim, nOM, nMP, nPI, nTS)</code>:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SB_SBMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SB_SBMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SB_SBMSY</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">F_FMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">F_FMSY</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">F_FMSY</span></span></code></pre></div>
+<p>Check and add to the Slick Object:</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Kobe"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span><span class="fu"><a href="../reference/Kobe-methods.html">Kobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kobe</span></span></code></pre></div>
+<p>Plot the Kobe plot:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/kobe_plot-1.png" width="700"></p>
+<p>Plot the Kobe Time plot:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span>, Time<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/kobe_timeplot-1.png" width="700"></p>
+<p>See <a href="../reference/plotKobe.html"><code>?plotKobe</code></a>
+for more options for the <code>plotKobe</code> function.</p>
+</div>
+<div class="section level2">
+<h2 id="quilt-plot">Quilt Plot<a class="anchor" aria-label="anchor" href="#quilt-plot"></a>
+</h2>
+<p>Information for the <em>Quilt Plot</em> is stored in a <a href="../reference/Quilt-class.html">Quilt Object</a>.</p>
+<p>A <em>Quilt Object</em> can be created using the <code>Quilt</code>
+function. Here we are populating the metadata directly when we create
+the <code>Quilt</code> object:</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">quilt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Quilt-methods.html">Quilt</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PGK'</span>,</span>
+<span>                      <span class="st">'P100'</span>,</span>
+<span>                      <span class="st">'PNOF'</span>,</span>
+<span>                      <span class="st">'Mean TAC'</span><span class="op">)</span>,</span>
+<span>               Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Prob. Green Kobe'</span>,</span>
+<span>                       <span class="st">'Prob SB&gt;SBMSY'</span>,</span>
+<span>                       <span class="st">'Prob. Not Overfishing'</span>,</span>
+<span>                       <span class="st">'Mean Total Allowable Catch'</span><span class="op">)</span>,</span>
+<span>               Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Probability of being in the green region of Kobe plot over the projection period'</span>,</span>
+<span>                               <span class="st">'Probability spawning biomass is greater than SB_MSY over the projection period'</span>,</span>
+<span>                               <span class="st">'Probability of not overfishing over the projection period'</span>,</span>
+<span>                               <span class="st">'Mean Total Allowable Catch over the projection period'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><code>Value</code> is a numeric array containing the values of the
+performance indicators included in the <code>Quilt</code> Object.
+<code>Value</code> must have dimensions
+<code>c(nOM, nMP, nPI)</code>:</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">MSE_Base</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">SB_SBMSY</span> <span class="op">&gt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">F_FMSY</span> <span class="op">&lt;</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">@</span><span class="va">TAC</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">@</span><span class="va">TAC</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">@</span><span class="va">TAC</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>MinValue</code> and <code>MaxValue</code> functions can be
+used to set minimum and maximum values for calculating the colored
+shading for each PI:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/MinValue.html">MinValue</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/MinValue.html">MaxValue</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<p>Check and add to the Slick Object:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Quilt"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Quilt-methods.html">Quilt</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">quilt</span></span></code></pre></div>
+<p>The default Quilt plot:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.16\" data-max=\"0.91\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.22\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.2\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"870\" data-max=\"1000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["AvC","Itarget1","DD","SPmod"],[0.89,0.91,0.48,0.16],[0.9,0.95,0.53,0.22],[0.93,0.95,0.6,0.2],[930,940,1000,870]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 870 ? \"#ADD8E680\" : value <= 883 ? \"#9DC4DD80\" : value <= 896 ? \"#8DB0D580\" : value <= 909 ? \"#7D9DCD80\" : value <= 922 ? \"#6E89C480\" : value <= 935 ? \"#5E75BC80\" : value <= 948 ? \"#4E62B480\" : value <= 961 ? \"#3E4EAC80\" : value <= 974 ? \"#2F3AA380\" : value <= 987 ? \"#1F279B80\" : value <= 1000 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><p>Shading scaled between minimum and maximum for each PI:</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, minmax<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.16\" data-max=\"0.91\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.22\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.2\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"870\" data-max=\"1000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["AvC","Itarget1","DD","SPmod"],[0.89,0.91,0.48,0.16],[0.9,0.95,0.53,0.22],[0.93,0.95,0.6,0.2],[930,940,1000,870]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.16 ? \"#ADD8E680\" : value <= 0.235 ? \"#9DC4DD80\" : value <= 0.31 ? \"#8DB0D580\" : value <= 0.385 ? \"#7D9DCD80\" : value <= 0.46 ? \"#6E89C480\" : value <= 0.535 ? \"#5E75BC80\" : value <= 0.61 ? \"#4E62B480\" : value <= 0.685 ? \"#3E4EAC80\" : value <= 0.76 ? \"#2F3AA380\" : value <= 0.835 ? \"#1F279B80\" : value <= 0.91 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.22 ? \"#ADD8E680\" : value <= 0.293 ? \"#9DC4DD80\" : value <= 0.366 ? \"#8DB0D580\" : value <= 0.439 ? \"#7D9DCD80\" : value <= 0.512 ? \"#6E89C480\" : value <= 0.585 ? \"#5E75BC80\" : value <= 0.658 ? \"#4E62B480\" : value <= 0.731 ? \"#3E4EAC80\" : value <= 0.804 ? \"#2F3AA380\" : value <= 0.877 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.2 ? \"#ADD8E680\" : value <= 0.275 ? \"#9DC4DD80\" : value <= 0.35 ? \"#8DB0D580\" : value <= 0.425 ? \"#7D9DCD80\" : value <= 0.5 ? \"#6E89C480\" : value <= 0.575 ? \"#5E75BC80\" : value <= 0.65 ? \"#4E62B480\" : value <= 0.725 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.875 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 870 ? \"#ADD8E680\" : value <= 883 ? \"#9DC4DD80\" : value <= 896 ? \"#8DB0D580\" : value <= 909 ? \"#7D9DCD80\" : value <= 922 ? \"#6E89C480\" : value <= 935 ? \"#5E75BC80\" : value <= 948 ? \"#4E62B480\" : value <= 961 ? \"#3E4EAC80\" : value <= 974 ? \"#2F3AA380\" : value <= 987 ? \"#1F279B80\" : value <= 1000 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><p>A static table with no shading:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, shading<span class="op">=</span><span class="cn">FALSE</span>, kable<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="tabwid">
+<style>.cl-a956fa9a{}.cl-a9510aae{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a9538a4a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a9538a54{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a953a5fc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a606{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a610{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a611{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a612{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a61a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-a956fa9a">
+<thead><tr style="overflow-wrap:break-word;">
+<th class="cl-a953a5fc"><p class="cl-a9538a4a"><span class="cl-a9510aae">MP</span></p></th>
+<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">PGK</span></p></th>
+<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">P100</span></p></th>
+<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">PNOF</span></p></th>
+<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">Mean TAC</span></p></th>
+</tr></thead>
+<tbody>
+<tr style="overflow-wrap:break-word;">
+<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">AvC</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.89</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.90</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.93</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">930</span></p></td>
+</tr>
+<tr style="overflow-wrap:break-word;">
+<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">Itarget1</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.91</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.95</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.95</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">940</span></p></td>
+</tr>
+<tr style="overflow-wrap:break-word;">
+<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">DD</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.48</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.53</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.60</span></p></td>
+<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">1,000</span></p></td>
+</tr>
+<tr style="overflow-wrap:break-word;">
+<td class="cl-a953a612"><p class="cl-a9538a4a"><span class="cl-a9510aae">SPmod</span></p></td>
+<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.16</span></p></td>
+<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.22</span></p></td>
+<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.20</span></p></td>
+<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">870</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a href="../reference/plotQuilt.html"><code>?plotQuilt</code></a>
+for more options for the <code>plotQuilt</code> function.</p>
+</div>
+<div class="section level2">
+<h2 id="spider-plot">Spider Plot<a class="anchor" aria-label="anchor" href="#spider-plot"></a>
+</h2>
+<p>Information for the <em>Spider Plot</em> is stored in a <a href="../reference/Spider-class.html">Spider Object</a>.</p>
+<p>A <em>Spider Object</em> can be created using the <code>Spider</code>
+function. Here we are populating the metadata directly when we create
+the <code>Spider</code> object:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spider</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Spider-methods.html">Spider</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'P100'</span>,</span>
+<span>                      <span class="st">'P50'</span>,</span>
+<span>                      <span class="st">'PNOF'</span>,</span>
+<span>                      <span class="st">'Yield'</span><span class="op">)</span>,</span>
+<span>               Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Prob SB&gt;SBMSY'</span>,</span>
+<span>                       <span class="st">'Prob SB&gt;0.5SBMSY'</span>,</span>
+<span>                       <span class="st">'Prob. Not Overfishing'</span>,</span>
+<span>                       <span class="st">'Prob. Mean Yield &gt; 50%'</span><span class="op">)</span>,</span>
+<span>               Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Probability spawning biomass is greater than SB_MSY over the projection period'</span>,</span>
+<span>                               <span class="st">'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period'</span>,</span>
+<span>                               <span class="st">'Probability of not overfishing over the projection period'</span>,</span>
+<span>                               <span class="st">'Probability mean yield is greater than 50% of the reference yield'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><code>Value</code> is a numeric array containing the values of the
+performance indicators included in the <code>Spider</code> Object.
+<code>Value</code> must have dimensions
+<code>c(nOM, nMP, nPI)</code>:</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span></code></pre></div>
+<p>There are a few things to consider for the <code>Value</code> of the
+Spider plot:</p>
+<ol style="list-style-type: decimal">
+<li>The values for each Performance Indicator must be on the same scale,
+with high values indicating better performance</li>
+<li>Values cannot be negative</li>
+<li>All values should be between 0 and 1, or between 0 and 100, with 1
+or 100 representing the highest possible value for a Performance
+Indicator.</li>
+</ol>
+<p>Check and add to the Slick Object:</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Spider"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Spider-methods.html">Spider</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spider</span></span></code></pre></div>
+<p>The default Spider Plot:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot-1.png" width="700"></p>
+<p>Option to include fill color:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, fill<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot1-1.png" width="700"></p>
+<p>Plot by MP:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot2-1.png" width="700"></p>
+<p>Or by OM and MP:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span>, incMean <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot3-1.png" width="700"></p>
+<p>See <a href="../reference/plotSpider.html"><code>?plotSpider</code></a> for
+more options for the <code>plotSpider</code> function.</p>
+</div>
+<div class="section level2">
+<h2 id="tradeoff-plot">Tradeoff Plot<a class="anchor" aria-label="anchor" href="#tradeoff-plot"></a>
+</h2>
+<p>Information for the <em>Tradeoff Plot</em> is stored in a <a href="../reference/Tradeoff-class.html">Tradeoff Object</a>.</p>
+<p>A <em>Tradeoff Object</em> can be created using the
+<code>Tradeoff</code> function. Here we are populating the metadata
+directly when we create the <code>Tradeoff</code> object:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tradeoff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Tradeoff-methods.html">Tradeoff</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'P100'</span>,</span>
+<span>                        <span class="st">'P50'</span>,</span>
+<span>                        <span class="st">'PNOF'</span>,</span>
+<span>                        <span class="st">'Yield'</span><span class="op">)</span>,</span>
+<span>                 Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Prob SB&gt;SBMSY'</span>,</span>
+<span>                         <span class="st">'Prob SB&gt;0.5SBMSY'</span>,</span>
+<span>                         <span class="st">'Prob. Not Overfishing'</span>,</span>
+<span>                         <span class="st">'Prob. Mean Yield &gt; 50%'</span><span class="op">)</span>,</span>
+<span>                 Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Probability spawning biomass is greater than SB_MSY over the projection period'</span>,</span>
+<span>                                 <span class="st">'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period'</span>,</span>
+<span>                                 <span class="st">'Probability of not overfishing over the projection period'</span>,</span>
+<span>                                 <span class="st">'Probability mean yield is greater than 50% of the reference yield'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Here we are using the same Performance Indicators as those in the
+Spider Plot.</p>
+<p><code>Value</code> is a numeric array containing the values of the
+performance indicators included in the <code>Tradeoff</code> Object.
+<code>Value</code> must have dimensions
+<code>c(nOM, nMP, nPI)</code>:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P100</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">P50</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
+<span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span></code></pre></div>
+<p>Check and add to the Slick Object:</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Tradeoff"</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Tradeoff-methods.html">Tradeoff</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tradeoff</span></span></code></pre></div>
+<p>The default Tradeoff Plot:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot-1.png" width="700"></p>
+<p>Tradeoff Plot with multiple Performance Indicators:</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot2-1.png" width="700"></p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot-4.png" width="700"></p>
-</div>
-<div class="section level2">
-<h2 id="kobe">
-<code>Kobe</code><a class="anchor" aria-label="anchor" href="#kobe"></a>
-</h2>
-</div>
-<div class="section level2">
-<h2 id="quilt">
-<code>Quilt</code><a class="anchor" aria-label="anchor" href="#quilt"></a>
-</h2>
-</div>
-<div class="section level2">
-<h2 id="spider">
-<code>Spider</code><a class="anchor" aria-label="anchor" href="#spider"></a>
-</h2>
-<div class="section level3">
-<h3 id="tradeoff">
-<code>Tradeoff</code><a class="anchor" aria-label="anchor" href="#tradeoff"></a>
-</h3>
-</div>
+<span><span class="co"># saveRDS(slick, 'C:/users/adrian/desktop/slick.slick')</span></span>
+<span></span>
+<span><span class="co"># Testslick &lt;- readRDS('C:/Users/adrian/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')</span></span></code></pre></div>
+<p>See <a href="../reference/plotTradeoff.html"><code>?plotTradeoff</code></a> for
+more options for the <code>plotTradeoff</code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="slick-object-library">Slick Object Library<a class="anchor" aria-label="anchor" href="#slick-object-library"></a>

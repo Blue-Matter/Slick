@@ -94,6 +94,9 @@ A character string length <code>nPI</code> or a named list for multi-language su
 <dt><code>Value</code></dt>
 <dd><p>A numeric array with the stochastic performance indicator values for each
 operating model (OM), management procedure (MP), and performance indicator (PI).
+Dimensions: c(<code>nOM</code>, <code>nMP</code>, and <code>nPI</code>).
+All PI values must range between 0 and 1 or 0 and 100. If all values are &lt;= 1, they will be
+multiplied by 100 in the plot.
 Dimensions: c(<code>nOM</code>, <code>nMP</code>, and <code>nPI</code>)</p></dd>
 
 
