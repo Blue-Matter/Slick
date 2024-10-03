@@ -9,8 +9,7 @@
 status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
