@@ -70,7 +70,35 @@ object such as <code>Title</code>, <code>Author</code>, and <code>Introduction</
 <span>  Spider <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Timeseries <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Tradeoff <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Title</span><span class="op">(</span><span class="va">object</span>, lang <span class="op">=</span> <span class="st">"en"</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Title</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Subtitle</span><span class="op">(</span><span class="va">object</span>, lang <span class="op">=</span> <span class="st">"en"</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Subtitle</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Date</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Date</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Author</span><span class="op">(</span><span class="va">object</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Author</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Email</span><span class="op">(</span><span class="va">object</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Email</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Institution</span><span class="op">(</span><span class="va">object</span>, lang <span class="op">=</span> <span class="st">"en"</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Institution</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span></span>
+<span><span class="fu">Introduction</span><span class="op">(</span><span class="va">object</span>, lang <span class="op">=</span> <span class="st">"en"</span>, markdown <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">Introduction</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -139,6 +167,24 @@ For multiple languages, use a named list with names: <code>en</code>, <code>es</
 <dt id="arg-tradeoff">Tradeoff<a class="anchor" aria-label="anchor" href="#arg-tradeoff"></a></dt>
 <dd><p>An object of class <code><a href="Tradeoff-class.html">Tradeoff-class()</a></code></p></dd>
 
+
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+<dd><p>A <code>Slick-class()</code> object</p></dd>
+
+
+<dt id="arg-lang">lang<a class="anchor" aria-label="anchor" href="#arg-lang"></a></dt>
+<dd><p>Optional text string specifying the language (if available).
+Either 'en', 'es', or 'fr' for English, Spanish, or French respectively</p></dd>
+
+
+<dt id="arg-markdown">markdown<a class="anchor" aria-label="anchor" href="#arg-markdown"></a></dt>
+<dd><p>Logical. Process markdown?</p></dd>
+
+
+<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
+<dd><p>The value to assign to the object. See <code>Slots</code> for format of the
+relevant object class</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -159,6 +205,20 @@ assigned using functions corresponding to slot name. See <code>Usage</code> and 
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
 
 <ul><li><p><code>Slick()</code>: Create a <code>Slick-class()</code> object</p></li>
+<li><p><code>Title()</code>: Access <code>Title</code>, Multi-language support</p></li>
+<li><p><code>Title(object) &lt;- value</code>: Assign <code>Title</code>, Multi-language support</p></li>
+<li><p><code>Subtitle()</code>: Access <code>Subtitle</code>, Multi-language support</p></li>
+<li><p><code>Subtitle(object) &lt;- value</code>: Assign <code>Subtitle</code>, Multi-language support</p></li>
+<li><p><code>Date()</code>: Access <code>Date</code></p></li>
+<li><p><code>Date(object) &lt;- value</code>: Assign <code>Date</code></p></li>
+<li><p><code>Author()</code>: Access <code>Author</code></p></li>
+<li><p><code>Author(object) &lt;- value</code>: Assign <code>Author</code></p></li>
+<li><p><code>Email()</code>: Access <code>Email</code></p></li>
+<li><p><code>Email(object) &lt;- value</code>: Assign <code>Email</code></p></li>
+<li><p><code>Institution()</code>: Access <code>Institution</code></p></li>
+<li><p><code>Institution(object) &lt;- value</code>: Assign <code>Institution</code></p></li>
+<li><p><code>Introduction()</code>: Access <code>Introduction</code></p></li>
+<li><p><code>Introduction(object) &lt;- value</code>: Assign <code>Introduction</code>, can include Markdown. See <code>Examples</code></p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="slots">Slots<a class="anchor" aria-label="anchor" href="#slots"></a></h2>
@@ -232,48 +292,104 @@ For multiple languages, use a named list with names: <code>en</code>, <code>es</
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="MPs-methods.html">MPs()</a></code>, <code><a href="OMs-methods.html">OMs()</a></code>, <code><a href="Boxplot-methods.html">Boxplot()</a></code>, <code><a href="Kobe-methods.html">Kobe()</a></code>, <code><a href="Quilt-methods.html">Quilt()</a></code>,
 <code><a href="Spider-methods.html">Spider()</a></code>, <code><a href="Timeseries-methods.html">Timeseries()</a></code>, <code><a href="Tradeoff-methods.html">Tradeoff()</a></code>, <code><a href="Check.html">Check()</a></code>,
-<code><a href="SlickFunctions.html">Title()</a></code>, <code><a href="SlickFunctions.html">Subtitle()</a></code>, <code><a href="SlickFunctions.html">Date()</a></code>, <code><a href="SlickFunctions.html">Author()</a></code>, <code><a href="SlickFunctions.html">Email()</a></code>,
-<code><a href="SlickFunctions.html">Institution()</a></code>, <code><a href="SlickFunctions.html">Introduction()</a></code></p></div>
+<code>Title()</code>, <code>Subtitle()</code>, <code>Date()</code>, <code>Author()</code>, <code>Email()</code>,
+<code>Institution()</code>, <code>Introduction()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://slick.bluematterscience.com/">Slick</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign values to a new `Slick` object</span></span></span>
 <span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu">Slick</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Adrian Hordyk'</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="st">"[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Blue Matter Science](bluematterscience.com)"</span></span></span>
+<span class="r-in"><span><span class="fu">Title</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span></span>
+<span class="r-in"><span><span class="fu">Subtitle</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"</span></span></span>
+<span class="r-in"><span><span class="fu">Date</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Author</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Adrian Hordyk'</span></span></span>
+<span class="r-in"><span><span class="fu">Email</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="st">"[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span></span>
+<span class="r-in"><span><span class="fu">Institution</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Blue Matter Science](bluematterscience.com)"</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"</span></span></span>
-<span class="r-in"><span><span class="st">This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</span></span></span>
-<span class="r-in"><span><span class="st"></span></span></span>
-<span class="r-in"><span><span class="st">The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).</span></span></span>
-<span class="r-in"><span><span class="st">"</span></span></span>
+<span class="r-in"><span><span class="fu">Introduction</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"This is the Introduction text"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Access values from `Slick` object</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Title</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "An Example Slick Object"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Subtitle</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Date</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2024-10-03"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Author</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Adrian Hordyk"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Email</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Institution</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "[Blue Matter Science](bluematterscience.com)"</span>
-<span class="r-in"><span><span class="fu"><a href="SlickFunctions.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "\nThis is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.\n\nThe introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).\n"</span>
+<span class="r-in"><span><span class="fu">Introduction</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "This is the Introduction text"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># See ?MPs, ?OMs, ?Boxplot, ?Quilt, etc for examples on populating other</span></span></span>
-<span class="r-in"><span><span class="co"># objects</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">slick</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An empty object of class `Slick`</span> <span style="color: #00BBBB;">────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Title`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> An Example Slick Object</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Subtitle`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [Created for the Developer's Guide](http ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Date`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2024-10-03</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Author`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 Adrian Hordyk</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Email`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 [mailto:adrian@bluematterscience.com](ma ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Institution`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 [Blue Matter Science](bluematterscience. ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Introduction`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> This is the Introduction text</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`MPs`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`OMs`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Boxplot`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Quilt`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Kobe`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Spider`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Timeseries`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Tradeoff`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Object is empty</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

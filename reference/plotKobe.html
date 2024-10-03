@@ -188,6 +188,62 @@ Use NULL to remove percentile lines.</p></dd>
     <div class="dont-index"><p><code><a href="Kobe-methods.html">Kobe()</a></code>, <code><a href="Kobe-class.html">Kobe-class()</a></code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate dummy values</span></span></span>
+<span class="r-in"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">om</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nOM</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">mp</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nMP</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">pi</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nPI</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span> <span class="op">*</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nTS</span><span class="op">*</span><span class="va">nsim</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        nrow<span class="op">=</span><span class="va">nsim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create and populate Object</span></span></span>
+<span class="r-in"><span><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu"><a href="Kobe-methods.html">Kobe</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">'F/FMSY'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
+<span class="r-in"><span>                             <span class="st">'This is the description for PI 2'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Value<span class="op">=</span><span class="va">values</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add values for projection time steps</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Time.html">Time</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">nTS</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Kobe"</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add to `Slick` object</span></span></span>
+<span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Kobe-methods.html">Kobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kobe</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
+<span class="r-in"><span><span class="fu">plotKobe</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plotKobe(slick):</span> object 'nMP' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plotKobe</span><span class="op">(</span><span class="va">slick</span>, Time<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plotKobe(slick, Time = TRUE):</span> object 'nMP' not found</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
