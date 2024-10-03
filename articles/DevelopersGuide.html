@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -292,7 +292,10 @@ MPs for each of the three OMS:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MSE_Base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_Base</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">MSE_LowM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_LowM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">MSE_HighM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">MSE_HighM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">MSE_LowH</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_LowM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">MSE_HighH</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>In the sections below, these MSE objects will be used to calculate
 the performance indicators for each <a href="#slickplot">Slick
 Plot</a>.</p>
@@ -326,7 +329,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-10-02"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-03"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -355,7 +358,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "This is the subtitle"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-10-02"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-03"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/SlickFunctions.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -577,7 +580,7 @@ in the Slick Object.</p>
 two levels of steepness (h):</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="st">'M'</span>,</span>
-<span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span>,</span>
+<span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span>,</span>
 <span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>,</span>
 <span>                                         <span class="st">'Lower Natural Mortality'</span>,</span>
 <span>                                         <span class="st">'Higher Natural Mortality'</span><span class="op">)</span></span>
@@ -586,8 +589,8 @@ two levels of steepness (h):</p>
 <span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Factor  Level              Description</span></span>
 <span><span class="co">#&gt; 1      M   Base                Base Case</span></span>
-<span><span class="co">#&gt; 2      M  Lower  Lower Natural Mortality</span></span>
-<span><span class="co">#&gt; 3      M Higher Higher Natural Mortality</span></span></code></pre></div>
+<span><span class="co">#&gt; 2      M  Low M  Lower Natural Mortality</span></span>
+<span><span class="co">#&gt; 3      M High M Higher Natural Mortality</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
@@ -601,18 +604,18 @@ match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <p>Here is the <code>Design</code> matrix corresponding with the
 <code>Factors</code> above:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        M</span></span>
 <span><span class="co">#&gt; 1   Base</span></span>
-<span><span class="co">#&gt; 2  Lower</span></span>
-<span><span class="co">#&gt; 3 Higher</span></span></code></pre></div>
+<span><span class="co">#&gt; 2  Low M</span></span>
+<span><span class="co">#&gt; 3 High M</span></span></code></pre></div>
 <p>It can sometimes be helpful to add names or labels to the operating
 models listed in <code>Design</code>. This can be done using
 <code>rownames</code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Lower'</span>, <span class="st">'Higher'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>, <span class="st">'Less Productive'</span>, <span class="st">'More Productive'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="preset-1">Preset<a class="anchor" aria-label="anchor" href="#preset-1"></a>
@@ -628,8 +631,11 @@ representing the levels within each factor that should be included under
 that preset.</p>
 <p>For example:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'All'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
-<span>                    <span class="st">'Base'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Base Case'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>                    <span class="st">'Low M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>                    <span class="st">'High M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>                    <span class="st">'All'</span><span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adding-oms-to-slick-object">Adding OMs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-oms-to-slick-object"></a>
@@ -644,23 +650,33 @@ that preset.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Factor  Level              Description</span></span>
 <span><span class="co">#&gt; 1      M   Base                Base Case</span></span>
-<span><span class="co">#&gt; 2      M  Lower  Lower Natural Mortality</span></span>
-<span><span class="co">#&gt; 3      M Higher Higher Natural Mortality</span></span>
+<span><span class="co">#&gt; 2      M  Low M  Lower Natural Mortality</span></span>
+<span><span class="co">#&gt; 3      M High M Higher Natural Mortality</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">`Design`</span> ──</span></span>
-<span><span class="co">#&gt;             M</span></span>
-<span><span class="co">#&gt; Base     Base</span></span>
-<span><span class="co">#&gt; Lower   Lower</span></span>
-<span><span class="co">#&gt; Higher Higher</span></span>
+<span><span class="co">#&gt;                      M</span></span>
+<span><span class="co">#&gt; Base Case         Base</span></span>
+<span><span class="co">#&gt; Less Productive  Low M</span></span>
+<span><span class="co">#&gt; More Productive High M</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">`Preset`</span> ──</span></span>
-<span><span class="co">#&gt; ── All</span></span>
+<span><span class="co">#&gt; ── Base Case</span></span>
 <span><span class="co">#&gt; 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Low M </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── High M </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 3</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Base </span></span>
+<span><span class="co">#&gt; ── All </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 1</span></span></code></pre></div>
+<span><span class="co">#&gt; 1</span></span>
+<span><span class="co">#&gt; 2</span></span>
+<span><span class="co">#&gt; 3</span></span></code></pre></div>
 <p>The <code>Check</code> function can be used to make sure there are no
 errors:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
@@ -1118,43 +1134,43 @@ shading for each PI:</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, shading<span class="op">=</span><span class="cn">FALSE</span>, kable<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-a956fa9a{}.cl-a9510aae{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a9538a4a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a9538a54{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a953a5fc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a606{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a610{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a611{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a612{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a953a61a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-a956fa9a">
+<style>.cl-635f7e2a{}.cl-6359ad4c{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-635c1e9c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-635c1ea6{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-635c39f4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-635c39fe{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-635c39ff{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-635c3a08{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-635c3a09{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-635c3a0a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-635f7e2a">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-a953a5fc"><p class="cl-a9538a4a"><span class="cl-a9510aae">MP</span></p></th>
-<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">PGK</span></p></th>
-<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">P100</span></p></th>
-<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">PNOF</span></p></th>
-<th class="cl-a953a606"><p class="cl-a9538a54"><span class="cl-a9510aae">Mean TAC</span></p></th>
+<th class="cl-635c39f4"><p class="cl-635c1e9c"><span class="cl-6359ad4c">MP</span></p></th>
+<th class="cl-635c39fe"><p class="cl-635c1ea6"><span class="cl-6359ad4c">PGK</span></p></th>
+<th class="cl-635c39fe"><p class="cl-635c1ea6"><span class="cl-6359ad4c">P100</span></p></th>
+<th class="cl-635c39fe"><p class="cl-635c1ea6"><span class="cl-6359ad4c">PNOF</span></p></th>
+<th class="cl-635c39fe"><p class="cl-635c1ea6"><span class="cl-6359ad4c">Mean TAC</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">AvC</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.89</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.90</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.93</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">930</span></p></td>
+<td class="cl-635c39ff"><p class="cl-635c1e9c"><span class="cl-6359ad4c">AvC</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.89</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.90</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.93</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">930</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">Itarget1</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.91</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.95</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.95</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">940</span></p></td>
+<td class="cl-635c39ff"><p class="cl-635c1e9c"><span class="cl-6359ad4c">Itarget1</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.91</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.95</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.95</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">940</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-a953a610"><p class="cl-a9538a4a"><span class="cl-a9510aae">DD</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.48</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.53</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">0.60</span></p></td>
-<td class="cl-a953a611"><p class="cl-a9538a54"><span class="cl-a9510aae">1,000</span></p></td>
+<td class="cl-635c39ff"><p class="cl-635c1e9c"><span class="cl-6359ad4c">DD</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.48</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.53</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.60</span></p></td>
+<td class="cl-635c3a08"><p class="cl-635c1ea6"><span class="cl-6359ad4c">1,000</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-a953a612"><p class="cl-a9538a4a"><span class="cl-a9510aae">SPmod</span></p></td>
-<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.16</span></p></td>
-<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.22</span></p></td>
-<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">0.20</span></p></td>
-<td class="cl-a953a61a"><p class="cl-a9538a54"><span class="cl-a9510aae">870</span></p></td>
+<td class="cl-635c3a09"><p class="cl-635c1e9c"><span class="cl-6359ad4c">SPmod</span></p></td>
+<td class="cl-635c3a0a"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.16</span></p></td>
+<td class="cl-635c3a0a"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.22</span></p></td>
+<td class="cl-635c3a0a"><p class="cl-635c1ea6"><span class="cl-6359ad4c">0.20</span></p></td>
+<td class="cl-635c3a0a"><p class="cl-635c1ea6"><span class="cl-6359ad4c">870</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1202,7 +1218,6 @@ performance indicators included in the <code>Spider</code> Object.
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
-<span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
@@ -1288,7 +1303,6 @@ performance indicators included in the <code>Tradeoff</code> Object.
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">PNOF</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span></span>
-<span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_Base</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_LowM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">tradeoff</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span>,,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">MSEtool</span><span class="fu">::</span><span class="fu"><a href="https://msetool.openmse.com/reference/PerformanceMetric.html" class="external-link">LTY</a></span><span class="op">(</span><span class="va">MSE_HighM</span><span class="op">)</span><span class="op">@</span><span class="va">Mean</span></span></code></pre></div>
@@ -1309,18 +1323,13 @@ performance indicators included in the <code>Tradeoff</code> Object.
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/tradeoff_plot2-1.png" width="700"></p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># saveRDS(slick, 'C:/users/adrian/desktop/slick.slick')</span></span>
-<span></span>
-<span><span class="co"># Testslick &lt;- readRDS('C:/Users/adrian/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')</span></span></code></pre></div>
 <p>See <a href="../reference/plotTradeoff.html"><code>?plotTradeoff</code></a> for
 more options for the <code>plotTradeoff</code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="slick-object-library">Slick Object Library<a class="anchor" aria-label="anchor" href="#slick-object-library"></a>
 </h2>
-<p>TBD</p>
+<p>The</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

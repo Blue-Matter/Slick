@@ -11,7 +11,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,7 @@ rows. See <code>Details</code></p></dd>
 
 <dt id="arg-preset">Preset<a class="anchor" aria-label="anchor" href="#arg-preset"></a></dt>
 <dd><p>An optional named list for the preset buttons in the <code><a href="App.html">App()</a></code>. The name of the list
-element will appear as a button in the <code><a href="App.html">App()</a></code>.</p></dd>
+element will appear as a button in the <code><a href="App.html">App()</a></code>.. See <code>Details</code> and `Examples</p></dd>
 
 
 <dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
@@ -116,6 +116,17 @@ See <code>Examples</code>.</p>
 <p>The <code>Design</code> matrix is <code>nOM</code> rows and <code>nFactor</code> columns. The values in each column should
 either be <code>numeric</code> values indicating the levels for the corresponding factor,
 or the actual level values (i.e., <code>Factors$Level</code>) that correspond to each OM. See <code>Examples</code>.</p>
+</div>
+
+<div class="section">
+<h3 id="preset">Preset<a class="anchor" aria-label="anchor" href="#preset"></a></h3>
+
+
+<p>For <code>OMs</code> objects, <code>Preset</code> should be a named list, where each list element represents a
+different preset button to be shown in the app by the name of the list element, and
+each named list element should be a list of length <code>nFactors</code>, with the list elements
+for each Factor containing numeric values indicating the levels to include for that factor.
+See <code>Examples</code></p>
 <p>Use <code><a href="Factors.html">Factors()</a></code>, <code><a href="Design.html">Design()</a></code>, and <code><a href="Preset.html">Preset()</a></code> to access
 and assign the values for an existing <code>OMs</code> object, see <code>Examples</code>.</p>
 </div>
@@ -137,27 +148,49 @@ and assign the values for an existing <code>OMs</code> object, see <code>Example
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">myOMs</span> <span class="op">&lt;-</span> <span class="fu">OMs</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Create Object</span></span></span>
+<span class="r-in"><span><span class="va">oms</span> <span class="op">&lt;-</span> <span class="fu">OMs</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">myOMs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> unable to find an inherited method for function ‘Metadata&lt;-’ for signature ‘object = "OMs"’</span>
+<span class="r-in"><span><span class="co"># Specify Factors</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="st">'M'</span>,</span></span>
+<span class="r-in"><span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>,</span></span>
+<span class="r-in"><span>                                         <span class="st">'Lower Natural Mortality'</span>,</span></span>
+<span class="r-in"><span>                                         <span class="st">'Higher Natural Mortality'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Factor  Level              Description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      M   Base                Base Case</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      M  Low M  Lower Natural Mortality</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      M High M Higher Natural Mortality</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Design &lt;- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))</span></span></span>
-<span class="r-in"><span><span class="co">#' Description &lt;- list(c('Natural mortality (M) = 0.1',</span></span></span>
-<span class="r-in"><span><span class="co">#'                       'Natural mortality (M) = 0.2',</span></span></span>
-<span class="r-in"><span><span class="co">#'                       'Natural mortality (M) = 0.3'),</span></span></span>
-<span class="r-in"><span><span class="co">#'                     c('Steepness (h) = 0.7',</span></span></span>
-<span class="r-in"><span><span class="co">#'                       'Steepness (h) = 0.9'))</span></span></span>
-<span class="r-in"><span><span class="co">#' Label &lt;- list(c(M=0.1, M=0.2, M=0.3),</span></span></span>
-<span class="r-in"><span><span class="co">#'                c(h=0.7, h=0.9))</span></span></span>
-<span class="r-in"><span><span class="co">#' myOMs &lt;- OMs(Design, Description, Label)</span></span></span>
+<span class="r-in"><span><span class="co"># OM Design</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#' mySlick &lt;- Slick()</span></span></span>
-<span class="r-in"><span><span class="co">#' Design(mySlick) &lt;- data.frame(M=c(0.1, 0.2, 0.3),</span></span></span>
-<span class="r-in"><span><span class="co">#'                               h=c(0.6, 0.7, 0.8)</span></span></span>
-<span class="r-in"><span><span class="co">#'                              )</span></span></span>
-<span class="r-in"><span><span class="co">#' Design(mySlick)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add names for OMs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>, <span class="st">'Less Productive'</span>, <span class="st">'More Productive'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Base Case         Base</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Less Productive  Low M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> More Productive High M</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Preset</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Base Case'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'Low M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'High M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'All'</span><span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create Slick Object</span></span></span>
+<span class="r-in"><span><span class="va">myslick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add OMs to Slick Object</span></span></span>
+<span class="r-in"><span><span class="fu">OMs</span><span class="op">(</span><span class="va">myslick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">oms</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

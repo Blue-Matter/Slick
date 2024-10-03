@@ -13,7 +13,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -207,6 +207,109 @@ existing <code>Timeseries</code> object, see <code>Examples</code></p>
 <p><code><a href="Code.html">Code()</a></code>, <code><a href="Code.html">Label()</a></code>, <code><a href="Code.html">Description()</a></code>, <code><a href="Metadata.html">Metadata()</a></code>, <code><a href="Value.html">Value()</a></code>, <code><a href="Preset.html">Preset()</a></code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate dummy values</span></span></span>
+<span class="r-in"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
+<span class="r-in"><span><span class="va">nHistTS</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
+<span class="r-in"><span><span class="va">nProjTS</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></span>
+<span class="r-in"><span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="va">nHistTS</span> <span class="op">+</span> <span class="va">nProjTS</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>, <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">om</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nOM</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">pi</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nPI</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="co"># PI identical for historical</span></span></span>
+<span class="r-in"><span>    <span class="va">histVals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span> <span class="op">*</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nHistTS</span><span class="op">*</span><span class="va">nsim</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      nrow<span class="op">=</span><span class="va">nsim</span>, ncol<span class="op">=</span><span class="va">nHistTS</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">histVals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">histVals</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, , <span class="va">pi</span>,<span class="fl">1</span><span class="op">:</span><span class="va">nHistTS</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="va">histVals</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">mp</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nMP</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span>,<span class="op">(</span><span class="va">nHistTS</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">nTS</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span> <span class="op">*</span></span></span>
+<span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nProjTS</span><span class="op">*</span><span class="va">nsim</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        nrow<span class="op">=</span><span class="va">nsim</span>, ncol<span class="op">=</span><span class="va">nProjTS</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1033.4577 1049.9445  995.7958  924.4415  900.2484  948.6400  877.3937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  834.5732  911.7659  993.2433  907.6253  899.9992  905.5678  950.2163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15]  939.9614  894.8720  929.6126  891.8283  928.7187 1004.1521  976.0555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22]  904.5061  872.9687  860.4340  836.9054  856.8628  778.6924  768.8525</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29]  784.7838  743.6368  778.2113  770.1077  786.0584  733.6690  725.0528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  821.7168  778.6098  732.1392  703.3494  645.4487  637.7489  618.5382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  641.8162  648.0744  661.3173  649.0489  620.0915  586.6249  557.8296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50]  507.9620 1073.3796 1164.7862 1218.5163 1067.2867 1120.0673 1094.0727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57] 1049.3852 1084.7687 1013.9241 1050.7465 1058.4283 1095.9963 1000.0841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64] 1008.9138 1035.7137 1083.8007 1002.3406 1050.1861 1105.5197 1097.7757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71] 1126.1673 1058.6283 1023.7994  951.9066  911.4322  848.3705  886.0188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [78]  878.6125  856.2546  831.5869</span>
+<span class="r-in"><span><span class="va">values</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 460.6297 462.0673 452.0727 464.6058 457.2527 496.2757 502.5926 483.6765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 459.4815 471.6147 453.9281 425.9444 465.2447 483.6641 462.0696 487.1085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] 492.2349 519.7322 501.2444 515.0601 549.2785 556.5806 546.2475 542.5955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 555.8487 611.7626 561.9429 515.8923 528.8652 542.1738 517.1105 531.2396</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33] 544.3396 581.6150 563.7797 609.1830 610.5427 632.9452 653.7711 663.9272</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] 680.1079 701.1316 679.0084 627.7515 643.3670 642.2061 701.0347 692.6642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49] 665.8847 650.5999 800.8784 759.0583 736.5626 743.4497 708.1508 723.1157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57] 688.3616 683.1757 652.3032 652.9477 566.9658 622.3086 618.2225 668.5256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65] 728.5576 783.6513 812.5981 787.3843 781.7299 753.8293 762.4211 774.8735</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73] 795.5431 768.5756 777.9011 726.3585 663.4133 624.3976 693.8473 668.4616</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create and populate Object</span></span></span>
+<span class="r-in"><span><span class="va">timeseries</span> <span class="op">&lt;-</span> <span class="fu">Timeseries</span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>, <span class="st">'F/FMSY'</span>, <span class="st">'TAC'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>,</span></span>
+<span class="r-in"><span>                                 <span class="st">'F/FMSY'</span>,</span></span>
+<span class="r-in"><span>                                 <span class="st">'TAC'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
+<span class="r-in"><span>                                         <span class="st">'This is the description for PI 2'</span>,</span></span>
+<span class="r-in"><span>                                         <span class="st">'This is the description for PI 3'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                         Value<span class="op">=</span><span class="va">values</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Last historical time step</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">2024</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add values for time steps</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span>, by<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">nHistTS</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                      <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">nProjTS</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Timeseries"</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add to `Slick` object</span></span></span>
+<span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Timeseries</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">timeseries</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="Timeseries-methods-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="Timeseries-methods-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="Timeseries-methods-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

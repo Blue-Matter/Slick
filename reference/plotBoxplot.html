@@ -9,7 +9,7 @@ in a Boxplot object"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,81 +98,55 @@ If NULL, it will facet_wrap all PIs</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI1'</span>, <span class="st">'PI2'</span>, <span class="st">'PI3'</span><span class="op">)</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate dummy values</span></span></span>
+<span class="r-in"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">nPI</span>, <span class="fl">5</span>, <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">om</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nOM</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">mp</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nMP</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">pi</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nPI</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span><span class="op">)</span>, <span class="fl">0.4</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create and populate Object</span></span></span>
+<span class="r-in"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI1'</span>, <span class="st">'PI2'</span>, <span class="st">'PI3'</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Performance Indicator 1'</span>,</span></span>
-<span class="r-in"><span>                         <span class="st">'Performance Indicator 2'</span>,</span></span>
-<span class="r-in"><span>                         <span class="st">'Performance Indicator 3'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                           <span class="st">'Performance Indicator 2'</span>,</span></span>
+<span class="r-in"><span>                           <span class="st">'Performance Indicator 3'</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
 <span class="r-in"><span>                                   <span class="st">'This is the description for PI 2'</span>,</span></span>
 <span class="r-in"><span>                                   <span class="st">'This is the description for PI 3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3000</span><span class="op">)</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">5</span>, <span class="fl">4</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'PI and P2'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                   Value<span class="op">=</span><span class="va">values</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">boxplot</span></span></span>
+<span class="r-in"><span><span class="co"># Check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An object of class `Boxplot`</span> <span style="color: #00BBBB;">────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Boxplot"</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Code`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 PI1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 PI2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 PI3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Label`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 Performance Indicator 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 Performance Indicator 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 Performance Indicator 3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Description`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 This is the description for PI 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 This is the description for PI 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 This is the description for PI 3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Value`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Dimension Length</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      nsim      6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       nOM      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       nMP      4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       nPI      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Mean across MPs and PIs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       PI1  PI2  PI3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 1 0.58 0.45 0.53</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 2 0.55 0.60 0.57</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 3 0.48 0.51 0.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 4 0.40 0.55 0.46</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Preset`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── PI and P2 </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="Code.html">Code</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'LTY'</span>, <span class="st">'STY'</span>, <span class="st">'P50'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Code                   Label                      Description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  LTY Performance Indicator 1 This is the description for PI 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  STY Performance Indicator 2 This is the description for PI 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  P50 Performance Indicator 3 This is the description for PI 3</span>
-<span class="r-in"><span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add to `Slick` object</span></span></span>
 <span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
 <span class="r-in"><span><span class="fu">plotBoxplot</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(Sim = 1:nsim, OM = rep(OM_labels, each = nsim), MP = rep(MP_lab,     each = nsim * nOM), PI = rep(PI_names, each = nsim * nOM *     nMP), value = as.vector(values)):</span> arguments imply differing number of rows: 6, 0, 30, 360</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotBoxplot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">plotBoxplot</span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(Sim = 1:nsim, OM = rep(OM_labels, each = nsim), MP = rep(MP_lab,     each = nsim * nOM), PI = rep(PI_names, each = nsim * nOM *     nMP), value = as.vector(values)):</span> arguments imply differing number of rows: 6, 0, 30, 360</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotBoxplot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">plotBoxplot</span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'both'</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.frame(Sim = 1:nsim, OM = rep(OM_labels, each = nsim), MP = rep(MP_lab,     each = nsim * nOM), PI = rep(PI_names, each = nsim * nOM *     nMP), value = as.vector(values)):</span> arguments imply differing number of rows: 6, 0, 30, 360</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotBoxplot-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,11 +49,6 @@
 <span>  incMean <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  incMax <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  relScale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  size.pi.label <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  size.mean <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  size.mp.label <span class="op">=</span> <span class="fl">16</span>,</span>
-<span>  size.max.value <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  size.om.title <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  col.om.title <span class="op">=</span> <span class="st">"#D6501C"</span>,</span>
 <span>  cex.om.title <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  col.Mean <span class="op">=</span> <span class="st">"white"</span>,</span>
@@ -67,7 +62,7 @@
 <span>  mp.lwd <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.3</span>,</span>
 <span>  ncol <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  pm.avg.cex <span class="op">=</span> <span class="fl">2.2</span>,</span>
+<span>  PI.mean.cex <span class="op">=</span> <span class="fl">2.2</span>,</span>
 <span>  incMPtitle <span class="op">=</span> <span class="va">byMP</span>,</span>
 <span>  mplab.cex <span class="op">=</span> <span class="fl">2.2</span>,</span>
 <span>  max.pt.cex <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -82,16 +77,166 @@
 <dl><dt id="arg-slick">slick<a class="anchor" aria-label="anchor" href="#arg-slick"></a></dt>
 <dd><p>A <code><a href="Slick-class.html">Slick-class()</a></code> object</p></dd>
 
+
+<dt id="arg-byom">byOM<a class="anchor" aria-label="anchor" href="#arg-byom"></a></dt>
+<dd><p>Logical Plot by OM? Otherwise mean over OMs</p></dd>
+
+
+<dt id="arg-bymp">byMP<a class="anchor" aria-label="anchor" href="#arg-bymp"></a></dt>
+<dd><p>Logical. Plot by MP? Otherwise all MPs together on one plot</p></dd>
+
+
+<dt id="arg-incmean">incMean<a class="anchor" aria-label="anchor" href="#arg-incmean"></a></dt>
+<dd><p>Logical. Include mean PI score in center?</p></dd>
+
+
+<dt id="arg-incmax">incMax<a class="anchor" aria-label="anchor" href="#arg-incmax"></a></dt>
+<dd><p>Logical. Include colored points indicating maximum PI values?</p></dd>
+
+
+<dt id="arg-relscale">relScale<a class="anchor" aria-label="anchor" href="#arg-relscale"></a></dt>
+<dd><p>Logical. Scale PI values between minimum (0) and maximum (1)?</p></dd>
+
+
+<dt id="arg-col-om-title">col.om.title<a class="anchor" aria-label="anchor" href="#arg-col-om-title"></a></dt>
+<dd><p>Color of the OM names/labels</p></dd>
+
+
+<dt id="arg-cex-om-title">cex.om.title<a class="anchor" aria-label="anchor" href="#arg-cex-om-title"></a></dt>
+<dd><p>Size of OM names/labels</p></dd>
+
+
+<dt id="arg-col-mean">col.Mean<a class="anchor" aria-label="anchor" href="#arg-col-mean"></a></dt>
+<dd><p>Color of mean value text</p></dd>
+
+
+<dt id="arg-bg-mean">bg.Mean<a class="anchor" aria-label="anchor" href="#arg-bg-mean"></a></dt>
+<dd><p>Background color of mean value text</p></dd>
+
+
+<dt id="arg-grid-fill">grid.fill<a class="anchor" aria-label="anchor" href="#arg-grid-fill"></a></dt>
+<dd><p>Color of fill for the spider grid</p></dd>
+
+
+<dt id="arg-grid-line">grid.line<a class="anchor" aria-label="anchor" href="#arg-grid-line"></a></dt>
+<dd><p>Color of lines for the spider grid</p></dd>
+
+
+<dt id="arg-fill">fill<a class="anchor" aria-label="anchor" href="#arg-fill"></a></dt>
+<dd><p>Logical Fill the spider plot?</p></dd>
+
+
+<dt id="arg-inc-grid">inc.grid<a class="anchor" aria-label="anchor" href="#arg-inc-grid"></a></dt>
+<dd><p>Logical. Include the grid?</p></dd>
+
+
+<dt id="arg-pi-labels">PI.labels<a class="anchor" aria-label="anchor" href="#arg-pi-labels"></a></dt>
+<dd><p>Logical Show PI labels?</p></dd>
+
+
+<dt id="arg-mp-label">MP_label<a class="anchor" aria-label="anchor" href="#arg-mp-label"></a></dt>
+<dd><p>Label to use for the MPs. Either <code>Code</code> or <code>Label</code>.
+<code>Description</code> works as well, but you probably don't want to do that.</p></dd>
+
+
+<dt id="arg-mp-lwd">mp.lwd<a class="anchor" aria-label="anchor" href="#arg-mp-lwd"></a></dt>
+<dd><p>Line width</p></dd>
+
+
+<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
+<dd><p>Alpha value for the fill</p></dd>
+
+
+<dt id="arg-ncol">ncol<a class="anchor" aria-label="anchor" href="#arg-ncol"></a></dt>
+<dd><p>Number of columns</p></dd>
+
+
+<dt id="arg-pi-mean-cex">PI.mean.cex<a class="anchor" aria-label="anchor" href="#arg-pi-mean-cex"></a></dt>
+<dd><p>Size of PI mean score text</p></dd>
+
+
+<dt id="arg-incmptitle">incMPtitle<a class="anchor" aria-label="anchor" href="#arg-incmptitle"></a></dt>
+<dd><p>Logical. Include MP label?</p></dd>
+
+
+<dt id="arg-mplab-cex">mplab.cex<a class="anchor" aria-label="anchor" href="#arg-mplab-cex"></a></dt>
+<dd><p>MP label size</p></dd>
+
+
+<dt id="arg-max-pt-cex">max.pt.cex<a class="anchor" aria-label="anchor" href="#arg-max-pt-cex"></a></dt>
+<dd><p>Max value point size</p></dd>
+
+
+<dt id="arg-max-pt-col">max.pt.col<a class="anchor" aria-label="anchor" href="#arg-max-pt-col"></a></dt>
+<dd><p>Max value point color</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code>ggplot2</code> object</p>
     </div>
-    <div class="section level2">
-    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code>Slick-methods()</code>, <code><a href="Slick-class.html">Slick-class()</a></code></p></div>
-    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate dummy values</span></span></span>
+<span class="r-in"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Note: PI values must be between 0 and 1, with 1 indicating better performance</span></span></span>
+<span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">nPI</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">om</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nOM</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">mp</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nMP</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">pi</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nPI</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">values</span><span class="op">[</span><span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create and populate Object</span></span></span>
+<span class="r-in"><span><span class="va">spider</span> <span class="op">&lt;-</span> <span class="fu"><a href="Spider-methods.html">Spider</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI1'</span>, <span class="st">'PI2'</span>, <span class="st">'PI3'</span>, <span class="st">'PI4'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Performance Indicator 1'</span>,</span></span>
+<span class="r-in"><span>                       <span class="st">'Performance Indicator 2'</span>,</span></span>
+<span class="r-in"><span>                       <span class="st">'Performance Indicator 3'</span>,</span></span>
+<span class="r-in"><span>                       <span class="st">'Performance Indicator 4'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">'This is the description for PI 2'</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">'This is the description for PI 3'</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">'This is the description for PI 4'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               Value<span class="op">=</span><span class="va">values</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">spider</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Spider"</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add to `Slick` object</span></span></span>
+<span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Spider-methods.html">Spider</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spider</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
+<span class="r-in"><span><span class="fu">plotSpider</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotSpider-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plotSpider</span><span class="op">(</span><span class="va">slick</span>, fill<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotSpider-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plotSpider</span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotSpider-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plotSpider</span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="plotSpider-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

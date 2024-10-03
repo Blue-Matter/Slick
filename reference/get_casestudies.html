@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,13 +49,43 @@
 <span>  case_studies <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  object <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  object <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  delete <span class="op">=</span> <span class="va">object</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
+<dd><p>The name of the case study to download. <code>Name</code> column from <code>get_casestudies()</code></p></dd>
+
+
+<dt id="arg-case-studies">case_studies<a class="anchor" aria-label="anchor" href="#arg-case-studies"></a></dt>
+<dd><p>optional. Dataframe returned by <code>get_casestudies()</code></p></dd>
+
+
+<dt id="arg-dir">dir<a class="anchor" aria-label="anchor" href="#arg-dir"></a></dt>
+<dd><p>Optional. Directory to save the file. Defaults to a temporary directory</p></dd>
+
+
+<dt id="arg-silent">silent<a class="anchor" aria-label="anchor" href="#arg-silent"></a></dt>
+<dd><p>Logical. Print out messages?</p></dd>
+
+
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+<dd><p>Logical. Return the Slick object? Default downloads Slick object to a temporary location,
+loads and returns the Slick object, and then deletes downloaded file.</p></dd>
+
+
+<dt id="arg-delete">delete<a class="anchor" aria-label="anchor" href="#arg-delete"></a></dt>
+<dd><p>Logical. Delete the downloaded file after function finishes? Only useful if <code>object = TRUE</code></p></dd>
+
+</dl></div>
+    <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data.frame</p>
+    <p>A data.frame for <code>get_casestudies</code> and a <code>Slick</code> object for <code>download_casestudy</code></p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -63,6 +93,15 @@
 <ul><li><p><code>download_casestudy()</code>: download a case study file</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">case_studies</span> <span class="op">&lt;-</span> <span class="fu">get_casestudies</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu">download_casestudy</span><span class="op">(</span><span class="va">case_studies</span><span class="op">$</span><span class="va">Name</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,8 +209,7 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively</p></dd>
 <p>Text with multi-language supported can be provided as a named list. Available languages:</p><ul><li><p><code>en</code>: English (default)</p></li>
 <li><p><code>es</code>: Spanish</p></li>
 <li><p><code>fr</code>: French</p></li>
-</ul><p>See <code>Examples</code></p>
-</div>
+</ul></div>
 
     </div>
     <div class="section level2">
@@ -266,54 +265,6 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively</p></dd>
 <code><a href="Timeseries-class.html">Timeseries-class()</a></code>, <code><a href="Tradeoff-class.html">Tradeoff-class()</a></code></p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">Code</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI1'</span>, <span class="st">'PI2'</span>, <span class="st">'PI3'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">Label</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Performance Indicator 1'</span>,</span></span>
-<span class="r-in"><span>                    <span class="st">'Performance Indicator 2'</span>,</span></span>
-<span class="r-in"><span>                    <span class="st">'Performance Indicator 3'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
-<span class="r-in"><span>                          <span class="st">'This is the description for PI 2'</span>,</span></span>
-<span class="r-in"><span>                          <span class="st">'This is the description for PI 3'</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">Code</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PI1" "PI2" "PI3"</span>
-<span class="r-in"><span><span class="fu">Label</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Performance Indicator 1" "Performance Indicator 2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Performance Indicator 3"</span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "This is the description for PI 1" "This is the description for PI 2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "This is the description for PI 3"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Multi-Language</span></span></span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the English description for PI 1'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the English description for PI 2'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the English description for PI 3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                             es<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the Spanish description for PI 1'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the Spanish description for PI 2'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the Spanish description for PI 3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                             fr<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the French description for PI 1'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the French description for PI 2'</span>,</span></span>
-<span class="r-in"><span>                                  <span class="st">'This is the French description for PI 3'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "This is the English description for PI 1"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "This is the English description for PI 2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "This is the English description for PI 3"</span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span>, <span class="st">'es'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "This is the Spanish description for PI 1"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "This is the Spanish description for PI 2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "This is the Spanish description for PI 3"</span>
-<span class="r-in"><span><span class="fu">Description</span><span class="op">(</span><span class="va">boxplot</span>, <span class="st">'fr'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "This is the French description for PI 1"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "This is the French description for PI 2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "This is the French description for PI 3"</span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

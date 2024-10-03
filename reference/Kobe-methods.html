@@ -11,7 +11,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,85 +204,58 @@ as the number of performance indicators (<code>nPIs</code>) in <code>Value</code
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">Kobe</span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PI1'</span>, <span class="st">'PI2'</span>, <span class="st">'PI3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Performance Indicator 1'</span>,</span></span>
-<span class="r-in"><span>                           <span class="st">'Performance Indicator 2'</span>,</span></span>
-<span class="r-in"><span>                           <span class="st">'Performance Indicator 3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
-<span class="r-in"><span>                                   <span class="st">'This is the description for PI 2'</span>,</span></span>
-<span class="r-in"><span>                                   <span class="st">'This is the description for PI 3'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">600</span><span class="op">)</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">2</span>,<span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   Preset<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'PI and P2'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate dummy values</span></span></span>
+<span class="r-in"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">om</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nOM</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">mp</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nMP</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw">for</span> <span class="op">(</span><span class="va">pi</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nPI</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span> <span class="op">*</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nTS</span><span class="op">*</span><span class="va">nsim</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        nrow<span class="op">=</span><span class="va">nsim</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create and populate Object</span></span></span>
+<span class="r-in"><span><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu">Kobe</span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'B/BMSY'</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">'F/FMSY'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'This is the description for PI 1'</span>,</span></span>
+<span class="r-in"><span>                             <span class="st">'This is the description for PI 2'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             Value<span class="op">=</span><span class="va">values</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">kobe</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An object of class `Kobe`</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Code`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 PI1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 PI2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 PI3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Label`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 Performance Indicator 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 Performance Indicator 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 Performance Indicator 3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Description`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 This is the description for PI 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 This is the description for PI 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 This is the description for PI 3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Time`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`TimeLab`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Year</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Value`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Dimension Length</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      nsim     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       nOM      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       nMP      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       nPI      3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       nTS      5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Mean across MPs and PIs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       PI1  PI2  PI3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 1 0.50 0.50 0.46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MP 2 0.47 0.53 0.51</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Preset`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── PI and P2 </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Target`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PI1 PI2 PI3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1   1   1 </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Limit`</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># Add values for projection time steps</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Time.html">Time</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">nTS</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ADD TIME</span></span></span>
+<span class="r-in"><span><span class="co"># Check</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Kobe"</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Code(boxplot)</span></span></span>
-<span class="r-in"><span><span class="co"># Metadata(boxplot)</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># # Value(boxplot)</span></span></span>
-<span class="r-in"><span><span class="co"># Value(boxplot) &lt;- array()</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># Preset(boxplot)</span></span></span>
-<span class="r-in"><span><span class="co"># Preset(boxplot) &lt;- list()</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># boxplot</span></span></span>
+<span class="r-in"><span><span class="co"># Add to `Slick` object</span></span></span>
+<span class="r-in"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">Kobe</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kobe</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plotKobe(slick):</span> object 'nMP' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span>, Time<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plotKobe(slick, Time = TRUE):</span> object 'nMP' not found</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
