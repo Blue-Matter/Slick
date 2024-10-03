@@ -2,7 +2,7 @@
 #'
 #' Objects of class `Spider` are used to store information for the Spider plots.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Spider-methods()] and the
+#' assigned using functions corresponding to slot name. See [Spider] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -29,10 +29,10 @@
 #' Dimensions: c(`nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
 #'
-#' @seealso [Spider-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Spider], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
-#' @example inst/examples/Spider
+#' @example inst/examples/Spider.R
 #' @docType class
 #' @export
 setClass("Spider",

@@ -24,7 +24,8 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
                                  relative_scale=relative_scale, OS_button,
                                  selected_oms,
                                  Report,
-                                 parent_session){
+                                 parent_session,
+                                 window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

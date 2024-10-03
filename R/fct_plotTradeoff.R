@@ -2,11 +2,17 @@
 #'
 #'
 #' @param slick A [Slick-class()] object
-#'
-#' @seealso [Slick-methods()], [Slick-class()]
+#' @param xPI Numeric value indicating the PI to plot on the x-axis. Multiple values are accepted. Recycled if `xPI<yPI`
+#' @param yPI Numeric value indicating the PI to plot on the y-axis. Multiple values are accepted. Recycled if `yPI<xPI`
+#' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
+#' `Description` works as well, but you probably don't want to do that.
+#' @param lab_size Size of the MP labels
+#' @param point_size Size of the points
+#' @param size.axis.title Size of axis title
+#' @param size.axis.text Size of axis text
+#' @example inst/examples/Tradeoff.R
 #' @return A `ggplot2` object
 #' @export
-#'
 plotTradeoff <- function(slick,
                          xPI=NULL,
                          yPI=NULL,
@@ -18,10 +24,6 @@ plotTradeoff <- function(slick,
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
-
-  mps <- MPs(slick)
-  mp_colors <- Color(mps)
-  mp_labels <- slot(mps, MP_label)
 
 
   tradeoff <- Tradeoff(slick)
@@ -43,6 +45,12 @@ plotTradeoff <- function(slick,
 
   PI_label <- tradeoff@Label
   nPI <- length(PI_label)
+
+
+  nMP <- dim(Values)[1]
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  mp_labels <- MP_info$MP_lab
+  mp_colors <- MP_info$MP_colors
 
   if (is.null(xPI))
     xPI <- 1

@@ -5,7 +5,7 @@
 #'
 #' Objects of class `Quilt` are used to store information for the Quilt chart.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Quilt-methods()] and the
+#' assigned using functions corresponding to slot name. See [Quilt()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -35,7 +35,7 @@
 #' @slot MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
 #'
-#' @seealso [Quilt-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Quilt()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
 #' @example inst/examples/Quilt.R

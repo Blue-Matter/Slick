@@ -10,7 +10,7 @@
 #'
 #' ## Performance Indicators
 #' By default, the first PI will be on the x-axis (usually B/BMSY or something similar) and the second
-#' on the y-axis (e.g., F/FMSY). The Slick [App()] provides dropdowns for selecting other PIs.
+#' on the y-axis (e.g., F/FMSY). The Slick [App()] provides drop down menus for selecting other PIs.
 #'
 #' ## Multi-Language Support
 #' Text with multi-language supported can be provided as a named list. Available languages:
@@ -38,8 +38,8 @@
 #' @slot Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot.
 #'  Defaults to 1.
 #' @slot Limit Numeric vector length `nPI` with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
-#' @slot Defaults A list object with default selections for the Kobe See [Kobe-methods()]
-#' @seealso [Kobe-methods()], [Code()], [Label()], [Description()],
+#' @slot Defaults A list object with default selections for the Kobe See [Kobe()]
+#' @seealso [Kobe()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
 #' @example inst/examples/Kobe.R

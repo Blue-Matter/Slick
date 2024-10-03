@@ -1,11 +1,32 @@
+get_MP_info <- function(slick, MP_label='Code', nMP=NULL) {
+  mps <- MPs(slick)
+  mps <- MPs(slick)
+  if (is_empty(mps)) {
+    if (is.null(nMP))
+      cli::cli_abort('`nMP` must be specified in `MPs` is empty')
 
-# slick <- readRDS('C:/users/user/downloads/slick.slick')
-# slick <- readRDS('C:/users/user/downloads/Western Atlantic Skipjack.slick')
-# slick <- readRDS('C:/users/user/downloads/North Atlantic Swordfish (3).slick')
-# devtools::load_all()
+    cli::cli_alert_info('Note: `MPs` is empty. Using default MP names and colors')
+    MP_lab <- paste('MP', 1:nMP)
+    MP_colors <- default_mp_colors(nMP)
+  } else {
+    MP_lab <- slot(mps, MP_label)
+    MP_colors <- Color(mps)
+  }
+  MP_lab <- factor(MP_lab, levels=MP_lab, ordered = TRUE)
+  list(MP_lab=MP_lab, MP_colors=MP_colors)
+}
 
-# plotBoxplot(slick, PI=1)
-
+get_OM_labels <- function(slick, nOM=NULL) {
+  if (is_empty(slick@OMs)) {
+    if (is.null(nOM))
+      cli::cli_abort('`nOM` must be specified in `OMs` is empty')
+    OM_labels <- paste('OM', 1:nOM)
+  } else {
+    OM_labels <- rownames(slick@OMs@Design)
+  }
+  OM_labels <- factor(OM_labels, levels=OM_labels, ordered = TRUE)
+  OM_labels
+}
 
 #' Plot `Boxplot`
 #'
@@ -32,7 +53,7 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
 
   type <- match.arg(type)
 
-  # slick <<- slick
+  Mean <- OM <- NULL # CRAN checks
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -60,13 +81,14 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
   nMP <- dd[3]
   nPI <- dd[4]
 
-  mps <- MPs(slick)
-  MP_lab <- slot(mps, MP_label)
-  MP_colors <- Color(mps)
-  OM_labels <- rownames(slick@OMs@Design)
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  MP_lab <- MP_info$MP_lab
+  MP_colors <- MP_info$MP_colors
 
+  OM_labels <- get_OM_labels(slick, nOM)
   PI_names <- slot(boxplot, PI_label)
 
+  Sim <- OM <- MP <- PI <- value <- NULL # CRAN checks
 
   df <- data.frame(Sim=1:nsim,
                    OM=rep(OM_labels, each=nsim),

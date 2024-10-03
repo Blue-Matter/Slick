@@ -27,14 +27,17 @@ colorRampAlpha <- function(..., n, alpha) {
 #' @param signif Numeric Number of significant figures
 #' @param alpha Numeric value. Transparency for color shading
 #'
-#' @seealso [Quilt-methods()], [Quilt-class()]
+#' @seealso [Quilt()], [Quilt-class()]
 #' @return A `DT::datatable` or a `knitr::kable` object
 #' @export
 #'
-plotQuilt <- function(slick, MP_label='Code', minmax=FALSE, shading=TRUE,
-                      kable=FALSE, signif=2, alpha=0.5) {
+plotQuilt <- function(slick,
+                      MP_label='Code',
+                      minmax=FALSE,
+                      shading=TRUE,
+                      kable=FALSE, signif=2,
+                      alpha=0.5) {
 
-  # slick <<- slick
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
@@ -57,10 +60,11 @@ plotQuilt <- function(slick, MP_label='Code', minmax=FALSE, shading=TRUE,
   }
 
   nPI <- ncol(Values)
+  nMP <- nrow(Values)
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  MP_lab <- MP_info$MP_lab
+  MP_colors <- MP_info$MP_colors
 
-  mps <- MPs(slick)
-  nMP <- length(mps@Code)
-  MP_lab <- slot(mps, MP_label)
   rownames(Values) <- MP_lab
 
   PIMins <- as.numeric(apply(Values, 2, min))

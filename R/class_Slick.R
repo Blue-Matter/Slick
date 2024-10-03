@@ -303,7 +303,8 @@ setMethod('Factors<-', 'Slick', function(object,value) {
 
 ## --- Show ----
 
-#' @export
+
+#' @describeIn show Print a [Slick-class()] object
 setMethod("show", "Slick", function(object) {
 
   chk <- print_show_heading(object)

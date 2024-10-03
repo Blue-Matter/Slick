@@ -23,6 +23,9 @@ MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
 MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
 MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
 
+MSE_LowH <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
+MSE_HighH <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
+
 
 ## ---- create_slick ----
 slick <- Slick()
@@ -154,7 +157,7 @@ oms <- OMs()
 
 ## ---- om_factors ----
 Factors(oms) <- data.frame(Factor='M',
-                           Level=c('Base', 'Lower', 'Higher'),
+                           Level=c('Base', 'Low M', 'High M'),
                            Description=c('Base Case',
                                          'Lower Natural Mortality',
                                          'Higher Natural Mortality')
@@ -164,19 +167,21 @@ Factors(oms)
 
 ## ---- om_design ----
 
-Design(oms) <- data.frame(M=c('Base', 'Lower', 'Higher'))
+Design(oms) <- data.frame(M=c('Base', 'Low M', 'High M'))
 
 Design(oms)
 
 ## ---- om_design_name
 
-rownames(Design(oms)) <- c('Base', 'Lower', 'Higher')
+rownames(Design(oms)) <- c('Base Case', 'Less Productive', 'More Productive')
 
 ## ---- om_preset ----
 
-Preset(oms) <- list('All'=list(1:3),
-                    'Base'=list(1))
-
+Preset(oms) <- list('Base Case'=list(1),
+                    'Low M' = list(2),
+                    'High M' = list(3),
+                    'All'= list(1:3)
+)
 
 
 ## ---- om_add ----
@@ -184,7 +189,6 @@ OMs(slick) <- oms
 
 ## ---- timeseries_create ----
 timeseries <- Timeseries()
-
 
 ## ---- timeseries_metadata ----
 
@@ -501,7 +505,6 @@ Value(spider)[1,,3] <- MSEtool::PNOF(MSE_Base)@Mean
 Value(spider)[2,,3] <- MSEtool::PNOF(MSE_LowM)@Mean
 Value(spider)[3,,3] <- MSEtool::PNOF(MSE_HighM)@Mean
 
-
 Value(spider)[1,,4] <- MSEtool::LTY(MSE_Base)@Mean
 Value(spider)[2,,4] <- MSEtool::LTY(MSE_LowM)@Mean
 Value(spider)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
@@ -510,7 +513,6 @@ Value(spider)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
 Check(spider)
 
 Spider(slick) <- spider
-
 
 ## ---- spider_plot ----
 
@@ -561,7 +563,6 @@ Value(tradeoff)[1,,3] <- MSEtool::PNOF(MSE_Base)@Mean
 Value(tradeoff)[2,,3] <- MSEtool::PNOF(MSE_LowM)@Mean
 Value(tradeoff)[3,,3] <- MSEtool::PNOF(MSE_HighM)@Mean
 
-
 Value(tradeoff)[1,,4] <- MSEtool::LTY(MSE_Base)@Mean
 Value(tradeoff)[2,,4] <- MSEtool::LTY(MSE_LowM)@Mean
 Value(tradeoff)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
@@ -579,7 +580,4 @@ plotTradeoff(slick)
 
 plotTradeoff(slick, 1:2, 3:4)
 
-# saveRDS(slick, 'C:/users/adrian/desktop/slick.slick')
-
-# Testslick <- readRDS('C:/Users/adrian/Documents/GitHub/SlickLibrary/Slick_Objects/Western_Atlantic_Skipjack.slick')
 

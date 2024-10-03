@@ -101,7 +101,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
                          OS_button,
                          selected_oms,
                          Report,
-                         parent_session=session)
+                         parent_session=session,
+                         window_dims)
 
 
 

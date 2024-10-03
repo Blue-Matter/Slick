@@ -172,8 +172,6 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{es}: Spanish
 \item \code{fr}: French
 }
-
-See \code{Examples}
 }
 }
 \section{Methods (by class)}{
@@ -263,38 +261,6 @@ See \code{Examples}
 \item \code{Label(Spider) <- value}: Assign \code{Label} to a \code{\link[=Spider-class]{Spider-class()}} object
 
 }}
-\examples{
-boxplot <- Boxplot()
-
-Code(boxplot) <- c('PI1', 'PI2', 'PI3')
-Label(boxplot) <- c('Performance Indicator 1',
-                    'Performance Indicator 2',
-                    'Performance Indicator 3')
-Description(boxplot) <- c('This is the description for PI 1',
-                          'This is the description for PI 2',
-                          'This is the description for PI 3')
-
-
-Code(boxplot)
-Label(boxplot)
-Description(boxplot)
-
-# Multi-Language
-Description(boxplot) <- list(en=c('This is the English description for PI 1',
-                                  'This is the English description for PI 2',
-                                  'This is the English description for PI 3'),
-                             es=c('This is the Spanish description for PI 1',
-                                  'This is the Spanish description for PI 2',
-                                  'This is the Spanish description for PI 3'),
-                             fr=c('This is the French description for PI 1',
-                                  'This is the French description for PI 2',
-                                  'This is the French description for PI 3')
-)
-
-Description(boxplot)
-Description(boxplot, 'es')
-Description(boxplot, 'fr')
-}
 \seealso{
 \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=MPs-class]{MPs-class()}}, \code{\link[=Boxplot-class]{Boxplot-class()}},
 \code{\link[=Kobe-class]{Kobe-class()}}, \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}},

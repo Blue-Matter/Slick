@@ -35,10 +35,11 @@
 #' @param inc_y_label Include the label for the y-axis?
 #' @param sims Optional. Numeric values indicating the simulations to include. Defaults
 #' to all.
-#' @param lang. Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
+#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
 #'
-#' @seealso [Timeseries-methods()], [Timeseries-class()]
+#' @seealso [Timeseries()], [Timeseries-class()]
 #' @return A `ggplot2` object
+#' @example inst/examples/Timeseries.R
 #' @export
 #'
 plotTimeseries <- function(slick,
@@ -72,8 +73,6 @@ plotTimeseries <- function(slick,
                            sims=NULL,
                            lang='en') {
 
-  # browser()
-
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
@@ -98,20 +97,23 @@ plotTimeseries <- function(slick,
     cli::cli_abort('`PI` is greater than the number of performance indicators in `Timeseries(slick)`')
   }
 
-  mps <- MPs(slick)
-  nMP <- length(mps@Code)
-  MP_lab <- slot(mps, MP_label)
-  MP_colors <- Color(mps)
+  dd <- dim(values)
+  nsim <- dd[1]
+  nOM <- dd[2]
+  nMP <- dd[3]
+  nPI <- dd[4]
+  nTS <- dd[5]
 
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  MP_lab <- MP_info$MP_lab
+  MP_colors <- MP_info$MP_colors
 
   if (is.null(sims)) {
     sims <- 1:dim(values)[1]
   }
 
-  nOMs <- dim(values)[2]
-  oms <- 1:nOMs
-  om_names <- rownames(slick@OMs@Design)
-
+  oms <- 1:nOM
+  om_names <- get_OM_labels(slick, nOM)
 
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
@@ -120,7 +122,6 @@ plotTimeseries <- function(slick,
 
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
-
 
   if (includeHist) {
     # Historical Period
@@ -131,7 +132,7 @@ plotTimeseries <- function(slick,
       quant.2.hist <- apply(mean.hist, c(2,5), quantile, probs=quants2, na.rm=TRUE)
 
       Hist_df <- data.frame(OM=om_names,
-                            x=rep(hist.yrs, each=nOMs),
+                            x=rep(hist.yrs, each=nOM),
                             Median=as.vector(med.hist),
                             Lower1=as.vector(quant.1.hist[1,,]),
                             Upper1=as.vector(quant.1.hist[2,,]),
@@ -168,8 +169,8 @@ plotTimeseries <- function(slick,
     med.mps <- apply(mean.mps, c(2,3,5), median, na.rm=TRUE)
 
     meddf <- data.frame(OM=om_names,
-                        MP=rep(MP_lab, each=nOMs),
-                        x=rep(proj.yrs, each=nMP*nOMs),
+                        MP=rep(MP_lab, each=nOM),
+                        x=rep(proj.yrs, each=nMP*nOM),
                         Median=as.vector(med.mps))
 
 
@@ -179,8 +180,8 @@ plotTimeseries <- function(slick,
     quant.2.mp <- apply(mean.mps, c(2,3,5), quantile, probs=quants2, na.rm=TRUE)
 
     quant_df <- data.frame(OM=om_names,
-                           MP=rep(MP_lab, each=nOMs),
-                           x=rep(proj.yrs, each=nMP*nOMs),
+                           MP=rep(MP_lab, each=nOM),
+                           x=rep(proj.yrs, each=nMP*nOM),
                            Lower1=as.vector(quant.1.mp[1,,,]),
                            Upper1=as.vector(quant.1.mp[2,,,]),
                            Lower2=as.vector(quant.2.mp[1,,,]),
@@ -279,6 +280,7 @@ plotTimeseries <- function(slick,
 
   }
 
+  X <- MP <- NULL # CRAN checks
   if (!byMP & includeLabels) {
     tt <- data.frame(MP=MP_lab, X=sample(unique(meddf$x), nMP))
 

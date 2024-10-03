@@ -106,29 +106,29 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
         fun <- LL$plotFunction
         LL$plotFunction <- NULL
 
-        png(outfile,
-            width=plot_size$width,
-            height=plot_size$height,
-            units='in', res=400)
+        grDevices::png(outfile,
+                       width=plot_size$width,
+                       height=plot_size$height,
+                       units='in', res=400)
         do.call(fun,LL)
-        dev.off()
+        grDevices::dev.off()
 
       } else if (inherits(obj, 'flextable')) {
 
-        if (!requireNamespace('magick', quietly = TRUE))
-          stop('Package `magick` required for this function')
-
-        if (!requireNamespace('webshot2', quietly = TRUE))
-          stop('Package `webshot2` required for this function')
-
-        obj <- obj |>
-          flextable::autofit() |>
-          flextable::htmltools_value()
-
-        tempfile <- tempfile(fileext='.html')
-        kableExtra::save_kable(obj, tempfile)
-        webshot2::webshot(tempfile, outfile, delay=3)
-        file.remove(tempfile)
+        # if (!requireNamespace('magick', quietly = TRUE))
+        #   stop('Package `magick` required for this function')
+        #
+        # if (!requireNamespace('webshot2', quietly = TRUE))
+        #   stop('Package `webshot2` required for this function')
+        #
+        # obj <- obj |>
+        #   flextable::autofit() |>
+        #   flextable::htmltools_value()
+        #
+        # tempfile <- tempfile(fileext='.html')
+        # kableExtra::save_kable(obj, tempfile)
+        # webshot2::webshot(tempfile, outfile, delay=3)
+        # file.remove(tempfile)
       } else {
         ggplot2::ggsave(outfile,
                         obj,
@@ -145,7 +145,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     output$displayplot <- renderUI({
       obj <- Plot_Object()
       if (inherits(obj, 'flextable')) {
-        TT <<- obj |>
+        TT <- obj |>
           flextable::autofit() |>
           flextable::htmltools_value()
         return(TT)

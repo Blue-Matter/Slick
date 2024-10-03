@@ -1,7 +1,7 @@
 
 #' Get Case Studies from the SlickLibrary GitHub Repo
 #'
-#' @return A data.frame
+#' @return A data.frame for `get_casestudies` and a `Slick` object for `download_casestudy`
 #' @export
 get_casestudies <- function() {
   if (!requireNamespace('httr', quietly = TRUE))
@@ -26,7 +26,23 @@ get_casestudies <- function() {
 }
 
 #' @describeIn get_casestudies download a case study file
-download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, object=TRUE) {
+#' @param name The name of the case study to download. `Name` column from `get_casestudies()`
+#' @param case_studies optional. Dataframe returned by `get_casestudies()`
+#' @param dir Optional. Directory to save the file. Defaults to a temporary directory
+#' @param silent Logical. Print out messages?
+#' @param object Logical. Return the Slick object? Default downloads Slick object to a temporary location,
+#' loads and returns the Slick object, and then deletes downloaded file.
+#' @param delete Logical. Delete the downloaded file after function finishes? Only useful if `object = TRUE`
+#' @examples
+#'\dontrun{
+#' case_studies <- get_casestudies()
+#' slick <- download_casestudy(case_studies$Name[1])
+#' }
+#'
+#' @export
+download_casestudy <- function(name, case_studies=NULL, dir=NULL,
+                               silent=FALSE,
+                               object=TRUE, delete=object) {
   if (is.null(case_studies))
     case_studies <- get_casestudies()
   ind <- match(name, case_studies$Name)
@@ -44,10 +60,10 @@ download_casestudy <- function(name, case_studies=NULL, dir=NULL, silent=FALSE, 
   out_file <- file.path(dir, basename(file))
   if (!silent) cli::cli_alert_info(paste('Downloading', name, 'to', out_file))
 
-  # curl::curl_download(url,  out_file)
+  utils::download.file(url, out_file, mode ="wb", quiet=silent)
 
-  download.file(url, out_file, mode ="wb", quiet=silent)
-  on.exit(file.remove(out_file))
+  if (delete)
+    on.exit(file.remove(out_file))
   if (object)
     return(readRDS(out_file))
 

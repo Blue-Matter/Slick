@@ -15,7 +15,7 @@
 #' @param BRcol Color for the bottom right quadrant
 #' @param axis_label Label to use for the axes. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
-#' @param percentile. Numeric value specifying the percentile for the x and y percentile bars.
+#' @param percentile Numeric value specifying the percentile for the x and y percentile bars.
 #' Use NULL to remove percentile lines.
 #' @param axis.text.size Font size for axis text
 #' @param axis.title.size Font size for axis title
@@ -29,8 +29,10 @@
 #' @param ymax Maximum value for the yx-axis. Values greater than `ymax` will be shown at `ymax`
 #' @param hist_traj Logical. Plot the historical trajectories?
 #' @param ncol Numeric. Number of columns for Kobe Time
-#' @param lang. Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
-#' @seealso [Kobe-methods()], [Kobe-class()]
+#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
+#' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
+#' `Description` works as well, but you probably don't want to do that.
+#' @seealso [Kobe()], [Kobe-class()]
 #' @return A `ggplot2` object
 #' @export
 #'
@@ -57,7 +59,8 @@ plotKobe <- function(slick,
                      ymax=2,
                      hist_traj=FALSE,
                      ncol=4,
-                     lang='en') {
+                     lang='en',
+                     MP_label='Code') {
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -102,8 +105,9 @@ plotKobe <- function(slick,
     quants <- c((1- percentile)/2, 1-(1- percentile)/2)
   }
 
-  mp_metadata <- slick |> MPs() |> Metadata()
-  mp_names <- factor(mp_metadata$Code, ordered = TRUE, levels=mp_metadata$Code)
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  MP_lab <- MP_info$MP_lab
+  MP_colors <- MP_info$MP_colors
 
   values <- Value(kobe)
   dd <- dim(values)
@@ -120,7 +124,7 @@ plotKobe <- function(slick,
   if (Time) {
     bgCols <- c(BRcol, TRcol, BLcol, TLcol)
     kobe_time_list_mp <- list()
-    for (mp in seq_along(mp_names)) {
+    for (mp in seq_along(MP_lab)) {
       kobe_time_list <- list()
       for (ts in seq_along(times)) {
         bl <- mean(mean_over_OMs[,mp,xPI,ts] <= x_targ &  mean_over_OMs[,mp,yPI,ts] <= y_targ)
@@ -128,13 +132,12 @@ plotKobe <- function(slick,
         tl <- mean(mean_over_OMs[,mp,xPI,ts] <= x_targ &  mean_over_OMs[,mp,yPI,ts] > y_targ)
         tr <- mean(mean_over_OMs[,mp,xPI,ts] > x_targ &  mean_over_OMs[,mp,yPI,ts] > y_targ)
         kobe_time_list[[ts]] <-  data.frame(x=times[ts], y=c(bl, br, tl, tr), quadrant=c('bl', 'br', 'tl', 'tr'),
-                                            MP=mp_names[mp])
+                                            MP=MP_lab[mp])
       }
       kobe_time_list_mp[[mp]] <- do.call('rbind', kobe_time_list)
     }
 
     kobe_time_df <- do.call('rbind', kobe_time_list_mp)
-    kobe_time_df$MP <- factor(kobe_time_df$MP, ordered = TRUE, levels=mp_metadata$Code)
     kobe_time_df$quadrant <- factor(kobe_time_df$quadrant, ordered = TRUE,
                                     levels=c('br', 'tr', 'bl', 'tl'))
 
@@ -180,7 +183,7 @@ plotKobe <- function(slick,
 
     df <- data.frame(x=as.vector(apply(mean_over_OMs[,,xPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
                      y=as.vector(apply(mean_over_OMs[,,yPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
-                     MP=mp_names,
+                     MP=MP_lab,
                      time=rep(times, each=nMP))
 
     df <- df |> dplyr::filter(time<=times[TS])
@@ -227,7 +230,7 @@ plotKobe <- function(slick,
     p <- p + ggplot2::geom_point(data=cur_df,
                                  ggplot2::aes(x=x, y=y, color=MP),
                                  size=mp.point.size) +
-      ggplot2::scale_color_manual(values=mp_metadata$Color) +
+      ggplot2::scale_color_manual(values=MP_colors) +
       ggplot2::coord_cartesian(clip='off')
 
     if (incMP_label) {

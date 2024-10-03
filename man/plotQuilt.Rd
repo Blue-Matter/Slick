@@ -48,5 +48,5 @@ are shaded from lowest to highest values. If \code{minmax==TRUE}, \code{MinValue
 are ignored.
 }
 \seealso{
-\code{\link[=Quilt-methods]{Quilt-methods()}}, \code{\link[=Quilt-class]{Quilt-class()}}
+\code{\link[=Quilt]{Quilt()}}, \code{\link[=Quilt-class]{Quilt-class()}}
 }

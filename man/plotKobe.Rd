@@ -28,7 +28,8 @@ plotKobe(
   ymax = 2,
   hist_traj = FALSE,
   ncol = 4,
-  lang = "en"
+  lang = "en",
+  MP_label = "Code"
 )
 }
 \arguments{
@@ -54,6 +55,9 @@ which means the terminal projection time-step}
 \item{axis_label}{Label to use for the axes. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}
 
+\item{percentile}{Numeric value specifying the percentile for the x and y percentile bars.
+Use NULL to remove percentile lines.}
+
 \item{axis.text.size}{Font size for axis text}
 
 \item{axis.title.size}{Font size for axis title}
@@ -78,10 +82,10 @@ which means the terminal projection time-step}
 
 \item{ncol}{Numeric. Number of columns for Kobe Time}
 
-\item{percentile.}{Numeric value specifying the percentile for the x and y percentile bars.
-Use NULL to remove percentile lines.}
+\item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
 
-\item{lang.}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
+\item{MP_label}{Label to use for the MPs. Either \code{Code} or \code{Label}.
+\code{Description} works as well, but you probably don't want to do that.}
 }
 \value{
 A \code{ggplot2} object
@@ -90,5 +94,5 @@ A \code{ggplot2} object
 Plots a Kobe plot for a given projection year, or a Kobe Time plot.
 }
 \seealso{
-\code{\link[=Kobe-methods]{Kobe-methods()}}, \code{\link[=Kobe-class]{Kobe-class()}}
+\code{\link[=Kobe]{Kobe()}}, \code{\link[=Kobe-class]{Kobe-class()}}
 }

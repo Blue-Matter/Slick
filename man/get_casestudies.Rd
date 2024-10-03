@@ -12,11 +12,26 @@ download_casestudy(
   case_studies = NULL,
   dir = NULL,
   silent = FALSE,
-  object = TRUE
+  object = TRUE,
+  delete = object
 )
 }
+\arguments{
+\item{name}{The name of the case study to download. \code{Name} column from \code{get_casestudies()}}
+
+\item{case_studies}{optional. Dataframe returned by \code{get_casestudies()}}
+
+\item{dir}{Optional. Directory to save the file. Defaults to a temporary directory}
+
+\item{silent}{Logical. Print out messages?}
+
+\item{object}{Logical. Return the Slick object? Default downloads Slick object to a temporary location,
+loads and returns the Slick object, and then deletes downloaded file.}
+
+\item{delete}{Logical. Delete the downloaded file after function finishes? Only useful if \code{object = TRUE}}
+}
 \value{
-A data.frame
+A data.frame for \code{get_casestudies} and a \code{Slick} object for \code{download_casestudy}
 }
 \description{
 Get Case Studies from the SlickLibrary GitHub Repo
@@ -26,3 +41,10 @@ Get Case Studies from the SlickLibrary GitHub Repo
 \item \code{download_casestudy()}: download a case study file
 
 }}
+\examples{
+\dontrun{
+case_studies <- get_casestudies()
+slick <- download_casestudy(case_studies$Name[1])
+}
+
+}

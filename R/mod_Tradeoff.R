@@ -118,7 +118,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       code <-  slick@Quilt@Code
       ll <- as.list(seq_along(code))
       names(ll) <- code
-      LL <<- ll
+      LL <- ll
       ll
     })
 

@@ -6,6 +6,9 @@
 \usage{
 default_mp_colors(nMP)
 }
+\arguments{
+\item{nMP}{The number of management procedures}
+}
 \description{
-Set Default Colors for the MPs
+Requires the \code{colorspace} package
 }

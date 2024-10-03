@@ -784,4 +784,4 @@ See [`?plotTradeoff`](../reference/plotTradeoff.html) for more options for the `
 
 # Slick Object Library
 
-TBD
+The 
