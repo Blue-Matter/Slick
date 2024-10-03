@@ -5,7 +5,7 @@
 #'
 #' Objects of class `Timeseries` are used to store information for the Time Series plots.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Timeseries-methods()] and the
+#' assigned using functions corresponding to slot name. See [Timeseries()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -37,7 +37,7 @@
 #' @slot Target Numeric vector length `nPI` with the target value for the PIs.
 #' @slot Limit Numeric vector length `nPI` with the limit value for the PIs.
 #'
-#' @seealso [Timeseries-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Timeseries()], [Code()], [Label()], [Description()],
 #'  [Value()], [Preset()]
 #'
 #' @example inst/examples/Timeseries.R
@@ -156,9 +156,6 @@ setMethod('Check', 'Timeseries', function(object) {
   req_dimensions <- c(NA, NA, NA, nPI, nTS)
   ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
 
-  if (is.na(nTS) & length(TimeNow(object)<1)) {
-    ll@errors <- append(ll@errors, list(TimeNow='`TimeNow` must be a numeric value'))
-  }
 
   if (!is.na(nTS) & length(TimeNow(object)>0)) {
     if (!TimeNow(object) %in% Time(object))
@@ -412,7 +409,7 @@ TimeNow <- function(Timeseries) {
 
 ## TimeLab ----
 #' @describeIn TimeLab Return `TimeLab` from a [Timeseries-class()] object
-setMethod("TimeLab", "Timeseries", function(object, lang='es') {
+setMethod("TimeLab", "Timeseries", function(object, lang='en') {
   get_language(object@TimeLab, lang)
 })
 

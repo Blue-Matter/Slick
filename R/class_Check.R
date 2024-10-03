@@ -239,6 +239,8 @@ check_design <- function(object) {
   }
   if (!is.null(factors)) {
     if (nrow(object@Design)>0) {
+      # nms <- colnames(object@Design)
+      # nsm <- nms[!nms=='Name']
       if (!all(colnames(object@Design) %in% factors))
         out$Design <- "column names of `Design` must match factors in `Factors`"
     }
@@ -351,7 +353,7 @@ check_Value <- function(value, req_dimensions) {
     ind <- !is.na(req_dimensions)
     for (i in seq_along(ind)) {
       if (ind[i]) {
-        if (dd[i] < req_dimensions[i])
+        if (dd[i] != req_dimensions[i])
           out$Value <- append(out$Value,
                               paste('Dimension', i, 'of `Value` must be length', req_dimensions[i])
           )

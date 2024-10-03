@@ -76,6 +76,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
     output$page <- renderUI({
       i18n <- i18n()
+      slick <- Slick_Object()
       if(all(is.na(slick@Boxplot@Value))) {
         return(tagList('No values in object'))
       }

@@ -7,8 +7,7 @@ check_slick_file <- function(slick) {
   }
 
   # update
-  if (!isS4(slick))
-    slick <- try(Update(slick))
+  slick <- try(Update(slick))
 
   if (inherits(slick, 'try-error')) {
     shinyalert::shinyalert('Invalid Slick object',

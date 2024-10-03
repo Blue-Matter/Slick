@@ -9,8 +9,7 @@
 status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
@@ -34,8 +33,8 @@ interactive application.
 
 ## Installation
 
-`Slick` will be released on the [Comprehensive R Archive Network
-(CRAN)](https://cran.r-project.org/) in the future.
+`Slick` will be released on the [CRAN](https://cran.r-project.org/) in
+the future.
 
 In the meantime, `Slick` can be installed from Github:
 
@@ -91,7 +90,7 @@ where `mySlick` is a completed Slick data object.
 ### Online App
 
 The online version of the Slick App can be accessed
-[here](https://shiny.bluematterscience.com/app/slick)
+[here](https://shiny.bluematterscience.com/app/slick).
 
 ### About Slick
 
@@ -108,7 +107,7 @@ which is funded by
 and implemented by the
 [FAO](https://www.fao.org/in-action/commonoceans/en/).
 
-The prototype figure designs were developed by \[5W
-Infographics\](<https://www.5wgraphics.com/>.
+The prototype figure designs were developed by [5W
+Infographics](https://www.5wgraphics.com/).
 
 `Slick` is under going further development. All feedback is welcome.

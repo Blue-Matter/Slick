@@ -51,8 +51,12 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       if (ready()>0) {
         tagList(
           uiOutput(ns('metadata')),
-          uiOutput(ns('boxplot')),
-          uiOutput(ns('quilt'))
+          mod_Report_Page_plot_ui(ns('timeseries')),
+          mod_Report_Page_plot_ui(ns('boxplot')),
+          mod_Report_Page_plot_ui(ns('kobe')),
+          mod_Report_Page_plot_ui(ns('quilt')),
+          mod_Report_Page_plot_ui(ns('spider')),
+          mod_Report_Page_plot_ui(ns('tradeoff'))
         )
       } else {
         tagList(h3(i18n$t('Nothing added to Report yet')))
@@ -71,99 +75,13 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       )
     })
 
-    # Time Series ----
 
-
-    # Boxplot ----
-
-    observeEvent(Report$Boxplot, {
-      nplot <- length(Report$Boxplot$plot)
-      if (nplot>0) {
-        for (x in 1:nplot) {
-          local({
-            this_x <- x
-            this_plot <- Report$Boxplot$plot[[this_x]]
-            if (!prod(is.na(this_plot)))
-              output[[paste(this_x, "boxplot", sep="")]] <- renderImage({
-                this_plot
-              }, deleteFile=FALSE)
-          })
-        }
-      }
-    })
-
-    boxplots <- reactive({
-      nplot <- length(Report$Boxplot$plot)
-      if (nplot>0) {
-        plot_output_list <- lapply(1:nplot, function(x) {
-          plotname <- paste0(x, 'boxplot')
-          caption <- Report$Boxplot$caption[[x]]
-          if (!is.na(caption)) {
-            caption <- p(caption)
-          } else {
-            caption <- NULL
-          }
-          if (!is.null(caption))
-            tagList(
-              hr(),
-              imageOutput(ns(plotname)),
-              caption,
-              shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
-                                       label='Remove',
-                                       icon('remove'),
-                                       color='danger',size='sm'),
-              hr()
-            )
-        })
-        do.call('tagList', plot_output_list)
-      }
-    })
-
-    output$boxplot <- renderUI({
-      chk <- lapply(Report$Boxplot$plot, is.na) |> unlist()
-      if (!all(chk)) {
-        tagList(
-          h3('Boxplot'),
-          boxplots()
-        )
-      }
-    })
-
-    observe({
-      nplot <- length(Report$Boxplot$plot)
-      if (nplot>0) {
-        for (x in 1:nplot) {
-          this_x <- x
-          observeEvent(eventExpr = input[[paste0('del-', this_x, "boxplot")]],
-                       handlerExpr = {
-                         if (!all(is.na(Report$Boxplot$plot[[this_x]])))
-                           file.remove(Report$Boxplot$plot[[this_x]]$src)
-                         Report$Boxplot$plot[[this_x]] <- NA
-                         Report$Boxplot$caption[[this_x]] <- NA
-                       })
-        }
-      }
-    })
-
-
-    # Quilt ----
-    output$quilt <- renderUI({
-      i18n <- i18n()
-      if (length(Report$Quilt$plot)>0) {
-        ll <- lapply(1:length(Report$Quilt$plot), function(x) {
-          tagList(
-            Report$Quilt$plot[[x]] |>
-              flextable::autofit() |>
-              flextable::htmltools_value(),
-            Report$Quilt$caption[[x]]
-          )
-        })
-        tagList(
-          h3('Quilt'),
-          ll
-        )
-      }
-    })
+    mod_Report_Page_plot_server('timeseries', 'Time Series', Report)
+    mod_Report_Page_plot_server('boxplot', 'Boxplot', Report)
+    mod_Report_Page_plot_server('kobe', 'Kobe', Report)
+    mod_Report_Page_plot_server('quilt', 'Quilt', Report)
+    mod_Report_Page_plot_server('spider', 'Spider', Report)
+    mod_Report_Page_plot_server('tradeoff', 'Tradeoff', Report)
 
     extension <- reactive({
       req(input$format)
@@ -187,9 +105,8 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
         file.copy(file.path(app_sys(), "Report_Template.Rmd"),
                   tempReport, overwrite = TRUE)
 
-
-        params <<- list(Metadata=Report$Metadata,
-                        Timeseries=Report$Timeseries,
+        params <- list(Metadata=Report$Metadata,
+                        'Time Series'=Report[['Time Series']],
                         Boxplot=Report$Boxplot,
                         Kobe=Report$Kobe,
                         Quilt=Report$Quilt,

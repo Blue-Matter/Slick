@@ -1,4 +1,4 @@
-url: https://blue-matter.github.io/Slick/
+url: https://slick.bluematterscience.com/
 template:
   bootstrap: 5
   bootswatch: litera
@@ -32,6 +32,7 @@ reference:
   - Timeseries
   - Tradeoff
   - Update
+  - FilterSlick
 - title: "Access and Assign Functions"
   desc: >
     Functions to access and assign
@@ -70,7 +71,18 @@ reference:
     Plotting routines and other functions
   contents:
   - plotBoxplot
+  - plotKobe
+  - plotQuilt
+  - plotSpider
   - plotTimeseries
+  - plotTradeoff
+- title: 'Other'
+  desc: >
+    S4 Methods and other functions
+  contents:
+  - show
+  - get_casestudies
+  - default_mp_colors
 - title: 'Deprecated'
   desc: >
     Functions still work for backwards compatability, but no longer recommended

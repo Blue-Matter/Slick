@@ -71,6 +71,8 @@ golem::add_module(name = "Report_Page")
 golem::add_module(name = "Report_Add")
 golem::add_module(name = "Report_Add_Button")
 
+golem::add_module(name = "Report_Page_plot")
+
 golem::add_module(name = "Zigzag_plot")
 
 golem::add_module(name = "MP_Color")

@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.9010
+Version: 0.1.0
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
@@ -20,24 +20,29 @@ Imports:
     DT,
     ggplot2,
     ggrepel,
+    golem,
     graphics,
     grDevices,
     methods,
     scales,
+    shiny,
     stats,
     tibble,
     utils
 Suggests: 
+    bookdown,
     colourpicker,
     colorspace,
+    cowplot,
     esquisse,
     flextable,
     fresh,
-    golem,
     httr,
+    kableExtra,
     knitr,
     MSEtool,
-    shiny,
+    openMSE,
+    RColorBrewer,
     shiny.i18n,
     shinyalert,
     shinyBS,
@@ -52,9 +57,9 @@ Suggests:
     waiter
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://slick.bluematterscience.com/
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
@@ -75,7 +80,6 @@ Collate:
     'class_Spider.R'
     'class_Slick.R'
     'fct_FilterSlick.R'
-    'fct_Kobe_plot.R'
     'fct_Update.R'
     'fct_check_required_packages.R'
     'fct_check_slick.R'
@@ -83,7 +87,12 @@ Collate:
     'fct_dashboardHeader2.R'
     'fct_load_casestudies.R'
     'fct_misc.R'
-    'fct_plots.R'
+    'fct_plotBoxplot.R'
+    'fct_plotKobe.R'
+    'fct_plotQuilt.R'
+    'fct_plotSpider.R'
+    'fct_plotTimeseries.R'
+    'fct_plotTradeoff.R'
     'fct_translator.R'
     'make_Slick_old.R'
     'man_functions.R'
@@ -108,6 +117,7 @@ Collate:
     'mod_Report_Add.R'
     'mod_Report_Add_Button.R'
     'mod_Report_Page.R'
+    'mod_Report_Page_plot.R'
     'mod_Resources.R'
     'mod_Sidebar.R'
     'mod_Spider.R'

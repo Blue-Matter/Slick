@@ -10,6 +10,7 @@
 mod_Kobe_time_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
     uiOutput(ns('page'))
   )
 }
@@ -18,11 +19,54 @@ mod_Kobe_time_ui <- function(id){
 #'
 #' @noRd
 mod_Kobe_time_server <- function(id,i18n, filtered_slick,
-                                 nOM, nMP, nPM, parent_session,
+                                 parent_session,
                                  xvar, yvar,
-                                 window_dims){
+                                 window_dims,
+                                 Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    nOM <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        nrow(slick@OMs@Design)
+    })
+
+    nMP <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        length(slick@MPs@Code)
+    })
+
+    nPM <- reactive({
+      slick <- filtered_slick()
+      if (!is.null(slick))
+        length(slick@Kobe@Code)
+    })
+
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Kobe',
+                          window_dims)
+
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      Plot_Object(kobeplot())
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
+
+    kobeplot <- reactive({
+      slick <- filtered_slick()
+      if (is.null(slick))
+        return(NULL)
+      plotKobe(slick, xvar(), yvar(), Time=TRUE)
+    })
 
 
     output$page <- renderUI({
@@ -35,55 +79,43 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
       tagList(
         fluidRow(
           column(12,
-                 loading_spinner(uiOutput(ns('kobetimeplots')))
+                 loading_spinner(plotOutput(ns('results'),
+                                            width=plot_width(),
+                                            height=plot_height()))
           )
         )
       )
     })
 
-    make_plots <- reactive({
-      slick <- filtered_slick()
-      if (is.null(slick))
-        return(NULL)
-      chk <- Check(filtered_slick())
-      if (chk@empty$Kobe) {
-        return(NULL)
-      }
-      dd <- slick |> Kobe() |> Value() |>  dim()
-      plot_list <- list()
-      if (dd[3]==nMP()) {
-        for (i in 1:nMP()) {
-
-          plot_list[[i]] <- Kobe_time_plot(slick, i, xvar(), yvar())
-        }
-      }
-      plot_list
+    output$results <- renderPlot({
+      kobeplot()
     })
 
-
-    output$kobetimeplots <- renderUI({
-      if (!is.null(make_plots())) {
-        plot_output_list <- lapply(1:nMP(), function(mm) {
-          plotname <- paste("plot", mm, sep="")
-          loading_spinner(plotOutput(ns(plotname), width='300px', height='300px'))
-        })
-        plot_output_list$cellArgs=list(style = 'width: 320px;')
-        do.call(flowLayout, plot_output_list)
-      }
+    calc_width <- reactive({
+      dd <- window_dims()
+      dd[1] * 0.6
     })
 
-    observeEvent(make_plots(), {
-      thisplot <- make_plots()
-      for (i in 1:nMP()) {
-        local({
-          my_i <- i
-          plotname <- paste("plot", my_i, sep="")
-          output[[plotname]] <- renderPlot({
-            thisplot[[my_i]]
-          }, height=300, width=300)
-        })
-      }
+    plot_width_calc <- reactive({
+      paste0(calc_width(), 'px')
     })
+
+    calc_height <- reactive({
+      width <- calc_width()
+      nmp <- nMP()
+      ncol <- min(4, nOM())
+      nrow <- ceiling(nmp/ncol)
+      (width*0.75)/ncol * nrow
+    })
+
+    plot_height_calc <- reactive({
+      paste0(calc_height(), 'px')
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
+    plot_height <- plot_height_calc |> debounce(500)
+
+
 
 
 

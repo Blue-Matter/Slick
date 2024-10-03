@@ -5,12 +5,12 @@
 #' An object of class `OMs` contains information about the operating models (MPs)
 #' in the [Slick()] object. Like all S4 objects in `Slick`, slots in this
 #' object can be accessed and assigned using functions corresponding to slot name.
-#' See [OMs-methods()] and the the `See Also` section below.
+#' See [OMs()] and the the `See Also` section below.
 #'
 #' @slot Factors A `data.frame` with column headings `Factor`, `Level`, and `Description`. See `Details`
 #' @slot Design A `data.frame` with `nFactor` columns (i.e., `length(unique(Factors$Factor))`), and `nOM`
 #' rows. See `Details`
-#' @slot Preset `r preset_param()`
+#' @slot Preset `r preset_param()`. See `Details` and `Examples`
 #'
 #' @details
 #'
@@ -33,7 +33,15 @@
 #' either be `numeric` values indicating the levels for the corresponding factor,
 #' or the actual level values (i.e., `Factors$Level`) that correspond to each OM. See `Examples`.
 #'
-#' @seealso [OMs-methods()], [Factors()], [Design()], [Preset()]
+#' ## Preset
+#' For `OMs` objects, `Preset` should be a named list, where each list element represents a
+#' different preset button to be shown in the app by the name of the list element, and
+#' each named list element should be a list of length `nFactors`, with the list elements
+#' for each Factor containing numeric values indicating the levels to include for that factor.
+#' See `Examples`
+#'
+#'
+#' @seealso [OMs()], [Factors()], [Design()], [Preset()]
 #'
 #' @example inst/examples/OMs.R
 #' @docType class

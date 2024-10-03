@@ -11,6 +11,7 @@ dev_history.R
 ^dev$
 $run_dev.*
 ^.here$
+^vignettes
 ^vignettes/articles$
 ^Dockerfile$
 ^build_site\.R$

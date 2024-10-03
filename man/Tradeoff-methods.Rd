@@ -57,9 +57,8 @@ Can include Markdown, see \code{Examples}.
 A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
-operating model (OM), management procedure (MP),  performance indicator (PI),
-and historical + projection timestep (nTS).
-Dimensions: c(nOM\verb{, }nMP\verb{, }nPI`)}
+operating model (OM), management procedure (MP),  and performance indicator (PI)
+Dimensions: c(\code{nOM}, \code{nMP}, \code{nPI})}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -104,6 +103,47 @@ as the number of performance indicators (\code{nPIs}) in \code{Value}
 \item \code{Tradeoff(Slick) <- value}: Assign a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object to a \code{\link[=Slick-class]{Slick-class()}} object
 
 }}
+\examples{
+# Generate dummy values
+nOM <- 2
+nMP <- 4
+nPI <- 4
+
+values <- array(NA, dim=c(nOM, nMP, nPI))
+
+pi_means <- runif(nPI, 5, 50)
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[om, mp, pi] <- rlnorm(1,log(pi_means[pi]), 0.4)
+    }
+  }
+}
+
+# Create and populate Object
+tradeoff <- Tradeoff(Code=c('PI1', 'PI2', 'PI3', 'PI4'),
+               Label=c('Performance Indicator 1',
+                       'Performance Indicator 2',
+                       'Performance Indicator 3',
+                       'Performance Indicator 4'),
+               Description = c('This is the description for PI 1',
+                               'This is the description for PI 2',
+                               'This is the description for PI 3',
+                               'This is the description for PI 4'),
+               Value=values)
+
+# Check
+Check(tradeoff)
+
+# Add to `Slick` object
+slick <- Slick()
+Tradeoff(slick) <- tradeoff
+
+# Plots
+plotTradeoff(slick)
+
+plotTradeoff(slick, c(1,1,2), c(2,3,3))
+}
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

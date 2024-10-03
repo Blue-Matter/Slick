@@ -24,14 +24,28 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Tradeoff',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      Plot_Object(tradeoffplot())
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
+
+
+
     Filter_Selected <- mod_Page_Filter_server("tradeofffilter",i18n, Slick_Object,
                                               slot='Tradeoff', incPM=FALSE,
                                               button_description='OM Filters',
                                               home_session=home_session)
-
-    # mod_toplink_server(id, links=list(hometab='Home',
-    #                                   metadatatab='Overview',
-    #                                   tradeoff='Tradeoff'))
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -97,12 +111,15 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
     })
 
 
-    pm_metadata <- reactive({
-      Metadata(Tradeoff(Slick_Object()))
-    })
+
 
     PM_codes <- reactive({
-      pm_metadata()[['Code']]
+      slick <- filtered_slick()
+      code <-  slick@Quilt@Code
+      ll <- as.list(seq_along(code))
+      names(ll) <- code
+      LL <- ll
+      ll
     })
 
 
@@ -119,7 +136,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       # if (length(selected>0)) {
       #   return(selected[1])
       # }
-      PM_codes()[1]
+      1
     })
 
     initial_y <- reactive({
@@ -127,7 +144,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       # if (length(selected>1)) {
       #   return(selected[2])
       # }
-      PM_codes()[2]
+      2
     })
 
     output$pmselection <- renderUI({
@@ -161,8 +178,12 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       plot_height_d() * 1.25
     })
 
-    plot_object <- reactive({
-      plotTradeoff(filtered_slick(), filtered_MPs(), input$xPM, input$yPM)
+
+    tradeoffplot <- reactive({
+
+      plotTradeoff(filtered_slick(),
+                   as.numeric(input$xPM),
+                   as.numeric(input$yPM))
     })
 
     output$tradeoffplot <- renderPlot({
@@ -170,7 +191,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       req(filtered_MPs())
       req(input$xPM)
       req(input$yPM)
-      plotTradeoff(filtered_slick(), filtered_MPs(), input$xPM, input$yPM)
+      tradeoffplot()
     }, width=function() {
       plot_width_d()
     }, height=function() {

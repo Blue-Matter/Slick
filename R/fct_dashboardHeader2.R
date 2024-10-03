@@ -1,9 +1,10 @@
-tagAssert <- shinydashboardPlus:::tagAssert
+
 
 # modified shinydashboardPlus::dashboardHeader to include the words 'Filter'
 dashboardHeader2 <- function (..., title = NULL, titleWidth = NULL, disable = FALSE,
                               .list = NULL, leftUi = NULL, controlbarIcon = shiny::icon("gears"),
                               fixed = FALSE) {
+  tagAssert <- shinydashboardPlus:::tagAssert
   items <- c(list(...), .list)
   lapply(items, tagAssert, type = "li", class = "dropdown")
   if (!is.null(leftUi)) {

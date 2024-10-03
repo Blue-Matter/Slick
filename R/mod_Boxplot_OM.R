@@ -25,10 +25,6 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    button_boxplot <- reactiveValues()
-    button_violin <- reactiveValues()
-    button_both <- reactiveValues()
-
     Plot_Object <- reactiveVal()
 
     mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
@@ -37,7 +33,13 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
                           window_dims)
 
 
+
+    button_boxplot <- reactiveValues()
+    button_violin <- reactiveValues()
+    button_both <- reactiveValues()
+
     observeEvent(filtered_slick(), {
+
       if (!is.null(filtered_slick())) {
         n <- nPM()
         if (!is.na(n) && length(n)>0 && n>0) {
@@ -105,6 +107,30 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       }
     })
 
+
+    plot_width_calc <- reactive({
+      dd <- window_dims()
+      val <- dd[1] * 0.6
+      paste0(val, 'px')
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
+
+    plot_height_calc <- reactive({
+      if (!is.null(filtered_slick())) {
+        nom <- nOM()
+        return(max(ceiling(nom/4) * 300, 300))
+      } else {
+        return(400)
+      }
+    })
+
+    plot_height <- plot_height_calc |> debounce(500)
+
+    plot_height_text <- reactive({
+      paste0(plot_height(), 'px')
+    })
+
     plot_width_calc <- reactive({
       dd <- window_dims()
       val <- dd[1] * 0.6
@@ -114,8 +140,10 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     plot_width <- plot_width_calc |> debounce(500)
 
     plot_width_text <- reactive({
-      paste0('width: ', plot_width(), '; height: 460px;')
+      height <- paste0('height: ', plot_height()+120, 'px')
+      paste0('width: ', plot_width(), '; ', height)
     })
+
 
     output$selectedtype <- reactive({
       plottype()
@@ -141,7 +169,9 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("boxplot", mm, sep="")
-          tagList(loading_spinner(plotOutput(session$ns(plotname), width=plot_width())),
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
                   mod_Report_Add_Button_ui(ns(paste0('report_button_boxplot_', mm)))
                   )
         })
@@ -154,7 +184,9 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("violin", mm, sep="")
-          tagList(loading_spinner(plotOutput(session$ns(plotname), width=plot_width())),
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
                   mod_Report_Add_Button_ui(ns(paste0('report_button_violin_', mm)))
           )
         })
@@ -167,7 +199,9 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("both", mm, sep="")
-          tagList(loading_spinner(plotOutput(session$ns(plotname), width=plot_width())),
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
                   mod_Report_Add_Button_ui(ns(paste0('report_button_both_', mm)))
                   )
         })
@@ -186,8 +220,7 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       plot_list <- list()
       if (dd[4]==nPM() & length(selected_oms())>0) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', TRUE, FALSE,
-                                        OM_labels=selected_oms())
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', byOM=TRUE)
         }
       }
       plot_list

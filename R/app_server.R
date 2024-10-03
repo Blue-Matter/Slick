@@ -80,7 +80,7 @@ app_server <- function(input, output, session) {
     Report$Metadata <- list(Title=(Title(slick, i18n$get_translation_language())),
                          Subtitle=Subtitle(slick, i18n$get_translation_language()),
                          Author=Author(slick),
-                         Introduction=Introduction(slick))
+                         Introduction=Introduction(slick, i18n$get_translation_language()))
     Report$Timeseries <- list(plot=list(), caption=list())
     Report$Boxplot <- list(plot=list(), caption=list())
     Report$Kobe <- list(plot=list(), caption=list())
@@ -95,8 +95,7 @@ app_server <- function(input, output, session) {
     nplot <- length(obj$plot)
     if (nplot>0) {
       for (p in 1:nplot) {
-
-        if (!is.na(obj$plot[[p]]) & !is.null(obj$plot[[p]]))
+        if (!all(is.na(obj$plot[[p]])) & !is.null(obj$plot[[p]]))
           file.remove(obj$plot[[p]]$src)
       }
     }
@@ -147,6 +146,7 @@ app_server <- function(input, output, session) {
   waitress$inc(5)
   mod_Spider_server("Spider", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
+
   mod_Timeseries_server("Timeseries_1", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
   mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report, session)

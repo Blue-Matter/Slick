@@ -2,7 +2,7 @@
 #'
 #' Objects of class `Tradeoff` are used to store information for the Tradeoff plot.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Tradeoff-methods()] and the
+#' assigned using functions corresponding to slot name. See [Tradeoff()] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -27,10 +27,10 @@
 #' Dimensions: c(`nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
 #'
-#' @seealso [Tradeoff-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Tradeoff()], [Code()], [Label()], [Description()],
 #'  [Value()], [Preset()]
 #'
-#' @example inst/examples/Tradeoff
+#' @example inst/examples/Tradeoff.R
 #' @docType class
 #' @export
 setClass("Tradeoff",
