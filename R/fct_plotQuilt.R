@@ -29,6 +29,7 @@ colorRampAlpha <- function(..., n, alpha) {
 #'
 #' @seealso [Quilt()], [Quilt-class()]
 #' @return A `DT::datatable` or a `knitr::kable` object
+#' @example inst/examples/Quilt.R
 #' @export
 #'
 plotQuilt <- function(slick,

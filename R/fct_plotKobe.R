@@ -34,6 +34,7 @@
 #' `Description` works as well, but you probably don't want to do that.
 #' @seealso [Kobe()], [Kobe-class()]
 #' @return A `ggplot2` object
+#' @example inst/examples/Kobe.R
 #' @export
 #'
 plotKobe <- function(slick,

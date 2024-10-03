@@ -476,23 +476,19 @@ process_markdown <- function(val, markdown) {
 }
 
 
-#' Slick Object Functions
-#'
-#' @name SlickFunctions
-NULL
 
-
-
-#' @describeIn SlickFunctions Access `Title`, Multi-language support
+#' @describeIn Slick-class Access `Title`, Multi-language support
 #' @param object A [Slick-class()] object
 #' @param lang `r lang_param()`
 #' @param markdown Logical. Process markdown?
+#' @example
+#'
 #' @export
 Title <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Title, lang), markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Title`, Multi-language support
+#' @describeIn Slick-class Assign `Title`, Multi-language support
 #' @param value The value to assign to the object. See `Slots` for format of the
 #' relevant object class
 #' @export
@@ -504,13 +500,13 @@ Title <- function(object, lang='en', markdown=FALSE) {
 
 
 
-#' @describeIn SlickFunctions Access `Subtitle`, Multi-language support
+#' @describeIn Slick-class Access `Subtitle`, Multi-language support
 #' @export
 Subtitle <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Subtitle, lang), markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Subtitle`, Multi-language support
+#' @describeIn Slick-class Assign `Subtitle`, Multi-language support
 #' @export
 `Subtitle<-` <- function(object,  value) {
   object@Subtitle <- value
@@ -518,13 +514,13 @@ Subtitle <- function(object, lang='en', markdown=FALSE) {
   object
 }
 
-#' @describeIn SlickFunctions Access `Date`
+#' @describeIn Slick-class Access `Date`
 #' @export
 Date <- function(object) {
   object@Date
 }
 
-#' @describeIn SlickFunctions Assign `Date`
+#' @describeIn Slick-class Assign `Date`
 #' @export
 `Date<-` <- function(object, value) {
   if (is.null(value)) return(object)
@@ -537,13 +533,13 @@ Date <- function(object) {
 }
 
 
-#' @describeIn SlickFunctions Access `Author`
+#' @describeIn Slick-class Access `Author`
 #' @export
 Author <- function(object, markdown=FALSE) {
   process_markdown(object@Author, markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Author`
+#' @describeIn Slick-class Assign `Author`
 #' @export
 `Author<-` <- function(object,  value) {
   object@Author <- value
@@ -552,13 +548,13 @@ Author <- function(object, markdown=FALSE) {
 }
 
 
-#' @describeIn SlickFunctions Access `Email`
+#' @describeIn Slick-class Access `Email`
 #' @export
 Email <- function(object, markdown=FALSE) {
   process_markdown(object@Email, markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Email`
+#' @describeIn Slick-class Assign `Email`
 #' @export
 `Email<-` <- function(object,  value) {
   object@Email <- value
@@ -567,13 +563,13 @@ Email <- function(object, markdown=FALSE) {
 }
 
 
-#' @describeIn SlickFunctions Access `Institution`
+#' @describeIn Slick-class Access `Institution`
 #' @export
 Institution <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Institution, lang), markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Institution`
+#' @describeIn Slick-class Assign `Institution`
 #' @export
 `Institution<-` <- function(object,  value) {
   object@Institution <- value
@@ -581,13 +577,13 @@ Institution <- function(object, lang='en', markdown=FALSE) {
   object
 }
 
-#' @describeIn SlickFunctions Access `Introduction`
+#' @describeIn Slick-class Access `Introduction`
 #' @export
 Introduction <- function(object, lang='en', markdown=FALSE) {
   process_markdown(get_language(object@Introduction, lang), markdown)
 }
 
-#' @describeIn SlickFunctions Assign `Introduction`, can include Markdown. See `Examples`
+#' @describeIn Slick-class Assign `Introduction`, can include Markdown. See `Examples`
 #' @export
 `Introduction<-` <- function(object,  value) {
   object@Introduction <- value

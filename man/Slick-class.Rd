@@ -4,6 +4,20 @@
 \name{Slick-class}
 \alias{Slick-class}
 \alias{Slick}
+\alias{Title}
+\alias{Title<-}
+\alias{Subtitle}
+\alias{Subtitle<-}
+\alias{Date}
+\alias{Date<-}
+\alias{Author}
+\alias{Author<-}
+\alias{Email}
+\alias{Email<-}
+\alias{Institution}
+\alias{Institution<-}
+\alias{Introduction}
+\alias{Introduction<-}
 \title{Create a \code{Slick} class object}
 \usage{
 Slick(
@@ -23,6 +37,34 @@ Slick(
   Timeseries = NULL,
   Tradeoff = NULL
 )
+
+Title(object, lang = "en", markdown = FALSE)
+
+Title(object) <- value
+
+Subtitle(object, lang = "en", markdown = FALSE)
+
+Subtitle(object) <- value
+
+Date(object)
+
+Date(object) <- value
+
+Author(object, markdown = FALSE)
+
+Author(object) <- value
+
+Email(object, markdown = FALSE)
+
+Email(object) <- value
+
+Institution(object, lang = "en", markdown = FALSE)
+
+Institution(object) <- value
+
+Introduction(object, lang = "en", markdown = FALSE)
+
+Introduction(object) <- value
 }
 \arguments{
 \item{Title}{Title for the \code{Slick} object. A character string. For multiple languages,
@@ -57,6 +99,16 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 \item{Timeseries}{An object of class \code{\link[=Timeseries-class]{Timeseries-class()}}}
 
 \item{Tradeoff}{An object of class \code{\link[=Tradeoff-class]{Tradeoff-class()}}}
+
+\item{object}{A \code{\link[=Slick-class]{Slick-class()}} object}
+
+\item{lang}{Optional text string specifying the language (if available).
+Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+
+\item{markdown}{Logical. Process markdown?}
+
+\item{value}{The value to assign to the object. See \code{Slots} for format of the
+relevant object class}
 }
 \description{
 The \code{Slick} class is the main object class used in the \code{Slick} package. It
@@ -85,6 +137,34 @@ All functions with the exception of \code{Date} support Markdown.
 \section{Functions}{
 \itemize{
 \item \code{Slick()}: Create a \code{\link[=Slick-class]{Slick-class()}} object
+
+\item \code{Title()}: Access \code{Title}, Multi-language support
+
+\item \code{Title(object) <- value}: Assign \code{Title}, Multi-language support
+
+\item \code{Subtitle()}: Access \code{Subtitle}, Multi-language support
+
+\item \code{Subtitle(object) <- value}: Assign \code{Subtitle}, Multi-language support
+
+\item \code{Date()}: Access \code{Date}
+
+\item \code{Date(object) <- value}: Assign \code{Date}
+
+\item \code{Author()}: Access \code{Author}
+
+\item \code{Author(object) <- value}: Assign \code{Author}
+
+\item \code{Email()}: Access \code{Email}
+
+\item \code{Email(object) <- value}: Assign \code{Email}
+
+\item \code{Institution()}: Access \code{Institution}
+
+\item \code{Institution(object) <- value}: Assign \code{Institution}
+
+\item \code{Introduction()}: Access \code{Introduction}
+
+\item \code{Introduction(object) <- value}: Assign \code{Introduction}, can include Markdown. See \code{Examples}
 
 }}
 \section{Slots}{
@@ -125,7 +205,7 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 }}
 
 \examples{
-library(Slick)
+
 # Assign values to a new `Slick` object
 slick <- Slick()
 
@@ -136,11 +216,7 @@ Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
 Institution(slick) <- "[Blue Matter Science](bluematterscience.com)"
 
-Introduction(slick) <- "
-This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
-
-The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).
-"
+Introduction(slick) <- "This is the Introduction text"
 
 # Access values from `Slick` object
 Title(slick)
@@ -151,9 +227,7 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
-# See ?MPs, ?OMs, ?Boxplot, ?Quilt, etc for examples on populating other
-# objects
-
+slick
 }
 \seealso{
 \code{\link[=MPs]{MPs()}}, \code{\link[=OMs]{OMs()}}, \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Kobe]{Kobe()}}, \code{\link[=Quilt]{Quilt()}},

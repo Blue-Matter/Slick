@@ -63,6 +63,10 @@ check_assign_dataframe <- function(object, names, value) {
 #' @param nMP The number of management procedures
 #'
 #' @export
+#' @examples
+#' cols <- default_mp_colors(4)
+#' cols
+#'
 default_mp_colors <- function(nMP) {
   if (!requireNamespace('colorspace', quietly = TRUE)) {
     warning('package `colorspace` required')

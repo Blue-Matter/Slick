@@ -142,9 +142,6 @@ for (om in 1:nOM) {
   }
 }
 
-values[1,1,2,3,]
-values[2,1,2,3,]
-
 # Create and populate Object
 timeseries <- Timeseries(Code=c('B/BMSY', 'F/FMSY', 'TAC'),
                          Label=c('B/BMSY',

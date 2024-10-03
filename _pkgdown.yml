@@ -21,7 +21,6 @@ reference:
     Create and populate a Slick object
   contents:
   - Slick-class
-  - SlickFunctions
   - Check
   - MPs
   - OMs

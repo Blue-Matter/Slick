@@ -14,6 +14,12 @@
 #'
 #' @return A filtered Slick Object
 #' @export
+#' @examples
+#' \dontrun{
+#' slick <- Slick() # a completed slick object
+#' boxplot_OM_1 <- FilterSlick(slick, OMs=1, plot='boxplot') #
+#' }
+#'
 #'
 FilterSlick <- function(slick=NULL,
                         MPs=NULL,
