@@ -57,9 +57,9 @@ Suggests:
     waiter
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://slick.bluematterscience.com/
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
