@@ -69,7 +69,7 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       tagList(
         h2(Report$Metadata$Title),
         Report$Metadata$Subtitle,
-        Report$Metadata$Author,
+        paste(Report$Metadata$Author, collapse=', '),
         h3(i18n$t('Introduction')),
         markdown(Report$Metadata$Introduction)
       )

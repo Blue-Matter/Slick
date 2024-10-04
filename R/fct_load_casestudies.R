@@ -10,6 +10,7 @@ get_casestudies <- function() {
   req <- httr::GET("https://api.github.com/repos/blue-matter/slicklibrary/git/trees/master?recursive=1")
   httr::stop_for_status(req)
   filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)
+
   type <- unlist(lapply(httr::content(req)$tree, "[", "type"), use.names = F)
   filelist <- filelist[type=='blob']
 
@@ -22,6 +23,7 @@ get_casestudies <- function() {
   names <- gsub('.rda', '', names)
   names <- gsub('.slick', '', names)
   names <- gsub('_', ' ', names)
+
   data.frame(Name=names, File=slick_files, Size=round(size/1e6,2))
 }
 
@@ -47,7 +49,8 @@ download_casestudy <- function(name, case_studies=NULL, dir=NULL,
     case_studies <- get_casestudies()
   ind <- match(name, case_studies$Name)
   if (is.na(ind) | length(ind)<1) {
-    stop(name, ' not found in Slick Library. Options are: ', paste(case_studies$Name, collapse=', '))
+    cli::cli_abort(paste(name, ' not found in Slick Library. \n\nOptions are: ',
+                   paste(case_studies$Name, collapse=', ')))
   }
 
   file <- case_studies$File[ind]

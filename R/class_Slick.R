@@ -481,7 +481,6 @@ process_markdown <- function(val, markdown) {
 #' @param object A [Slick-class()] object
 #' @param lang `r lang_param()`
 #' @param markdown Logical. Process markdown?
-#' @example
 #'
 #' @export
 Title <- function(object, lang='en', markdown=FALSE) {

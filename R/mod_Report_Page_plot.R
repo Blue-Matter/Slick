@@ -1,3 +1,22 @@
+# https://stackoverflow.com/questions/67941650/get-external-image-file-dimensions-with-base-r
+get_image_dimensions <- function(path) {
+  # Ensure file exists
+  if(!file.exists(path))
+    stop("No file found", call. = FALSE)
+
+  # Ensure file ends with .png or .jpg or jpeg
+  if (!grepl("\\.(png|jpg|jpeg)$", x = path, ignore.case = TRUE))
+    stop("File must end with .png, .jpg, or .jpeg", call. = FALSE)
+
+  # Get return of file system command
+  s <- system(paste0("file ", path), intern = TRUE)
+
+  # Extract width and height from string
+  width <- regmatches(s, gregexpr("(?<=, )[0-9]+(?=(x| x )[0-9]+,)", s, perl = TRUE))[[1]]
+  height <- regmatches(s, gregexpr(", [0-9]+(x| x )\\K[0-9]+(?=,)", s, perl = TRUE))[[1]]
+  as.numeric(c(width, height))
+}
+
 #' Report_Page_plot UI Function
 #'
 #' @description A shiny Module.
@@ -56,9 +75,21 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
 
     plotlist <- reactive({
       nplot <- length(Report[[PlotName]]$plot)
+      width <- 800
+      width_fun <- function(width)
+        paste0(width, 'px')
+
+      height_fun <- function(width, img_dims) {
+        ratio <- img_dims[1]/img_dims[2]
+        paste0(width/ ratio, 'px')
+      }
+
       if (nplot>0) {
         plot_output_list <- lapply(1:nplot, function(x) {
           plotname <- paste0(x, tolower(PlotName))
+          path <- Report[[PlotName]]$plot[[x]]$src
+          img_dims <- get_image_dimensions(path)
+
           caption <- Report[[PlotName]]$caption[[x]]
           if (!is.na(caption)) {
             caption <- p(caption)
@@ -68,7 +99,9 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
           if (!is.null(caption))
             tagList(
               hr(),
-              imageOutput(ns(plotname), height='auto'),
+              imageOutput(ns(plotname),
+                          width=width_fun(width),
+                          height=height_fun(width, img_dims)),
               caption,
               # shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
               #                          label='Remove',

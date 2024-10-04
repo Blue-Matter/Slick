@@ -36,7 +36,7 @@ Date(slick) <- Sys.Date()
 
 ## ---- write_metadata ----
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "This is the subtitle"
+Subtitle(slick) <- "For Testing and Demonstration Purposes"
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
@@ -53,9 +53,11 @@ Institution(slick)
 ## ---- markdown_intro ----
 Introduction(slick) <- "
 
-This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.
+This *example* Slick Object has been designed to demonstrate the main features of **Slick**.
 
-The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).
+The code used to create this object is available in the [Slick Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html).
+
+The information shown here is for demonstration purposes only.
 
 "
 ## ---- markdown_intro_read ----
@@ -581,3 +583,6 @@ plotTradeoff(slick)
 plotTradeoff(slick, 1:2, 3:4)
 
 
+## ---- slick_library ----
+
+saveRDS(slick, '../SlickLibrary/Slick_Objects/Example.slick')
