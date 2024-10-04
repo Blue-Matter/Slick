@@ -28,3 +28,11 @@ Filter a Slick Object
 Filter a Slick Object by management procedures (MPs),
 operating models (OMs), and performance indicators (PIs) for a given plot
 }
+\examples{
+\dontrun{
+slick <- Slick() # a completed slick object
+boxplot_OM_1 <- FilterSlick(slick, OMs=1, plot='boxplot') #
+}
+
+
+}

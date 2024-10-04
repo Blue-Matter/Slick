@@ -784,4 +784,22 @@ See [`?plotTradeoff`](../reference/plotTradeoff.html) for more options for the `
 
 # Slick Object Library
 
-The 
+You can add your Slick object to the list of case studies that can be directly loaded from the [App](#app) by adding your Slick Object to the [SlickLibrary repository](https://github.com/Blue-Matter/SlickLibrary).
+
+This can be helpful if you wish to share your MSE results with others (e.g., a working group or stakeholders), as otherwise you will need to share the Slick Object file directly with them via email or some other method, and they will have to upload the file into the App.
+
+This method also allows you to update the Slick Object easily.
+
+The way to do this is to clone the *SlickLibrary* repo, than save your Slick Object to the *Slick_Objects* directory, and submit a pull request so that your change can be incorporated into the *SlickLibrary* repo.
+
+A couple of things to note:
+
+1. The Slick Object must be saved with `saveRDS` with extension `.slick`
+2. The file name should be the name with wish to be displayed in the Case Study selection menu, with an underscore "_" to separate words.
+
+```{r slick_library, eval=FALSE}
+
+```
+
+Your Slick object will be available immediately once the *SlickLibrary* repo is updated.
+

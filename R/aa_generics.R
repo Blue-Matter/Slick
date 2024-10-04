@@ -85,6 +85,9 @@ setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 #' @param ... Additional arguments
 #' @return Prints messages to the console
 #' @export
+#' @examples
+#' slick <- Slick()
+#' Check(slick)
 setGeneric("Check", function(object, ...) standardGeneric("Check"))
 
 

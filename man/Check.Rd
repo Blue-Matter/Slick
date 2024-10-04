@@ -72,3 +72,7 @@ Checks S4 objects to check for warnings and errors
 \item \code{Check(Slick)}: Check \code{\link[=Slick-class]{Slick-class()}} objects for errors
 
 }}
+\examples{
+slick <- Slick()
+Check(slick)
+}

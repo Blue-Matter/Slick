@@ -36,6 +36,9 @@
 #'
 #' @return An S4 object of class `Slick`
 #' @export
+#' @examples
+#' slick <- Slick() # a dummy old Slick object
+#' slick <- Update(slick) # updated to S4 object
 #'
 Update <- function(slick) {
   if (isS4(slick)) {

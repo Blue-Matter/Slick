@@ -68,19 +68,16 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
             h3(i18n$t('Please select 3 or more Peformance Indicators'))
           )
         } else {
-          hgt <- paste0(90 * nMP(), 'px')
           plot_output_list <- lapply(1:nOM(), function(mm) {
             plotname <- paste("plot", mm, sep="")
             tagList(
-              div(
-                loading_spinner(plotOutput(ns(plotname),
-                                                        width='90px', height=hgt)),
-                style="padding-right:50px; padding-bottom:15px; "
-              )
+              loading_spinner(plotOutput(ns(plotname),
+                                         width=plot_width(), height=plot_height()))
+
             )
           })
           plot_output_list$cellArgs <- list(
-            style = "width: 100px;"
+            style = paste0('width:', cell_width_calc(), '; padding-bottom:25px;')
           )
           do.call(flowLayout , plot_output_list)
         }
@@ -95,6 +92,31 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(filtered_slick()))
         filtered_slick() |> MPs() |> Metadata()
     })
+
+    width <- reactive({
+      dd <- window_dims()
+      dd[1] * 0.1
+    })
+
+    plot_height_calc <- reactive({
+      req(width, nMP)
+      nMP() * width()
+    })
+
+    plot_height <- plot_height_calc |> debounce(500)
+
+    plot_width_calc <- reactive({
+      paste0(width(), 'px')
+    })
+
+    cell_width_calc <- reactive({
+      paste0(width()+35, 'px')
+    })
+
+
+    plot_width <- plot_width_calc |> debounce(500)
+    cell_width <- cell_width_calc |> debounce(500)
+
 
     observe({
       if (!is.null(filtered_slick()) & !is.null(relative_scale())) {
@@ -122,7 +144,7 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
                          incMean=OS_button(),
                          incMax=TRUE)
             }, height=function(){
-              90 * nMP()
+              plot_height()
             }, bg = "transparent")
           })
         }

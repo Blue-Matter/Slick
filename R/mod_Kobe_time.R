@@ -103,7 +103,7 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
     calc_height <- reactive({
       width <- calc_width()
       nmp <- nMP()
-      ncol <- min(4, nOM())
+      ncol <- min(4, nmp)
       nrow <- ceiling(nmp/ncol)
       (width*0.75)/ncol * nrow
     })

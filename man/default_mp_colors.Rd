@@ -12,3 +12,8 @@ default_mp_colors(nMP)
 \description{
 Requires the \code{colorspace} package
 }
+\examples{
+cols <- default_mp_colors(4)
+cols
+
+}

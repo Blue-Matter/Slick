@@ -91,7 +91,9 @@ plotBoxplot(slick)
 
 plotBoxplot(slick, type='violin')
 
-plotBoxplot(slick, type='both')
+plotBoxplot(slick, byOM=TRUE)
+
+plotBoxplot(slick, 2, type='both', byOM=TRUE)
 }
 \seealso{
 \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
