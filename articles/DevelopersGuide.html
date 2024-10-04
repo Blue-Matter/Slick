@@ -329,7 +329,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-10-03"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-04"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -345,7 +345,7 @@ Slick Object.</p>
 results in the <a href="#app">App</a>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span>
-<span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"This is the subtitle"</span></span>
+<span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Adrian Hordyk'</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="st">"[adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"</span></span>
@@ -356,9 +356,9 @@ Slick Object:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This is the subtitle"</span></span>
+<span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2024-10-03"</span></span>
+<span><span class="co">#&gt; [1] "2024-10-04"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -374,9 +374,11 @@ Object. For example:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st"></span></span>
-<span><span class="st">This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</span></span>
+<span><span class="st">This *example* Slick Object has been designed to demonstrate the main features of **Slick**.</span></span>
 <span><span class="st"></span></span>
-<span><span class="st">The introduction can include paragraphs as well as Markdown such as *italics* and **bold** text and [Links](https://slick.bluematterscience.com).</span></span>
+<span><span class="st">The code used to create this object is available in the [Slick Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html).</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">The information shown here is for demonstration purposes only.</span></span>
 <span><span class="st"></span></span>
 <span><span class="st">"</span></span></code></pre></div>
 <p>The Markdown will be automatically converted to HTML in the App. Use
@@ -386,8 +388,9 @@ horizontal lines):</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span>, markdown <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <hr>
-<p>This is an example Slick object. It has been created for the purposes of demonstrating the key features of Slick.</p>
-<p>The introduction can include paragraphs as well as Markdown such as <em>italics</em> and <strong>bold</strong> text and <a href="https://slick.bluematterscience.com">Links</a>.</p>
+<p>This <em>example</em> Slick Object has been designed to demonstrate the main features of <strong>Slick</strong>.</p>
+<p>The code used to create this object is available in the <a href="https://slick.bluematterscience.com/articles/DevelopersGuide.html">Slick Developer's Guide</a>.</p>
+<p>The information shown here is for demonstration purposes only.</p>
 
 <hr>
 </div>
@@ -1134,43 +1137,43 @@ shading for each PI:</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, shading<span class="op">=</span><span class="cn">FALSE</span>, kable<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-6048c200{}.cl-6042ac08{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-60454652{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-6045465c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-60456222{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6045622c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-60456236{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-60456237{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-60456240{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6045624a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-6048c200">
+<style>.cl-b08cf85c{}.cl-b086bb36{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b0895e0e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b0895e18{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b0897b82{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0897b8c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0897b96{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0897ba0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0897ba1{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0897baa{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-b08cf85c">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-60456222"><p class="cl-60454652"><span class="cl-6042ac08">MP</span></p></th>
-<th class="cl-6045622c"><p class="cl-6045465c"><span class="cl-6042ac08">PGK</span></p></th>
-<th class="cl-6045622c"><p class="cl-6045465c"><span class="cl-6042ac08">P100</span></p></th>
-<th class="cl-6045622c"><p class="cl-6045465c"><span class="cl-6042ac08">PNOF</span></p></th>
-<th class="cl-6045622c"><p class="cl-6045465c"><span class="cl-6042ac08">Mean TAC</span></p></th>
+<th class="cl-b0897b82"><p class="cl-b0895e0e"><span class="cl-b086bb36">MP</span></p></th>
+<th class="cl-b0897b8c"><p class="cl-b0895e18"><span class="cl-b086bb36">PGK</span></p></th>
+<th class="cl-b0897b8c"><p class="cl-b0895e18"><span class="cl-b086bb36">P100</span></p></th>
+<th class="cl-b0897b8c"><p class="cl-b0895e18"><span class="cl-b086bb36">PNOF</span></p></th>
+<th class="cl-b0897b8c"><p class="cl-b0895e18"><span class="cl-b086bb36">Mean TAC</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-60456236"><p class="cl-60454652"><span class="cl-6042ac08">AvC</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.89</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.90</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.93</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">930</span></p></td>
+<td class="cl-b0897b96"><p class="cl-b0895e0e"><span class="cl-b086bb36">AvC</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.89</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.90</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.93</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">930</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-60456236"><p class="cl-60454652"><span class="cl-6042ac08">Itarget1</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.91</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.95</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.95</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">940</span></p></td>
+<td class="cl-b0897b96"><p class="cl-b0895e0e"><span class="cl-b086bb36">Itarget1</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.91</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.95</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.95</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">940</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-60456236"><p class="cl-60454652"><span class="cl-6042ac08">DD</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.48</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.53</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">0.60</span></p></td>
-<td class="cl-60456237"><p class="cl-6045465c"><span class="cl-6042ac08">1,000</span></p></td>
+<td class="cl-b0897b96"><p class="cl-b0895e0e"><span class="cl-b086bb36">DD</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.48</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.53</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">0.60</span></p></td>
+<td class="cl-b0897ba0"><p class="cl-b0895e18"><span class="cl-b086bb36">1,000</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-60456240"><p class="cl-60454652"><span class="cl-6042ac08">SPmod</span></p></td>
-<td class="cl-6045624a"><p class="cl-6045465c"><span class="cl-6042ac08">0.16</span></p></td>
-<td class="cl-6045624a"><p class="cl-6045465c"><span class="cl-6042ac08">0.22</span></p></td>
-<td class="cl-6045624a"><p class="cl-6045465c"><span class="cl-6042ac08">0.20</span></p></td>
-<td class="cl-6045624a"><p class="cl-6045465c"><span class="cl-6042ac08">870</span></p></td>
+<td class="cl-b0897ba1"><p class="cl-b0895e0e"><span class="cl-b086bb36">SPmod</span></p></td>
+<td class="cl-b0897baa"><p class="cl-b0895e18"><span class="cl-b086bb36">0.16</span></p></td>
+<td class="cl-b0897baa"><p class="cl-b0895e18"><span class="cl-b086bb36">0.22</span></p></td>
+<td class="cl-b0897baa"><p class="cl-b0895e18"><span class="cl-b086bb36">0.20</span></p></td>
+<td class="cl-b0897baa"><p class="cl-b0895e18"><span class="cl-b086bb36">870</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1329,7 +1332,32 @@ more options for the <code>plotTradeoff</code> function.</p>
 <div class="section level2">
 <h2 id="slick-object-library">Slick Object Library<a class="anchor" aria-label="anchor" href="#slick-object-library"></a>
 </h2>
-<p>The</p>
+<p>You can add your Slick object to the list of case studies that can be
+directly loaded from the <a href="#app">App</a> by adding your Slick
+Object to the <a href="https://github.com/Blue-Matter/SlickLibrary" class="external-link">SlickLibrary
+repository</a>.</p>
+<p>This can be helpful if you wish to share your MSE results with others
+(e.g., a working group or stakeholders), as otherwise you will need to
+share the Slick Object file directly with them via email or some other
+method, and they will have to upload the file into the App.</p>
+<p>This method also allows you to update the Slick Object easily.</p>
+<p>The way to do this is to clone the <em>SlickLibrary</em> repo, than
+save your Slick Object to the <em>Slick_Objects</em> directory, and
+submit a pull request so that your change can be incorporated into the
+<em>SlickLibrary</em> repo.</p>
+<p>A couple of things to note:</p>
+<ol style="list-style-type: decimal">
+<li>The Slick Object must be saved with <code>saveRDS</code> with
+extension <code>.slick</code>
+</li>
+<li>The file name should be the name with wish to be displayed in the
+Case Study selection menu, with an underscore “_” to separate
+words.</li>
+</ol>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'../SlickLibrary/Slick_Objects/Example.slick'</span><span class="op">)</span></span></code></pre></div>
+<p>Your Slick object will be available immediately once the
+<em>SlickLibrary</em> repo is updated.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
