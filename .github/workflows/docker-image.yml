@@ -1,7 +1,7 @@
 name: Docker Image CI
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "shiny_live" ]
 
 jobs:
   push_to_registry:
