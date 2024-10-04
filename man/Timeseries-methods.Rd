@@ -76,7 +76,8 @@ match length \code{nTS} in \code{Value}}
 
 \item{TimeNow}{A numeric value matching the last historical timestep in \code{Time}}
 
-\item{TimeLab}{Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the \verb{Kobe Time} plot. Use a named list for
+\item{TimeLab}{Character string length 1. Name of the time step (e.g., 'Year').
+Will be used as the label in the \code{Timeseries} plot. Use a named list for
 multiple languages.}
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
@@ -102,6 +103,7 @@ and to access and assign \code{Timeseries} for an object of class \code{\link[=S
 See \code{Details}.
 }
 \details{
+Use \code{\link[=plotTimeseries]{plotTimeseries()}} to create the boxplot from the console.
 \subsection{Note}{
 
 Character strings in \code{Code}, \code{Label}, and \code{Description} must all be same length
@@ -136,9 +138,75 @@ existing \code{Timeseries} object, see \code{Examples}
 \item \code{Timeseries(Slick) <- value}: Assign a \code{\link[=Timeseries-class]{Timeseries-class()}} object to a \code{\link[=Slick-class]{Slick-class()}} object
 
 }}
+\examples{
+# Generate dummy values
+nsim <- 10
+nOM <- 2
+nMP <- 4
+nPI <- 3
+nHistTS <- 50
+nProjTS <- 30
+nTS <- nHistTS + nProjTS
+
+values <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
+
+pi_means <- c(1,1, 1000)
+
+for (om in 1:nOM) {
+  for (pi in 1:nPI) {
+    # PI identical for historical
+    histVals <- matrix(
+      pi_means[pi] *
+        cumprod(c(rlnorm(nHistTS*nsim, 0, 0.05))),
+      nrow=nsim, ncol=nHistTS, byrow=TRUE)
+    histVals <- replicate(nMP, histVals)
+    values[,om, , pi,1:nHistTS] <- aperm(histVals, c(1,3,2))
+
+    for (mp in 1:nMP) {
+      values[,om, mp, pi,(nHistTS+1):nTS] <- matrix(
+        pi_means[pi] *
+          cumprod(c(rlnorm(nProjTS*nsim, 0, 0.05))),
+        nrow=nsim, ncol=nProjTS, byrow=TRUE)
+    }
+  }
+}
+
+# Create and populate Object
+timeseries <- Timeseries(Code=c('B/BMSY', 'F/FMSY', 'TAC'),
+                         Label=c('B/BMSY',
+                                 'F/FMSY',
+                                 'TAC'),
+                         Description = c('This is the description for PI 1',
+                                         'This is the description for PI 2',
+                                         'This is the description for PI 3'),
+                         Value=values
+)
+
+# Last historical time step
+TimeNow(timeseries) <- 2024
+
+# Add values for time steps
+Time(timeseries) <- c(seq(TimeNow(timeseries), by=-1, length.out=nHistTS),
+                      seq(TimeNow(timeseries)+1, by=1, length.out=nProjTS))
+
+# Check
+Check(timeseries)
+
+# Add to `Slick` object
+slick <- Slick()
+Timeseries(slick) <- timeseries
+
+# Plots
+plotTimeseries(slick, 3)
+
+plotTimeseries(slick, byMP=TRUE)
+
+plotTimeseries(slick, byOM=TRUE)
+
+}
 \seealso{
-\code{\link[=Timeseries-methods]{Timeseries-methods()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
-\code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
+\code{\link[=Timeseries-class]{Timeseries-class()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
+\code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=plotTimeseries]{plotTimeseries()}}
 
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

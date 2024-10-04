@@ -7,7 +7,8 @@
 App(...)
 }
 \arguments{
-\item{...}{Additional arguments. Not used.}
+\item{...}{Additional arguments. To load a object directly in the App,
+use \code{App(slick=myslick)} where \code{myslick} is your \code{\link[=Slick-class]{Slick-class()}} object.}
 }
 \description{
 An online hosted version of the Slick App is available

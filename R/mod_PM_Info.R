@@ -14,6 +14,11 @@ mod_PM_Info_ui <- function(id){
   )
 }
 
+firstup <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
 #' PM_Info Server Functions
 #'
 #' @noRd
@@ -21,28 +26,50 @@ mod_PM_Info_server <- function(id, i18n, Slick_Object){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$PMinfo <- renderUI({
+
+    PITabs <- reactive({
+      slick <- Slick_Object()
       i18n <- i18n()
-      tabsetPanel(type = "tabs", id='pmtabsetpanel',
-                  tabPanel(i18n$t("Boxplot"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Boxplot'))),
-                  tabPanel(i18n$t("Kobe"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Kobe'))),
-                  tabPanel(i18n$t("Quilt"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Quilt'))),
-                  tabPanel(i18n$t("Spider"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Spider'))),
-                  tabPanel(i18n$t("Timeseries"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Timeseries'))),
-                  tabPanel(i18n$t("Tradeoff"),
-                           br(),
-                           DT::dataTableOutput(session$ns('PM_Tradeoff')))
-      )
+
+      ll <- list()
+      PIplots <- c('Boxplot', 'Kobe', 'Quilt', 'Spider', 'Time Series', 'Tradeoff')
+      for (i in seq_along(PIplots)) {
+        slotname <- PIplots[i]
+        slotname <- firstup(gsub(' ' ,'', tolower(slotname)))
+        tab_name <- paste('PM', slotname, sep='_')
+
+        if (!is_empty(slot(slick, slotname)))
+          ll[[i]] <- tabPanel(PIplots[i],
+                              br(),
+                              DT::dataTableOutput(ns(tab_name)))
+      }
+      ll
+    })
+
+
+    output$PMinfo <- renderUI({
+      # i18n <- i18n()
+      # tabsetPanel(type = "tabs", id='pmtabsetpanel',
+      #             tabPanel("Boxplot",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Boxplot'))),
+      #             tabPanel("Kobe",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Kobe'))),
+      #             tabPanel("Quilt",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Quilt'))),
+      #             tabPanel("Spider",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Spider'))),
+      #             tabPanel("Time Series",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Timeseries'))),
+      #             tabPanel("Tradeoff",
+      #                      br(),
+      #                      DT::dataTableOutput(session$ns('PM_Tradeoff')))
+      # )
+      do.call(tabsetPanel, c(PITabs(), list(id='pmtabsetpanel')))
     })
 
     output$PM_Boxplot <- DT::renderDataTable({

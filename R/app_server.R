@@ -9,6 +9,8 @@ options(shiny.maxRequestSize=200*1024^2)
 #' @noRd
 app_server <- function(input, output, session) {
 
+  check_required_packages()
+
   # helper
   shinyhelper::observe_helpers(help_dir=file.path(app_sys(), 'app/helpfiles'))
 
@@ -78,14 +80,34 @@ app_server <- function(input, output, session) {
     Report$Metadata <- list(Title=(Title(slick, i18n$get_translation_language())),
                          Subtitle=Subtitle(slick, i18n$get_translation_language()),
                          Author=Author(slick),
-                         Introduction=Introduction(slick))
-
-    Report$Quilt <- list(plot=list(), caption=list())
-    Report$Tradeoff <- list(plot=list(), caption=list())
-    Report$Spider <- list(plot=list(), caption=list())
-    Report$Kobe <- list(plot=list(), caption=list())
+                         Introduction=Introduction(slick, i18n$get_translation_language()))
     Report$Timeseries <- list(plot=list(), caption=list())
+    Report$Boxplot <- list(plot=list(), caption=list())
+    Report$Kobe <- list(plot=list(), caption=list())
+    Report$Quilt <- list(plot=list(), caption=list())
+    Report$Spider <- list(plot=list(), caption=list())
+    Report$Tradeoff <- list(plot=list(), caption=list())
+  })
 
+
+  # clean up
+  cleanup <- function(obj) {
+    nplot <- length(obj$plot)
+    if (nplot>0) {
+      for (p in 1:nplot) {
+        if (!all(is.na(obj$plot[[p]])) & !is.null(obj$plot[[p]]))
+          file.remove(obj$plot[[p]]$src)
+      }
+    }
+  }
+
+  onStop(function() {
+    cleanup(isolate(Report$Timeseries))
+    cleanup(isolate(Report$Boxplot))
+    cleanup(isolate(Report$Kobe))
+    cleanup(isolate(Report$Quilt))
+    cleanup(isolate(Report$Spider))
+    cleanup(isolate(Report$Tradeoff))
   })
 
   # ---- Module Servers ----
@@ -106,7 +128,6 @@ app_server <- function(input, output, session) {
 
   mod_Report_Page_server('Report_Page_1', i18n, Slick_Object, Report)
 
-
   waitress$inc(5)
 
   mod_Metadata_server("metadata", i18n, Slick_Object)
@@ -125,6 +146,7 @@ app_server <- function(input, output, session) {
   waitress$inc(5)
   mod_Spider_server("Spider", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
+
   mod_Timeseries_server("Timeseries_1", i18n, Slick_Object, window_dims, Report, session)
   waitress$inc(5)
   mod_Tradeoff_server("Tradeoff", i18n, Slick_Object, window_dims, Report, session)

@@ -51,7 +51,7 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -69,6 +69,8 @@ See \code{Details}.
 }
 \details{
 Objects of class \code{Boxplot} are created with \code{Boxplot()}
+
+Use \code{\link[=plotBoxplot]{plotBoxplot()}} to create the boxplot from the console.
 
 Use the  \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}} functions to
 access and assign the values for an existing \code{Boxplot} object, see \code{Examples}
@@ -112,32 +114,49 @@ If unrecognized values are entered, the defaults will be used.
 
 }}
 \examples{
+# Generate dummy values
+nsim <- 10
+nOM <- 2
+nMP <- 4
+nPI <- 3
+
+values <- array(NA, dim=c(nsim, nOM, nMP, nPI))
+pi_means <- runif(nPI, 5, 50)
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[,om, mp, pi] <- rlnorm(nsim, log(pi_means[pi]), 0.4)
+    }
+  }
+}
+
+# Create and populate Object
 boxplot <- Boxplot(Code=c('PI1', 'PI2', 'PI3'),
                    Label=c('Performance Indicator 1',
-                         'Performance Indicator 2',
-                         'Performance Indicator 3'),
+                           'Performance Indicator 2',
+                           'Performance Indicator 3'),
                    Description = c('This is the description for PI 1',
                                    'This is the description for PI 2',
                                    'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
-                   Preset=list('PI and P2'=1:2)
+                   Value=values)
 
-)
+# Check
+Check(boxplot)
 
-boxplot
+# Add to `Slick` object
+slick <- Slick()
+Boxplot(slick) <- boxplot
 
-Code(boxplot)
-Metadata(boxplot)
+# Plots
+plotBoxplot(slick)
 
-# Value(boxplot)
-Value(boxplot) <- array()
+plotBoxplot(slick, type='violin')
 
-Preset(boxplot)
-Preset(boxplot) <- list()
+plotBoxplot(slick, byOM=TRUE)
 
-boxplot
-
+plotBoxplot(slick, 2, type='both', byOM=TRUE)
 }
 \seealso{
-\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}
+\code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}},
+\code{\link[=Preset]{Preset()}}, \code{\link[=Defaults]{Defaults()}}, \code{\link[=plotBoxplot]{plotBoxplot()}}
 }

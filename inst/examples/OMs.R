@@ -1,21 +1,36 @@
 
-myOMs <- OMs()
+# Create Object
+oms <- OMs()
 
-Metadata(myOMs) <- data.frame()
+# Specify Factors
+Factors(oms) <- data.frame(Factor='M',
+                           Level=c('Base', 'Low M', 'High M'),
+                           Description=c('Base Case',
+                                         'Lower Natural Mortality',
+                                         'Higher Natural Mortality')
+)
 
+Factors(oms)
 
-# Design <- expand.grid(M=c(0.1, 0.2, 0.3), h=c(0.7,0.9))
-#' Description <- list(c('Natural mortality (M) = 0.1',
-#'                       'Natural mortality (M) = 0.2',
-#'                       'Natural mortality (M) = 0.3'),
-#'                     c('Steepness (h) = 0.7',
-#'                       'Steepness (h) = 0.9'))
-#' Label <- list(c(M=0.1, M=0.2, M=0.3),
-#'                c(h=0.7, h=0.9))
-#' myOMs <- OMs(Design, Description, Label)
+# OM Design
 
-#' mySlick <- Slick()
-#' Design(mySlick) <- data.frame(M=c(0.1, 0.2, 0.3),
-#'                               h=c(0.6, 0.7, 0.8)
-#'                              )
-#' Design(mySlick)
+Design(oms) <- data.frame(M=c('Base', 'Low M', 'High M'))
+
+# Add names for OMs
+rownames(Design(oms)) <- c('Base Case', 'Less Productive', 'More Productive')
+
+Design(oms)
+
+# Preset
+
+Preset(oms) <- list('Base Case'=list(1),
+                    'Low M' = list(2),
+                    'High M' = list(3),
+                    'All'= list(1:3)
+)
+
+# Create Slick Object
+myslick <- Slick()
+
+# Add OMs to Slick Object
+OMs(myslick) <- oms

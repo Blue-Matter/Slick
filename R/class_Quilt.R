@@ -31,11 +31,11 @@
 #' @slot Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
 #' @slot MinValue Numeric vector length `nPI` with the minimum possible value for the
-#' respective PIs. Defaults to 0.
+#' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @slot MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
 #'
-#' @seealso [Quilt-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Quilt()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
 #' @example inst/examples/Quilt.R
@@ -61,8 +61,8 @@ setMethod("initialize", "Quilt", function(.Object,
                                           Description='',
                                           Value=array(),
                                           Preset=list(),
-                                          Color='',
-                                          MinValue=0,
+                                          Color=c('darkblue', 'lightblue'),
+                                          MinValue=numeric(),
                                           MaxValue=numeric()
                                           ) {
   .Object@Code <- Code
@@ -78,9 +78,9 @@ setMethod("initialize", "Quilt", function(.Object,
 
 
 validQuilt <- function(object) {
-  errors <- list()
-  if (length(errors)>0)
-    return(errors)
+  chk <- Check(object)
+  if (chk@empty) return(TRUE)
+  if (length(chk@errors)>0) return(chk@errors)
   TRUE
 }
 
@@ -101,6 +101,51 @@ setMethod("Quilt", 'character_list',
             new('Quilt',Code, Label, Description, Value, Preset, Color, MinValue, MaxValue))
 
 
+## Check ----
+#' @describeIn Check Check [Quilt-class()] objects for errors
+setMethod('Check', 'Quilt', function(object) {
+
+  ll <- CheckList()
+  ll@object <- class(object)
+
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
+
+  # check metadata errors
+  ll@errors <- append(ll@errors, check_metadata(object))
+
+  # check metadata complete
+  if (any(nchar(object@Code)<1))
+    ll@warnings <- append(ll@warnings, '`Code` is required')
+
+  if (any(nchar(object@Label)<1))
+    ll@warnings <- append(ll@warnings, '`Label` is required')
+
+  if (is_empty_value(object@Value))
+    ll@warnings <- append(ll@warnings, '`Value` is required')
+
+  if (!is_empty_value(object@Value) & all(is.na(object@Value)))
+    ll@warnings <- append(ll@warnings, '`Value` is all NAs')
+
+  nPI <- NA
+  if (is.list(object@Code)) {
+    if (length(object@Code[[1]])>0 & all(nchar(object@Code[[1]])>0))
+      nPI <- length(object@Code[[1]])
+  } else {
+    if (length(object@Code)>0 & all(nchar(object@Code)>0))
+      nPI <- length(object@Code)
+  }
+
+  req_dimensions <- c(NA, NA, nPI)
+  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
+
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
+    ll@complete <- TRUE
+
+  ll
+})
+
 ## Code ----
 
 
@@ -117,20 +162,20 @@ setMethod("Code<-", 'Quilt', function(object, value) {
   object
 })
 
-## Label ----
 
-#' @describeIn Code Return `Label` from a [Quilt-class()] object
-setMethod("Label", 'Quilt', function(object, lang='en') {
-  get_language(object@Label, lang)
+## Color ----
+#' @describeIn Color Return `Color` from a [Quilt-class()] object
+setMethod("Color", 'Quilt', function(object) {
+  object@Color
 })
 
-
-#' @describeIn Code Assign `Label` to a [Quilt-class()] object
-setMethod("Label<-", 'Quilt', function(object, value) {
-  object@Label <- value
+#' @describeIn Color Preset Assign `Color` to a [Quilt-class()] object
+setMethod("Color<-", "Quilt", function(object, value) {
+  object@Color <- value
   methods::validObject(object)
   object
 })
+
 
 ## Description ----
 
@@ -147,45 +192,18 @@ setMethod("Description<-", 'Quilt', function(object, value) {
   object
 })
 
-## Value ----
-#' @describeIn Value  Return `Value` from a [Quilt-class()] object
-setMethod("Value", 'Quilt', function(object) {
-  object@Value
-})
 
-#' @describeIn Value Assign `Value` to a [Quilt-class()] object
-setMethod("Value<-", "Quilt", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
-  methods::validObject(object)
-  object
-})
+## Label ----
 
-## Preset ----
-
-#' @describeIn Preset Return `Preset` from a [Quilt-class()] object
-setMethod("Preset", 'Quilt', function(object) {
-  object@Preset
-})
-
-#' @describeIn Preset Assign `Preset` to a [Quilt-class()] object
-setMethod("Preset<-", "Quilt", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
+#' @describeIn Code Return `Label` from a [Quilt-class()] object
+setMethod("Label", 'Quilt', function(object, lang='en') {
+  get_language(object@Label, lang)
 })
 
 
-## Color ----
-#' @describeIn Color Return `Color` from a [Quilt-class()] object
-setMethod("Color", 'Quilt', function(object) {
-  object@Color
-})
-
-#' @describeIn Color Preset Assign `Color` to a [Quilt-class()] object
-setMethod("Color<-", "Quilt", function(object, value) {
-  object@Color <- value
+#' @describeIn Code Assign `Label` to a [Quilt-class()] object
+setMethod("Label<-", 'Quilt', function(object, value) {
+  object@Label <- value
   methods::validObject(object)
   object
 })
@@ -216,6 +234,8 @@ MinValue <- function(Quilt) {
   Quilt
 }
 
+
+
 ## MaxValue ----
 
 #' @describeIn MinValue Return `MaxValue` from a [Quilt-class()] object
@@ -232,14 +252,6 @@ MaxValue <- function(Quilt) {
   Quilt
 }
 
-
-
-## plot ----
-
-#' @export
-setMethod("plot", "Quilt", function(x, ...) {
-  plotQuilt(x, ...)
-})
 
 
 ## Metadata ----
@@ -263,33 +275,69 @@ setMethod("Metadata<-", "Quilt", function(object, value) {
 })
 
 
-# Check ----
-#' @describeIn Check Check [Quilt-class()] objects for errors
-setMethod('Check', 'Quilt', function(object) {
 
-  ll <- CheckList()
-  ll@object <- class(object)
+## Preset ----
 
-  ll@empty <- is_empty(object)
-  if (ll@empty) return(ll)
-  ll@empty <- FALSE
-
-  # ll@errors <- append(ll@errors, check_metadata(object))
-  #
-  # nOM <- max(length(object@Code),
-  #             length(object@Label),
-  #             length(object@Description)
-  # )
-  #
-  #
-  # if (nMPs>0) {
-  #   # check numbers and names
-  #   ll@errors <- append(ll@errors, check_Preset(object@Preset, nMPs))
-  #   Preset <- object@Preset
-  # }
-  #
-  # if (length(ll@errors)<1)
-  #   ll@complete <- TRUE
-
-  ll
+#' @describeIn Preset Return `Preset` from a [Quilt-class()] object
+setMethod("Preset", 'Quilt', function(object) {
+  object@Preset
 })
+
+#' @describeIn Preset Assign `Preset` to a [Quilt-class()] object
+setMethod("Preset<-", "Quilt", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Preset <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+##  Show ----
+
+#' @describeIn show Print a [Quilt-class()] object
+setMethod("show", "Quilt", function(object) {
+  dim_names <- c("nOM", "nMP", "nPI")
+
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
+    print_errors(chk@errors)
+  print_metadata(object@Code)
+  print_metadata(object@Label, 'Label')
+  print_metadata(object@Description, 'Description')
+  print_value(object, dim_names)
+  print_preset(object@Preset)
+
+  cli::cli_h2('{.code Color}')
+  if (any(nchar(object@Color))>0)
+    cli::cli_inform(object@Color)
+
+
+  cli::cli_h2('{.code MinValue}')
+  cli::cli_inform(object@MinValue)
+
+  cli::cli_h2('{.code MaxValue}')
+  cli::cli_inform(object@MaxValue)
+
+
+})
+
+
+## Value ----
+#' @describeIn Value  Return `Value` from a [Quilt-class()] object
+setMethod("Value", 'Quilt', function(object) {
+  object@Value
+})
+
+#' @describeIn Value Assign `Value` to a [Quilt-class()] object
+setMethod("Value<-", "Quilt", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Value <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+
+

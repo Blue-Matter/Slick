@@ -10,8 +10,38 @@
 mod_Kobe_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
-    uiOutput(ns('page'))
+    # mod_toplink_ui(ns(id)),
+    tagList(
+      shinydashboardPlus::box(width=12,
+                              status='primary',
+                              solidHeader=TRUE,
+                              title=h3(strong('Kobe')),
+                              br(),
+                              column(12, mod_subtitle_ui(ns(id))),
+                              column(12,
+                                     uiOutput(ns('radiobuttons'))
+                              ),
+                              column(3,
+                                     conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                      uiOutput(ns('reading_overall'))
+                                     ),
+                                     conditionalPanel("input.plotselect=='kobetime'", ns=ns,
+                                                      uiOutput(ns('reading_time'))
+
+                                     ),
+                                     uiOutput(ns('axis_choices')),
+                                     mod_Page_Filter_ui(ns("kobefilter"))
+                              ),
+                              column(9,
+                                     conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                      mod_Kobe_overall_ui(ns("Kobe_overall_1"))
+                                     ),
+                                     conditionalPanel("input.plotselect=='kobetime'", ns=ns,
+                                                      mod_Kobe_time_ui(ns("Kobe_time_1"))
+                                     )
+                              )
+      )
+    )
   )
 }
 
@@ -22,21 +52,23 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      kobe='Kobe'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   kobe='Kobe'))
 
-    selected_quantile <- mod_Kobe_overall_server("Kobe_overall_1", i18n, filtered_slick,
-                            plottype,
-                            nOM, nMP, nPM, parent_session=session,
-                            xvar, yvar,
-                            window_dims)
+    selected_quantile <- mod_Kobe_overall_server("Kobe_overall_1",
+                                                 i18n, filtered_slick,
+                                                 parent_session=session,
+                                                 xvar, yvar,
+                                                 window_dims,
+                                                 Report)
 
-    mod_Kobe_time_server("Kobe_time_1", i18n, filtered_slick,
-                         plottype,
-                         nOM, nMP, nPM, parent_session=session,
+    mod_Kobe_time_server("Kobe_time_1", i18n,
+                         filtered_slick,
+                         parent_session=session,
                          xvar, yvar,
-                         window_dims)
+                         window_dims,
+                         Report)
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -48,9 +80,6 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
                                               slot='Kobe', minPM=1, FALSE,
                                               button_description='OM Filters',
                                               home_session=home_session)
-
-    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
 
     filtered_slick <- reactive({
       FilterSlick(Slick_Object(),
@@ -87,6 +116,15 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
     })
 
 
+    output$radiobuttons <- renderUI({
+      shinyWidgets::radioGroupButtons(
+        inputId = ns("plotselect"),
+        choiceNames = c('Overall',
+                        'Kobe Time'),
+        choiceValues=c('overall',  'kobetime')
+      )
+    })
+
     output$page <- renderUI({
       chk <- Check(filtered_slick())
       if (chk@empty$Kobe) {
@@ -98,15 +136,14 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Kobe'))),
+                                title=h3(strong('Kobe')),
                                 br(),
                                 column(12, mod_subtitle_ui(ns(id))),
                                 column(12,
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns("plotselect"),
-                                         choiceNames = c(i18n$t('Overall'),
-                                                         i18n$t('Kobe Time')
-                                         ),
+                                         choiceNames = c('Overall',
+                                                         'Kobe Time'),
                                          choiceValues=c('overall',  'kobetime')
                                        )
                                 ),
@@ -149,10 +186,14 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
       names(ll) <- Code
       ll
     })
+
+
     output$axis_choices <- renderUI({
       i18n <- i18n()
       slick <- filtered_slick()
       if (!is.null(slick)) {
+        if (nPM()<3)
+          return(NULL)
         tagList(
           column(6,shiny::selectInput(ns('xchoice'), i18n$t('X Axis'), choices=Choices(), selected=1)),
           column(6,shiny::selectInput(ns('ychoice'), i18n$t('Y Axis'), choices=Choices(), selected=2))
@@ -161,20 +202,23 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
     })
 
     xvar <- reactive({
+      if (nPM()<3)
+        return(1)
       as.numeric(input$xchoice)
     })
 
     yvar <- reactive({
+      if (nPM()<3)
+        return(2)
       as.numeric(input$ychoice)
     })
-
 
     output$reading_overall <- renderUI({
       i18n <- i18n()
       slick <- filtered_slick()
       mp_metadata <- slick |> MPs() |> Metadata()
       time_info <- slick |> Kobe() |> Time()
-      yrs <- time_info[[1]]
+      yrs <- time_info
       quant_text <- selected_quantile() * 100
 
       yr.txt <- paste0(min(yrs), '-', max(yrs))

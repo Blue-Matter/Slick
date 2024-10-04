@@ -4,12 +4,13 @@
 #' See `?golem::get_golem_options` for more details.
 #' @inheritParams shiny::shinyApp
 #'
-#' @export
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
+#' @noRd
 run_app <- function(
     onStart = NULL,
-    options = list(port=3838, host='0.0.0.0'),
+    options = list(port=3838, host='0.0.0.0',
+                   launch.browser = TRUE),
     enableBookmarking = NULL,
     uiPattern = "/",
     ...
@@ -34,10 +35,12 @@ run_app <- function(
 #' [here](https://shiny.bluematterscience.com/app/slick)
 #'
 #' `App()` runs the Slick Shiny Application
-#' @param ... Additional arguments. Not used.
+#' @param ... Additional arguments. To load a object directly in the App,
+#' use `App(slick=myslick)` where `myslick` is your [Slick-class()] object.
 #'
 #' @export
 App <- function(...) {
+  check_required_packages()
   run_app(...)
 }
 

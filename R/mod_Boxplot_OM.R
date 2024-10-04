@@ -20,9 +20,116 @@ mod_Boxplot_OM_ui <- function(id){
 mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
                                   plottype,
                                   nOM, nMP, nPM, parent_session,
-                                  window_dims){
+                                  window_dims, Report,
+                                  selected_oms){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Boxplot',
+                          window_dims)
+
+
+
+    button_boxplot <- reactiveValues()
+    button_violin <- reactiveValues()
+    button_both <- reactiveValues()
+
+    observeEvent(filtered_slick(), {
+
+      if (!is.null(filtered_slick())) {
+        n <- nPM()
+        if (!is.na(n) && length(n)>0 && n>0) {
+          for (i in 1:n) {
+            nm <- paste0('report_button_boxplot_', i)
+            button_boxplot[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
+          }
+        }
+      }
+    })
+
+    observeEvent(filtered_slick(), {
+      if (!is.null(filtered_slick())) {
+        n <- nPM()
+        if (!is.na(n) && length(n)>0 && n>0) {
+          for (i in 1:n) {
+            nm <- paste0('report_button_violin_', i)
+            button_violin[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
+          }
+        }
+      }
+    })
+
+    observeEvent(filtered_slick(), {
+      if (!is.null(filtered_slick())) {
+        n <- nPM()
+        if (!is.na(n) && length(n)>0 && n>0) {
+          for (i in 1:n) {
+            nm <- paste0('report_button_both_', i)
+            button_both[[nm]] <- mod_Report_Add_Button_server(nm, i18n)
+          }
+        }
+      }
+    })
+
+    observe({
+      if (!is.null(filtered_slick())) {
+        n <- nPM()
+        if (!is.na(n) && length(n)>0 && n>0) {
+          lapply(1:n, function(i) {
+
+            nm1 <- paste0('report_button_boxplot_', i)
+            observeEvent(button_boxplot[[nm1]](), {
+
+              Plot_Object(plotBoxplot(filtered_slick(), i, 'boxplot', byOM=TRUE))
+              if(!inherits(Plot_Object(), 'NULL'))
+                shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+            }, ignoreInit = TRUE)
+
+            nm2 <- paste0('report_button_violin_', i)
+            observeEvent(button_violin[[nm2]](), {
+
+              Plot_Object(plotBoxplot(filtered_slick(), i, 'violin', byOM=TRUE))
+              if(!inherits(Plot_Object(), 'NULL'))
+                shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+            }, ignoreInit = TRUE)
+            nm3 <- paste0('report_button_both_', i)
+            observeEvent(button_both[[nm3]](), {
+              Plot_Object(plotBoxplot(filtered_slick(), i, 'both', byOM=TRUE))
+              if(!inherits(Plot_Object(), 'NULL'))
+                shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+            }, ignoreInit = TRUE)
+          })
+        }
+      }
+    })
+
+
+    plot_width_calc <- reactive({
+      dd <- window_dims()
+      val <- dd[1] * 0.6
+      paste0(val, 'px')
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
+
+    plot_height_calc <- reactive({
+      if (!is.null(filtered_slick())) {
+        nom <- nOM()
+        return(max(ceiling(nom/4) * 300, 300))
+      } else {
+        return(400)
+      }
+    })
+
+    plot_height <- plot_height_calc |> debounce(500)
+
+    plot_height_text <- reactive({
+      paste0(plot_height(), 'px')
+    })
 
     plot_width_calc <- reactive({
       dd <- window_dims()
@@ -33,8 +140,10 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
     plot_width <- plot_width_calc |> debounce(500)
 
     plot_width_text <- reactive({
-      paste0('width: ', plot_width(), '; height: 420px;')
+      height <- paste0('height: ', plot_height()+120, 'px')
+      paste0('width: ', plot_width(), '; ', height)
     })
+
 
     output$selectedtype <- reactive({
       plottype()
@@ -60,7 +169,11 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("boxplot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
+                  mod_Report_Add_Button_ui(ns(paste0('report_button_boxplot_', mm)))
+                  )
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -71,7 +184,11 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("violin", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
+                  mod_Report_Add_Button_ui(ns(paste0('report_button_violin_', mm)))
+          )
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -82,7 +199,11 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(make_plots())) {
         plot_output_list <- lapply(1:nPM(), function(mm) {
           plotname <- paste("both", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width()))
+          tagList(loading_spinner(plotOutput(session$ns(plotname),
+                                             width=plot_width(),
+                                             height=plot_height())),
+                  mod_Report_Add_Button_ui(ns(paste0('report_button_both_', mm)))
+                  )
         })
         plot_output_list$cellArgs=list(style = plot_width_text())
         do.call(flowLayout, plot_output_list)
@@ -97,9 +218,9 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
       dd <- filtered_slick() |> Boxplot() |> Value() |>
         dim()
       plot_list <- list()
-      if (dd[4]==nPM()) {
+      if (dd[4]==nPM() & length(selected_oms())>0) {
         for (i in 1:nPM()) {
-          plot_list[[i]] <- BoxPlot(filtered_slick(), i, 'all', TRUE)
+          plot_list[[i]] <- plotBoxplot(filtered_slick(), i, 'all', byOM=TRUE)
         }
       }
       plot_list

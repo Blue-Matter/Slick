@@ -12,9 +12,8 @@ See \verb{See Also} section below.
 Objects of class \code{Kobe} are created with \code{Kobe()}
 \subsection{Performance Indicators}{
 
-There must be exactly two performance indicators (PIs).
-The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
-on the y-axis (e.g., F/FMSY)
+By default, the first PI will be on the x-axis (usually B/BMSY or something similar) and the second
+on the y-axis (e.g., F/FMSY). The Slick \code{\link[=App]{App()}} provides drop down menus for selecting other PIs.
 }
 
 \subsection{Multi-Language Support}{
@@ -61,40 +60,63 @@ Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, \code{nPI}, \code{nTS})}
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
 
-\item{\code{Target}}{Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).}
+\item{\code{Target}}{Numeric vector length \code{nPI} with the target value for the PIs. Defines the color quadrants on the Kobe plot.
+Defaults to 1.}
 
-\item{\code{Limit}}{Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
+\item{\code{Limit}}{Numeric vector length \code{nPI} with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
+
+\item{\code{Defaults}}{A list object with default selections for the Kobe See \code{\link[=Kobe]{Kobe()}}}
 }}
 
 \examples{
-kobe <- Kobe(Code=c('PI1', 'PI2', 'PI3'),
-                   Label=c('Performance Indicator 1',
-                           'Performance Indicator 2',
-                           'Performance Indicator 3'),
-                   Description = c('This is the description for PI 1',
-                                   'This is the description for PI 2',
-                                   'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
-                   Preset=list('PI and P2'=1:2)
+# Generate dummy values
+nsim <- 10
+nOM <- 2
+nMP <- 4
+nPI <- 2
+nTS <- 30
 
+values <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
+
+pi_means <- c(1,1)
+
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[,om, mp, pi,] <- pi_means[pi] *
+        matrix(
+        cumprod(c(rlnorm(nTS*nsim, 0, 0.05))),
+        nrow=nsim)
+    }
+  }
+}
+
+# Create and populate Object
+kobe <- Kobe(Code=c('B/BMSY', 'F/FMSY'),
+             Label=c('B/BMSY',
+                     'F/FMSY'),
+             Description = c('This is the description for PI 1',
+                             'This is the description for PI 2'),
+             Value=values
 )
 
-kobe
+# Add values for projection time steps
+Time(kobe) <- seq(2025, by=1, length.out=nTS)
 
-# ADD TIME
+# Check
+Check(kobe)
 
-# Code(boxplot)
-# Metadata(boxplot)
-#
-# # Value(boxplot)
-# Value(boxplot) <- array()
-#
-# Preset(boxplot)
-# Preset(boxplot) <- list()
-#
-# boxplot
+# Add to `Slick` object
+slick <- Slick()
+Kobe(slick) <- kobe
+
+# Plots
+plotKobe(slick)
+
+plotKobe(slick, Time=TRUE)
+
 }
 \seealso{
-\code{\link[=Kobe-methods]{Kobe-methods()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
+\code{\link[=Kobe]{Kobe()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},
 \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

@@ -14,11 +14,11 @@ TimeLab(object, lang = "en")
 
 TimeLab(object) <- value
 
-\S4method{TimeLab}{Kobe}(object, lang = "es")
+\S4method{TimeLab}{Kobe}(object, lang = "en")
 
 \S4method{TimeLab}{Kobe}(object) <- value
 
-\S4method{TimeLab}{Timeseries}(object, lang = "es")
+\S4method{TimeLab}{Timeseries}(object, lang = "en")
 
 \S4method{TimeLab}{Timeseries}(object) <- value
 }

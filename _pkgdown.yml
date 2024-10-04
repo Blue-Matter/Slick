@@ -1,4 +1,4 @@
-url: https://blue-matter.github.io/Slick/
+url: https://slick.bluematterscience.com/
 template:
   bootstrap: 5
   bootswatch: litera
@@ -12,5 +12,83 @@ navbar:
       text: Articles
       menu:
       - text: Developer's Guide
-      - text: Building a Slick Object
-        href: articles/Building-A-Slick-Object.html
+        href: articles/DevelopersGuide.html
+
+
+reference:
+- title: "Create a Slick object"
+  desc: >
+    Create and populate a Slick object
+  contents:
+  - Slick-class
+  - Check
+  - MPs
+  - OMs
+  - Boxplot
+  - Kobe
+  - Quilt
+  - Spider
+  - Timeseries
+  - Tradeoff
+  - Update
+  - FilterSlick
+- title: "Access and Assign Functions"
+  desc: >
+    Functions to access and assign
+  contents:
+  - Code
+  - Color
+  - Defaults
+  - Design
+  - Factors
+  - Preset
+  - Metadata
+  - MinValue
+  - Limit
+  - Time
+  - TimeLab
+  - TimeNow
+  - Value
+- title: "S4 Object Classes"
+  desc: >
+    The S4 classes used to create `Slick` objects
+  contents:
+  - Slick-class
+  - MPs-class
+  - OMs-class
+  - Boxplot-class
+  - Kobe-class
+  - Quilt-class
+  - Spider-class
+  - Tradeoff-class
+  - Timeseries-class
+- title: 'Run the Slick Shiny App'
+  contents:
+  - App
+- title: 'Plot and Other Functions'
+  desc: >
+    Plotting routines and other functions
+  contents:
+  - plotBoxplot
+  - plotKobe
+  - plotQuilt
+  - plotSpider
+  - plotTimeseries
+  - plotTradeoff
+- title: 'Other'
+  desc: >
+    S4 Methods and other functions
+  contents:
+  - show
+  - get_casestudies
+  - default_mp_colors
+- title: 'Deprecated'
+  desc: >
+    Functions still work for backwards compatability, but no longer recommended
+  contents:
+  - Make_Slick
+  - NewSlick
+  - PMnorm
+
+
+

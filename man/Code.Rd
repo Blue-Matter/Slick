@@ -17,10 +17,10 @@
 \alias{Description<-,Boxplot-method}
 \alias{Code,Kobe-method}
 \alias{Code<-,Kobe-method}
-\alias{Label,Kobe-method}
-\alias{Label<-,Kobe-method}
 \alias{Description,Kobe-method}
 \alias{Description<-,Kobe-method}
+\alias{Label,Kobe-method}
+\alias{Label<-,Kobe-method}
 \alias{Code,MPs-method}
 \alias{Code<-,MPs-method}
 \alias{Label,MPs-method}
@@ -29,28 +29,28 @@
 \alias{Description<-,MPs-method}
 \alias{Code,Quilt-method}
 \alias{Code<-,Quilt-method}
-\alias{Label,Quilt-method}
-\alias{Label<-,Quilt-method}
 \alias{Description,Quilt-method}
 \alias{Description<-,Quilt-method}
+\alias{Label,Quilt-method}
+\alias{Label<-,Quilt-method}
 \alias{Code,Tradeoff-method}
 \alias{Code<-,Tradeoff-method}
-\alias{Label,Tradeoff-method}
-\alias{Label<-,Tradeoff-method}
 \alias{Description,Tradeoff-method}
 \alias{Description<-,Tradeoff-method}
+\alias{Label,Tradeoff-method}
+\alias{Label<-,Tradeoff-method}
 \alias{Code,Timeseries-method}
 \alias{Code<-,Timeseries-method}
-\alias{Label,Timeseries-method}
-\alias{Label<-,Timeseries-method}
 \alias{Description,Timeseries-method}
 \alias{Description<-,Timeseries-method}
+\alias{Label,Timeseries-method}
+\alias{Label<-,Timeseries-method}
 \alias{Code,Spider-method}
 \alias{Code<-,Spider-method}
-\alias{Label,Spider-method}
-\alias{Label<-,Spider-method}
 \alias{Description,Spider-method}
 \alias{Description<-,Spider-method}
+\alias{Label,Spider-method}
+\alias{Label<-,Spider-method}
 \title{Access or assign \code{Code}, \code{Label}, and \code{Description} for a valid object class}
 \usage{
 Code(object, lang = "en")
@@ -81,13 +81,13 @@ Label(object) <- value
 
 \S4method{Code}{Kobe}(object) <- value
 
-\S4method{Label}{Kobe}(object, lang = "en")
-
-\S4method{Label}{Kobe}(object) <- value
-
 \S4method{Description}{Kobe}(object, lang = "en")
 
 \S4method{Description}{Kobe}(object) <- value
+
+\S4method{Label}{Kobe}(object, lang = "en")
+
+\S4method{Label}{Kobe}(object) <- value
 
 \S4method{Code}{MPs}(object, lang = "en")
 
@@ -105,49 +105,49 @@ Label(object) <- value
 
 \S4method{Code}{Quilt}(object) <- value
 
-\S4method{Label}{Quilt}(object, lang = "en")
-
-\S4method{Label}{Quilt}(object) <- value
-
 \S4method{Description}{Quilt}(object, lang = "en")
 
 \S4method{Description}{Quilt}(object) <- value
+
+\S4method{Label}{Quilt}(object, lang = "en")
+
+\S4method{Label}{Quilt}(object) <- value
 
 \S4method{Code}{Tradeoff}(object, lang = "en")
 
 \S4method{Code}{Tradeoff}(object) <- value
 
-\S4method{Label}{Tradeoff}(object, lang = "en")
-
-\S4method{Label}{Tradeoff}(object) <- value
-
 \S4method{Description}{Tradeoff}(object, lang = "en")
 
 \S4method{Description}{Tradeoff}(object) <- value
+
+\S4method{Label}{Tradeoff}(object, lang = "en")
+
+\S4method{Label}{Tradeoff}(object) <- value
 
 \S4method{Code}{Timeseries}(object, lang = "en")
 
 \S4method{Code}{Timeseries}(object) <- value
 
-\S4method{Label}{Timeseries}(object, lang = "en")
-
-\S4method{Label}{Timeseries}(object) <- value
-
 \S4method{Description}{Timeseries}(object, lang = "en")
 
 \S4method{Description}{Timeseries}(object) <- value
+
+\S4method{Label}{Timeseries}(object, lang = "en")
+
+\S4method{Label}{Timeseries}(object) <- value
 
 \S4method{Code}{Spider}(object, lang = "en")
 
 \S4method{Code}{Spider}(object) <- value
 
-\S4method{Label}{Spider}(object, lang = "en")
-
-\S4method{Label}{Spider}(object) <- value
-
 \S4method{Description}{Spider}(object, lang = "en")
 
 \S4method{Description}{Spider}(object) <- value
+
+\S4method{Label}{Spider}(object, lang = "en")
+
+\S4method{Label}{Spider}(object) <- value
 }
 \arguments{
 \item{object}{An object of class \code{\link[=MPs-class]{MPs-class()}}, \code{\link[=Boxplot-class]{Boxplot-class()}},
@@ -172,8 +172,6 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{es}: Spanish
 \item \code{fr}: French
 }
-
-See \code{Examples}
 }
 }
 \section{Methods (by class)}{
@@ -194,13 +192,13 @@ See \code{Examples}
 
 \item \code{Code(Kobe) <- value}: Assign \code{Code} to a \code{\link[=Kobe-class]{Kobe-class()}} object
 
-\item \code{Label(Kobe)}: Return \code{Label} from a \code{\link[=Kobe-class]{Kobe-class()}} object
-
-\item \code{Label(Kobe) <- value}: Assign \code{Label} to a \code{\link[=Kobe-class]{Kobe-class()}} object
-
 \item \code{Description(Kobe)}: Return \code{Description} from a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Description(Kobe) <- value}: Assign \code{Description} to a \code{\link[=Kobe-class]{Kobe-class()}} object
+
+\item \code{Label(Kobe)}: Return \code{Label} from a \code{\link[=Kobe-class]{Kobe-class()}} object
+
+\item \code{Label(Kobe) <- value}: Assign \code{Label} to a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Code(MPs)}: Return \code{Code} from a \code{\link[=MPs-class]{MPs-class()}} object
 
@@ -218,93 +216,51 @@ See \code{Examples}
 
 \item \code{Code(Quilt) <- value}: Assign \code{Code} to a \code{\link[=Quilt-class]{Quilt-class()}} object
 
-\item \code{Label(Quilt)}: Return \code{Label} from a \code{\link[=Quilt-class]{Quilt-class()}} object
-
-\item \code{Label(Quilt) <- value}: Assign \code{Label} to a \code{\link[=Quilt-class]{Quilt-class()}} object
-
 \item \code{Description(Quilt)}: Return \code{Description} from a \code{\link[=Quilt-class]{Quilt-class()}} object
 
 \item \code{Description(Quilt) <- value}: Assign \code{Description} to a \code{\link[=Quilt-class]{Quilt-class()}} object
+
+\item \code{Label(Quilt)}: Return \code{Label} from a \code{\link[=Quilt-class]{Quilt-class()}} object
+
+\item \code{Label(Quilt) <- value}: Assign \code{Label} to a \code{\link[=Quilt-class]{Quilt-class()}} object
 
 \item \code{Code(Tradeoff)}: Return \code{Code} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Code(Tradeoff) <- value}: Assign \code{Code} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
-\item \code{Label(Tradeoff)}: Return \code{Label} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
-
-\item \code{Label(Tradeoff) <- value}: Assign \code{Label} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
-
 \item \code{Description(Tradeoff)}: Return \code{Description} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Description(Tradeoff) <- value}: Assign \code{Description} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
+
+\item \code{Label(Tradeoff)}: Return \code{Label} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
+
+\item \code{Label(Tradeoff) <- value}: Assign \code{Label} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Code(Timeseries)}: Return \code{Code} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 \item \code{Code(Timeseries) <- value}: Assign \code{Code} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
-\item \code{Label(Timeseries)}: Return \code{Label} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
-
-\item \code{Label(Timeseries) <- value}: Assign \code{Label} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
-
 \item \code{Description(Timeseries)}: Return \code{Description} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 \item \code{Description(Timeseries) <- value}: Assign \code{Description} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+\item \code{Label(Timeseries)}: Return \code{Label} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+\item \code{Label(Timeseries) <- value}: Assign \code{Label} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
 \item \code{Code(Spider)}: Return \code{Code} from a \code{\link[=Spider-class]{Spider-class()}} object
 
 \item \code{Code(Spider) <- value}: Assign \code{Code} to a \code{\link[=Spider-class]{Spider-class()}} object
 
-\item \code{Label(Spider)}: Return \code{Label} from a \code{\link[=Spider-class]{Spider-class()}} object
-
-\item \code{Label(Spider) <- value}: Assign \code{Label} to a \code{\link[=Spider-class]{Spider-class()}} object
-
 \item \code{Description(Spider)}: Return \code{Description} from a \code{\link[=Spider-class]{Spider-class()}} object
 
 \item \code{Description(Spider) <- value}: Assign \code{Description} to a \code{\link[=Spider-class]{Spider-class()}} object
 
+\item \code{Label(Spider)}: Return \code{Label} from a \code{\link[=Spider-class]{Spider-class()}} object
+
+\item \code{Label(Spider) <- value}: Assign \code{Label} to a \code{\link[=Spider-class]{Spider-class()}} object
+
 }}
-\examples{
-boxplot <- Boxplot()
-
-Code(boxplot) <- c('PI1', 'PI2', 'PI3')
-Label(boxplot) <- c('Performance Indicator 1',
-                    'Performance Indicator 2',
-                    'Performance Indicator 3')
-Description(boxplot) <- c('This is the description for PI 1',
-                          'This is the description for PI 2',
-                          'This is the description for PI 3')
-
-
-Code(boxplot)
-Label(boxplot)
-Description(boxplot)
-
-# Slick Object
-mySlick <- Slick()
-Code(mySlick, 'Boxplot') <- Code(boxplot)
-Label(mySlick, 'Boxplot') <- Label(boxplot)
-Description(mySlick, 'Boxplot') <- Description(boxplot)
-
-Code(mySlick, type='Boxplot')
-Label(mySlick, type='Boxplot')
-Description(mySlick, type='Boxplot')
-
-# Multi-Language
-Description(boxplot) <- list(en=c('This is the English description for PI 1',
-                                  'This is the English description for PI 2',
-                                  'This is the English description for PI 3'),
-                             es=c('This is the Spanish description for PI 1',
-                                  'This is the Spanish description for PI 2',
-                                  'This is the Spanish description for PI 3'),
-                             fr=c('This is the French description for PI 1',
-                                  'This is the French description for PI 2',
-                                  'This is the French description for PI 3')
-)
-
-Description(boxplot)
-Description(boxplot, 'es')
-Description(boxplot, 'fr')
-}
 \seealso{
 \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=MPs-class]{MPs-class()}}, \code{\link[=Boxplot-class]{Boxplot-class()}},
 \code{\link[=Kobe-class]{Kobe-class()}}, \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}},

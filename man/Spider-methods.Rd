@@ -58,7 +58,9 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{Value}{A numeric array with the stochastic performance indicator values for each
 operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI}).
+All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
+multiplied by 100 in the plot.}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -106,6 +108,53 @@ as the number of performance indicators (\code{nPIs}) in `Value
 \item \code{Spider(Slick) <- value}: Assign a \code{\link[=Spider-class]{Spider-class()}} object to a \code{\link[=Slick-class]{Slick-class()}} object
 
 }}
+\examples{
+# Generate dummy values
+nOM <- 2
+nMP <- 4
+nPI <- 4
+
+values <- array(NA, dim=c(nOM, nMP, nPI))
+
+# Note: PI values must be between 0 and 1, with 1 indicating better performance
+pi_means <- runif(nPI, 0, 1)
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[om, mp, pi] <- runif(1, pi_means[pi])
+    }
+  }
+}
+
+# Create and populate Object
+spider <- Spider(Code=c('PI1', 'PI2', 'PI3', 'PI4'),
+               Label=c('Performance Indicator 1',
+                       'Performance Indicator 2',
+                       'Performance Indicator 3',
+                       'Performance Indicator 4'),
+               Description = c('This is the description for PI 1',
+                               'This is the description for PI 2',
+                               'This is the description for PI 3',
+                               'This is the description for PI 4'),
+               Value=values)
+
+# Check
+Check(spider)
+
+# Add to `Slick` object
+slick <- Slick()
+Spider(slick) <- spider
+
+# Plots
+plotSpider(slick)
+
+plotSpider(slick, fill=TRUE)
+
+plotSpider(slick, byMP=TRUE)
+
+plotSpider(slick, byOM=TRUE)
+
+}
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}
 }

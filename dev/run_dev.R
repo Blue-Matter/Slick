@@ -12,6 +12,19 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
-run_app()
+options(shiny.launch.browser = .rs.invokeShinyWindowExternal)
+
+App()
+
+
+# profvis::profvis({
+#   shiny::runApp(shinyApp(
+#     ui = app_ui,
+#     server = app_server
+#   ))
+# }, prof_output = getwd())
+#
+# profvis::profvis(prof_input = 'file7aac21c238e2.Rprof')
+
 
 # slick <- readRDS('../nswo-mse/nswo.slick')

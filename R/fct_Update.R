@@ -36,12 +36,20 @@
 #'
 #' @return An S4 object of class `Slick`
 #' @export
+#' @examples
+#' slick <- Slick() # a dummy old Slick object
+#' slick <- Update(slick) # updated to S4 object
 #'
 Update <- function(slick) {
-  if (isS4(slick))
+  if (isS4(slick)) {
+    chkKobe <- try(slick@Kobe@Defaults, silent = TRUE)
+    if (inherits(chkKobe, 'try-error'))
+      slick@Kobe@Defaults <- list()
     return(slick)
+  }
 
   slick_in <- slick
+
   slick <- Slick()
   Title(slick) <- slick_in$Text$Title
   Subtitle(slick) <- slick_in$Text$Sub_title
@@ -49,7 +57,7 @@ Update <- function(slick) {
   Date(slick) <- slick_in$Misc$Date
   Author(slick) <- slick_in$Misc$Author
   Email(slick) <- ifelse(is.na(slick_in$Misc$Contact), '', slick_in$Misc$Contact)
-  Institution(slick) <- slick_in$Misc$Institution
+  Institution(slick) <- ifelse(is.na(slick_in$Misc$Institution), '', slick_in$Misc$Institution)
 
   intro <- slick_in$Text$Introduction
   if (inherits(intro, 'list')) {
@@ -58,20 +66,61 @@ Update <- function(slick) {
   }
   Introduction(slick) <- intro
 
-  # MPs
-  MPs(slick) <- MPs(Code=slick_in$MP$Codes,
-                    Label=slick_in$MP$Labels,
-                    Description=slick_in$MP$Description,
-                    Color=slick_in$Misc$Cols$MP)
+  # MPs ----
+  slick <- update_MPs(slick_in, slick)
+
+  # OMs ----
+  slick <- update_OMs(slick_in, slick)
+
+  # Boxplot ----
+  slick <- update_Boxplot(slick_in, slick)
+
+  # Kobe ----
+  slick <- update_Kobe(slick_in, slick)
+
+  # Quilt ----
+  slick <- update_Quilt(slick_in, slick)
+
+  # Spider ----
+  slick <- update_Spider(slick_in, slick)
+
+  # TimeSeries ----
+  slick <- update_Timeseries(slick_in, slick)
+
+  # Tradeoff ----
+  slick <- update_Tradeoff(slick_in, slick)
+
+
+  slick
+}
+
+is_populated <- function(obj) {
+  if(is.list(obj))
+    return(length(unlist(obj))>0)
+  length(obj)>0
+}
+
+
+update_MPs <- function(slick_in, slick) {
+  mps <- MPs()
+  mps@Code <- slick_in$MP$Codes
+  mps@Label <- slick_in$MP$Labels
+  mps@Description <- slick_in$MP$Description
+  mps@Color <- slick_in$Misc$Cols$MP
 
   # check colors
-  ncol <- length(MPs(slick)@Color)
-  nMPs <- length(MPs(slick)@Code)
+  ncol <- length(mps@Color)
+  nMPs <- length(mps@Code)
   if (ncol<nMPs) {
-    MPs(slick)@Color <- default_mp_colors(nMPs)
+    mps@Color <- default_mp_colors(nMPs)
   }
 
-  # OMs
+  MPs(slick) <- mps
+
+  slick
+}
+
+update_OMs <- function(slick_in, slick) {
   oms <- OMs()
   df_list <- list()
   for (i in seq_along(slick_in$OM$Codes)) {
@@ -93,25 +142,39 @@ Update <- function(slick) {
   }
 
   OMs(slick) <- oms
+  slick
+}
+
+update_Boxplot <- function(slick_in, slick) {
+  obj <- slick_in$Perf$Stoch
+  boxplot <- Boxplot()
+  if (is_populated(obj$Codes))
+    Code(boxplot) <- obj$Codes
+
+  if (is_populated(obj$Labels))
+    Label(boxplot) <- obj$Labels
+
+  if (is_populated(obj$Description))
+    Description(boxplot) <- obj$Description
+
+  Value(boxplot) <- obj$Values
+  Boxplot(slick) <- boxplot
+  slick
+}
 
 
-  # Boxplot
-  Boxplot(slick) <- Boxplot(Code=slick_in$Perf$Stoch$Codes,
-                            Label=slick_in$Perf$Stoch$Labels,
-                            Description=slick_in$Perf$Stoch$Description,
-                            Value=slick_in$Perf$Stoch$Values,
-                            Preset=list())
+update_Kobe <- function(slick_in, slick) {
+  obj <- slick_in$Perf$Proj
 
-  # Kobe
   # ref points
-  targ_ind <- match('Target', slick_in$Perf$Proj$RefNames[[1]])
+  targ_ind <- match('Target', obj$RefNames[[1]])
   if (!is.na(targ_ind)) {
-    lens <- unlist(lapply(slick_in$Perf$Proj$RefPoints, length))
+    lens <- unlist(lapply(obj$RefPoints, length))
     ind <- which(lens>=targ_ind)
     if (length(ind)>0) {
-      Target <- rep(NA, length(slick_in$Perf$Proj$RefPoints))
+      Target <- rep(NA, length(obj$Codes))
       for (i in ind) {
-        Target[i] <- slick_in$Perf$Proj$RefPoints[[i]][targ_ind]
+        Target[i] <- obj$RefPoints[[i]][targ_ind]
       }
     } else {
       Target <- NULL
@@ -120,65 +183,127 @@ Update <- function(slick) {
     Target <- NULL
   }
 
-  limit_ind <- match('Limit', slick_in$Perf$Proj$RefNames[[1]])
+  limit_ind <- match('Limit', obj$RefNames[[2]])
   if (!is.na(limit_ind)) {
-    Limit <- unlist(lapply(slick_in$Perf$Proj$RefPoints, '[[', limit_ind))
+    lens <- unlist(lapply(obj$RefPoints, length))
+    ind <- which(lens>=targ_ind)
+    if (length(ind)>0) {
+      Limit <- rep(NA, length(obj$Codes))
+      for (i in ind) {
+        Limit[i] <- obj$RefPoints[[i]][targ_ind]
+      }
+    } else {
+      Limit <- NULL
+    }
   } else {
     Limit <- NULL
   }
 
-  time_lab <-  slick_in$Perf$Proj$Time_lab
+  time_lab <- slick_in$Perf$Proj$Time_lab
   if (is.null(time_lab)) time_lab <- 'Year'
 
-  Kobe(slick) <- Kobe(Code=slick_in$Perf$Proj$Codes,
-                      Label=slick_in$Perf$Proj$Labels,
-                      Description=slick_in$Perf$Proj$Description,
-                      Time=slick_in$Perf$Proj$Times,
-                      TimeLab =time_lab,
-                      Value=slick_in$Perf$Proj$Values,
-                      Target=Target,
-                      Limit=Limit
-                      )
+  kobe <- Kobe()
+  Value(kobe) <- obj$Values
+  npm <- dim(Value(kobe))[4]
 
-  # Quilt
-  Quilt(slick) <- Quilt(Code=slick_in$Perf$Det$Codes,
-                        Label=slick_in$Perf$Det$Labels,
-                        Description=slick_in$Perf$Det$Description,
-                        Value=slick_in$Perf$Det$Values,
-                        Preset=list(),
-                        Color=c('blue', 'white'),
-                        MinValue=0,
-                        MaxValue=1
-                        )
+  if (is_populated(obj$Codes))
+    Code(kobe) <- obj$Codes[1:npm]
 
-  # Spider
-  Spider(slick) <- Spider(Code=slick_in$Perf$Det$Codes,
-                          Label=slick_in$Perf$Det$Labels,
-                          Description=slick_in$Perf$Det$Description,
-                          Value=slick_in$Perf$Det$Values,
-                          Preset=list())
+  if (is_populated(obj$Labels))
+    Label(kobe) <- obj$Labels[1:npm]
 
+  if (is_populated(obj$Description))
+    Description(kobe) <- obj$Description[1:npm]
 
+  Time(kobe) <- slick_in$Perf$Proj$Times
 
-  # TimeSeries
-  Timeseries(slick) <- Timeseries(Code=slick_in$StateVar$Codes,
-                                  Label=slick_in$StateVar$Labels,
-                                  Description=slick_in$StateVar$Description,
-                                  Time=slick_in$StateVar$Times,
-                                  TimeNow=slick_in$StateVar$TimeNow,
-                                  TimeLab='Year',
-                                  Value=slick_in$StateVar$Values,
-                                  Preset=list(),
-                                  Target=NULL,
-                                  Limit=NULL)
+  Target(kobe) <- Target[1:npm]
+  Limit(kobe) <- Limit[1:npm]
 
+  Kobe(slick) <- kobe
 
-
-  # Tradeoff
-  Tradeoff(slick) <- Tradeoff(Code=slick_in$Perf$Det$Codes,
-                              Label=slick_in$Perf$Det$Labels,
-                              Description=slick_in$Perf$Det$Description,
-                              Value=slick_in$Perf$Det$Values,
-                              Preset=list())
   slick
 }
+
+update_Quilt <- function(slick_in, slick) {
+  obj <- slick_in$Perf$Det
+
+  quilt <- Quilt()
+  if (is_populated(obj$Codes))
+    Code(quilt) <- obj$Codes
+
+  if (is_populated(obj$Labels))
+    Label(quilt) <- obj$Labels
+
+  if (is_populated(obj$Description))
+    Description(quilt) <- obj$Description
+
+  Value(quilt) <- obj$Values
+  Color(quilt) <- c('blue', 'white')
+  MinValue(quilt) <- 0
+  MaxValue(quilt) <- 1
+
+  Quilt(slick) <- quilt
+  slick
+}
+
+update_Spider <- function(slick_in, slick) {
+  obj <- slick_in$Perf$Det
+
+  spider <- Spider()
+  if (is_populated(obj$Codes))
+    Code(spider) <- obj$Codes
+
+  if (is_populated(obj$Labels))
+    Label(spider) <- obj$Labels
+
+  if (is_populated(obj$Description))
+    Description(spider) <- obj$Description
+
+  Value(spider) <- obj$Values
+
+  Spider(slick) <- spider
+  slick
+}
+
+update_Timeseries <- function(slick_in, slick) {
+  obj <- slick_in$StateVar
+  timeseries <- Timeseries()
+
+  if (is_populated(obj$Codes))
+    Code(timeseries) <- obj$Codes
+
+  if (is_populated(obj$Labels))
+    Label(timeseries) <- obj$Labels
+
+  if (is_populated(obj$Description))
+    Description(timeseries) <- obj$Description
+
+  Time(timeseries) <-  obj$Times
+  TimeNow(timeseries) <- obj$TimeNow
+  Value(timeseries) <- obj$Values
+
+  Timeseries(slick) <- timeseries
+  slick
+}
+
+update_Tradeoff <- function(slick_in, slick) {
+  obj <- slick_in$Perf$Det
+
+  tradeoff <- Tradeoff()
+  if (is_populated(obj$Codes))
+    Code(tradeoff) <- obj$Codes
+
+  if (is_populated(obj$Labels))
+    Label(tradeoff) <- obj$Labels
+
+  if (is_populated(obj$Description))
+    Description(tradeoff) <- obj$Description
+
+  Value(tradeoff) <- obj$Values
+
+  Tradeoff(slick) <- tradeoff
+  slick
+}
+
+

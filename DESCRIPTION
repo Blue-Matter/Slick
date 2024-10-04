@@ -1,12 +1,14 @@
 Type: Package
 Package: Slick
-Title: Decision Analysis
-Version: 1.0.9006
+Title: Interactive Visualization of MSE Results
+Version: 0.1.0
 Authors@R: c(
-    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = c("aut", "cre")),
-    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = "aut")
+    person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
+    person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
+    person("Quang", "Huynh", , "quang@bluematterscience.com", role = 'aut'),
+    person("Shana", "Miller", , "smiller@oceanfdn.org", role = 'aut')
   )
-Maintainer: Tom Carruthers <tom@bluematterscience.com>
+Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
 Description: Slick presents the performance of multiple management objects
     across multiple states of nature.
 License: GPL-2
@@ -14,23 +16,33 @@ Depends:
     R (>= 3.5.0)
 Imports:
     cli,
-    colorspace,
-    colourpicker,
-    config,
     dplyr,
     DT,
-    esquisse,
-    flextable,
-    fresh,
     ggplot2,
     ggrepel,
     golem,
     graphics,
     grDevices,
     methods,
-    rmarkdown,
     scales,
     shiny,
+    stats,
+    tibble,
+    utils
+Suggests: 
+    bookdown,
+    colourpicker,
+    colorspace,
+    cowplot,
+    esquisse,
+    flextable,
+    fresh,
+    httr,
+    kableExtra,
+    knitr,
+    MSEtool,
+    openMSE,
+    RColorBrewer,
     shiny.i18n,
     shinyalert,
     shinyBS,
@@ -40,20 +52,14 @@ Imports:
     shinyhelper,
     shinyjs,
     shinyWidgets,
-    stats,
-    tibble,
-    utils,
+    rmarkdown,
+    testthat (>= 3.0.0),
     waiter
-Suggests: 
-    knitr,
-    MSEtool,
-    openMSE,
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
+URL: https://slick.bluematterscience.com/
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
@@ -74,12 +80,19 @@ Collate:
     'class_Spider.R'
     'class_Slick.R'
     'fct_FilterSlick.R'
-    'fct_Kobe_plot.R'
     'fct_Update.R'
+    'fct_check_required_packages.R'
     'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
-    'fct_plots.R'
+    'fct_load_casestudies.R'
+    'fct_misc.R'
+    'fct_plotBoxplot.R'
+    'fct_plotKobe.R'
+    'fct_plotQuilt.R'
+    'fct_plotSpider.R'
+    'fct_plotTimeseries.R'
+    'fct_plotTradeoff.R'
     'fct_translator.R'
     'make_Slick_old.R'
     'man_functions.R'
@@ -104,6 +117,7 @@ Collate:
     'mod_Report_Add.R'
     'mod_Report_Add_Button.R'
     'mod_Report_Page.R'
+    'mod_Report_Page_plot.R'
     'mod_Resources.R'
     'mod_Sidebar.R'
     'mod_Spider.R'

@@ -15,3 +15,8 @@ An S4 object of class \code{Slick}
 \description{
 Updates an old object of class \code{Slick} to new S4 class \code{Slick}
 }
+\examples{
+slick <- Slick() # a dummy old Slick object
+slick <- Update(slick) # updated to S4 object
+
+}

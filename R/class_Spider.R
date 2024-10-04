@@ -2,7 +2,7 @@
 #'
 #' Objects of class `Spider` are used to store information for the Spider plots.
 #' Like all S4 objects in `Slick`, slots in this object can be accessed and
-#' assigned using functions corresponding to slot name. See [Spider()] and the
+#' assigned using functions corresponding to slot name. See [Spider] and the
 #' the `See Also` section below.
 #'
 #' @details
@@ -23,13 +23,16 @@
 #' @slot Description `r description_PI_param()`
 #' @slot Value A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`).
+#' All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
+#' multiplied by 100 in the plot.
 #' Dimensions: c(`nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
 #'
-#' @seealso [Spider-methods()], [Code()], [Label()], [Description()],
+#' @seealso [Spider], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
-#' @example inst/examples/Spider
+#' @example inst/examples/Spider.R
 #' @docType class
 #' @export
 setClass("Spider",
@@ -59,9 +62,9 @@ setMethod("initialize", "Spider", function(.Object,
 
 
 validSpider <- function(object) {
-  errors <- list()
-  if (length(errors)>0)
-    return(errors)
+  chk <- Check(object)
+  if (chk@empty) return(TRUE)
+  if (length(chk@errors)>0) return(chk@errors)
   TRUE
 }
 
@@ -84,6 +87,54 @@ setMethod("Spider", c('list'),
 
 
 
+## ---- Check ----
+
+#' @describeIn Check Check [Spider-class()] objects for errors
+setMethod('Check', 'Spider', function(object) {
+
+  ll <- CheckList()
+  ll@object <- class(object)
+
+  ll@empty <- is_empty(object)
+  if (ll@empty) return(ll)
+  ll@empty <- FALSE
+
+  # check metadata errors
+  ll@errors <- append(ll@errors, check_metadata(object))
+
+  # check metadata complete
+  if (any(nchar(object@Code)<1))
+    ll@warnings <- append(ll@warnings, '`Code` is required')
+
+  if (any(nchar(object@Label)<1))
+    ll@warnings <- append(ll@warnings, '`Label` is required')
+
+  if (is_empty_value(object@Value))
+    ll@warnings <- append(ll@warnings, '`Value` is required')
+
+  if (!is_empty_value(object@Value) & all(is.na(object@Value)))
+    ll@warnings <- append(ll@warnings, '`Value` is all NAs')
+
+  nPI <- NA
+  if (is.list(object@Code)) {
+    if (length(object@Code[[1]])>0 & all(nchar(object@Code[[1]])>0))
+      nPI <- length(object@Code[[1]])
+  } else {
+    if (length(object@Code)>0 & all(nchar(object@Code)>0))
+      nPI <- length(object@Code)
+  }
+
+  req_dimensions <- c(NA, NA, nPI)
+  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
+
+  if (length(ll@errors)<1 & length(ll@warnings)<1)
+    ll@complete <- TRUE
+
+  ll
+
+
+  ll
+})
 ## Code ----
 
 #' @describeIn Code Return `Code` from a [Spider-class()] object
@@ -95,21 +146,6 @@ setMethod("Code", 'Spider', function(object, lang='en') {
 #' @describeIn Code Assign `Code` to a [Spider-class()] object
 setMethod("Code<-", 'Spider', function(object, value) {
   object@Code <- value
-  methods::validObject(object)
-  object
-})
-
-## Label ----
-
-#' @describeIn Code Return `Label` from a [Spider-class()] object
-setMethod("Label", 'Spider', function(object, lang='en') {
-  get_language(object@Label, lang)
-})
-
-
-#' @describeIn Code Assign `Label` to a [Spider-class()] object
-setMethod("Label<-", 'Spider', function(object, value) {
-  object@Label <- value
   methods::validObject(object)
   object
 })
@@ -129,37 +165,21 @@ setMethod("Description<-", 'Spider', function(object, value) {
   object
 })
 
-## Value ----
-#' @describeIn Value  Return `Value` from a [Spider-class()] object
-setMethod("Value", 'Spider', function(object) {
-  object@Value
+
+## Label ----
+
+#' @describeIn Code Return `Label` from a [Spider-class()] object
+setMethod("Label", 'Spider', function(object, lang='en') {
+  get_language(object@Label, lang)
 })
 
-#' @describeIn Value Assign `Value` to a [Spider-class()] object
-setMethod("Value<-", "Spider", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Value <- value
+
+#' @describeIn Code Assign `Label` to a [Spider-class()] object
+setMethod("Label<-", 'Spider', function(object, value) {
+  object@Label <- value
   methods::validObject(object)
   object
 })
-
-## Preset ----
-
-#' @describeIn Preset Return `Preset` from a [Spider-class()] object
-setMethod("Preset", 'Spider', function(object) {
-  object@Preset
-})
-
-#' @describeIn Preset Assign `Preset` slot from a [Spider-class()] object
-setMethod("Preset<-", "Spider", function(object, value) {
-  if (is.null(value)) return(object)
-  object@Preset <- value
-  methods::validObject(object)
-  object
-})
-
-
-## Show ----
 
 
 ## Metadata ----
@@ -182,19 +202,58 @@ setMethod("Metadata<-", "Spider", function(object, value) {
   object
 })
 
-## ---- Check ----
-
-#' @describeIn Check Check [Spider-class()] objects for errors
-setMethod('Check', 'Spider', function(object) {
-
-  ll <- CheckList()
-  ll@object <- class(object)
-
-  ll@empty <- is_empty(object)
-  if (ll@empty) return(ll)
-  ll@empty <- FALSE
 
 
-  ll
+## Show ----
+
+#' @describeIn show Print a [Spider-class()] object
+setMethod("show", "Spider", function(object) {
+  dim_names <- c("nOM", "nMP", "nPI")
+
+  chk <- print_show_heading(object)
+  if (length(chk@errors)>0)
+    print_errors(chk@errors)
+  print_metadata(object@Code)
+  print_metadata(object@Label, 'Label')
+  print_metadata(object@Description, 'Description')
+  print_value(object, dim_names)
+  print_preset(object@Preset)
 })
+
+
+
+
+## Preset ----
+
+#' @describeIn Preset Return `Preset` from a [Spider-class()] object
+setMethod("Preset", 'Spider', function(object) {
+  object@Preset
+})
+
+#' @describeIn Preset Assign `Preset` slot from a [Spider-class()] object
+setMethod("Preset<-", "Spider", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Preset <- value
+  methods::validObject(object)
+  object
+})
+
+
+## Value ----
+#' @describeIn Value  Return `Value` from a [Spider-class()] object
+setMethod("Value", 'Spider', function(object) {
+  object@Value
+})
+
+#' @describeIn Value Assign `Value` to a [Spider-class()] object
+setMethod("Value<-", "Spider", function(object, value) {
+  if (is.null(value)) return(object)
+  object@Value <- value
+  methods::validObject(object)
+  object
+})
+
+
+
+
 

@@ -1,4 +1,8 @@
 
+#' Generic show method
+#'
+#' @param object Object to print to console
+#' @export
 show <- function(object) methods::show(object)
 
 # ---- Boxplot ----
@@ -11,6 +15,9 @@ show <- function(object) methods::show(object)
 #'
 #' @details
 #' Objects of class `Boxplot` are created with `Boxplot()`
+#'
+#' Use [plotBoxplot()] to create the boxplot from the console.
+#'
 #'
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to
 #' access and assign the values for an existing `Boxplot` object, see `Examples`
@@ -39,7 +46,7 @@ show <- function(object) methods::show(object)
 #' @param Description `r description_PI_param()`
 #' @param Value  A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`).
 #' @param Preset `r preset_param()`
 #' @param Defaults A list object with default selections for the Boxplot
 #'
@@ -47,7 +54,8 @@ show <- function(object) methods::show(object)
 #' @rdname Boxplot-methods
 #' @docType methods
 #' @example inst/examples/Boxplot.R
-#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()], [Defaults()]
+#' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()],
+#' [Preset()], [Defaults()], [plotBoxplot()]
 #' @export
 setGeneric("Boxplot", function(Code='',
                                Label='',
@@ -74,9 +82,13 @@ setGeneric("Boxplot<-", function(Slick, value) standardGeneric("Boxplot<-"))
 #' [OMs-class()] or the six chart types: [Boxplot-class()], [Kobe-class()],
 #' [Quilt-class()], [Spider-class()], [Timeseries-class()],
 #' and [Tradeoff-class()].
+#' @param ... Additional arguments
 #' @return Prints messages to the console
 #' @export
-setGeneric("Check", function(object) standardGeneric("Check"))
+#' @examples
+#' slick <- Slick()
+#' Check(slick)
+setGeneric("Check", function(object, ...) standardGeneric("Check"))
 
 
 # ---- Code ----
@@ -96,9 +108,6 @@ setGeneric("Check", function(object) standardGeneric("Check"))
 #' - `es`: Spanish
 #' - `fr`: French
 #'
-#' See `Examples`
-#'
-#' @example inst/examples/Code.R
 #'
 #' @seealso [Label()], [Description()], [MPs-class()], [Boxplot-class()],
 #' [Kobe-class()], [Quilt-class()], [Spider-class()],
@@ -176,8 +185,6 @@ setGeneric("Design<-", function(object, value) standardGeneric("Design<-"))
 
 #' Return the Factors matrix from an `OMs` object
 #'
-#' Checks S4 objects to check for warnings and errors
-#'
 #' @param object An [OMs-class()] or [Slick-class()] object.
 #' @param lang `r lang_param()`
 #' @return The Design matrix from an `OMs` object in a `Slick` object
@@ -207,7 +214,6 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' F/FMSY (or something similar) on the y-axis.
 #'
 #' ## Performance Indicators
-#' There must be exactly two performance indicators (PIs).
 #' The first PI will be on the x-axis (usually B/BMSY or something similar) and the second
 #' on the y-axis (e.g., F/FMSY)
 #'
@@ -233,8 +239,8 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' and projection time-steps (nTS).
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, `nPI`, `nTS`)
 #' @param Preset `r preset_param()`
-#' @param Target Numeric vector length 2 with the target value for the two PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
-#' @param Limit Numeric vector length 2 with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
+#' @param Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
+#' @param Limit Numeric vector length `nPI` with the limit value for the PIs. Shows as red line on Kobe plot. NULL to ignore.
 #'
 #' @rdname Kobe-methods
 #' @docType methods
@@ -250,7 +256,7 @@ setGeneric("Kobe", function(Code='',
                             Value=array(),
                             Preset=list(),
                             Target=1,
-                            Limit=1) standardGeneric("Kobe"))
+                            Limit=NULL) standardGeneric("Kobe"))
 
 
 
@@ -338,10 +344,10 @@ setGeneric("MPs", function(Code='',
 
 
 #' @rdname MPs-methods
-#' @param Slick A [Slick-class()] object
+#' @param object A [Slick-class()] object
 #' @param value A [MPs-class()] object
 #' @export
-setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
+setGeneric("MPs<-", function(object, value) standardGeneric("MPs<-"))
 
 
 # ---- OMs -----
@@ -358,7 +364,7 @@ setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
 #' @param Design A `data.frame` with `nFactor` columns
 #'  (i.e., `length(unique(Factors$Factor))`), and `nOM`
 #' rows. See `Details`
-#' @param Preset `r preset_param()`
+#' @param Preset `r preset_param()`. See `Details` and `Examples
 #'
 #' @details
 #'
@@ -378,6 +384,13 @@ setGeneric("MPs<-", function(Slick, value) standardGeneric("MPs<-"))
 #' either be `numeric` values indicating the levels for the corresponding factor,
 #' or the actual level values (i.e., `Factors$Level`) that correspond to each OM. See `Examples`.
 #'
+#' ## Preset
+#' For `OMs` objects, `Preset` should be a named list, where each list element represents a
+#' different preset button to be shown in the app by the name of the list element, and
+#' each named list element should be a list of length `nFactors`, with the list elements
+#' for each Factor containing numeric values indicating the levels to include for that factor.
+#' See `Examples`
+#'
 #' Use [Factors()], [Design()], and [Preset()] to access
 #' and assign the values for an existing `OMs` object, see `Examples`.
 #'
@@ -393,10 +406,10 @@ setGeneric("OMs", function(Factors=data.frame(),
 
 
 #' @rdname OMs-methods
-#' @param Slick A [Slick-class()] object
+#' @param object A [Slick-class()] object
 #' @param value A [OMs-class()] object
 #' @export
-setGeneric("OMs<-", function(Slick, value) standardGeneric("OMs<-"))
+setGeneric("OMs<-", function(object, value) standardGeneric("OMs<-"))
 
 
 # ---- Preset ----
@@ -452,7 +465,7 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' @param Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
 #' @param MinValue Numeric vector length `nPI` with the minimum possible value for the
-#' respective PIs. Defaults to 0.
+#' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @param MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
 #'
@@ -468,8 +481,8 @@ setGeneric("Quilt", function(Code='',
                              Description='',
                              Value=array(),
                              Preset=list(),
-                             Color=c('white', 'darkblue'),
-                             MinValue=0,
+                             Color=c('darkblue', 'lightblue'),
+                             MinValue=as.numeric(NA),
                              MaxValue=as.numeric(NA)) standardGeneric('Quilt'))
 
 
@@ -514,13 +527,15 @@ setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 #' @param Description `r description_PI_param()`
 #' @param Value  A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`).
+#' All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
+#' multiplied by 100 in the plot.
 #' @param Preset `r preset_param()`
 #'
 #'
 #' @rdname Spider-methods
 #' @docType methods
-#' @example inst/examples/Spider
+#' @example inst/examples/Spider.R
 #' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
 #' @export
 setGeneric("Spider", function(Code='',
@@ -537,14 +552,20 @@ setGeneric("Spider", function(Code='',
 setGeneric("Spider<-", function(Slick, value) standardGeneric("Spider<-"))
 
 
+
+
+
+
 # ---- Target ----
 
 #' Access or assign `Target` and `Limit` for object of class `Kobe` or `Timeseries`
 #' @export
 setGeneric("Target", function(object) standardGeneric("Target"))
 
+#' @param object A [Kobe-class()] or [Timeseries()] class object
+#' @param value Value to assign to `Target`
+#' @describeIn Target Assign `value` to `object@Target`
 #' @export
-#' @rdname Target
 setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 
 
@@ -554,8 +575,10 @@ setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 #' @export
 setGeneric("Time", function(object) standardGeneric("Time"))
 
+#' @param object A [Kobe-class()] or [Timeseries()] class object
+#' @param value Value to assign to `Time`
+#' @describeIn Time Assign `value` to `object@Time`
 #' @export
-#' @rdname Time
 setGeneric("Time<-", function(object, value) standardGeneric("Time<-"))
 
 
@@ -582,6 +605,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' and to access and assign `Timeseries` for an object of class [Slick-class()].
 #' See `Details`.
 #'
+#' Use [plotTimeseries()] to create the boxplot from the console.
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -593,7 +617,8 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Time A numeric vector with values for the historical and projection time-steps. Must
 #' match length `nTS` in `Value`
 #' @param TimeNow A numeric value matching the last historical timestep in `Time`
-#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the `Kobe Time` plot. Use a named list for
+#' @param TimeLab Character string length 1. Name of the time step (e.g., 'Year').
+#' Will be used as the label in the `Timeseries` plot. Use a named list for
 #' multiple languages.
 #' @param Value A numeric array with the stochastic performance indicator values for each
 #' simulation (sim), operating model (OM), management procedure (MP),  performance indicator (PI),
@@ -603,8 +628,8 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Target Numeric vector length `nPI` with the target value for the PIs.
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
 #'
-#' @seealso [Timeseries-methods()], [Code()], [Label()], [Description()],
-#'  [Metadata()], [Value()], [Preset()]
+#' @seealso [Timeseries-class()], [Code()], [Label()], [Description()],
+#'  [Metadata()], [Value()], [Preset()], [plotTimeseries()]
 #'
 #'
 #' @details
@@ -663,9 +688,17 @@ setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
 #' as the number of performance indicators (`nPIs`) in `Value`
 #'
+#' @param Code `r code_PI_param()`
+#' @param Label `r label_PI_param() `
+#' @param Description `r description_PI_param()`
+#' @param Value A numeric array with the stochastic performance indicator values for each
+#' operating model (OM), management procedure (MP),  and performance indicator (PI)
+#' Dimensions: c(`nOM`, `nMP`, `nPI`)
+#' @param Preset `r preset_param()`
+#'
 #' @rdname Tradeoff-methods
 #' @docType methods
-#' @example inst/examples/Tradeoff
+#' @example inst/examples/Tradeoff.R
 #' @seealso [Code()], [Label()], [Description()], [Metadata()], [Value()], [Preset()]
 #' @export
 setGeneric("Tradeoff", function(Code='',

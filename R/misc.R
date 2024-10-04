@@ -56,7 +56,23 @@ check_assign_dataframe <- function(object, names, value) {
   object
 }
 
+#' Set Default Colors for the MPs
+#'
+#' Requires the `colorspace` package
+#'
+#' @param nMP The number of management procedures
+#'
+#' @export
+#' @examples
+#' cols <- default_mp_colors(4)
+#' cols
+#'
 default_mp_colors <- function(nMP) {
+  if (!requireNamespace('colorspace', quietly = TRUE)) {
+    warning('package `colorspace` required')
+    cols <- grDevices::colors()
+    return(cols[sample(length(cols), nMP)])
+  }
   colorspace::qualitative_hcl(nMP, 'Dark2')
 }
 

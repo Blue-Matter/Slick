@@ -48,7 +48,7 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                   'Slick is a decision analysis tool that presents the outcomes of candidate management procedures (MPs), also known as harvest strategies, across various states of nature, accounting for uncertainty. It is interactive and allows users to filter results live in order to explore robustness and performance.'
                                 )),
                                 p(i18n$t(
-                                  'While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the '), a(href='https://blue-matter.github.io/openMSE/Slick-Developer-Guide.html', "Developer's Guide",  target="_blank"), ')')
+                                  'While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the '), a(href='https://slick.bluematterscience.com/articles/DevelopersGuide.html', "Developer's Guide",  target="_blank"), ').')
                                 ),
       )
     })
@@ -79,6 +79,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       )
     })
 
+    case_studies <- get_casestudies()
+
     output$load <- renderUI({
       options(shiny.maxRequestSize=200*1024^2)
       i18n <- i18n()
@@ -94,31 +96,51 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
                                           label = i18n$t("From file (.slick)"),
                                           buttonLabel=list(icon("folder",verify_fa = FALSE))
                                 ),
-                                h4(i18n$t('Load an Example')),
-                                selectInput(ns('example_input'),
-                                            label=i18n$t('Example'),
-                                            choices=case_study_df$Example,
+                                h4(i18n$t('Load a Case Study')),
+                                p(i18n$t('Select a case study and click the Load button')),
+                                selectInput(ns('case_study_select'),
+                                            label=i18n$t('Select Case Study'),
+                                            choices=case_studies$Name,
                                             selected=NULL
                                 ),
-                                actionButton(ns("example_upload"), i18n$t("Load"),
+                                actionButton(ns("case_study_load"), i18n$t("Load"),
                                              icon("upload", verify_fa = FALSE)),
-                                downloadButton(ns("example_download"), i18n$t("Download"),
-                                               icon("cloud-download", verify_fa = FALSE))
+                                br(),
+                                br(),
+                                p(i18n$t('Click the Download button to download the Slick file')),
+                                downloadButton(ns("case_study_download"), i18n$t("Download"),
+                                                 icon("cloud-download", verify_fa = FALSE))
+                                )
+      )
+    })
+
+    loading_text <- reactive({
+      ind <- match(input$case_study_select, case_studies$Name)
+      paste0('Loading case study (', case_studies$Size[ind], 'Mb)')
+    })
+
+    w <- reactive({
+      waiter::Waiter$new(
+        color = "primary",
+        html = waiter::attendantBar(
+          "the-bar",
+          width = 400,
+          text = loading_text(),
         )
       )
     })
 
-    output$example_download <- downloadHandler(
+    att <- waiter::Attendant$new("the-bar")
+
+    output$case_study_download <- downloadHandler(
       filename = function() {
-        Name <- input$example_input
+        Name <- input$case_study_select
         paste0(Name, ".slick", sep="")
       },
       content = function(file) {
-        Name <- input$example_input
-        File <- case_study_df$Object[match(Name, case_study_df$Example)]
-        obj <- readRDS(app_sys(paste0(File, '.rda')))
-        obj <- Update(obj)
-        saveRDS(obj, file)
+        slick <- download_casestudy(input$case_study_select, case_studies, silent=FALSE)
+        slick <- Update(slick)
+        saveRDS(slick, file)
       }
     )
 
@@ -127,8 +149,8 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       Load_Slick_File$loaded <- Load_Slick_File$loaded + 1
     })
 
-    observeEvent(input$example_upload, ignoreInit = TRUE, {
-      Load_Slick_File$file <- input$example_input
+    observeEvent(input$case_study_load, ignoreInit = TRUE, {
+      Load_Slick_File$file <- input$case_study_select
       Load_Slick_File$loaded <- Load_Slick_File$loaded +1
     })
 
@@ -136,11 +158,18 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');")
     })
 
+
     observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
+
+
       if (Load_Slick_File$loaded >= 1) {
         if (inherits(Load_Slick_File$file, 'character')) {
-          File <- case_study_df$Object[match(Load_Slick_File$file, case_study_df$Example)]
-          slick <- readRDS(app_sys(paste0(File, '.rda')))
+          w()$show()
+          att$set(40)
+          att$auto()
+
+          slick <- download_casestudy(Load_Slick_File$file, case_studies, silent=TRUE)
+          slick <- Update(slick)
           slick <- check_slick_file(slick)
           Slick_Object(slick)
 
@@ -166,6 +195,11 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
           }
         }
       }
+
+      on.exit({
+        att$done()
+        w()$hide()
+      })
     })
 
   })

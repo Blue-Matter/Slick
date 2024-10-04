@@ -107,3 +107,14 @@ introduction_param <- function() {
   For multiple languages, use a named list with names: `en`, `es`, `fr` for the three supported languages.
   "
 }
+
+
+
+value_dimensions <- function(type='Boxplot') {
+  #
+  # NOTE: not currently working because Slick app filters OM dimension in
+  # Value, but doesn't change the OMs reported in Slick@OMs
+  # ll <- list(Boxplot=c('nsim', 'nOM', 'nMP', 'nPI')
+  #            )
+  # ll[[type]]
+}

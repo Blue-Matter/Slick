@@ -3,14 +3,7 @@
 \docType{class}
 \name{Boxplot-class}
 \alias{Boxplot-class}
-\alias{show,Boxplot-method}
-\title{S4 class \code{Boxplot}}
-\usage{
-\S4method{show}{Boxplot}(object)
-}
-\arguments{
-\item{object}{An object of class \code{\link[=Boxplot-class]{Boxplot-class()}}}
-}
+\title{\code{Boxplot} S4 Object Class}
 \description{
 Objects of class \code{Boxplot} are used to store information for the Boxplot and Violin plots.
 Like all S4 objects in \code{Slick}, slots in this object can be accessed and
@@ -35,11 +28,6 @@ Character strings in \code{Code}, \code{Label}, and \code{Description} must all 
 as the number of performance indicators (\code{nPIs}) in \code{Value}
 }
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{show(Boxplot)}: Show objects of class \code{Boxplot}
-
-}}
 \section{Slots}{
 
 \describe{
@@ -56,7 +44,7 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{\code{Value}}{A numeric array with the stochastic performance indicator values for each
 simulation (sim), operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -65,31 +53,47 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 }}
 
 \examples{
+# Generate dummy values
+nsim <- 10
+nOM <- 2
+nMP <- 4
+nPI <- 3
+
+values <- array(NA, dim=c(nsim, nOM, nMP, nPI))
+pi_means <- runif(nPI, 5, 50)
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[,om, mp, pi] <- rlnorm(nsim, log(pi_means[pi]), 0.4)
+    }
+  }
+}
+
+# Create and populate Object
 boxplot <- Boxplot(Code=c('PI1', 'PI2', 'PI3'),
                    Label=c('Performance Indicator 1',
-                         'Performance Indicator 2',
-                         'Performance Indicator 3'),
+                           'Performance Indicator 2',
+                           'Performance Indicator 3'),
                    Description = c('This is the description for PI 1',
                                    'This is the description for PI 2',
                                    'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
-                   Preset=list('PI and P2'=1:2)
+                   Value=values)
 
-)
+# Check
+Check(boxplot)
 
-boxplot
+# Add to `Slick` object
+slick <- Slick()
+Boxplot(slick) <- boxplot
 
-Code(boxplot)
-Metadata(boxplot)
+# Plots
+plotBoxplot(slick)
 
-# Value(boxplot)
-Value(boxplot) <- array()
+plotBoxplot(slick, type='violin')
 
-Preset(boxplot)
-Preset(boxplot) <- list()
+plotBoxplot(slick, byOM=TRUE)
 
-boxplot
-
+plotBoxplot(slick, 2, type='both', byOM=TRUE)
 }
 \seealso{
 \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},

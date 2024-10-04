@@ -10,6 +10,8 @@
 mod_Spider_OM_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
+    br(),
     uiOutput(ns('OM_Spider'))
   )
 }
@@ -18,13 +20,36 @@ mod_Spider_OM_ui <- function(id){
 #'
 #' @noRd
 mod_Spider_OM_server <- function(id, i18n, filtered_slick,
-                                 nOM, nMP, nPM, parent_session,
-                                 relative_scale=relative_scale, OS_button){
+                                 nOM, nMP, nPM,
+                                 relative_scale=relative_scale, OS_button,
+                                 selected_oms,
+                                 Report,
+                                 parent_session,
+                                 window_dims){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    observeEvent(input$openfilter, {
-      shinydashboardPlus::updateBoxSidebar('filtersidebar', session=parent_session)
+    Plot_Object <- reactiveVal()
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Spider',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      LL <- list()
+      LL$plotFunction <- plotSpider
+      LL$slick <- filtered_slick()
+      LL$relScale <- relative_scale()
+      LL$incMean <- OS_button()
+      LL$byOM <- TRUE
+      LL$incMax <- FALSE
+      Plot_Object(LL)
+      if(!inherits(Plot_Object(), 'NULL')) {
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+      }
     })
 
     output$OM_Spider <- renderUI({
@@ -33,7 +58,6 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
         uiOutput(ns('results'), height='650px')
       )
     })
-
 
     output$results <- renderUI({
       i18n <- i18n()
@@ -44,24 +68,19 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
             h3(i18n$t('Please select 3 or more Peformance Indicators'))
           )
         } else {
-          hgt <- paste0(90 * nMP(), 'px')
           plot_output_list <- lapply(1:nOM(), function(mm) {
             plotname <- paste("plot", mm, sep="")
             tagList(
-              h4(mm, class='OM_name', style = "font-size:18px;"),
-              div(
-                shinycssloaders::withSpinner(plotOutput(ns(plotname),
-                                                        width='90px', height=hgt)),
-                style="padding-right:50px;  background-color: #f2f2f2;;"
-              )
+              loading_spinner(plotOutput(ns(plotname),
+                                         width=plot_width(), height=plot_height()))
+
             )
           })
           plot_output_list$cellArgs <- list(
-            style = "width: 100px;"
+            style = paste0('width:', cell_width_calc(), '; padding-bottom:25px;')
           )
           do.call(flowLayout , plot_output_list)
         }
-
       } else {
         tagList(
           h3(i18n$t('Please select 2 or more MPs'))
@@ -73,6 +92,31 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
       if (!is.null(filtered_slick()))
         filtered_slick() |> MPs() |> Metadata()
     })
+
+    width <- reactive({
+      dd <- window_dims()
+      dd[1] * 0.1
+    })
+
+    plot_height_calc <- reactive({
+      req(width, nMP)
+      nMP() * width()
+    })
+
+    plot_height <- plot_height_calc |> debounce(500)
+
+    plot_width_calc <- reactive({
+      paste0(width(), 'px')
+    })
+
+    cell_width_calc <- reactive({
+      paste0(width()+35, 'px')
+    })
+
+
+    plot_width <- plot_width_calc |> debounce(500)
+    cell_width <- cell_width_calc |> debounce(500)
+
 
     observe({
       if (!is.null(filtered_slick()) & !is.null(relative_scale())) {
@@ -95,9 +139,12 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
             my_i <- i
             plotname <- paste("plot", my_i, sep="")
             output[[plotname]] <- renderPlot({
-              Spiderplot_single_OM(Values[my_i,,], MP_metadata(), include_avg=OS_button())
+              plotSpider(filtered_slick(), byOM=my_i,
+                         relScale=relative_scale(),
+                         incMean=OS_button(),
+                         incMax=TRUE)
             }, height=function(){
-              90 * nMP()
+              plot_height()
             }, bg = "transparent")
           })
         }

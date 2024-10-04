@@ -15,9 +15,9 @@
 \alias{Check,Slick-method}
 \title{Check an object for errors or issues}
 \usage{
-Check(object)
+Check(object, ...)
 
-\S4method{Check}{Boxplot}(object)
+\S4method{Check}{Boxplot}(object, req_dims = c(NA, NA, NA, NA))
 
 \S4method{Check}{Kobe}(object)
 
@@ -40,6 +40,10 @@ Check(object)
 \code{\link[=OMs-class]{OMs-class()}} or the six chart types: \code{\link[=Boxplot-class]{Boxplot-class()}}, \code{\link[=Kobe-class]{Kobe-class()}},
 \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}}, \code{\link[=Timeseries-class]{Timeseries-class()}},
 and \code{\link[=Tradeoff-class]{Tradeoff-class()}}.}
+
+\item{...}{Additional arguments}
+
+\item{req_dims}{Required dimensions for \code{Value} slot. Used internally}
 }
 \value{
 Prints messages to the console
@@ -68,3 +72,7 @@ Checks S4 objects to check for warnings and errors
 \item \code{Check(Slick)}: Check \code{\link[=Slick-class]{Slick-class()}} objects for errors
 
 }}
+\examples{
+slick <- Slick()
+Check(slick)
+}

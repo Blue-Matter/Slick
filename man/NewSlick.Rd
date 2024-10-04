@@ -30,13 +30,13 @@ NewSlick(
 
 \item{nHistYr}{Integer, the number of historical years for state variables}
 
-\item{Design}{A design matrix of factor levels \link{SN, factor}}
+\item{Design}{A design matrix of factor levels \verb{SN, factor}}
 }
 \value{
 An object of class \linkS4class{Slick}
 }
 \description{
-A function that creates a blank Slick object. The key requirement is that the dimensions of the analysis are known including the Design matrix
+Creates a blank Slick object
 }
 \author{
 T. Carruthers

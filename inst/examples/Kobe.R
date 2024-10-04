@@ -1,26 +1,46 @@
-kobe <- Kobe(Code=c('PI1', 'PI2', 'PI3'),
-                   Label=c('Performance Indicator 1',
-                           'Performance Indicator 2',
-                           'Performance Indicator 3'),
-                   Description = c('This is the description for PI 1',
-                                   'This is the description for PI 2',
-                                   'This is the description for PI 3'),
-                   Value=array(runif(3000), dim=c(10, 10, 10,3)),
-                   Preset=list('PI and P2'=1:2)
+# Generate dummy values
+nsim <- 10
+nOM <- 2
+nMP <- 4
+nPI <- 2
+nTS <- 30
 
+values <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
+
+pi_means <- c(1,1)
+
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[,om, mp, pi,] <- pi_means[pi] *
+        matrix(
+        cumprod(c(rlnorm(nTS*nsim, 0, 0.05))),
+        nrow=nsim)
+    }
+  }
+}
+
+# Create and populate Object
+kobe <- Kobe(Code=c('B/BMSY', 'F/FMSY'),
+             Label=c('B/BMSY',
+                     'F/FMSY'),
+             Description = c('This is the description for PI 1',
+                             'This is the description for PI 2'),
+             Value=values
 )
 
-kobe
+# Add values for projection time steps
+Time(kobe) <- seq(2025, by=1, length.out=nTS)
 
-# ADD TIME
+# Check
+Check(kobe)
 
-# Code(boxplot)
-# Metadata(boxplot)
-#
-# # Value(boxplot)
-# Value(boxplot) <- array()
-#
-# Preset(boxplot)
-# Preset(boxplot) <- list()
-#
-# boxplot
+# Add to `Slick` object
+slick <- Slick()
+Kobe(slick) <- kobe
+
+# Plots
+plotKobe(slick)
+
+plotKobe(slick, Time=TRUE)
+

@@ -10,9 +10,9 @@
 mod_Report_Page_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
-    column(2, uiOutput(ns('controls'))),
-    column(10, uiOutput(ns('reportpreview')))
+    # mod_toplink_ui(ns(id)),
+    column(10, uiOutput(ns('reportpreview'))),
+    column(2, uiOutput(ns('controls')))
   )
 }
 
@@ -23,9 +23,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      report='Report'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   report='Report'))
 
     ready <- reactive({
       is_populated <- lapply(reactiveValuesToList(Report), lapply, length)
@@ -40,8 +40,9 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
           radioButtons(ns('format'), i18n$t('Report Format'),
                        choiceNames=c('HTML', 'MS Word'),
                        choiceValues=c('.html', '.docx')),
-          downloadButton(ns("report"), "Generate report")
-        )
+          shinyWidgets::downloadBttn(
+            ns("report"), i18n$t("Generate report"))
+          )
       }
     })
 
@@ -50,48 +51,37 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
       if (ready()>0) {
         tagList(
           uiOutput(ns('metadata')),
-          uiOutput(ns('quilt'))
-
-
+          mod_Report_Page_plot_ui(ns('timeseries')),
+          mod_Report_Page_plot_ui(ns('boxplot')),
+          mod_Report_Page_plot_ui(ns('kobe')),
+          mod_Report_Page_plot_ui(ns('quilt')),
+          mod_Report_Page_plot_ui(ns('spider')),
+          mod_Report_Page_plot_ui(ns('tradeoff'))
         )
       } else {
-        tagList(h3(i18n$t('Report feature coming soon!')))
-        # tagList(h3(i18n$t('Nothing added to Report yet')))
+        tagList(h3(i18n$t('Nothing added to Report yet')))
       }
-
     })
 
+    # Intro ----
     output$metadata <- renderUI({
       i18n <- i18n()
       tagList(
         h2(Report$Metadata$Title),
         Report$Metadata$Subtitle,
-        Report$Metadata$Author,
+        paste(Report$Metadata$Author, collapse=', '),
         h3(i18n$t('Introduction')),
         markdown(Report$Metadata$Introduction)
       )
     })
 
-    output$quilt <- renderUI({
-      i18n <- i18n()
-      if (length(Report$Quilt$plot)>0) {
-        ll <- lapply(1:length(Report$Quilt$plot), function(x) {
-          tagList(
-            Report$Quilt$plot[[x]] |>
-              flextable::autofit() |>
-              flextable::htmltools_value(),
-            Report$Quilt$caption[[x]]
-          )
-        })
-        tagList(
-          h3(i18n$t('Quilt')),
-          ll
-        )
-      }
 
-
-
-    })
+    mod_Report_Page_plot_server('timeseries', 'Time Series', Report)
+    mod_Report_Page_plot_server('boxplot', 'Boxplot', Report)
+    mod_Report_Page_plot_server('kobe', 'Kobe', Report)
+    mod_Report_Page_plot_server('quilt', 'Quilt', Report)
+    mod_Report_Page_plot_server('spider', 'Spider', Report)
+    mod_Report_Page_plot_server('tradeoff', 'Tradeoff', Report)
 
     extension <- reactive({
       req(input$format)
@@ -116,11 +106,12 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
                   tempReport, overwrite = TRUE)
 
         params <- list(Metadata=Report$Metadata,
+                        'Time Series'=Report[['Time Series']],
+                        Boxplot=Report$Boxplot,
+                        Kobe=Report$Kobe,
                         Quilt=Report$Quilt,
-                        Tradeoff=Report$Tradeoff,
                         Spider=Report$Spider,
-                        Zigzag=Report$Zigzag,
-                        Kobe=Report$Kobe)
+                        Tradeoff=Report$Tradeoff)
 
         rmarkdown::render(tempReport,
                           output_format = output_format(),

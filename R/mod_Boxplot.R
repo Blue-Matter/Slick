@@ -9,7 +9,7 @@
 mod_Boxplot_ui <- function(id){
   ns <- NS(id)
   tagList(
-    mod_toplink_ui(ns(id)),
+    # mod_toplink_ui(ns(id)),
     uiOutput(ns('page'))
   )
 }
@@ -18,21 +18,22 @@ mod_Boxplot_ui <- function(id){
 #'
 #' @noRd
 mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home_session){
-  moduleServer( id, function(input, output, session){
+  moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    mod_toplink_server(id, links=list(hometab='Home',
-                                      metadatatab='Overview',
-                                      boxplot='Boxplot'))
+    # mod_toplink_server(id, links=list(hometab='Home',
+    #                                   metadatatab='Overview',
+    #                                   boxplot='Boxplot'))
 
     mod_Boxplot_overall_server("Boxplot_overall_1",
                                i18n, filtered_slick, plottype,
                                nOM, nMP, nPM, parent_session=session,
-                               window_dims)
+                               window_dims, Report)
 
     mod_Boxplot_OM_server("Boxplot_OM_1", i18n, filtered_slick, plottype,
                           nOM, nMP, nPM, parent_session=session,
-                          window_dims)
+                          window_dims, Report,
+                          selected_oms=selected_oms)
 
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
@@ -46,12 +47,9 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                               slot='Boxplot', minPM=1,
                                               home_session=home_session)
 
-    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=session, Report, plot_object)
-    #
-    # observeEvent(button_pushed(), {
-    #   shiny::showModal(mod_Report_Add_ui(ns("Report_Add_1")))
-    # })
+    selected_oms <- reactive({
+      as.numeric(Filter_Selected$OMs)
+    })
 
     selected_plotselect <- reactive({
       slick <- Slick_Object()
@@ -75,8 +73,10 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
       selected
     })
 
+
     output$page <- renderUI({
       i18n <- i18n()
+      slick <- Slick_Object()
       if(all(is.na(slick@Boxplot@Value))) {
         return(tagList('No values in object'))
       }
@@ -85,7 +85,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong(i18n$t('Boxplot'))),
+                                title=h3(strong('Boxplot')),
                                 br(),
                                 column(12, mod_subtitle_ui(ns(id))),
 
@@ -103,9 +103,9 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns('plottype'),
-                                         choiceNames  = c(i18n$t('Boxplot'),
-                                                          i18n$t('Violin'),
-                                                          i18n$t('Both')),
+                                         choiceNames  = c('Boxplot',
+                                                         'Violin',
+                                                          'Both'),
                                          choiceValues = c('boxplot', 'violin', 'both'),
                                          checkIcon = list(
                                            yes = tags$i(class = "fa fa-check-square",
@@ -145,6 +145,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
 
                                 ),
                                 column(9,
+                                       # mod_Report_Add_Button_ui(ns('report_button')),
                                        conditionalPanel("input.plotselect=='overall'", ns=ns,
                                                         mod_Boxplot_overall_ui(ns("Boxplot_overall_1"))
                                        ),

@@ -10,6 +10,7 @@
 mod_Timeseries_byOM_ui <- function(id){
   ns <- NS(id)
   tagList(
+    mod_Report_Add_Button_ui(ns('report_button')),
     uiOutput(ns('selections')),
     uiOutput(ns('page'))
   )
@@ -20,20 +21,107 @@ mod_Timeseries_byOM_ui <- function(id){
 #' @noRd
 mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nOM,
-                                       window_dims){
+                                       window_dims,
+                                       selected_oms,
+                                       Report, parent_session,
+                                       includeQuants, includeLabels, includeHist){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    Plot_Object <- reactiveVal()
 
     timeseries <- reactiveVal()
 
     observeEvent(filtered_slick(),
                  timeseries(filtered_slick()))
 
+
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
+                          Report,
+                          Plot_Object=Plot_Object, 'Time Series',
+                          window_dims)
+
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      Plot_Object(timeseriesplot())
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
+
+    plot_width_calc <- reactive({
+      dd <- window_dims()
+      val <- dd[1] * 0.6
+      paste0(val, 'px')
+    })
+
+    nMP <- reactive({
+      req(filtered_slick())
+      slick <- filtered_slick()
+      length(slick@MPs@Code)
+    })
+
+    plot_height_calc <- reactive({
+      nom <- nOM()
+      nmp <- nMP()
+      if (byMP()) {
+        ncol <- min(nmp, 4)
+        nrow <- ceiling(nmp/ncol)
+      } else {
+        ncol <- min(nom, 4)
+        nrow <- ceiling(nom/ncol)
+      }
+      paste0(nrow*300, 'px')
+
+    })
+
+    plot_width <- plot_width_calc |> debounce(500)
+    plot_height <- plot_height_calc |> debounce(500)
+
+
+    output$page <- renderUI({
+      loading_spinner(plotOutput(ns('timeseriesMP'),
+                                 width='100%',
+                                 height=plot_height()))
+    })
+
+    output$timeseriesMP <- renderPlot({
+      timeseriesplot()
+    })
+
+    timeseriesplot <- reactive({
+      if (is.null(timeseries()))
+        return(NULL)
+      if (is.null(pm_ind()))
+        return(NULL)
+      if (is.null(yrange()))
+        return(NULL)
+
+      plotTimeseries(timeseries(),
+                     pm_ind(),
+                     byMP=byMP(),
+                     byOM=TRUE,
+                     includeQuants =includeQuants(),
+                     includeLabels =includeLabels(),
+                     includeHist = includeHist(),
+                     lang=i18n()$get_translation_language()) +
+        ggplot2::coord_cartesian(ylim=yrange())
+
+
+    })
+
+    byMP <- reactive({
+      out <- input$byMP
+      if (length(out)<1)
+        return(FALSE)
+      out
+    })
+
     values <- reactive({
       filtered_slick() |>
         Timeseries() |>
         Value()
-
     })
 
     sims <- reactive({
@@ -45,14 +133,19 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       i18n <- i18n()
       tagList(
         fluidRow(
-          column(3,
+          column(4,
                  radioButtons(ns('plotoption'),
                               i18n$t('Plot Option'),
                               choiceNames = i18n$t(c('Median', 'Individual Simulation')),
                               choiceValues= c('median', 'sim')
-                 )
+                              )
+                 ),
+          column(4,
+                 checkboxInput(ns('byMP'),
+                               i18n$t('by MP?'),
+                               FALSE)
           ),
-          column(6,
+          column(4,
                  conditionalPanel("input.plotoption=='sim'", ns=ns,
                                   column(6,
                                          shinyWidgets::pickerInput(
@@ -69,14 +162,11 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                                                     i18n$t('Update Plots'))
                                          )
                                   )
-
                  )
           )
         )
-
       )
     })
-
 
 
     observeEvent(input$plotoption, {
@@ -86,12 +176,12 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       } else {
         shinyjs::show('updateplot')
       }
-
     })
 
     observeEvent(input$selectsim, {
       shinyjs::show('updateplot')
     })
+
 
     observeEvent(input$updateplot, {
       shinyjs::hide('updateplot')
@@ -100,77 +190,6 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       slick@Timeseries@Value <- slick@Timeseries@Value[sim,,,,,drop=FALSE]
       timeseries(slick)
     }, ignoreInit = TRUE)
-
-
-    output$page <- renderUI({
-      if (!is.null(make_plots())) {
-        plot_output_list <- lapply(1:nOM(), function(mm) {
-          plotname <- paste("plot", mm, sep="")
-          shinycssloaders::withSpinner(plotOutput(session$ns(plotname), width=plot_width(),
-                                                  height=plot_height()))
-        })
-        plot_output_list$cellArgs=list(style = plot_width_text())
-        do.call(flowLayout, plot_output_list)
-      }
-    })
-
-    plot_width_calc <- reactive({
-      dd <- window_dims()
-      val <- (dd[1] * 0.2) |> round(0)
-      paste0(val, 'px')
-    })
-
-    plot_height_calc <- reactive({
-      dd <- window_dims()
-      val <- (dd[1] * 0.2) |> round(0)
-      paste0(val, 'px')
-    })
-
-    plot_width <- plot_width_calc |> debounce(500)
-
-    plot_height <- plot_height_calc |> debounce(500)
-
-    plot_width_text <- reactive({
-      paste0('width: ', plot_width(), '; height: ', plot_height())
-    })
-
-    make_plots <- reactive({
-      if (is.null(timeseries()))
-        return(NULL)
-      if (is.null(pm_ind()))
-        return(NULL)
-      if (is.null(yrange()))
-        return(NULL)
-      dd <- timeseries() |> Timeseries() |> Value() |>  dim()
-      plot_list <- list()
-      if (dd[2]==nOM()) {
-
-        for (i in 1:nOM()) {
-          plot_list[[i]] <- plotTimeseries(timeseries(),
-                                            pm_ind(),
-                                            MP_ind=NULL,
-                                            i)
-        }
-      }
-      plot_list
-    })
-
-
-    observeEvent(make_plots(), {
-      thisplot <- make_plots()
-      if (length(thisplot)>0) {
-        for (i in 1:nOM()) {
-          local({
-            my_i <- i
-            plotname <- paste("plot", my_i, sep="")
-            output[[plotname]] <- renderPlot({
-              thisplot[[my_i]] +
-                ggplot2::coord_cartesian(ylim=yrange())
-            })
-          })
-        }
-      }
-    })
 
 
   })
