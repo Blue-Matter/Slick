@@ -23,10 +23,6 @@ MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
 MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
 MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
 
-MSE_LowH <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
-MSE_HighH <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
-
-
 ## ---- create_slick ----
 slick <- Slick()
 
