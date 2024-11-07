@@ -145,6 +145,8 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
 
     })
 
+    Filter_Selected <- reactiveValues(MPs=1)
+
     observeEvent(mp_colors(), {
       slick <- isolate(Slick_Object())
       if (!is.null(slick)) {
@@ -152,12 +154,10 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
         metadata <- Metadata(mps)
         metadata$Color <- isolate(mp_colors())
         Metadata(MPs(slick)) <- metadata
+        Filter_Selected$MPs <- 1:nrow(metadata)
         slick_in(slick)
       }
-
     })
-
-
 
     allMPs <- reactive({
       slick <- Slick_Object()
@@ -167,7 +167,6 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
       }
     })
 
-    Filter_Selected <- reactiveValues(MPs=1)
 
     observeEvent(allMPs(), {
       Filter_Selected$MPs <- allMPs()
