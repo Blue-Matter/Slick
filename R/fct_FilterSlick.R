@@ -50,21 +50,21 @@ FilterSlick <- function(slick=NULL,
 
   if (is.null(MPs)) {
     MPs <- 1:nMPs
-  } else {
-    MPs <- MPs[MPs %in% 1:nMPs]
-  }
+  } #else {
+    #MPs <- MPs[MPs %in% 1:nMPs]
+  #}
 
   if (is.null(OMs)) {
     OMs <- 1:nOMs
-  } else {
-    OMs <- OMs[OMs %in% 1:nOMs]
-  }
+  } #else {
+    #OMs <- OMs[OMs %in% 1:nOMs]
+  #}
 
   if (is.null(PIs)) {
     PIs <- 1:nPIs
-  } else {
-    PIs <- PIs[PIs %in% 1:nPIs]
-  }
+  } #else {
+    #PIs <- PIs[PIs %in% 1:nPIs]
+  #}
 
 
   # Filter OMs
@@ -92,47 +92,43 @@ FilterSlick <- function(slick=NULL,
     metadata <- Metadata(MPs(slick))
     if (len_dim==3) {
       if (all(MPs<=dim_value[2])) {
-        Value(object) <- Value(object)[,MPs,,drop=FALSE]
+        object@Value <- Value(object)[,MPs,,drop=FALSE]
         Metadata(slick@MPs) <- metadata[MPs,]
       }
     }
     if (len_dim==4) {
       if (all(MPs<=dim_value[3])) {
         Metadata(slick@MPs) <- metadata[MPs,]
-        Value(object) <- Value(object)[,,MPs,, drop=FALSE]
+        object@Value <- Value(object)[,,MPs,, drop=FALSE]
       }
     }
     if (len_dim==5) {
       if (all(MPs<=dim_value[3])) {
         Metadata(slick@MPs) <- metadata[MPs,]
-        Value(object) <- Value(object)[,,MPs,,, drop=FALSE]
+        object@Value <- Value(object)[,,MPs,,, drop=FALSE]
       }
     }
   }
 
   # Filter PIs
   if (!is.null(PIs) & length(PIs)>0) {
-    Metadata(object) <- Metadata(object)[PIs, ]
-
     if (len_dim==3) {
       if (all(PIs<=dim_value[3]))
-        Value(object) <- Value(object)[,,PIs,drop=FALSE]
+        object@Value <- Value(object)[,,PIs,drop=FALSE]
     }
     if (len_dim==4) {
       if (all(PIs<=dim_value[4]))
-        Value(object) <- Value(object)[,,,PIs, drop=FALSE]
+        object@Value <- Value(object)[,,,PIs, drop=FALSE]
     }
     if (len_dim==5) {
       if (all(PIs<=dim_value[4]))
-        Value(object) <- Value(object)[,,,PIs,, drop=FALSE]
+        object@Value <- Value(object)[,,,PIs,, drop=FALSE]
     }
-
     if ('MinValue' %in% slotNames(object)) {
       object@MinValue <- object@MinValue[PIs]
       object@MaxValue <- object@MaxValue[PIs]
     }
   }
-
   slot(slick, plot) <- object
   slick
 }

@@ -36,7 +36,8 @@ plotQuilt <- function(slick,
                       MP_label='Code',
                       minmax=FALSE,
                       shading=TRUE,
-                      kable=FALSE, signif=2,
+                      kable=FALSE,
+                      signif=2,
                       alpha=0.5) {
 
   if (!methods::is(slick, 'Slick'))
@@ -109,11 +110,23 @@ plotQuilt <- function(slick,
     shading_list <- vector('list', nPI)
     for (i in 1:nPI) {
       shading_list[[i]]$cuts <- seq(minVal[i], maxVal[i], length.out=11)
-      shading_list[[i]]$levels <- cut(Values[,i],
-                                      breaks= shading_list[[i]]$cuts, include.lowest=TRUE) |> as.numeric()
-      shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
-                                                     n=length( shading_list[[i]]$cuts)+1,
-                                                 alpha=alpha))
+      if (length(unique(shading_list[[i]]$cuts)) !=11) {
+
+        shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
+                                                       n=1,
+                                                       alpha=alpha))
+
+      } else {
+        shading_list[[i]]$levels <- cut(Values[,i],
+                                        breaks= shading_list[[i]]$cuts,
+                                        include.lowest=TRUE) |>
+          as.numeric()
+
+        shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
+                                                       n=length( shading_list[[i]]$cuts)+1,
+                                                       alpha=alpha))
+      }
+
     }
   }
 
@@ -167,11 +180,20 @@ plotQuilt <- function(slick,
 
   if (shading) {
     for (i in 1:nPI) {
-      table <- table |>
-        DT::formatStyle(i,
-          backgroundColor = DT::styleInterval(cuts=shading_list[[i]]$cuts,
-                                              values=shading_list[[i]]$values)
-        )
+      if (length(shading_list[[i]]$values)==1) {
+        table <- table |>
+          DT::formatStyle(i,
+                          backgroundColor=shading_list[[i]]$values)
+
+      } else {
+        table <- table |>
+          DT::formatStyle(i,
+                          backgroundColor = DT::styleInterval(cuts=shading_list[[i]]$cuts,
+                                                              values=shading_list[[i]]$values)
+          )
+      }
+
+
     }
   }
 

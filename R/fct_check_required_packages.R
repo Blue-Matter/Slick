@@ -24,13 +24,10 @@ check_required_packages <- function() {
                     'waiter')
 
   checks <- lapply(app_packages, requireNamespace, quietly = TRUE) |> unlist()
-
   Package <- Installed <- NULL # CRAN checks
-
   df <- data.frame(Package=app_packages, Installed=checks) |>
     dplyr::filter(Installed==FALSE)
   if (nrow(df)>1) {
-
     cli::cli_alert_danger('This function requires the following package(s) to be installed:')
     cli::cli_ol()
     cli::cli_li(as.list(df$Package))
@@ -44,7 +41,6 @@ check_required_packages <- function() {
     }
 
   }
-
 }
 
 

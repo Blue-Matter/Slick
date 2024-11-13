@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
@@ -101,7 +101,6 @@ Collate:
     'mod_Boxplot.R'
     'mod_Boxplot_OM.R'
     'mod_Boxplot_overall.R'
-    'mod_Filter_select.R'
     'mod_Global_Filters.R'
     'mod_Home.R'
     'mod_Kobe.R'
