@@ -88,7 +88,7 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
   OM_labels <- get_OM_labels(slick, nOM)
   PI_names <- slot(boxplot, PI_label)
 
-  Sim <- OM <- MP <- PI <- value <- NULL # CRAN checks
+  Sim <- OM <- MP <- value <- NULL # CRAN checks
 
   df <- data.frame(Sim=1:nsim,
                    OM=rep(OM_labels, each=nsim),

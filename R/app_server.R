@@ -11,6 +11,7 @@ app_server <- function(input, output, session) {
 
   check_required_packages()
 
+
   # helper
   shinyhelper::observe_helpers(help_dir=file.path(app_sys(), 'app/helpfiles'))
 
