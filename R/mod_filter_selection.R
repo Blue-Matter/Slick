@@ -74,7 +74,7 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
     })
 
     # observe if preset buttons are pressed
-    # maximum of 4 preset buttons
+    # maximum of 10 preset buttons
     observeEvent(input[['preset1']],{
       selected <- presets()[[1]]
       updateCheckboxGroupInput(inputId="filter1",
@@ -99,6 +99,46 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
       updateCheckboxGroupInput(inputId="filter1",
                                selected=selected)
     }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset5']],{
+      selected <- presets()[[5]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset6']],{
+      selected <- presets()[[6]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset7']],{
+      selected <- presets()[[7]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+
+    observeEvent(input[['preset8']],{
+      selected <- presets()[[8]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+
+    observeEvent(input[['preset9']],{
+      selected <- presets()[[9]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+    observeEvent(input[['preset10']],{
+      selected <- presets()[[10]]
+      updateCheckboxGroupInput(inputId="filter1",
+                               selected=selected)
+    }, ignoreInit =TRUE)
+
+
 
     observeEvent(input$reset_button, {
       selected <- initial_selected()
