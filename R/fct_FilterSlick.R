@@ -124,9 +124,11 @@ FilterSlick <- function(slick=NULL,
       if (all(PIs<=dim_value[4]))
         object@Value <- Value(object)[,,,PIs,, drop=FALSE]
     }
-    Metadata(object) <- Metadata(object)[PIs, ]
+    if ('MinValue' %in% slotNames(object)) {
+      object@MinValue <- object@MinValue[PIs]
+      object@MaxValue <- object@MaxValue[PIs]
+    }
   }
-
   slot(slick, plot) <- object
   slick
 }

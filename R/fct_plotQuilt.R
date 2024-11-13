@@ -45,12 +45,12 @@ plotQuilt <- function(slick,
 
   quilt <- Quilt(slick)
   chk <- Check(quilt)
+
   if (chk@empty)
     cli::cli_abort('`Quilt` in this `Slick` object is empty. Use  {.code Check(slick)}')
 
   if (!chk@complete)
     cli::cli_abort('`Quilt` in this `Slick` object is incomplete. Use  {.code Check(slick)}')
-
 
   # mean over OMs
   Values <- Value(quilt) |>
@@ -71,6 +71,7 @@ plotQuilt <- function(slick,
 
   PIMins <- as.numeric(apply(Values, 2, min))
   PIMaxs <- as.numeric(apply(Values, 2, max))
+
 
   if (minmax) {
     minVal <- PIMins
