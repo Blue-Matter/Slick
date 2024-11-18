@@ -1,6 +1,8 @@
 "key","lang"
 "Welcome to Slick",""
 "About Slick",""
+"Slick is a decision analysis tool that presents the outcomes of candidate management procedures (MPs), also known as harvest strategies, across various states of nature, accounting for uncertainty. It is interactive and allows users to filter results live in order to explore robustness and performance.",""
+"While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the ",""
 "How to use Slick",""
 "Load a Slick Data File:",""
 "To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.",""
