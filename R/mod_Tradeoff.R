@@ -115,7 +115,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     PM_codes <- reactive({
       slick <- filtered_slick()
-      code <-  slick@Quilt@Code
+      code <-  slick@Tradeoff@Code
       ll <- as.list(seq_along(code))
       names(ll) <- code
       LL <- ll
