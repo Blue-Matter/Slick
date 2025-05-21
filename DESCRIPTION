@@ -13,7 +13,7 @@ Description: Slick presents the performance of multiple management objects
     across multiple states of nature.
 License: GPL-2
 Depends:
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     cli,
     dplyr,

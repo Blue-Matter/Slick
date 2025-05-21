@@ -3,7 +3,7 @@
 slick <- Slick()
 
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"
+Subtitle(slick) <- ""
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
@@ -20,4 +20,3 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
-slick

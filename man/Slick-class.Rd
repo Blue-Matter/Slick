@@ -210,7 +210,7 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 slick <- Slick()
 
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"
+Subtitle(slick) <- ""
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
@@ -227,7 +227,6 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
-slick
 }
 \seealso{
 \code{\link[=MPs]{MPs()}}, \code{\link[=OMs]{OMs()}}, \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Kobe]{Kobe()}}, \code{\link[=Quilt]{Quilt()}},

@@ -149,7 +149,7 @@ Quilt(slick) <- quilt
 # Plots
 plotQuilt(slick)
 
-plotQuilt(slick, kable=TRUE)
+
 
 }
 \seealso{

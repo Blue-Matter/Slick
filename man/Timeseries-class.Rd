@@ -73,6 +73,8 @@ nHistTS <- 50
 nProjTS <- 30
 nTS <- nHistTS + nProjTS
 
+set.seed(101)
+
 values <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
 
 pi_means <- c(1,1, 1000)
@@ -91,7 +93,7 @@ for (om in 1:nOM) {
       values[,om, mp, pi,(nHistTS+1):nTS] <- matrix(
         pi_means[pi] *
           cumprod(c(rlnorm(nProjTS*nsim, 0, 0.05))),
-        nrow=nsim, ncol=nProjTS, byrow=TRUE)
+        nrow=nsim, ncol=nProjTS, byrow=FALSE)
     }
   }
 }
@@ -122,6 +124,8 @@ slick <- Slick()
 Timeseries(slick) <- timeseries
 
 # Plots
+plotTimeseries(slick)
+plotTimeseries(slick, 2)
 plotTimeseries(slick, 3)
 
 plotTimeseries(slick, byMP=TRUE)
