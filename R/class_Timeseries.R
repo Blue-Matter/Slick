@@ -268,6 +268,7 @@ setMethod("Limit<-", "Timeseries", function(object, value) {
 ## Metadata ----
 
 #' @describeIn Metadata Return Metadata for [Timeseries-class()] objects
+#' @return A `data.frame`
 #' @export
 setMethod('Metadata', 'Timeseries', function(object, lang='en') {
   data.frame(Code=object@Code,
@@ -391,7 +392,7 @@ setMethod("Time<-", "Timeseries", function(object, value) {
 #' @param Timeseries  A [Timeseries-class()] object
 #' @param value A character string label for the time axis. Use a named list for
 #' multiple languages
-#'
+#' @return A numeric value
 #' @export
 TimeNow <- function(Timeseries) {
   Timeseries@TimeNow

@@ -464,10 +464,6 @@ plotQuilt(slick)
 ## ---- quilt_plot2 ----
 plotQuilt(slick, minmax=TRUE)
 
-## ---- quilt_plot3 ----
-
-plotQuilt(slick, shading=FALSE, kable=TRUE)
-
 
 ## ---- spider_create ----
 

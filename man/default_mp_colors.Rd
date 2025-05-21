@@ -9,6 +9,9 @@ default_mp_colors(nMP)
 \arguments{
 \item{nMP}{The number of management procedures}
 }
+\value{
+A character vector of length \code{nMP} with color hex codes
+}
 \description{
 Requires the \code{colorspace} package
 }

@@ -8,8 +8,6 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
@@ -33,10 +31,13 @@ interactive application.
 
 ## Installation
 
-`Slick` will be released on the [CRAN](https://cran.r-project.org/) in
-the future.
+`Slick` can be installed from CRAN:
 
-In the meantime, `Slick` can be installed from Github:
+``` r
+install.packages('Slick')
+```
+
+The development version can be installed from Github:
 
 ``` r
 # install.packages('pak')

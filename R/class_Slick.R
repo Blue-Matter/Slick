@@ -172,6 +172,7 @@ setValidity('Slick', validSlick)
 #' @param Spider An object of class [Spider-class()]
 #' @param Timeseries An object of class [Timeseries-class()]
 #' @param Tradeoff An object of class [Tradeoff-class()]
+#' @return A `Slick` object
 #' @export
 Slick <- function(Title='',
                   Subtitle='',

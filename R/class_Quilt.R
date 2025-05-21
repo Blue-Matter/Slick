@@ -221,6 +221,7 @@ setMethod("Label<-", 'Quilt', function(object, value) {
 NULL
 
 #' @describeIn MinValue Return `MinValue` from a [Quilt-class()] object
+#' @return A numeric value
 #' @export
 MinValue <- function(Quilt) {
   Quilt@MinValue

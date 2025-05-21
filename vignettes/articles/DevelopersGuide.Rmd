@@ -27,16 +27,18 @@ This document is a guide for analysts who wish to use `Slick` to summarize and p
 
 ## Installing Slick
 
-`Slick` will be released on the [CRAN](https://cran.r-project.org/) in the future.
+`Slick` can be installed from CRAN:
+```r
+install.packages('Slick')
+```
+The development version can be installed from Github:
 
-In the meantime, `Slick` can be installed from Github:
-
-```{r install_slick, eval=FALSE}
+```r
 # install.packages('pak')
 pak::pkg_install('blue-matter/Slick')
 library(Slick)
-
 ```
+
 
 ## Reporting Issues and Bugs
 
@@ -677,10 +679,6 @@ Shading scaled between minimum and maximum for each PI:
 ```
 
 
-A static table with no shading:
-```{r quilt_plot3}
-
-```
 
 See [`?plotQuilt`](../reference/plotQuilt.html) for more options for the `plotQuilt` function.
 

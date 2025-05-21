@@ -110,6 +110,9 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
 \item{value}{The value to assign to the object. See \code{Slots} for format of the
 relevant object class}
 }
+\value{
+A \code{Slick} object
+}
 \description{
 The \code{Slick} class is the main object class used in the \code{Slick} package. It
 contains sub-objects for the management procedures \code{\link[=MPs]{MPs()}}, operating models \code{\link[=OMs]{OMs()}},

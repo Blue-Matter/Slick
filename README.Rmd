@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 
 [![CRAN status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
@@ -32,9 +31,11 @@ MSE involves using closed-loop simulation testing to evaluate and compare the ex
 
 ## Installation
 
-`Slick` will be released on the [CRAN](https://cran.r-project.org/) in the future.
-
-In the meantime, `Slick` can be installed from Github:
+`Slick` can be installed from CRAN:
+```r
+install.packages('Slick')
+```
+The development version can be installed from Github:
 
 ```r
 # install.packages('pak')
@@ -45,7 +46,6 @@ library(Slick)
 ## The Slick object
 
 To use `Slick`, the results of an MSE must be available in a Slick data object. The Slick App includes several example data objects. See the [Developer's Guide](articles/DevelopersGuide.html) for documentation on creating a Slick Data object for your MSE results.
-
 
 ## The Slick App
 

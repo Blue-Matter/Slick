@@ -35,11 +35,10 @@ get_casestudies <- function() {
 #' @param object Logical. Return the Slick object? Default downloads Slick object to a temporary location,
 #' loads and returns the Slick object, and then deletes downloaded file.
 #' @param delete Logical. Delete the downloaded file after function finishes? Only useful if `object = TRUE`
-#' @examples
-#'\dontrun{
+#' @return The downloaded `Slick` object if `object==TRUE`, otherwise nothing.
+#' @examplesIf interactive()
 #' case_studies <- get_casestudies()
 #' slick <- download_casestudy(case_studies$Name[1])
-#' }
 #'
 #' @export
 download_casestudy <- function(name, case_studies=NULL, dir=NULL,
