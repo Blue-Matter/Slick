@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +59,7 @@
 <script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script><script src="DevelopersGuide_files/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script><link href="DevelopersGuide_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
 <script src="DevelopersGuide_files/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="DevelopersGuide_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
 <script src="DevelopersGuide_files/selectize-0.12.0/selectize.min.js"></script><link href="DevelopersGuide_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-<script src="DevelopersGuide_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="DevelopersGuide_files/tabwid-1.1.3/tabwid.css" rel="stylesheet">
-<script src="DevelopersGuide_files/tabwid-1.1.3/tabwid.js"></script><div class="row">
+<script src="DevelopersGuide_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Slick Developer's Guide</h1>
@@ -87,9 +86,11 @@ results in an interactive application.</p>
 <div class="section level3">
 <h3 id="installing-slick">Installing Slick<a class="anchor" aria-label="anchor" href="#installing-slick"></a>
 </h3>
-<p><code>Slick</code> will be released on the <a href="https://cran.r-project.org/" class="external-link">CRAN</a> in the future.</p>
-<p>In the meantime, <code>Slick</code> can be installed from Github:</p>
+<p><code>Slick</code> can be installed from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'Slick'</span><span class="op">)</span></span></code></pre></div>
+<p>The development version can be installed from Github:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages('pak')</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/Slick'</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://slick.bluematterscience.com/">Slick</a></span><span class="op">)</span></span></code></pre></div>
@@ -190,7 +191,7 @@ interactive application developed with <a href="https://shiny.posit.co/" class="
 upload their data and customize the plots by filtering by management
 procedures, operating models, and performance indicators.</p>
 <p>The App can be launched directly from the R console with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The App is also hosted <a href="https://shiny.bluematterscience.com/app/slick" class="external-link">online</a>.</p>
 <p>The online App is publicly accessible and can be used for presenting
@@ -220,9 +221,9 @@ here with those from your own MSE.</p>
 <div class="section level3">
 <h3 id="install-openmse">Install openMSE<a class="anchor" aria-label="anchor" href="#install-openmse"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/openMSE'</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/openMSE'</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://openmse.com/" class="external-link">openMSE</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -240,7 +241,7 @@ Albacore fishery</li>
 <strong>High M</strong>: A robustness model were <em>M</em> is 33%
 higher than the Base Case model</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">12</span></span>
 <span><span class="va">OM_Base</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">'OM'</span>, <span class="va">Albacore</span>, <span class="va">Generic_IncE</span>, <span class="va">Generic_Obs</span>, nsim<span class="op">=</span><span class="va">nsim</span><span class="op">)</span></span>
 <span><span class="va">OM_Base</span><span class="op">@</span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.4</span><span class="op">)</span></span>
@@ -277,7 +278,7 @@ and
 <strong>SPmod</strong>: TAC is incrementally adjusted based on the
 apparent trend in surplus production.</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MPs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span></span></code></pre></div>
 <p>These MPs are only being used here as examples, so the details don’t
 really matter. But if you’re interested you can see the <a href="https://dlmtool.openmse.com/reference/index.html" class="external-link"><code>DLMtool</code>
@@ -289,7 +290,7 @@ help documentation</a> for more details on each MP.</p>
 <p>The <code>runMSE</code> function is used to spool up the historical
 fishery dynamics and run the closed-loop simulation testing of the four
 MPs for each of the three OMS:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MSE_Base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_Base</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">MSE_LowM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_LowM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">MSE_HighM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://msetool.openmse.com/reference/runMSE.html" class="external-link">runMSE</a></span><span class="op">(</span><span class="va">OM_HighM</span>, MPs<span class="op">=</span><span class="va">MPs</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -303,10 +304,10 @@ Plot</a>.</p>
 </h2>
 <p>To create a Slick Object, simply use the <code><a href="../reference/Slick-class.html">Slick()</a></code>
 function:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slick</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Slick-class.html">Slick</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><code>slick</code> is an S4 object of class <code>Slick</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Slick"</span></span>
 <span><span class="co">#&gt; attr(,"package")</span></span>
@@ -317,16 +318,16 @@ information such as the title, subtitle, and author of the
 procedures (MPs) included in the <code>Slick</code> object, and the
 details corresponding to each of the <a href="#slickplot">Slick
 Plots</a>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">slotNames</span><span class="op">(</span><span class="st">'Slick'</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "Title"        "Subtitle"     "Date"         "Author"       "Email"       </span></span>
 <span><span class="co">#&gt;  [6] "Institution"  "Introduction" "MPs"          "OMs"          "Boxplot"     </span></span>
 <span><span class="co">#&gt; [11] "Kobe"         "Quilt"        "Spider"       "Timeseries"   "Tradeoff"</span></span></code></pre></div>
 <p>Each slot can be accessed and assigned using a function corresponding
 to the slot name; e.g.:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-02-14"</span></span>
+<span><span class="co">#&gt; [1] "2025-05-21"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -340,7 +341,7 @@ functions are used to populate the corresponding information in the
 Slick Object.</p>
 <p>These metadata are optional, but are useful when presenting the Slick
 results in the <a href="#app">App</a>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'An Example Slick Object'</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -349,13 +350,13 @@ results in the <a href="#app">App</a>:</p>
 <span><span class="fu"><a href="../reference/Slick-class.html">Institution</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"[Blue Matter Science](bluematterscience.com)"</span></span></code></pre></div>
 <p>The same functions are used to return the information stored in the
 Slick Object:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-02-14"</span></span>
+<span><span class="co">#&gt; [1] "2025-05-21"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -368,7 +369,7 @@ Slick Object:</p>
 <p>With the exception of <code>Date</code>, Markdown can be used to
 include links, text styling, etc, for any of the text in the Slick
 Object. For example:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st"></span></span>
 <span><span class="st">This *example* Slick Object has been designed to demonstrate the main features of **Slick**.</span></span>
@@ -382,7 +383,7 @@ Object. For example:</p>
 the <code>markdown=TRUE</code> argument to print the HTML code in the
 console (in this document the HTML text is rendered directly between the
 horizontal lines):</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Introduction</a></span><span class="op">(</span><span class="va">slick</span>, markdown <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <hr>
 <p>This <em>example</em> Slick Object has been designed to demonstrate the main features of <strong>Slick</strong>.</p>
@@ -396,11 +397,11 @@ horizontal lines):</p>
 </h3>
 <p><code>Author</code> should be a character vector with an element for
 each author:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A. Author'</span>, <span class="st">'B. Author'</span><span class="op">)</span></span></code></pre></div>
 <p><code>Email</code>, and <code>Institution</code> must be character
 vectors of the same length as <code>Author</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'[a.author@email.com](mailto:a.author@email.com)'</span>,</span>
 <span>                  <span class="st">'[b.author@email.com](mailto:b.author@email.com)'</span><span class="op">)</span></span>
 <span></span>
@@ -422,11 +423,11 @@ are supported:</p>
 <code>fr</code>: French</li>
 </ul>
 <p>Multiple languages can included by providing a named list:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="st">'An Example Slick Object'</span>,</span>
 <span>                     es<span class="op">=</span><span class="st">'Un ejemplo de un objeto Slick'</span>,</span>
 <span>                     fr<span class="op">=</span><span class="st">"Un exemple d'objet Slick"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
 <span></span>
@@ -459,7 +460,7 @@ sub-components and then add them to the Slick Object.</p>
 are used in the plots and tables, while <code>Description</code> is
 optional.</p>
 <p>In this example, there are 4 MPs:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Code.html">Label</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
@@ -472,7 +473,7 @@ optional.</p>
 <span>                      <span class="st">'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$'</span>,</span>
 <span>                      <span class="st">'TAC is incrementally adjusted based on the apparent trend in surplus production'</span><span class="op">)</span></span></code></pre></div>
 <p>This could have also been done as:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span>,</span>
 <span>           Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
 <span>                   <span class="st">'Index Target'</span>,</span>
@@ -483,7 +484,7 @@ optional.</p>
 <span>                           <span class="st">'Delay-difference assessment model used to estimate current biomass $(B)$ and $U_{MSY}$, and $\text{TAC}= U_{MSY}B$'</span>,</span>
 <span>                           <span class="st">'TAC is incrementally adjusted based on the apparent trend in surplus production'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Or using the <code>Metadata</code> function:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'AvC'</span>, <span class="st">'Itarget1'</span>, <span class="st">'DD'</span>, <span class="st">'SPmod'</span><span class="op">)</span>,</span>
 <span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Average Catch'</span>,</span>
@@ -518,7 +519,7 @@ optional.</p>
 </h3>
 <p><code>Color</code> is used to set the colors of the MPs shown in the
 plots. If not specified, default colors will be used:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Color.html">Color</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "#C87A8A" "#909646" "#00A396" "#9189C7"</span></span>
 <span></span>
@@ -537,7 +538,7 @@ where users can rapidly select different sets of MPs.</p>
 <p>For an MPs Object, <code>Preset</code> is an optional named list,
 with numeric values indicating the MPs to be selected by the
 <em>Preset</em> buttons in the <a href="#app">App</a>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'All'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
 <span>                    <span class="st">'Model-Free'</span><span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>                    <span class="st">'Model-Based'</span><span class="op">=</span><span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
@@ -547,7 +548,7 @@ with numeric values indicating the MPs to be selected by the
 </h3>
 <p>Once the MPs Object is complete, is can be added to the Slick
 Object:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">mps</span></span></code></pre></div>
 </div>
 </div>
@@ -562,7 +563,7 @@ the structure of the operating models contained in the Slick Object.</p>
 </h3>
 <p>A new OMs Object can be created with the <code>OMs</code>
 function:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The OMs Object contains two mandatory slots (<code>Factors</code> and
 <code>Design</code>) and one optional slot (<code>Preset</code>).</p>
@@ -578,7 +579,7 @@ in the Slick Object.</p>
 <p>Here is a simple example of a Slick Object that includes results from
 6 OMs, spanning three levels on uncertainty in natural mortality (M) and
 two levels of steepness (h):</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Factors.html">Factors</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Factor<span class="op">=</span><span class="st">'M'</span>,</span>
 <span>                           Level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span>,</span>
 <span>                           Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>,</span>
@@ -603,7 +604,7 @@ correspond to each OM. The column names of <code>Design</code> must
 match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <p>Here is the <code>Design</code> matrix corresponding with the
 <code>Factors</code> above:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>M<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base'</span>, <span class="st">'Low M'</span>, <span class="st">'High M'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
@@ -614,7 +615,7 @@ match the names of the factors (i.e, <code>Factors$Level</code>).</p>
 <p>It can sometimes be helpful to add names or labels to the operating
 models listed in <code>Design</code>. This can be done using
 <code>rownames</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Base Case'</span>, <span class="st">'Less Productive'</span>, <span class="st">'More Productive'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -630,7 +631,7 @@ used to display the ‘Preset’ button in the App.</p>
 representing the levels within each factor that should be included under
 that preset.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Base Case'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>                    <span class="st">'Low M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>                    <span class="st">'High M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span>
@@ -641,7 +642,7 @@ that preset.</p>
 <h3 id="adding-oms-to-slick-object">Adding OMs to Slick Object<a class="anchor" aria-label="anchor" href="#adding-oms-to-slick-object"></a>
 </h3>
 <p>The <code>OMs</code> object is now complete:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oms</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An object of class `OMs`</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
@@ -679,7 +680,7 @@ that preset.</p>
 <span><span class="co">#&gt; 3</span></span></code></pre></div>
 <p>The <code>Check</code> function can be used to make sure there are no
 errors:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -688,7 +689,7 @@ errors:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span></code></pre></div>
 <p>Once the <code>OMs</code> object is complete, it can be added to the
 <code>Slick</code> object:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/OMs-methods.html">OMs</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">oms</span></span></code></pre></div>
 </div>
 </div>
@@ -698,7 +699,7 @@ errors:</p>
 <p>Information for the <em>Time Series</em> plot is stored in a <a href="../reference/Timeseries-class.html">Timeseries Object</a>.</p>
 <p>A <em>Timeseries Object</em> can be created using the
 <code>Timeseries</code> function:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timeseries</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Timeseries-methods.html">Timeseries</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="code-label-and-description-1">Code, Label, and Description<a class="anchor" aria-label="anchor" href="#code-label-and-description-1"></a>
@@ -708,7 +709,7 @@ errors:</p>
 can be used to add the metadata information to a Timeseries Object.</p>
 <p>In this example there are three performance indicators for the
 Timeseries Object:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span>, <span class="st">'Removals'</span><span class="op">)</span>,</span>
 <span>  Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span>, <span class="st">'Removals'</span><span class="op">)</span>,</span>
@@ -728,16 +729,16 @@ information.</p>
 <p>The <code>Time</code> slot in the Timeseries Object is a numeric
 vector with the values for the historical and projection time-steps. In
 this example, we have 50 historical years and 50 projection years:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2024</span>, by<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                      <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code>TimeNow</code> is a numeric value matching the last historical
 time step (i.e., current time) in <code>Time</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeNow.html">TimeNow</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">2024</span></span></code></pre></div>
 <p><code>TimeLab</code> is a character string providing the name of the
 time step in <code>Time</code>. A named list can be used for <a href="#multilanguage">Multi-Language Support</a>:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/TimeLab.html">TimeLab</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">'Year'</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -746,7 +747,7 @@ time step in <code>Time</code>. A named list can be used for <a href="#multilang
 <p><code>Value</code> is a 5-dimensional array containing the values of
 the performance indicators for each simulation, OM, MP, performance
 indicator, and time-step (historical and projection):</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">)</span></span>
@@ -756,7 +757,7 @@ indicator, and time-step (historical and projection):</p>
 <p>This chunk of code calculates the three performance indicators for
 each OM from the <code>openMSE</code> results generated above. You can
 ignore it if you have your own MSE data.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># SB/SBMSY</span></span>
 <span><span class="va">SB_SBMSY_Base</span> <span class="op">&lt;-</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html" class="external-link">abind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">nMP</span>, <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SSB_hist</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                   <span class="va">MSE_Base</span><span class="op">@</span><span class="va">SSB</span>,</span>
@@ -794,7 +795,7 @@ ignore it if you have your own MSE data.</p>
 <span>                                <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">Removals</span><span class="op">)</span></span></code></pre></div>
 <p>Once the performance indicators have been calculated for the Time
 Series plot, they can be added to the <code>Value</code> slot:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># SB/SBMSY</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">SB_SBMSY_Base</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">SB_SBMSY_LowM</span></span>
@@ -824,7 +825,7 @@ plots.</p>
 used to provide horizontal lines on the time series plot indicating the
 target and limit (if applicable) for a performance indicator. The color
 and labels can be</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Target.html">Target</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.8</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Target.html">Limit</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -832,14 +833,14 @@ and labels can be</p>
 <h3 id="adding-timeseries-object-to-slick-object">Adding Timeseries Object to Slick Object<a class="anchor" aria-label="anchor" href="#adding-timeseries-object-to-slick-object"></a>
 </h3>
 <p>Once the Timeseries Object is complete it can be checked:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">timeseries</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Timeseries"</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span></code></pre></div>
 <p>and then added to our Slick Object:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Timeseries-methods.html">Timeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">timeseries</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -847,30 +848,30 @@ and labels can be</p>
 </h3>
 <p>The <code>plotTimeseries</code> function is used to generate the Time
 Series plot:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="co"># PI 1</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-1.png" width="700"></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span>, <span class="co"># PI 2, no quantiles</span></span>
 <span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-2.png" width="700"></p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>,<span class="fl">3</span>, <span class="co"># PI 3, no quantiles, no MP labels</span></span>
 <span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>               includeLabels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-3.png" width="700"></p>
 <p>The plot can be faceted by management procedure:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot2-1.png" width="700"></p>
 <p>or by operating model:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot3-1.png" width="700"></p>
 <p>or both:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot4-1.png" width="700"></p>
 <p>See <a href="../reference/plotTimeseries.html"><code>?plotTimeseries</code></a>
@@ -879,12 +880,12 @@ for information on more ways to modify the Time Series plot.</p>
 the operating models. The <code>FilterSlick</code> function can be used
 to filter the Slick Object to specific OMs, MPs, or PIs.</p>
 <p>Here we are filtering to only include the Base Case OM (OM 1):</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slick_OM1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, OMs<span class="op">=</span><span class="fl">1</span>, plot<span class="op">=</span><span class="st">'Timeseries'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-1.png" width="700"></p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span><span class="op">)</span> <span class="co"># same plot</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-2.png" width="700"></p>
 </div>
@@ -900,7 +901,7 @@ this case)</li>
 </ol>
 <p>The Slick Object can be checked for completeness with the
 <code>Check</code> function:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Slick"</span> ──</span></span>
@@ -930,7 +931,7 @@ this case)</li>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Object is empty</span></span></code></pre></div>
 <p>and loaded directly into the <code>App</code> as a named
 argument:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -944,7 +945,7 @@ section.</p>
 <p>A <em>Boxplot Object</em> can be created using the
 <code>Boxplot</code> function. Here we are populating the metadata
 directly when we create the <code>Boxplot</code> object:</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBSMY 25'</span>, <span class="st">'SB/SBSMY 50'</span>, <span class="st">'TAC 25'</span><span class="op">)</span>,</span>
 <span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY Year 25'</span>, <span class="st">'SB/SBSMY Year 50'</span>, <span class="st">'TAC Year 25'</span><span class="op">)</span>,</span>
 <span>                   Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY in the 25th projection year'</span>,</span>
@@ -954,7 +955,7 @@ directly when we create the <code>Boxplot</code> object:</p>
 performance indicators included in the <code>Boxplot</code> object.
 <code>Value</code> must have dimensions
 <code>c(nsim, nOM, nMP, nPI)</code>:</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">)</span></span>
@@ -974,7 +975,7 @@ performance indicators included in the <code>Boxplot</code> object.
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">TAC</span><span class="op">[</span>,,<span class="fl">25</span><span class="op">]</span></span></code></pre></div>
 <p>Check the <code>Boxplot</code> object and add to the Slick
 Object:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">boxplot</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Boxplot"</span> ──</span></span>
@@ -983,27 +984,27 @@ Object:</p>
 <span><span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">boxplot</span></span></code></pre></div>
 <p>The <code>plotBoxplot</code> function is used to create the Boxplot
 from a Slick Object:</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot1-1.png" width="700"></p>
 <p>There is an option for violin plots:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot2-1.png" width="700"></p>
 <p>or both types:</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'both'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot3-1.png" width="700"></p>
 <p>The <code>byOM=TRUE</code> argument creates a boxplot for a given
 performance indicator for each OM in the Slick Object:</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot4-1.png" width="700"></p>
 <p>See <a href="../reference/plotBoxplot.html"><code>?plotBoxplot</code></a> for
 more options for the <code>plotBoxplot</code> function.</p>
 <p>The <code>FilterSlick</code> can be used to filter the OMs and/or MPs
 to include in a given plot:</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, MPs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, OMs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, plot<span class="op">=</span><span class="st">'Boxplot'</span><span class="op">)</span>,</span>
 <span>            byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot5-1.png" width="700"></p>
@@ -1015,7 +1016,7 @@ to include in a given plot:</p>
 <p>A <em>Kobe Object</em> can be created using the <code>Kobe</code>
 function. Here we are populating the metadata directly when we create
 the <code>Kobe</code> object:</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kobe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Kobe-methods.html">Kobe</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span>
 <span>             Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY'</span>, <span class="st">'F/FMSY'</span><span class="op">)</span>,</span>
 <span>             Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Spawning biomass relative to SB_MSY'</span>,</span>
@@ -1023,13 +1024,13 @@ the <code>Kobe</code> object:</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The <code>Time</code> slot of a Kobe Object contains numeric values
 for the projection time-steps:</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Time.html">Time</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2025</span>, by<span class="op">=</span><span class="fl">1</span>, length.out<span class="op">=</span><span class="va">OM_Base</span><span class="op">@</span><span class="va">proyears</span><span class="op">)</span></span></code></pre></div>
 <p><code>Value</code> is a numeric array containing the values of the
 performance indicators included in the <code>Kobe</code> Object.
 <code>Value</code> must have dimensions
 <code>c(nsim, nOM, nMP, nPI, nTS)</code>:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nOM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/Design.html">Design</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">mps</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">)</span></span>
@@ -1045,7 +1046,7 @@ performance indicators included in the <code>Kobe</code> Object.
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_LowM</span><span class="op">@</span><span class="va">F_FMSY</span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span><span class="op">[</span>,<span class="fl">3</span>,,<span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="va">MSE_HighM</span><span class="op">@</span><span class="va">F_FMSY</span></span></code></pre></div>
 <p>Check and add to the Slick Object:</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">kobe</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Kobe"</span> ──</span></span>
@@ -1053,11 +1054,11 @@ performance indicators included in the <code>Kobe</code> Object.
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Complete</span></span>
 <span><span class="fu"><a href="../reference/Kobe-methods.html">Kobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kobe</span></span></code></pre></div>
 <p>Plot the Kobe plot:</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/kobe_plot-1.png" width="700"></p>
 <p>Plot the Kobe Time plot:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span>, Time<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/kobe_timeplot-1.png" width="700"></p>
 <p>See <a href="../reference/plotKobe.html"><code>?plotKobe</code></a>
@@ -1070,7 +1071,7 @@ for more options for the <code>plotKobe</code> function.</p>
 <p>A <em>Quilt Object</em> can be created using the <code>Quilt</code>
 function. Here we are populating the metadata directly when we create
 the <code>Quilt</code> object:</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">quilt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Quilt-methods.html">Quilt</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'PGK'</span>,</span>
 <span>                      <span class="st">'P100'</span>,</span>
 <span>                      <span class="st">'PNOF'</span>,</span>
@@ -1087,7 +1088,7 @@ the <code>Quilt</code> object:</p>
 performance indicators included in the <code>Quilt</code> Object.
 <code>Value</code> must have dimensions
 <code>c(nOM, nMP, nPI)</code>:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Value.html">Value</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span><span class="op">)</span><span class="op">)</span></span>
@@ -1110,11 +1111,11 @@ performance indicators included in the <code>Quilt</code> Object.
 <p>The <code>MinValue</code> and <code>MaxValue</code> functions can be
 used to set minimum and maximum values for calculating the colored
 shading for each PI:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MinValue.html">MinValue</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="cn">NA</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/MinValue.html">MaxValue</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 <p>Check and add to the Slick Object:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Check.html">Check</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Quilt"</span> ──</span></span>
@@ -1123,59 +1124,14 @@ shading for each PI:</p>
 <span></span>
 <span><span class="fu"><a href="../reference/Quilt-methods.html">Quilt</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">quilt</span></span></code></pre></div>
 <p>The default Quilt plot:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
 <div class="datatables html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:auto;"></div>
 <script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.16\" data-max=\"0.91\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.22\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.2\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"870\" data-max=\"1000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["AvC","Itarget1","DD","SPmod"],[0.89,0.91,0.48,0.16],[0.9,0.95,0.53,0.22],[0.93,0.95,0.6,0.2],[930,940,1000,870]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0 ? \"#ADD8E680\" : value <= 0.1 ? \"#9DC4DD80\" : value <= 0.2 ? \"#8DB0D580\" : value <= 0.3 ? \"#7D9DCD80\" : value <= 0.4 ? \"#6E89C480\" : value <= 0.5 ? \"#5E75BC80\" : value <= 0.6 ? \"#4E62B480\" : value <= 0.7 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.9 ? \"#1F279B80\" : value <= 1 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 870 ? \"#ADD8E680\" : value <= 883 ? \"#9DC4DD80\" : value <= 896 ? \"#8DB0D580\" : value <= 909 ? \"#7D9DCD80\" : value <= 922 ? \"#6E89C480\" : value <= 935 ? \"#5E75BC80\" : value <= 948 ? \"#4E62B480\" : value <= 961 ? \"#3E4EAC80\" : value <= 974 ? \"#2F3AA380\" : value <= 987 ? \"#1F279B80\" : value <= 1000 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><p>Shading scaled between minimum and maximum for each PI:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, minmax<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="datatables html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.16\" data-max=\"0.91\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.22\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.2\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"870\" data-max=\"1000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["AvC","Itarget1","DD","SPmod"],[0.89,0.91,0.48,0.16],[0.9,0.95,0.53,0.22],[0.93,0.95,0.6,0.2],[930,940,1000,870]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.16 ? \"#ADD8E680\" : value <= 0.235 ? \"#9DC4DD80\" : value <= 0.31 ? \"#8DB0D580\" : value <= 0.385 ? \"#7D9DCD80\" : value <= 0.46 ? \"#6E89C480\" : value <= 0.535 ? \"#5E75BC80\" : value <= 0.61 ? \"#4E62B480\" : value <= 0.685 ? \"#3E4EAC80\" : value <= 0.76 ? \"#2F3AA380\" : value <= 0.835 ? \"#1F279B80\" : value <= 0.91 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.22 ? \"#ADD8E680\" : value <= 0.293 ? \"#9DC4DD80\" : value <= 0.366 ? \"#8DB0D580\" : value <= 0.439 ? \"#7D9DCD80\" : value <= 0.512 ? \"#6E89C480\" : value <= 0.585 ? \"#5E75BC80\" : value <= 0.658 ? \"#4E62B480\" : value <= 0.731 ? \"#3E4EAC80\" : value <= 0.804 ? \"#2F3AA380\" : value <= 0.877 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.2 ? \"#ADD8E680\" : value <= 0.275 ? \"#9DC4DD80\" : value <= 0.35 ? \"#8DB0D580\" : value <= 0.425 ? \"#7D9DCD80\" : value <= 0.5 ? \"#6E89C480\" : value <= 0.575 ? \"#5E75BC80\" : value <= 0.65 ? \"#4E62B480\" : value <= 0.725 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.875 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 870 ? \"#ADD8E680\" : value <= 883 ? \"#9DC4DD80\" : value <= 896 ? \"#8DB0D580\" : value <= 909 ? \"#7D9DCD80\" : value <= 922 ? \"#6E89C480\" : value <= 935 ? \"#5E75BC80\" : value <= 948 ? \"#4E62B480\" : value <= 961 ? \"#3E4EAC80\" : value <= 974 ? \"#2F3AA380\" : value <= 987 ? \"#1F279B80\" : value <= 1000 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><p>A static table with no shading:</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">slick</span>, shading<span class="op">=</span><span class="cn">FALSE</span>, kable<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="tabwid">
-<style>.cl-f068ec2e{}.cl-f06138c6{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f063b2ea{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f063b2fe{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f063ce88{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f063ce92{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f063ce93{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f063ce9c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f063ce9d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f063cea6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-f068ec2e">
-<thead><tr style="overflow-wrap:break-word;">
-<th class="cl-f063ce88"><p class="cl-f063b2ea"><span class="cl-f06138c6">MP</span></p></th>
-<th class="cl-f063ce92"><p class="cl-f063b2fe"><span class="cl-f06138c6">PGK</span></p></th>
-<th class="cl-f063ce92"><p class="cl-f063b2fe"><span class="cl-f06138c6">P100</span></p></th>
-<th class="cl-f063ce92"><p class="cl-f063b2fe"><span class="cl-f06138c6">PNOF</span></p></th>
-<th class="cl-f063ce92"><p class="cl-f063b2fe"><span class="cl-f06138c6">Mean TAC</span></p></th>
-</tr></thead>
-<tbody>
-<tr style="overflow-wrap:break-word;">
-<td class="cl-f063ce93"><p class="cl-f063b2ea"><span class="cl-f06138c6">AvC</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.89</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.90</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.93</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">930</span></p></td>
-</tr>
-<tr style="overflow-wrap:break-word;">
-<td class="cl-f063ce93"><p class="cl-f063b2ea"><span class="cl-f06138c6">Itarget1</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.91</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.95</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.95</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">940</span></p></td>
-</tr>
-<tr style="overflow-wrap:break-word;">
-<td class="cl-f063ce93"><p class="cl-f063b2ea"><span class="cl-f06138c6">DD</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.48</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.53</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.60</span></p></td>
-<td class="cl-f063ce9c"><p class="cl-f063b2fe"><span class="cl-f06138c6">1,000</span></p></td>
-</tr>
-<tr style="overflow-wrap:break-word;">
-<td class="cl-f063ce9d"><p class="cl-f063b2ea"><span class="cl-f06138c6">SPmod</span></p></td>
-<td class="cl-f063cea6"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.16</span></p></td>
-<td class="cl-f063cea6"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.22</span></p></td>
-<td class="cl-f063cea6"><p class="cl-f063b2fe"><span class="cl-f06138c6">0.20</span></p></td>
-<td class="cl-f063cea6"><p class="cl-f063b2fe"><span class="cl-f06138c6">870</span></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>See <a href="../reference/plotQuilt.html"><code>?plotQuilt</code></a>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.16\" data-max=\"0.91\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.22\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.2\" data-max=\"0.95\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"870\" data-max=\"1000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["AvC","Itarget1","DD","SPmod"],[0.89,0.91,0.48,0.16],[0.9,0.95,0.53,0.22],[0.93,0.95,0.6,0.2],[930,940,1000,870]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.16 ? \"#ADD8E680\" : value <= 0.235 ? \"#9DC4DD80\" : value <= 0.31 ? \"#8DB0D580\" : value <= 0.385 ? \"#7D9DCD80\" : value <= 0.46 ? \"#6E89C480\" : value <= 0.535 ? \"#5E75BC80\" : value <= 0.61 ? \"#4E62B480\" : value <= 0.685 ? \"#3E4EAC80\" : value <= 0.76 ? \"#2F3AA380\" : value <= 0.835 ? \"#1F279B80\" : value <= 0.91 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.22 ? \"#ADD8E680\" : value <= 0.293 ? \"#9DC4DD80\" : value <= 0.366 ? \"#8DB0D580\" : value <= 0.439 ? \"#7D9DCD80\" : value <= 0.512 ? \"#6E89C480\" : value <= 0.585 ? \"#5E75BC80\" : value <= 0.658 ? \"#4E62B480\" : value <= 0.731 ? \"#3E4EAC80\" : value <= 0.804 ? \"#2F3AA380\" : value <= 0.877 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.2 ? \"#ADD8E680\" : value <= 0.275 ? \"#9DC4DD80\" : value <= 0.35 ? \"#8DB0D580\" : value <= 0.425 ? \"#7D9DCD80\" : value <= 0.5 ? \"#6E89C480\" : value <= 0.575 ? \"#5E75BC80\" : value <= 0.65 ? \"#4E62B480\" : value <= 0.725 ? \"#3E4EAC80\" : value <= 0.8 ? \"#2F3AA380\" : value <= 0.875 ? \"#1F279B80\" : value <= 0.95 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 870 ? \"#ADD8E680\" : value <= 883 ? \"#9DC4DD80\" : value <= 896 ? \"#8DB0D580\" : value <= 909 ? \"#7D9DCD80\" : value <= 922 ? \"#6E89C480\" : value <= 935 ? \"#5E75BC80\" : value <= 948 ? \"#4E62B480\" : value <= 961 ? \"#3E4EAC80\" : value <= 974 ? \"#2F3AA380\" : value <= 987 ? \"#1F279B80\" : value <= 1000 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><p>See <a href="../reference/plotQuilt.html"><code>?plotQuilt</code></a>
 for more options for the <code>plotQuilt</code> function.</p>
 </div>
 <div class="section level2">
@@ -1367,7 +1323,7 @@ words.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>

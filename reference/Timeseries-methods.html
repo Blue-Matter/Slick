@@ -13,7 +13,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,6 +218,8 @@ existing <code>Timeseries</code> object, see <code>Examples</code></p>
 <span class="r-in"><span><span class="va">nProjTS</span> <span class="op">&lt;-</span> <span class="fl">30</span></span></span>
 <span class="r-in"><span><span class="va">nTS</span> <span class="op">&lt;-</span> <span class="va">nHistTS</span> <span class="op">+</span> <span class="va">nProjTS</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="cn">NA</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nsim</span>, <span class="va">nOM</span>, <span class="va">nMP</span>, <span class="va">nPI</span>, <span class="va">nTS</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pi_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>, <span class="fl">1000</span><span class="op">)</span></span></span>
@@ -236,7 +238,7 @@ existing <code>Timeseries</code> object, see <code>Examples</code></p>
 <span class="r-in"><span>      <span class="va">values</span><span class="op">[</span>,<span class="va">om</span>, <span class="va">mp</span>, <span class="va">pi</span>,<span class="op">(</span><span class="va">nHistTS</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="va">nTS</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        <span class="va">pi_means</span><span class="op">[</span><span class="va">pi</span><span class="op">]</span> <span class="op">*</span></span></span>
 <span class="r-in"><span>          <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html" class="external-link">rlnorm</a></span><span class="op">(</span><span class="va">nProjTS</span><span class="op">*</span><span class="va">nsim</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        nrow<span class="op">=</span><span class="va">nsim</span>, ncol<span class="op">=</span><span class="va">nProjTS</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        nrow<span class="op">=</span><span class="va">nsim</span>, ncol<span class="op">=</span><span class="va">nProjTS</span>, byrow<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -271,17 +273,23 @@ existing <code>Timeseries</code> object, see <code>Examples</code></p>
 <span class="r-in"><span><span class="fu">Timeseries</span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">timeseries</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plots</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
 <span class="r-plt img"><img src="Timeseries-methods-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="Timeseries-methods-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
+<span class="r-plt img"><img src="Timeseries-methods-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
-<span class="r-plt img"><img src="Timeseries-methods-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="Timeseries-methods-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Note: `MPs` is empty. Using default MP names and colors</span>
-<span class="r-plt img"><img src="Timeseries-methods-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="Timeseries-methods-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -294,7 +302,7 @@ existing <code>Timeseries</code> object, see <code>Examples</code></p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>
