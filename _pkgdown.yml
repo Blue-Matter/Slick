@@ -45,7 +45,7 @@ reference:
   - Metadata
   - MinValue
   - Limit
-  - Refpoints
+  - RefPoints
   - Time
   - TimeLab
   - TimeNow
