@@ -22,7 +22,8 @@ Timeseries(
   Value = array(),
   Preset = list(),
   Target = NULL,
-  Limit = NULL
+  Limit = NULL,
+  RefPoints = list()
 )
 
 Timeseries(Slick) <- value
@@ -39,7 +40,8 @@ Timeseries(Slick) <- value
   Value = array(),
   Preset = list(),
   Target = NULL,
-  Limit = NULL
+  Limit = NULL,
+  RefPoints = list()
 )
 
 \S4method{Timeseries}{list}(
@@ -52,7 +54,8 @@ Timeseries(Slick) <- value
   Value = array(),
   Preset = list(),
   Target = NULL,
-  Limit = NULL
+  Limit = NULL,
+  RefPoints = list()
 )
 
 \S4method{Timeseries}{Slick}(Code)
@@ -92,6 +95,9 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 
 \item{Limit}{Numeric vector length \code{nPI} with the limit value for the PIs.}
 
+\item{RefPoints}{List for setting custom Reference Points. Overrides \code{Target} and \code{Limit}.
+See \code{Details}}
+
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
 \item{value}{A \code{\link[=Timeseries-class]{Timeseries-class()}} object}
@@ -120,6 +126,27 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{es}: Spanish
 \item \code{fr}: French
 }
+}
+
+\subsection{Custom Reference Points with \code{RefPoints}}{
+
+\code{RefPoints} provides more options than the default \code{Target} and \code{Limit} reference points. It can be used to control the name and
+color of the reference point lines, or to add additional reference point lines to the \code{Timeseries} plot.
+
+Note: If \code{RefPoints} is included, \code{Target} and \code{Limit} are ignored.
+
+\code{RefPoints} must be a list of length <= \code{length(Code)} (i.e., the number of performance indicators).
+Each element in \code{RefPoints} should be a named list:
+\itemize{
+\item \code{Name} character vector with name(s) of reference point(s)
+\item \code{Value} numeric vector length \code{Name} with value(s) for the reference point(s)
+\item \code{Color} character vector length \code{Name} with color(s) for the reference point(s)
+}
+
+See \code{Examples}
+}
+
+\subsection{Accessing Slots}{
 
 Use the  \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}} functions to access and assign the values for an
 existing \code{Timeseries} object, see \code{Examples}
@@ -188,7 +215,7 @@ timeseries <- Timeseries(Code=c('B/BMSY', 'F/FMSY', 'TAC'),
 TimeNow(timeseries) <- 2024
 
 # Add values for time steps
-Time(timeseries) <- c(seq(TimeNow(timeseries), by=-1, length.out=nHistTS),
+Time(timeseries) <- c(rev(seq(TimeNow(timeseries), by=-1, length.out=nHistTS)),
                       seq(TimeNow(timeseries)+1, by=1, length.out=nProjTS))
 
 # Check
@@ -206,6 +233,19 @@ plotTimeseries(slick, 3)
 plotTimeseries(slick, byMP=TRUE)
 
 plotTimeseries(slick, byOM=TRUE)
+
+# Custom Reference Points
+RefPoints(timeseries) <- list(
+  list(Name=c('0.5 BMSY', 'BMSY', '1.5 BMSY'), Value=c(0.5, 1, 1.5), Color=c('red', 'orange', 'green')),
+  list(Name=c('0.8 FMSY', 'FMSY'), Value=c(0.8,1), Color=c('orange', 'red')),
+  list(Name='Target Catch', Value=1200, Color='blue')
+)
+
+Timeseries(slick) <- timeseries
+plotTimeseries(slick)
+plotTimeseries(slick, 2)
+plotTimeseries(slick, 3)
+
 
 }
 \seealso{

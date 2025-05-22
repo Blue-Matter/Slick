@@ -36,10 +36,10 @@
 #' @slot Preset `r preset_param()`
 #' @slot Target Numeric vector length `nPI` with the target value for the PIs.
 #' @slot Limit Numeric vector length `nPI` with the limit value for the PIs.
-#'
+#' @slot RefPoints List for setting custom Reference Points. Overrides `Target` and `Limit`.
+#'  See `Details` section in [Timeseries()].
 #' @seealso [Timeseries()], [Code()], [Label()], [Description()],
-#'  [Value()], [Preset()]
-#'
+#'  [Value()], [Preset()]#'
 #' @example inst/examples/Timeseries.R
 #' @docType class
 #' @export
@@ -53,7 +53,8 @@ setClass("Timeseries",
                  Value='array',
                  Preset='list',
                  Target='numericOrNULL',
-                 Limit='numericOrNULL'
+                 Limit='numericOrNULL',
+                 RefPoints='list'
          )
 )
 
@@ -67,7 +68,8 @@ setMethod("initialize", "Timeseries", function(.Object,
                                             Value=array(),
                                             Preset=list(),
                                             Target=NULL,
-                                            Limit=NULL) {
+                                            Limit=NULL,
+                                            RefPoints=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
@@ -79,6 +81,7 @@ setMethod("initialize", "Timeseries", function(.Object,
   .Object@Preset <- Preset
   .Object@Target <- Target
   .Object@Limit <- Limit
+  .Object@RefPoints <- RefPoints
   methods::validObject(.Object)
   .Object
 })
@@ -101,16 +104,16 @@ setMethod("Timeseries", 'missing', function() new('Timeseries'))
 #' @describeIn Timeseries-methods Create a populated `Timeseries` object
 setMethod("Timeseries", c('character'),
           function(Code, Label, Description, Time, TimeNow, TimeLab,
-                   Value, Preset, Target, Limit)
+                   Value, Preset, Target, Limit, RefPoints)
             new('Timeseries', Code, Label, Description, Time, TimeNow, TimeLab,
-                Value, Preset, Target, Limit))
+                Value, Preset, Target, Limit, RefPoints))
 
 #' @describeIn Timeseries-methods Create a populated `Timeseries` object
 setMethod("Timeseries", c('list'),
           function(Code, Label, Description, Time, TimeNow, TimeLab,
-                   Value, Preset, Target, Limit)
+                   Value, Preset, Target, Limit, RefPoints)
             new('Timeseries', Code, Label, Description, Time, TimeNow, TimeLab,
-                Value, Preset, Target, Limit))
+                Value, Preset, Target, Limit, RefPoints))
 
 
 ## Check ----
@@ -190,6 +193,25 @@ setMethod('Check', 'Timeseries', function(object) {
       ll@errors <- append(ll@errors, list(Limit=paste0('`Limit` must be length 1 or length `Code` (',
                                                        length(Code(object)), ')'))
       )
+  }
+
+  ## RefPoints
+  if (length(object@RefPoints) & all(nchar(Code(object))>0)) {
+    if (length(object@RefPoints) > length(Code(object))) {
+      ll@errors <- append(ll@errors, list(RefPoints=paste0('Length of `RefPoints` list must be <= length `Code` (',
+                                                       length(Code(object)), ')'))
+      )
+      # for (i in seq_along(object@RefPoints)) {
+      #   nms <- names(object@RefPoints[[i]])
+      #   validnames <- c('Name', 'Value', 'Color')
+      #   if (length(nms[!nms %in%validnames])>0) {
+      #
+      #   }
+      # }
+
+    }
+
+
   }
 
   if (length(ll@errors)<1 & length(ll@warnings)<1)
@@ -302,6 +324,20 @@ setMethod("Preset<-", "Timeseries", function(object, value) {
   object
 })
 
+## RefPoints ----
+
+#' @describeIn RefPoints Return `RefPoints` from a [Timeseries-class()] object
+setMethod("RefPoints", 'Timeseries', function(object) {
+  object@RefPoints
+})
+
+#' @describeIn RefPoints Assign `RefPoints` to a [Timeseries-class()] object
+setMethod("RefPoints<-", "Timeseries", function(object, value) {
+  if (is.null(value)) return(object)
+  object@RefPoints <- value
+  methods::validObject(object)
+  object
+})
 
 ##  Show ----
 

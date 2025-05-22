@@ -159,7 +159,7 @@ timeseries <- Timeseries(Code=c('B/BMSY', 'F/FMSY', 'TAC'),
 TimeNow(timeseries) <- 2024
 
 # Add values for time steps
-Time(timeseries) <- c(seq(TimeNow(timeseries), by=-1, length.out=nHistTS),
+Time(timeseries) <- c(rev(seq(TimeNow(timeseries), by=-1, length.out=nHistTS)),
                       seq(TimeNow(timeseries)+1, by=1, length.out=nProjTS))
 
 # Check
@@ -177,6 +177,19 @@ plotTimeseries(slick, 3)
 plotTimeseries(slick, byMP=TRUE)
 
 plotTimeseries(slick, byOM=TRUE)
+
+# Custom Reference Points
+RefPoints(timeseries) <- list(
+  list(Name=c('0.5 BMSY', 'BMSY', '1.5 BMSY'), Value=c(0.5, 1, 1.5), Color=c('red', 'orange', 'green')),
+  list(Name=c('0.8 FMSY', 'FMSY'), Value=c(0.8,1), Color=c('orange', 'red')),
+  list(Name='Target Catch', Value=1200, Color='blue')
+)
+
+Timeseries(slick) <- timeseries
+plotTimeseries(slick)
+plotTimeseries(slick, 2)
+plotTimeseries(slick, 3)
+
 
 }
 \seealso{
