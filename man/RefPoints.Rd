@@ -16,7 +16,7 @@ RefPoints(object) <- value
 \S4method{RefPoints}{Timeseries}(object) <- value
 }
 \arguments{
-\item{object}{An object of class \code{\link[=TimeSeries-class]{TimeSeries-class()}}}
+\item{object}{An object of class \code{\link[=Timeseries-class]{Timeseries-class()}}}
 
 \item{value}{A \code{list}, formatted to match the class of \code{object}. See the documentation for
 corresponding \code{object} class for more details.}

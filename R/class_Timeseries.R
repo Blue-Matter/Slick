@@ -39,7 +39,7 @@
 #' @slot RefPoints List for setting custom Reference Points. Overrides `Target` and `Limit`.
 #'  See `Details` section in [Timeseries()].
 #' @seealso [Timeseries()], [Code()], [Label()], [Description()],
-#'  [Value()], [Preset()]#'
+#'  [Value()], [Preset()]
 #' @example inst/examples/Timeseries.R
 #' @docType class
 #' @export

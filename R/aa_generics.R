@@ -496,7 +496,7 @@ setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 # ---- RefPoints ----
 
 #' Assign or access `RefPoints` for a valid object class
-#' @param object An object of class [TimeSeries-class()]
+#' @param object An object of class [Timeseries-class()]
 #'
 #' @export
 setGeneric("RefPoints", function(object) standardGeneric("RefPoints"))

@@ -236,9 +236,15 @@ plotTimeseries(slick, byOM=TRUE)
 
 # Custom Reference Points
 RefPoints(timeseries) <- list(
-  list(Name=c('0.5 BMSY', 'BMSY', '1.5 BMSY'), Value=c(0.5, 1, 1.5), Color=c('red', 'orange', 'green')),
-  list(Name=c('0.8 FMSY', 'FMSY'), Value=c(0.8,1), Color=c('orange', 'red')),
-  list(Name='Target Catch', Value=1200, Color='blue')
+  list(Name=c('0.5 BMSY', 'BMSY', '1.5 BMSY'),
+       Value=c(0.5, 1, 1.5),
+       Color=c('red', 'orange', 'green')),
+  list(Name=c('0.8 FMSY', 'FMSY'),
+       Value=c(0.8,1),
+       Color=c('orange', 'red')),
+  list(Name='Target Catch',
+       Value=1200,
+       Color='blue')
 )
 
 Timeseries(slick) <- timeseries
