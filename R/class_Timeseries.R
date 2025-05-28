@@ -88,6 +88,7 @@ setMethod("initialize", "Timeseries", function(.Object,
 
 
 validTimeSeries <- function(object) {
+  object <- UpdateNewSlots(object, "RefPoints")
   chk <- Check(object)
   if (chk@empty) return(TRUE)
   if (length(chk@errors)>0) return(chk@errors)
@@ -344,6 +345,7 @@ setMethod("RefPoints<-", "Timeseries", function(object, value) {
 #' @describeIn show Print a [Timeseries-class()] object
 setMethod("show", "Timeseries", function(object) {
   dim_names <- c("nsim", "nOM", "nMP", "nPI", 'nTS')
+  object <- UpdateTimeseries(object)
 
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)
@@ -390,6 +392,11 @@ setMethod("show", "Timeseries", function(object) {
       targ <- rep(targ, length(Code(object)))
     names(targ) <- Code(object)
     print(targ)
+  }
+
+  if (length(object@RefPoints)) {
+    cli::cli_h2('{.code RefPoints}')
+    print(object@RefPoints)
   }
 
 })
