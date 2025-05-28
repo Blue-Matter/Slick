@@ -324,6 +324,9 @@ setMethod("show", "Slick", function(object) {
                    'Timeseries', 'Tradeoff')
 
   for (cl in obj_classes) {
+    if(cl== 'Timeseries') {
+      slot(object,cl) <- UpdateTimeseries(slot(object,cl))
+    }
     temp <- slot(object,cl)
     chk <-  Check(temp)
     cli::cli_h2('{.code {chk@object}}')
