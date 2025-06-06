@@ -66,6 +66,10 @@ Defaults to 1.}
 \item{\code{Limit}}{Numeric vector length \code{nPI} with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.}
 
 \item{\code{Defaults}}{A list object with default selections for the Kobe See \code{\link[=Kobe]{Kobe()}}}
+
+\item{\code{TimeTerminal}}{Optional. By default the \code{Kobe} plot shows the terminal projection year.
+\code{TimeTerminal} can be used to override this. Use a numeric value indicating the time (must match a value in \code{Time}) to use
+for the \code{Kobe} plot}
 }}
 
 \examples{

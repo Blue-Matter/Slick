@@ -47,7 +47,6 @@ mod_Kobe_overall_server <- function(id, i18n,
       plotKobe(filtered_slick(),
                xPI=xvar(),
                yPI=yvar(),
-               TS=NA,
                xmax=x_axis(),
                ymax=y_axis(),
                hist_traj =input$histline,
@@ -107,6 +106,7 @@ mod_Kobe_overall_server <- function(id, i18n,
 
     output$controls <- renderUI({
       i18n <- i18n()
+
       tagList(
         h4(i18n$t('Error Bars')),
         checkboxInput(ns('show_percentiles'),
@@ -135,6 +135,7 @@ mod_Kobe_overall_server <- function(id, i18n,
         checkboxInput(ns('histline'),
                       i18n$t('Show line for entire projection period?'),
                       value=FALSE)
+
       )
     })
 
