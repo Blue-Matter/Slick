@@ -11,7 +11,6 @@ app_server <- function(input, output, session) {
 
   check_required_packages()
 
-
   # helper
   shinyhelper::observe_helpers(help_dir=file.path(app_sys(), 'app/helpfiles'))
 
@@ -121,7 +120,6 @@ app_server <- function(input, output, session) {
   mod_Home_server("home", i18n, Load_Slick_File, Global_Slick_Object, Report)
 
   Filtered_Slick_Object <- mod_Global_Filters_server('filters', i18n, Global_Slick_Object, session)
-
 
   observeEvent(Filtered_Slick_Object(), {
     Slick_Object(Filtered_Slick_Object())

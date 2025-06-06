@@ -23,6 +23,14 @@ MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
 MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
 MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
 
+
+detach("package:openMSE", unload = TRUE)
+detach("package:SAMtool", unload = TRUE)
+detach("package:DLMtool", unload = TRUE)
+detach("package:MSEtool", unload = TRUE)
+
+library(Slick)
+
 ## ---- create_slick ----
 slick <- Slick()
 
