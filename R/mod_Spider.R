@@ -299,7 +299,10 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
       if (n.PM >2) {
         text <- rep('', n.PM)
         for (i in 1:n.PM) {
+          PM.name[i] <- gsub("<", "&lt", PM.name[i])
+          PM.name[i] <- gsub(">", "&gt", PM.name[i])
           text[i] <- paste(icon_shape[i], PM.name[i])
+
         }
         tagList(
           p(HTML(paste(text, collapse="<br>")), width='100%')
