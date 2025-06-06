@@ -8,7 +8,6 @@ plotKobe(
   slick,
   xPI = 1,
   yPI = 2,
-  TS = NA,
   Time = FALSE,
   BLcol = "#F8DC7A",
   TLcol = "#D8775D",
@@ -38,9 +37,6 @@ plotKobe(
 \item{xPI}{Numeric value specifying the performance indicator for the x-axis}
 
 \item{yPI}{Numeric value specifying the performance indicator for the y-axis}
-
-\item{TS}{Numeric value specifying the projection time-step for the Kobe plot. Default is NA
-which means the terminal projection time-step}
 
 \item{Time}{Logical. Kobe Time plot?}
 
@@ -92,6 +88,11 @@ A \code{ggplot2} object
 }
 \description{
 Plots a Kobe plot for a given projection year, or a Kobe Time plot.
+}
+\details{
+By default \code{plotKobe} shows the terminal projection year.
+\code{TimeTerminal(Kobe)} can be used to override this. Use a numeric value indicating the time
+(must match a value in \code{Time(Kobe)}) to use for the \code{Kobe} plot.
 }
 \examples{
 # Generate dummy values

@@ -241,7 +241,10 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' @param Preset `r preset_param()`
 #' @param Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs. Shows as red line on Kobe plot. NULL to ignore.
-#'
+#' @param Defaults A list object with default selections for the Kobe See [Kobe()]
+#' @param TimeTerminal Optional. By default the `Kobe` plot shows the terminal projection year.
+#' `TimeTerminal` can be used to override this. Use a numeric value indicating the time (must match a value in `Time`) to use
+#' for the `Kobe` plot
 #' @rdname Kobe-methods
 #' @docType methods
 #' @example inst/examples/Kobe.R
@@ -256,7 +259,9 @@ setGeneric("Kobe", function(Code='',
                             Value=array(),
                             Preset=list(),
                             Target=1,
-                            Limit=NULL) standardGeneric("Kobe"))
+                            Limit=NULL,
+                            Defaults=list(),
+                            TimeTerminal=numeric()) standardGeneric("Kobe"))
 
 
 
@@ -694,6 +699,21 @@ setGeneric("Timeseries", function(Code='',
 #' @param value A [Timeseries-class()] object
 #' @export
 setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"))
+
+# ---- TimeTerminal ----
+
+#' Assign or access `TimeTerminal` for a valid object class
+#' @param object An object of class [Kobe-class()]
+#'
+#' @export
+setGeneric("TimeTerminal", function(object) standardGeneric("TimeTerminal"))
+
+#' @param value A `numeric` value with a value matching one in `Kobe@Time` [Kobe-class()] for details.
+#' @rdname TimeTerminal
+#' @export
+setGeneric("TimeTerminal<-", function(object, value) standardGeneric("TimeTerminal<-"))
+
+
 
 # ---- Tradeoff ----
 

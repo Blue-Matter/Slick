@@ -47,6 +47,11 @@ UpdateTimeseries <- function(Timeseries) {
   Timeseries
 }
 
+UpdateKobe <- function(Kobe) {
+  Kobe <- UpdateNewSlots(Kobe, "Defaults")
+  Kobe <- UpdateNewSlots(Kobe, "TimeTerminal")
+  Kobe
+}
 
 
 
@@ -63,11 +68,10 @@ UpdateTimeseries <- function(Timeseries) {
 #'
 Update <- function(slick) {
   if (isS4(slick)) {
-    chkKobe <- try(slick@Kobe@Defaults, silent = TRUE)
-    if (inherits(chkKobe, 'try-error'))
-      slick@Kobe@Defaults <- list()
 
     # Add new slots to older objects
+    slick@Kobe <- UpdateKobe(slick@Kobe)
+
     slick@Timeseries <- UpdateTimeseries(slick@Timeseries)
     return(slick)
   }

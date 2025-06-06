@@ -11,37 +11,7 @@ mod_Kobe_ui <- function(id){
   ns <- NS(id)
   tagList(
     # mod_toplink_ui(ns(id)),
-    tagList(
-      shinydashboardPlus::box(width=12,
-                              status='primary',
-                              solidHeader=TRUE,
-                              title=h3(strong('Kobe')),
-                              br(),
-                              column(12, mod_subtitle_ui(ns(id))),
-                              column(12,
-                                     uiOutput(ns('radiobuttons'))
-                              ),
-                              column(3,
-                                     conditionalPanel("input.plotselect=='overall'", ns=ns,
-                                                      uiOutput(ns('reading_overall'))
-                                     ),
-                                     conditionalPanel("input.plotselect=='kobetime'", ns=ns,
-                                                      uiOutput(ns('reading_time'))
-
-                                     ),
-                                     uiOutput(ns('axis_choices')),
-                                     mod_Page_Filter_ui(ns("kobefilter"))
-                              ),
-                              column(9,
-                                     conditionalPanel("input.plotselect=='overall'", ns=ns,
-                                                      mod_Kobe_overall_ui(ns("Kobe_overall_1"))
-                                     ),
-                                     conditionalPanel("input.plotselect=='kobetime'", ns=ns,
-                                                      mod_Kobe_time_ui(ns("Kobe_time_1"))
-                                     )
-                              )
-      )
-    )
+    uiOutput(ns("page"))
   )
 }
 
@@ -83,10 +53,10 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
 
     filtered_slick <- reactive({
       FilterSlick(Slick_Object(),
-                  as.numeric(Filter_Selected$MPs),
-                  as.numeric(Filter_Selected$OMs),
-                  as.numeric(Filter_Selected$PMs),
-                  'Kobe')
+                        as.numeric(Filter_Selected$MPs),
+                        as.numeric(Filter_Selected$OMs),
+                        as.numeric(Filter_Selected$PMs),
+                        'Kobe')
     })
 
     observeEvent(Slick_Object(), {
@@ -150,6 +120,9 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
                                 column(3,
                                        conditionalPanel("input.plotselect=='overall'", ns=ns,
                                                         uiOutput(ns('reading_overall'))
+                                       ),
+                                       conditionalPanel("input.plotselect=='overall'", ns=ns,
+                                                        uiOutput(ns('select_terminal_year'))
                                        ),
                                        conditionalPanel("input.plotselect=='kobetime'", ns=ns,
                                                         uiOutput(ns('reading_time'))
@@ -221,7 +194,20 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
       yrs <- time_info
       quant_text <- selected_quantile() * 100
 
-      yr.txt <- paste0(min(yrs), '-', max(yrs))
+      if (length(slick@Kobe@TimeTerminal) && !is.na(slick@Kobe@TimeTerminal)) {
+        TS <- match(slick@Kobe@TimeTerminal, slick@Kobe@Time)
+        if (any(!is.finite(TS))) {
+          yr.txt <- paste0(min(yrs), '-',  max(yrs))
+        } else {
+          yr.txt <- paste0(min(yrs), '-', slick@Kobe@TimeTerminal)
+        }
+
+      } else {
+        yr.txt <- paste0(min(yrs), '-', max(yrs))
+      }
+
+
+
       tagList(
         p(i18n$t('This chart compares trade-offs in'), nMP(),
           i18n$t(' management procedures for '), nOM(),

@@ -39,6 +39,9 @@
 #'  Defaults to 1.
 #' @slot Limit Numeric vector length `nPI` with the limit value for the two PIs. Shows as red line on Kobe plot. NULL to ignore.
 #' @slot Defaults A list object with default selections for the Kobe See [Kobe()]
+#' @slot TimeTerminal Optional. By default the `Kobe` plot shows the terminal projection year.
+#' `TimeTerminal` can be used to override this. Use a numeric value indicating the time (must match a value in `Time`) to use
+#' for the `Kobe` plot
 #' @seealso [Kobe()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
@@ -56,7 +59,8 @@ setClass("Kobe",
                  Preset='list',
                  Target='numericOrNULL',
                  Limit='numericOrNULL',
-                 Defaults='list'
+                 Defaults='list',
+                 TimeTerminal='numeric'
          )
 )
 
@@ -71,7 +75,8 @@ setMethod("initialize", "Kobe", function(.Object,
                                          Preset=list(),
                                          Target=NULL,
                                          Limit=NULL,
-                                         Defaults=list('overall')) {
+                                         Defaults=list('overall'),
+                                         TimeTerminal=numeric()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
@@ -82,6 +87,7 @@ setMethod("initialize", "Kobe", function(.Object,
   .Object@Target <- Target
   .Object@Limit <- Limit
   .Object@Defaults <- Defaults
+  .Object@TimeTerminal <- TimeTerminal
   methods::validObject(.Object)
   .Object
 })
@@ -104,14 +110,14 @@ setMethod("Kobe", 'missing', function() new('Kobe'))
 
 #' @describeIn Kobe-methods Create a populated `Kobe` object
 setMethod("Kobe", c('character'),
-          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit)
-            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit))
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal))
 
 
 #' @describeIn Kobe-methods Create a populated `Kobe` object
 setMethod("Kobe", c('list'),
-          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit)
-            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit))
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal))
 
 
 
@@ -298,6 +304,7 @@ setMethod("Preset<-", "Kobe", function(object, value) {
 #' @describeIn show Print a [Kobe-class()] object
 setMethod("show", "Kobe", function(object) {
   dim_names <- c("nsim", "nOM", "nMP", "nPI", 'nTS')
+  object <- UpdateKobe(object)
 
   chk <- print_show_heading(object)
   if (length(chk@errors)>0)
@@ -342,6 +349,12 @@ setMethod("show", "Kobe", function(object) {
     names(targ) <- Code(object)
     print(targ)
   }
+
+  if (length(object@TimeTerminal)) {
+    cli::cli_h2('{.code TimeTerminal}')
+    cat(object@TimeTerminal)
+  }
+
 
 })
 
@@ -405,6 +418,22 @@ setMethod("TimeLab<-", "Kobe", function(object, value) {
   methods::validObject(object)
   object
 })
+
+## TimeTerminal ---
+
+#' @describeIn TimeTerminal Return `TimeTerminal` from a [Kobe-class()] object
+setMethod("TimeTerminal", "Kobe", function(object) {
+  object@TimeTerminal
+})
+
+
+#' @describeIn TimeTerminal Assign `TimeTerminal` to a [Kobe-class()] object
+setMethod("TimeTerminal<-", "Kobe", function(object, value) {
+  object@TimeTerminal <- value
+  methods::validObject(object)
+  object
+})
+
 
 
 ## Value ----

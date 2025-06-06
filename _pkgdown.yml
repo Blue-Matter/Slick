@@ -49,6 +49,7 @@ reference:
   - Time
   - TimeLab
   - TimeNow
+  - TimeTerminal
   - Value
 - title: "S4 Object Classes"
   desc: >
