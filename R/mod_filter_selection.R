@@ -12,6 +12,8 @@ mod_filter_selection_ui <- function(id){
   tagList(
     uiOutput(ns('selections')),
     uiOutput(ns('presets')),
+    br(),
+    uiOutput(ns('deselect')),
     uiOutput(ns('globalMPsettings')),
     br()
   )
@@ -211,6 +213,20 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
           )
         )
       }
+    })
+
+    observeEvent(input$deselect, {
+      shiny::updateCheckboxGroupInput(session,
+                                      'filter1',
+                                      selected=1)
+    })
+
+    output$deselect <- renderUI({
+      if (slot !='MPs') return(NULL)
+      shinyWidgets::actionBttn(ns("deselect"),
+                               label="Deselect All",
+                               icon=icon('fa-xmark', class='fa-solid'),
+                               color='default',size='sm')
     })
 
     output$globalMPsettings <- renderUI({
