@@ -156,10 +156,17 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     })
 
 
-    observeEvent(Load_Slick_File$loaded, ignoreInit = TRUE, {
-
+    observeEvent(Load_Slick_File$loaded, ignoreInit = FALSE, {
 
       if (Load_Slick_File$loaded >= 1) {
+
+
+        if (is.null(Load_Slick_File$file)) {
+          print("Slick object loaded directly from R")
+          shinyjs::delay(3000,
+                         shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');"))
+        }
+
         if (inherits(Load_Slick_File$file, 'character')) {
           w()$show()
           att$set(40)
