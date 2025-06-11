@@ -118,7 +118,7 @@ plotTimeseries <- function(slick,
 
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
-  proj.yr.ind <- (hist.yr.ind+1):length(times)
+  proj.yr.ind <- (hist.yr.ind):length(times)
   proj.yrs <- times[proj.yr.ind]
 
   p <- ggplot2::ggplot() +
