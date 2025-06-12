@@ -95,13 +95,13 @@ The online version of the Slick App can be accessed
 
 ### About Slick
 
-Slick was developed by [Blue Matter Science](bluematterscience.com) and
-designed and commissioned by [The Ocean
-Foundation’s](https://oceanfdn.org/) International Fisheries
-Conservation Project and
-[harveststrategies.org](www.harveststrategies.org), with support from
-[The Pew Charitable Trusts](https://www.pew.org/en/), and the [Common
-Oceans Tuna Fisheries
+Slick was developed by [Blue Matter
+Science](https://www.bluematterscience.com) and designed and
+commissioned by [The Ocean Foundation’s](https://oceanfdn.org/)
+International Fisheries Conservation Project and
+[harveststrategies.org](https://harveststrategies.org/), with support
+from [The Pew Charitable Trusts](https://www.pew.org/en/), and the
+[Common Oceans Tuna Fisheries
 Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna-fisheries/en/),
 which is funded by
 [GEF](https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction)
