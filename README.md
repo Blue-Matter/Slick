@@ -49,8 +49,9 @@ library(Slick)
 
 To use `Slick`, the results of an MSE must be available in a Slick data
 object. The Slick App includes several example data objects. See the
-[Developer’s Guide](articles/DevelopersGuide.html) for documentation on
-creating a Slick Data object for your MSE results.
+[Developer’s
+Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)
+for documentation on creating a Slick Data object for your MSE results.
 
 ## The Slick App
 
