@@ -81,4 +81,5 @@ plotBoxplot(slick, type='violin')
 plotBoxplot(slick, byOM=TRUE)
 
 plotBoxplot(slick, 2, type='both', byOM=TRUE)
+
 }

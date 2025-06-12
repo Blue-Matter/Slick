@@ -29,6 +29,32 @@
 #
 # saveRDS(slick, 'C:/users/user/downloads/slick.slick')
 
+UpdateNewSlots <- function(object, slot) {
+  chk <- try(slot(object, slot), silent=TRUE)
+  if (inherits(chk, 'try-error')) {
+    object_updated <- new(class(object))
+    slots <- slotNames(object)
+    for (sl in slots) {
+      chk <- try(slot(object_updated, sl) <- slot(object, sl), silent=TRUE)
+    }
+    return(object_updated)
+  }
+  object
+}
+
+UpdateTimeseries <- function(Timeseries) {
+  Timeseries <- UpdateNewSlots(Timeseries, "RefPoints")
+  Timeseries
+}
+
+UpdateKobe <- function(Kobe) {
+  Kobe <- UpdateNewSlots(Kobe, "Defaults")
+  Kobe <- UpdateNewSlots(Kobe, "TimeTerminal")
+  Kobe
+}
+
+
+
 #' Updates an old object of class `Slick` to new S4 class `Slick`
 #'
 #'
@@ -42,9 +68,11 @@
 #'
 Update <- function(slick) {
   if (isS4(slick)) {
-    chkKobe <- try(slick@Kobe@Defaults, silent = TRUE)
-    if (inherits(chkKobe, 'try-error'))
-      slick@Kobe@Defaults <- list()
+
+    # Add new slots to older objects
+    slick@Kobe <- UpdateKobe(slick@Kobe)
+
+    slick@Timeseries <- UpdateTimeseries(slick@Timeseries)
     return(slick)
   }
 

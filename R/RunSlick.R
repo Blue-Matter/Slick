@@ -37,7 +37,7 @@ run_app <- function(
 #' `App()` runs the Slick Shiny Application
 #' @param ... Additional arguments. To load a object directly in the App,
 #' use `App(slick=myslick)` where `myslick` is your [Slick-class()] object.
-#'
+#' @return None
 #' @export
 App <- function(...) {
   check_required_packages()

@@ -47,7 +47,6 @@ mod_Kobe_overall_server <- function(id, i18n,
       plotKobe(filtered_slick(),
                xPI=xvar(),
                yPI=yvar(),
-               TS=NA,
                xmax=x_axis(),
                ymax=y_axis(),
                hist_traj =input$histline,
@@ -107,6 +106,7 @@ mod_Kobe_overall_server <- function(id, i18n,
 
     output$controls <- renderUI({
       i18n <- i18n()
+
       tagList(
         h4(i18n$t('Error Bars')),
         checkboxInput(ns('show_percentiles'),
@@ -135,6 +135,7 @@ mod_Kobe_overall_server <- function(id, i18n,
         checkboxInput(ns('histline'),
                       i18n$t('Show line for entire projection period?'),
                       value=FALSE)
+
       )
     })
 
@@ -157,7 +158,9 @@ mod_Kobe_overall_server <- function(id, i18n,
       kobe <- Kobe(slick)
       mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
       val <- max(apply(mean_over_OMs[,,1,,drop=FALSE], c(2,4), median, na.rm=TRUE))
-      ceiling(val)
+      val <- ceiling(val)
+      if (val<2) val <- 2
+      val
     })
 
     initY <- reactive({
@@ -166,7 +169,9 @@ mod_Kobe_overall_server <- function(id, i18n,
       kobe <- Kobe(slick)
       mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
       val <- max(apply(mean_over_OMs[,,2,,drop=FALSE], c(2,4), median, na.rm=TRUE))
-      ceiling(val)
+      val <- ceiling(val)
+      if (val<2) val <- 2
+      val
     })
 
     x_axis_val <- reactive({

@@ -3,11 +3,13 @@
 #'
 #' Plots a Kobe plot for a given projection year, or a Kobe Time plot.
 #'
+#' By default `plotKobe` shows the terminal projection year.
+#' `TimeTerminal(Kobe)` can be used to override this. Use a numeric value indicating the time
+#' (must match a value in `Time(Kobe)`) to use for the `Kobe` plot.
+#'
 #' @param slick A [Slick-class()] object
 #' @param xPI Numeric value specifying the performance indicator for the x-axis
 #' @param yPI Numeric value specifying the performance indicator for the y-axis
-#' @param TS Numeric value specifying the projection time-step for the Kobe plot. Default is NA
-#' which means the terminal projection time-step
 #' @param Time Logical. Kobe Time plot?
 #' @param BLcol Color for the bottom left quadrant
 #' @param TLcol Color for the top left quadrant
@@ -40,7 +42,6 @@
 plotKobe <- function(slick,
                      xPI=1,
                      yPI=2,
-                     TS=NA,
                      Time=FALSE,
                      BLcol="#F8DC7A",
                      TLcol="#D8775D",
@@ -74,11 +75,9 @@ plotKobe <- function(slick,
   if (!chk@complete)
     cli::cli_abort('`Kobe` in this `Slick` object is incomplete. Use  {.code Check(slick)}')
 
-
   metadata <- Metadata(kobe)
   times <- Time(kobe)
   timelab <- TimeLab(kobe, lang)
-
 
   axis_labels <- slot(kobe, axis_label)
   nPI <- length(axis_labels)
@@ -117,8 +116,20 @@ plotKobe <- function(slick,
   nMP <- dd[3]
   nvars <- dd[4]
   nTS <- dd[5]
-  if (is.na(TS))
-    TS <- nTS
+
+  TS <- nTS
+  if (length(slick@Kobe@TimeTerminal)) {
+    TS <- match(slick@Kobe@TimeTerminal, slick@Kobe@Time)
+    if (any(!is.finite(TS))) {
+      cli::cli_warn(c(
+        "`TimeTerminal(Kobe)` must be a single numeric value matching a value in `Time(Kobe)`",
+        "i" = "`Time(Kobe)` is {.val {Time(kobe)}}",
+        "x" = "`TimeTerminal(Kobe)` is {.val {TimeTerminal(kobe)}}",
+        "i" = "Ignoring and using last projection year"
+      ))
+      TS <- nTS
+    }
+  }
 
   mean_over_OMs <- apply(values, c(1,3,4,5), mean, na.rm=TRUE)
 
@@ -193,7 +204,13 @@ plotKobe <- function(slick,
     df$y[df$y > ymax ] <- ymax
 
     init_df <- df |> dplyr::filter(time==min(time))
+
+
     cur_df <- df |> dplyr::filter(time==max(time))
+
+
+
+
 
     # error bars
     if (!is.null(quants)) {

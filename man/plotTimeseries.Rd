@@ -119,6 +119,8 @@ nHistTS <- 50
 nProjTS <- 30
 nTS <- nHistTS + nProjTS
 
+set.seed(101)
+
 values <- array(NA, dim=c(nsim, nOM, nMP, nPI, nTS))
 
 pi_means <- c(1,1, 1000)
@@ -137,7 +139,7 @@ for (om in 1:nOM) {
       values[,om, mp, pi,(nHistTS+1):nTS] <- matrix(
         pi_means[pi] *
           cumprod(c(rlnorm(nProjTS*nsim, 0, 0.05))),
-        nrow=nsim, ncol=nProjTS, byrow=TRUE)
+        nrow=nsim, ncol=nProjTS, byrow=FALSE)
     }
   }
 }
@@ -157,7 +159,7 @@ timeseries <- Timeseries(Code=c('B/BMSY', 'F/FMSY', 'TAC'),
 TimeNow(timeseries) <- 2024
 
 # Add values for time steps
-Time(timeseries) <- c(seq(TimeNow(timeseries), by=-1, length.out=nHistTS),
+Time(timeseries) <- c(rev(seq(TimeNow(timeseries), by=-1, length.out=nHistTS)),
                       seq(TimeNow(timeseries)+1, by=1, length.out=nProjTS))
 
 # Check
@@ -168,11 +170,32 @@ slick <- Slick()
 Timeseries(slick) <- timeseries
 
 # Plots
+plotTimeseries(slick)
+plotTimeseries(slick, 2)
 plotTimeseries(slick, 3)
 
 plotTimeseries(slick, byMP=TRUE)
 
 plotTimeseries(slick, byOM=TRUE)
+
+# Custom Reference Points
+RefPoints(timeseries) <- list(
+  list(Name=c('0.5 BMSY', 'BMSY', '1.5 BMSY'),
+       Value=c(0.5, 1, 1.5),
+       Color=c('red', 'orange', 'green')),
+  list(Name=c('0.8 FMSY', 'FMSY'),
+       Value=c(0.8,1),
+       Color=c('orange', 'red')),
+  list(Name='Target Catch',
+       Value=1200,
+       Color='blue')
+)
+
+Timeseries(slick) <- timeseries
+plotTimeseries(slick)
+plotTimeseries(slick, 2)
+plotTimeseries(slick, 3)
+
 
 }
 \seealso{

@@ -62,6 +62,7 @@ check_assign_dataframe <- function(object, names, value) {
 #'
 #' @param nMP The number of management procedures
 #'
+#' @return A character vector of length `nMP` with color hex codes
 #' @export
 #' @examples
 #' cols <- default_mp_colors(4)

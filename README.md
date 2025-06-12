@@ -5,11 +5,9 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick) -->
+
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
@@ -33,10 +31,13 @@ interactive application.
 
 ## Installation
 
-`Slick` will be released on the [CRAN](https://cran.r-project.org/) in
-the future.
+`Slick` can be installed from CRAN:
 
-In the meantime, `Slick` can be installed from Github:
+``` r
+install.packages('Slick')
+```
+
+The development version can be installed from Github:
 
 ``` r
 # install.packages('pak')
@@ -48,8 +49,9 @@ library(Slick)
 
 To use `Slick`, the results of an MSE must be available in a Slick data
 object. The Slick App includes several example data objects. See the
-[Developer’s Guide](articles/DevelopersGuide.html) for documentation on
-creating a Slick Data object for your MSE results.
+[Developer’s
+Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)
+for documentation on creating a Slick Data object for your MSE results.
 
 ## The Slick App
 
@@ -94,14 +96,14 @@ The online version of the Slick App can be accessed
 
 ### About Slick
 
-Slick was developed by [Blue Matter Science](bluematterscience.com) and
-designed and commissioned by [The Ocean
-Foundation’s](https://oceanfdn.org/) International Fisheries
-Conservation Project and
-[harveststrategies.org](www.harveststrategies.org), with support from
-[The Pew Charitable Trusts](https://www.pewtrusts.org/en/), and the
+Slick was developed by [Blue Matter
+Science](https://www.bluematterscience.com) and designed and
+commissioned by [The Ocean Foundation’s](https://oceanfdn.org/)
+International Fisheries Conservation Project and
+[harveststrategies.org](https://harveststrategies.org/), with support
+from [The Pew Charitable Trusts](https://www.pew.org/en/), and the
 [Common Oceans Tuna Fisheries
-Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna/en/),
+Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna-fisheries/en/),
 which is funded by
 [GEF](https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction)
 and implemented by the

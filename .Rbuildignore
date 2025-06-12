@@ -23,3 +23,4 @@ $run_dev.*
 ^test_slick_objects\.R$
 ^translate_lang\.csv$
 ^translation\.json$
+^cran-comments\.md$

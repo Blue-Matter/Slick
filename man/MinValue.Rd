@@ -20,6 +20,9 @@ MaxValue(Quilt) <- value
 
 \item{value}{A numeric vector with minimum or maximum values for the Performance Indicators.}
 }
+\value{
+A numeric value
+}
 \description{
 Assign and access \code{MinValue} and \code{MaxValue} for a \code{Quilt} object
 }

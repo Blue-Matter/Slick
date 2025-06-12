@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 0.1.3
+Version: 1.0.0
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
@@ -9,11 +9,14 @@ Authors@R: c(
     person("Shana", "Miller", , "smiller@oceanfdn.org", role = 'aut')
   )
 Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
-Description: Slick presents the performance of multiple management objects
-    across multiple states of nature.
+Description: A framework for visualizing and exploring results of a Management
+    Strategy Evaluation (MSE). The publication quality figures and tables
+    can be developed directly from the R console, or interactively explored
+    with the Slick App. 
+URL: https://slick.bluematterscience.com/, https://github.com/Blue-Matter/Slick
 License: GPL-2
 Depends:
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     cli,
     dplyr,
@@ -59,7 +62,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-URL: https://slick.bluematterscience.com/
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
@@ -134,3 +136,4 @@ Collate:
     'mod_toplink.R'
     'utils_Table.R'
     'utils_util.R'
+BugReports: https://github.com/Blue-Matter/Slick/issues

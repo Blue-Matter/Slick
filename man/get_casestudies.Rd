@@ -32,6 +32,8 @@ loads and returns the Slick object, and then deletes downloaded file.}
 }
 \value{
 A data.frame for \code{get_casestudies} and a \code{Slick} object for \code{download_casestudy}
+
+The downloaded \code{Slick} object if \code{object==TRUE}, otherwise nothing.
 }
 \description{
 Get Case Studies from the SlickLibrary GitHub Repo
@@ -42,9 +44,8 @@ Get Case Studies from the SlickLibrary GitHub Repo
 
 }}
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 case_studies <- get_casestudies()
 slick <- download_casestudy(case_studies$Name[1])
-}
-
+\dontshow{\}) # examplesIf}
 }

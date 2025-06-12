@@ -27,16 +27,18 @@ This document is a guide for analysts who wish to use `Slick` to summarize and p
 
 ## Installing Slick
 
-`Slick` will be released on the [CRAN](https://cran.r-project.org/) in the future.
+`Slick` can be installed from CRAN:
+```r
+install.packages('Slick')
+```
+The development version can be installed from Github:
 
-In the meantime, `Slick` can be installed from Github:
-
-```{r install_slick, eval=FALSE}
+```r
 # install.packages('pak')
 pak::pkg_install('blue-matter/Slick')
 library(Slick)
-
 ```
+
 
 ## Reporting Issues and Bugs
 
@@ -44,7 +46,7 @@ Please use the [Issues](https://github.com/Blue-Matter/Slick/issues) feature in 
 
 ## Acknowledgements
 
-`Slick` was developed by [Blue Matter Science](https://www.bluematterscience.com) and designed and commissioned by [The Ocean Foundation's](https://oceanfdn.org/) International Fisheries Conservation Project and [harveststrategies.org](https://www.harveststrategies.org), with support from [The Pew Charitable Trusts](https://www.pewtrusts.org) and the [Common Oceans Tuna Fisheries Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna/en/) which is funded by [GEF](https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction) and implemented by the [FAO](https://www.fao.org/in-action/commonoceans/en/).
+`Slick` was developed by [Blue Matter Science](https://www.bluematterscience.com) and designed and commissioned by [The Ocean Foundation's](https://oceanfdn.org/) International Fisheries Conservation Project and [https://harveststrategies.org/](https://www.harveststrategies.org), with support from [The Pew Charitable Trusts](https://www.pewtrusts.org) and the [Common Oceans Tuna Fisheries Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna-fisheries/en/) which is funded by [GEF](https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction) and implemented by the [FAO](https://www.fao.org/in-action/commonoceans/en/).
 
 The prototype figure designs were developed by [5W Infographics](https://www.5wgraphics.com/).
 
@@ -82,11 +84,25 @@ A valid Slick Object must include at least one Slick Plot.
 
 The plots and tables can also be viewed in the *Slick App*, an interactive application developed with [Shiny](https://shiny.posit.co/). The Slick App allows users to upload their data and customize the plots by filtering by management procedures, operating models, and performance indicators.
 
+## Running the App Locally
+
 The App can be launched directly from the R console with:
 
 ```{r launch_app, eval=FALSE}
 App()
 ```
+
+This command will open the *Slick App* in the web browser on your machine. From there you can either select one of the case studies included in `Slick`, or load your `Slick` object (see sections below for creating a `Slick` object) by uploading your  *.slick* file.
+
+Alternatively, if you have a `Slick` object loaded in the R console, you can launch the App directly with the object by using a named argument in the `App` call:
+
+```{r launch_app_2, eval=FALSE}
+App(slick=MySlickObject)
+```
+
+where `MySlickObject` is an object of class `Slick`.
+
+## Using the Online App
 
 The App is also hosted [online](https://shiny.bluematterscience.com/app/slick).
 
@@ -150,6 +166,8 @@ The `runMSE` function is used to spool up the historical fishery dynamics and ru
 ```{r run_MSEs, cache=TRUE}
 
 ```
+
+
 
 In the sections below, these MSE objects will be used to calculate the performance indicators for each [Slick Plot](#slickplot).
 
@@ -677,10 +695,6 @@ Shading scaled between minimum and maximum for each PI:
 ```
 
 
-A static table with no shading:
-```{r quilt_plot3}
-
-```
 
 See [`?plotQuilt`](../reference/plotQuilt.html) for more options for the `plotQuilt` function.
 

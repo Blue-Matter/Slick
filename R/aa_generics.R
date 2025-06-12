@@ -241,7 +241,10 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' @param Preset `r preset_param()`
 #' @param Target Numeric vector length `nPI` with the target value for the PIs. Defines the color quadrants on the Kobe plot. Defaults to c(1,1).
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs. Shows as red line on Kobe plot. NULL to ignore.
-#'
+#' @param Defaults A list object with default selections for the Kobe See [Kobe()]
+#' @param TimeTerminal Optional. By default the `Kobe` plot shows the terminal projection year.
+#' `TimeTerminal` can be used to override this. Use a numeric value indicating the time (must match a value in `Time`) to use
+#' for the `Kobe` plot
 #' @rdname Kobe-methods
 #' @docType methods
 #' @example inst/examples/Kobe.R
@@ -256,7 +259,9 @@ setGeneric("Kobe", function(Code='',
                             Value=array(),
                             Preset=list(),
                             Target=1,
-                            Limit=NULL) standardGeneric("Kobe"))
+                            Limit=NULL,
+                            Defaults=list(),
+                            TimeTerminal=numeric()) standardGeneric("Kobe"))
 
 
 
@@ -493,8 +498,19 @@ setGeneric("Quilt", function(Code='',
 setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 
 
+# ---- RefPoints ----
 
+#' Assign or access `RefPoints` for a valid object class
+#' @param object An object of class [Timeseries-class()]
+#'
+#' @export
+setGeneric("RefPoints", function(object) standardGeneric("RefPoints"))
 
+#' @param value A `list`, formatted to match the class of `object`. See the documentation for
+#' corresponding `object` class for more details.
+#' @rdname RefPoints
+#' @export
+setGeneric("RefPoints<-", function(object, value) standardGeneric("RefPoints<-"))
 
 
 
@@ -627,10 +643,11 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Preset `r preset_param()`
 #' @param Target Numeric vector length `nPI` with the target value for the PIs.
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
+#' @param RefPoints List for setting custom Reference Points. Overrides `Target` and `Limit`.
+#'  See `Details`
 #'
 #' @seealso [Timeseries-class()], [Code()], [Label()], [Description()],
 #'  [Metadata()], [Value()], [Preset()], [plotTimeseries()]
-#'
 #'
 #' @details
 #' Objects of class `Timeseries` are created with `Timeseries()`
@@ -641,6 +658,21 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' - `es`: Spanish
 #' - `fr`: French
 #'
+#' ## Custom Reference Points with `RefPoints`
+#' `RefPoints` provides more options than the default `Target` and `Limit` reference points. It can be used to control the name and
+#' color of the reference point lines, or to add additional reference point lines to the `Timeseries` plot.
+#'
+#' Note: If `RefPoints` is included, `Target` and `Limit` are ignored.
+#'
+#' `RefPoints` must be a list of length <= `length(Code)` (i.e., the number of performance indicators).
+#' Each element in `RefPoints` should be a named list:
+#' - `Name` character vector with name(s) of reference point(s)
+#' - `Value` numeric vector length `Name` with value(s) for the reference point(s)
+#' - `Color` character vector length `Name` with color(s) for the reference point(s)
+#'
+#' See `Examples`
+#'
+#' ## Accessing Slots
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to access and assign the values for an
 #' existing `Timeseries` object, see `Examples`
 #'
@@ -658,7 +690,8 @@ setGeneric("Timeseries", function(Code='',
                                   Value=array(),
                                   Preset=list(),
                                   Target=NULL,
-                                  Limit=NULL) standardGeneric("Timeseries"))
+                                  Limit=NULL,
+                                  RefPoints=list()) standardGeneric("Timeseries"))
 
 
 #' @rdname Timeseries-methods
@@ -666,6 +699,21 @@ setGeneric("Timeseries", function(Code='',
 #' @param value A [Timeseries-class()] object
 #' @export
 setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"))
+
+# ---- TimeTerminal ----
+
+#' Assign or access `TimeTerminal` for a valid object class
+#' @param object An object of class [Kobe-class()]
+#'
+#' @export
+setGeneric("TimeTerminal", function(object) standardGeneric("TimeTerminal"))
+
+#' @param value A `numeric` value with a value matching one in `Kobe@Time` [Kobe-class()] for details.
+#' @rdname TimeTerminal
+#' @export
+setGeneric("TimeTerminal<-", function(object, value) standardGeneric("TimeTerminal<-"))
+
+
 
 # ---- Tradeoff ----
 

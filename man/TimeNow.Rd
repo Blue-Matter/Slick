@@ -15,6 +15,9 @@ TimeNow(Timeseries) <- value
 \item{value}{A character string label for the time axis. Use a named list for
 multiple languages}
 }
+\value{
+A numeric value
+}
 \description{
 Access and return \code{TimeNow} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 }

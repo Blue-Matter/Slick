@@ -156,7 +156,13 @@ is_empty <- function(object) {
   vec <- rep(TRUE, length(slots))
   for (i in seq_along(slots)) {
     sl <- slots[i]
-    val <- slot(object, sl)
+    val <- try(slot(object, sl), silent=TRUE)
+    if (inherits(val,"try-error")) {
+      object <- UpdateNewSlots(object, sl)
+      val <- try(slot(object, sl), silent=TRUE)
+    }
+
+
     type <- class(val)
     if ('character' %in% type) {
       if(length(val)==1) {

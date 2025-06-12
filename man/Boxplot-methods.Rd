@@ -155,6 +155,7 @@ plotBoxplot(slick, type='violin')
 plotBoxplot(slick, byOM=TRUE)
 
 plotBoxplot(slick, 2, type='both', byOM=TRUE)
+
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}},

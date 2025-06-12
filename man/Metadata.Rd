@@ -68,6 +68,8 @@ See help documentation for the relevant object class for details.}
 }
 \value{
 \verb{A data.frame}
+
+A \code{data.frame}
 }
 \description{
 Return \code{Code}, \code{Label}, \code{Description} and other information from an object

@@ -110,6 +110,9 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
 \item{value}{The value to assign to the object. See \code{Slots} for format of the
 relevant object class}
 }
+\value{
+A \code{Slick} object
+}
 \description{
 The \code{Slick} class is the main object class used in the \code{Slick} package. It
 contains sub-objects for the management procedures \code{\link[=MPs]{MPs()}}, operating models \code{\link[=OMs]{OMs()}},
@@ -210,7 +213,7 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 slick <- Slick()
 
 Title(slick) <- 'An Example Slick Object'
-Subtitle(slick) <- "[Created for the Developer's Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)"
+Subtitle(slick) <- ""
 Date(slick) <- Sys.Date()
 Author(slick) <- 'Adrian Hordyk'
 Email(slick) <-  "[mailto:adrian@bluematterscience.com](mailto:adrian@bluematterscience.com)"
@@ -227,7 +230,6 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
-slick
 }
 \seealso{
 \code{\link[=MPs]{MPs()}}, \code{\link[=OMs]{OMs()}}, \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Kobe]{Kobe()}}, \code{\link[=Quilt]{Quilt()}},

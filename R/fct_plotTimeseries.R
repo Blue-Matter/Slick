@@ -90,6 +90,7 @@ plotTimeseries <- function(slick,
   time_now <- TimeNow(timeseries)
   target <- Target(timeseries)
   limit <- Limit(timeseries)
+  refpoints <- RefPoints(timeseries)
   metadata <- Metadata(timeseries)
   PI_lab <- metadata$Label[PI]
 
@@ -117,7 +118,7 @@ plotTimeseries <- function(slick,
 
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
-  proj.yr.ind <- (hist.yr.ind+1):length(times)
+  proj.yr.ind <- (hist.yr.ind):length(times)
   proj.yrs <- times[proj.yr.ind]
 
   p <- ggplot2::ggplot() +
@@ -304,42 +305,70 @@ plotTimeseries <- function(slick,
 
   }
 
-
-
-  # add target and limit lines if they exist
-  if (!is.null(target)) {
-    targ <- target[PI]
-    if (!is.na(targ)) {
+  IncTargetLimit <- TRUE
+  if (length(refpoints)>=PI) {
+    if (length(refpoints[[PI]]) > 0) {
+      IncTargetLimit <- FALSE
       x_loc <- times[1]
       if (!includeHist) {
         x_loc <- time_now+1
       }
 
-      p <- p + ggplot2::geom_hline(yintercept = targ,
-                                   color=targ_color,
-                                   alpha=0.5,
-                                   linetype=2) +
-        ggrepel::geom_text_repel(data=data.frame(x=x_loc, y=targ),
-                                 ggplot2::aes(x=x, y=y),
-                                 label=targ_name, color=targ_color)
-    }
-  }
-  if (!is.null(limit)) {
-    lim <- limit[PI]
-    if (!is.na(targ)) {
-      x_loc <- times[1]
-      if (!includeHist) {
-        x_loc <- time_now+1
-      }
+      refs <- data.frame(x=x_loc,
+                         Name=refpoints[[PI]]$Name,
+                         Value=refpoints[[PI]]$Value,
+                         Color=refpoints[[PI]]$Color)
 
-      p <- p + ggplot2::geom_hline(yintercept = lim, color=lim_color,
-                                   alpha=0.5,
+      p <- p + ggplot2::geom_hline(data=refs,
+                                   ggplot2::aes(yintercept = Value),
+                                   alpha=0.5, color=refs$Color,
                                    linetype=2) +
-        ggrepel::geom_text_repel(data=data.frame(x=x_loc, y=lim),
-                                 ggplot2::aes(x=x, y=y),
-                                 label=lim_name, color=lim_color)
+        ggrepel::geom_text_repel(data=refs,
+                                 ggplot2::aes(x=x, y=Value),
+                                 label=refs$Name, color=refs$Color)
+
+    }
+
+  }
+
+  if (IncTargetLimit) {
+    # add target and limit lines if they exist
+    if (!is.null(target)) {
+      targ <- target[PI]
+      if (!is.na(targ)) {
+        x_loc <- times[1]
+        if (!includeHist) {
+          x_loc <- time_now+1
+        }
+
+        p <- p + ggplot2::geom_hline(yintercept = targ,
+                                     color=targ_color,
+                                     alpha=0.5,
+                                     linetype=2) +
+          ggrepel::geom_text_repel(data=data.frame(x=x_loc, y=targ),
+                                   ggplot2::aes(x=x, y=y),
+                                   label=targ_name, color=targ_color)
+      }
+    }
+    if (!is.null(limit)) {
+      lim <- limit[PI]
+      if (!is.na(targ)) {
+        x_loc <- times[1]
+        if (!includeHist) {
+          x_loc <- time_now+1
+        }
+
+        p <- p + ggplot2::geom_hline(yintercept = lim, color=lim_color,
+                                     alpha=0.5,
+                                     linetype=2) +
+          ggrepel::geom_text_repel(data=data.frame(x=x_loc, y=lim),
+                                   ggplot2::aes(x=x, y=y),
+                                   label=lim_name, color=lim_color)
+      }
     }
   }
+
+
 
 
 

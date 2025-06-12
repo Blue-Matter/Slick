@@ -45,9 +45,11 @@ reference:
   - Metadata
   - MinValue
   - Limit
+  - RefPoints
   - Time
   - TimeLab
   - TimeNow
+  - TimeTerminal
   - Value
 - title: "S4 Object Classes"
   desc: >

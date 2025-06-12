@@ -172,6 +172,7 @@ setValidity('Slick', validSlick)
 #' @param Spider An object of class [Spider-class()]
 #' @param Timeseries An object of class [Timeseries-class()]
 #' @param Tradeoff An object of class [Tradeoff-class()]
+#' @return A `Slick` object
 #' @export
 Slick <- function(Title='',
                   Subtitle='',
@@ -323,6 +324,13 @@ setMethod("show", "Slick", function(object) {
                    'Timeseries', 'Tradeoff')
 
   for (cl in obj_classes) {
+    if(cl== 'Timeseries') {
+      slot(object,cl) <- UpdateTimeseries(slot(object,cl))
+    }
+    if(cl== 'Kobe') {
+      slot(object,cl) <- UpdateKobe(slot(object,cl))
+    }
+
     temp <- slot(object,cl)
     chk <-  Check(temp)
     cli::cli_h2('{.code {chk@object}}')

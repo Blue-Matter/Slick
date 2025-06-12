@@ -8,3 +8,7 @@ inst/doc
 *.mse
 
 vignettes/articles/DevelopersGuide_cache/
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
