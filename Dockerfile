@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
 	build-essential \
     pandoc \
-    pandoc-citeproc \
+
 	libcurl4-openssl-dev \
     libcairo2-dev \
     libxt-dev \
@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
 	libtiff-dev
 
 	#libcurl4-gnutls-dev \
+ #     pandoc-citeproc \ # error trying to install this
 
 # install basic shiny functionality to R
 RUN R -e "install.packages(c('shiny', 'rmarkdown', 'remotes'), repos='https://cloud.r-project.org/')"
