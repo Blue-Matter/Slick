@@ -9,8 +9,11 @@ Authors@R: c(
     person("Shana", "Miller", , "smiller@oceanfdn.org", role = 'aut')
   )
 Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
-Description: 'Slick' is an R package designed for visualizing and exploring results of a Management Strategy Evaluation (MSE).
-URL: https://slick.bluematterscience.com/
+Description: A framework for visualizing and exploring results of a Management
+    Strategy Evaluation (MSE). The publication quality figures and tables
+    can be developed directly from the R console, or interactively explored
+    with the Slick App. 
+URL: https://slick.bluematterscience.com/, https://github.com/Blue-Matter/Slick
 License: GPL-2
 Depends:
     R (>= 4.1.0)
@@ -133,3 +136,4 @@ Collate:
     'mod_toplink.R'
     'utils_Table.R'
     'utils_util.R'
+BugReports: https://github.com/Blue-Matter/Slick/issues

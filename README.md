@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/Slick)](https://CRAN.R-project.org/package=Slick) -->
+
 [![R-CMD-check](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Blue-Matter/Slick/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -95,14 +95,14 @@ The online version of the Slick App can be accessed
 
 ### About Slick
 
-Slick was developed by [Blue Matter Science](bluematterscience.com) and
-designed and commissioned by [The Ocean
-Foundation’s](https://oceanfdn.org/) International Fisheries
-Conservation Project and
-[harveststrategies.org](www.harveststrategies.org), with support from
-[The Pew Charitable Trusts](https://www.pewtrusts.org/en/), and the
+Slick was developed by [Blue Matter
+Science](https://www.bluematterscience.com) and designed and
+commissioned by [The Ocean Foundation’s](https://oceanfdn.org/)
+International Fisheries Conservation Project and
+[harveststrategies.org](https://harveststrategies.org/), with support
+from [The Pew Charitable Trusts](https://www.pew.org/en/), and the
 [Common Oceans Tuna Fisheries
-Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna/en/),
+Project](https://www.fao.org/in-action/commonoceans/what-we-do/tuna-fisheries/en/),
 which is funded by
 [GEF](https://www.thegef.org/what-we-do/topics/areas-beyond-national-jurisdiction)
 and implemented by the
