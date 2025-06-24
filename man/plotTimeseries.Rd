@@ -24,6 +24,7 @@ plotTimeseries(
   quants2 = c(0.1, 0.9),
   alpha2 = 0.1,
   MP_label = "Code",
+  col_title = "#D6501C",
   size.title = 18,
   size.axis.title = 18,
   size.axis.text = 16,
@@ -76,6 +77,8 @@ plotTimeseries(
 
 \item{MP_label}{Label to use for the MPs. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}
+
+\item{col_title}{Color of the MP title (if \code{byMP==TRUE})}
 
 \item{size.title}{Numeric length 1. Size for plot title}
 

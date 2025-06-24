@@ -24,6 +24,7 @@
 #' @param alpha2 Alpha for the colored MPs outer shading
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
+#' @param col_title Color of the MP title (if `byMP==TRUE`)
 #' @param size.title Numeric length 1. Size for plot title
 #' @param size.axis.title Numeric length 1. Size for axis title
 #' @param size.axis.text Numeric length 1. Size for axis text
@@ -61,6 +62,7 @@ plotTimeseries <- function(slick,
                            quants2=c(0.1, 0.9),
                            alpha2=0.1,
                            MP_label='Code',
+                           col_title='#D6501C',
                            size.title=18,
                            size.axis.title=18,
                            size.axis.text=16,
@@ -108,6 +110,9 @@ plotTimeseries <- function(slick,
   MP_info <- get_MP_info(slick, MP_label, nMP)
   MP_lab <- MP_info$MP_lab
   MP_colors <- MP_info$MP_colors
+  if(length(MP_colors)!=nMP | any(nchar(MP_colors)<1))
+    MP_colors <- default_mp_colors(nMP)
+
 
   if (is.null(sims)) {
     sims <- 1:dim(values)[1]
@@ -118,13 +123,14 @@ plotTimeseries <- function(slick,
 
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
-  proj.yr.ind <- (hist.yr.ind):length(times)
-  proj.yrs <- times[proj.yr.ind]
+
 
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
 
   if (includeHist) {
+    proj.yr.ind <- (hist.yr.ind):length(times)
+    proj.yrs <- times[proj.yr.ind]
     # Historical Period
     if (byOM) {
       mean.hist <- values[,oms,1, PI,1:hist.yr.ind, drop=FALSE]
@@ -162,6 +168,9 @@ plotTimeseries <- function(slick,
       ggplot2::geom_line(ggplot2::aes(x=x, y=Median), data=Hist_df,
                          color=col_line)
 
+  } else {
+    proj.yr.ind <- (hist.yr.ind+1):length(times)
+    proj.yrs <- times[proj.yr.ind]
   }
 
   # Projection
@@ -396,7 +405,7 @@ plotTimeseries <- function(slick,
 
 
   if (byOM | byMP) {
-    p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour='#D6501C',
+    p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour=col_title,
                                                                size=size.title, face='bold'),
                             strip.background = ggplot2::element_blank())
   }
