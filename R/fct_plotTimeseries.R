@@ -405,9 +405,15 @@ plotTimeseries <- function(slick,
 
 
   if (byOM | byMP) {
-    p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour=col_title,
-                                                               size=size.title, face='bold'),
-                            strip.background = ggplot2::element_blank())
+    p <- p + ggplot2::theme(strip.background = ggplot2::element_blank())
+
+    if (!isFALSE(col_title)) {
+      p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour=col_title,
+                                                                 size=size.title, face='bold'))
+    } else {
+      p <- p + ggplot2::theme(strip.text = ggplot2::element_blank())
+    }
+
   }
 
   p

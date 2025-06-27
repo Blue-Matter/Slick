@@ -43,7 +43,7 @@ Can include Markdown, see \code{Examples}.
 A character string length \code{nPI} or a named list for multi-language support. See \code{Details}}
 
 \item{\code{Time}}{A numeric vector with values for the historical and projection time-steps. Must
-match length \code{nTS} in \code{Value}}
+match length \code{nTS} in \code{Value}. Can also be class \code{Date}, \code{POSIXct} or \code{POSIXt}}
 
 \item{\code{TimeNow}}{A numeric value matching the last historical timestep in \code{Time}}
 
