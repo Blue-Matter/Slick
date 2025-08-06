@@ -29,6 +29,7 @@ plotTimeseries(
   size.axis.title = 18,
   size.axis.text = 16,
   size.mp.label = 6,
+  linewidth.median.line = 0.5,
   targ_color = "green",
   targ_name = "Target",
   lim_color = "red",
@@ -87,6 +88,8 @@ plotTimeseries(
 \item{size.axis.text}{Numeric length 1. Size for axis text}
 
 \item{size.mp.label}{Numeric length 1. Size of MP labels. Set to NULL for no MP labels}
+
+\item{linewidth.median.line}{Width of the median line}
 
 \item{targ_color}{Color for the target line (if it exists in \code{Target(Timeseries(slick))})}
 
