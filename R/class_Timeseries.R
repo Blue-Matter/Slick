@@ -1,3 +1,5 @@
+setClassUnion("DateNumber", c("POSIXct", "POSIXt", "Date", 'numeric'))
+
 
 # ---- Class ----
 
@@ -25,7 +27,7 @@
 #' @slot Label `r label_PI_param() `
 #' @slot Description `r description_PI_param()`
 #' @slot Time A numeric vector with values for the historical and projection time-steps. Must
-#' match length `nTS` in `Value`
+#' match length `nTS` in `Value`. Can also be class `Date`, `POSIXct` or `POSIXt`
 #' @slot TimeNow A numeric value matching the last historical timestep in `Time`
 #' @slot TimeLab Character string length 1. Name of the time step (e.g., 'Year'). Will be used as the label in the plots.
 #' Use a named list for multiple languages.
@@ -47,8 +49,8 @@ setClass("Timeseries",
          slots=c(Code='character_list',
                  Label='character_list',
                  Description='character_list',
-                 Time='numeric',
-                 TimeNow='numeric',
+                 Time='DateNumber',
+                 TimeNow='DateNumber',
                  TimeLab='character_list',
                  Value='array',
                  Preset='list',
