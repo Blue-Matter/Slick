@@ -24,10 +24,12 @@
 #' @param alpha2 Alpha for the colored MPs outer shading
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
+#' @param col_title Color of the MP title (if `byMP==TRUE`)
 #' @param size.title Numeric length 1. Size for plot title
 #' @param size.axis.title Numeric length 1. Size for axis title
 #' @param size.axis.text Numeric length 1. Size for axis text
 #' @param size.mp.label Numeric length 1. Size of MP labels. Set to NULL for no MP labels
+#' @param linewidth.median.line Width of the median line
 #' @param targ_color Color for the target line (if it exists in `Target(Timeseries(slick))`)
 #' @param targ_name Label for the target line
 #' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
@@ -61,10 +63,12 @@ plotTimeseries <- function(slick,
                            quants2=c(0.1, 0.9),
                            alpha2=0.1,
                            MP_label='Code',
+                           col_title='#D6501C',
                            size.title=18,
                            size.axis.title=18,
                            size.axis.text=16,
                            size.mp.label=6,
+                           linewidth.median.line=0.5,
                            targ_color='green',
                            targ_name='Target',
                            lim_color='red',
@@ -108,6 +112,9 @@ plotTimeseries <- function(slick,
   MP_info <- get_MP_info(slick, MP_label, nMP)
   MP_lab <- MP_info$MP_lab
   MP_colors <- MP_info$MP_colors
+  if(length(MP_colors)!=nMP | any(nchar(MP_colors)<1))
+    MP_colors <- default_mp_colors(nMP)
+
 
   if (is.null(sims)) {
     sims <- 1:dim(values)[1]
@@ -118,13 +125,14 @@ plotTimeseries <- function(slick,
 
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
-  proj.yr.ind <- (hist.yr.ind):length(times)
-  proj.yrs <- times[proj.yr.ind]
+
 
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
 
   if (includeHist) {
+    proj.yr.ind <- (hist.yr.ind):length(times)
+    proj.yrs <- times[proj.yr.ind]
     # Historical Period
     if (byOM) {
       mean.hist <- values[,oms,1, PI,1:hist.yr.ind, drop=FALSE]
@@ -160,8 +168,11 @@ plotTimeseries <- function(slick,
       ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=Hist_df,
                            fill=fill_ribbon1, col=col_ribbon1) +
       ggplot2::geom_line(ggplot2::aes(x=x, y=Median), data=Hist_df,
-                         color=col_line)
+                         color=col_line, linewidth=linewidth.median.line)
 
+  } else {
+    proj.yr.ind <- (hist.yr.ind+1):length(times)
+    proj.yrs <- times[proj.yr.ind]
   }
 
   # Projection
@@ -206,9 +217,10 @@ plotTimeseries <- function(slick,
       if (byMP) {
         p <- p +
           ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2), data=quant_df,
-                               color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
+                               color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2,
+                               alpha=alpha2) +
           ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=quant_df,
-                               fill=fill_ribbon1, col=col_ribbon1)
+                               fill=fill_ribbon1, col=col_ribbon1, alpha=alpha1)
       } else {
         p <- p +
           ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2,fill=MP), data=quant_df,
@@ -220,7 +232,7 @@ plotTimeseries <- function(slick,
 
 
     p <- p +
-      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
       ggplot2::scale_color_manual(values=MP_colors) +
       ggplot2::scale_fill_manual(values=MP_colors) +
       ggplot2::guides(color='none', fill='none')
@@ -260,7 +272,7 @@ plotTimeseries <- function(slick,
         ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1, fill=MP), data=quant_df, alpha=alpha1)
 
       p <- p +
-        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
+        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
         ggplot2::scale_color_manual(values=MP_colors) +
         ggplot2::scale_fill_manual(values=MP_colors) +
         ggplot2::guides(color='none', fill='none')
@@ -269,11 +281,11 @@ plotTimeseries <- function(slick,
       if (includeQuants)
         p <- p +
         ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower2, ymax=Upper2,fill=MP), data=quant_df,
-                             color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
+                             color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2, alpha=alpha2) +
         ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1, fill=MP), data=quant_df,
-                             fill=fill_ribbon1, col=col_ribbon1)
+                             fill=fill_ribbon1, col=col_ribbon1, alpha=alpha1)
       p <- p +
-        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf) +
+        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
         ggplot2::scale_color_manual(values=MP_colors) +
         ggplot2::guides(color='none')
     }
@@ -396,9 +408,15 @@ plotTimeseries <- function(slick,
 
 
   if (byOM | byMP) {
-    p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour='#D6501C',
-                                                               size=size.title, face='bold'),
-                            strip.background = ggplot2::element_blank())
+    p <- p + ggplot2::theme(strip.background = ggplot2::element_blank())
+
+    if (!isFALSE(col_title)) {
+      p <- p + ggplot2::theme(strip.text = ggplot2::element_text(colour=col_title,
+                                                                 size=size.title, face='bold'))
+    } else {
+      p <- p + ggplot2::theme(strip.text = ggplot2::element_blank())
+    }
+
   }
 
   p
