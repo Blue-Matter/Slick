@@ -88,7 +88,6 @@ plotKobe <- function(slick,
   if (yPI >nPI)
     cli::cli_abort('`yPI` is greater than the number of performance indicators')
 
-
   targets <- Target(kobe)
   if (length(targets)<1) {
     cli::cli_alert_info('`Target` not specified. Defaulting to 1')
@@ -108,6 +107,10 @@ plotKobe <- function(slick,
   MP_info <- get_MP_info(slick, MP_label, nMP)
   MP_lab <- MP_info$MP_lab
   MP_colors <- MP_info$MP_colors
+  if (any(nchar(MP_colors)<1)) {
+    MP_colors <- default_mp_colors(length(MP_lab))
+  }
+
 
   values <- Value(kobe)
   dd <- dim(values)
