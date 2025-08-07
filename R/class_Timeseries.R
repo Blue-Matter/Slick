@@ -358,7 +358,7 @@ setMethod("show", "Timeseries", function(object) {
 
   cli::cli_h2('{.code Time}')
   tt <- Time(object)
-  if (length(tt)>0) {
+  if (length(tt)>=2) {
     if (length(tt)>2) {
       t1 <- paste(tt[1:2], collapse=', ')
       t2 <- paste(tt[(length(tt)-1):(length(tt))], collapse=', ')
