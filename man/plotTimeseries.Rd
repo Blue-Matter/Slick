@@ -29,7 +29,7 @@ plotTimeseries(
   size.axis.title = 18,
   size.axis.text = 16,
   size.mp.label = 6,
-  linewidth.median.line = 0.5,
+  linewidth.mean.line = 0.5,
   targ_color = "green",
   targ_name = "Target",
   lim_color = "red",
@@ -52,7 +52,7 @@ plotTimeseries(
 
 \item{ncol}{Numeric. Number of columns if faceting by MP or OM}
 
-\item{col_line}{Color for the median line (historical)}
+\item{col_line}{Color for the mean line (historical)}
 
 \item{includeQuants}{Logical. Include quantile shading for the projections?}
 
@@ -89,7 +89,7 @@ plotTimeseries(
 
 \item{size.mp.label}{Numeric length 1. Size of MP labels. Set to NULL for no MP labels}
 
-\item{linewidth.median.line}{Width of the median line}
+\item{linewidth.mean.line}{Width of the mean line}
 
 \item{targ_color}{Color for the target line (if it exists in \code{Target(Timeseries(slick))})}
 

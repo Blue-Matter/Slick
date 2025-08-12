@@ -10,7 +10,7 @@
 #' @param byOM Logical. Facet by OM?  Defaults to FALSE where values are calculated as mean across OMs
 #' @param includeHist Logical. Include the historical period in the projections?
 #' @param ncol Numeric. Number of columns if faceting by MP or OM
-#' @param col_line Color for the median line (historical)
+#' @param col_line Color for the mean line (historical)
 #' @param includeQuants Logical. Include quantile shading for the projections?
 #' @param includeLabels Logical. Include MP labels?
 #' @param fill_ribbon1 Fill color for the inner ribbon
@@ -29,7 +29,7 @@
 #' @param size.axis.title Numeric length 1. Size for axis title
 #' @param size.axis.text Numeric length 1. Size for axis text
 #' @param size.mp.label Numeric length 1. Size of MP labels. Set to NULL for no MP labels
-#' @param linewidth.median.line Width of the median line
+#' @param linewidth.mean.line Width of the mean line
 #' @param targ_color Color for the target line (if it exists in `Target(Timeseries(slick))`)
 #' @param targ_name Label for the target line
 #' @param lim_color Color for the limit line (if it exists in `Limit(Timeseries(slick))`)
@@ -68,7 +68,7 @@ plotTimeseries <- function(slick,
                            size.axis.title=18,
                            size.axis.text=16,
                            size.mp.label=6,
-                           linewidth.median.line=0.5,
+                           linewidth.mean.line=0.5,
                            targ_color='green',
                            targ_name='Target',
                            lim_color='red',
@@ -77,7 +77,7 @@ plotTimeseries <- function(slick,
                            sims=NULL,
                            lang='en') {
 
-  if (!methods::is(slick, 'Slick'))
+  if (!inherits(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
   timeseries <- Timeseries(slick)
@@ -126,7 +126,6 @@ plotTimeseries <- function(slick,
   hist.yr.ind <- which(times<=time_now) |> max()
   hist.yrs <-  times[1:hist.yr.ind]
 
-
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
 
@@ -136,13 +135,13 @@ plotTimeseries <- function(slick,
     # Historical Period
     if (byOM) {
       mean.hist <- values[,oms,1, PI,1:hist.yr.ind, drop=FALSE]
-      med.hist <- apply(mean.hist, c(2,5), median, na.rm=TRUE) # median over simulations
+      med.hist <- apply(mean.hist, c(2,5), mean, na.rm=TRUE) # mean over simulations
       quant.1.hist <- apply(mean.hist, c(2,5), quantile, probs=quants1, na.rm=TRUE)
       quant.2.hist <- apply(mean.hist, c(2,5), quantile, probs=quants2, na.rm=TRUE)
 
       Hist_df <- data.frame(OM=om_names,
                             x=rep(hist.yrs, each=nOM),
-                            Median=as.vector(med.hist),
+                            Mean=as.vector(mean.hist),
                             Lower1=as.vector(quant.1.hist[1,,]),
                             Upper1=as.vector(quant.1.hist[2,,]),
                             Lower2=as.vector(quant.2.hist[1,,]),
@@ -151,12 +150,12 @@ plotTimeseries <- function(slick,
 
     } else {
       mean.hist <- apply(values[,oms,1, PI,1:hist.yr.ind, drop=FALSE], c(1,4,5), mean, na.rm=TRUE) # mean over OMs
-      med.hist <- apply(mean.hist, 3, median, na.rm=TRUE) # median over simulations
+      med.hist <- apply(mean.hist, 3, mean, na.rm=TRUE) # mean over simulations
       quant.1.hist <- apply(mean.hist, 3, quantile, probs=quants1, na.rm=TRUE)
       quant.2.hist <- apply(mean.hist, 3, quantile, probs=quants2, na.rm=TRUE)
 
       Hist_df <- data.frame(x=hist.yrs,
-                            Median=med.hist,
+                            Mean=med.hist,
                             Lower1=quant.1.hist[1,],
                             Upper1=quant.1.hist[2,],
                             Lower2=quant.2.hist[1,],
@@ -167,8 +166,8 @@ plotTimeseries <- function(slick,
                                   color=col_ribbon2, fill=fill_ribbon2, linetype=linetype_ribbon2) +
       ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1), data=Hist_df,
                            fill=fill_ribbon1, col=col_ribbon1) +
-      ggplot2::geom_line(ggplot2::aes(x=x, y=Median), data=Hist_df,
-                         color=col_line, linewidth=linewidth.median.line)
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Mean), data=Hist_df,
+                         color=col_line, linewidth=linewidth.mean.line)
 
   } else {
     proj.yr.ind <- (hist.yr.ind+1):length(times)
@@ -178,12 +177,12 @@ plotTimeseries <- function(slick,
   # Projection
   if (byOM) {
     mean.mps <- values[sims,oms,, PI,proj.yr.ind, drop=FALSE]
-    med.mps <- apply(mean.mps, c(2,3,5), median, na.rm=TRUE)
+    med.mps <- apply(mean.mps, c(2,3,5), mean, na.rm=TRUE)
 
     meddf <- data.frame(OM=om_names,
                         MP=rep(MP_lab, each=nOM),
                         x=rep(proj.yrs, each=nMP*nOM),
-                        Median=as.vector(med.mps))
+                        Mean=as.vector(med.mps))
 
 
     meddf$OM <- factor(meddf$OM, levels=om_names, ordered = TRUE)
@@ -232,7 +231,7 @@ plotTimeseries <- function(slick,
 
 
     p <- p +
-      ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
+      ggplot2::geom_line(ggplot2::aes(x=x, y=Mean, color=MP), data=meddf, linewidth=linewidth.mean.line) +
       ggplot2::scale_color_manual(values=MP_colors) +
       ggplot2::scale_fill_manual(values=MP_colors) +
       ggplot2::guides(color='none', fill='none')
@@ -246,10 +245,10 @@ plotTimeseries <- function(slick,
       mean.mps <- apply(values[sims,oms,, PI,proj.yr.ind, drop=FALSE], c(1,3,5), sum)/
         apply(values[sims,oms,, PI,proj.yr.ind, drop=FALSE], c(1,3,5), length)
     }
-    med.mps <- apply(mean.mps, c(2,3), median, na.rm=TRUE)
+    med.mps <- apply(mean.mps, c(2,3), mean, na.rm=TRUE)
     meddf <- data.frame(x=rep(proj.yrs, each=nMP),
                         MP=MP_lab,
-                        Median=as.vector(med.mps))
+                        Mean=as.vector(med.mps))
     meddf$MP <- factor(meddf$MP, ordered=TRUE, levels=MP_lab)
 
     quant.1.mp <- apply(mean.mps, 2:3, quantile, probs=quants1, na.rm=TRUE)
@@ -272,7 +271,7 @@ plotTimeseries <- function(slick,
         ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1, fill=MP), data=quant_df, alpha=alpha1)
 
       p <- p +
-        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
+        ggplot2::geom_line(ggplot2::aes(x=x, y=Mean, color=MP), data=meddf, linewidth=linewidth.mean.line) +
         ggplot2::scale_color_manual(values=MP_colors) +
         ggplot2::scale_fill_manual(values=MP_colors) +
         ggplot2::guides(color='none', fill='none')
@@ -285,7 +284,7 @@ plotTimeseries <- function(slick,
         ggplot2::geom_ribbon(ggplot2::aes(x=x, ymin=Lower1, ymax=Upper1, fill=MP), data=quant_df,
                              fill=fill_ribbon1, col=col_ribbon1, alpha=alpha1)
       p <- p +
-        ggplot2::geom_line(ggplot2::aes(x=x, y=Median, color=MP), data=meddf, linewidth=linewidth.median.line) +
+        ggplot2::geom_line(ggplot2::aes(x=x, y=Mean, color=MP), data=meddf, linewidth=linewidth.mean.line) +
         ggplot2::scale_color_manual(values=MP_colors) +
         ggplot2::guides(color='none')
     }
@@ -303,7 +302,7 @@ plotTimeseries <- function(slick,
       dplyr::filter(x==X)
 
     p <- p + ggrepel::geom_text_repel(data=meddf_last,
-                                 ggplot2::aes(x=x, y=Median,
+                                 ggplot2::aes(x=x, y=Mean,
                                               label=MP, color=MP),
                                  size=size.mp.label,
                                  max.overlaps = Inf,

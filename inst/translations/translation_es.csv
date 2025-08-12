@@ -1,174 +1,174 @@
-en,es
-Choose Language,Elegir idioma
-About Slick,Acerca de Slick
-Slick was developed by,Slick fue desarrollado por
-and designed and commissioned by,y diseñado y encargado por
-International Fisheries Conservation Project and,Proyecto Internacional de Conservación de Pesquerías y
-with support from,con el apoyo de
-and the,y el
-which is funded by,financiado por
-and implemented by the,y aplicada por la
-The prototype figure designs were developed by,Los diseños de las figuras prototipo fueron desarrollados por
-Slick is under going further development. All feedback is welcome. Please contact,Slick está en fase de desarrollo. Todos los comentarios son bienvenidos. Contacte con
-with any comments or suggestions for further development.,con cualquier comentario o propuesta para seguir mejorando.
-Overall,En general
-By Operating Model,Por modelo operativo
-All performance indicators are defined such that higher values mean better performance and lower values mean worse performance.,Todos los indicadores de rendimiento se definen de tal manera que los valores más altos significan mejor rendimiento y los valores más bajos
-Results can also be shown as violin plots by selecting the button on the right.,Los resultados también pueden mostrarse como gráficos de violín seleccionando el botón de la derecha.
-"Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.","Los gráficos de violín son similares a los gráficos de caja, salvo que también muestran la densidad de probabilidad de los datos en diferentes valores. La anchura del gráfico de violín indica la proporción de puntos de datos que hay en cada región del gráfico; es decir, las zonas anchas del gráfico indican un número relativamente elevado de puntos de datos en esa región, mientras que las zonas estrechas del gráfico indican pocos puntos de datos. Los gráficos abarcan todo el rango de valores de los datos."
-Reading this Chart,Lectura de este gráfico
-This chart compares the performance of ,Este gráfico compara el rendimiento de 
- management procedures (MP) across , los procedimientos de gestión (MP) en todos 
- operating models., los modelos operativos.
- management procedures (MP) for , los procedimientos de gestión (MP) para 
-Reset Defaults,Restablecer valores predeterminados
-Management Procedures,Procedimientos de gestión
-Performance Indicators,Indicadores de rendimiento
-Global MP Settings,Ajustes globales de MP
-Operating Models,Modelos operativos
-These Management Procedure settings will apply to all plots.,Estos ajustes del procedimiento de gestión se aplicarán a todos los gráficos.
-MPs that are deselected here will not be displayed in any plots.,Los MP no seleccionados aquí no se mostrarán en ningún gráfico.
-The MP Color Settings will change the colors of the MPs in all plots.,Los ajustes de color de los MP cambiarán los colores de los MP en todos los gráficos.
-Apply Global MP Filter,Aplicar el filtro global de MP
-Please load a Slick object,Cargue un objeto Slick
-Welcome to Slick,Le damos la bienvenida a Slick
-"Slick is a decision analysis tool that presents the outcomes of candidate management procedures (MPs), also known as harvest strategies, across various states of nature, accounting for uncertainty. It is interactive and allows users to filter results live in order to explore robustness and performance.","Slick es una herramienta de análisis de decisiones que presenta los resultados de los procedimientos de gestión (MP) candidatos, también conocidos como estrategias de captura, en varios estados de la naturaleza, teniendo en cuenta la incertidumbre. Es interactivo y permite a los usuarios filtrar los resultados en vivo para explorar la solidez y el rendimiento."
-"While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the ", "Si bien Slick se puede aplicar a cualquier contexto de análisis de decisiones, fue diseñado específicamente para investigar el desempeño de las estrategias de captura probadas mediante la evaluación de estrategias de manejo (MSE). Slick se puede utilizar para cualquier proceso de MSE, pero la versión actual incluye un ejemplo de demostración, así como resultados preliminares de las MSE para el atún listado del Atlántico occidental y el pez espada del Atlántico norte. Los usuarios también pueden cargar archivos de datos Slick personalizados producidos para mostrar resultados de otras MPE (consulte la "
-Developer's Guide, Guía del desarrollador
-How to use Slick,Cómo utilizar Slick
-Load a Slick Data File:,Cargar un archivo de datos de Slick:
-"To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.",Para utilizar Slick
-Consult the,Consulte el
-for information on creating a Slick Data file.,para obtener información sobre cómo crear un archivo de datos de Slick.
-Explore the Results:,Explore los resultados:
-"After a Slick Data File is loaded, the App will navigate to an Overview page which provides a summary of the information contained in the Slick Data File, and links to Slick's data visualization pages.",Una vez cargado un archivo de datos de Slick
-Load Slick Data,Cargar datos de Slick
-Load your MSE Results,Cargar los resultados del MSE
-From file (.slick),Del archivo (.slick)
-Load a Case Study,Cargar un caso práctico
-Select a case study and click the Load button,Seleccione un caso práctico y pulse el botón Cargar
-Select Case Study,Seleccione el caso práctico
-Load,Cargar
-Click the Download button to download the Slick file,Haga clic en el botón Descargar para descargar el archivo de Slick
-Download,Descargar
-X Axis,Eje X
-Y Axis,Eje Y
-This chart compares trade-offs in,Este gráfico compara las compensaciones en
- management procedures for , procedimientos de gestión de 
-" operating models by measuring two co-dependent performance metrics, typically a measure of fishing mortality (vertical axis) and biomass (horizontal axis)", modelos operativos mediante la medición de dos parámetros de rendimiento codependientes
-The large colored dots represent the median value for the final year of the projection period: ,Los puntos grandes de color representan el valor medio del último año del periodo de proyección: 
-"The small colored dots indicate the median value in the first year of the projections, and the colored lines show how the median values change over time.",Los puntos pequeños de color indican el valor medio en el primer año de las proyecciones y las líneas de color muestran cómo cambian los valores medios con el tiempo.
-The white dotted lines around dots are error bars. The default represents,Las líneas blancas discontinuas alrededor de los puntos son barras de error. El valor por defecto representa
-"percentiles, but that can be changed using the ""Percentiles"" scale at the right. The error bars can be removed with the checkbox on the right side.","percentiles, pero eso puede cambiarse utilizando la escala ""Percentiles"" de la derecha. Las barras de error pueden eliminarse con la casilla de la derecha."
-This chart compares the projected median values for ,Este gráfico compara los valores medios previstos para 
-operating models over time for ,los modelos operativos a lo largo del tiempo para 
-management procedures and shows the levels of uncertainty.,los procedimientos de gestión y muestra los niveles de incertidumbre.
-Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.,Los segmentos dentro de cada barra son otra forma de ver las barras de error en el gráfico de Kobe. Muestran el porcentaje de ejecuciones que caen en cada uno de los cuadrantes de Kobe en cada año de proyección.
-Error Bars,Barras de error
-Include Error Bars?,¿Incluir barras de error?
-Percentile,Percentil
-Set Maximum Axis Value,Fijar valor máximo del eje
-Show line for entire projection period?,¿Mostrar la línea para todo el periodo de proyección?
-Overview,Resumen
-Created:,Creado:
-Author:,Autor:
-Email:,Correo electrónico:
-Institution:,Institución:
-Summary,Resumen
-About the Plots,Sobre los gráficos
-"Plots the time series of a user-specified variable (e.g., yield, biomass) during the historical period and the projection period for each management procedure.",Traza la serie temporal de una variable especificada por el usuario (por ejemplo
-"A box plot, also called a box and whisker plot, displays the minimum, first quartile, median, third quartile, and maximum from a set of results. The boxplot tab includes an option to display the data as a violin plot, which is similar to a boxplot but also shows the density of data at different values.",Un gráfico de cajas
-"A trade-off plot comparing the performance of MPs with respect to biomass (on the x-axis) and fishing mortality (on the y-axis).  The Kobe tab includes an option to display the data as a Kobe time plot, which shows the percentage of runs that fall in each of the Kobe quadrants in each projection year.",Gráfico de compensación que compara el rendimiento de los MP con respecto a la biomasa (en el eje de abscisas) y la mortalidad por pesca (en el eje de ordenadas).  La pestaña Kobe incluye una opción para mostrar los datos como un gráfico temporal de Kobe
-"A table of performance indicators for each management procedure, with colored shading to indicate better/worse performance.",Una tabla de indicadores de rendimiento para cada procedimiento de gestión
-"Also sometimes referred to as Radar charts or web diagrams, these plots show results for three or more performance indicators, each represented on an axis starting from the same center point.",También denominados a veces gráficos de radar o diagramas de red
-A scatter plot comparing two performance indicators.,Gráfico de dispersión que compara dos indicadores de rendimiento.
-MP Color Settings,Ajustes de color de MP
-"Click the colored box of each MP to select a different color, or select from an existing color palette at the bottom.",Haga clic en el cuadro de color de cada MP para seleccionar un color diferente o seleccione de una paleta de colores existente en la parte inferior.
-Apply Color Selections,Aplicar selecciones de color
-Select a Color Palette,Seleccione una paleta de colores
-Click ,Haga clic 
-here,aquí
-to modify colors,para modificar colores
-Factors,Factores
-Design,Diseño
-Filters,Filtros
-Apply Filters,Aplicar filtros
-Shading?,¿Sombreado?
-Min-Max Color Scaling?,¿Escala de color mínimo-máximo?
-Static Table?,¿Tabla estática?
-Quilt Color Settings,Ajustes de color del gráfico de mosaico
-High Values,Valores elevados
-Low Values,Valores bajos
-The Quilt plot is designed as a color-coded table showing the values of the selected Performance Indicators (columns) for each Management Procedure (rows).,El gráfico de mosaico está diseñado como una tabla codificada por colores que muestra los valores de los indicadores de rendimiento seleccionados (columnas) para cada procedimiento de gestión (filas).
-"An exception is if the analyst who built the Slick Object specified maximum and minimum values for each performance indicator (e.g., between 0 and 1 for probabilities).",Una excepción es si el analista que construyó el objeto de Slick especificó valores máximos y mínimos para cada indicador de rendimiento (por ejemplo
-Use the button below the Quilt table to modify the colors shown in the table.,Utilice el botón situado debajo de la tabla del gráfico de mosaico para modificar los colores que se muestran en la tabla.
-Note: currently the Report feature is not implemented for the Quilt plot.,Nota: actualmente la función de informe no está implementada para el gráfico de mosaico.
-highest value,valor más alto
- lowest value , valor más bajo 
-The color shading indicates values ranging between the,El sombreado de color indica valores comprendidos entre el
-to the,a la
-for the performance indicator in each column. Higher values indicated better performance.,para el indicador de resultados de cada columna. Los valores más altos indican un mejor rendimiento.
-Add to Report,Añadir al informe
-Description,Descripción
-Description or caption for chart,Descripción o título del gráfico
-Image Settings,Ajustes de imagen
-Update Plot,Actualizar gráfico
-Report Format,Formato del informe
-Generate report,Generar informe
-Nothing added to Report yet,Aún no se ha añadido nada al informe
-Introduction,Introducción
-Home,Inicio
-Report,Informe
-By Management Procedure,Por el procedimiento de gestión
-Relative Scale,Escala relativa
-Please select 3 or more Performance Indicators,Seleccione 3 o más indicadores de rendimiento
- management procedures (MP) against , procedimientos de gestión (MP) contra 
- performance indicators., indicadores de rendimiento.
-Each value is the mean performance indicator over ,Cada valor es el indicador de rendimiento medio durante 
-Larger polygon areas indicate better overall performance.,Las áreas poligonales más grandes indican un mejor rendimiento general.
-The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance,Los gráficos rellenos representan una puntuación media de todos los indicadores de rendimiento para cada procedimiento de gestión. Proporciona una comparación rápida de los rendimientos globales del MP. Las áreas más grandes indican un mejor rendimiento general
-These summary values assume equal weighting and equal scaling of performance indicators.,Estos valores resumidos suponen una ponderación y una escala equitativas de los indicadores de rendimiento.
-This chart,Este gráfico
-compares the performance of ,compara el rendimiento de 
- management procedures (MP), procedimientos de gestión (MP)
-against ,contra 
- performance indicators, indicadores de rendimiento
- for a set of , para un conjunto de 
- operating models (columns)., modelos operativos (columnas).
-The polygon edges in each chart connect the individual scores of the performance indicators for that management procedure. Points closer to the exterior edge indicate better performance.,Los bordes de los polígonos de cada gráfico conectan las puntuaciones individuales de los indicadores de resultados de ese procedimiento de gestión. Los puntos más cercanos al borde exterior indican un mejor rendimiento.
-The percentages represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall performance for each MP. Filled hexagons with larger areas indicate better overall performance.,Los porcentajes representan una puntuación media de todos los indicadores de rendimiento para cada procedimiento de gestión. Ofrece una comparación rápida del rendimiento global de cada MP. Los hexágonos rellenos con áreas más grandes indican un mejor rendimiento general.
-"For each operating model (in columns), the management procedures (in rows) are ordered from highest to lowest overall average score.",Para cada modelo operativo (en columnas)
-Note:,Nota:
-These summary values assume equal weighting and equal scaling of performance indicators. Use the button to turn off the Overall Scores.,Estos valores resumidos suponen una ponderación y una escala equitativas de los indicadores de rendimiento. Utilice el botón para desactivar las puntuaciones globales.
-Overall Score,Puntuación global
-Overall scores,Puntuaciones globales
-(average of ,(media de 
-performance indicators),indicadores de rendimiento)
-Please select 3 or more Peformance Indicators,Seleccione 3 o más indicadores de rendimiento
-Please select 2 or more MPs,Seleccione 2 o más MP
- Management Procedures. Mean values over , Procedimientos de gestión. Valores medios en 
- Operating Models., Modelos operativos.
- Management Procedures. Mean values over simulations for , Procedimientos de gestión. Valores medios de las simulaciones para 
- Management Procedures. , Procedimientos de gestión. 
-Select Variable:,Seleccionar variable:
-Y-Axis Range,Rango del eje Y
-Include MP percentiles?,¿Incluir percentiles MP?
-Include MP Labels?,¿Incluir etiquetas MP?
-Include Historical?,¿Incluir histórico?
-"This chart shows a stock status variables over time, for ",Este gráfico muestra las variables del estado de la población a lo largo del tiempo
-management procedures and level of uncertainty across,procedimientos de gestión y grado de incertidumbre en
-different simulation runs,diferentes ejecuciones de simulación
-management procedures and,procedimientos de gestión y
-individual Operating Models.,modelos operativos individuales.
-"The results are shown for 1 operating model at a time, either as the median across",Los resultados se muestran para 1 modelo operativo a la vez
-"simulations, or for a specific simulation.",simulaciones o para una simulación específica.
-"Click the ""Operating Model"" dropdown in the top menu for details of each OM.","Haga clic en el desplegable ""Modelo operativo"" del menú superior para ver los detalles de cada modelo operativo."
-Plot Option,Opción de gráfico
-by MP?,¿Por MP?
-Individual Simulation:,Simulación individual:
-Update Plots,Actualizar gráficos
-This chart plots the tradeoffs between any two performance indicators (select on right) for ,Este gráfico traza las compensaciones entre dos indicadores de rendimiento cualesquiera (seleccionar a la derecha) para 
-management procedures (MP).,procedimientos de gestión (MP).
-Select the Performance Indicators to show on the X and Y axes of the Tradeoff plot:,Seleccione los indicadores de rendimiento que se mostrarán en los ejes X e Y del gráfico de compensación:
-X-Axis Performance Indicator,Indicador de rendimiento del eje X
-Y-Axis Performance Indicator,Indicador de rendimiento del eje Y
+en,es,,,
+Choose Language,Elegir idioma,,,
+About Slick,Acerca de Slick,,,
+Slick was developed by,Slick fue desarrollado por,,,
+and designed and commissioned by,y diseñado y encargado por,,,
+International Fisheries Conservation Project and,Proyecto Internacional de Conservación de Pesquerías y,,,
+with support from,con el apoyo de,,,
+and the,y el,,,
+which is funded by,financiado por,,,
+and implemented by the,y aplicada por la,,,
+The prototype figure designs were developed by,Los diseños de las figuras prototipo fueron desarrollados por,,,
+Slick is under going further development. All feedback is welcome. Please contact,Slick está en fase de desarrollo. Todos los comentarios son bienvenidos. Contacte con,,,
+with any comments or suggestions for further development.,con cualquier comentario o propuesta para seguir mejorando.,,,
+Overall,En general,,,
+By Operating Model,Por modelo operativo,,,
+All performance indicators are defined such that higher values mean better performance and lower values mean worse performance.,Todos los indicadores de rendimiento se definen de tal manera que los valores más altos significan mejor rendimiento y los valores más bajos,,,
+Results can also be shown as violin plots by selecting the button on the right.,Los resultados también pueden mostrarse como gráficos de violín seleccionando el botón de la derecha.,,,
+"Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.","Los gráficos de violín son similares a los gráficos de caja, salvo que también muestran la densidad de probabilidad de los datos en diferentes valores. La anchura del gráfico de violín indica la proporción de puntos de datos que hay en cada región del gráfico; es decir, las zonas anchas del gráfico indican un número relativamente elevado de puntos de datos en esa región, mientras que las zonas estrechas del gráfico indican pocos puntos de datos. Los gráficos abarcan todo el rango de valores de los datos.",,,
+Reading this Chart,Lectura de este gráfico,,,
+This chart compares the performance of ,Este gráfico compara el rendimiento de ,,,
+ management procedures (MP) across , los procedimientos de gestión (MP) en todos ,,,
+ operating models., los modelos operativos.,,,
+ management procedures (MP) for , los procedimientos de gestión (MP) para ,,,
+Reset Defaults,Restablecer valores predeterminados,,,
+Management Procedures,Procedimientos de gestión,,,
+Performance Indicators,Indicadores de rendimiento,,,
+Global MP Settings,Ajustes globales de MP,,,
+Operating Models,Modelos operativos,,,
+These Management Procedure settings will apply to all plots.,Estos ajustes del procedimiento de gestión se aplicarán a todos los gráficos.,,,
+MPs that are deselected here will not be displayed in any plots.,Los MP no seleccionados aquí no se mostrarán en ningún gráfico.,,,
+The MP Color Settings will change the colors of the MPs in all plots.,Los ajustes de color de los MP cambiarán los colores de los MP en todos los gráficos.,,,
+Apply Global MP Filter,Aplicar el filtro global de MP,,,
+Please load a Slick object,Cargue un objeto Slick,,,
+Welcome to Slick,Le damos la bienvenida a Slick,,,
+"Slick is a decision analysis tool that presents the outcomes of candidate management procedures (MPs), also known as harvest strategies, across various states of nature, accounting for uncertainty. It is interactive and allows users to filter results live in order to explore robustness and performance.","Slick es una herramienta de análisis de decisiones que presenta los resultados de los procedimientos de gestión (MP) candidatos, también conocidos como estrategias de captura, en varios estados de la naturaleza, teniendo en cuenta la incertidumbre. Es interactivo y permite a los usuarios filtrar los resultados en vivo para explorar la solidez y el rendimiento.",,,
+"While Slick can be applied to any decision analysis context, it was specifically designed to investigate the performance of harvest strategies tested by management strategy evaluation (MSE). Slick can be used for any MSE process, but the current version includes a demonstration example, as well as preliminary results from the MSEs for Western Atlantic skipjack tuna and North Atlantic swordfish. Users can also upload custom Slick data files produced to display results from other MSEs (see the "," ""Si bien Slick se puede aplicar a cualquier contexto de análisis de decisiones", fue diseñado específicamente para investigar el desempeño de las estrategias de captura probadas mediante la evaluación de estrategias de manejo (MSE). Slick se puede utilizar para cualquier proceso de MSE, pero la versión actual incluye un ejemplo de demostración," así como resultados preliminares de las MSE para el atún listado del Atlántico occidental y el pez espada del Atlántico norte. Los usuarios también pueden cargar archivos de datos Slick personalizados producidos para mostrar resultados de otras MPE (consulte la """
+Developer's Guide, Guía del desarrollador,,,
+How to use Slick,Cómo utilizar Slick,,,
+Load a Slick Data File:,Cargar un archivo de datos de Slick:,,,
+"To use Slick, you need to either choose from one of the examples on the right, or upload a Slick Data file.",Para utilizar Slick,,,
+Consult the,Consulte el,,,
+for information on creating a Slick Data file.,para obtener información sobre cómo crear un archivo de datos de Slick.,,,
+Explore the Results:,Explore los resultados:,,,
+"After a Slick Data File is loaded, the App will navigate to an Overview page which provides a summary of the information contained in the Slick Data File, and links to Slick's data visualization pages.",Una vez cargado un archivo de datos de Slick,,,
+Load Slick Data,Cargar datos de Slick,,,
+Load your MSE Results,Cargar los resultados del MSE,,,
+From file (.slick),Del archivo (.slick),,,
+Load a Case Study,Cargar un caso práctico,,,
+Select a case study and click the Load button,Seleccione un caso práctico y pulse el botón Cargar,,,
+Select Case Study,Seleccione el caso práctico,,,
+Load,Cargar,,,
+Click the Download button to download the Slick file,Haga clic en el botón Descargar para descargar el archivo de Slick,,,
+Download,Descargar,,,
+X Axis,Eje X,,,
+Y Axis,Eje Y,,,
+This chart compares trade-offs in,Este gráfico compara las compensaciones en,,,
+ management procedures for , procedimientos de gestión de ,,,
+" operating models by measuring two co-dependent performance metrics, typically a measure of fishing mortality (vertical axis) and biomass (horizontal axis)", modelos operativos mediante la medición de dos parámetros de rendimiento codependientes,,,
+The large colored dots represent the mean value for the final year of the projection period: ,Los puntos grandes de color representan el valor promedio del último año del periodo de proyección: ,,,
+"The small colored dots indicate the median value in the first year of the projections, and the colored lines show how the mean values change over time.",Los puntos pequeños de color indican el valor promedio en el primer año de las proyecciones y las líneas de color muestran cómo cambian los valores medios con el tiempo.,,,
+The white dotted lines around dots are error bars. The default represents,Las líneas blancas discontinuas alrededor de los puntos son barras de error. El valor por defecto representa,,,
+"percentiles, but that can be changed using the ""Percentiles"" scale at the right. The error bars can be removed with the checkbox on the right side.","percentiles, pero eso puede cambiarse utilizando la escala ""Percentiles"" de la derecha. Las barras de error pueden eliminarse con la casilla de la derecha.",,,
+This chart compares the projected mean values for ,Este gráfico compara los valores promedios previstos para ,,,
+operating models over time for ,los modelos operativos a lo largo del tiempo para ,,,
+management procedures and shows the levels of uncertainty.,los procedimientos de gestión y muestra los niveles de incertidumbre.,,,
+Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.,Los segmentos dentro de cada barra son otra forma de ver las barras de error en el gráfico de Kobe. Muestran el porcentaje de ejecuciones que caen en cada uno de los cuadrantes de Kobe en cada año de proyección.,,,
+Error Bars,Barras de error,,,
+Include Error Bars?,¿Incluir barras de error?,,,
+Percentile,Percentil,,,
+Set Maximum Axis Value,Fijar valor máximo del eje,,,
+Show line for entire projection period?,¿Mostrar la línea para todo el periodo de proyección?,,,
+Overview,Resumen,,,
+Created:,Creado:,,,
+Author:,Autor:,,,
+Email:,Correo electrónico:,,,
+Institution:,Institución:,,,
+Summary,Resumen,,,
+About the Plots,Sobre los gráficos,,,
+"Plots the time series of a user-specified variable (e.g., yield, biomass) during the historical period and the projection period for each management procedure.",Traza la serie temporal de una variable especificada por el usuario (por ejemplo,,,
+"A box plot, also called a box and whisker plot, displays the minimum, first quartile, median, third quartile, and maximum from a set of results. The boxplot tab includes an option to display the data as a violin plot, which is similar to a boxplot but also shows the density of data at different values.",Un gráfico de cajas,,,
+"A trade-off plot comparing the performance of MPs with respect to biomass (on the x-axis) and fishing mortality (on the y-axis).  The Kobe tab includes an option to display the data as a Kobe time plot, which shows the percentage of runs that fall in each of the Kobe quadrants in each projection year.",Gráfico de compensación que compara el rendimiento de los MP con respecto a la biomasa (en el eje de abscisas) y la mortalidad por pesca (en el eje de ordenadas).  La pestaña Kobe incluye una opción para mostrar los datos como un gráfico temporal de Kobe,,,
+"A table of performance indicators for each management procedure, with colored shading to indicate better/worse performance.",Una tabla de indicadores de rendimiento para cada procedimiento de gestión,,,
+"Also sometimes referred to as Radar charts or web diagrams, these plots show results for three or more performance indicators, each represented on an axis starting from the same center point.",También denominados a veces gráficos de radar o diagramas de red,,,
+A scatter plot comparing two performance indicators.,Gráfico de dispersión que compara dos indicadores de rendimiento.,,,
+MP Color Settings,Ajustes de color de MP,,,
+"Click the colored box of each MP to select a different color, or select from an existing color palette at the bottom.",Haga clic en el cuadro de color de cada MP para seleccionar un color diferente o seleccione de una paleta de colores existente en la parte inferior.,,,
+Apply Color Selections,Aplicar selecciones de color,,,
+Select a Color Palette,Seleccione una paleta de colores,,,
+Click ,Haga clic ,,,
+here,aquí,,,
+to modify colors,para modificar colores,,,
+Factors,Factores,,,
+Design,Diseño,,,
+Filters,Filtros,,,
+Apply Filters,Aplicar filtros,,,
+Shading?,¿Sombreado?,,,
+Min-Max Color Scaling?,¿Escala de color mínimo-máximo?,,,
+Static Table?,¿Tabla estática?,,,
+Quilt Color Settings,Ajustes de color del gráfico de mosaico,,,
+High Values,Valores elevados,,,
+Low Values,Valores bajos,,,
+The Quilt plot is designed as a color-coded table showing the values of the selected Performance Indicators (columns) for each Management Procedure (rows).,El gráfico de mosaico está diseñado como una tabla codificada por colores que muestra los valores de los indicadores de rendimiento seleccionados (columnas) para cada procedimiento de gestión (filas).,,,
+"An exception is if the analyst who built the Slick Object specified maximum and minimum values for each performance indicator (e.g., between 0 and 1 for probabilities).",Una excepción es si el analista que construyó el objeto de Slick especificó valores máximos y mínimos para cada indicador de rendimiento (por ejemplo,,,
+Use the button below the Quilt table to modify the colors shown in the table.,Utilice el botón situado debajo de la tabla del gráfico de mosaico para modificar los colores que se muestran en la tabla.,,,
+Note: currently the Report feature is not implemented for the Quilt plot.,Nota: actualmente la función de informe no está implementada para el gráfico de mosaico.,,,
+highest value,valor más alto,,,
+ lowest value , valor más bajo ,,,
+The color shading indicates values ranging between the,El sombreado de color indica valores comprendidos entre el,,,
+to the,a la,,,
+for the performance indicator in each column. Higher values indicated better performance.,para el indicador de resultados de cada columna. Los valores más altos indican un mejor rendimiento.,,,
+Add to Report,Añadir al informe,,,
+Description,Descripción,,,
+Description or caption for chart,Descripción o título del gráfico,,,
+Image Settings,Ajustes de imagen,,,
+Update Plot,Actualizar gráfico,,,
+Report Format,Formato del informe,,,
+Generate report,Generar informe,,,
+Nothing added to Report yet,Aún no se ha añadido nada al informe,,,
+Introduction,Introducción,,,
+Home,Inicio,,,
+Report,Informe,,,
+By Management Procedure,Por el procedimiento de gestión,,,
+Relative Scale,Escala relativa,,,
+Please select 3 or more Performance Indicators,Seleccione 3 o más indicadores de rendimiento,,,
+ management procedures (MP) against , procedimientos de gestión (MP) contra ,,,
+ performance indicators., indicadores de rendimiento.,,,
+Each value is the mean performance indicator over ,Cada valor es el indicador de rendimiento medio durante ,,,
+Larger polygon areas indicate better overall performance.,Las áreas poligonales más grandes indican un mejor rendimiento general.,,,
+The filled plots represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall MP performances. Larger areas indicate better overall performance,Los gráficos rellenos representan una puntuación media de todos los indicadores de rendimiento para cada procedimiento de gestión. Proporciona una comparación rápida de los rendimientos globales del MP. Las áreas más grandes indican un mejor rendimiento general,,,
+These summary values assume equal weighting and equal scaling of performance indicators.,Estos valores resumidos suponen una ponderación y una escala equitativas de los indicadores de rendimiento.,,,
+This chart,Este gráfico,,,
+compares the performance of ,compara el rendimiento de ,,,
+ management procedures (MP), procedimientos de gestión (MP),,,
+against ,contra ,,,
+ performance indicators, indicadores de rendimiento,,,
+ for a set of , para un conjunto de ,,,
+ operating models (columns)., modelos operativos (columnas).,,,
+The polygon edges in each chart connect the individual scores of the performance indicators for that management procedure. Points closer to the exterior edge indicate better performance.,Los bordes de los polígonos de cada gráfico conectan las puntuaciones individuales de los indicadores de resultados de ese procedimiento de gestión. Los puntos más cercanos al borde exterior indican un mejor rendimiento.,,,
+The percentages represent an average score of all performance indicators for each management procedure. It provides a quick comparison of overall performance for each MP. Filled hexagons with larger areas indicate better overall performance.,Los porcentajes representan una puntuación media de todos los indicadores de rendimiento para cada procedimiento de gestión. Ofrece una comparación rápida del rendimiento global de cada MP. Los hexágonos rellenos con áreas más grandes indican un mejor rendimiento general.,,,
+"For each operating model (in columns), the management procedures (in rows) are ordered from highest to lowest overall average score.",Para cada modelo operativo (en columnas),,,
+Note:,Nota:,,,
+These summary values assume equal weighting and equal scaling of performance indicators. Use the button to turn off the Overall Scores.,Estos valores resumidos suponen una ponderación y una escala equitativas de los indicadores de rendimiento. Utilice el botón para desactivar las puntuaciones globales.,,,
+Overall Score,Puntuación global,,,
+Overall scores,Puntuaciones globales,,,
+(average of ,(media de ,,,
+performance indicators),indicadores de rendimiento),,,
+Please select 3 or more Peformance Indicators,Seleccione 3 o más indicadores de rendimiento,,,
+Please select 2 or more MPs,Seleccione 2 o más MP,,,
+ Management Procedures. Mean values over , Procedimientos de gestión. Valores medios en ,,,
+ Operating Models., Modelos operativos.,,,
+ Management Procedures. Mean values over simulations for , Procedimientos de gestión. Valores medios de las simulaciones para ,,,
+ Management Procedures. , Procedimientos de gestión. ,,,
+Select Variable:,Seleccionar variable:,,,
+Y-Axis Range,Rango del eje Y,,,
+Include MP percentiles?,¿Incluir percentiles MP?,,,
+Include MP Labels?,¿Incluir etiquetas MP?,,,
+Include Historical?,¿Incluir histórico?,,,
+"This chart shows a stock status variables over time, for ",Este gráfico muestra las variables del estado de la población a lo largo del tiempo,,,
+management procedures and level of uncertainty across,procedimientos de gestión y grado de incertidumbre en,,,
+different simulation runs,diferentes ejecuciones de simulación,,,
+management procedures and,procedimientos de gestión y,,,
+individual Operating Models.,modelos operativos individuales.,,,
+"The results are shown for 1 operating model at a time, either as the mean across",Los resultados se muestran para 1 modelo operativo a la vez,,,
+"simulations, or for a specific simulation.",simulaciones o para una simulación específica.,,,
+"Click the ""Operating Model"" dropdown in the top menu for details of each OM.","Haga clic en el desplegable ""Modelo operativo"" del menú superior para ver los detalles de cada modelo operativo.",,,
+Plot Option,Opción de gráfico,,,
+by MP?,¿Por MP?,,,
+Individual Simulation:,Simulación individual:,,,
+Update Plots,Actualizar gráficos,,,
+This chart plots the tradeoffs between any two performance indicators (select on right) for ,Este gráfico traza las compensaciones entre dos indicadores de rendimiento cualesquiera (seleccionar a la derecha) para ,,,
+management procedures (MP).,procedimientos de gestión (MP).,,,
+Select the Performance Indicators to show on the X and Y axes of the Tradeoff plot:,Seleccione los indicadores de rendimiento que se mostrarán en los ejes X e Y del gráfico de compensación:,,,
+X-Axis Performance Indicator,Indicador de rendimiento del eje X,,,
+Y-Axis Performance Indicator,Indicador de rendimiento del eje Y,,,
