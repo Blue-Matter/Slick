@@ -196,8 +196,8 @@ plotKobe <- function(slick,
       ggplot2::labs(x=axis_labels[xPI],
                     y=axis_labels[yPI])
 
-    df <- data.frame(x=as.vector(apply(mean_over_OMs[,,xPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
-                     y=as.vector(apply(mean_over_OMs[,,yPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
+    df <- data.frame(x=as.vector(apply(mean_over_OMs[,,xPI,, drop=FALSE], c(2,4), mean, na.rm=TRUE)),
+                     y=as.vector(apply(mean_over_OMs[,,yPI,, drop=FALSE], c(2,4), mean, na.rm=TRUE)),
                      MP=MP_lab,
                      time=rep(times, each=nMP))
 

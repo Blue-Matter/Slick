@@ -322,7 +322,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       tagList(
         p(i18n$t('This chart shows a stock status variables over time, for '), nMP(),
           i18n$t('management procedures and'), nOM(), i18n$t('individual Operating Models.')),
-        p(i18n$t('The results are shown for 1 operating model at a time, either as the median across'), nsim(),
+        p(i18n$t('The results are shown for 1 operating model at a time, either as the mean across'), nsim(),
           i18n$t('simulations, or for a specific simulation.')),
         p(i18n$t('Click the "Operating Model" dropdown in the top menu for details of each OM.'))
         # p('Target and limit reference points are shown in green and red, respectively, if they have been specified.'),
