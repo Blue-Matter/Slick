@@ -56,11 +56,11 @@ Y Axis,Axe Y
 This chart compares trade-offs in,Ce graphique compare les compromis entre les
  management procedures for , procédures de gestion selon les 
 " operating models by measuring two co-dependent performance metrics, typically a measure of fishing mortality (vertical axis) and biomass (horizontal axis)"," modèles d'exploitation en mesurant deux paramètres de performance interdépendants, généralement une mesure de la mortalité par pêche (axe vertical) et de la biomasse (axe horizontal)"
-The large colored dots represent the mean value for the final year of the projection period: ,Les gros points en couleur représentent la valeur médiane pour la dernière année de la période de projection : 
-"The small colored dots indicate the mean value in the first year of the projections, and the colored lines show how the median values change over time.","Les petits points en couleur indiquent la valeur médiane pour la première année de la période de projection, et les lignes colorées montrent comment les valeurs médianes évoluent dans le temps."
+The large colored dots represent the median value for the final year of the projection period: ,Les gros points en couleur représentent la valeur médiane pour la dernière année de la période de projection : 
+"The small colored dots indicate the median value in the first year of the projections, and the colored lines show how the median values change over time.","Les petits points en couleur indiquent la valeur médiane pour la première année de la période de projection, et les lignes colorées montrent comment les valeurs médianes évoluent dans le temps."
 The white dotted lines around dots are error bars. The default represents,Les lignes blanches en pointillés autour des points correspondent aux barres d'erreur. La valeur par défaut représente les
 "percentiles, but that can be changed using the ""Percentiles"" scale at the right. The error bars can be removed with the checkbox on the right side.",percentiles mais elle peut être modifiée à l'aide de l'échelle « Percentiles » située à droite. Les barres d'erreur peuvent être supprimées en cochant la case située à droite.
-This chart compares the projected mean values for ,Ce graphique compare les valeurs médianes projetées selon les 
+This chart compares the projected median values for ,Ce graphique compare les valeurs médianes projetées selon les 
 operating models over time for ,modèles d'exploitation au fil du temps en matière de 
 management procedures and shows the levels of uncertainty.,procédures de gestion et montre les niveaux d'incertitude.
 Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.,Les segments à l'intérieur de chaque barre sont une autre façon de voir les barres d'erreur dans le graphique de Kobe. Ils montrent le pourcentage d'exécutions qui se situent dans chacun des quadrants de Kobe pour chaque année de projection.
@@ -160,7 +160,7 @@ management procedures and level of uncertainty across,les procédures de gestion
 different simulation runs,différentes simulations
 management procedures and,procédures de gestion et
 individual Operating Models.,modèles d'exploitation individuels.
-"The results are shown for 1 operating model at a time, either as the mean across",Les résultats sont présentés pour un modèle d'exploitation à la fois soit comme la médiane de l'ensemble des
+"The results are shown for 1 operating model at a time, either as the median across",Les résultats sont présentés pour un modèle d'exploitation à la fois soit comme la médiane de l'ensemble des
 "simulations, or for a specific simulation.","simulations, ou pour une simulation spécifique."
 "Click the ""Operating Model"" dropdown in the top menu for details of each OM.",Cliquez sur « Modèle d'exploitation » dans le menu supérieur déroulant pour obtenir des informations sur chaque modèle d'exploitation.
 Plot Option,Option du diagramme
