@@ -157,7 +157,7 @@ mod_Kobe_overall_server <- function(id, i18n,
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
       mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
-      val <- max(apply(mean_over_OMs[,,1,,drop=FALSE], c(2,4), mean, na.rm=TRUE))
+      val <- max(apply(mean_over_OMs[,,1,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       val <- ceiling(val)
       if (val<2) val <- 2
       val
@@ -168,7 +168,7 @@ mod_Kobe_overall_server <- function(id, i18n,
       if (is.null(slick)) return(2)
       kobe <- Kobe(slick)
       mean_over_OMs <- apply(Value(kobe), c(1,3,4,5), mean, na.rm=TRUE)
-      val <- max(apply(mean_over_OMs[,,2,,drop=FALSE], c(2,4), mean, na.rm=TRUE))
+      val <- max(apply(mean_over_OMs[,,2,,drop=FALSE], c(2,4), median, na.rm=TRUE))
       val <- ceiling(val)
       if (val<2) val <- 2
       val
