@@ -14,6 +14,7 @@ plotTimeseries(
   col_line = "darkgray",
   includeQuants = TRUE,
   includeLabels = TRUE,
+  MeanMed = c("mean", "median"),
   fill_ribbon1 = "#ededed",
   col_ribbon1 = "#ededed",
   quants1 = c(0.25, 0.75),
@@ -58,6 +59,8 @@ plotTimeseries(
 
 \item{includeLabels}{Logical. Include MP labels?}
 
+\item{MeanMed}{Character. Plot the \code{'mean'} (default) or \code{'median'}.}
+
 \item{fill_ribbon1}{Fill color for the inner ribbon}
 
 \item{col_ribbon1}{Color of the line for inner ribbon}
@@ -89,7 +92,7 @@ plotTimeseries(
 
 \item{size.mp.label}{Numeric length 1. Size of MP labels. Set to NULL for no MP labels}
 
-\item{linewidth.median.line}{Width of the median line}
+\item{linewidth.median.line}{Width of the mean/median line}
 
 \item{targ_color}{Color for the target line (if it exists in \code{Target(Timeseries(slick))})}
 

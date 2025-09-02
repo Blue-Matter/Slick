@@ -15,6 +15,7 @@ if(getRversion() >= "2.15.1")
     'Lower2',
     'MP',
     'MPtxt',
+    'Mean',
     'Median',
     'Upper1',
     'Upper2',

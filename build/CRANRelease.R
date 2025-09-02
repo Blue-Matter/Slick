@@ -8,6 +8,5 @@ MissingTags$data
 MissingTags$functions |> dplyr::filter(has_export==TRUE, has_return==FALSE)
 
 
-
 devtools::check()
 

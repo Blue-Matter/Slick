@@ -71,7 +71,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                   Report,
                                   parent_session=session,
                                   includeQuants, includeLabels,
-                                  includeHist)
+                                  includeHist
+                                  )
 
     mod_Timeseries_byMP_server("Timeseries_byMP_1", i18n, filtered_slick,
                                pm_ind, yrange, nMP,
@@ -79,7 +80,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                Report,
                                parent_session=session,
                                includeQuants, includeLabels,
-                               includeHist)
+                               includeHist
+                               )
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
                                pm_ind, yrange, nOM,
@@ -94,6 +96,7 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
     output$plots <- renderUI({
       tagList(
         fluidRow(
+          # column(3,uiOutput(ns('MeanMedian'))),
           column(4,uiOutput(ns('includeQuantile'))),
           column(4,uiOutput(ns('includeLabels'))),
           column(4,uiOutput(ns('includeHist')))
@@ -160,10 +163,24 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
     output$includeQuantile <- renderUI({
       i18n <- i18n()
       checkboxInput(ns('incQuantile'),
-                    i18n$t('Include MP percentiles?'),
+                    i18n$t('Include Percentiles?'),
                     TRUE)
     })
 
+
+    # output$MeanMedian <- renderUI({
+    #   i18n <- i18n()
+    #   radioButtons(ns('plotoption'),
+    #                i18n$t('Plot Option'),
+    #                choiceNames = i18n$t(c('Mean', 'Median')),
+    #                choiceValues= c('mean', 'median')
+    #   )
+    # })
+    #
+    # MeanMed <- reactive({
+    #   shiny::req(input$plotoption)
+    #   input$plotoption
+    # })
 
 
     output$includeLabels <- renderUI({
