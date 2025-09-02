@@ -11,16 +11,20 @@
 
 ## R CMD check results
 
-Local Test
+### Local Test
 
-0 errors | 0 warnings | 1 notes
+0 errors | 1 warnings | 1 notes
 
 WARNING: LaTeX errors when creating PDF version. 
 Due to this issue: https://github.com/rstudio/rstudio/issues/15805
 
 NOTE: New submission
 
-No errors, warnings, or notes in remote test environments.
+### Remote Test Environments
+
+0 errors | 0 warnings | 0 notes
+
+
 
 
  
