@@ -1,4 +1,14 @@
-* This is a new release.
+* This is a re-submission of a new release in response to the CRAN Team's review of the 
+first submission.
+
+All issues identified by CRAN Team have been fixed.
+
+The following changes have been made:
+
+DESCRIPTION
+- added single quotes around `Slick` in Description
+
+
 
 ## Test environments
 
