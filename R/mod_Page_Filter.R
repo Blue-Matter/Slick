@@ -45,7 +45,7 @@ mod_Page_Filter_server <- function(id, i18n, Slick_Object, slot, minPM=3, incPM=
                                                  label=i18n$t("Apply Filters"),
                                                  icon("filter", verify_fa=FALSE),
                                                  color='danger',size='sm',
-                                                 block=T, style="fill")
+                                                 block=TRUE, style="fill")
         ),
         div(align = 'left', class='multicol',
             mod_filter_selection_ui(ns("filter_mp")),

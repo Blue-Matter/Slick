@@ -108,6 +108,8 @@ setGeneric("Check", function(object, ...) standardGeneric("Check"))
 #' - `es`: Spanish
 #' - `fr`: French
 #'
+#' @return Returns character string or named list with contents of the `Code`,
+#' `Label`, or `Description` slot of `object`
 #'
 #' @seealso [Label()], [Description()], [MPs-class()], [Boxplot-class()],
 #' [Kobe-class()], [Quilt-class()], [Spider-class()],

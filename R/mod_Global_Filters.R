@@ -106,7 +106,7 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
                                  label=i18n$t("Apply Global MP Filter"),
                                  icon("filter", verify_fa=FALSE),
                                  color='danger',size='sm',
-                                 block=T, style="fill")
+                                 block=TRUE, style="fill")
       )
     })
 

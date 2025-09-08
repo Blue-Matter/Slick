@@ -12,8 +12,8 @@ Maintainer: Adrian Hordyk <adrian@bluematterscience.com>
 Description: A framework for visualizing and exploring results of a Management
     Strategy Evaluation (MSE). The publication quality figures and tables
     can be developed directly from the R console, or interactively explored
-    with the 'Slick' App. 
-URL: https://slick.bluematterscience.com/, https://github.com/Blue-Matter/Slick
+    with the 'Slick' App. For more details, see the `Slick` website <https://slick.bluematterscience.com/>   
+URL: https://github.com/Blue-Matter/Slick
 License: GPL-2
 Depends:
     R (>= 4.1.0)

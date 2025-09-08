@@ -52,7 +52,7 @@ Make_Slick(
   nsim = 48,
   MSElist = NULL,
   fstYr = NULL,
-  returnMSEs = F
+  returnMSEs = FALSE
 )
 }
 \arguments{
