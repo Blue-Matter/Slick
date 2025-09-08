@@ -17,6 +17,17 @@ DESCRIPTION
 TODO 
 - Added \value tag with description of returned object to: Code.Rd, 
 
+Color.Rd: \value
+Defaults.Rd: \value
+Preset.Rd: \value
+RefPoints.Rd: \value
+show.Rd: \value
+Target.Rd: \value
+Time.Rd: \value
+TimeLab.Rd: \value
+TimeTerminal.Rd: \value
+Value.Rd: \value
+      
 
 - Replaced one instance of `print(...)` with `message(...)` in 'R/make_Slick_old.R'
 - Deleted `print(...)` in R/mod_Spider_MP.R
