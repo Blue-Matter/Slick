@@ -20,6 +20,10 @@ TimeTerminal(object) <- value
 
 \item{value}{A \code{numeric} value with a value matching one in \code{Kobe@Time} \code{\link[=Kobe-class]{Kobe-class()}} for details.}
 }
+\value{
+Returns a numeric values from the \code{TimeTerminal} slot in \code{\link[=Kobe]{Kobe()}}
+objects
+}
 \description{
 Assign or access \code{TimeTerminal} for a valid object class
 }

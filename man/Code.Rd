@@ -160,7 +160,7 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
 \item{value}{A character vector or a named list for multi-language support}
 }
 \value{
-Returns character string or named list with contents of the \code{Code},
+Returns character string or named list with the contents of the \code{Code},
 \code{Label}, or \code{Description} slot of \code{object}
 }
 \description{

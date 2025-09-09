@@ -27,6 +27,10 @@ Time(object) <- value
 
 \item{value}{Value to assign to \code{Time}}
 }
+\value{
+Returns a numeric vector with values from the \code{Time} slot in
+\code{\link[=Kobe]{Kobe()}} and \code{\link[=Timeseries]{Timeseries()}} objects
+}
 \description{
 Access or assign \code{Time} for object of class \code{Kobe} or \code{Timeseries}
 }

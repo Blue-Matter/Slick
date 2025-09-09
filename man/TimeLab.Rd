@@ -30,6 +30,10 @@ Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
 
 \item{value}{A character string to assign to \code{TimeLab} in \code{object}.}
 }
+\value{
+Returns a character string from the \code{TimeLab} slot in
+\code{\link[=Kobe]{Kobe()}} and \code{\link[=Timeseries]{Timeseries()}} objects
+}
 \description{
 Access or assign \code{TimeLab} in a \code{Kobe} or \code{Timeseries} object
 }

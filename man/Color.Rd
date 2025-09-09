@@ -27,6 +27,10 @@ Color(object) <- value
 \item{value}{A character vector formatted to match the class of \code{object}. See the documentation for
 corresponding \code{object} class for more details.}
 }
+\value{
+Returns a character string with the contents of the \code{Color} slot of
+\code{object}
+}
 \description{
 Access or assign \code{Color} for \code{MPs} and \code{Quilt} objects
 }
