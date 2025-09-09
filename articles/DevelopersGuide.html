@@ -94,7 +94,7 @@ results in an interactive application.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages('pak')</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">'blue-matter/Slick'</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Blue-Matter/Slick" class="external-link">Slick</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://slick.bluematterscience.com/">Slick</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="reporting-issues-and-bugs">Reporting Issues and Bugs<a class="anchor" aria-label="anchor" href="#reporting-issues-and-bugs"></a>
@@ -322,7 +322,7 @@ MPs for each of the three OMS:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/detach.html" class="external-link">detach</a></span><span class="op">(</span><span class="st">"package:DLMtool"</span>, unload <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/detach.html" class="external-link">detach</a></span><span class="op">(</span><span class="st">"package:MSEtool"</span>, unload <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Blue-Matter/Slick" class="external-link">Slick</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://slick.bluematterscience.com/">Slick</a></span><span class="op">)</span></span></code></pre></div>
 <p>In the sections below, these MSE objects will be used to calculate
 the performance indicators for each <a href="#slickplot">Slick
 Plot</a>.</p>
@@ -356,7 +356,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-09-08"</span></span>
+<span><span class="co">#&gt; [1] "2025-09-09"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -385,7 +385,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-09-08"</span></span>
+<span><span class="co">#&gt; [1] "2025-09-09"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -1323,8 +1323,8 @@ repository</a>.</p>
 share the Slick Object file directly with them via email or some other
 method, and they will have to upload the file into the App.</p>
 <p>This method also allows you to update the Slick Object easily.</p>
-<p>The way to do this is to clone the <em>SlickLibrary</em> repo, than
-save your Slick Object to the <em>Slick_Objects</em> directory, and
+<p>The way to do this is to clone the <em>SlickLibrary</em> repository,
+than save your Slick Object to the <em>Slick_Objects</em> directory, and
 submit a pull request so that your change can be incorporated into the
 <em>SlickLibrary</em> repo.</p>
 <p>A couple of things to note:</p>
@@ -1339,7 +1339,7 @@ words.</li>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'../SlickLibrary/Slick_Objects/Example.slick'</span><span class="op">)</span></span></code></pre></div>
 <p>Your Slick object will be available immediately once the
-<em>SlickLibrary</em> repo is updated.</p>
+<em>SlickLibrary</em> repository is updated.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
