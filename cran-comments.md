@@ -1,7 +1,8 @@
 This is a re-submission of a new release in response to the CRAN Team's 
 review of the initial submission.
 
-Thank you for taking the time to review our package. 
+Thank you for taking the time to review our package.
+
 All issues identified by CRAN Team have been fixed. 
 
 The following changes have been made:
