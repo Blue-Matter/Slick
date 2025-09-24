@@ -1,5 +1,5 @@
 filterOMs <- function(slick, Filter_Selected, input) {
-  keep <- array(T,dim(Design(slick)))
+  keep <- array(TRUE,dim(Design(slick)))
   for(fac in 1:ncol(Design(slick))) {
     design <- Design(OMs(slick))
     design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],  function(x) {

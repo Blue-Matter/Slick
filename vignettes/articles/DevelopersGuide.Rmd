@@ -804,7 +804,7 @@ This can be helpful if you wish to share your MSE results with others (e.g., a w
 
 This method also allows you to update the Slick Object easily.
 
-The way to do this is to clone the *SlickLibrary* repo, than save your Slick Object to the *Slick_Objects* directory, and submit a pull request so that your change can be incorporated into the *SlickLibrary* repo.
+The way to do this is to clone the *SlickLibrary* repository, than save your Slick Object to the *Slick_Objects* directory, and submit a pull request so that your change can be incorporated into the *SlickLibrary* repo.
 
 A couple of things to note:
 
@@ -815,5 +815,5 @@ A couple of things to note:
 
 ```
 
-Your Slick object will be available immediately once the *SlickLibrary* repo is updated.
+Your Slick object will be available immediately once the *SlickLibrary* repository is updated.
 

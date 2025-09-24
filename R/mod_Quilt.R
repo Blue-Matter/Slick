@@ -180,7 +180,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
                                                               label=i18n$t("Apply Color Selections"),
                                                               icon("gear", verify_fa=FALSE),
                                                               color='danger',size='sm',
-                                                              block=T, style="fill")
+                                                              block=TRUE, style="fill")
                                    )
           )
         )

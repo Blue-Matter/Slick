@@ -14,7 +14,7 @@ tableMPs <- function(MPs, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
   if (!is.null(df$Color)) {
     tab <- tab |>
       DT::formatStyle(cnames[1],
@@ -33,7 +33,7 @@ tableOMs <- function(OMs, lang, type='factor') {
                          selection='none',
                          options = list(dom = 't',
                                         pageLength=100,
-                                        ordering=F))
+                                        ordering=FALSE))
     )
   }
 
@@ -42,7 +42,7 @@ tableOMs <- function(OMs, lang, type='factor') {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F,
+                               ordering=FALSE,
                                columnDefs = list(list(className = 'dt-center', targets = "_all"))))
 }
 
@@ -54,7 +54,7 @@ tableBoxplot <- function(boxplot, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }
 
 tableKobe <- function(kobe, lang=NULL) {
@@ -64,7 +64,7 @@ tableKobe <- function(kobe, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }
 
 
@@ -75,7 +75,7 @@ tableQuilt <- function(quilt, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }
 
 
@@ -87,19 +87,19 @@ tableSpider <- function(spider, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }
 
 
 tableTimeseries <- function(timeseries, lang=NULL) {
 
   df <- Metadata(timeseries, lang)
-  DT::datatable(df, escape = F,
+  DT::datatable(df, escape = FALSE,
                 extensions = 'Responsive',
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }
 
 
@@ -112,5 +112,5 @@ tableTradeoff <- function(tradeoff, lang=NULL) {
                 selection='none',
                 options = list(dom = 't',
                                pageLength=100,
-                               ordering=F))
+                               ordering=FALSE))
 }

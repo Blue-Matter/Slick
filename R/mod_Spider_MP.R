@@ -117,7 +117,6 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM,
 
     output$filled_hex <- renderPlot({
       if (nPM()<3) {
-        print('nPM<3')
         return(NULL)
       }
       include_avg <- OS_button()

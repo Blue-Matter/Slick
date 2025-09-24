@@ -9,7 +9,7 @@
 #
 
 normalize <- function(x) {
-  return((x- min(x, na.rm=T)) /(max(x, na.rm=T)-min(x, na.rm=T)))
+  return((x- min(x, na.rm=TRUE)) /(max(x, na.rm=TRUE)-min(x, na.rm=TRUE)))
 }
 
 calcCoord <- function(vert, pm) {
@@ -152,6 +152,9 @@ plotSpider <- function(slick,
                        mplab.cex=2.2,
                        max.pt.cex=2,
                        max.pt.col='darkred') {
+
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')

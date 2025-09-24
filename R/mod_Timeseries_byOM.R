@@ -136,7 +136,7 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
           column(4,
                  radioButtons(ns('plotoption'),
                               i18n$t('Plot Option'),
-                              choiceNames = i18n$t(c('Median', 'Individual Simulation')),
+                              choiceNames = i18n$t(c('Mean', 'Individual Simulation')),
                               choiceValues= c('median', 'sim')
                               )
                  ),

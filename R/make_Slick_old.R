@@ -36,7 +36,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
                      nsim=48,
                      MSElist=NULL,
                      fstYr=NULL,
-                     returnMSEs=F
+                     returnMSEs=FALSE
 ){
 
   .Deprecated("Slick")
@@ -139,7 +139,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
     if(runMSEs){
       OMtemp<-OM
       for(Fac in 1:nFacs)  OMtemp<-mods[[Fac]](OMtemp,Design[i,Fac])
-      MSElist[[i]]<-MSEtool::runMSE(OMtemp,MPs=MPs,parallel=T)
+      MSElist[[i]]<-MSEtool::runMSE(OMtemp,MPs=MPs,parallel=TRUE)
     }
 
     MSEtemp<-MSElist[[i]]
@@ -186,7 +186,7 @@ Make_Slick<-function(name = "Unnamed Slick object",
 
       out$StateVar$Values[convsims,i,,3,MSEtemp@nyears+(1:MSEtemp@proyears)] <- MSEtemp@Catch
     }
-    print(paste(i,"of",nOM,"states of nature completed"))
+    message(paste(i,"of",nOM,"states of nature completed"))
   }
 
   #for(p in 1:nPMs){ # rescaling

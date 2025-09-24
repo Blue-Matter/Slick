@@ -9,12 +9,12 @@ get_casestudies <- function() {
 
   req <- httr::GET("https://api.github.com/repos/blue-matter/slicklibrary/git/trees/master?recursive=1")
   httr::stop_for_status(req)
-  filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = F)
+  filelist <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = FALSE)
 
-  type <- unlist(lapply(httr::content(req)$tree, "[", "type"), use.names = F)
+  type <- unlist(lapply(httr::content(req)$tree, "[", "type"), use.names = FALSE)
   filelist <- filelist[type=='blob']
 
-  size <- unlist(lapply(httr::content(req)$tree, "[", "size"), use.names = F)
+  size <- unlist(lapply(httr::content(req)$tree, "[", "size"), use.names = FALSE)
 
   ind <- grepl('Slick_Objects/', filelist)
   slick_files <- filelist[ind]

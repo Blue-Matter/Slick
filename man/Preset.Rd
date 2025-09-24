@@ -66,6 +66,9 @@ Preset(object) <- value
 \item{value}{A \code{list}, formatted to match the class of \code{object}. See the documentation for
 corresponding \code{object} class for more details.}
 }
+\value{
+Returns a list object from the \code{Preset} slot in \code{object}
+}
 \description{
 Assign or access \code{Preset} for a valid object class
 }

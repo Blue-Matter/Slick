@@ -24,3 +24,4 @@ $run_dev.*
 ^translate_lang\.csv$
 ^translation\.json$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$

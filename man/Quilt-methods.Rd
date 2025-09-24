@@ -81,7 +81,7 @@ See \code{Details}.
 Objects of class \code{Quilt} are created with \code{Quilt()}
 
 Use the  \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}, \code{\link[=Color]{Color()}},
-\link{MinValue}, and \link{MaxValue} functions to access and assign the values for
+\code{\link[=MinValue]{MinValue()}}, and \code{\link[=MaxValue]{MaxValue()}} functions to access and assign the values for
 an existing \code{Quilt} object, see \code{Examples}
 \subsection{Multi-Language Support}{
 

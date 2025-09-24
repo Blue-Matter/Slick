@@ -22,7 +22,8 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nMP,
                                        window_dims,
                                        Report, parent_session,
-                                       includeQuants, includeLabels, includeHist){
+                                       includeQuants, includeLabels, includeHist
+                                       ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

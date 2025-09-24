@@ -42,8 +42,11 @@ show(object)
 \arguments{
 \item{object}{Object to print to console}
 }
+\value{
+\code{show} returns an invisible \code{NULL}
+}
 \description{
-Generic show method
+A copy of  \code{\link[methods:show]{methods::show()}}
 }
 \section{Methods (by class)}{
 \itemize{

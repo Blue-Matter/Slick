@@ -8,7 +8,7 @@
 \alias{Defaults<-,Boxplot-method}
 \alias{Defaults,Kobe-method}
 \alias{Defaults<-,Kobe-method}
-\title{Set default selections for the plots in the \code{App()}}
+\title{Access or assign the default selections for the plots in the \code{App()}}
 \usage{
 Defaults(object)
 
@@ -23,15 +23,16 @@ Defaults(object) <- value
 \S4method{Defaults}{Kobe}(object) <- value
 }
 \arguments{
-\item{object}{A plot object}
+\item{object}{A \code{\link[=Boxplot]{Boxplot()}} or \code{\link[=Kobe]{Kobe()}} object}
 
 \item{value}{A list of default selections for the \code{\link[=App]{App()}}}
 }
-\description{
-Set default selections for the plots in the \code{App()}
+\value{
+Returns a list object with default selections from the \code{Defaults} slot of
+\code{\link[=Boxplot]{Boxplot()}} and \code{\link[=Kobe]{Kobe()}} objects.
 }
-\details{
-In development.
+\description{
+Access or assign the default selections for the plots in the \code{App()}
 }
 \section{Methods (by class)}{
 \itemize{

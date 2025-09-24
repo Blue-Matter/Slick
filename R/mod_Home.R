@@ -36,7 +36,6 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
       )
     })
 
-
     output$welcome <- renderUI({
       i18n <- i18n()
       tagList(
@@ -79,7 +78,6 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
     case_studies <- get_casestudies()
 
     output$load <- renderUI({
-      options(shiny.maxRequestSize=200*1024^2)
       i18n <- i18n()
       tagList(
         shinydashboardPlus::box(width=3,
@@ -162,7 +160,6 @@ mod_Home_server <- function(id, i18n, Load_Slick_File, Slick_Object, Report){
 
 
         if (is.null(Load_Slick_File$file)) {
-          # print("Slick object loaded directly from R")
           shinyjs::delay(3000,
                          shinyjs::runjs("$('a[data-value=\"metadatatab\"]').tab('show');"))
         }

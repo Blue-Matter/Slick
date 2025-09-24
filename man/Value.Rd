@@ -54,6 +54,9 @@ Value(object) <- value
 \item{value}{An \code{array}, formatted to match the class of \code{object}. See the documentation for
 corresponding \code{object} class for more details.}
 }
+\value{
+Returns a numeric array with the contents of the \code{Value} slot of \code{object}
+}
 \description{
 Assign or access \code{Value} for a valid object class
 }

@@ -45,6 +45,11 @@ Target(object) <- value
 
 \item{value}{Value to assign to \code{Target}}
 }
+\value{
+Returns a numeric vector with the contents of the \code{Target} or \code{Limit}
+slots of \code{\link[=Kobe]{Kobe()}} and
+\code{\link[=Timeseries]{Timeseries()}} objects
+}
 \description{
 Access or assign \code{Target} and \code{Limit} for object of class \code{Kobe} or \code{Timeseries}
 }

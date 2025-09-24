@@ -4,7 +4,7 @@
 \alias{PMnorm}
 \title{Normalize performance metric values in a Slick object}
 \usage{
-PMnorm(obj, det = T, inv = NULL)
+PMnorm(obj, det = TRUE, inv = NULL)
 }
 \arguments{
 \item{obj}{An object of class 'slick'}

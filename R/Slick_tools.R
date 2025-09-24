@@ -9,11 +9,9 @@
 #' @return An object of class [Slick-class]
 #' @author T. Carruthers
 #' @export
-PMnorm<-function(obj,det=T,inv=NULL){
-
+PMnorm<-function(obj,det=TRUE,inv=NULL){
 
   zero100<-function(x)((x-min(x))/(max(x)-min(x)))*100
-
   if(det){
     nPMs<-length(obj$Perf$Det$Labels)
     for(i in 1:nPMs){

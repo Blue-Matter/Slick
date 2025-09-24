@@ -1,5 +1,4 @@
-options(shiny.maxRequestSize=200*1024^2)
-
+options(shiny.maxRequestSize = getOption("shiny.maxRequestSize", 200*1024^2))
 
 #' The application server-side
 #'

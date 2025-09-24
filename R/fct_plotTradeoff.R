@@ -25,6 +25,9 @@ plotTradeoff <- function(slick,
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  if(!requireNamespace("cowplot", quietly = TRUE)) {
+    cli::cli_abort("The `cowplot` package is required for this function: `install.packages('cowplot')", call. = FALSE)
+  }
 
   tradeoff <- Tradeoff(slick)
   chk <- Check(tradeoff)

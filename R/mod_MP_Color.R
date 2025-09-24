@@ -37,7 +37,7 @@ mod_MP_Color_server <- function(id, i18n, slick){
                                                                      label=i18n$t("Apply Color Selections"),
                                                                      icon("gear", verify_fa=FALSE),
                                                                      color='danger',size='sm',
-                                                                     block=T, style="fill")
+                                                                     block=TRUE, style="fill")
                                           )
                  )
                )

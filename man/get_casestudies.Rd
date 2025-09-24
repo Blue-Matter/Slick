@@ -44,7 +44,7 @@ Get Case Studies from the SlickLibrary GitHub Repo
 
 }}
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 case_studies <- get_casestudies()
 slick <- download_casestudy(case_studies$Name[1])
 \dontshow{\}) # examplesIf}

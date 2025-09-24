@@ -1,7 +1,10 @@
 
 #' Generic show method
 #'
+#' A copy of  [methods::show()]
+#'
 #' @param object Object to print to console
+#' @return `show` returns an invisible `NULL`
 #' @export
 show <- function(object) methods::show(object)
 
@@ -108,6 +111,8 @@ setGeneric("Check", function(object, ...) standardGeneric("Check"))
 #' - `es`: Spanish
 #' - `fr`: French
 #'
+#' @return Returns character string or named list with the contents of the `Code`,
+#' `Label`, or `Description` slot of `object`
 #'
 #' @seealso [Label()], [Description()], [MPs-class()], [Boxplot-class()],
 #' [Kobe-class()], [Quilt-class()], [Spider-class()],
@@ -124,7 +129,8 @@ setGeneric("Code<-", function(object, value) standardGeneric("Code<-"))
 
 #' Access or assign `Color` for `MPs` and `Quilt` objects
 #' @param object An [MPs-class()] or [Quilt-class()] object
-#'
+#' @return Returns a character string with the contents of the `Color` slot of
+#' `object`
 #' @export
 setGeneric("Color", function(object) standardGeneric("Color"))
 
@@ -136,11 +142,11 @@ setGeneric("Color<-", function(object, value) standardGeneric("Color<-"))
 
 # ---- Defaults ----
 
-#' Set default selections for the plots in the `App()`
-#' @param object A plot object
+#' Access or assign the default selections for the plots in the `App()`
+#' @param object A [Boxplot()] or [Kobe()] object
 #'
-#' @details
-#' In development.
+#' @return Returns a list object with default selections from the `Defaults` slot of
+#'  [Boxplot()] and [Kobe()] objects.
 #'
 #' @export
 setGeneric("Defaults", function(object) standardGeneric("Defaults"))
@@ -422,7 +428,7 @@ setGeneric("OMs<-", function(object, value) standardGeneric("OMs<-"))
 #' Assign or access `Preset` for a valid object class
 #' @param object An object of class [Boxplot-class()], [Kobe-class()], [Quilt-class()],
 #' [Spider-class()], [Timeseries-class()], or [Tradeoff-class()]
-#'
+#' @return Returns a list object from the `Preset` slot in `object`
 #' @export
 setGeneric("Preset", function(object) standardGeneric("Preset"))
 
@@ -447,7 +453,7 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' Objects of class `Quilt` are created with `Quilt()`
 #'
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()], [Color()],
-#' [MinValue], and [MaxValue] functions to access and assign the values for
+#' [MinValue()], and [MaxValue()] functions to access and assign the values for
 #' an existing `Quilt` object, see `Examples`
 #'
 #' ## Multi-Language Support
@@ -502,7 +508,8 @@ setGeneric("Quilt<-", function(Slick, value) standardGeneric("Quilt<-"))
 
 #' Assign or access `RefPoints` for a valid object class
 #' @param object An object of class [Timeseries-class()]
-#'
+#' @return Returns a list object with the contents of the `RefPoints` slot
+#' of [Timeseries()] objects
 #' @export
 setGeneric("RefPoints", function(object) standardGeneric("RefPoints"))
 
@@ -575,6 +582,9 @@ setGeneric("Spider<-", function(Slick, value) standardGeneric("Spider<-"))
 # ---- Target ----
 
 #' Access or assign `Target` and `Limit` for object of class `Kobe` or `Timeseries`
+#' @return Returns a numeric vector with the contents of the `Target` or `Limit`
+#' slots of [Kobe()] and
+#' [Timeseries()] objects
 #' @export
 setGeneric("Target", function(object) standardGeneric("Target"))
 
@@ -588,6 +598,8 @@ setGeneric("Target<-", function(object, value) standardGeneric("Target<-"))
 # ---- Time ----
 
 #' Access or assign `Time` for object of class `Kobe` or `Timeseries`
+#' @return Returns a numeric vector with values from the `Time` slot in
+#' [Kobe()] and [Timeseries()] objects
 #' @export
 setGeneric("Time", function(object) standardGeneric("Time"))
 
@@ -603,6 +615,8 @@ setGeneric("Time<-", function(object, value) standardGeneric("Time<-"))
 #' Access or assign `TimeLab` in a `Kobe` or `Timeseries` object
 #'
 #' @param object A [Kobe-class()] or [Timeseries-class] object
+#' @return Returns a character string from the `TimeLab` slot in
+#' [Kobe()] and [Timeseries()] objects
 #' @export
 setGeneric("TimeLab", function(object, lang='en') standardGeneric("TimeLab"))
 
@@ -704,7 +718,8 @@ setGeneric("Timeseries<-", function(Slick, value) standardGeneric("Timeseries<-"
 
 #' Assign or access `TimeTerminal` for a valid object class
 #' @param object An object of class [Kobe-class()]
-#'
+#' @return Returns a numeric values from the `TimeTerminal` slot in [Kobe()]
+#' objects
 #' @export
 setGeneric("TimeTerminal", function(object) standardGeneric("TimeTerminal"))
 
@@ -770,6 +785,7 @@ setGeneric("Tradeoff<-", function(Slick, value) standardGeneric("Tradeoff<-"))
 #' Assign or access `Value` for a valid object class
 #' @param object An object of class [Boxplot-class()], [Kobe-class()], [Quilt-class()],
 #' [Spider-class()], [Timeseries-class()], or [Tradeoff-class()]
+#' @return Returns a numeric array with the contents of the `Value` slot of `object`
 #' @export
 setGeneric("Value", function(object) standardGeneric("Value"))
 
