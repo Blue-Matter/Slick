@@ -21,8 +21,8 @@ mod_Timeseries_overall_ui <- function(id){
 mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
                                           pm_ind, yrange,
                                           window_dims, Report, parent_session,
-                                          includeQuants, includeLabels, includeHist
-
+                                          includeQuants, includeLabels, includeHist,
+                                          MeanMed
                                           ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -51,6 +51,7 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
                      includeQuants =includeQuants(),
                      includeLabels =includeLabels(),
                      includeHist = includeHist(),
+                     MeanMed =MeanMed(),
                      lang=i18n()$get_translation_language())
     })
 

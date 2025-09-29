@@ -17,7 +17,8 @@ Spider(
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 Spider(Slick) <- value
@@ -29,7 +30,8 @@ Spider(Slick) <- value
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 \S4method{Spider}{list}(
@@ -37,7 +39,8 @@ Spider(Slick) <- value
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 \S4method{Spider}{Slick}(Code)
@@ -64,6 +67,8 @@ multiplied by 100 in the plot.}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
+
+\item{Misc}{A named list for additional miscellaneous information.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 

@@ -82,6 +82,8 @@ plotTimeseries <- function(slick,
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  slick <- Update(slick)
+
   MeanMed <- match.arg(MeanMed)
 
   timeseries <- Timeseries(slick)
@@ -134,9 +136,10 @@ plotTimeseries <- function(slick,
   p <- ggplot2::ggplot() +
     ggplot2::theme_bw()
 
-  if (includeHist) {
+  if (includeHist & max(hist.yr.ind) >1) {
     proj.yr.ind <- (hist.yr.ind):length(times)
     proj.yrs <- times[proj.yr.ind]
+
     # Historical Period
     if (byOM) {
       hist.values <- values[,oms,1, PI,1:hist.yr.ind, drop=FALSE]
@@ -269,8 +272,8 @@ plotTimeseries <- function(slick,
   } else {
     proj.values <- values[sims,oms,, PI,proj.yr.ind, drop=FALSE]
     # mean over OMs
-    mean.mps <- apply(proj.values, c(3,5), mean, na.rm=TRUE) # mean over simulations
-    med.mps <- apply(proj.values, c(3,5), median, na.rm=TRUE) # median over simulations
+    mean.mps <- apply(proj.values, c(3,5), mean, na.rm=TRUE) # mean over simulations and OMs
+    med.mps <- apply(proj.values, c(3,5), median, na.rm=TRUE) # median over simulations and OMs
 
     meddf <- data.frame(x=rep(proj.yrs, each=nMP),
                         MP=MP_lab,
@@ -420,7 +423,7 @@ plotTimeseries <- function(slick,
     }
     if (!is.null(limit)) {
       lim <- limit[PI]
-      if (!is.na(targ)) {
+      if (!is.na(lim)) {
         x_loc <- times[1]
         if (!includeHist) {
           x_loc <- time_now+1

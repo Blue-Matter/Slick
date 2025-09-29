@@ -26,7 +26,7 @@
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
 #' Dimensions: c(`nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
-#'
+#' @slot Misc `r misc_param()`
 #' @seealso [Tradeoff()], [Code()], [Label()], [Description()],
 #'  [Value()], [Preset()]
 #'
@@ -38,7 +38,8 @@ setClass("Tradeoff",
                  Label='character_list',
                  Description='character_list',
                  Value='array',
-                 Preset='list'
+                 Preset='list',
+                 Misc='list'
          )
 )
 
@@ -49,12 +50,14 @@ setMethod("initialize", "Tradeoff", function(.Object,
                                             Label='',
                                             Description='',
                                             Value=array(),
-                                            Preset=list()) {
+                                            Preset=list(),
+                                            Misc=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
   .Object@Value <- Value
   .Object@Preset <- Preset
+  .Object@Misc <- Misc
   methods::validObject(.Object)
   .Object
 })
@@ -76,13 +79,13 @@ setMethod("Tradeoff", 'missing', function() new('Tradeoff'))
 
 #' @describeIn Tradeoff-methods Create a populated `Tradeoff` object
 setMethod("Tradeoff", c('character'),
-          function(Code, Label, Description, Value, Preset)
-            new('Tradeoff', Code, Label, Description, Value, Preset))
+          function(Code, Label, Description, Value, Preset, Misc)
+            new('Tradeoff', Code, Label, Description, Value, Preset, Misc))
 
 #' @describeIn Tradeoff-methods Create a populated `Tradeoff` object
 setMethod("Tradeoff", c('list'),
-          function(Code, Label, Description, Value, Preset)
-            new('Tradeoff', Code, Label, Description, Value, Preset))
+          function(Code, Label, Description, Value, Preset, Misc)
+            new('Tradeoff', Code, Label, Description, Value, Preset, Misc))
 
 
 
@@ -163,6 +166,22 @@ setMethod("Description<-", 'Tradeoff', function(object, value) {
   methods::validObject(object)
   object
 })
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Tradeoff-class()] object
+setMethod("Misc", 'Tradeoff', function(object) {
+  object@Misc
+})
+
+
+#' @describeIn Code Assign `Misc` to a [Tradeoff-class()] object
+setMethod("Misc<-", 'Tradeoff', function(object, value) {
+  object@Misc <- value
+  methods::validObject(object)
+  object
+})
+
 
 ## Value ----
 #' @describeIn Value  Return `Value` from a [Tradeoff-class()] object

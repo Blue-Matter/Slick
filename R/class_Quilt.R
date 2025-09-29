@@ -34,7 +34,7 @@
 #' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @slot MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
-#'
+#' @slot Misc `r misc_param()`
 #' @seealso [Quilt()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
@@ -49,7 +49,8 @@ setClass("Quilt",
                  Preset='list',
                  Color='character_list',
                  MinValue='numeric',
-                 MaxValue='numeric'
+                 MaxValue='numeric',
+                 Misc='list'
 
          )
 )
@@ -63,7 +64,8 @@ setMethod("initialize", "Quilt", function(.Object,
                                           Preset=list(),
                                           Color=c('darkblue', 'lightblue'),
                                           MinValue=numeric(),
-                                          MaxValue=numeric()
+                                          MaxValue=numeric(),
+                                          Misc=list()
                                           ) {
   .Object@Code <- Code
   .Object@Label <- Label
@@ -73,6 +75,7 @@ setMethod("initialize", "Quilt", function(.Object,
   .Object@Color <- Color
   .Object@MinValue <- MinValue
   .Object@MaxValue <- MaxValue
+  .Object@Misc <- Misc
   .Object
 })
 
@@ -97,8 +100,8 @@ setMethod("Quilt", 'missing', function() new('Quilt'))
 
 #' @describeIn Quilt-methods Create a populated `Quilt` object
 setMethod("Quilt", 'character_list',
-          function(Code, Label, Description, Value, Preset, Color, MinValue, MaxValue)
-            new('Quilt',Code, Label, Description, Value, Preset, Color, MinValue, MaxValue))
+          function(Code, Label, Description, Value, Preset, Color, MinValue, MaxValue, Misc)
+            new('Quilt',Code, Label, Description, Value, Preset, Color, MinValue, MaxValue, Misc))
 
 
 ## Check ----
@@ -254,7 +257,6 @@ MaxValue <- function(Quilt) {
 }
 
 
-
 ## Metadata ----
 
 #' @describeIn Metadata Return Metadata for [Quilt-class()] objects
@@ -274,6 +276,22 @@ setMethod("Metadata<-", "Quilt", function(object, value) {
   methods::validObject(object)
   object
 })
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Quilt-class()] object
+setMethod("Misc", 'Quilt', function(object) {
+  object@Misc
+})
+
+
+#' @describeIn Code Assign `Misc` to a [Quilt-class()] object
+setMethod("Misc<-", 'Quilt', function(object, value) {
+  object@Misc <- value
+  methods::validObject(object)
+  object
+})
+
 
 
 

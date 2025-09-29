@@ -29,6 +29,8 @@ FilterSlick <- function(slick=NULL,
   if (is.null(slick))
     return(NULL)
 
+  slick <- Update(slick)
+
   if (is.null(plot))
     cli::cli_abort('Argument `plot` must be specified')
 
@@ -127,6 +129,10 @@ FilterSlick <- function(slick=NULL,
       object@MinValue <- object@MinValue[PIs]
       object@MaxValue <- object@MaxValue[PIs]
     }
+
+    object@Code <- object@Code[PIs]
+    object@Label <- object@Label[PIs]
+    object@Description <- object@Description[PIs]
   }
   slot(slick, plot) <- object
   slick

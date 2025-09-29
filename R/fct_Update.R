@@ -53,6 +53,14 @@ UpdateKobe <- function(Kobe) {
   Kobe
 }
 
+UpdateMisc <- function(slick) {
+  slots <- c("Boxplot", "Kobe", "Quilt", "Spider", "Timeseries", 'Tradeoff')
+  for (sl in slots) {
+    slot(slick, sl) <- UpdateNewSlots(slot(slick, sl), 'Misc')
+  }
+  slick
+}
+
 
 
 #' Updates an old object of class `Slick` to new S4 class `Slick`
@@ -73,6 +81,10 @@ Update <- function(slick) {
     slick@Kobe <- UpdateKobe(slick@Kobe)
 
     slick@Timeseries <- UpdateTimeseries(slick@Timeseries)
+
+    # Add Misc slot
+    slick <- UpdateMisc(slick)
+
     return(slick)
   }
 
@@ -117,7 +129,6 @@ Update <- function(slick) {
 
   # Tradeoff ----
   slick <- update_Tradeoff(slick_in, slick)
-
 
   slick
 }

@@ -67,6 +67,8 @@ plotKobe <- function(slick,
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  slick <- Update(slick)
+
   kobe <- Kobe(slick)
   chk <- Check(kobe)
   if (chk@empty)

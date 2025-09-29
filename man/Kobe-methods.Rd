@@ -22,7 +22,8 @@ Kobe(
   Target = 1,
   Limit = NULL,
   Defaults = list(),
-  TimeTerminal = numeric()
+  TimeTerminal = numeric(),
+  Misc = list()
 )
 
 Kobe(Slick) <- value
@@ -40,7 +41,8 @@ Kobe(Slick) <- value
   Target = 1,
   Limit = NULL,
   Defaults = list(),
-  TimeTerminal = numeric()
+  TimeTerminal = numeric(),
+  Misc = list()
 )
 
 \S4method{Kobe}{list}(
@@ -54,7 +56,8 @@ Kobe(Slick) <- value
   Target = 1,
   Limit = NULL,
   Defaults = list(),
-  TimeTerminal = numeric()
+  TimeTerminal = numeric(),
+  Misc = list()
 )
 
 \S4method{Kobe}{Slick}(Code)
@@ -96,6 +99,8 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 \item{TimeTerminal}{Optional. By default the \code{Kobe} plot shows the terminal projection year.
 \code{TimeTerminal} can be used to override this. Use a numeric value indicating the time (must match a value in \code{Time}) to use
 for the \code{Kobe} plot}
+
+\item{Misc}{A named list for additional miscellaneous information.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 

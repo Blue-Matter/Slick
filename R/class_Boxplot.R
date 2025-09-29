@@ -30,7 +30,7 @@
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`).
 #' @slot Preset `r preset_param()`
 #' @slot Defaults A list object with default selections for the Boxplot. See [Boxplot()]
-#'
+#' @slot Misc `r misc_param()`
 #' @seealso [Boxplot()], [Code()], [Label()], [Description()],
 #'  [Metadata()], [Value()], [Preset()]
 #'
@@ -43,7 +43,8 @@ setClass("Boxplot",
                  Description='character_list',
                  Value='array',
                  Preset='list',
-                 Defaults='list'
+                 Defaults='list',
+                 Misc='list'
          )
 )
 
@@ -54,13 +55,15 @@ setMethod("initialize", "Boxplot", function(.Object,
                                             Description='',
                                             Value=array(),
                                             Preset=list(),
-                                            Defaults=list('overall', 'boxplot')) {
+                                            Defaults=list('overall', 'boxplot'),
+                                            Misc=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
   .Object@Value <- Value
   .Object@Preset <- Preset
   .Object@Defaults <- Defaults
+  .Object@Misc <- Misc
   methods::validObject(.Object)
   .Object
 })
@@ -85,8 +88,8 @@ setMethod("Boxplot", 'missing', function() new('Boxplot'))
 
 #' @describeIn Boxplot-methods Create a populated `Boxplot` object
 setMethod("Boxplot", 'character_list',
-          function(Code, Label, Description, Value, Preset, Defaults)
-            new('Boxplot', Code, Label, Description, Value, Preset, Defaults))
+          function(Code, Label, Description, Value, Preset, Defaults, Misc)
+            new('Boxplot', Code, Label, Description, Value, Preset, Defaults, Misc))
 
 
 
@@ -202,6 +205,21 @@ setMethod("Metadata<-", "Boxplot", function(object, value) {
 
   names <- c('Code', 'Label', 'Description')
   object <- check_assign_dataframe(object, names, value)
+  methods::validObject(object)
+  object
+})
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Boxplot-class()] object
+setMethod("Misc", 'Boxplot', function(object) {
+  object@Misc
+})
+
+
+#' @describeIn Code Assign `Misc` to a [Boxplot-class()] object
+setMethod("Misc<-", 'Boxplot', function(object, value) {
+  object@Misc <- value
   methods::validObject(object)
   object
 })

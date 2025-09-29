@@ -52,7 +52,7 @@ show <- function(object) methods::show(object)
 #' Dimensions: c(`nsim`, `nOM`, `nMP`, and `nPI`).
 #' @param Preset `r preset_param()`
 #' @param Defaults A list object with default selections for the Boxplot
-#'
+#' @param Misc `r misc_param()`
 #'
 #' @rdname Boxplot-methods
 #' @docType methods
@@ -65,7 +65,8 @@ setGeneric("Boxplot", function(Code='',
                                Description='',
                                Value=array(),
                                Preset=list(),
-                               Defaults=list('overall', 'boxplot')) standardGeneric("Boxplot"))
+                               Defaults=list('overall', 'boxplot'),
+                               Misc=list()) standardGeneric("Boxplot"))
 
 
 
@@ -251,6 +252,7 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' @param TimeTerminal Optional. By default the `Kobe` plot shows the terminal projection year.
 #' `TimeTerminal` can be used to override this. Use a numeric value indicating the time (must match a value in `Time`) to use
 #' for the `Kobe` plot
+#' @param Misc `r misc_param()`
 #' @rdname Kobe-methods
 #' @docType methods
 #' @example inst/examples/Kobe.R
@@ -267,7 +269,8 @@ setGeneric("Kobe", function(Code='',
                             Target=1,
                             Limit=NULL,
                             Defaults=list(),
-                            TimeTerminal=numeric()) standardGeneric("Kobe"))
+                            TimeTerminal=numeric(),
+                            Misc=list()) standardGeneric("Kobe"))
 
 
 
@@ -320,6 +323,18 @@ setGeneric("Metadata", function(object, lang='en')
 #' See help documentation for the relevant object class for details.
 #' @export
 setGeneric("Metadata<-", function(object, value) standardGeneric("Metadata<-"))
+
+# ---- Misc ----
+#' Access or assign `Misc` for a valid object class
+#' @param object A [Slick-class()], [MPs-class()], [Boxplot-class()], [Kobe-class()],
+#' [Quilt-class()], [Spider-class()], [Timeseries-class()], or [Tradeoff-class()] object
+#' @param value A named list
+#' @export
+setGeneric("Misc", function(object) standardGeneric("Misc"))
+
+#' @export
+#' @rdname Misc
+setGeneric("Misc<-", function(object, value) standardGeneric("Misc<-"))
 
 
 # ---- MPs -----
@@ -479,7 +494,7 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' respective PIs. Defaults to minimum PI value in `Value` (averaged across OMs in some cases)
 #' @param MaxValue Numeric vector length `nPI` with the maximum possible value (i.e., best performance)
 #' for the respective PIs. Defaults to maximum PI value in `Value` (averaged across OMs in some cases).
-#'
+#' @param Misc `r misc_param()`
 #'
 #' @rdname Quilt-methods
 #' @docType methods
@@ -494,7 +509,8 @@ setGeneric("Quilt", function(Code='',
                              Preset=list(),
                              Color=c('darkblue', 'lightblue'),
                              MinValue=as.numeric(NA),
-                             MaxValue=as.numeric(NA)) standardGeneric('Quilt'))
+                             MaxValue=as.numeric(NA),
+                             Misc=list()) standardGeneric('Quilt'))
 
 
 #' @rdname Quilt-methods
@@ -554,7 +570,7 @@ setGeneric("RefPoints<-", function(object, value) standardGeneric("RefPoints<-")
 #' All PI values must range between 0 and 1 or 0 and 100. If all values are <= 1, they will be
 #' multiplied by 100 in the plot.
 #' @param Preset `r preset_param()`
-#'
+#' @param Misc `r misc_param()`
 #'
 #' @rdname Spider-methods
 #' @docType methods
@@ -565,7 +581,8 @@ setGeneric("Spider", function(Code='',
                               Label='',
                               Description='',
                               Value=array(),
-                              Preset=list()) standardGeneric("Spider"))
+                              Preset=list(),
+                              Misc=list()) standardGeneric("Spider"))
 
 
 #' @rdname Spider-methods
@@ -635,7 +652,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' and to access and assign `Timeseries` for an object of class [Slick-class()].
 #' See `Details`.
 #'
-#' Use [plotTimeseries()] to create the boxplot from the console.
+#' Use [plotTimeseries()] to create the time series plots from the console.
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -659,7 +676,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' @param Limit Numeric vector length `nPI` with the limit value for the PIs.
 #' @param RefPoints List for setting custom Reference Points. Overrides `Target` and `Limit`.
 #'  See `Details`
-#'
+#' @param Misc `r misc_param()`
 #' @seealso [Timeseries-class()], [Code()], [Label()], [Description()],
 #'  [Metadata()], [Value()], [Preset()], [plotTimeseries()]
 #'
@@ -684,7 +701,18 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' - `Value` numeric vector length `Name` with value(s) for the reference point(s)
 #' - `Color` character vector length `Name` with color(s) for the reference point(s)
 #'
-#' See `Examples`
+#' ## Summary Statistic
+#' The default behaviour for the Time Series plot (see [plotTimeseries()]) is to show the mean value (over operating
+#' models and simulations). If the distribution is skewed, the mean value can sometimes be misleading,
+#' falling close to or outside of the percentiles shown in the plot. In such cases, it may be preferable
+#' to show the median value instead.
+#'
+#' The Time Series page in the Slick App provides users with an option to show the median value. To show the median
+#' value by default, add a named element to the `Misc` slot:
+#'
+#' ```
+#' slick |> Timeseries() |> Misc() <- list(MeanMed='median')
+#' ```
 #'
 #' ## Accessing Slots
 #' Use the  [Code()], [Label()], [Description()], [Value()], [Preset()] functions to access and assign the values for an
@@ -705,7 +733,8 @@ setGeneric("Timeseries", function(Code='',
                                   Preset=list(),
                                   Target=NULL,
                                   Limit=NULL,
-                                  RefPoints=list()) standardGeneric("Timeseries"))
+                                  RefPoints=list(),
+                                  Misc=list()) standardGeneric("Timeseries"))
 
 
 #' @rdname Timeseries-methods
@@ -758,7 +787,7 @@ setGeneric("TimeTerminal<-", function(object, value) standardGeneric("TimeTermin
 #' operating model (OM), management procedure (MP),  and performance indicator (PI)
 #' Dimensions: c(`nOM`, `nMP`, `nPI`)
 #' @param Preset `r preset_param()`
-#'
+#' @param Misc `r misc_param()`
 #' @rdname Tradeoff-methods
 #' @docType methods
 #' @example inst/examples/Tradeoff.R
@@ -768,7 +797,8 @@ setGeneric("Tradeoff", function(Code='',
                                 Label='',
                                 Description='',
                                 Value=array(),
-                                Preset=list()) standardGeneric("Tradeoff"))
+                                Preset=list(),
+                                Misc=list()) standardGeneric("Tradeoff"))
 
 
 #' @rdname Tradeoff-methods

@@ -118,3 +118,9 @@ value_dimensions <- function(type='Boxplot') {
   #            )
   # ll[[type]]
 }
+
+misc_param <- function() {
+  "
+  A named list for additional miscellaneous information.
+  "
+}

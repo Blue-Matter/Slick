@@ -283,9 +283,6 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
     })
 
     output$PM_outline <- renderPlot({
-      oldpar <- par(no.readonly = TRUE)
-      on.exit(par(oldpar))
-
       if (nPM()>2) {
         par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
         Spider_outline(nPM(), pt.cex=3)

@@ -40,6 +40,7 @@ setClassUnion("DateNumber", c("POSIXct", "POSIXt", "Date", 'numeric'))
 #' @slot Limit Numeric vector length `nPI` with the limit value for the PIs.
 #' @slot RefPoints List for setting custom Reference Points. Overrides `Target` and `Limit`.
 #'  See `Details` section in [Timeseries()].
+#' @slot Misc `r misc_param()`
 #' @seealso [Timeseries()], [Code()], [Label()], [Description()],
 #'  [Value()], [Preset()]
 #' @example inst/examples/Timeseries.R
@@ -56,7 +57,8 @@ setClass("Timeseries",
                  Preset='list',
                  Target='numericOrNULL',
                  Limit='numericOrNULL',
-                 RefPoints='list'
+                 RefPoints='list',
+                 Misc='list'
          )
 )
 
@@ -71,7 +73,8 @@ setMethod("initialize", "Timeseries", function(.Object,
                                             Preset=list(),
                                             Target=NULL,
                                             Limit=NULL,
-                                            RefPoints=list()) {
+                                            RefPoints=list(),
+                                            Misc=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
@@ -84,6 +87,7 @@ setMethod("initialize", "Timeseries", function(.Object,
   .Object@Target <- Target
   .Object@Limit <- Limit
   .Object@RefPoints <- RefPoints
+  .Object@Misc <- Misc
   methods::validObject(.Object)
   .Object
 })
@@ -107,16 +111,16 @@ setMethod("Timeseries", 'missing', function() new('Timeseries'))
 #' @describeIn Timeseries-methods Create a populated `Timeseries` object
 setMethod("Timeseries", c('character'),
           function(Code, Label, Description, Time, TimeNow, TimeLab,
-                   Value, Preset, Target, Limit, RefPoints)
+                   Value, Preset, Target, Limit, RefPoints, Misc)
             new('Timeseries', Code, Label, Description, Time, TimeNow, TimeLab,
-                Value, Preset, Target, Limit, RefPoints))
+                Value, Preset, Target, Limit, RefPoints, Misc))
 
 #' @describeIn Timeseries-methods Create a populated `Timeseries` object
 setMethod("Timeseries", c('list'),
           function(Code, Label, Description, Time, TimeNow, TimeLab,
-                   Value, Preset, Target, Limit, RefPoints)
+                   Value, Preset, Target, Limit, RefPoints, Misc)
             new('Timeseries', Code, Label, Description, Time, TimeNow, TimeLab,
-                Value, Preset, Target, Limit, RefPoints))
+                Value, Preset, Target, Limit, RefPoints, Misc))
 
 
 ## Check ----
@@ -310,6 +314,24 @@ setMethod("Metadata<-", "Timeseries", function(object, value) {
   methods::validObject(object)
   object
 })
+
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Timeseries-class()] object
+setMethod("Misc", 'Timeseries', function(object) {
+  object@Misc
+})
+
+
+#' @describeIn Code Assign `Misc` to a [Timeseries-class()] object
+setMethod("Misc<-", 'Timeseries', function(object, value) {
+  object@Misc <- value
+  methods::validObject(object)
+  object
+})
+
+
 
 
 ## Preset ----

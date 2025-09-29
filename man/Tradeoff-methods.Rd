@@ -17,7 +17,8 @@ Tradeoff(
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 Tradeoff(Slick) <- value
@@ -29,7 +30,8 @@ Tradeoff(Slick) <- value
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 \S4method{Tradeoff}{list}(
@@ -37,7 +39,8 @@ Tradeoff(Slick) <- value
   Label = "",
   Description = "",
   Value = array(),
-  Preset = list()
+  Preset = list(),
+  Misc = list()
 )
 
 \S4method{Tradeoff}{Slick}(Code)
@@ -62,6 +65,8 @@ Dimensions: c(\code{nOM}, \code{nMP}, \code{nPI})}
 
 \item{Preset}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
+
+\item{Misc}{A named list for additional miscellaneous information.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 

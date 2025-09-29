@@ -29,6 +29,8 @@ plotTradeoff <- function(slick,
     cli::cli_abort("The `cowplot` package is required for this function: `install.packages('cowplot')", call. = FALSE)
   }
 
+  slick <- Update(slick)
+
   tradeoff <- Tradeoff(slick)
   chk <- Check(tradeoff)
   if (chk@empty)

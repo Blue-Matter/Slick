@@ -37,12 +37,13 @@ plotQuilt <- function(slick,
                       minmax=FALSE,
                       shading=TRUE,
                       kable=FALSE,
-                      signif=2,
+                      signif=3,
                       alpha=0.5) {
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  slick <- Update(slick)
   quilt <- Quilt(slick)
   chk <- Check(quilt)
 
@@ -115,6 +116,7 @@ plotQuilt <- function(slick,
         shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
                                                        n=1,
                                                        alpha=alpha))
+        shading_list[[i]]$levels <- unique(shading_list[[i]]$values)
 
       } else {
         shading_list[[i]]$levels <- cut(Values[,i],

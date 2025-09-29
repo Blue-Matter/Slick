@@ -15,12 +15,16 @@
 \alias{Label,Boxplot-method}
 \alias{Label<-,Boxplot-method}
 \alias{Description<-,Boxplot-method}
+\alias{Misc,Boxplot-method}
+\alias{Misc<-,Boxplot-method}
 \alias{Code,Kobe-method}
 \alias{Code<-,Kobe-method}
 \alias{Description,Kobe-method}
 \alias{Description<-,Kobe-method}
 \alias{Label,Kobe-method}
 \alias{Label<-,Kobe-method}
+\alias{Misc,Kobe-method}
+\alias{Misc<-,Kobe-method}
 \alias{Code,MPs-method}
 \alias{Code<-,MPs-method}
 \alias{Label,MPs-method}
@@ -33,10 +37,14 @@
 \alias{Description<-,Quilt-method}
 \alias{Label,Quilt-method}
 \alias{Label<-,Quilt-method}
+\alias{Misc,Quilt-method}
+\alias{Misc<-,Quilt-method}
 \alias{Code,Tradeoff-method}
 \alias{Code<-,Tradeoff-method}
 \alias{Description,Tradeoff-method}
 \alias{Description<-,Tradeoff-method}
+\alias{Misc,Tradeoff-method}
+\alias{Misc<-,Tradeoff-method}
 \alias{Label,Tradeoff-method}
 \alias{Label<-,Tradeoff-method}
 \alias{Code,Timeseries-method}
@@ -45,12 +53,16 @@
 \alias{Description<-,Timeseries-method}
 \alias{Label,Timeseries-method}
 \alias{Label<-,Timeseries-method}
+\alias{Misc,Timeseries-method}
+\alias{Misc<-,Timeseries-method}
 \alias{Code,Spider-method}
 \alias{Code<-,Spider-method}
 \alias{Description,Spider-method}
 \alias{Description<-,Spider-method}
 \alias{Label,Spider-method}
 \alias{Label<-,Spider-method}
+\alias{Misc,Spider-method}
+\alias{Misc<-,Spider-method}
 \title{Access or assign \code{Code}, \code{Label}, and \code{Description} for a valid object class}
 \usage{
 Code(object, lang = "en")
@@ -77,6 +89,10 @@ Label(object) <- value
 
 \S4method{Description}{Boxplot}(object) <- value
 
+\S4method{Misc}{Boxplot}(object)
+
+\S4method{Misc}{Boxplot}(object) <- value
+
 \S4method{Code}{Kobe}(object, lang = "en")
 
 \S4method{Code}{Kobe}(object) <- value
@@ -88,6 +104,10 @@ Label(object) <- value
 \S4method{Label}{Kobe}(object, lang = "en")
 
 \S4method{Label}{Kobe}(object) <- value
+
+\S4method{Misc}{Kobe}(object)
+
+\S4method{Misc}{Kobe}(object) <- value
 
 \S4method{Code}{MPs}(object, lang = "en")
 
@@ -113,6 +133,10 @@ Label(object) <- value
 
 \S4method{Label}{Quilt}(object) <- value
 
+\S4method{Misc}{Quilt}(object)
+
+\S4method{Misc}{Quilt}(object) <- value
+
 \S4method{Code}{Tradeoff}(object, lang = "en")
 
 \S4method{Code}{Tradeoff}(object) <- value
@@ -120,6 +144,10 @@ Label(object) <- value
 \S4method{Description}{Tradeoff}(object, lang = "en")
 
 \S4method{Description}{Tradeoff}(object) <- value
+
+\S4method{Misc}{Tradeoff}(object)
+
+\S4method{Misc}{Tradeoff}(object) <- value
 
 \S4method{Label}{Tradeoff}(object, lang = "en")
 
@@ -137,6 +165,10 @@ Label(object) <- value
 
 \S4method{Label}{Timeseries}(object) <- value
 
+\S4method{Misc}{Timeseries}(object)
+
+\S4method{Misc}{Timeseries}(object) <- value
+
 \S4method{Code}{Spider}(object, lang = "en")
 
 \S4method{Code}{Spider}(object) <- value
@@ -148,6 +180,10 @@ Label(object) <- value
 \S4method{Label}{Spider}(object, lang = "en")
 
 \S4method{Label}{Spider}(object) <- value
+
+\S4method{Misc}{Spider}(object)
+
+\S4method{Misc}{Spider}(object) <- value
 }
 \arguments{
 \item{object}{An object of class \code{\link[=MPs-class]{MPs-class()}}, \code{\link[=Boxplot-class]{Boxplot-class()}},
@@ -192,6 +228,10 @@ Text with multi-language supported can be provided as a named list. Available la
 
 \item \code{Description(Boxplot) <- value}: Assign \code{Description} to a \code{\link[=Boxplot-class]{Boxplot-class()}} object
 
+\item \code{Misc(Boxplot)}: Return \code{Misc} from a \code{\link[=Boxplot-class]{Boxplot-class()}} object
+
+\item \code{Misc(Boxplot) <- value}: Assign \code{Misc} to a \code{\link[=Boxplot-class]{Boxplot-class()}} object
+
 \item \code{Code(Kobe)}: Return \code{Code} from a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Code(Kobe) <- value}: Assign \code{Code} to a \code{\link[=Kobe-class]{Kobe-class()}} object
@@ -203,6 +243,10 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{Label(Kobe)}: Return \code{Label} from a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Label(Kobe) <- value}: Assign \code{Label} to a \code{\link[=Kobe-class]{Kobe-class()}} object
+
+\item \code{Misc(Kobe)}: Return \code{Misc} from a \code{\link[=Kobe-class]{Kobe-class()}} object
+
+\item \code{Misc(Kobe) <- value}: Assign \code{Misc} to a \code{\link[=Kobe-class]{Kobe-class()}} object
 
 \item \code{Code(MPs)}: Return \code{Code} from a \code{\link[=MPs-class]{MPs-class()}} object
 
@@ -228,6 +272,10 @@ Text with multi-language supported can be provided as a named list. Available la
 
 \item \code{Label(Quilt) <- value}: Assign \code{Label} to a \code{\link[=Quilt-class]{Quilt-class()}} object
 
+\item \code{Misc(Quilt)}: Return \code{Misc} from a \code{\link[=Quilt-class]{Quilt-class()}} object
+
+\item \code{Misc(Quilt) <- value}: Assign \code{Misc} to a \code{\link[=Quilt-class]{Quilt-class()}} object
+
 \item \code{Code(Tradeoff)}: Return \code{Code} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Code(Tradeoff) <- value}: Assign \code{Code} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
@@ -235,6 +283,10 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{Description(Tradeoff)}: Return \code{Description} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Description(Tradeoff) <- value}: Assign \code{Description} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
+
+\item \code{Misc(Tradeoff)}: Return \code{Misc} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
+
+\item \code{Misc(Tradeoff) <- value}: Assign \code{Misc} to a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
 \item \code{Label(Tradeoff)}: Return \code{Label} from a \code{\link[=Tradeoff-class]{Tradeoff-class()}} object
 
@@ -252,6 +304,10 @@ Text with multi-language supported can be provided as a named list. Available la
 
 \item \code{Label(Timeseries) <- value}: Assign \code{Label} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
 
+\item \code{Misc(Timeseries)}: Return \code{Misc} from a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
+\item \code{Misc(Timeseries) <- value}: Assign \code{Misc} to a \code{\link[=Timeseries-class]{Timeseries-class()}} object
+
 \item \code{Code(Spider)}: Return \code{Code} from a \code{\link[=Spider-class]{Spider-class()}} object
 
 \item \code{Code(Spider) <- value}: Assign \code{Code} to a \code{\link[=Spider-class]{Spider-class()}} object
@@ -263,6 +319,10 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{Label(Spider)}: Return \code{Label} from a \code{\link[=Spider-class]{Spider-class()}} object
 
 \item \code{Label(Spider) <- value}: Assign \code{Label} to a \code{\link[=Spider-class]{Spider-class()}} object
+
+\item \code{Misc(Spider)}: Return \code{Misc} from a \code{\link[=Spider-class]{Spider-class()}} object
+
+\item \code{Misc(Spider) <- value}: Assign \code{Misc} to a \code{\link[=Spider-class]{Spider-class()}} object
 
 }}
 \seealso{
