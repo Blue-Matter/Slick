@@ -37,7 +37,7 @@ plotQuilt <- function(slick,
                       minmax=FALSE,
                       shading=TRUE,
                       kable=FALSE,
-                      signif=2,
+                      signif=3,
                       alpha=0.5) {
 
   if (!methods::is(slick, 'Slick'))
