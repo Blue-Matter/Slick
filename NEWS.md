@@ -6,6 +6,7 @@
   Slick app.
 - Fix issue with subsetting plots by Performance Indicators
 - Modify `plotTimeseries` so it can handle plots with no historical values
+- Fix to `plotQuilt(kable=TRUE)` for identical PI values across MPs
 
 # Slick 1.0.0
 
