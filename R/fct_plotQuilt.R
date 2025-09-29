@@ -116,6 +116,7 @@ plotQuilt <- function(slick,
         shading_list[[i]]$values <- rev(colorRampAlpha(Color(quilt),
                                                        n=1,
                                                        alpha=alpha))
+        shading_list[[i]]$levels <- unique(shading_list[[i]]$values)
 
       } else {
         shading_list[[i]]$levels <- cut(Values[,i],
