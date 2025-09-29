@@ -13,7 +13,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,8 @@ See <code>Details</code>.</p>
 <span>  Preset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  Target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">Timeseries</span><span class="op">(</span><span class="va">Slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
@@ -83,7 +84,8 @@ See <code>Details</code>.</p>
 <span>  Preset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  Target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'list'</span></span>
@@ -98,7 +100,8 @@ See <code>Details</code>.</p>
 <span>  Preset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  Target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  RefPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'Slick'</span></span>
@@ -169,6 +172,10 @@ element will appear as a button in the <code><a href="App.html">App()</a></code>
 See <code>Details</code></p></dd>
 
 
+<dt id="arg-misc">Misc<a class="anchor" aria-label="anchor" href="#arg-misc"></a></dt>
+<dd><p>A named list for additional miscellaneous information.</p></dd>
+
+
 <dt id="arg-slick">Slick<a class="anchor" aria-label="anchor" href="#arg-slick"></a></dt>
 <dd><p>A <code><a href="Slick-class.html">Slick-class()</a></code> object</p></dd>
 
@@ -179,7 +186,7 @@ See <code>Details</code></p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Use <code><a href="plotTimeseries.html">plotTimeseries()</a></code> to create the boxplot from the console.</p><div class="section">
+    <p>Use <code><a href="plotTimeseries.html">plotTimeseries()</a></code> to create the time series plots from the console.</p><div class="section">
 <h3 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h3>
 
 
@@ -208,7 +215,19 @@ color of the reference point lines, or to add additional reference point lines t
 Each element in <code>RefPoints</code> should be a named list:</p><ul><li><p><code>Name</code> character vector with name(s) of reference point(s)</p></li>
 <li><p><code>Value</code> numeric vector length <code>Name</code> with value(s) for the reference point(s)</p></li>
 <li><p><code>Color</code> character vector length <code>Name</code> with color(s) for the reference point(s)</p></li>
-</ul><p>See <code>Examples</code></p>
+</ul></div>
+
+<div class="section">
+<h3 id="summary-statistic">Summary Statistic<a class="anchor" aria-label="anchor" href="#summary-statistic"></a></h3>
+
+
+<p>The default behaviour for the Time Series plot (see <code><a href="plotTimeseries.html">plotTimeseries()</a></code>) is to show the mean value (over operating
+models and simulations). If the distribution is skewed, the mean value can sometimes be misleading,
+falling close to or outside of the percentiles shown in the plot. In such cases, it may be preferable
+to show the median value instead.</p>
+<p>The Time Series page in the Slick App provides users with an option to show the median value. To show the median
+value by default, add a named element to the <code>Misc</code> slot:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>slick <span class="sc">|&gt;</span> <span class="fu">Timeseries</span>() <span class="sc">|&gt;</span> <span class="fu">Misc</span>() <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">MeanMed=</span><span class="st">'median'</span>)</span></code></pre><p></p></div>
 </div>
 
 <div class="section">

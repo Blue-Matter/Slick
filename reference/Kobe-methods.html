@@ -11,7 +11,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,8 @@ See <code>Details</code>.</p>
 <span>  Target <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">Kobe</span><span class="op">(</span><span class="va">Slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
@@ -80,7 +81,8 @@ See <code>Details</code>.</p>
 <span>  Target <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'list'</span></span>
@@ -95,7 +97,8 @@ See <code>Details</code>.</p>
 <span>  Target <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  Limit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  Defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  TimeTerminal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  Misc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'Slick'</span></span>
@@ -164,6 +167,10 @@ element will appear as a button in the <code><a href="App.html">App()</a></code>
 <dd><p>Optional. By default the <code>Kobe</code> plot shows the terminal projection year.
 <code>TimeTerminal</code> can be used to override this. Use a numeric value indicating the time (must match a value in <code>Time</code>) to use
 for the <code>Kobe</code> plot</p></dd>
+
+
+<dt id="arg-misc">Misc<a class="anchor" aria-label="anchor" href="#arg-misc"></a></dt>
+<dd><p>A named list for additional miscellaneous information.</p></dd>
 
 
 <dt id="arg-slick">Slick<a class="anchor" aria-label="anchor" href="#arg-slick"></a></dt>
