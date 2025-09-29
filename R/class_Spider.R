@@ -28,7 +28,7 @@
 #' multiplied by 100 in the plot.
 #' Dimensions: c(`nOM`, `nMP`, and `nPI`)
 #' @slot Preset `r preset_param()`
-#'
+#' @slot Misc `r misc_param()`
 #' @seealso [Spider], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
@@ -40,22 +40,25 @@ setClass("Spider",
                  Label='character_list',
                  Description='character_list',
                  Value='array',
-                 Preset='list'
+                 Preset='list',
+                 Misc='list'
          )
 )
 
 
 setMethod("initialize", "Spider", function(.Object,
-                                            Code='',
-                                            Label='',
-                                            Description='',
-                                            Value=array(),
-                                            Preset=list()) {
+                                           Code='',
+                                           Label='',
+                                           Description='',
+                                           Value=array(),
+                                           Preset=list(),
+                                           Misc=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
   .Object@Value <- Value
   .Object@Preset <- Preset
+  .Object@Misc <- Misc
   methods::validObject(.Object)
   .Object
 })
@@ -77,13 +80,13 @@ setMethod("Spider", 'missing', function() new('Spider'))
 
 #' @describeIn Spider-methods Create a populated `Spider` object
 setMethod("Spider", c('character'),
-          function(Code, Label, Description, Value, Preset)
-            new('Spider', Code, Label, Description, Value, Preset))
+          function(Code, Label, Description, Value, Preset, Misc)
+            new('Spider', Code, Label, Description, Value, Preset, Misc))
 
 #' @describeIn Spider-methods Create a populated `Spider` object
 setMethod("Spider", c('list'),
-          function(Code, Label, Description, Value, Preset)
-            new('Spider', Code, Label, Description, Value, Preset))
+          function(Code, Label, Description, Value, Preset, Misc)
+            new('Spider', Code, Label, Description, Value, Preset, Misc))
 
 
 
@@ -202,6 +205,20 @@ setMethod("Metadata<-", "Spider", function(object, value) {
   object
 })
 
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Spider-class()] object
+setMethod("Misc", 'Spider', function(object) {
+  object@Misc
+})
+
+#' @describeIn Code Assign `Misc` to a [Spider-class()] object
+setMethod("Misc<-", 'Spider', function(object, value) {
+  object@Misc <- value
+  methods::validObject(object)
+  object
+})
 
 
 ## Show ----

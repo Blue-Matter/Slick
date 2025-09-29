@@ -70,6 +70,8 @@ Defaults to 1.}
 \item{\code{TimeTerminal}}{Optional. By default the \code{Kobe} plot shows the terminal projection year.
 \code{TimeTerminal} can be used to override this. Use a numeric value indicating the time (must match a value in \code{Time}) to use
 for the \code{Kobe} plot}
+
+\item{\code{Misc}}{A named list for additional miscellaneous information.}
 }}
 
 \examples{

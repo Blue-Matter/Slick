@@ -71,7 +71,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                   Report,
                                   parent_session=session,
                                   includeQuants, includeLabels,
-                                  includeHist
+                                  includeHist,
+                                  MeanMed
                                   )
 
     mod_Timeseries_byMP_server("Timeseries_byMP_1", i18n, filtered_slick,
@@ -80,7 +81,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                Report,
                                parent_session=session,
                                includeQuants, includeLabels,
-                               includeHist
+                               includeHist,
+                               MeanMed
                                )
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
@@ -90,16 +92,17 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                Report,
                                parent_session=session,
                                includeQuants, includeLabels,
-                               includeHist)
+                               includeHist,
+                               MeanMed)
 
 
     output$plots <- renderUI({
       tagList(
         fluidRow(
-          # column(3,uiOutput(ns('MeanMedian'))),
-          column(4,uiOutput(ns('includeQuantile'))),
-          column(4,uiOutput(ns('includeLabels'))),
-          column(4,uiOutput(ns('includeHist')))
+          column(3,uiOutput(ns('MeanMedian'))),
+          column(3,uiOutput(ns('includeQuantile'))),
+          column(3,uiOutput(ns('includeLabels'))),
+          column(3,uiOutput(ns('includeHist')))
         ),
         conditionalPanel("input.plotselect=='overall'", ns=ns,
                          mod_Timeseries_overall_ui(ns("Timeseries_overall_1"))
@@ -129,7 +132,6 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
 
     observeEvent(input$plotselect, {
       if (input$plotselect=='bymp') {
-
         shinyjs::disable("incLabels")
       } else {
         shinyjs::enable("incLabels")
@@ -167,20 +169,27 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                     TRUE)
     })
 
+    output$MeanMedian <- renderUI({
+      i18n <- i18n()
+      shiny::radioButtons(ns('SummaryStat'),
+                          c(''),
+                          c('Mean' = 'mean',
+                            'Median' = 'median'),
+                          selected=InputMeanMed())
+    })
 
-    # output$MeanMedian <- renderUI({
-    #   i18n <- i18n()
-    #   radioButtons(ns('plotoption'),
-    #                i18n$t('Plot Option'),
-    #                choiceNames = i18n$t(c('Mean', 'Median')),
-    #                choiceValues= c('mean', 'median')
-    #   )
-    # })
-    #
-    # MeanMed <- reactive({
-    #   shiny::req(input$plotoption)
-    #   input$plotoption
-    # })
+    InputMeanMed <- reactive({
+      slick <- filtered_slick()
+      MeanMed <- slick@Timeseries@Misc$MeanMed
+      if (!is.null(MeanMed))
+        return(MeanMed)
+      'mean'
+    })
+
+    MeanMed <- reactive({
+      shiny::req(input$SummaryStat)
+      input$SummaryStat
+    })
 
 
     output$includeLabels <- renderUI({

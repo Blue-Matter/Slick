@@ -22,7 +22,8 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                                        pm_ind, yrange, nMP,
                                        window_dims,
                                        Report, parent_session,
-                                       includeQuants, includeLabels, includeHist
+                                       includeQuants, includeLabels, includeHist,
+                                       MeanMed
                                        ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -90,6 +91,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                      includeQuants =includeQuants(),
                      includeLabels =includeLabels(),
                      includeHist = includeHist(),
+                     MeanMed =MeanMed(),
                      lang=i18n()$get_translation_language()) +
         ggplot2::coord_cartesian(ylim=yrange())
 

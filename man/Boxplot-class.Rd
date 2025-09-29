@@ -50,6 +50,8 @@ Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 element will appear as a button in the \code{\link[=App]{App()}}.}
 
 \item{\code{Defaults}}{A list object with default selections for the Boxplot. See \code{\link[=Boxplot]{Boxplot()}}}
+
+\item{\code{Misc}}{A named list for additional miscellaneous information.}
 }}
 
 \examples{

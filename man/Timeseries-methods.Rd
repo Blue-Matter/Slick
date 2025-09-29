@@ -23,7 +23,8 @@ Timeseries(
   Preset = list(),
   Target = NULL,
   Limit = NULL,
-  RefPoints = list()
+  RefPoints = list(),
+  Misc = list()
 )
 
 Timeseries(Slick) <- value
@@ -41,7 +42,8 @@ Timeseries(Slick) <- value
   Preset = list(),
   Target = NULL,
   Limit = NULL,
-  RefPoints = list()
+  RefPoints = list(),
+  Misc = list()
 )
 
 \S4method{Timeseries}{list}(
@@ -55,7 +57,8 @@ Timeseries(Slick) <- value
   Preset = list(),
   Target = NULL,
   Limit = NULL,
-  RefPoints = list()
+  RefPoints = list(),
+  Misc = list()
 )
 
 \S4method{Timeseries}{Slick}(Code)
@@ -98,6 +101,8 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 \item{RefPoints}{List for setting custom Reference Points. Overrides \code{Target} and \code{Limit}.
 See \code{Details}}
 
+\item{Misc}{A named list for additional miscellaneous information.}
+
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
 \item{value}{A \code{\link[=Timeseries-class]{Timeseries-class()}} object}
@@ -109,7 +114,7 @@ and to access and assign \code{Timeseries} for an object of class \code{\link[=S
 See \code{Details}.
 }
 \details{
-Use \code{\link[=plotTimeseries]{plotTimeseries()}} to create the boxplot from the console.
+Use \code{\link[=plotTimeseries]{plotTimeseries()}} to create the time series plots from the console.
 \subsection{Note}{
 
 Character strings in \code{Code}, \code{Label}, and \code{Description} must all be same length
@@ -142,8 +147,20 @@ Each element in \code{RefPoints} should be a named list:
 \item \code{Value} numeric vector length \code{Name} with value(s) for the reference point(s)
 \item \code{Color} character vector length \code{Name} with color(s) for the reference point(s)
 }
+}
 
-See \code{Examples}
+\subsection{Summary Statistic}{
+
+The default behaviour for the Time Series plot (see \code{\link[=plotTimeseries]{plotTimeseries()}}) is to show the mean value (over operating
+models and simulations). If the distribution is skewed, the mean value can sometimes be misleading,
+falling close to or outside of the percentiles shown in the plot. In such cases, it may be preferable
+to show the median value instead.
+
+The Time Series page in the Slick App provides users with an option to show the median value. To show the median
+value by default, add a named element to the \code{Misc} slot:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{slick |> Timeseries() |> Misc() <- list(MeanMed='median')
+}\if{html}{\out{</div>}}
 }
 
 \subsection{Accessing Slots}{

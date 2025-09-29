@@ -64,6 +64,8 @@ element will appear as a button in the \code{\link[=App]{App()}}.}
 
 \item{\code{RefPoints}}{List for setting custom Reference Points. Overrides \code{Target} and \code{Limit}.
 See \code{Details} section in \code{\link[=Timeseries]{Timeseries()}}.}
+
+\item{\code{Misc}}{A named list for additional miscellaneous information.}
 }}
 
 \examples{

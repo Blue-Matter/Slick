@@ -53,6 +53,8 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
 
   type <- match.arg(type)
 
+  slick <- Update(slick)
+
   Mean <- OM <- NULL # CRAN checks
 
   if (!methods::is(slick, 'Slick'))

@@ -18,7 +18,8 @@ Quilt(
   Preset = list(),
   Color = c("darkblue", "lightblue"),
   MinValue = as.numeric(NA),
-  MaxValue = as.numeric(NA)
+  MaxValue = as.numeric(NA),
+  Misc = list()
 )
 
 Quilt(Slick) <- value
@@ -33,7 +34,8 @@ Quilt(Slick) <- value
   Preset = list(),
   Color = c("darkblue", "lightblue"),
   MinValue = as.numeric(NA),
-  MaxValue = as.numeric(NA)
+  MaxValue = as.numeric(NA),
+  Misc = list()
 )
 
 \S4method{Quilt}{Slick}(Code)
@@ -67,6 +69,8 @@ respective PIs. Defaults to minimum PI value in \code{Value} (averaged across OM
 
 \item{MaxValue}{Numeric vector length \code{nPI} with the maximum possible value (i.e., best performance)
 for the respective PIs. Defaults to maximum PI value in \code{Value} (averaged across OMs in some cases).}
+
+\item{Misc}{A named list for additional miscellaneous information.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 

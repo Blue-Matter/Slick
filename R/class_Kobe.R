@@ -42,6 +42,7 @@
 #' @slot TimeTerminal Optional. By default the `Kobe` plot shows the terminal projection year.
 #' `TimeTerminal` can be used to override this. Use a numeric value indicating the time (must match a value in `Time`) to use
 #' for the `Kobe` plot
+#' @slot Misc `r misc_param()`
 #' @seealso [Kobe()], [Code()], [Label()], [Description()],
 #' [Value()], [Preset()]
 #'
@@ -60,7 +61,8 @@ setClass("Kobe",
                  Target='numericOrNULL',
                  Limit='numericOrNULL',
                  Defaults='list',
-                 TimeTerminal='numeric'
+                 TimeTerminal='numeric',
+                 Misc='list'
          )
 )
 
@@ -76,7 +78,8 @@ setMethod("initialize", "Kobe", function(.Object,
                                          Target=NULL,
                                          Limit=NULL,
                                          Defaults=list('overall'),
-                                         TimeTerminal=numeric()) {
+                                         TimeTerminal=numeric(),
+                                         Misc=list()) {
   .Object@Code <- Code
   .Object@Label <- Label
   .Object@Description <- Description
@@ -88,6 +91,7 @@ setMethod("initialize", "Kobe", function(.Object,
   .Object@Limit <- Limit
   .Object@Defaults <- Defaults
   .Object@TimeTerminal <- TimeTerminal
+  .Object@Misc <- Misc
   methods::validObject(.Object)
   .Object
 })
@@ -110,14 +114,14 @@ setMethod("Kobe", 'missing', function() new('Kobe'))
 
 #' @describeIn Kobe-methods Create a populated `Kobe` object
 setMethod("Kobe", c('character'),
-          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal)
-            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal))
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal, Misc)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal, Misc))
 
 
 #' @describeIn Kobe-methods Create a populated `Kobe` object
 setMethod("Kobe", c('list'),
-          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal)
-            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal))
+          function(Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal, Misc)
+            new('Kobe', Code, Label, Description, Time, TimeLab, Value, Preset, Target, Limit, Defaults, TimeTerminal, Misc))
 
 
 
@@ -275,6 +279,22 @@ setMethod("Metadata<-", "Kobe", function(object, value) {
 
   names <- c('Code', 'Label', 'Description')
   object <- check_assign_dataframe(object, names, value)
+  methods::validObject(object)
+  object
+})
+
+
+## Misc ----
+
+#' @describeIn Code Return `Misc` from a [Kobe-class()] object
+setMethod("Misc", 'Kobe', function(object) {
+  object@Misc
+})
+
+
+#' @describeIn Code Assign `Misc` to a [Kobe-class()] object
+setMethod("Misc<-", 'Kobe', function(object, value) {
+  object@Misc <- value
   methods::validObject(object)
   object
 })

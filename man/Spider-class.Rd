@@ -51,6 +51,8 @@ Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI})}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
+
+\item{\code{Misc}}{A named list for additional miscellaneous information.}
 }}
 
 \examples{

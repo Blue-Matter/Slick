@@ -159,8 +159,10 @@ plotSpider <- function(slick,
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  slick <- Update(slick)
   spider <- Spider(slick)
   chk <- Check(spider)
+
   if (chk@empty)
     cli::cli_abort('`Spider` in this `Slick` object is empty. Use  {.code Check(slick)}')
 

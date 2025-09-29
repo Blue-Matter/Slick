@@ -43,6 +43,7 @@ plotQuilt <- function(slick,
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
+  slick <- Update(slick)
   quilt <- Quilt(slick)
   chk <- Check(quilt)
 

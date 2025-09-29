@@ -57,6 +57,8 @@ respective PIs. Defaults to minimum PI value in \code{Value} (averaged across OM
 
 \item{\code{MaxValue}}{Numeric vector length \code{nPI} with the maximum possible value (i.e., best performance)
 for the respective PIs. Defaults to maximum PI value in \code{Value} (averaged across OMs in some cases).}
+
+\item{\code{Misc}}{A named list for additional miscellaneous information.}
 }}
 
 \examples{

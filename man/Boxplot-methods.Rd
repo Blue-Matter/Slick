@@ -17,7 +17,8 @@ Boxplot(
   Description = "",
   Value = array(),
   Preset = list(),
-  Defaults = list("overall", "boxplot")
+  Defaults = list("overall", "boxplot"),
+  Misc = list()
 )
 
 Boxplot(Slick) <- value
@@ -30,7 +31,8 @@ Boxplot(Slick) <- value
   Description = "",
   Value = array(),
   Preset = list(),
-  Defaults = list("overall", "boxplot")
+  Defaults = list("overall", "boxplot"),
+  Misc = list()
 )
 
 \S4method{Boxplot}{Slick}(Code)
@@ -57,6 +59,8 @@ Dimensions: c(\code{nsim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 element will appear as a button in the \code{\link[=App]{App()}}.}
 
 \item{Defaults}{A list object with default selections for the Boxplot}
+
+\item{Misc}{A named list for additional miscellaneous information.}
 
 \item{Slick}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
