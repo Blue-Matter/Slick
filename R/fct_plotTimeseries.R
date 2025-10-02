@@ -8,6 +8,7 @@
 #' @param PI A numeric value specifying the performance indicator to plot
 #' @param byMP Logical. Facet by MP? Defaults to FALSE, where all MPs are shown on the same plot
 #' @param byOM Logical. Facet by OM?  Defaults to FALSE where values are calculated as mean across OMs
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param includeHist Logical. Include the historical period in the projections?
 #' @param ncol Numeric. Number of columns if faceting by MP or OM
 #' @param col_line Color for the median line (historical)
@@ -49,6 +50,7 @@ plotTimeseries <- function(slick,
                            PI=1,
                            byMP=FALSE,
                            byOM=FALSE,
+                           OMS=NA,
                            includeHist=TRUE,
                            ncol=4,
                            col_line='darkgray',
@@ -83,6 +85,10 @@ plotTimeseries <- function(slick,
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
   slick <- Update(slick)
+
+  if (!all(is.na(OMs))) {
+    slick <- FilterSlick(slick, OMs=OMs)
+  }
 
   MeanMed <- match.arg(MeanMed)
 

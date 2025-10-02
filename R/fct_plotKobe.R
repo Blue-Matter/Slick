@@ -11,7 +11,7 @@
 #' @param xPI Numeric value specifying the performance indicator for the x-axis
 #' @param yPI Numeric value specifying the performance indicator for the y-axis
 #' @param Time Logical. Kobe Time plot?
-#' @param OMs Integer representing the OMs to include in the plot. Defaults to all.
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param BLcol Color for the bottom left quadrant
 #' @param TLcol Color for the top left quadrant
 #' @param TRcol Color for the top  right quadrant

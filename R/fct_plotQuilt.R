@@ -20,6 +20,7 @@ colorRampAlpha <- function(..., n, alpha) {
 #' @param slick A [Slick-class()] object
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param minmax Logical. Color shading from min to max values in each column?
 #' If TRUE, ignores `MinValue(quilt)` and `MaxValue(quilt)`
 #' @param shading Logical. Color shading for the columns?
@@ -34,6 +35,7 @@ colorRampAlpha <- function(..., n, alpha) {
 #'
 plotQuilt <- function(slick,
                       MP_label='Code',
+                      OMs=NA,
                       minmax=FALSE,
                       shading=TRUE,
                       kable=FALSE,
@@ -44,6 +46,11 @@ plotQuilt <- function(slick,
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
   slick <- Update(slick)
+
+  if (!all(is.na(OMs))) {
+    slick <- FilterSlick(slick, OMs=OMs)
+  }
+
   quilt <- Quilt(slick)
   chk <- Check(quilt)
 

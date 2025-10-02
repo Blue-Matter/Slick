@@ -41,7 +41,7 @@ plotKobe(
 
 \item{Time}{Logical. Kobe Time plot?}
 
-\item{OMs}{Integer representing the OMs to include in the plot. Defaults to all.}
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{BLcol}{Color for the bottom left quadrant}
 
