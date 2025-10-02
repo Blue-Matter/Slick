@@ -9,7 +9,7 @@ plotTimeseries(
   PI = 1,
   byMP = FALSE,
   byOM = FALSE,
-  OMS = NA,
+  OMs = NA,
   includeHist = TRUE,
   ncol = 4,
   col_line = "darkgray",
@@ -49,6 +49,8 @@ plotTimeseries(
 \item{byMP}{Logical. Facet by MP? Defaults to FALSE, where all MPs are shown on the same plot}
 
 \item{byOM}{Logical. Facet by OM?  Defaults to FALSE where values are calculated as mean across OMs}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{includeHist}{Logical. Include the historical period in the projections?}
 
@@ -109,8 +111,6 @@ plotTimeseries(
 to all.}
 
 \item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
-
-\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 }
 \value{
 A \code{ggplot2} object
