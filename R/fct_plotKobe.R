@@ -11,6 +11,7 @@
 #' @param xPI Numeric value specifying the performance indicator for the x-axis
 #' @param yPI Numeric value specifying the performance indicator for the y-axis
 #' @param Time Logical. Kobe Time plot?
+#' @param OMs Integer representing the OMs to include in the plot. Defaults to all.
 #' @param BLcol Color for the bottom left quadrant
 #' @param TLcol Color for the top left quadrant
 #' @param TRcol Color for the top  right quadrant
@@ -43,12 +44,13 @@ plotKobe <- function(slick,
                      xPI=1,
                      yPI=2,
                      Time=FALSE,
+                     OMs=NA,
                      BLcol="#F8DC7A",
                      TLcol="#D8775D",
                      TRcol='#FDBD56',
                      BRcol='#67C18B',
                      axis_label='Code',
-                     percentile=0.9,
+                     percentile=0.75,
                      axis.text.size=14,
                      axis.title.size=16,
                      strip.text.size=16,
@@ -64,7 +66,7 @@ plotKobe <- function(slick,
                      lang='en',
                      MP_label='Code') {
 
-  if (!methods::is(slick, 'Slick'))
+  if (!inherits(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
   slick <- Update(slick)
@@ -122,6 +124,10 @@ plotKobe <- function(slick,
   nvars <- dd[4]
   nTS <- dd[5]
 
+  if (any(is.na(OMs))) {
+    OMs <- 1:nOM
+  }
+
   TS <- nTS
   if (length(slick@Kobe@TimeTerminal)) {
     TS <- match(slick@Kobe@TimeTerminal, slick@Kobe@Time)
@@ -136,18 +142,16 @@ plotKobe <- function(slick,
     }
   }
 
-  mean_over_OMs <- apply(values, c(1,3,4,5), mean, na.rm=TRUE)
-
   if (Time) {
     bgCols <- c(BRcol, TRcol, BLcol, TLcol)
     kobe_time_list_mp <- list()
     for (mp in seq_along(MP_lab)) {
       kobe_time_list <- list()
       for (ts in seq_along(times)) {
-        bl <- mean(mean_over_OMs[,mp,xPI,ts] <= x_targ &  mean_over_OMs[,mp,yPI,ts] <= y_targ)
-        br <- mean(mean_over_OMs[,mp,xPI,ts] > x_targ &  mean_over_OMs[,mp,yPI,ts] <= y_targ)
-        tl <- mean(mean_over_OMs[,mp,xPI,ts] <= x_targ &  mean_over_OMs[,mp,yPI,ts] > y_targ)
-        tr <- mean(mean_over_OMs[,mp,xPI,ts] > x_targ &  mean_over_OMs[,mp,yPI,ts] > y_targ)
+        bl <- mean(values[,OMs, mp,xPI,ts] <= x_targ &  values[,OMs, mp,yPI,ts] <= y_targ)
+        br <- mean(values[,OMs, mp,xPI,ts] > x_targ &  values[,OMs, mp,yPI,ts] <= y_targ)
+        tl <- mean(values[,OMs,mp,xPI,ts] <= x_targ &  values[,OMs, mp,yPI,ts] > y_targ)
+        tr <- mean(values[,OMs, mp,xPI,ts] > x_targ &  values[,OMs, mp,yPI,ts] > y_targ)
         kobe_time_list[[ts]] <-  data.frame(x=times[ts], y=c(bl, br, tl, tr), quadrant=c('bl', 'br', 'tl', 'tr'),
                                             MP=MP_lab[mp])
       }
@@ -198,8 +202,8 @@ plotKobe <- function(slick,
       ggplot2::labs(x=axis_labels[xPI],
                     y=axis_labels[yPI])
 
-    df <- data.frame(x=as.vector(apply(mean_over_OMs[,,xPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
-                     y=as.vector(apply(mean_over_OMs[,,yPI,, drop=FALSE], c(2,4), median, na.rm=TRUE)),
+    df <- data.frame(x=as.vector(apply(values[,OMs,,xPI,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
+                     y=as.vector(apply(values[,OMs,,yPI,, drop=FALSE], c(3,5), median, na.rm=TRUE)),
                      MP=MP_lab,
                      time=rep(times, each=nMP))
 
@@ -209,24 +213,16 @@ plotKobe <- function(slick,
     df$y[df$y > ymax ] <- ymax
 
     init_df <- df |> dplyr::filter(time==min(time))
-
-
     cur_df <- df |> dplyr::filter(time==max(time))
-
-
-
-
-
     # error bars
     if (!is.null(quants)) {
       final_ts <- TS
-
-      XError <- data.frame(x=as.vector(apply(mean_over_OMs[,,xPI,final_ts, drop=FALSE], 2, quantile, quants, na.rm=TRUE)),
+      XError <- data.frame(x=as.vector(apply(values[,OMs,,xPI,final_ts, drop=FALSE], 3, quantile, quants, na.rm=TRUE)),
                            y=rep(cur_df$y, each=2),
                            MP=rep(cur_df$MP, each=2))
 
       YError <- data.frame(x=rep(cur_df$x,each=2),
-                           y=as.vector(apply(mean_over_OMs[,,yPI,final_ts, drop=FALSE], 2, quantile, quants, na.rm=TRUE)),
+                           y=as.vector(apply(values[,OMs,,yPI,final_ts, drop=FALSE], 3, quantile, quants, na.rm=TRUE)),
                            MP=rep(cur_df$MP, each=2))
 
       XError$x[XError$x >xmax ] <- xmax
@@ -238,7 +234,6 @@ plotKobe <- function(slick,
         ggplot2::geom_line(data=YError, ggplot2::aes(x=x, y=y, group=MP),
                            color='white', linetype='dotted', linewidth=1)
     }
-
 
 
     # historical trajectory

@@ -9,12 +9,13 @@ plotKobe(
   xPI = 1,
   yPI = 2,
   Time = FALSE,
+  OMs = NA,
   BLcol = "#F8DC7A",
   TLcol = "#D8775D",
   TRcol = "#FDBD56",
   BRcol = "#67C18B",
   axis_label = "Code",
-  percentile = 0.9,
+  percentile = 0.75,
   axis.text.size = 14,
   axis.title.size = 16,
   strip.text.size = 16,
@@ -39,6 +40,8 @@ plotKobe(
 \item{yPI}{Numeric value specifying the performance indicator for the y-axis}
 
 \item{Time}{Logical. Kobe Time plot?}
+
+\item{OMs}{Integer representing the OMs to include in the plot. Defaults to all.}
 
 \item{BLcol}{Color for the bottom left quadrant}
 
