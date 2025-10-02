@@ -57,7 +57,7 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
   slick <- Update(slick)
 
   if (!all(is.na(OMs))) {
-    slick <- FilterSlick(slick, OMs=OMs)
+    slick <- FilterSlick(slick, OMs=OMs, plot='Boxplot')
   }
 
   Mean <- OM <- NULL # CRAN checks

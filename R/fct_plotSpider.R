@@ -164,7 +164,7 @@ plotSpider <- function(slick,
   slick <- Update(slick)
 
   if (!all(is.na(OMs))) {
-    slick <- FilterSlick(slick, OMs=OMs)
+    slick <- FilterSlick(slick, OMs=OMs, plot='Spider')
   }
 
   spider <- Spider(slick)
