@@ -8,6 +8,7 @@ plotTradeoff(
   slick,
   xPI = NULL,
   yPI = NULL,
+  OMs = NA,
   MP_label = "Code",
   lab_size = 6,
   point_size = 2,
@@ -21,6 +22,8 @@ plotTradeoff(
 \item{xPI}{Numeric value indicating the PI to plot on the x-axis. Multiple values are accepted. Recycled if \code{xPI<yPI}}
 
 \item{yPI}{Numeric value indicating the PI to plot on the y-axis. Multiple values are accepted. Recycled if \code{yPI<xPI}}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{MP_label}{Label to use for the MPs. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}

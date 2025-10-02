@@ -9,6 +9,7 @@ plotBoxplot(
   PI = NULL,
   type = c("boxplot", "violin", "both", "all"),
   byOM = FALSE,
+  OMs = NA,
   ncol = 4,
   MP_label = "Code",
   PI_label = "Code"
@@ -23,6 +24,8 @@ If NULL, it will facet_wrap all PIs}
 \item{type}{Character string specifying the plot type.}
 
 \item{byOM}{Logical. Facet the plots by operating model? PI must be a single value}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{ncol}{Numeric. Number of columns}
 

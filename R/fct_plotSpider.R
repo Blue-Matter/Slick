@@ -101,6 +101,7 @@ Spider_outline <- function(nPI,
 #' @param slick A [Slick-class()] object
 #' @param byOM Logical Plot by OM? Otherwise mean over OMs
 #' @param byMP Logical. Plot by MP? Otherwise all MPs together on one plot
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param incMean Logical. Include mean PI score in center?
 #' @param incMax Logical. Include colored points indicating maximum PI values?
 #' @param relScale Logical. Scale PI values between minimum (0) and maximum (1)?
@@ -131,6 +132,7 @@ Spider_outline <- function(nPI,
 plotSpider <- function(slick,
                        byOM=FALSE,
                        byMP=FALSE,
+                       OMs=NA,
                        incMean=TRUE,
                        incMax=TRUE,
                        relScale=FALSE,
@@ -160,6 +162,11 @@ plotSpider <- function(slick,
     cli::cli_abort('`slick` must be an object of class `Slick`')
 
   slick <- Update(slick)
+
+  if (!all(is.na(OMs))) {
+    slick <- FilterSlick(slick, OMs=OMs)
+  }
+
   spider <- Spider(slick)
   chk <- Check(spider)
 

@@ -4,6 +4,7 @@
 #' @param slick A [Slick-class()] object
 #' @param xPI Numeric value indicating the PI to plot on the x-axis. Multiple values are accepted. Recycled if `xPI<yPI`
 #' @param yPI Numeric value indicating the PI to plot on the y-axis. Multiple values are accepted. Recycled if `yPI<xPI`
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
 #' @param lab_size Size of the MP labels
@@ -16,6 +17,7 @@
 plotTradeoff <- function(slick,
                          xPI=NULL,
                          yPI=NULL,
+                         OMs=NA,
                          MP_label='Code',
                          lab_size=6,
                          point_size=2,
@@ -30,6 +32,10 @@ plotTradeoff <- function(slick,
   }
 
   slick <- Update(slick)
+
+  if (!all(is.na(OMs))) {
+    slick <- FilterSlick(slick, OMs=OMs)
+  }
 
   tradeoff <- Tradeoff(slick)
   chk <- Check(tradeoff)

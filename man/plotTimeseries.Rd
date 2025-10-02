@@ -9,6 +9,7 @@ plotTimeseries(
   PI = 1,
   byMP = FALSE,
   byOM = FALSE,
+  OMS = NA,
   includeHist = TRUE,
   ncol = 4,
   col_line = "darkgray",
@@ -108,6 +109,8 @@ plotTimeseries(
 to all.}
 
 \item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 }
 \value{
 A \code{ggplot2} object

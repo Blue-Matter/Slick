@@ -8,6 +8,7 @@ plotSpider(
   slick,
   byOM = FALSE,
   byMP = FALSE,
+  OMs = NA,
   incMean = TRUE,
   incMax = TRUE,
   relScale = FALSE,
@@ -37,6 +38,8 @@ plotSpider(
 \item{byOM}{Logical Plot by OM? Otherwise mean over OMs}
 
 \item{byMP}{Logical. Plot by MP? Otherwise all MPs together on one plot}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{incMean}{Logical. Include mean PI score in center?}
 

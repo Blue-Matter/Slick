@@ -39,6 +39,7 @@ get_OM_labels <- function(slick, nOM=NULL) {
 #' If NULL, it will facet_wrap all PIs
 #' @param type Character string specifying the plot type.
 #' @param byOM Logical. Facet the plots by operating model? PI must be a single value
+#' @param OMs Integers representing the OMs to include in the plot. Defaults to all.
 #' @param ncol Numeric. Number of columns
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
@@ -49,11 +50,15 @@ get_OM_labels <- function(slick, nOM=NULL) {
 #' @example inst/examples/Boxplot.R
 #' @export
 plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all'),
-                        byOM=FALSE, ncol=4, MP_label='Code', PI_label='Code') {
+                        byOM=FALSE, OMs=NA, ncol=4, MP_label='Code', PI_label='Code') {
 
   type <- match.arg(type)
 
   slick <- Update(slick)
+
+  if (!all(is.na(OMs))) {
+    slick <- FilterSlick(slick, OMs=OMs)
+  }
 
   Mean <- OM <- NULL # CRAN checks
 

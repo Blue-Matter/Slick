@@ -7,6 +7,7 @@
 plotQuilt(
   slick,
   MP_label = "Code",
+  OMs = NA,
   minmax = FALSE,
   shading = TRUE,
   kable = FALSE,
@@ -19,6 +20,8 @@ plotQuilt(
 
 \item{MP_label}{Label to use for the MPs. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}
+
+\item{OMs}{Integers representing the OMs to include in the plot. Defaults to all.}
 
 \item{minmax}{Logical. Color shading from min to max values in each column?
 If TRUE, ignores \code{MinValue(quilt)} and \code{MaxValue(quilt)}}
