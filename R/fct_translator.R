@@ -16,6 +16,7 @@ set_translator <- function() {
 
 get_languages <- function() {
   languages <- set_translator()$get_languages()
+
   ind <- match(languages, language_codes[,1])
   lang_names <- language_codes[ind,2]
   # lang_names[3] <- paste(lang_names[3], '(Under Construction)')

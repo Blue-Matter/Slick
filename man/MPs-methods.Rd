@@ -90,12 +90,16 @@ Description(myMPs) <- list(en=c('This is the English description for Management 
                              "This is the Spanish description for Management Procedure 3"),
                            fr=c("This is the French description for Management Procedure 1",
                              "This is the French description for Management Procedure 2",
-                             "This is the French description for Management Procedure 3")
+                             "This is the French description for Management Procedure 3"),
+                           pt=c("This is the Portuguese description for Management Procedure 1",
+                                "This is the Portuguese description for Management Procedure 2",
+                                "This is the Portuguese description for Management Procedure 3")
                            )
 
 Metadata(myMPs)
 Metadata(myMPs, 'es')
 Metadata(myMPs, 'fr')
+Metadata(myMPs, 'pt')
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Color]{Color()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Preset]{Preset()}}

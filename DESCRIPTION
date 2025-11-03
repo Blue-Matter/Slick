@@ -88,6 +88,7 @@ Collate:
     'fct_check_slick.R'
     'fct_colors.R'
     'fct_dashboardHeader2.R'
+    'fct_fix_translations.R'
     'fct_load_casestudies.R'
     'fct_misc.R'
     'fct_plotBoxplot.R'

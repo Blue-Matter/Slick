@@ -32,7 +32,7 @@
 #' @param ymax Maximum value for the yx-axis. Values greater than `ymax` will be shown at `ymax`
 #' @param hist_traj Logical. Plot the historical trajectories?
 #' @param ncol Numeric. Number of columns for Kobe Time
-#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
+#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'
 #' @param MP_label Label to use for the MPs. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
 #' @seealso [Kobe()], [Kobe-class()]

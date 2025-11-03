@@ -86,6 +86,7 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{en}: English (default)
 \item \code{es}: Spanish
 \item \code{fr}: French
+\item \code{pt}: Portuguese
 }
 }
 

@@ -197,9 +197,9 @@ check_lang_list <- function(text_list) {
 
   # check languages
   nms <- names(text_list)
-  if (!all(nms %in% c('en', 'es', 'fr')))
+  if (!all(nms %in% c('en', 'es', 'fr', 'pt')))
     error_list <- append(error_list,
-                         'Named list must only be `en`, `es`, or `fr`')
+                         'Named list must only be `en`, `es`, `fr`, or `pt`')
 
   # check lengths
   ll <- lapply(text_list, length)

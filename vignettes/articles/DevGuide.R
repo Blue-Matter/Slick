@@ -55,6 +55,7 @@ Email(slick)
 Institution(slick)
 
 ## ---- markdown_intro ----
+
 Introduction(slick) <- "
 
 This *example* Slick Object has been designed to demonstrate the main features of **Slick**.
@@ -64,6 +65,7 @@ The code used to create this object is available in the [Slick Developer's Guide
 The information shown here is for demonstration purposes only.
 
 "
+
 ## ---- markdown_intro_read ----
 Introduction(slick, markdown = TRUE)
 
@@ -73,9 +75,11 @@ Introduction(slick, markdown = TRUE)
 shiny::hr()
 
 ## ---- multi_language_intro_write ----
+
 Title(slick) <- list(en='An Example Slick Object',
                      es='Un ejemplo de un objeto Slick',
-                     fr="Un exemple d'objet Slick")
+                     fr="Un exemple d'objet Slick",
+                     pt="Um exemplo de objeto Slick")
 
 ## ---- multi_language_intro_read ----
 Title(slick)
@@ -83,6 +87,8 @@ Title(slick)
 Title(slick, 'es')
 
 Title(slick, 'fr')
+
+Title(slick, 'pt')
 
 ## ---- multi_author ----
 Author(slick) <- c('A. Author', 'B. Author')
@@ -329,8 +335,12 @@ plotTimeseries(slick_OM1) # same plot
 
 ## ---- boxplot_create ----
 
-boxplot <- Boxplot(Code=c('SB/SBSMY 25', 'SB/SBSMY 50', 'TAC 25'),
-                   Label=c('SB/SBMSY Year 25', 'SB/SBSMY Year 50', 'TAC Year 25'),
+boxplot <- Boxplot(Code=c('SB/SBMSY 25',
+                          'SB/SBMSY 50',
+                          'TAC 25'),
+                   Label=c('SB/SBMSY Year 25',
+                           'SB/SBMSY Year 50',
+                           'TAC Year 25'),
                    Description=c('SB/SBMSY in the 25th projection year',
                                  'SB/SBMSY in the last year',
                                  'TAC in the 25th projection year'))
@@ -365,7 +375,7 @@ plotBoxplot(slick)
 
 ## ---- boxplot_plot2 ----
 
-plotBoxplot(slick, type='violin')
+plotBoxplot(slick, type='violin', PI=3)
 
 ## ---- boxplot_plot3 ----
 

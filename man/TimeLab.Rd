@@ -26,7 +26,7 @@ TimeLab(object) <- value
 \item{object}{A \code{\link[=Kobe-class]{Kobe-class()}} or \linkS4class{Timeseries} object}
 
 \item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}
 
 \item{value}{A character string to assign to \code{TimeLab} in \code{object}.}
 }

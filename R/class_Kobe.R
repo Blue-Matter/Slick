@@ -17,6 +17,7 @@
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length

@@ -1,7 +1,7 @@
 
 lang_param <- function() {
   "Optional text string specifying the language (if available).
-  Either 'en', 'es', or 'fr' for English, Spanish, or French respectively"
+  Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively"
 }
 
 type_param <- function() {
@@ -67,13 +67,13 @@ preset_param <- function() {
 
 title_param <- function() {
   "Title for the `Slick` object. A character string. For multiple languages,
-  use a named list with names: `en`, `es`, `fr` for the three supported languages."
+  use a named list with names: `en`, `es`, `fr`, or `pt` for the supported languages."
 }
 
 subtitle_param <- function() {
   "
   Subtitle for the `Slick` object. A character string or a named list with
-   languages: `en`, `es`, `fr`
+   languages: `en`, `es`, `fr`, `pt`
   "
 }
 
@@ -104,7 +104,7 @@ institution_param <- function() {
 introduction_param <- function() {
   "
   Introduction text for the `Slick` object. Supports all markdown formatting. Character string, must be length 1.
-  For multiple languages, use a named list with names: `en`, `es`, `fr` for the three supported languages.
+  For multiple languages, use a named list with names: `en`, `es`, `fr`, `pt` for the supported languages.
   "
 }
 
