@@ -356,7 +356,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-10-16"</span></span>
+<span><span class="co">#&gt; [1] "2025-11-03"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -385,7 +385,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-10-16"</span></span>
+<span><span class="co">#&gt; [1] "2025-11-03"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -441,8 +441,8 @@ vectors of the same length as <code>Author</code>:</p>
 <h3 id="multilanguage">Multi-Language Support<a class="anchor" aria-label="anchor" href="#multilanguage"></a>
 </h3>
 <p><code>Title</code>, <code>Subtitle</code>, and
-<code>Introduction</code> support multiple languages. Three languages
-are supported:</p>
+<code>Introduction</code> support multiple languages. Four languages are
+supported:</p>
 <ul>
 <li>
 <code>en</code>: English</li>
@@ -450,12 +450,15 @@ are supported:</p>
 <code>es</code>: Spanish</li>
 <li>
 <code>fr</code>: French</li>
+<li>
+<code>pt</code>: Portuguese</li>
 </ul>
 <p>Multiple languages can included by providing a named list:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>en<span class="op">=</span><span class="st">'An Example Slick Object'</span>,</span>
 <span>                     es<span class="op">=</span><span class="st">'Un ejemplo de un objeto Slick'</span>,</span>
-<span>                     fr<span class="op">=</span><span class="st">"Un exemple d'objet Slick"</span><span class="op">)</span></span></code></pre></div>
+<span>                     fr<span class="op">=</span><span class="st">"Un exemple d'objet Slick"</span>,</span>
+<span>                     pt<span class="op">=</span><span class="st">"Um exemplo de objeto Slick"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "An Example Slick Object"</span></span>
@@ -464,7 +467,10 @@ are supported:</p>
 <span><span class="co">#&gt; [1] "Un ejemplo de un objeto Slick"</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'fr'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Un exemple d'objet Slick"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Un exemple d'objet Slick"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/Slick-class.html">Title</a></span><span class="op">(</span><span class="va">slick</span>, <span class="st">'pt'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Um exemplo de objeto Slick"</span></span></code></pre></div>
 <p>Most text throughout the Slick Object supports both Markdown and
 multiple languages.</p>
 <p>The <a href="#app">App</a> has a dropdown menu that allows users to
@@ -975,8 +981,12 @@ section.</p>
 <code>Boxplot</code> function. Here we are populating the metadata
 directly when we create the <code>Boxplot</code> object:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBSMY 25'</span>, <span class="st">'SB/SBSMY 50'</span>, <span class="st">'TAC 25'</span><span class="op">)</span>,</span>
-<span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY Year 25'</span>, <span class="st">'SB/SBSMY Year 50'</span>, <span class="st">'TAC Year 25'</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">boxplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Boxplot-methods.html">Boxplot</a></span><span class="op">(</span>Code<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY 25'</span>,</span>
+<span>                          <span class="st">'SB/SBMSY 50'</span>,</span>
+<span>                          <span class="st">'TAC 25'</span><span class="op">)</span>,</span>
+<span>                   Label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY Year 25'</span>,</span>
+<span>                           <span class="st">'SB/SBMSY Year 50'</span>,</span>
+<span>                           <span class="st">'TAC Year 25'</span><span class="op">)</span>,</span>
 <span>                   Description<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SB/SBMSY in the 25th projection year'</span>,</span>
 <span>                                 <span class="st">'SB/SBMSY in the last year'</span>,</span>
 <span>                                 <span class="st">'TAC in the 25th projection year'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1018,7 +1028,7 @@ from a Slick Object:</p>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot1-1.png" width="700"></p>
 <p>There is an option for violin plots:</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span>, PI<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="DevelopersGuide_files/figure-html/boxplot_plot2-1.png" width="700"></p>
 <p>or both types:</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
@@ -1115,8 +1125,8 @@ the <code>Quilt</code> object:</p>
 <span>                               <span class="st">'Mean Total Allowable Catch over the projection period'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code>Value</code> is a numeric array containing the values of the
 performance indicators included in the <code>Quilt</code> Object.
-<code>Value</code> must have dimensions
-<code>c(nOM, nMP, nPI)</code>:</p>
+<code>Value</code> must have dimensions <code>c(nOM, nMP, nPI)</code>
+(or optionally dimensions <code>c(nSim, nOM, nMP, nPI)</code>):</p>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nPI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/Code.html">Code</a></span><span class="op">(</span><span class="va">quilt</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
