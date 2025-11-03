@@ -27,7 +27,9 @@
 #' @slot Description `r description_PI_param()`
 #' @slot Value A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`). Alternatively, to calculate average over both
+#' simulations and Operating Models, `Value` can be a 4-dimensional array with dimensions:
+#' c(`nSim`, `nOM`, `nMP`, and `nPI`).
 #' @slot Preset `r preset_param()`
 #' @slot Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
@@ -141,8 +143,16 @@ setMethod('Check', 'Quilt', function(object) {
       nPI <- length(object@Code)
   }
 
-  req_dimensions <- c(NA, NA, nPI)
-  ll@warnings <- append(ll@warnings, check_Value(object@Value, req_dimensions))
+  req_dimensions <- list(c(NA, NA, nPI),
+                         c(NA, NA, NA, nPI)
+  )
+
+  Check <- lapply(req_dimensions, function(x) check_Value(object@Value, x))
+  CheckInd <- lapply(Check, length) |> unlist()
+
+  if (all(CheckInd)>0) {
+    ll@warnings <- append(ll@warnings, Value="`Value` must be a 3 or 4 dimensionsal array")
+  }
 
   if (length(ll@errors)<1 & length(ll@warnings)<1)
     ll@complete <- TRUE

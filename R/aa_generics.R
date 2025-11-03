@@ -490,7 +490,9 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' @param Description `r description_PI_param()`
 #' @param Value A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`). Alternatively, to calculate average over both
+#' simulations and Operating Models, `Value` can be a 4-dimensional array with dimensions:
+#' c(`nSim`, `nOM`, `nMP`, and `nPI`).
 #' @param Preset `r preset_param()`
 #' @param Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
