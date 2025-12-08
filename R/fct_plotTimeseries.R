@@ -39,7 +39,7 @@
 #' @param inc_y_label Include the label for the y-axis?
 #' @param sims Optional. Numeric values indicating the simulations to include. Defaults
 #' to all.
-#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'
+#' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'
 #'
 #' @seealso [Timeseries()], [Timeseries-class()]
 #' @return A `ggplot2` object

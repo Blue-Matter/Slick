@@ -1,9 +1,12 @@
 filterOMs <- function(slick, Filter_Selected, input) {
   keep <- array(TRUE,dim(Design(slick)))
   for(fac in 1:ncol(Design(slick))) {
-    design <- Design(OMs(slick))
-    design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],  function(x) {
+    design <- Design(OMs(slick)) |> as.data.frame()
+    design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],
+                                                   function(x) {
+
       x <- factor(x, ordered=TRUE, levels=unique(x))
+
     })
     design[] <- lapply(design,  as.numeric)
     factor_numbers <- design[,fac]
@@ -12,8 +15,6 @@ filterOMs <- function(slick, Filter_Selected, input) {
     keep[,fac] <- factor_numbers%in% selected_factors
 
   }
-
-
 
   if (any(colSums(keep)==0)) {
     # select all if none are selected

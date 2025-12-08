@@ -110,7 +110,7 @@ plotTimeseries(
 \item{sims}{Optional. Numeric values indicating the simulations to include. Defaults
 to all.}
 
-\item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
+\item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'}
 }
 \value{
 A \code{ggplot2} object

@@ -30,6 +30,7 @@ show <- function(object) methods::show(object)
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -111,6 +112,7 @@ setGeneric("Check", function(object, ...) standardGeneric("Check"))
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' @return Returns character string or named list with the contents of the `Code`,
 #' `Label`, or `Description` slot of `object`
@@ -229,6 +231,7 @@ setGeneric("Factors<-", function(object, value) standardGeneric("Factors<-"))
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -476,6 +479,7 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -486,7 +490,9 @@ setGeneric("Preset<-", function(object, value) standardGeneric("Preset<-"))
 #' @param Description `r description_PI_param()`
 #' @param Value A numeric array with the stochastic performance indicator values for each
 #' operating model (OM), management procedure (MP), and performance indicator (PI).
-#' Dimensions: c(`nOM`, `nMP`, and `nPI`)
+#' Dimensions: c(`nOM`, `nMP`, and `nPI`). Alternatively, to calculate average over both
+#' simulations and Operating Models, `Value` can be a 4-dimensional array with dimensions:
+#' c(`nSim`, `nOM`, `nMP`, and `nPI`).
 #' @param Preset `r preset_param()`
 #' @param Color A character vector length 2 of colors for the maximum and minimum
 #' values in the chart.
@@ -557,6 +563,7 @@ setGeneric("RefPoints<-", function(object, value) standardGeneric("RefPoints<-")
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -688,6 +695,7 @@ setGeneric("TimeLab<-", function(object, value) standardGeneric("TimeLab<-"))
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Custom Reference Points with `RefPoints`
 #' `RefPoints` provides more options than the default `Target` and `Limit` reference points. It can be used to control the name and
@@ -775,6 +783,7 @@ setGeneric("TimeTerminal<-", function(object, value) standardGeneric("TimeTermin
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length

@@ -22,6 +22,7 @@
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' ## Note
 #' Character strings in `Code`, `Label`, and `Description` must all be same length
@@ -87,6 +88,15 @@ setMethod("MPs", c('character_list'),
 
 
 ## Check ----
+
+getNMPs <- function(object) {
+  if (inherits(object, 'list'))
+    return(
+      length(object[[1]])
+    )
+  length(object)
+}
+
 #' @describeIn Check Check [MPs-class()] objects for errors
 setMethod('Check', 'MPs', function(object) {
 
@@ -107,10 +117,9 @@ setMethod('Check', 'MPs', function(object) {
   if (any(nchar(object@Label)<1))
     ll@warnings <- append(ll@warnings, '`Label` is required')
 
-
-  nMPs <- max(length(object@Code),
-              length(object@Label),
-              length(object@Description)
+  nMPs <- max(getNMPs(object@Code),
+              getNMPs(object@Label),
+              getNMPs(object@Description)
               )
 
   if (any(nchar(object@Color)>0)) {

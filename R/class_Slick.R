@@ -19,6 +19,7 @@
 #' - `en`: English (default)
 #' - `es`: Spanish
 #' - `fr`: French
+#' - `pt`: Portuguese
 #'
 #' All functions with the exception of `Date` support Markdown.
 #'

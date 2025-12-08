@@ -81,7 +81,7 @@ Use NULL to remove percentile lines.}
 
 \item{ncol}{Numeric. Number of columns for Kobe Time}
 
-\item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr'}
+\item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'}
 
 \item{MP_label}{Label to use for the MPs. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}

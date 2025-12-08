@@ -60,10 +60,19 @@ plotQuilt <- function(slick,
   if (!chk@complete)
     cli::cli_abort('`Quilt` in this `Slick` object is incomplete. Use  {.code Check(slick)}')
 
-  # mean over OMs
-  Values <- Value(quilt) |>
-    apply(2:3, mean, na.rm=TRUE) |>
-    signif(signif)
+
+  dd <- dim(quilt@Value)
+  if (length(dd)==3) {
+    # mean over OMs (no Sims)
+    Values <- Value(quilt) |>
+      apply(2:3, mean, na.rm=TRUE) |>
+      signif(signif)
+  } else {
+    # mean over Sims and OMs
+    Values <- Value(quilt) |>
+      apply(3:4, mean, na.rm=TRUE) |>
+      signif(signif)
+  }
 
   if (all(is.na(Values))) {
     return(NULL)

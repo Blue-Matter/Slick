@@ -68,10 +68,10 @@ Introduction(object) <- value
 }
 \arguments{
 \item{Title}{Title for the \code{Slick} object. A character string. For multiple languages,
-use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
+use a named list with names: \code{en}, \code{es}, \code{fr}, or \code{pt} for the supported languages.}
 
 \item{Subtitle}{Subtitle for the \code{Slick} object. A character string or a named list with
-languages: \code{en}, \code{es}, \code{fr}}
+languages: \code{en}, \code{es}, \code{fr}, \code{pt}}
 
 \item{Date}{Date the Slick object was created. Text in format 'YYYY-MM-DD' or class \code{Date} e.g., \code{Sys.Date()}}
 
@@ -82,7 +82,7 @@ languages: \code{en}, \code{es}, \code{fr}}
 \item{Institution}{A character vector with institution details for the author(s). Must be same length as \code{Author}. Can include Markdown.}
 
 \item{Introduction}{Introduction text for the \code{Slick} object. Supports all markdown formatting. Character string, must be length 1.
-For multiple languages, use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
+For multiple languages, use a named list with names: \code{en}, \code{es}, \code{fr}, \code{pt} for the supported languages.}
 
 \item{MPs}{An object of class \code{\link[=MPs-class]{MPs-class()}}}
 
@@ -103,7 +103,7 @@ For multiple languages, use a named list with names: \code{en}, \code{es}, \code
 \item{object}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
 \item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}
 
 \item{markdown}{Logical. Process markdown?}
 
@@ -132,6 +132,7 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{en}: English (default)
 \item \code{es}: Spanish
 \item \code{fr}: French
+\item \code{pt}: Portuguese
 }
 
 All functions with the exception of \code{Date} support Markdown.
@@ -174,10 +175,10 @@ All functions with the exception of \code{Date} support Markdown.
 
 \describe{
 \item{\code{Title}}{Title for the \code{Slick} object. A character string. For multiple languages,
-use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
+use a named list with names: \code{en}, \code{es}, \code{fr}, or \code{pt} for the supported languages.}
 
 \item{\code{Subtitle}}{Subtitle for the \code{Slick} object. A character string or a named list with
-languages: \code{en}, \code{es}, \code{fr}}
+languages: \code{en}, \code{es}, \code{fr}, \code{pt}}
 
 \item{\code{Date}}{Date the Slick object was created. Text in format 'YYYY-MM-DD' or class \code{Date} e.g., \code{Sys.Date()}}
 
@@ -188,7 +189,7 @@ languages: \code{en}, \code{es}, \code{fr}}
 \item{\code{Institution}}{A character vector with institution details for the author(s). Must be same length as \code{Author}. Can include Markdown.}
 
 \item{\code{Introduction}}{Introduction text for the \code{Slick} object. Supports all markdown formatting. Character string, must be length 1.
-For multiple languages, use a named list with names: \code{en}, \code{es}, \code{fr} for the three supported languages.}
+For multiple languages, use a named list with names: \code{en}, \code{es}, \code{fr}, \code{pt} for the supported languages.}
 
 \item{\code{MPs}}{An object of class \code{\link[=MPs-class]{MPs-class()}}}
 

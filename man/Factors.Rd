@@ -25,7 +25,7 @@ Factors(object) <- value
 \item{object}{A \code{\link[=Slick-class]{Slick-class()}} object}
 
 \item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}
 
 \item{value}{A \code{data.frame} with the Factors}
 }

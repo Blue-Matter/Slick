@@ -191,7 +191,7 @@ Label(object) <- value
 \code{\link[=Timeseries-class]{Timeseries-class()}}, or \code{\link[=Tradeoff-class]{Tradeoff-class()}}}
 
 \item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}
 
 \item{value}{A character vector or a named list for multi-language support}
 }
@@ -211,6 +211,7 @@ Text with multi-language supported can be provided as a named list. Available la
 \item \code{en}: English (default)
 \item \code{es}: Spanish
 \item \code{fr}: French
+\item \code{pt}: Portuguese
 }
 }
 }

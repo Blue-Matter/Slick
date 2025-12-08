@@ -61,7 +61,7 @@ Metadata(object) <- value
 \code{\link[=Quilt-class]{Quilt-class()}}, \code{\link[=Spider-class]{Spider-class()}}, \code{\link[=Timeseries-class]{Timeseries-class()}}, or \code{\link[=Tradeoff-class]{Tradeoff-class()}} object}
 
 \item{lang}{Optional text string specifying the language (if available).
-Either 'en', 'es', or 'fr' for English, Spanish, or French respectively}
+Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}
 
 \item{value}{Replacement value for \code{Metadata()} in the corresponding \code{object}.
 See help documentation for the relevant object class for details.}

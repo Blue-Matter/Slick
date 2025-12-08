@@ -248,11 +248,12 @@ The Markdown will be automatically converted to HTML in the App. Use the `markdo
 
 ## Multi-Language Support {#multilanguage}
 
-`Title`, `Subtitle`, and `Introduction` support multiple languages. Three languages are supported:
+`Title`, `Subtitle`, and `Introduction` support multiple languages. Four languages are supported:
 
 -   `en`: English
 -   `es`: Spanish
 -   `fr`: French
+-   `pt`: Portuguese
 
 Multiple languages can included by providing a named list:
 
@@ -664,7 +665,8 @@ A *Quilt Object* can be created using the `Quilt` function. Here we are populati
 ```
 
 
-`Value` is a numeric array containing the values of the performance indicators included in the `Quilt` Object. `Value` must have dimensions `c(nOM, nMP, nPI)`:
+`Value` is a numeric array containing the values of the performance indicators included in the `Quilt` Object. `Value` must have dimensions `c(nOM, nMP, nPI)` (or 
+optionally dimensions `c(nSim, nOM, nMP, nPI)`):
 
 ```{r quilt_value}
 
