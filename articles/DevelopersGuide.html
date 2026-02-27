@@ -52,7 +52,7 @@
 
 
 
-<link href="DevelopersGuide_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<link href="DevelopersGuide_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
 <script src="DevelopersGuide_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="DevelopersGuide_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="DevelopersGuide_files/datatables-binding-0.34.0/datatables.js"></script><link href="DevelopersGuide_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="DevelopersGuide_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
@@ -356,7 +356,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-11-03"</span></span>
+<span><span class="co">#&gt; [1] "2026-02-27"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -385,7 +385,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-11-03"</span></span>
+<span><span class="co">#&gt; [1] "2026-02-27"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -885,30 +885,30 @@ and labels can be</p>
 Series plot:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="co"># PI 1</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">2</span>, <span class="co"># PI 2, no quantiles</span></span>
 <span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-2.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-2.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>,<span class="fl">3</span>, <span class="co"># PI 3, no quantiles, no MP labels</span></span>
 <span>               includeQuants <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>               includeLabels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-3.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot1-3.png" class="r-plt" alt="" width="700"></p>
 <p>The plot can be faceted by management procedure:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot2-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot2-1.png" class="r-plt" alt="" width="700"></p>
 <p>or by operating model:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot3-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot3-1.png" class="r-plt" alt="" width="700"></p>
 <p>or both:</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot4-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot4-1.png" class="r-plt" alt="" width="700"></p>
 <p>See <a href="../reference/plotTimeseries.html"><code>?plotTimeseries</code></a>
 for information on more ways to modify the Time Series plot.</p>
 <p>By default, the time series values are calculated as the mean over
@@ -919,10 +919,10 @@ to filter the Slick Object to specific OMs, MPs, or PIs.</p>
 <code class="sourceCode R"><span><span class="va">slick_OM1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, OMs<span class="op">=</span><span class="fl">1</span>, plot<span class="op">=</span><span class="st">'Timeseries'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">slick_OM1</span><span class="op">)</span> <span class="co"># same plot</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-2.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/timeseries_plot5-2.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="checking-and-testing">Checking and Testing<a class="anchor" aria-label="anchor" href="#checking-and-testing"></a>
@@ -1025,20 +1025,20 @@ Object:</p>
 from a Slick Object:</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot1-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot1-1.png" class="r-plt" alt="" width="700"></p>
 <p>There is an option for violin plots:</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'violin'</span>, PI<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot2-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot2-1.png" class="r-plt" alt="" width="700"></p>
 <p>or both types:</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, type<span class="op">=</span><span class="st">'both'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot3-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot3-1.png" class="r-plt" alt="" width="700"></p>
 <p>The <code>byOM=TRUE</code> argument creates a boxplot for a given
 performance indicator for each OM in the Slick Object:</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot4-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot4-1.png" class="r-plt" alt="" width="700"></p>
 <p>See <a href="../reference/plotBoxplot.html"><code>?plotBoxplot</code></a> for
 more options for the <code>plotBoxplot</code> function.</p>
 <p>The <code>FilterSlick</code> can be used to filter the OMs and/or MPs
@@ -1046,7 +1046,7 @@ to include in a given plot:</p>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/FilterSlick.html">FilterSlick</a></span><span class="op">(</span><span class="va">slick</span>, MPs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, OMs<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, plot<span class="op">=</span><span class="st">'Boxplot'</span><span class="op">)</span>,</span>
 <span>            byOM<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/boxplot_plot5-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/boxplot_plot5-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="kobe-plot">Kobe Plot<a class="anchor" aria-label="anchor" href="#kobe-plot"></a>
@@ -1095,11 +1095,11 @@ performance indicators included in the <code>Kobe</code> Object.
 <p>Plot the Kobe plot:</p>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/kobe_plot-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/kobe_plot-1.png" class="r-plt" alt="" width="700"></p>
 <p>Plot the Kobe Time plot:</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">slick</span>, Time<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/kobe_timeplot-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/kobe_timeplot-1.png" class="r-plt" alt="" width="700"></p>
 <p>See <a href="../reference/plotKobe.html"><code>?plotKobe</code></a>
 for more options for the <code>plotKobe</code> function.</p>
 </div>
@@ -1239,19 +1239,19 @@ Indicator.</li>
 <p>The default Spider Plot:</p>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/spider_plot-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot-1.png" class="r-plt" alt="" width="700"></p>
 <p>Option to include fill color:</p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, fill<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/spider_plot1-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot1-1.png" class="r-plt" alt="" width="700"></p>
 <p>Plot by MP:</p>
 <div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, byMP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/spider_plot2-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot2-1.png" class="r-plt" alt="" width="700"></p>
 <p>Or by OM and MP:</p>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">slick</span>, byOM<span class="op">=</span><span class="cn">TRUE</span>, incMean <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/spider_plot3-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/spider_plot3-1.png" class="r-plt" alt="" width="700"></p>
 <p>See <a href="../reference/plotSpider.html"><code>?plotSpider</code></a> for
 more options for the <code>plotSpider</code> function.</p>
 </div>
@@ -1313,11 +1313,11 @@ performance indicators included in the <code>Tradeoff</code> Object.
 <p>The default Tradeoff Plot:</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot-1.png" class="r-plt" alt="" width="700"></p>
 <p>Tradeoff Plot with multiple Performance Indicators:</p>
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">slick</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot2-1.png" width="700"></p>
+<p><img src="DevelopersGuide_files/figure-html/tradeoff_plot2-1.png" class="r-plt" alt="" width="700"></p>
 <p>See <a href="../reference/plotTradeoff.html"><code>?plotTradeoff</code></a> for
 more options for the <code>plotTradeoff</code> function.</p>
 </div>
@@ -1362,7 +1362,7 @@ words.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
