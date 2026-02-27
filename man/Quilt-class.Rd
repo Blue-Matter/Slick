@@ -45,7 +45,9 @@ A character string length \code{nPI} or a named list for multi-language support.
 
 \item{\code{Value}}{A numeric array with the stochastic performance indicator values for each
 operating model (OM), management procedure (MP), and performance indicator (PI).
-Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI})}
+Dimensions: c(\code{nOM}, \code{nMP}, and \code{nPI}). Alternatively, to calculate average over both
+simulations and Operating Models, \code{Value} can be a 4-dimensional array with dimensions:
+c(\code{nSim}, \code{nOM}, \code{nMP}, and \code{nPI}).}
 
 \item{\code{Preset}}{An optional named list for the preset buttons in the \code{\link[=App]{App()}}. The name of the list
 element will appear as a button in the \code{\link[=App]{App()}}.}
@@ -101,6 +103,48 @@ Quilt(slick) <- quilt
 # Plots
 plotQuilt(slick)
 
+
+# Alternative - include Simulation dimension
+
+# Generate dummy values
+nSim <- 3
+nOM <- 2
+nMP <- 4
+nPI <- 4
+
+values <- array(NA, dim=c(nSim, nOM, nMP, nPI))
+
+pi_means <- runif(nPI, 5, 50)
+for (om in 1:nOM) {
+  for (mp in 1:nMP) {
+    for (pi in 1:nPI) {
+      values[, om, mp, pi] <- rlnorm(nSim,log(pi_means[pi]), 0.4)
+    }
+  }
+}
+
+# Create and populate Object
+quilt <- Quilt(Code=c('PI1', 'PI2', 'PI3', 'PI4'),
+               Label=c('Performance Indicator 1',
+                       'Performance Indicator 2',
+                       'Performance Indicator 3',
+                       'Performance Indicator 4'),
+               Description = c('This is the description for PI 1',
+                               'This is the description for PI 2',
+                               'This is the description for PI 3',
+                               'This is the description for PI 4'),
+               Value=values)
+
+
+
+
+# Add to `Slick` object
+slick <- Slick()
+Quilt(slick) <- quilt
+
+# Plots
+plotQuilt(slick)
+apply(quilt@Value, 3:4, mean) |> round(1)
 
 
 }
