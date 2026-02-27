@@ -151,7 +151,7 @@ setMethod('Check', 'Quilt', function(object) {
   CheckInd <- lapply(Check, length) |> unlist()
 
   if (all(CheckInd)>0) {
-    ll@warnings <- append(ll@warnings, Value="`Value` must be a 3 or 4 dimensionsal array")
+    ll@warnings <- append(ll@warnings, "`Value` must be a 3 or 4 dimensionsal array")
   }
 
   if (length(ll@errors)<1 & length(ll@warnings)<1)
