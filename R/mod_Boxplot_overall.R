@@ -110,7 +110,7 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
 
     plot_width_calc <- reactive({
       dd <- window_dims()
-      val <- dd[1] * 0.6
+      val <- dd[1] * 0.5
       # paste0(val, 'px')
       val
     })

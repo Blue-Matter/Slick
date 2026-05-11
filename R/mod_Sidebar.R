@@ -56,7 +56,7 @@ mod_Sidebar_server <- function(id, i18n, Load_Slick_File, Slick_Object){
                                                tabName = "spider",
                                                icon = icon("fa-hexagon", class='fas')),
 
-                      shinydashboard::menuItem("Tradeoff",
+                      shinydashboard::menuItem("Trade-off",
                                                tabName = "tradeoff",
                                                icon = icon('chart-scatter')),
 
