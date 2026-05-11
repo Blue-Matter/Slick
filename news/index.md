@@ -1,6 +1,12 @@
 # Changelog
 
+## Slick 1.0.2
+
+- Minor improvements to plot pages for different screen size/resolution
+
 ## Slick 1.0.1
+
+CRAN release: 2026-02-27
 
 - Added option to include simulation dimension in Quilt plot.
 - Added Portuguese to the list of supported language. Many thanks to

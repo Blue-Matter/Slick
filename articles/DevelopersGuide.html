@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -176,7 +176,7 @@ performance.</li>
 indicators, each represented on an axis starting from the same center
 point. Sometimes also called a Radar plot.</li>
 <li>
-<strong>Tradeoff</strong>: Scatter plot comparing two performance
+<strong>Trade-off</strong>: Scatter plot comparing two performance
 indicators.</li>
 </ol>
 <p>A valid Slick Object must include at least one Slick Plot.</p>
@@ -289,7 +289,7 @@ a target CPUE</li>
 <li>
 <strong>DD</strong>: A simple delay-difference assessment model is
 used to estimate current biomass
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>B</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(B)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(B)</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>U</mi><mrow><mi>M</mi><mi>S</mi><mi>Y</mi></mrow></msub><annotation encoding="application/x-tex">U_{MSY}</annotation></semantics></math>,
 and
@@ -356,7 +356,7 @@ Plots</a>:</p>
 to the slot name; e.g.:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2026-02-27"</span></span>
+<span><span class="co">#&gt; [1] "2026-05-11"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The sections below provide examples for populating the
 <code>Slick</code> object.</p>
@@ -385,7 +385,7 @@ Slick Object:</p>
 <span><span class="fu"><a href="../reference/Slick-class.html">Subtitle</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "For Testing and Demonstration Purposes"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Date</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2026-02-27"</span></span>
+<span><span class="co">#&gt; [1] "2026-05-11"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Author</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Adrian Hordyk"</span></span>
 <span><span class="fu"><a href="../reference/Slick-class.html">Email</a></span><span class="op">(</span><span class="va">slick</span><span class="op">)</span></span>
@@ -1256,9 +1256,9 @@ Indicator.</li>
 more options for the <code>plotSpider</code> function.</p>
 </div>
 <div class="section level2">
-<h2 id="tradeoff-plot">Tradeoff Plot<a class="anchor" aria-label="anchor" href="#tradeoff-plot"></a>
+<h2 id="trade-off-plot">Trade-off Plot<a class="anchor" aria-label="anchor" href="#trade-off-plot"></a>
 </h2>
-<p>Information for the <em>Tradeoff Plot</em> is stored in a <a href="../reference/Tradeoff-class.html">Tradeoff Object</a>.</p>
+<p>Information for the <em>Trade-off Plot</em> is stored in a <a href="../reference/Tradeoff-class.html">Tradeoff Object</a>.</p>
 <p>A <em>Tradeoff Object</em> can be created using the
 <code>Tradeoff</code> function. Here we are populating the metadata
 directly when we create the <code>Tradeoff</code> object:</p>

@@ -76,6 +76,7 @@ objects `Boxplot`, `Kobe`, `Quilt`, `Spider`, `Timeseries`, and
 ## Examples
 
 ``` r
+
 myMPs <- MPs()
 Code(myMPs) <- c('MP1', 'MP2', 'MP3')
 Label(myMPs) <- c('Management Procedure 1',

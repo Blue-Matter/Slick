@@ -72,6 +72,7 @@ factor. See `Examples`
 ## Examples
 
 ``` r
+
 # Create Object
 oms <- OMs()
 

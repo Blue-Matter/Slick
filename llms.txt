@@ -24,12 +24,14 @@ interactive application.
 `Slick` can be installed from CRAN:
 
 ``` r
+
 install.packages('Slick')
 ```
 
 The development version can be installed from Github:
 
 ``` r
+
 # install.packages('pak')
 pak::pkg_install('blue-matter/Slick')
 library(Slick)
@@ -75,6 +77,7 @@ If you have your own Slick data object, this object can be loaded
 directly with:
 
 ``` r
+
 App(slick=mySlick)
 ```
 

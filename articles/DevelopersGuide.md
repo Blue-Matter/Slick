@@ -19,12 +19,14 @@ summarize and present their MSE results.
 `Slick` can be installed from CRAN:
 
 ``` r
+
 install.packages('Slick')
 ```
 
 The development version can be installed from Github:
 
 ``` r
+
 # install.packages('pak')
 pak::pkg_install('blue-matter/Slick')
 library(Slick)
@@ -104,7 +106,7 @@ A Slick Object can include the following plots:
 5.  **Spider**: Shows results for three or more performance indicators,
     each represented on an axis starting from the same center point.
     Sometimes also called a Radar plot.
-6.  **Tradeoff**: Scatter plot comparing two performance indicators.
+6.  **Trade-off**: Scatter plot comparing two performance indicators.
 
 A valid Slick Object must include at least one Slick Plot.
 
@@ -125,6 +127,7 @@ indicators.
 The App can be launched directly from the R console with:
 
 ``` r
+
 App()
 ```
 
@@ -138,6 +141,7 @@ can launch the App directly with the object by using a named argument in
 the `App` call:
 
 ``` r
+
 App(slick=MySlickObject)
 ```
 
@@ -178,10 +182,12 @@ here with those from your own MSE.
 ### Install openMSE
 
 ``` r
+
 pak::pkg_install('blue-matter/openMSE')
 ```
 
 ``` r
+
 library(openMSE)
 ```
 
@@ -197,6 +203,7 @@ In this example, we are creating three operating models:
     Case model
 
 ``` r
+
 nsim <- 12
 OM_Base <- new('OM', Albacore, Generic_IncE, Generic_Obs, nsim=nsim)
 OM_Base@D <- c(0.3,0.4)
@@ -219,12 +226,13 @@ package:
     the historical period
 2.  **Itarget1**: the TAC is iteratively adjusted to reach a target CPUE
 3.  **DD**: A simple delay-difference assessment model is used to
-    estimate current biomass $(B)$ and $U_{MSY}$, and
-    $\text{TAC} = U_{MSY}B$
+    estimate current biomass $`(B)`$ and $`U_{MSY}`$, and
+    $`\text{TAC}= U_{MSY}B`$
 4.  **SPmod**: TAC is incrementally adjusted based on the apparent trend
     in surplus production.
 
 ``` r
+
 MPs <- c('AvC', 'Itarget1', 'DD', 'SPmod')
 ```
 
@@ -240,6 +248,7 @@ dynamics and run the closed-loop simulation testing of the four MPs for
 each of the three OMS:
 
 ``` r
+
 MSE_Base <- runMSE(OM_Base, MPs=MPs, silent = TRUE)
 MSE_LowM <- runMSE(OM_LowM, MPs=MPs, silent = TRUE)
 MSE_HighM <- runMSE(OM_HighM, MPs=MPs, silent = TRUE)
@@ -263,12 +272,14 @@ To create a Slick Object, simply use the
 function:
 
 ``` r
+
 slick <- Slick()
 ```
 
 `slick` is an S4 object of class `Slick`:
 
 ``` r
+
 class(slick)
 #> [1] "Slick"
 #> attr(,"package")
@@ -281,6 +292,7 @@ title, subtitle, and author of the `Slick` object, the operating models
 and the details corresponding to each of the [Slick Plots](#slickplot):
 
 ``` r
+
 slotNames('Slick')
 #>  [1] "Title"        "Subtitle"     "Date"         "Author"       "Email"       
 #>  [6] "Institution"  "Introduction" "MPs"          "OMs"          "Boxplot"     
@@ -291,8 +303,9 @@ Each slot can be accessed and assigned using a function corresponding to
 the slot name; e.g.:
 
 ``` r
+
 Date(slick)
-#> [1] "2026-02-27"
+#> [1] "2026-05-11"
 Date(slick) <- Sys.Date()
 ```
 
@@ -308,6 +321,7 @@ These metadata are optional, but are useful when presenting the Slick
 results in the [App](#app):
 
 ``` r
+
 Title(slick) <- 'An Example Slick Object'
 Subtitle(slick) <- "For Testing and Demonstration Purposes"
 Date(slick) <- Sys.Date()
@@ -320,12 +334,13 @@ The same functions are used to return the information stored in the
 Slick Object:
 
 ``` r
+
 Title(slick)
 #> [1] "An Example Slick Object"
 Subtitle(slick)
 #> [1] "For Testing and Demonstration Purposes"
 Date(slick)
-#> [1] "2026-02-27"
+#> [1] "2026-05-11"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)
@@ -340,6 +355,7 @@ With the exception of `Date`, Markdown can be used to include links,
 text styling, etc, for any of the text in the Slick Object. For example:
 
 ``` r
+
 Introduction(slick) <- "
 
 This *example* Slick Object has been designed to demonstrate the main features of **Slick**.
@@ -357,6 +373,7 @@ document the HTML text is rendered directly between the horizontal
 lines):
 
 ``` r
+
 Introduction(slick, markdown = TRUE)
 ```
 
@@ -378,6 +395,7 @@ The information shown here is for demonstration purposes only.
 `Author` should be a character vector with an element for each author:
 
 ``` r
+
 Author(slick) <- c('A. Author', 'B. Author')
 ```
 
@@ -385,6 +403,7 @@ Author(slick) <- c('A. Author', 'B. Author')
 as `Author`:
 
 ``` r
+
 Email(slick) <- c('[a.author@email.com](mailto:a.author@email.com)',
                   '[b.author@email.com](mailto:b.author@email.com)')
 
@@ -405,6 +424,7 @@ languages are supported:
 Multiple languages can included by providing a named list:
 
 ``` r
+
 Title(slick) <- list(en='An Example Slick Object',
                      es='Un ejemplo de un objeto Slick',
                      fr="Un exemple d'objet Slick",
@@ -412,6 +432,7 @@ Title(slick) <- list(en='An Example Slick Object',
 ```
 
 ``` r
+
 Title(slick)
 #> [1] "An Example Slick Object"
 
@@ -453,6 +474,7 @@ tables, while `Description` is optional.
 In this example, there are 4 MPs:
 
 ``` r
+
 mps <- MPs()
 Code(mps) <- c('AvC', 'Itarget1', 'DD', 'SPmod')
 Label(mps) <- c('Average Catch',
@@ -469,6 +491,7 @@ Description(mps) <- c('TAC is fixed for all years to the average catch from the 
 This could have also been done as:
 
 ``` r
+
 mps <- MPs(Code=c('AvC', 'Itarget1', 'DD', 'SPmod'),
            Label=c('Average Catch',
                    'Index Target',
@@ -483,6 +506,7 @@ mps <- MPs(Code=c('AvC', 'Itarget1', 'DD', 'SPmod'),
 Or using the `Metadata` function:
 
 ``` r
+
 Metadata(mps) <- data.frame(
   Code=c('AvC', 'Itarget1', 'DD', 'SPmod'),
   Label=c('Average Catch',
@@ -519,6 +543,7 @@ Metadata(mps)
 specified, default colors will be used:
 
 ``` r
+
 Color(mps)
 #> [1] "#C87A8A" "#909646" "#00A396" "#9189C7"
 
@@ -540,6 +565,7 @@ values indicating the MPs to be selected by the *Preset* buttons in the
 [App](#app):
 
 ``` r
+
 Preset(mps) <- list('All'=1:4,
                     'Model-Free'=1:2,
                     'Model-Based'=3:4)
@@ -550,6 +576,7 @@ Preset(mps) <- list('All'=1:4,
 Once the MPs Object is complete, is can be added to the Slick Object:
 
 ``` r
+
 MPs(slick) <- mps
 ```
 
@@ -567,6 +594,7 @@ All `Slick` objects must have a completed OMs Object.
 A new OMs Object can be created with the `OMs` function:
 
 ``` r
+
 oms <- OMs()
 ```
 
@@ -585,6 +613,7 @@ OMs, spanning three levels on uncertainty in natural mortality (M) and
 two levels of steepness (h):
 
 ``` r
+
 Factors(oms) <- data.frame(Factor='M',
                            Level=c('Base', 'Low M', 'High M'),
                            Description=c('Base Case',
@@ -610,6 +639,7 @@ the corresponding factor, or the actual level values (i.e.,
 Here is the `Design` matrix corresponding with the `Factors` above:
 
 ``` r
+
 Design(oms) <- data.frame(M=c('Base', 'Low M', 'High M'))
 
 Design(oms)
@@ -623,6 +653,7 @@ It can sometimes be helpful to add names or labels to the operating
 models listed in `Design`. This can be done using `rownames`:
 
 ``` r
+
 rownames(Design(oms)) <- c('Base Case', 'Less Productive', 'More Productive')
 ```
 
@@ -642,6 +673,7 @@ the levels within each factor that should be included under that preset.
 For example:
 
 ``` r
+
 Preset(oms) <- list('Base Case'=list(1),
                     'Low M' = list(2),
                     'High M' = list(3),
@@ -654,6 +686,7 @@ Preset(oms) <- list('Base Case'=list(1),
 The `OMs` object is now complete:
 
 ``` r
+
 oms
 #> 
 #> ── An object of class `OMs` ────────────────────────────────────────────────────
@@ -695,6 +728,7 @@ The `Check` function can be used to make sure there are no errors:
 
 ``` r
 
+
 Check(oms)
 #> 
 #> ── Checking: "OMs" ──
@@ -706,6 +740,7 @@ Once the `OMs` object is complete, it can be added to the `Slick`
 object:
 
 ``` r
+
 OMs(slick) <- oms
 ```
 
@@ -717,6 +752,7 @@ Object](https://slick.bluematterscience.com/reference/Timeseries-class.md).
 A *Timeseries Object* can be created using the `Timeseries` function:
 
 ``` r
+
 timeseries <- Timeseries()
 ```
 
@@ -730,6 +766,7 @@ In this example there are three performance indicators for the
 Timeseries Object:
 
 ``` r
+
 Metadata(timeseries) <- data.frame(
   Code=c('SB/SBMSY', 'F/FMSY', 'Removals'),
   Label=c('SB/SBMSY', 'F/FMSY', 'Removals'),
@@ -752,6 +789,7 @@ values for the historical and projection time-steps. In this example, we
 have 50 historical years and 50 projection years:
 
 ``` r
+
 Time(timeseries) <- c(rev(seq(2024, by=-1, length.out=50)),
                       seq(2025, by=1, length.out=50))
 ```
@@ -760,6 +798,7 @@ Time(timeseries) <- c(rev(seq(2024, by=-1, length.out=50)),
 (i.e., current time) in `Time`:
 
 ``` r
+
 TimeNow(timeseries) <- 2024
 ```
 
@@ -768,6 +807,7 @@ TimeNow(timeseries) <- 2024
 Support](#multilanguage):
 
 ``` r
+
 TimeLab(timeseries) <- 'Year'
 ```
 
@@ -778,6 +818,7 @@ performance indicators for each simulation, OM, MP, performance
 indicator, and time-step (historical and projection):
 
 ``` r
+
 nOM <- nrow(Design(slick))
 nMP <- length(Code(mps))
 nPI <- length(Code(timeseries))
@@ -791,6 +832,7 @@ OM from the `openMSE` results generated above. You can ignore it if you
 have your own MSE data.
 
 ``` r
+
 # SB/SBMSY
 SB_SBMSY_Base <- abind::abind(replicate(nMP, MSE_Base@SSB_hist) |> aperm(c(1,3,2)),
                    MSE_Base@SSB,
@@ -832,6 +874,7 @@ Once the performance indicators have been calculated for the Time Series
 plot, they can be added to the `Value` slot:
 
 ``` r
+
 # SB/SBMSY
 Value(timeseries)[,1,,1,] <- SB_SBMSY_Base
 Value(timeseries)[,2,,1,] <- SB_SBMSY_LowM
@@ -860,6 +903,7 @@ lines on the time series plot indicating the target and limit (if
 applicable) for a performance indicator. The color and labels can be
 
 ``` r
+
 Target(timeseries) <- c(1, 0.8, NA)
 Limit(timeseries) <- c(0.5, 1, NA)
 ```
@@ -869,6 +913,7 @@ Limit(timeseries) <- c(0.5, 1, NA)
 Once the Timeseries Object is complete it can be checked:
 
 ``` r
+
 Check(timeseries)
 #> 
 #> ── Checking: "Timeseries" ──
@@ -879,6 +924,7 @@ Check(timeseries)
 and then added to our Slick Object:
 
 ``` r
+
 Timeseries(slick) <- timeseries
 ```
 
@@ -887,12 +933,14 @@ Timeseries(slick) <- timeseries
 The `plotTimeseries` function is used to generate the Time Series plot:
 
 ``` r
+
 plotTimeseries(slick) # PI 1
 ```
 
 ![](DevelopersGuide_files/figure-html/timeseries_plot1-1.png)
 
 ``` r
+
 
 plotTimeseries(slick, 2, # PI 2, no quantiles
                includeQuants = FALSE)
@@ -901,6 +949,7 @@ plotTimeseries(slick, 2, # PI 2, no quantiles
 ![](DevelopersGuide_files/figure-html/timeseries_plot1-2.png)
 
 ``` r
+
 
 plotTimeseries(slick,3, # PI 3, no quantiles, no MP labels
                includeQuants = FALSE,
@@ -912,6 +961,7 @@ plotTimeseries(slick,3, # PI 3, no quantiles, no MP labels
 The plot can be faceted by management procedure:
 
 ``` r
+
 plotTimeseries(slick, byMP=TRUE)
 ```
 
@@ -920,6 +970,7 @@ plotTimeseries(slick, byMP=TRUE)
 or by operating model:
 
 ``` r
+
 plotTimeseries(slick, byOM=TRUE)
 ```
 
@@ -928,6 +979,7 @@ plotTimeseries(slick, byOM=TRUE)
 or both:
 
 ``` r
+
 plotTimeseries(slick, byOM=TRUE, byMP=TRUE)
 ```
 
@@ -944,6 +996,7 @@ Slick Object to specific OMs, MPs, or PIs.
 Here we are filtering to only include the Base Case OM (OM 1):
 
 ``` r
+
 slick_OM1 <- FilterSlick(slick, OMs=1, plot='Timeseries')
 
 plotTimeseries(slick_OM1, byOM=TRUE)
@@ -952,6 +1005,7 @@ plotTimeseries(slick_OM1, byOM=TRUE)
 ![](DevelopersGuide_files/figure-html/timeseries_plot5-1.png)
 
 ``` r
+
 plotTimeseries(slick_OM1) # same plot
 ```
 
@@ -969,6 +1023,7 @@ The Slick Object can be checked for completeness with the `Check`
 function:
 
 ``` r
+
 Check(slick)
 #> 
 #> ── Checking: "Slick" ──
@@ -1001,6 +1056,7 @@ Check(slick)
 and loaded directly into the `App` as a named argument:
 
 ``` r
+
 App(slick=slick)
 ```
 
@@ -1017,6 +1073,7 @@ are populating the metadata directly when we create the `Boxplot`
 object:
 
 ``` r
+
 boxplot <- Boxplot(Code=c('SB/SBMSY 25',
                           'SB/SBMSY 50',
                           'TAC 25'),
@@ -1033,6 +1090,7 @@ indicators included in the `Boxplot` object. `Value` must have
 dimensions `c(nsim, nOM, nMP, nPI)`:
 
 ``` r
+
 nOM <- nrow(Design(slick))
 nMP <- length(Code(mps))
 nPI <- length(Code(boxplot))
@@ -1055,6 +1113,7 @@ Value(boxplot)[,3,,3] <- MSE_HighM@TAC[,,25]
 Check the `Boxplot` object and add to the Slick Object:
 
 ``` r
+
 Check(boxplot)
 #> 
 #> ── Checking: "Boxplot" ──
@@ -1067,6 +1126,7 @@ The `plotBoxplot` function is used to create the Boxplot from a Slick
 Object:
 
 ``` r
+
 plotBoxplot(slick)
 ```
 
@@ -1075,6 +1135,7 @@ plotBoxplot(slick)
 There is an option for violin plots:
 
 ``` r
+
 plotBoxplot(slick, type='violin', PI=3)
 ```
 
@@ -1083,6 +1144,7 @@ plotBoxplot(slick, type='violin', PI=3)
 or both types:
 
 ``` r
+
 plotBoxplot(slick, type='both')
 ```
 
@@ -1092,6 +1154,7 @@ The `byOM=TRUE` argument creates a boxplot for a given performance
 indicator for each OM in the Slick Object:
 
 ``` r
+
 plotBoxplot(slick, byOM=TRUE)
 ```
 
@@ -1105,6 +1168,7 @@ The `FilterSlick` can be used to filter the OMs and/or MPs to include in
 a given plot:
 
 ``` r
+
 plotBoxplot(FilterSlick(slick, MPs=1:3, OMs=1:2, plot='Boxplot'),
             byOM=TRUE)
 ```
@@ -1120,6 +1184,7 @@ A *Kobe Object* can be created using the `Kobe` function. Here we are
 populating the metadata directly when we create the `Kobe` object:
 
 ``` r
+
 kobe <- Kobe(Code=c('SB/SBMSY', 'F/FMSY'),
              Label=c('SB/SBMSY', 'F/FMSY'),
              Description = c('Spawning biomass relative to SB_MSY',
@@ -1131,6 +1196,7 @@ The `Time` slot of a Kobe Object contains numeric values for the
 projection time-steps:
 
 ``` r
+
 Time(kobe) <- seq(2025, by=1, length.out=OM_Base@proyears)
 ```
 
@@ -1139,6 +1205,7 @@ indicators included in the `Kobe` Object. `Value` must have dimensions
 `c(nsim, nOM, nMP, nPI, nTS)`:
 
 ``` r
+
 nOM <- nrow(Design(slick))
 nMP <- length(Code(mps))
 nPI <- length(Code(kobe))
@@ -1158,6 +1225,7 @@ Value(kobe)[,3,,2,] <- MSE_HighM@F_FMSY
 Check and add to the Slick Object:
 
 ``` r
+
 Check(kobe)
 #> 
 #> ── Checking: "Kobe" ──
@@ -1169,6 +1237,7 @@ Kobe(slick) <- kobe
 Plot the Kobe plot:
 
 ``` r
+
 plotKobe(slick)
 ```
 
@@ -1177,6 +1246,7 @@ plotKobe(slick)
 Plot the Kobe Time plot:
 
 ``` r
+
 plotKobe(slick, Time=TRUE)
 ```
 
@@ -1195,6 +1265,7 @@ A *Quilt Object* can be created using the `Quilt` function. Here we are
 populating the metadata directly when we create the `Quilt` object:
 
 ``` r
+
 quilt <- Quilt(Code=c('PGK',
                       'P100',
                       'PNOF',
@@ -1214,6 +1285,7 @@ indicators included in the `Quilt` Object. `Value` must have dimensions
 `c(nOM, nMP, nPI)` (or optionally dimensions `c(nSim, nOM, nMP, nPI)`):
 
 ``` r
+
 nPI <- length(Code(quilt))
 
 Value(quilt) <- array(NA, dim=c(nOM, nMP, nPI))
@@ -1239,6 +1311,7 @@ The `MinValue` and `MaxValue` functions can be used to set minimum and
 maximum values for calculating the colored shading for each PI:
 
 ``` r
+
 MinValue(quilt) <- c(0,0,0,NA)
 MaxValue(quilt) <- c(1,1,1,NA)
 ```
@@ -1246,6 +1319,7 @@ MaxValue(quilt) <- c(1,1,1,NA)
 Check and add to the Slick Object:
 
 ``` r
+
 Check(quilt)
 #> 
 #> ── Checking: "Quilt" ──
@@ -1258,12 +1332,14 @@ Quilt(slick) <- quilt
 The default Quilt plot:
 
 ``` r
+
 plotQuilt(slick)
 ```
 
 Shading scaled between minimum and maximum for each PI:
 
 ``` r
+
 plotQuilt(slick, minmax=TRUE)
 ```
 
@@ -1280,6 +1356,7 @@ A *Spider Object* can be created using the `Spider` function. Here we
 are populating the metadata directly when we create the `Spider` object:
 
 ``` r
+
 spider <- Spider(Code=c('P100',
                       'P50',
                       'PNOF',
@@ -1299,6 +1376,7 @@ indicators included in the `Spider` Object. `Value` must have dimensions
 `c(nOM, nMP, nPI)`:
 
 ``` r
+
 nPI <- length(Code(spider))
 
 Value(spider) <- array(NA, dim=c(nOM, nMP, nPI))
@@ -1332,6 +1410,7 @@ There are a few things to consider for the `Value` of the Spider plot:
 Check and add to the Slick Object:
 
 ``` r
+
 Check(spider)
 #> 
 #> ── Checking: "Spider" ──
@@ -1344,6 +1423,7 @@ Spider(slick) <- spider
 The default Spider Plot:
 
 ``` r
+
 plotSpider(slick)
 ```
 
@@ -1352,6 +1432,7 @@ plotSpider(slick)
 Option to include fill color:
 
 ``` r
+
 plotSpider(slick, fill=TRUE)
 ```
 
@@ -1360,6 +1441,7 @@ plotSpider(slick, fill=TRUE)
 Plot by MP:
 
 ``` r
+
 plotSpider(slick, byMP=TRUE)
 ```
 
@@ -1368,6 +1450,7 @@ plotSpider(slick, byMP=TRUE)
 Or by OM and MP:
 
 ``` r
+
 plotSpider(slick, byOM=TRUE, incMean = FALSE)
 ```
 
@@ -1377,9 +1460,9 @@ See
 [`?plotSpider`](https://slick.bluematterscience.com/reference/plotSpider.md)
 for more options for the `plotSpider` function.
 
-## Tradeoff Plot
+## Trade-off Plot
 
-Information for the *Tradeoff Plot* is stored in a [Tradeoff
+Information for the *Trade-off Plot* is stored in a [Tradeoff
 Object](https://slick.bluematterscience.com/reference/Tradeoff-class.md).
 
 A *Tradeoff Object* can be created using the `Tradeoff` function. Here
@@ -1387,6 +1470,7 @@ we are populating the metadata directly when we create the `Tradeoff`
 object:
 
 ``` r
+
 tradeoff <- Tradeoff(Code=c('P100',
                         'P50',
                         'PNOF',
@@ -1409,6 +1493,7 @@ indicators included in the `Tradeoff` Object. `Value` must have
 dimensions `c(nOM, nMP, nPI)`:
 
 ``` r
+
 nPI <- length(Code(tradeoff))
 
 Value(tradeoff) <- array(NA, dim=c(nOM, nMP, nPI))
@@ -1433,6 +1518,7 @@ Value(tradeoff)[3,,4] <- MSEtool::LTY(MSE_HighM)@Mean
 Check and add to the Slick Object:
 
 ``` r
+
 Check(tradeoff)
 #> 
 #> ── Checking: "Tradeoff" ──
@@ -1445,6 +1531,7 @@ Tradeoff(slick) <- tradeoff
 The default Tradeoff Plot:
 
 ``` r
+
 plotTradeoff(slick)
 ```
 
@@ -1453,6 +1540,7 @@ plotTradeoff(slick)
 Tradeoff Plot with multiple Performance Indicators:
 
 ``` r
+
 plotTradeoff(slick, 1:2, 3:4)
 ```
 
@@ -1489,6 +1577,7 @@ A couple of things to note:
     words.
 
 ``` r
+
 saveRDS(slick, '../SlickLibrary/Slick_Objects/Example.slick')
 ```
 

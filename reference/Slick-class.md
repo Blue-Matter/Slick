@@ -324,6 +324,7 @@ All functions with the exception of `Date` support Markdown.
 ## Examples
 
 ``` r
+
 # Assign values to a new `Slick` object
 slick <- Slick()
 
@@ -342,7 +343,7 @@ Title(slick)
 Subtitle(slick)
 #> [1] ""
 Date(slick)
-#> [1] "2026-02-27"
+#> [1] "2026-05-11"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)

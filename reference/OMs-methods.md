@@ -124,6 +124,7 @@ access and assign the values for an existing `OMs` object, see
 ## Examples
 
 ``` r
+
 # Create Object
 oms <- OMs()
 

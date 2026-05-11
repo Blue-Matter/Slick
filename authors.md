@@ -16,13 +16,13 @@ Source:
 [`DESCRIPTION`](https://github.com/Blue-Matter/Slick/blob/master/DESCRIPTION)
 
 Hordyk A, Carruthers T, Huynh Q, Miller S (2026). *Slick: Interactive
-Visualization of MSE Results*. R package version 1.0.1,
+Visualization of MSE Results*. R package version 1.0.2,
 <https://slick.bluematterscience.com/>.
 
     @Manual{,
       title = {Slick: Interactive Visualization of MSE Results},
       author = {Adrian Hordyk and Tom Carruthers and Quang Huynh and Shana Miller},
       year = {2026},
-      note = {R package version 1.0.1},
+      note = {R package version 1.0.2},
       url = {https://slick.bluematterscience.com/},
     }
