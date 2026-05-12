@@ -73,14 +73,12 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
       selected
     })
 
-
     output$page <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
       if(all(is.na(slick@Boxplot@Value))) {
         return(tagList('No values in object'))
       }
-
       tagList(
         shinydashboardPlus::box(width=12,
                                 status='primary',
@@ -100,7 +98,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                        )
                                 ),
                                 column(9,
-
                                        shinyWidgets::radioGroupButtons(
                                          inputId = ns('plottype'),
                                          choiceNames  = c('Boxplot',
@@ -113,7 +110,6 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                            no = tags$i(class = "fa fa-square-o",
                                                        style = "color: steelblue")),
                                          selected=selected_plot_type()
-
                                        )
                                 ),
                                 column(3,
@@ -136,13 +132,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                                           p(i18n$t('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.'))
                                                         )
                                        ),
-
                                        img(src='www/img/Boxplot.jpg', width='100%'),
-
-
                                        mod_Page_Filter_ui(ns("boxplotfilter"))
-
-
                                 ),
                                 column(9,
                                        # mod_Report_Add_Button_ui(ns('report_button')),
@@ -225,9 +216,3 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     })
   })
 }
-
-## To be copied in the UI
-# mod_Boxplot_ui("Boxplot_1")
-
-## To be copied in the server
-# mod_Boxplot_server("Boxplot_1")
