@@ -299,7 +299,7 @@ check_metadata <- function(object) {
   lDescription <- get_len(object@Description)
 
   if (sum(c(lCode, lLabel, lDescription)>1)>1) {
-    if (any(nchar(object@Description) >0)) {
+    if (all(!is.na(object@Description)) && any(nchar(object@Description) >0)) {
       if (any(c(lCode != lLabel,
                 lLabel != lDescription,
                 lCode != lDescription))) {

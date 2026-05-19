@@ -74,7 +74,7 @@ A Slick Object can include the following plots:
 3.  **Kobe**: Compares the performance of MPs with respect to biomass (on the x-axis) and fishing mortality (on the y-axis). Includes an option to display the data as a Kobe Time plot, which shows the percentage of runs that fall in each of the Kobe quadrants in each projection year.
 4.  **Quilt**: A table of performance indicators for each management procedure, with colored shading to indicate better/worse performance.
 5.  **Spider**: Shows results for three or more performance indicators, each represented on an axis starting from the same center point. Sometimes also called a Radar plot.
-6.  **Tradeoff**: Scatter plot comparing two performance indicators.
+6.  **Trade-off**: Scatter plot comparing two performance indicators.
 
 A valid Slick Object must include at least one Slick Plot.
 
@@ -756,9 +756,9 @@ Or by OM and MP:
 See [`?plotSpider`](../reference/plotSpider.html) for more options for the `plotSpider` function.
 
 
-# Tradeoff Plot
+# Trade-off Plot
 
-Information for the *Tradeoff Plot* is stored in a [Tradeoff Object](../reference/Tradeoff-class.html).
+Information for the *Trade-off Plot* is stored in a [Tradeoff Object](../reference/Tradeoff-class.html).
 
 A *Tradeoff Object* can be created using the `Tradeoff` function. Here we are populating the metadata directly when we create the `Tradeoff` object:
 

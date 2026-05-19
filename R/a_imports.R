@@ -1,7 +1,7 @@
 #' @importFrom graphics lines par points polygon text
 #' @importFrom methods new slot slot<- slotNames
 #' @importFrom stats median quantile time
-#' @importFrom utils packageVersion read.csv read.csv
+#' @importFrom utils packageVersion read.csv write.csv
 #' @importFrom grDevices colors rgb
 NULL
 
