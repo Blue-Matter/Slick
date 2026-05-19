@@ -65,7 +65,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
         shinydashboardPlus::box(width=12,
                                 status='primary',
                                 solidHeader=TRUE,
-                                title=h3(strong('Tradeoff')),
+                                title=h3(strong('Trade Off')),
                                 column(12,
                                        mod_subtitle_ui(ns(id))
                                 ),
