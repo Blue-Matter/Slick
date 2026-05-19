@@ -156,7 +156,9 @@ plotSpider <- function(slick,
                        max.pt.col='darkred') {
 
   oldpar <- par(no.readonly = TRUE)
+  oldpar$pin[oldpar$pin <= 0 ] <- 1
   on.exit(par(oldpar))
+
 
   if (!methods::is(slick, 'Slick'))
     cli::cli_abort('`slick` must be an object of class `Slick`')
@@ -229,6 +231,8 @@ plotSpider <- function(slick,
     if (byMP) {
       ncol <- min(nMP,4)
       n.row <- ceiling(nMP/ncol)
+
+
       par(mfrow=c(n.row, ncol), mar=rep(1,4), oma=c(0,0,2,0))
 
       for (i in 1:nMP) {
