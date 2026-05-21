@@ -55,6 +55,7 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM,
     spiderPlot <- reactive({
       req(relative_scale)
       req(filtered_slick)
+
       plotSpider(filtered_slick(),
                  byMP=TRUE,
                  relScale=relative_scale(),

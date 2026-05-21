@@ -1,3 +1,6 @@
+# Slick 1.0.2 
+
+- Minor improvements to plot pages for different screen size/resolution
 
 # Slick 1.0.1
 

@@ -27,7 +27,7 @@ mod_subtitle_server <- function(id, i18n, nOM, nMP, nPM=NULL, minPM=3,
       i18n <- i18n()
 
       if (!is.null(nPM)) {
-        if (nPM() <=minPM) {
+        if (nPM() <minPM) {
           return(
             tagList(
               div(class='page_title',
