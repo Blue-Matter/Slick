@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 	libharfbuzz-dev \
 	libfribidi-dev \
 	libtiff-dev \
-	xdg-utils
+	libuv1-dev
 
 	#libcurl4-gnutls-dev \
  #     pandoc-citeproc \ # error trying to install this
