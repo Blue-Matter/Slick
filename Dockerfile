@@ -6,20 +6,20 @@ LABEL maintainer "Adrian Hordyk <adrian@bluematterscience.com>"
 
 # system libraries of general use
 RUN apt-get update && apt-get install -y \
-    sudo \
-	build-essential \
-    pandoc \
-
-	libcurl4-openssl-dev \
-    libcairo2-dev \
-    libxt-dev \
-    libssl-dev \
-    libssh2-1-dev \
+  sudo \
+  build-essential \
+  pandoc \
+  libcurl4-openssl-dev \
+  libcairo2-dev \
+  libxt-dev \
+  libssl-dev \
+  libssh2-1-dev \
 	libfontconfig1-dev \
 	libxml2-dev \
 	libharfbuzz-dev \
 	libfribidi-dev \
-	libtiff-dev
+	libtiff-dev \
+	xdg-utils
 
 	#libcurl4-gnutls-dev \
  #     pandoc-citeproc \ # error trying to install this
