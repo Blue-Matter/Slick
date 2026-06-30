@@ -2,7 +2,7 @@ Minor patch
 
 ## Test environments
 
-* local - Windows 4.5.2
+* local - Windows 4.6.0
 * Github actions - macOS-latest (release)
 * Github actions - windows-latest (release)
 * Github actions - ubuntu-latest (devel)
