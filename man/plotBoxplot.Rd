@@ -40,7 +40,7 @@ A \code{ggplot2} object, or a list of \code{ggplot2} objects
 }
 \description{
 Plots boxplot, violin plot, or a combined box+violin plot for information stored
-in a \linkS4class{Boxplot} object
+in a \link[=Boxplot-class]{Boxplot} object
 }
 \examples{
 # Generate dummy values

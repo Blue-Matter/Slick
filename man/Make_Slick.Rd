@@ -81,7 +81,7 @@ Make_Slick(
 \item{returnMSEs}{Logical, rather than the Slick object should the list of MSEs be returned?}
 }
 \value{
-An object of class \linkS4class{Slick}
+An object of class \link[=Slick-class]{Slick}
 }
 \description{
 A function that creates an example Slick data object

@@ -33,7 +33,7 @@ NewSlick(
 \item{Design}{A design matrix of factor levels \verb{SN, factor}}
 }
 \value{
-An object of class \linkS4class{Slick}
+An object of class \link[=Slick-class]{Slick}
 }
 \description{
 Creates a blank Slick object
