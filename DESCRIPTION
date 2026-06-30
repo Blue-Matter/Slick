@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
@@ -62,7 +62,6 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Collate: 
     'RunSlick.R'
     'Slick_tools.R'
@@ -139,3 +138,4 @@ Collate:
     'utils_Table.R'
     'utils_util.R'
 BugReports: https://github.com/Blue-Matter/Slick/issues
+Config/roxygen2/version: 8.0.0

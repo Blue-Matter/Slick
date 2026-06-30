@@ -23,7 +23,7 @@ TimeLab(object) <- value
 \S4method{TimeLab}{Timeseries}(object) <- value
 }
 \arguments{
-\item{object}{A \code{\link[=Kobe-class]{Kobe-class()}} or \linkS4class{Timeseries} object}
+\item{object}{A \code{\link[=Kobe-class]{Kobe-class()}} or \link[=Timeseries-class]{Timeseries} object}
 
 \item{lang}{Optional text string specifying the language (if available).
 Either 'en', 'es', 'fr', or 'pt' for English, Spanish, French, or Portuguese respectively}

@@ -14,7 +14,7 @@ PMnorm(obj, det = TRUE, inv = NULL)
 \item{inv}{A logical vector nPM long. If true, the PM will be inverted (100-value).}
 }
 \value{
-An object of class \linkS4class{Slick}
+An object of class \link[=Slick-class]{Slick}
 }
 \description{
 A function that converts deterministic or stochastic performance metrics to the range 0-100 and optionally inverts these
