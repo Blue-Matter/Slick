@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Blue-Matter/Slick/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Blue-Matter/Slick/blob/1.0.2/DESCRIPTION)
 
 Hordyk A, Carruthers T, Huynh Q, Miller S (2026). *Slick: Interactive
 Visualization of MSE Results*. R package version 1.0.2,
