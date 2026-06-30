@@ -305,7 +305,7 @@ the slot name; e.g.:
 ``` r
 
 Date(slick)
-#> [1] "2026-05-21"
+#> [1] "2026-06-30"
 Date(slick) <- Sys.Date()
 ```
 
@@ -340,7 +340,7 @@ Title(slick)
 Subtitle(slick)
 #> [1] "For Testing and Demonstration Purposes"
 Date(slick)
-#> [1] "2026-05-21"
+#> [1] "2026-06-30"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)

@@ -3,6 +3,8 @@
 ## Slick 1.0.2
 
 - Minor improvements to plot pages for different screen size/resolution
+- Fix bug in boxplot: was not averaging over OMs correctly for violin
+  plots
 
 ## Slick 1.0.1
 
