@@ -12,3 +12,4 @@ vignettes/articles/DevelopersGuide_cache/
 .httr-oauth
 .DS_Store
 .quarto
+.positai
