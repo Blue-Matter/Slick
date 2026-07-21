@@ -1,3 +1,7 @@
+# Slick 1.0.3
+
+- fix issue with OM filtering and preset
+- add checks and error messages for all presets
 
 # Slick 1.0.2 
 
