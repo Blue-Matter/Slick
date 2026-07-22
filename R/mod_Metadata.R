@@ -79,6 +79,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     output$metadata <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
+      req(slick)
       tagList(
         shinydashboard::box(
           title=strong(Title(slick, i18n$get_translation_language())),
@@ -102,6 +103,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
     output$plotinfo <- renderUI({
       i18n <- i18n()
       slick <- Slick_Object()
+      req(slick)
       shinydashboard::box(
         title=strong(i18n$t('About the Plots')),
         width=4,
@@ -115,6 +117,7 @@ mod_Metadata_server <- function(id, i18n, Slick_Object){
 
     output$plotlinks <- renderUI({
       slick <- Slick_Object()
+      req(slick)
       i18n <- i18n()
       linklist <- list()
 

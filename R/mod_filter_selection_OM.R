@@ -1,19 +1,14 @@
-filterOMs <- function(slick, Filter_Selected, input) {
-  keep <- array(TRUE,dim(Design(slick)))
-  for(fac in 1:ncol(Design(slick))) {
-    design <- Design(OMs(slick)) |> as.data.frame()
-    design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],
-                                                   function(x) {
+filterOMs <- function(slick, Filter_Selected, input, applying_preset=NULL) {
+  if (!is.null(applying_preset) && isTRUE(applying_preset()))
+    return(invisible(NULL))
 
-      x <- factor(x, ordered=TRUE, levels=unique(x))
+  oms <- OMs(slick)
+  codes <- om_level_codes(oms)
 
-    })
-    design[] <- lapply(design,  as.numeric)
-    factor_numbers <- design[,fac]
-    factor_numbers <- as.numeric(factor(factor_numbers))
+  keep <- array(TRUE, dim(codes))
+  for(fac in seq_len(ncol(codes))) {
     selected_factors <- as.numeric(input[[paste0("filter",fac)]])
-    keep[,fac] <- factor_numbers%in% selected_factors
-
+    keep[,fac] <- codes[,fac] %in% selected_factors
   }
 
   if (any(colSums(keep)==0)) {
@@ -24,30 +19,42 @@ filterOMs <- function(slick, Filter_Selected, input) {
   }
 }
 
-updateCheckbox_OM <- function(object, preset=1) {
+updateCheckbox_OM <- function(object, preset=1, Filter_Selected=NULL, applying_preset=NULL) {
+  presets <- Preset(object)
+  om_rows <- if (length(presets)>=preset) presets[[preset]] else 1:nrow(Design(object))
+
+  if (!is.null(applying_preset)) applying_preset(TRUE)
+  if (!is.null(Filter_Selected)) Filter_Selected$selected <- om_rows
+
   factors <- colnames(Design(object))
-  for(i in 1:length(factors)) {
+  for(i in seq_along(factors)) {
     selected <- initial_selected_OM(object, preset, factor=i)
     updateCheckboxGroupInput(inputId=paste0("filter",i),
                              selected=selected)
   }
+
+  # give the client time to settle before re-enabling the manual
+  # AND-recompute observer (see filterOMs())
+  if (!is.null(applying_preset)) shinyjs::delay(150, applying_preset(FALSE))
 }
 
 initial_selected_OM <- function(object, preset=1, factor=1, include_preset=TRUE) {
   metadata <- Factors(object)
   factors <- unique(metadata$Factor)
-  metadata <- metadata |> dplyr::filter(Factor==factors[factor])
-  presets <- Preset(object)
+  factor_levels <- metadata |> dplyr::filter(Factor==factors[factor])
   if (!include_preset) {
-    return(1:nrow(metadata))
+    return(1:nrow(factor_levels))
   }
-  if (length(presets)<1) {
-    return(1:nrow(metadata))
+  presets <- Preset(object)
+  if (length(presets)<1 || length(presets)<preset) {
+    return(1:nrow(factor_levels))
   }
-  if (length(presets[[preset]])<factor) {
-    return(NULL)
+  om_rows <- presets[[preset]]
+  if (length(om_rows)<1) {
+    return(1:nrow(factor_levels))
   }
-  presets[[preset]][[factor]]
+  codes <- om_level_codes(object)
+  sort(unique(codes[om_rows, factor]))
 }
 
 
@@ -87,39 +94,51 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
       Preset(object())
     })
 
+    Filter_Selected <- reactiveValues()
+    # TRUE while a preset's (or the initial default's) checkbox echo is
+    # still settling - see filterOMs()/updateCheckbox_OM()
+    applying_preset <- reactiveVal(TRUE)
+
+    observeEvent(object(), {
+      req(object())
+      om_rows <- if (length(Preset(object()))>=1) Preset(object())[[1]] else 1:nrow(Design(object()))
+      Filter_Selected$selected <- om_rows
+      shinyjs::delay(150, applying_preset(FALSE))
+    })
+
     # observe if preset buttons are pressed
     # maximum of 4 preset buttons
     observeEvent(input[['preset1']],{
-      updateCheckbox_OM(object(), 1)
+      updateCheckbox_OM(object(), 1, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset2']],{
-      updateCheckbox_OM(object(), 2)
+      updateCheckbox_OM(object(), 2, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset3']],{
-      updateCheckbox_OM(object(), 3)
+      updateCheckbox_OM(object(), 3, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset4']],{
-      updateCheckbox_OM(object(), 4)
+      updateCheckbox_OM(object(), 4, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
 
     observeEvent(input[['preset5']],{
-      updateCheckbox_OM(object(), 5)
+      updateCheckbox_OM(object(), 5, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset6']],{
-      updateCheckbox_OM(object(), 6)
+      updateCheckbox_OM(object(), 6, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset7']],{
-      updateCheckbox_OM(object(), 7)
+      updateCheckbox_OM(object(), 7, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
     observeEvent(input[['preset8']],{
-      updateCheckbox_OM(object(), 8)
+      updateCheckbox_OM(object(), 8, Filter_Selected, applying_preset)
     }, ignoreInit =TRUE)
 
 
@@ -175,7 +194,7 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
     })
 
     observeEvent(input$reset_button, {
-      updateCheckbox_OM(object(), preset=1)
+      updateCheckbox_OM(object(), preset=1, Filter_Selected, applying_preset)
     })
 
     output$selections <- renderUI({
@@ -193,15 +212,13 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
       shinyjs::click('omdropdown', asis=TRUE)
     })
 
-    Filter_Selected <- reactiveValues()
-
     observe({
       slick <- slick()
       if (!is.null(slick)) {
         if (inherits(object(), 'OMs')) {
           FilterNames <- paste0("filter",1:ncol(Design(slick)))
           observeEvent(sapply(FilterNames, function(x) input[[x]]),{
-            filterOMs(slick, Filter_Selected, input)
+            filterOMs(slick, Filter_Selected, input, applying_preset)
           }, ignoreInit =TRUE)
         } else {
           metadata <- Design(object())
@@ -221,8 +238,3 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
   })
 }
 
-## To be copied in the UI
-# mod_om_selection_ui("om_selection_1")
-
-## To be copied in the server
-# mod_om_selection_server("om_selection_1")

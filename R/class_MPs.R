@@ -128,11 +128,6 @@ setMethod('Check', 'MPs', function(object) {
   }
 
 
-  if (nMPs>0) {
-    # check numbers and names
-    #ll@errors <- append(ll@errors, check_Preset(object@Preset, nMPs))
-    # Preset <- object@Preset
-  }
 
   if (length(ll@errors)<1 & length(ll@warnings)<1)
     ll@complete <- TRUE

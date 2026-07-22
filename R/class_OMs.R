@@ -36,10 +36,13 @@
 #' ## Preset
 #' For `OMs` objects, `Preset` should be a named list, where each list element represents a
 #' different preset button to be shown in the app by the name of the list element, and
-#' each named list element should be a list of length `nFactors`, with the list elements
-#' for each Factor containing numeric values indicating the levels to include for that factor.
-#' See `Examples`
+#' each named list element should be a numeric vector of row indices into `Design` (i.e.
+#' which operating models that preset selects). See `Examples`.
 #'
+#' The legacy format is still accepted for backward compatibility: each named list
+#' element as a list of length `nFactors`, with the list elements for each Factor containing
+#' numeric values indicating the levels to include for that factor (the levels are combined
+#' with AND logic across Factors).
 #'
 #' @seealso [OMs()], [Factors()], [Design()], [Preset()]
 #'
@@ -106,6 +109,39 @@ setMethod('Factors', 'OMs', function(object, lang='en')
   get_language(object@Factors,lang)
 )
 
+#' For each row of `Design(object)`, and each Factor (column), return the
+#' level-index code matching the order levels appear in `Factors(object)` -
+#' i.e. the same order used for checkbox `choiceValues` and (legacy) `Preset`
+#' level indices.
+#'
+#' This is the single source of truth for "which level code does this row
+#' belong to, per factor" - `filterOMs()` (manual factor-checkbox filtering)
+#' and the legacy-`Preset` migration logic both use it, specifically so they
+#' can't independently drift out of sync with each other the way they once
+#' did (an earlier bug had two separate copies of this logic disagree on
+#' which level was "first" for a Factor whose `Factors` table order wasn't
+#' ascending).
+#' @noRd
+om_level_codes <- function(object) {
+  design <- Design(object) |> as.data.frame()
+  metadata <- Factors(object)
+  codes <- matrix(NA_integer_, nrow(design), ncol(design),
+                  dimnames=list(NULL, colnames(design)))
+  for (nm in colnames(design)) {
+    lvls <- metadata$Level[metadata$Factor==nm]
+    vals <- as.character(unlist(design[[nm]]))
+    lvls_chr <- as.character(lvls)
+    vals_num <- suppressWarnings(as.numeric(vals))
+    lvls_num <- suppressWarnings(as.numeric(lvls_chr))
+    if (!anyNA(vals_num) && !anyNA(lvls_num)) {
+      codes[,nm] <- match(vals_num, lvls_num)
+    } else {
+      codes[,nm] <- match(vals, lvls_chr)
+    }
+  }
+  codes
+}
+
 
 #' @describeIn Factors Assign the operating model `Factors` table  to a [OMs-class()] object
 setMethod('Factors<-', 'OMs', function(object, value) {
@@ -116,8 +152,13 @@ setMethod('Factors<-', 'OMs', function(object, value) {
 
 
 #' @describeIn Preset Return `Preset` from a [OMs-class()] object
+#'
+#' For backward compatibility, a legacy `Preset` (nested one-list-element-per-
+#' `Factor` format) is auto-converted to the current flat `Design`-row-index
+#' format on read. This isn't persisted back into `object` here; [Update()]
+#' does that permanently for a `Slick` object loaded via the app.
 setMethod("Preset", 'OMs', function(object) {
-  object@Preset
+  convert_OMs_Preset(object)@Preset
 })
 
 

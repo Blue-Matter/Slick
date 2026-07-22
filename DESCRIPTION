@@ -1,7 +1,7 @@
 Type: Package
 Package: Slick
 Title: Interactive Visualization of MSE Results
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Adrian", "Hordyk", , "adrian@bluematterscience.com", role = c("aut", "cre")),
     person("Tom", "Carruthers", , "tom@bluematterscience.com", role = 'aut'),
@@ -135,7 +135,9 @@ Collate:
     'mod_filter_selection_OM.R'
     'mod_subtitle.R'
     'mod_toplink.R'
+    'object_wskj.R'
     'utils_Table.R'
     'utils_util.R'
 BugReports: https://github.com/Blue-Matter/Slick/issues
 Config/roxygen2/version: 8.0.0
+LazyData: true

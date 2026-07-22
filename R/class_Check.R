@@ -315,34 +315,97 @@ check_metadata <- function(object) {
   out
 }
 
-check_Preset <- function(Preset, max_len) {
+
+resolve_Preset_OMs <- function(object, preset) {
+  codes <- om_level_codes(object)
+  nFactor <- ncol(codes)
+  if (!is.list(preset) || length(preset)!=nFactor) return(NULL)
+
+  keep <- matrix(TRUE, nrow=nrow(codes), ncol=nFactor)
+  for (i in seq_len(nFactor)) {
+    sel <- suppressWarnings(as.numeric(preset[[i]]))
+    if (anyNA(sel)) return(NULL)
+    keep[,i] <- codes[,i] %in% sel
+  }
+  which(apply(keep, 1, all))
+}
+
+
+convert_OMs_Preset <- function(object) {
+  Preset <- object@Preset
+  if (length(Preset)<1) return(object)
+  if (!any(vapply(Preset, is.list, logical(1)))) return(object)
+
+  for (pn in names(Preset)) {
+    p <- Preset[[pn]]
+    if (!is.list(p)) next # already flat
+
+    # (1) nested per-factor format
+    if (nrow(Factors(object))>0 && nrow(Design(object))>0) {
+      resolved <- tryCatch(resolve_Preset_OMs(object, p), error=function(e) NULL)
+      if (!is.null(resolved)) {
+        Preset[[pn]] <- resolved
+        next
+      }
+    }
+
+    # (2) flat format wrapped in an extra length-1 list
+    if (length(p)==1 && !is.list(p[[1]])) {
+      vals <- suppressWarnings(as.numeric(p[[1]]))
+      if (!anyNA(vals)) Preset[[pn]] <- vals
+    }
+  }
+  object@Preset <- Preset
+  object
+}
+
+
+check_Preset <- function(Preset, max_len, label='`Code` entries') {
   out <- list()
+  if (length(Preset)<1) return(out)
 
-  if (length(Preset)>0) {
-    # check length
-    ll <- lapply(Preset, length) |> unlist()
-    if (any(ll)>max_len) {
-      out$Preset_Length <- paste('Elements of `Preset` cannot be longer than', max_len)
-    }
-    # check names
-    nms <- names(Preset)
-    if (is.null(nms)) {
-      out$Preset_Names <- '`Preset` must be a named list'
-    } else {
-      if (any(nchar(nms)<1))
-        out$Preset_Names <- '`Preset` must be a named list'
-    }
+  # check names
+  nms <- names(Preset)
+  if (is.null(nms) || any(nchar(nms)<1)) {
+    out$Preset_Names <- '`Preset` must be a named list, with a non-blank name for each preset'
+  } else if (any(duplicated(nms))) {
+    out$Preset_Names <- paste0(
+      '`Preset` names must be unique - found duplicate name(s): ',
+      paste(unique(nms[duplicated(nms)]), collapse=', ')
+    )
+  }
 
-    #check values
-    cl <- lapply(Preset, class) |> unlist()
-    if (any(cl!='integer')) {
-      out$Preset_Values <- '`Preset` must only be integer values'
+  for (pn in nms) {
+    p <- Preset[[pn]]
+    if (is.list(p)) {
+      out[[paste0('Preset_', pn, '_Values')]] <- paste0(
+        '`Preset$', pn, '` must be a flat vector of whole numbers, not a nested list'
+      )
+      next
     }
-    vl <- unlist(Preset)
-    if (any(vl>max_len)) {
-      out$Preset_Values <- paste('`Preset` values cannot be greater than ', max_len)
-    }
+    vals <- suppressWarnings(as.numeric(p))
+    is_whole <- abs(vals - round(vals)) < sqrt(.Machine$double.eps)
 
+    if (length(p)<1 || anyNA(vals) || !all(is_whole)) {
+      out[[paste0('Preset_', pn, '_Values')]] <- paste0(
+        '`Preset$', pn, '` must be a vector of whole numbers, got: ',
+        paste(utils::head(p, 5), collapse=', ')
+      )
+      next
+    }
+    if (any(vals<1) || any(vals>max_len)) {
+      out[[paste0('Preset_', pn, '_Range')]] <- paste0(
+        '`Preset$', pn, '` values must be between 1 and ', max_len,
+        ' (the number of ', label, '), got: ',
+        paste(vals[vals<1 | vals>max_len], collapse=', ')
+      )
+    }
+    if (any(duplicated(vals))) {
+      out[[paste0('Preset_', pn, '_Duplicate')]] <- paste0(
+        '`Preset$', pn, '` contains duplicate indices: ',
+        paste(unique(vals[duplicated(vals)]), collapse=', ')
+      )
+    }
   }
   out
 }

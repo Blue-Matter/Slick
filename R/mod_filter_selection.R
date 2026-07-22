@@ -218,7 +218,7 @@ mod_filter_selection_server <- function(id, i18n, slick, slot, minN, include=TRU
     observeEvent(input$deselect, {
       shiny::updateCheckboxGroupInput(session,
                                       'filter1',
-                                      selected=1)
+                                      selected=character(0))
     })
 
     output$deselect <- renderUI({

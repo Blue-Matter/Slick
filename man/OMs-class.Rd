@@ -40,9 +40,13 @@ or the actual level values (i.e., \code{Factors$Level}) that correspond to each 
 
 For \code{OMs} objects, \code{Preset} should be a named list, where each list element represents a
 different preset button to be shown in the app by the name of the list element, and
-each named list element should be a list of length \code{nFactors}, with the list elements
-for each Factor containing numeric values indicating the levels to include for that factor.
-See \code{Examples}
+each named list element should be a numeric vector of row indices into \code{Design} (i.e.
+which operating models that preset selects). See \code{Examples}.
+
+The legacy format is still accepted for backward compatibility: each named list
+element as a list of length \code{nFactors}, with the list elements for each Factor containing
+numeric values indicating the levels to include for that factor (the levels are combined
+with AND logic across Factors).
 }
 }
 \section{Slots}{
@@ -82,11 +86,12 @@ rownames(Design(oms)) <- c('Base Case', 'Less Productive', 'More Productive')
 Design(oms)
 
 # Preset
+# each element is a vector of row indices into `Design`
 
-Preset(oms) <- list('Base Case'=list(1),
-                    'Low M' = list(2),
-                    'High M' = list(3),
-                    'All'= list(1:3)
+Preset(oms) <- list('Base Case'=1,
+                    'Low M' = 2,
+                    'High M' = 3,
+                    'All'= 1:3
 )
 
 # Create Slick Object
