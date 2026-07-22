@@ -315,153 +315,52 @@ check_metadata <- function(object) {
   out
 }
 
-check_Preset_OMs <- function(object) {
-  out <- list()
-  Preset <- object@Preset
-  if (length(Preset)<1) return(out)
 
-  nms <- names(Preset)
-  if (is.null(nms) || any(nchar(nms)<1)) {
-    out$Preset_Names <- '`Preset` must be a named list, with a non-blank name for each preset'
-  } else if (any(duplicated(nms))) {
-    out$Preset_Names <- paste0(
-      '`Preset` names must be unique - found duplicate name(s): ',
-      paste(unique(nms[duplicated(nms)]), collapse=', ')
-    )
-  }
-
-  if (is.data.frame(object@Factors)) {
-    factors_df <- object@Factors
-  } else if (length(object@Factors)>0) {
-    factors_df <- object@Factors[[1]]
-  } else {
-    return(out)
-  }
-  factors <- unique(factors_df$Factor)
-  nFactor <- length(factors)
-  if (nFactor<1) return(out)
-  nlevels <- sapply(factors, function(f) sum(factors_df$Factor==f))
-
-  for (pn in nms) {
-    p <- Preset[[pn]]
-    if (!is.list(p) || length(p)!=nFactor) {
-      out[[paste0('Preset_', pn)]] <- paste0(
-        '`Preset$', pn, '` must be a list of length ', nFactor,
-        ' (one element per Factor: ', paste(factors, collapse=', '),
-        '), got length ', length(p)
-      )
-      next
-    }
-    for (i in seq_len(nFactor)) {
-      vals <- suppressWarnings(as.numeric(p[[i]]))
-      if (anyNA(vals) || any(vals<1) || any(vals>nlevels[i])) {
-        out[[paste0('Preset_', pn, '_', factors[i])]] <- paste0(
-          '`Preset$', pn, '[[', i, ']]` (factor `', factors[i],
-          '`) must contain integer level indices between 1 and ', nlevels[i]
-        )
-      }
-    }
-  }
-  out
-}
-
-#' Resolve which `Design` rows a single per-factor OMs preset selects.
-#'
-#' Mirrors the AND-across-factors matching logic used by `filterOMs()`, so
-#' that validity checks see exactly what the app would select. Returns
-#' `NULL` (rather than erroring) if `preset` isn't shaped like a per-factor
-#' preset (that structural problem is already reported by `check_Preset_OMs`).
-#' @noRd
-resolve_Preset_OMs <- function(factors_df, design, preset) {
-  factors <- unique(factors_df$Factor)
-  nFactor <- length(factors)
+resolve_Preset_OMs <- function(object, preset) {
+  codes <- om_level_codes(object)
+  nFactor <- ncol(codes)
   if (!is.list(preset) || length(preset)!=nFactor) return(NULL)
-  if (!all(factors %in% colnames(design))) return(NULL)
 
-  keep <- matrix(TRUE, nrow=nrow(design), ncol=nFactor)
+  keep <- matrix(TRUE, nrow=nrow(codes), ncol=nFactor)
   for (i in seq_len(nFactor)) {
-    nm <- factors[i]
-    lvls <- factors_df$Level[factors_df$Factor==nm]
-
-    vals <- as.character(unlist(design[[nm]]))
-    lvls_chr <- as.character(lvls)
-    vals_num <- suppressWarnings(as.numeric(vals))
-    lvls_num <- suppressWarnings(as.numeric(lvls_chr))
-    if (!anyNA(vals_num) && !anyNA(lvls_num)) {
-      codes <- match(vals_num, lvls_num)
-    } else {
-      codes <- match(vals, lvls_chr)
-    }
-
     sel <- suppressWarnings(as.numeric(preset[[i]]))
     if (anyNA(sel)) return(NULL)
-    keep[,i] <- codes %in% sel
+    keep[,i] <- codes[,i] %in% sel
   }
   which(apply(keep, 1, all))
 }
 
-#' Semantic (not just structural) checks on `OMs@Preset`: does each preset
-#' actually select any OMs, and are any two presets identical? These are
-#' warnings, not errors - a structurally valid `Preset` can still be
-#' practically useless (e.g. an impossible combination of levels), and that
-#' is easy to miss by eye once `nFactor` gets large.
-#' @noRd
-check_Preset_OMs_resolution <- function(object) {
-  out <- list()
+
+convert_OMs_Preset <- function(object) {
   Preset <- object@Preset
-  if (length(Preset)<1) return(out)
-  if (nrow(object@Design)<1) return(out)
+  if (length(Preset)<1) return(object)
+  if (!any(vapply(Preset, is.list, logical(1)))) return(object)
 
-  if (is.data.frame(object@Factors)) {
-    factors_df <- object@Factors
-  } else if (length(object@Factors)>0) {
-    factors_df <- object@Factors[[1]]
-  } else {
-    return(out)
-  }
-  if (nrow(factors_df)<1) return(out)
+  for (pn in names(Preset)) {
+    p <- Preset[[pn]]
+    if (!is.list(p)) next # already flat
 
-  design <- as.data.frame(object@Design)
+    # (1) nested per-factor format
+    if (nrow(Factors(object))>0 && nrow(Design(object))>0) {
+      resolved <- tryCatch(resolve_Preset_OMs(object, p), error=function(e) NULL)
+      if (!is.null(resolved)) {
+        Preset[[pn]] <- resolved
+        next
+      }
+    }
 
-  resolved <- list()
-  nms <- names(Preset)
-  for (pn in nms) {
-    sel <- tryCatch(resolve_Preset_OMs(factors_df, design, Preset[[pn]]),
-                    error=function(e) NULL)
-    if (is.null(sel)) next # shape problems already reported by check_Preset_OMs
-    resolved[[pn]] <- sel
-    if (length(sel)<1) {
-      out[[paste0('Preset_', pn, '_Empty')]] <- paste0(
-        '`Preset$', pn, '` does not match any rows in `Design` - the selected levels ',
-        'may be an impossible combination (check they are consistent with each other)'
-      )
+    # (2) flat format wrapped in an extra length-1 list
+    if (length(p)==1 && !is.list(p[[1]])) {
+      vals <- suppressWarnings(as.numeric(p[[1]]))
+      if (!anyNA(vals)) Preset[[pn]] <- vals
     }
   }
-
-  # flag presets that resolve to the identical set of OMs - likely a copy/paste mistake
-  seen <- list()
-  for (pn in names(resolved)) {
-    key <- paste(sort(resolved[[pn]]), collapse=',')
-    if (!is.null(seen[[key]])) {
-      out[[paste0('Preset_', pn, '_Duplicate')]] <- paste0(
-        '`Preset$', pn, '` selects the exact same OMs as `Preset$', seen[[key]],
-        '` - check this is intended'
-      )
-    } else {
-      seen[[key]] <- pn
-    }
-  }
-  out
+  object@Preset <- Preset
+  object
 }
 
-#' Check a flat (item-index) `Preset` list, as used by `MPs` and by the
-#' performance-metric selectors of `Boxplot`/`Kobe`/`Quilt`/`Spider`/
-#' `Timeseries`/`Tradeoff`.
-#'
-#' Each element of `Preset` should be a numeric vector of whole-number
-#' indices into that object's own `Code` (length `max_len`).
-#' @noRd
-check_Preset <- function(Preset, max_len) {
+
+check_Preset <- function(Preset, max_len, label='`Code` entries') {
   out <- list()
   if (length(Preset)<1) return(out)
 
@@ -478,6 +377,12 @@ check_Preset <- function(Preset, max_len) {
 
   for (pn in nms) {
     p <- Preset[[pn]]
+    if (is.list(p)) {
+      out[[paste0('Preset_', pn, '_Values')]] <- paste0(
+        '`Preset$', pn, '` must be a flat vector of whole numbers, not a nested list'
+      )
+      next
+    }
     vals <- suppressWarnings(as.numeric(p))
     is_whole <- abs(vals - round(vals)) < sqrt(.Machine$double.eps)
 
@@ -491,7 +396,7 @@ check_Preset <- function(Preset, max_len) {
     if (any(vals<1) || any(vals>max_len)) {
       out[[paste0('Preset_', pn, '_Range')]] <- paste0(
         '`Preset$', pn, '` values must be between 1 and ', max_len,
-        ' (the number of `Code` entries), got: ',
+        ' (the number of ', label, '), got: ',
         paste(vals[vals<1 | vals>max_len], collapse=', ')
       )
     }
