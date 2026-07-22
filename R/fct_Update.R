@@ -85,6 +85,10 @@ Update <- function(slick) {
     # Add Misc slot
     slick <- UpdateMisc(slick)
 
+    # Migrate `OMs@Preset` from the legacy nested per-factor format to the
+    # new flat `Design`-row-index format
+    slick@OMs <- convert_OMs_Preset(slick@OMs)
+
     return(slick)
   }
 
