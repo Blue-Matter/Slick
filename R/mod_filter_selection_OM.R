@@ -1,18 +1,25 @@
 filterOMs <- function(slick, Filter_Selected, input) {
-  keep <- array(TRUE,dim(Design(slick)))
-  for(fac in 1:ncol(Design(slick))) {
-    design <- Design(OMs(slick)) |> as.data.frame()
-    design[sapply(design, is.character)] <- lapply(design[sapply(design, is.character)],
-                                                   function(x) {
+  oms <- OMs(slick)
+  design <- Design(oms) |> as.data.frame()
+  metadata <- Factors(oms)
 
-      x <- factor(x, ordered=TRUE, levels=unique(x))
+  keep <- array(TRUE, dim(design))
+  for(fac in 1:ncol(design)) {
+    nm <- colnames(design)[fac]
+    lvls <- metadata$Level[metadata$Factor==nm]
 
-    })
-    design[] <- lapply(design,  as.numeric)
-    factor_numbers <- design[,fac]
-    factor_numbers <- as.numeric(factor(factor_numbers))
+    vals <- as.character(unlist(design[[fac]]))
+    lvls_chr <- as.character(lvls)
+    vals_num <- suppressWarnings(as.numeric(vals))
+    lvls_num <- suppressWarnings(as.numeric(lvls_chr))
+    if (!anyNA(vals_num) && !anyNA(lvls_num)) {
+      factor_numbers <- match(vals_num, lvls_num)
+    } else {
+      factor_numbers <- match(vals, lvls_chr)
+    }
+
     selected_factors <- as.numeric(input[[paste0("filter",fac)]])
-    keep[,fac] <- factor_numbers%in% selected_factors
+    keep[,fac] <- factor_numbers %in% selected_factors
 
   }
 
