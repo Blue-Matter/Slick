@@ -39,8 +39,11 @@ nPI_count <- function(object) {
 check_all_presets <- function(slick) {
   out <- list()
 
-  if (!is_empty(slick@OMs))
-    out$OMs <- check_Preset_OMs(slick@OMs)
+  if (!is_empty(slick@OMs)) {
+    nOM <- nrow(Design(slick@OMs))
+    if (nOM>0)
+      out$OMs <- check_Preset(slick@OMs@Preset, nOM, label='`Design` rows')
+  }
 
   flat_classes <- c('MPs', 'Boxplot', 'Kobe', 'Quilt', 'Spider', 'Timeseries', 'Tradeoff')
   for (cl in flat_classes) {
