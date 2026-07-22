@@ -88,6 +88,11 @@ Assign or access \code{Preset} for a valid object class
 
 \item \code{Preset(OMs)}: Return \code{Preset} from a \code{\link[=OMs-class]{OMs-class()}} object
 
+For backward compatibility, a legacy \code{Preset} (nested one-list-element-per-
+\code{Factor} format) is auto-converted to the current flat \code{Design}-row-index
+format on read. This isn't persisted back into \code{object} here; \code{\link[=Update]{Update()}}
+does that permanently for a \code{Slick} object loaded via the app.
+
 \item \code{Preset(OMs) <- value}: Assign \code{Preset} to an \code{OMs-class()} object
 
 \item \code{Preset(Quilt)}: Return \code{Preset} from a \code{\link[=Quilt-class]{Quilt-class()}} object
