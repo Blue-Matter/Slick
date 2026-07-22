@@ -22,11 +22,12 @@ rownames(Design(oms)) <- c('Base Case', 'Less Productive', 'More Productive')
 Design(oms)
 
 # Preset
+# each element is a vector of row indices into `Design`
 
-Preset(oms) <- list('Base Case'=list(1),
-                    'Low M' = list(2),
-                    'High M' = list(3),
-                    'All'= list(1:3)
+Preset(oms) <- list('Base Case'=1,
+                    'Low M' = 2,
+                    'High M' = 3,
+                    'All'= 1:3
 )
 
 # Create Slick Object
