@@ -85,6 +85,11 @@ reference:
   - show
   - get_casestudies
   - default_mp_colors
+- title: 'Data'
+  desc: >
+    Example `Slick` objects included with the package
+  contents:
+  - WSKJ
 - title: 'Deprecated'
   desc: >
     Functions still work for backwards compatability, but no longer recommended
