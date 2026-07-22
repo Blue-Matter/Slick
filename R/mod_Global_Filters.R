@@ -6,41 +6,52 @@ filter_mps <- function(slick, mps) {
   if (length(mps)<1)
     return(slick)
 
-  metadata <- slick |> MPs() |> Metadata()
-  Metadata(MPs(slick)) <- metadata[mps,]
+  nMPs <- nrow(slick |> MPs() |> Metadata())
+  mps <- mps[!is.na(mps) & mps>=1 & mps<=nMPs]
+  if (length(mps)<1)
+    return(slick)
 
-  val <- slick |> Boxplot() |> Value()
-  if (!all(is.na(val))) {
-    Value(Boxplot(slick)) <- val[,,mps,,drop=FALSE]
-  }
+  out <- tryCatch({
+    metadata <- slick |> MPs() |> Metadata()
+    Metadata(MPs(slick)) <- metadata[mps,]
+
+    val <- slick |> Boxplot() |> Value()
+    if (!all(is.na(val))) {
+      Value(Boxplot(slick)) <- val[,,mps,,drop=FALSE]
+    }
 
 
-  val <- slick |> Kobe() |> Value()
-  if (!all(is.na(val))) {
-    Value(Kobe(slick)) <- val[,,mps,,,drop=FALSE]
-  }
+    val <- slick |> Kobe() |> Value()
+    if (!all(is.na(val))) {
+      Value(Kobe(slick)) <- val[,,mps,,,drop=FALSE]
+    }
 
-  val <- slick |> Quilt() |> Value()
-  if (!all(is.na(val))) {
-    Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
-  }
+    val <- slick |> Quilt() |> Value()
+    if (!all(is.na(val))) {
+      Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
+    }
 
-  val <- slick |> Spider() |> Value()
-  if (!all(is.na(val))) {
-    Value(Spider(slick)) <- val[,mps,,drop=FALSE]
-  }
+    val <- slick |> Spider() |> Value()
+    if (!all(is.na(val))) {
+      Value(Spider(slick)) <- val[,mps,,drop=FALSE]
+    }
 
-  val <- slick |> Timeseries() |> Value()
-  if (!all(is.na(val))) {
-    Value(Timeseries(slick)) <- val[,,mps,,,drop=FALSE]
-  }
+    val <- slick |> Timeseries() |> Value()
+    if (!all(is.na(val))) {
+      Value(Timeseries(slick)) <- val[,,mps,,,drop=FALSE]
+    }
 
-  val <- slick |> Tradeoff() |> Value()
-  if (!all(is.na(val))) {
-    Value(Tradeoff(slick)) <- val[,mps,,drop=FALSE]
-  }
-
-  slick
+    val <- slick |> Tradeoff() |> Value()
+    if (!all(is.na(val))) {
+      Value(Tradeoff(slick)) <- val[,mps,,drop=FALSE]
+    }
+    slick
+  }, error=function(e) {
+    warning('filter_mps(): ignoring a transient invalid MP selection (',
+           conditionMessage(e), ')', call.=FALSE)
+    slick
+  })
+  out
 }
 
 #' Global_Filters UI Function
