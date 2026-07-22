@@ -2,8 +2,7 @@ options(shiny.maxRequestSize = getOption("shiny.maxRequestSize", 200*1024^2))
 
 #' The application server-side
 #'
-#' @param input,output,session Internal parameters for {shiny}.
-#'     DO NOT REMOVE.
+#' @param input,output,session Internal parameters for {shiny}  DO NOT REMOVE.
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
@@ -51,8 +50,10 @@ app_server <- function(input, output, session) {
   loaded_slick <- golem::get_golem_options('slick')
   if (!is.null(loaded_slick)) {
     slick <- check_slick_file(loaded_slick)
-    Global_Slick_Object(slick)
-    Load_Slick_File$loaded <- TRUE
+    if (!is.null(slick)) {
+      Global_Slick_Object(slick)
+      Load_Slick_File$loaded <- TRUE
+    }
   }
 
 
