@@ -11,7 +11,7 @@ See Details."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ See Details."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Methods for Creating, Accessing and Assigning <code>OMs</code> objects</h1>
-      <small class="dont-index">Source: <a href="https://github.com/Blue-Matter/Slick/blob/1.0.2/R/aa_generics.R" class="external-link"><code>R/aa_generics.R</code></a>, <a href="https://github.com/Blue-Matter/Slick/blob/1.0.2/R/class_OMs.R" class="external-link"><code>R/class_OMs.R</code></a>, <a href="https://github.com/Blue-Matter/Slick/blob/1.0.2/R/class_Slick.R" class="external-link"><code>R/class_Slick.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Blue-Matter/Slick/blob/master/R/aa_generics.R" class="external-link"><code>R/aa_generics.R</code></a>, <a href="https://github.com/Blue-Matter/Slick/blob/master/R/class_OMs.R" class="external-link"><code>R/class_OMs.R</code></a>, <a href="https://github.com/Blue-Matter/Slick/blob/master/R/class_Slick.R" class="external-link"><code>R/class_Slick.R</code></a></small>
       <div class="d-none name"><code>OMs-methods.Rd</code></div>
     </div>
 
@@ -180,11 +180,12 @@ and assign the values for an existing <code>OMs</code> object, see <code>Example
 <span class="r-out co"><span class="r-pr">#&gt;</span> More Productive High M</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Preset</span></span></span>
+<span class="r-in"><span><span class="co"># each element is a vector of row indices into `Design`</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Base Case'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    <span class="st">'Low M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    <span class="st">'High M'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    <span class="st">'All'</span><span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Preset.html">Preset</a></span><span class="op">(</span><span class="va">oms</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Base Case'</span><span class="op">=</span><span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'Low M'</span> <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'High M'</span> <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'All'</span><span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create Slick Object</span></span></span>
@@ -203,7 +204,7 @@ and assign the values for an existing <code>OMs</code> object, see <code>Example
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

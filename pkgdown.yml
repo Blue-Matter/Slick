@@ -1,9 +1,9 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   articles/DevelopersGuide: DevelopersGuide.html
-last_built: 2026-06-30T19:40Z
+last_built: 2026-07-22T18:42Z
 urls:
   reference: https://slick.bluematterscience.com/reference
   article: https://slick.bluematterscience.com/articles

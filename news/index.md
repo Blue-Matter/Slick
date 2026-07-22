@@ -1,6 +1,17 @@
 # Changelog
 
+## Slick 1.0.3
+
+- `OMs@Preset` is now a flat named list of `Design` row indices,
+  matching the format already used by `MPs@Preset` (and the
+  performance-metric `Preset`s), instead of a nested list keyed by
+  `Factor`. The old nested format is still accepted and is
+  auto-converted for backward compatibility.
+- Added checks to `Preset` slot
+
 ## Slick 1.0.2
+
+CRAN release: 2026-06-30
 
 - Minor improvements to plot pages for different screen size/resolution
 - Fix bug in boxplot: was not averaging over OMs correctly for violin

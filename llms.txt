@@ -428,6 +428,13 @@ S4 Methods and other functions
 - [`default_mp_colors()`](https://slick.bluematterscience.com/reference/default_mp_colors.md)
   : Set Default Colors for the MPs
 
+## Data
+
+Example `Slick` objects included with the package
+
+- [`WSKJ`](https://slick.bluematterscience.com/reference/WSKJ.md) :
+  Western Atlantic Skipjack Tuna MSE Results
+
 ## Deprecated
 
 Functions still work for backwards compatability, but no longer

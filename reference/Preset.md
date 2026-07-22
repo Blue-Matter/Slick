@@ -110,6 +110,13 @@ Returns a list object from the `Preset` slot in `object`
   [`OMs-class()`](https://slick.bluematterscience.com/reference/OMs-class.md)
   object
 
+  For backward compatibility, a legacy `Preset` (nested
+  one-list-element-per- `Factor` format) is auto-converted to the
+  current flat `Design`-row-index format on read. This isn't persisted
+  back into `object` here;
+  [`Update()`](https://slick.bluematterscience.com/reference/Update.md)
+  does that permanently for a `Slick` object loaded via the app.
+
 - `Preset(OMs) <- value`: Assign `Preset` to an `OMs-class()` object
 
 - `Preset(Quilt)`: Return `Preset` from a

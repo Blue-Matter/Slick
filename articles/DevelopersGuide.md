@@ -305,7 +305,7 @@ the slot name; e.g.:
 ``` r
 
 Date(slick)
-#> [1] "2026-06-30"
+#> [1] "2026-07-22"
 Date(slick) <- Sys.Date()
 ```
 
@@ -340,7 +340,7 @@ Title(slick)
 Subtitle(slick)
 #> [1] "For Testing and Demonstration Purposes"
 Date(slick)
-#> [1] "2026-06-30"
+#> [1] "2026-07-22"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)
@@ -674,10 +674,12 @@ For example:
 
 ``` r
 
-Preset(oms) <- list('Base Case'=list(1),
-                    'Low M' = list(2),
-                    'High M' = list(3),
-                    'All'= list(1:3)
+# each element is a vector of row indices into `Design`
+
+Preset(oms) <- list('Base Case'=1,
+                    'Low M' = 2,
+                    'High M' = 3,
+                    'All'= 1:3
 )
 ```
 

@@ -38,9 +38,14 @@ the corresponding factor, or the actual level values (i.e.,
 For `OMs` objects, `Preset` should be a named list, where each list
 element represents a different preset button to be shown in the app by
 the name of the list element, and each named list element should be a
-list of length `nFactors`, with the list elements for each Factor
-containing numeric values indicating the levels to include for that
-factor. See `Examples`
+numeric vector of row indices into `Design` (i.e. which operating models
+that preset selects). See `Examples`.
+
+The legacy format is still accepted for backward compatibility: each
+named list element as a list of length `nFactors`, with the list
+elements for each Factor containing numeric values indicating the levels
+to include for that factor (the levels are combined with AND logic
+across Factors).
 
 ## Slots
 
@@ -104,11 +109,12 @@ Design(oms)
 #> More Productive High M
 
 # Preset
+# each element is a vector of row indices into `Design`
 
-Preset(oms) <- list('Base Case'=list(1),
-                    'Low M' = list(2),
-                    'High M' = list(3),
-                    'All'= list(1:3)
+Preset(oms) <- list('Base Case'=1,
+                    'Low M' = 2,
+                    'High M' = 3,
+                    'All'= 1:3
 )
 
 # Create Slick Object
