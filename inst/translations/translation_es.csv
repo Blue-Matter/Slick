@@ -155,6 +155,7 @@ Y-Axis Range,Rango del eje Y
 Include MP percentiles?,¿Incluir percentiles MP?
 Include MP Labels?,¿Incluir etiquetas MP?
 Include Historical?,¿Incluir histórico?
+Number of worms,Número de trayectorias
 "This chart shows a stock status variables over time, for ",Este gráfico muestra las variables del estado de la población a lo largo del tiempo
 management procedures and level of uncertainty across,procedimientos de gestión y grado de incertidumbre en
 different simulation runs,diferentes ejecuciones de simulación
