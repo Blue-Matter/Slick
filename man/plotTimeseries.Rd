@@ -38,6 +38,7 @@ plotTimeseries(
   lim_name = "Limit",
   inc_y_label = TRUE,
   sims = NULL,
+  worms = 10,
   lang = "en"
 )
 }
@@ -109,6 +110,9 @@ plotTimeseries(
 
 \item{sims}{Optional. Numeric values indicating the simulations to include. Defaults
 to all.}
+
+\item{worms}{Number of randomly selected individual simulation trajectories to
+overplot. Defaults to 10. Set to 0 to omit individual trajectories.}
 
 \item{lang}{Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'}
 }
