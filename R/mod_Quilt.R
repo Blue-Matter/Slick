@@ -149,15 +149,18 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     })
 
     nOM <- reactive({
-      dims()[1]
+      d <- dims()
+      d[length(d)-2]
     })
 
     nMP <- reactive({
-      dims()[2]
+      d <- dims()
+      d[length(d)-1]
     })
 
     nPM <- reactive({
-      dims()[3]
+      d <- dims()
+      d[length(d)]
     })
 
     output$page <- renderUI({
