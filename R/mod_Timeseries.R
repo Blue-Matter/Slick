@@ -72,7 +72,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                   parent_session=session,
                                   includeQuants, includeLabels,
                                   includeHist,
-                                  MeanMed
+                                  MeanMed,
+                                  worms
                                   )
 
     mod_Timeseries_byMP_server("Timeseries_byMP_1", i18n, filtered_slick,
@@ -82,7 +83,8 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                parent_session=session,
                                includeQuants, includeLabels,
                                includeHist,
-                               MeanMed
+                               MeanMed,
+                               worms
                                )
 
     mod_Timeseries_byOM_server("Timeseries_byOM_1", i18n, filtered_slick,
@@ -93,16 +95,18 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
                                parent_session=session,
                                includeQuants, includeLabels,
                                includeHist,
-                               MeanMed)
+                               MeanMed,
+                               worms)
 
 
     output$plots <- renderUI({
       tagList(
         fluidRow(
-          column(3,uiOutput(ns('MeanMedian'))),
-          column(3,uiOutput(ns('includeQuantile'))),
-          column(3,uiOutput(ns('includeLabels'))),
-          column(3,uiOutput(ns('includeHist')))
+          column(2,uiOutput(ns('MeanMedian'))),
+          column(2,uiOutput(ns('includeQuantile'))),
+          column(2,uiOutput(ns('includeLabels'))),
+          column(2,uiOutput(ns('includeHist'))),
+          column(2,uiOutput(ns('worms')))
         ),
         conditionalPanel("input.plotselect=='overall'", ns=ns,
                          mod_Timeseries_overall_ui(ns("Timeseries_overall_1"))
@@ -204,6 +208,22 @@ mod_Timeseries_server <- function(id, i18n, Slick_Object, window_dims, Report,
       checkboxInput(ns('incHist'),
                     i18n$t('Include Historical?'),
                     TRUE)
+    })
+
+    output$worms <- renderUI({
+      i18n <- i18n()
+      numericInput(
+        ns("nWorms"),
+        i18n$t("Number of worms"),
+        value=10,
+        min=0,
+        step=1
+      )
+    })
+
+    worms <- reactive({
+      shiny::req(input$nWorms)
+      as.integer(input$nWorms)
     })
 
     includeQuants <- reactive({

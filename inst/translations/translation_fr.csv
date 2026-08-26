@@ -155,6 +155,7 @@
 "Include MP percentiles?","Inclure les percentiles des procédures de gestion ?"
 "Include MP Labels?","Inclure les libellés des procédures de gestion ?"
 "Include Historical?","Inclure l'historique ?"
+"Number of worms","Nombre de trajectoires"
 "This chart shows a stock status variables over time, for ","Ce graphique montre les variables de l'état d'un stock dans le temps"
 "management procedures and level of uncertainty across","les procédures de gestion et le niveau d'incertitude pour"
 "different simulation runs","différentes simulations"

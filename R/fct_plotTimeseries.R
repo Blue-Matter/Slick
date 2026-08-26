@@ -39,6 +39,8 @@
 #' @param inc_y_label Include the label for the y-axis?
 #' @param sims Optional. Numeric values indicating the simulations to include. Defaults
 #' to all.
+#' @param worms Number of randomly selected individual simulation trajectories to
+#' overplot. Defaults to 10. Set to 0 to omit individual trajectories.
 #' @param lang Optional. Language (if supported in Slick Object). Either 'en', 'es', 'fr', or 'pt'
 #'
 #' @seealso [Timeseries()], [Timeseries-class()]
@@ -79,6 +81,7 @@ plotTimeseries <- function(slick,
                            lim_name='Limit',
                            inc_y_label=TRUE,
                            sims=NULL,
+                           worms=10,
                            lang='en') {
 
   if (!methods::is(slick, 'Slick'))
@@ -130,6 +133,14 @@ plotTimeseries <- function(slick,
 
   if (is.null(sims)) {
     sims <- 1:dim(values)[1]
+  }
+  if (length(worms) != 1 || is.na(worms) || worms < 0 || worms != as.integer(worms)) {
+    cli::cli_abort("`worms` must be a single non-negative integer.")
+  }
+  worm_sims <- if (worms > 0) {
+    sims[sample.int(length(sims), min(worms, length(sims)))]
+  } else {
+    numeric()
   }
 
   oms <- 1:nOM
@@ -191,6 +202,37 @@ plotTimeseries <- function(slick,
                              fill=fill_ribbon1, col=col_ribbon1, alpha=alpha1)
     }
 
+    if (length(worm_sims) > 0) {
+      if (byOM) {
+        worm.values <- values[worm_sims, oms, 1, PI, 1:hist.yr.ind, drop=FALSE]
+        worm_df <- data.frame(
+          Sim=rep(worm_sims, times=nOM * length(hist.yrs)),
+          OM=rep(om_names, each=length(worm_sims), times=length(hist.yrs)),
+          x=rep(hist.yrs, each=length(worm_sims) * nOM),
+          y=as.vector(worm.values)
+        )
+        worm_df$OM <- factor(worm_df$OM, levels=om_names, ordered=TRUE)
+        p <- p + ggplot2::geom_line(
+          ggplot2::aes(x=x, y=y, group=interaction(Sim, OM)),
+          data=worm_df, color=col_line, alpha=0.25, linewidth=0.3
+        )
+      } else {
+        worm.values <- apply(
+          values[worm_sims, oms, 1, PI, 1:hist.yr.ind, drop=FALSE],
+          c(1, 5), mean, na.rm=TRUE
+        )
+        worm_df <- data.frame(
+          Sim=rep(worm_sims, times=length(hist.yrs)),
+          x=rep(hist.yrs, each=length(worm_sims)),
+          y=as.vector(worm.values)
+        )
+        p <- p + ggplot2::geom_line(
+          ggplot2::aes(x=x, y=y, group=Sim),
+          data=worm_df, color=col_line, alpha=0.25, linewidth=0.3
+        )
+      }
+    }
+
 
     if (MeanMed=='mean') {
       p <- p+ ggplot2::geom_line(ggplot2::aes(x=x, y=Mean), data=Hist_df,
@@ -209,6 +251,28 @@ plotTimeseries <- function(slick,
   # Projection
   if (byOM) {
     proj.values <- values[sims,oms,, PI,proj.yr.ind, drop=FALSE]
+
+    if (length(worm_sims) > 0) {
+      worm.values <- values[worm_sims, oms, , PI, proj.yr.ind, drop=FALSE]
+      worm_df <- data.frame(
+        Sim=rep(worm_sims, times=nOM * nMP * length(proj.yrs)),
+        OM=rep(om_names, each=length(worm_sims),
+               times=nMP * length(proj.yrs)),
+        MP=rep(MP_lab, each=length(worm_sims) * nOM,
+               times=length(proj.yrs)),
+        x=rep(proj.yrs, each=length(worm_sims) * nOM * nMP),
+        y=as.vector(worm.values)
+      )
+      worm_df$OM <- factor(worm_df$OM, levels=om_names, ordered=TRUE)
+      worm_df$MP <- factor(worm_df$MP, levels=MP_lab, ordered=TRUE)
+      p <- p + ggplot2::geom_line(
+        ggplot2::aes(
+          x=x, y=y, color=MP,
+          group=interaction(Sim, OM, MP)
+        ),
+        data=worm_df, alpha=0.25, linewidth=0.3
+      )
+    }
 
     mean.mps <- apply(proj.values, c(2,3,5), mean, na.rm=TRUE) # mean over simulations
     med.mps <- apply(proj.values, c(2,3,5), median, na.rm=TRUE) # median over simulations
@@ -277,6 +341,24 @@ plotTimeseries <- function(slick,
 
   } else {
     proj.values <- values[sims,oms,, PI,proj.yr.ind, drop=FALSE]
+
+    if (length(worm_sims) > 0) {
+      worm.values <- apply(
+        values[worm_sims, oms, , PI, proj.yr.ind, drop=FALSE],
+        c(1, 3, 5), mean, na.rm=TRUE
+      )
+      worm_df <- data.frame(
+        Sim=rep(worm_sims, times=nMP * length(proj.yrs)),
+        MP=rep(MP_lab, each=length(worm_sims), times=length(proj.yrs)),
+        x=rep(proj.yrs, each=length(worm_sims) * nMP),
+        y=as.vector(worm.values)
+      )
+      worm_df$MP <- factor(worm_df$MP, levels=MP_lab, ordered=TRUE)
+      p <- p + ggplot2::geom_line(
+        ggplot2::aes(x=x, y=y, color=MP, group=interaction(Sim, MP)),
+        data=worm_df, alpha=0.25, linewidth=0.3
+      )
+    }
     # mean over OMs
     mean.mps <- apply(proj.values, c(3,5), mean, na.rm=TRUE) # mean over simulations and OMs
     med.mps <- apply(proj.values, c(3,5), median, na.rm=TRUE) # median over simulations and OMs
@@ -340,7 +422,7 @@ plotTimeseries <- function(slick,
 
   }
 
-  X <- MP <- NULL # CRAN checks
+  X <- MP <- Sim <- OM <- NULL # CRAN checks
   if (!byMP & includeLabels) {
     tt <- data.frame(MP=MP_lab, X=sample(unique(meddf$x), nMP))
 
