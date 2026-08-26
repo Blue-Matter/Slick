@@ -262,8 +262,10 @@ Kobe(slick) <- kobe
 
 # Plots
 plotKobe(slick)
-#> Error in plotKobe(slick): object 'nMP' not found
+#> ℹ Note: `MPs` is empty. Using default MP names and colors
+
 
 plotKobe(slick, Time=TRUE)
-#> Error in plotKobe(slick, Time = TRUE): object 'nMP' not found
+#> ℹ Note: `MPs` is empty. Using default MP names and colors
+
 ```
