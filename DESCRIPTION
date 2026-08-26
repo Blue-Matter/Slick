@@ -139,5 +139,5 @@ Collate:
     'utils_Table.R'
     'utils_util.R'
 BugReports: https://github.com/Blue-Matter/Slick/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 LazyData: true
