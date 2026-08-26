@@ -108,14 +108,6 @@ plotKobe <- function(slick,
     quants <- c((1- percentile)/2, 1-(1- percentile)/2)
   }
 
-  MP_info <- get_MP_info(slick, MP_label, nMP)
-  MP_lab <- MP_info$MP_lab
-  MP_colors <- MP_info$MP_colors
-  if (any(nchar(MP_colors)<1)) {
-    MP_colors <- default_mp_colors(length(MP_lab))
-  }
-
-
   values <- Value(kobe)
   dd <- dim(values)
   nsim <- dd[1]
@@ -123,6 +115,13 @@ plotKobe <- function(slick,
   nMP <- dd[3]
   nvars <- dd[4]
   nTS <- dd[5]
+
+  MP_info <- get_MP_info(slick, MP_label, nMP)
+  MP_lab <- MP_info$MP_lab
+  MP_colors <- MP_info$MP_colors
+  if (any(nchar(MP_colors)<1)) {
+    MP_colors <- default_mp_colors(length(MP_lab))
+  }
 
   if (any(is.na(OMs))) {
     OMs <- 1:nOM

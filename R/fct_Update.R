@@ -229,11 +229,11 @@ update_Kobe <- function(slick_in, slick) {
   limit_ind <- match('Limit', obj$RefNames[[2]])
   if (!is.na(limit_ind)) {
     lens <- unlist(lapply(obj$RefPoints, length))
-    ind <- which(lens>=targ_ind)
+    ind <- which(lens>=limit_ind)
     if (length(ind)>0) {
       Limit <- rep(NA, length(obj$Codes))
       for (i in ind) {
-        Limit[i] <- obj$RefPoints[[i]][targ_ind]
+        Limit[i] <- obj$RefPoints[[i]][limit_ind]
       }
     } else {
       Limit <- NULL
