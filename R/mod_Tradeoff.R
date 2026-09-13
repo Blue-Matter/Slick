@@ -102,8 +102,7 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
     })
 
     filtered_MPs <- reactive({
-      slick <- Slick_Object()
-      Metadata(MPs(slick))[Filter_Selected$MPs,]
+      filtered_slick() |> MPs() |> Metadata()
     })
 
     nMP <- reactive({
