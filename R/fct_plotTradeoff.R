@@ -47,7 +47,7 @@ plotTradeoff <- function(slick,
 
 
   # mean over OMs
-  Values <- Value(tradeoff) |>  apply(2:3, mean)
+  Values <- Value(tradeoff) |>  apply(2:3, mean, na.rm=TRUE)
 
   if (all(is.na(Values))) {
     cli::cli_alert_danger('`Value` is all NA')
