@@ -116,7 +116,7 @@ plotBoxplot <- function(slick, PI=NULL, type=c('boxplot', 'violin', 'both', 'all
 
   if (!is.null(PI)) {
     pi <- PI
-    df <- df |> dplyr::filter(PI==PI_names[pi])
+    df <- df |> dplyr::filter(PI %in% PI_names[pi])
   }
 
 
