@@ -123,7 +123,7 @@ plotKobe <- function(slick,
     MP_colors <- default_mp_colors(length(MP_lab))
   }
 
-  if (any(is.na(OMs))) {
+  if (all(is.na(OMs))) {
     OMs <- 1:nOM
   }
 
