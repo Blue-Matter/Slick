@@ -115,7 +115,7 @@ plotQuilt <- function(slick,
     }
   }
 
-  minVal[minVal>PIMins] <- PIMins[minVal<PIMins]
+  minVal[minVal>PIMins] <- PIMins[minVal>PIMins]
   maxVal[maxVal<PIMaxs] <- PIMaxs[maxVal<PIMaxs]
 
   metadata_pm <- Metadata(quilt)
@@ -163,7 +163,14 @@ plotQuilt <- function(slick,
 
     if (shading) {
       for (i in 1:nPI) {
-        table <- table |> flextable::bg(j=i+1, bg=shading_list[[i]]$values[shading_list[[i]]$levels ])
+        if (length(shading_list[[i]]$values)==1) {
+          table <- table |> flextable::bg(j=i+1, bg=shading_list[[i]]$values)
+        } else {
+          # +1: cut()'s bin k corresponds to DT::styleInterval's bin k+1 (which the DT
+          # table below uses directly via styleInterval(cuts, values)) - keeps kable's
+          # cell shading aligned with the DT table's for the same data
+          table <- table |> flextable::bg(j=i+1, bg=shading_list[[i]]$values[shading_list[[i]]$levels + 1])
+        }
       }
     }
    return(table)
