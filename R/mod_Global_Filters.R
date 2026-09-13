@@ -28,7 +28,11 @@ filter_mps <- function(slick, mps) {
 
     val <- slick |> Quilt() |> Value()
     if (!all(is.na(val))) {
-      Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
+      if (length(dim(val))==4) {
+        Value(Quilt(slick)) <- val[,,mps,,drop=FALSE]
+      } else {
+        Value(Quilt(slick)) <- val[,mps,,drop=FALSE]
+      }
     }
 
     val <- slick |> Spider() |> Value()
@@ -165,7 +169,6 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
         metadata <- Metadata(mps)
         metadata$Color <- isolate(mp_colors())
         Metadata(MPs(slick)) <- metadata
-        Filter_Selected$MPs <- 1:nrow(metadata)
         slick_in(slick)
       }
     })
@@ -201,7 +204,7 @@ mod_Global_Filters_server <- function(id, i18n, Slick_Object, parent_session){
     })
 
 
-    slick_out <- reactiveVal(Slick_Object)
+    slick_out <- reactiveVal()
 
     observeEvent(globalslick(), {
       slick_out(globalslick())
