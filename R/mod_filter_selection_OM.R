@@ -212,27 +212,30 @@ mod_filter_selection_om_server <- function(id, i18n, slick, include_preset=TRUE)
       shinyjs::click('omdropdown', asis=TRUE)
     })
 
-    observe({
+    om_filter_inputs <- reactive({
       slick <- slick()
-      if (!is.null(slick)) {
-        if (inherits(object(), 'OMs')) {
-          FilterNames <- paste0("filter",1:ncol(Design(slick)))
-          observeEvent(sapply(FilterNames, function(x) input[[x]]),{
-            filterOMs(slick, Filter_Selected, input, applying_preset)
-          }, ignoreInit =TRUE)
+      req(slick)
+      FilterNames <- paste0("filter",1:ncol(Design(slick)))
+      sapply(FilterNames, function(x) input[[x]])
+    })
+
+    observeEvent(om_filter_inputs(), {
+      slick <- slick()
+      req(slick)
+      if (inherits(object(), 'OMs')) {
+        filterOMs(slick, Filter_Selected, input, applying_preset)
+      } else {
+        metadata <- Design(object())
+        keep <- rep(TRUE, nrow(metadata))
+        keep <- 1:nrow(metadata) %in% input$filter1
+        if (sum(keep)==0) {
+          # select all if none are selected
+          shinyjs::click('reset_button')
         } else {
-          metadata <- Design(object())
-          keep <- rep(TRUE, nrow(metadata))
-          keep <- 1:nrow(metadata) %in% input$filter1
-          if (sum(keep)==0) {
-            # select all if none are selected
-            shinyjs::click('reset_button')
-          } else {
-            Filter_Selected$selected <- which(keep)
-          }
+          Filter_Selected$selected <- which(keep)
         }
       }
-    })
+    }, ignoreInit = TRUE)
 
     reactive(Filter_Selected$selected)
   })
