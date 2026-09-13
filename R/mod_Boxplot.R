@@ -38,6 +38,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
     OMtext <- reactive({
+      req(input$plotselect)
       if (input$plotselect == 'overall')
         return('over')
       return('show')
