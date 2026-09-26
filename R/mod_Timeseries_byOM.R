@@ -24,7 +24,8 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                                        window_dims,
                                        selected_oms,
                                        Report, parent_session,
-                                       includeQuants, includeLabels, includeHist,MeanMed){
+                                       includeQuants, includeLabels, includeHist, MeanMed,
+                                       worms){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -106,6 +107,7 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
                      includeLabels =includeLabels(),
                      includeHist = includeHist(),
                      MeanMed =MeanMed(),
+                     worms=worms(),
                      lang=i18n()$get_translation_language()) +
         ggplot2::coord_cartesian(ylim=yrange())
 
@@ -119,78 +121,18 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
       out
     })
 
-    values <- reactive({
-      filtered_slick() |>
-        Timeseries() |>
-        Value()
-    })
-
-    sims <- reactive({
-      vals <-values()
-      1:dim(vals)[1]
-    })
-
     output$selections <- renderUI({
       i18n <- i18n()
       tagList(
         fluidRow(
           column(4,
-                 radioButtons(ns('plotoption'),
-                              i18n$t('Plot Option'),
-                              choiceNames = i18n$t(c('Mean', 'Individual Simulation')),
-                              choiceValues= c('median', 'sim')
-                              )
-                 ),
-          column(4,
                  checkboxInput(ns('byMP'),
                                i18n$t('by MP?'),
                                FALSE)
-          ),
-          column(4,
-                 conditionalPanel("input.plotoption=='sim'", ns=ns,
-                                  column(6,
-                                         shinyWidgets::pickerInput(
-                                           inputId = ns('selectsim'),
-                                           label = i18n$t('Individual Simulation:'),
-                                           choices = sims(),
-                                           multiple = FALSE,
-                                           width='fit'
-                                         )
-                                  ),
-                                  column(6,
-                                         shinyjs::hidden(
-                                           shinyWidgets::actionBttn(ns('updateplot'),
-                                                                    i18n$t('Update Plots'))
-                                         )
-                                  )
-                 )
           )
         )
       )
     })
-
-
-    observeEvent(input$plotoption, {
-      if (input$plotoption != 'sim') {
-        shinyjs::hide('updateplot')
-        timeseries(filtered_slick())
-      } else {
-        shinyjs::show('updateplot')
-      }
-    })
-
-    observeEvent(input$selectsim, {
-      shinyjs::show('updateplot')
-    })
-
-
-    observeEvent(input$updateplot, {
-      shinyjs::hide('updateplot')
-      slick <- filtered_slick()
-      sim <- as.numeric(input$selectsim)
-      slick@Timeseries@Value <- slick@Timeseries@Value[sim,,,,,drop=FALSE]
-      timeseries(slick)
-    }, ignoreInit = TRUE)
 
 
   })

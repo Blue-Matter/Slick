@@ -1,5 +1,6 @@
 # Slick 1.0.3
 
+- `plotTimeseries()` now overplots a random selection of individual simulation trajectories ("worms"), with 10 worms shown by default.
 - `OMs@Preset` is now a flat named list of `Design` row indices, matching the format
   already used by `MPs@Preset` (and the performance-metric `Preset`s), instead of a
   nested list keyed by `Factor`. The old nested format is still accepted and is

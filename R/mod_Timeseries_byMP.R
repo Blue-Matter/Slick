@@ -23,7 +23,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                                        window_dims,
                                        Report, parent_session,
                                        includeQuants, includeLabels, includeHist,
-                                       MeanMed
+                                       MeanMed, worms
                                        ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -92,6 +92,7 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
                      includeLabels =includeLabels(),
                      includeHist = includeHist(),
                      MeanMed =MeanMed(),
+                     worms=worms(),
                      lang=i18n()$get_translation_language()) +
         ggplot2::coord_cartesian(ylim=yrange())
 
@@ -169,4 +170,3 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
 
 ## To be copied in the server
 # mod_Timeseries_byMP_server("Timeseries_byMP_1")
-
