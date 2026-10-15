@@ -1,0 +1,13 @@
+{
+  "title": "Slick: Interactive Visualization of MSE Results",
+  "upload_type": "software",
+  "creators": [
+    {"name": "Hordyk, Adrian R.",     "affiliation": "Blue Matter Science", "orcid": "0000-0001-5620-3446"},
+    {"name": "Huynh, Quang C.",       "affiliation": "Blue Matter Science", "orcid": "0000-0001-7835-4376"},
+    {"name": "Carruthers, Thomas R.", "affiliation": "Blue Matter Science", "orcid": "0000-0001-9173-9043"},
+    {"name": "Miller, Shana K.", "affiliation": "The Ocean Foundation"}
+  ],
+  "license": "GPL-2.0-only",
+  "keywords": ["management strategy evaluation", "fisheries", "R", "shiny"]
+}
+
