@@ -16,6 +16,8 @@
 #' @param TLcol Color for the top left quadrant
 #' @param TRcol Color for the top  right quadrant
 #' @param BRcol Color for the bottom right quadrant
+#' @param BR_bottom Logical. Kobe Time plot only. Stack the bottom right quadrant (`BRcol`)
+#' at the bottom of each bar? Use `FALSE` to stack it at the top.
 #' @param axis_label Label to use for the axes. Either `Code` or `Label`.
 #' `Description` works as well, but you probably don't want to do that.
 #' @param percentile Numeric value specifying the percentile for the x and y percentile bars.
@@ -49,6 +51,7 @@ plotKobe <- function(slick,
                      TLcol="#D8775D",
                      TRcol='#FDBD56',
                      BRcol='#67C18B',
+                     BR_bottom=TRUE,
                      axis_label='Code',
                      percentile=0.75,
                      axis.text.size=14,
@@ -142,7 +145,7 @@ plotKobe <- function(slick,
   }
 
   if (Time) {
-    bgCols <- c(BRcol, TRcol, BLcol, TLcol)
+    bgCols <- c(br=BRcol, tr=TRcol, bl=BLcol, tl=TLcol)
     kobe_time_list_mp <- list()
     for (mp in seq_along(MP_lab)) {
       kobe_time_list <- list()
@@ -158,8 +161,12 @@ plotKobe <- function(slick,
     }
 
     kobe_time_df <- do.call('rbind', kobe_time_list_mp)
+    # first level is stacked at the top of each bar
+    quad_levels <- c('br', 'tr', 'bl', 'tl')
+    if (BR_bottom)
+      quad_levels <- rev(quad_levels)
     kobe_time_df$quadrant <- factor(kobe_time_df$quadrant, ordered = TRUE,
-                                    levels=c('br', 'tr', 'bl', 'tl'))
+                                    levels=quad_levels)
 
     p <- ggplot2::ggplot(kobe_time_df, ggplot2::aes(x=x, y=y, fill=quadrant)) +
       ggplot2::facet_wrap(~MP, ncol=ncol) +
