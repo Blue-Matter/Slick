@@ -171,3 +171,7 @@ management procedures (MP).,procedimientos de gestión (MP).
 Select the Performance Indicators to show on the X and Y axes of the Tradeoff plot:,Seleccione los indicadores de rendimiento que se mostrarán en los ejes X e Y del gráfico de compensación:
 X-Axis Performance Indicator,Indicador de rendimiento del eje X
 Y-Axis Performance Indicator,Indicador de rendimiento del eje Y
+Remove,Eliminar
+Remove from Report,Eliminar del informe
+Are you sure you want to remove this item from the Report?,¿Está seguro de que desea eliminar este elemento del informe?
+Cancel,Cancelar
