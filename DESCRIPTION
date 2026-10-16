@@ -46,6 +46,7 @@ Suggests:
     knitr,
     MSEtool,
     openMSE,
+    ragg,
     RColorBrewer,
     shiny.i18n,
     shinyalert,

@@ -21,6 +21,7 @@ check_required_packages <- function() {
                     'shinyhelper',
                     'shinyjs',
                     'shinyWidgets',
+                    'ragg',
                     'rmarkdown',
                     'waiter')
 

@@ -102,7 +102,6 @@ Low Values,Valores bajos
 The Quilt plot is designed as a color-coded table showing the values of the selected Performance Indicators (columns) for each Management Procedure (rows).,El gráfico de mosaico está diseñado como una tabla codificada por colores que muestra los valores de los indicadores de rendimiento seleccionados (columnas) para cada procedimiento de gestión (filas).
 "An exception is if the analyst who built the Slick Object specified maximum and minimum values for each performance indicator (e.g., between 0 and 1 for probabilities).",Una excepción es si el analista que construyó el objeto de Slick especificó valores máximos y mínimos para cada indicador de rendimiento (por ejemplo
 Use the button below the Quilt table to modify the colors shown in the table.,Utilice el botón situado debajo de la tabla del gráfico de mosaico para modificar los colores que se muestran en la tabla.
-Note: currently the Report feature is not implemented for the Quilt plot.,Nota: actualmente la función de informe no está implementada para el gráfico de mosaico.
 highest value,valor más alto
  lowest value , valor más bajo 
 The color shading indicates values ranging between the,El sombreado de color indica valores comprendidos entre el
