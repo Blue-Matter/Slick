@@ -20,3 +20,6 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Title(WSKJ)

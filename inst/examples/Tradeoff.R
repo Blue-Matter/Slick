@@ -37,3 +37,6 @@ Tradeoff(slick) <- tradeoff
 plotTradeoff(slick)
 
 plotTradeoff(slick, c(1,1,2), c(2,3,3))
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotTradeoff(WSKJ)

@@ -144,6 +144,9 @@ plotKobe(slick)
 
 plotKobe(slick, Time=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)
 }
 \seealso{
 \code{\link[=Kobe]{Kobe()}}, \code{\link[=Kobe-class]{Kobe-class()}}

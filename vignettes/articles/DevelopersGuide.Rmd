@@ -78,6 +78,43 @@ A Slick Object can include the following plots:
 
 A valid Slick Object must include at least one Slick Plot.
 
+## Example Slick Object {#example}
+
+`Slick` includes a complete example *Slick Object*, `WSKJ`, containing MSE results for western Atlantic skipjack tuna with all six Slick Plots populated (see `?WSKJ`). It is a useful reference for the structure of a *Slick Object* and for trying out the package functions before creating an object for your own MSE results.
+
+Print a summary of the object and check that it is valid:
+
+```{r example_inspect}
+library(Slick)
+
+WSKJ
+```
+
+Inspect the metadata, *Management Procedures*, and *Operating Models*:
+
+```{r example_components}
+Title(WSKJ)
+Metadata(MPs(WSKJ))
+Factors(OMs(WSKJ))
+Design(OMs(WSKJ))
+```
+
+Plot the results directly from the R console:
+
+```{r example_plots}
+plotKobe(WSKJ)
+plotTimeseries(WSKJ)
+plotQuilt(WSKJ)
+```
+
+Or explore the object in the [Slick App](#app):
+
+```{r example_app, eval=FALSE}
+App(slick=WSKJ)
+```
+
+The other case studies available in the Slick App are stored in the [SlickLibrary](https://github.com/Blue-Matter/SlickLibrary) GitHub repository, and can be downloaded into the R session with `download_casestudy()` (see `?get_casestudies`).
+
 # The Slick App {#app}
 
 `Slick` can be used to rapidly create standardized plots and tables of MSE results directly from the R console. See the sections below for examples.

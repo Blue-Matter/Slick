@@ -75,14 +75,14 @@ spider <- Spider(Code=c('P100',
 
 nPI <- length(Code(spider))
 
-Value(spider) <- array(NA, dim=c(1, nMP, nPI))
+Value(spider) <- array(NA, dim=c(nOM, nMP, nPI))
 
-for (om in 4 ){ #seq_len(nOM)) {
+for (om in seq_len(nOM)) {
   for (mp in seq_len(nMP)) {
 
-    Value(spider)[1,mp,1] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 1)
-    Value(spider)[1,mp,2] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 0.5)
-    Value(spider)[1,mp,3] <- mean(WSKJ@Timeseries@Value[,om,mp,2,proj_ind] < 1)
+    Value(spider)[om,mp,1] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 1)
+    Value(spider)[om,mp,2] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 0.5)
+    Value(spider)[om,mp,3] <- mean(WSKJ@Timeseries@Value[,om,mp,2,proj_ind] < 1)
   }
 
 }

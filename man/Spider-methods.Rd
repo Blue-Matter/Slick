@@ -160,6 +160,9 @@ plotSpider(slick, byMP=TRUE)
 
 plotSpider(slick, byOM=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotSpider(WSKJ)
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}

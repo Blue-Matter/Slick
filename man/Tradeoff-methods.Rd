@@ -149,6 +149,9 @@ Tradeoff(slick) <- tradeoff
 plotTradeoff(slick)
 
 plotTradeoff(slick, c(1,1,2), c(2,3,3))
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotTradeoff(WSKJ)
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}}

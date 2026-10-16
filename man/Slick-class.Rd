@@ -231,6 +231,9 @@ Email(slick)
 Institution(slick)
 Introduction(slick)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Title(WSKJ)
 }
 \seealso{
 \code{\link[=MPs]{MPs()}}, \code{\link[=OMs]{OMs()}}, \code{\link[=Boxplot]{Boxplot()}}, \code{\link[=Kobe]{Kobe()}}, \code{\link[=Quilt]{Quilt()}},

@@ -53,6 +53,25 @@ object. The Slick App includes several example data objects. See the
 Guide](https://slick.bluematterscience.com/articles/DevelopersGuide.html)
 for documentation on creating a Slick Data object for your MSE results.
 
+### Getting started with an example Slick object
+
+`Slick` includes a complete example Slick object, `WSKJ`, with MSE
+results for western Atlantic skipjack tuna (see `?WSKJ`):
+
+``` r
+library(Slick)
+
+WSKJ                # summary of the object
+Check(WSKJ)         # check the object is valid
+Metadata(MPs(WSKJ)) # details of the Management Procedures
+plotKobe(WSKJ)      # plot the results
+App(slick=WSKJ)     # explore the results in the Slick App
+```
+
+The other example case studies in the Slick App are stored in the
+[SlickLibrary](https://github.com/Blue-Matter/SlickLibrary) GitHub
+repository, and can be downloaded into R with `download_casestudy()`.
+
 ## The Slick App
 
 The Slick App has been designed for interactively examining the MSE

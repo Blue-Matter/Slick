@@ -80,3 +80,6 @@ plotQuilt(slick)
 apply(quilt@Value, 3:4, mean) |> round(1)
 
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotQuilt(WSKJ)

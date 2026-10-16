@@ -161,6 +161,9 @@ plotBoxplot(slick, byOM=TRUE)
 
 plotBoxplot(slick, 2, type='both', byOM=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotBoxplot(WSKJ)
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Value]{Value()}},

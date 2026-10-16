@@ -100,6 +100,9 @@ Metadata(myMPs)
 Metadata(myMPs, 'es')
 Metadata(myMPs, 'fr')
 Metadata(myMPs, 'pt')
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Metadata(MPs(WSKJ))
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Color]{Color()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Preset]{Preset()}}

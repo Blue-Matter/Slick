@@ -3,7 +3,7 @@
 \name{get_casestudies}
 \alias{get_casestudies}
 \alias{download_casestudy}
-\title{Get Case Studies from the SlickLibrary GitHub Repo}
+\title{List and Download the Example Case Studies}
 \usage{
 get_casestudies()
 
@@ -17,35 +17,61 @@ download_casestudy(
 )
 }
 \arguments{
-\item{name}{The name of the case study to download. \code{Name} column from \code{get_casestudies()}}
+\item{name}{Character. The name of the case study to download, from the \code{Name}
+column returned by \code{get_casestudies()}}
 
-\item{case_studies}{optional. Dataframe returned by \code{get_casestudies()}}
+\item{case_studies}{Optional. The \code{data.frame} returned by \code{get_casestudies()}.
+If not provided, \code{get_casestudies()} is called.}
 
-\item{dir}{Optional. Directory to save the file. Defaults to a temporary directory}
+\item{dir}{Optional. Directory to save the downloaded file. Defaults to \code{\link[=tempdir]{tempdir()}}}
 
-\item{silent}{Logical. Print out messages?}
+\item{silent}{Logical. Hide the download messages?}
 
-\item{object}{Logical. Return the Slick object? Default downloads Slick object to a temporary location,
-loads and returns the Slick object, and then deletes downloaded file.}
+\item{object}{Logical. Load and return the \code{Slick} object?}
 
-\item{delete}{Logical. Delete the downloaded file after function finishes? Only useful if \code{object = TRUE}}
+\item{delete}{Logical. Delete the downloaded file when the function finishes?
+Defaults to the value of \code{object}. Use \verb{object=FALSE, delete=FALSE} to only save the file.}
 }
 \value{
-A data.frame for \code{get_casestudies} and a \code{Slick} object for \code{download_casestudy}
+\code{get_casestudies()} returns a \code{data.frame} with one row per case study and columns:
+\describe{
+\item{Name}{The name of the case study. Use this for the \code{name} argument of \code{download_casestudy()}}
+\item{File}{The path of the file in the SlickLibrary repository}
+\item{Size}{The size of the file in MB}
+}
 
-The downloaded \code{Slick} object if \code{object==TRUE}, otherwise nothing.
+\code{download_casestudy()} returns the \code{\link[=Slick-class]{Slick-class()}} object if \code{object=TRUE},
+otherwise \code{NULL} (invisibly), and the file is saved in \code{dir}.
 }
 \description{
-Get Case Studies from the SlickLibrary GitHub Repo
+The example case studies shown in the \code{\link[=App]{App()}} are \code{\link[=Slick-class]{Slick-class()}} objects stored
+in the SlickLibrary GitHub repository: \url{https://github.com/Blue-Matter/SlickLibrary}.
+\code{get_casestudies()} lists the available case studies, and
+\code{download_casestudy()} downloads a case study and loads it into the R session.
+}
+\details{
+Both functions require an internet connection and the \code{httr} package.
 }
 \section{Functions}{
 \itemize{
-\item \code{download_casestudy()}: download a case study file
+\item \code{download_casestudy()}: Download a case study and return the \code{Slick} object
 
 }}
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+# List the available case studies
 case_studies <- get_casestudies()
-slick <- download_casestudy(case_studies$Name[1])
+case_studies
+
+# Download a case study and load it into the R session
+slick <- download_casestudy(case_studies$Name[1], case_studies)
+slick
+
+# Save the case study file to the working directory instead
+download_casestudy(case_studies$Name[1], case_studies, dir=getwd(),
+                   object=FALSE, delete=FALSE)
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\link{WSKJ} for an example \code{Slick} object included with the package
 }

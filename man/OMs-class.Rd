@@ -99,6 +99,9 @@ myslick <- Slick()
 
 # Add OMs to Slick Object
 OMs(myslick) <- oms
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Factors(OMs(WSKJ))
 }
 \seealso{
 \code{\link[=OMs]{OMs()}}, \code{\link[=Factors]{Factors()}}, \code{\link[=Design]{Design()}}, \code{\link[=Preset]{Preset()}}
