@@ -23,7 +23,8 @@ mod_Timeseries_ui <- function(id){
                             fluidRow(
                               column(3,
                                      uiOutput(ns('reading')),
-                                     img(src='www/img/Line.jpg', width="100%"),
+                                     img(src='www/img/Line.jpg', width="100%",
+                                         alt='How to read the time series plot: a solid line shows the mean, a shaded band shows the 25th to 75th percentiles, dotted lines show the 10th to 90th percentiles, and horizontal lines mark the target and the limit.'),
                                      uiOutput(ns('picker')),
                                      uiOutput(ns('y_range')),
                                      mod_Page_Filter_ui(ns("timeseriesfilter"))

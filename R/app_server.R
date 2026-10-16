@@ -38,6 +38,9 @@ app_server <- function(input, output, session) {
   observeEvent(input$selected_language, {
     shiny.i18n::update_lang(input$selected_language, session)
     i18n()$set_translation_language(input$selected_language)
+    # set the page language for screen readers
+    lang <- gsub('[^A-Za-z-]', '', input$selected_language)
+    shinyjs::runjs(sprintf("document.documentElement.lang = '%s';", lang))
     # i18n <- i18n()
     # updateSelectInput(inputId='selected_language', label=i18n$t("Choose Language"))
   })

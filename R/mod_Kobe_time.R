@@ -89,6 +89,9 @@ mod_Kobe_time_server <- function(id,i18n, filtered_slick,
 
     output$results <- renderPlot({
       kobeplot()
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Kobe', PI=c(xvar(), yvar()),
+                    detail='over time (percentage of simulations in each Kobe quadrant)')
     })
 
     calc_width <- reactive({

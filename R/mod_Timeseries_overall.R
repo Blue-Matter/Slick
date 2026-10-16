@@ -59,6 +59,8 @@ mod_Timeseries_overall_server <- function(id, i18n, filtered_slick,
        p <- timeseriesplot()
        p + ggplot2::coord_cartesian(ylim=yrange())
 
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Timeseries', PI=pm_ind())
     })
 
     output$plot <- renderUI({

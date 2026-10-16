@@ -235,6 +235,7 @@ mod_Kobe_server <- function(id, i18n, Slick_Object, window_dims, Report, home_se
         p(i18n$t('Segments within each bar are another way of looking at the error bars in the Kobe plot. They show the percentage of runs that fall in each of the Kobe quadrants in each projection year.')
         ),
         img(src='www/img/KobeTime_corrected.jpg',
+            alt='How to read the Kobe plot: a point marks this MP and faint points mark the median of other MPs in the four coloured quadrants, with error bars showing uncertainty in the last projection year; the stacked bars to the right show the percentage of runs in each quadrant for each projection year.',
             style="width: 100%"
         )
       )

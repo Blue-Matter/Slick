@@ -54,6 +54,8 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   seq_len(nPM()),
                   type='boxplot')
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Boxplot', detail='(boxplot)')
     }, height=function() {
       plot_height()
     },
@@ -73,6 +75,8 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   1:nPM(),
                   type='violin')
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Boxplot', detail='(violin plot)')
     }, height=function() {
       plot_height()
     },
@@ -92,6 +96,8 @@ mod_Boxplot_overall_server <- function(id, i18n, filtered_slick,
       plotBoxplot(filtered_slick(),
                   1:nPM(),
                   type='both')
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Boxplot', detail='(boxplot and violin plot)')
     }, height=function() {
       plot_height()
     },

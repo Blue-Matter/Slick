@@ -267,7 +267,8 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
               i18n$t(' for a set of '), nOM(),
               i18n$t(' operating models (columns).')),
 
-            img(src='www/img/SpiderOM.jpg', width="100%"),
+            img(src='www/img/SpiderOM.jpg', width="100%",
+                alt='How to read the spider plot: the percentage in the centre of each hexagon is the overall MP score, and a dot on a vertex shows that the highest score for that performance indicator is in this operating model.'),
 
             p(tags$i(class="fa-solid fa-hexagon"),
               i18n$t('The polygon edges in each chart connect the individual scores of the performance indicators for that management procedure. Points closer to the exterior edge indicate better performance.')),
@@ -287,7 +288,10 @@ mod_Spider_server <- function(id, i18n, Slick_Object, window_dims, Report, home_
         par(mfrow=c(1,1), oma=c(1,1,1,1), mar=c(0,0,0,0))
         Spider_outline(nPM(), pt.cex=3)
       }
-    }, width=125, height=125)
+    }, width=125, height=125, alt=function() {
+      paste0('Outline of the spider plot. Each vertex is a performance indicator, labelled ',
+             paste(LETTERS[seq_len(nPM())], collapse=', '), '.')
+    })
 
     output$PMlist <- renderUI({
       n.PM <- nPM()

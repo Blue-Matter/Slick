@@ -191,6 +191,10 @@ mod_Tradeoff_server <- function(id, i18n, Slick_Object, window_dims, Report,
       req(input$xPM)
       req(input$yPM)
       tradeoffplot()
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Tradeoff',
+                    PI=as.numeric(c(input$xPM, input$yPM)),
+                    detail='(x-axis and y-axis performance indicators)')
     }, width=function() {
       plot_width_d()
     }, height=function() {

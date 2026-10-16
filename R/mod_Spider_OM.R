@@ -132,7 +132,10 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
                          incMax=TRUE)
             }, height=function(){
               plot_height()
-            }, bg = "transparent")
+            }, bg = "transparent", alt=function() {
+              plot_alt_text(filtered_slick(), 'Spider',
+                            detail=paste('for operating model', my_i))
+            })
           })
         }
       }

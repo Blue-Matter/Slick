@@ -75,6 +75,9 @@ mod_Timeseries_byMP_server <- function(id, i18n, filtered_slick,
 
     output$timeseriesMP <- renderPlot({
       timeseriesplot()
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Timeseries', PI=pm_ind(),
+                    detail='(one panel per management procedure)')
     })
 
     timeseriesplot <- reactive({

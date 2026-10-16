@@ -102,6 +102,9 @@ mod_Kobe_overall_server <- function(id, i18n,
 
     output$results <- renderPlot({
       kobeplot()
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Kobe', PI=c(xvar(), yvar()),
+                    detail='(median values of the x-axis and y-axis indicators)')
     })
 
     output$controls <- renderUI({

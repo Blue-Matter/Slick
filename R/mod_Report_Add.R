@@ -98,7 +98,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                    contentType = 'image/png',
                    width = '100%',
                    height = '100%',
-                   alt = "",
+                   alt = paste(section, 'plot added to the report'),
                    deleteFile=FALSE)
 
       if (inherits(obj, 'list')) {
@@ -178,6 +178,8 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
         return(NULL)
       }
       obj
+    }, alt=function() {
+      paste('Preview of the', section, 'plot to add to the report')
     })
 
 

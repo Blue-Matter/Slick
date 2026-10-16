@@ -125,6 +125,8 @@ mod_Spider_MP_server <- function(id, i18n, filtered_slick, nOM, nMP, nPM,
         spiderPlot()
       }
 
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Spider', detail='(one panel per management procedure)')
     }, height=function() {
       plot_height()
       },
