@@ -13,7 +13,7 @@ available in the Slick App, with Boxplot, Quilt, Spider, and Tradeoff
 slots populated from the Timeseries data to demonstrate all six plot
 types supported by the package. Performance indicator values for the
 additional plot types are summarized as means over the projection period
-(years 2026–2055)."></head><body>
+(years 2026–2055)."><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet"><script src="libs/datatables-binding-0.34.0/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"><link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet"><script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet"><script src="libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script><script src="libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script><script src="libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script><script src="libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet"><script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet"><script src="libs/selectize-0.12.0/selectize.min.js"></script><link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet"><script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -21,7 +21,7 @@ additional plot types are summarized as means over the projection period
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,6 +82,193 @@ illustrative purposes.</p>
     <div class="dont-index"><p><code><a href="get_casestudies.html">download_casestudy()</a></code>, <code><a href="App.html">App()</a></code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Summary of the object</span></span></span>
+<span class="r-in"><span><span class="va">WSKJ</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">An object of class `Slick`</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Title`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Multi-language List</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── en </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Western Atlantic Skipjack Tuna (Katsuwon ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── es </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Evaluación de Estrategias de Manejo del ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── fr </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Évaluation des Stratégies de Gestion du ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Subtitle`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Multi-language List</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── en </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Final results presented during the SCRS ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── es </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Resultados finales presentados durante l ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── fr </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Résultats finaux présentés lors de la Ré ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Date`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> September 2025</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Author`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 Rodrigo Sant’Ana</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 Bruno Mourato</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 Adrian Hordyk</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Email`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 rsantana@univali.br</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Institution`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 Universidade do Vale do Itajaí</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2 Universidade Federal de São Paulo</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3 Blue Matter Science</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Introduction`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Multi-language List</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── en </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. The SCRS’s Tropical Tunas Species Group ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── es </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. El Grupo de Especies de Atunes Tropicale ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── fr </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Le Groupe d’Espèces des Thons Tropicaux ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`MPs`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`OMs`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Boxplot`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Quilt`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Kobe`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Spider`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Timeseries`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">`Tradeoff`</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check the object is valid</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Check.html">Check</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Checking: </span><span style="color: #0000BB; font-weight: bold;">"Slick"</span> ──</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"MPs"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"OMs"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Boxplot"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Quilt"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Kobe"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Spider"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Timeseries"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Checking: <span style="color: #0000BB;">"Tradeoff"</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Complete</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Metadata, Management Procedures, and Operating Models</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Slick-class.html">Title</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Western Atlantic Skipjack Tuna (Katsuwonus pelamis) Management Strategy Evaluation"</span>
+<span class="r-in"><span><span class="fu"><a href="Metadata.html">Metadata</a></span><span class="op">(</span><span class="fu"><a href="MPs-methods.html">MPs</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Code                                  Label</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   CE                  Constant Exploitation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   IR                            Index Ratio</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   SP     Surplus Production with linear HCR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 SPAH Surplus Production with non-linear HCR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                               Description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 The TAC is adjusted based on the ratio of the estimated current exploitation rate to the mean exploitation rate from 2016 - 2017, with the aim to maintain a constant exploitation rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                   The TAC is adjusted based on the ratio of the mean index over the 3 most recent years to the value of the mean index from 2019 - 2021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                 A model-based a surplus production model with a 130-60 hockey stick harvest control rule and an F_Target equal to F_MSY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                                     The same surplus production model as SP, but with a non-linear harvest control rule</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Color</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 #C87A8A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 #909646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 #00A396</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 #9189C7</span>
+<span class="r-in"><span><span class="fu"><a href="Factors.html">Factors</a></span><span class="op">(</span><span class="fu"><a href="OMs-methods.html">OMs</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Factor     Level Description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    Growth     Qnt25            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Growth     Qnt50            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    Growth     Qnt75            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Steepness        h6            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Steepness        h7            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Steepness        h8            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      Type Reference            </span>
+<span class="r-in"><span><span class="fu"><a href="Design.html">Design</a></span><span class="op">(</span><span class="fu"><a href="OMs-methods.html">OMs</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Growth Steepness      Type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Qnt25        h6 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Qnt25        h7 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Qnt25        h8 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Qnt50        h6 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Qnt50        h7 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Qnt50        h8 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Qnt75        h6 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Qnt75        h7 Reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Qnt75        h8 Reference</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plots</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plotTimeseries.html">plotTimeseries</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WSKJ-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotBoxplot.html">plotBoxplot</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WSKJ-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WSKJ-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotQuilt.html">plotQuilt</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<div id="htmlwidget-4018eef1a407a0df6b52" style="width:700px;height:432.632880098888px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.695\" data-max=\"0.714\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.732\" data-max=\"0.759\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.736\" data-max=\"0.763\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"30000\" data-max=\"31900\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"data":[["CE","IR","SP","SPAH"],[0.708,0.714,0.707,0.695],[0.759,0.756,0.748,0.732],[0.759,0.763,0.752,0.736],[30700,30900,30000,31900]],"container":"<table class=\"FALSE\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PGK<\/th>\n      <th>P100<\/th>\n      <th>PNOF<\/th>\n      <th>Mean TAC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tB","pageLength":100,"buttons":["copy","csv"],"columnDefs":[{"className":"dt-center","targets":"_all"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"PGK","targets":1},{"name":"P100","targets":2},{"name":"PNOF","targets":3},{"name":"Mean TAC","targets":4}],"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.695 ? \"#ADD8E680\" : value <= 0.6969 ? \"#9DC4DD80\" : value <= 0.6988 ? \"#8DB0D580\" : value <= 0.7007 ? \"#7D9DCD80\" : value <= 0.7026 ? \"#6E89C480\" : value <= 0.7045 ? \"#5E75BC80\" : value <= 0.7064 ? \"#4E62B480\" : value <= 0.7083 ? \"#3E4EAC80\" : value <= 0.7102 ? \"#2F3AA380\" : value <= 0.7121 ? \"#1F279B80\" : value <= 0.714 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.732 ? \"#ADD8E680\" : value <= 0.7347 ? \"#9DC4DD80\" : value <= 0.7374 ? \"#8DB0D580\" : value <= 0.7401 ? \"#7D9DCD80\" : value <= 0.7428 ? \"#6E89C480\" : value <= 0.7455 ? \"#5E75BC80\" : value <= 0.7482 ? \"#4E62B480\" : value <= 0.7509 ? \"#3E4EAC80\" : value <= 0.7536 ? \"#2F3AA380\" : value <= 0.7563 ? \"#1F279B80\" : value <= 0.759 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 0.736 ? \"#ADD8E680\" : value <= 0.7387 ? \"#9DC4DD80\" : value <= 0.7414 ? \"#8DB0D580\" : value <= 0.7441 ? \"#7D9DCD80\" : value <= 0.7468 ? \"#6E89C480\" : value <= 0.7495 ? \"#5E75BC80\" : value <= 0.7522 ? \"#4E62B480\" : value <= 0.7549 ? \"#3E4EAC80\" : value <= 0.7576 ? \"#2F3AA380\" : value <= 0.7603 ? \"#1F279B80\" : value <= 0.763 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 30000 ? \"#ADD8E680\" : value <= 30190 ? \"#9DC4DD80\" : value <= 30380 ? \"#8DB0D580\" : value <= 30570 ? \"#7D9DCD80\" : value <= 30760 ? \"#6E89C480\" : value <= 30950 ? \"#5E75BC80\" : value <= 31140 ? \"#4E62B480\" : value <= 31330 ? \"#3E4EAC80\" : value <= 31520 ? \"#2F3AA380\" : value <= 31710 ? \"#1F279B80\" : value <= 31900 ? \"#0F139380\" : \"#00008B80\"});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-weight':'bold'});\n}"},"selection":{"mode":"none","selected":null,"target":"row","selectable":null}},"evals":["options.rowCallback"],"jsHooks":[]}</script><span class="r-in"><span><span class="fu"><a href="plotSpider.html">plotSpider</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WSKJ-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plotTradeoff.html">plotTradeoff</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WSKJ-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># Explore the results in the Slick App</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">WSKJ</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

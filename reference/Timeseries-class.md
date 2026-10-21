@@ -217,4 +217,8 @@ plotTimeseries(slick, 3)
 #> ℹ Note: `MPs` is empty. Using default MP names and colors
 
 
+
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotTimeseries(WSKJ)
 ```

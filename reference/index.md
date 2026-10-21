@@ -314,7 +314,7 @@ S4 Methods and other functions
   Generic show method
 - [`get_casestudies()`](https://slick.bluematterscience.com/reference/get_casestudies.md)
   [`download_casestudy()`](https://slick.bluematterscience.com/reference/get_casestudies.md)
-  : Get Case Studies from the SlickLibrary GitHub Repo
+  : List and Download the Example Case Studies
 - [`default_mp_colors()`](https://slick.bluematterscience.com/reference/default_mp_colors.md)
   : Set Default Colors for the MPs
 

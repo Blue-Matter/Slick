@@ -268,4 +268,8 @@ plotKobe(slick)
 plotKobe(slick, Time=TRUE)
 #> ℹ Note: `MPs` is empty. Using default MP names and colors
 
+
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)
 ```

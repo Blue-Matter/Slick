@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,10 +37,49 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.3" id="slick-103">Slick 1.0.3<a class="anchor" aria-label="anchor" href="#slick-103"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="slick-110">Slick 1.1.0<a class="anchor" aria-label="anchor" href="#slick-110"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li>The Quilt table can now be added to the Report in the App. The table is saved as an image with <code><a href="https://davidgohel.github.io/flextable/reference/save_as_image.html" class="external-link">flextable::save_as_image()</a></code>; the <code>ragg</code> package is now required for this (added to Suggests).</li>
+<li>Items can now be removed from the Report in the App.</li>
+<li>Accessibility improvements to the App: plots and explanatory images now have alternative text for screen reader.</li>
+<li>The example <code>Slick</code> object <code>WSKJ</code> is now shown in the README, the Developer’s Guide, <code><a href="../reference/WSKJ.html">?WSKJ</a></code>, and the examples for the plotting and class functions.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-1-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-1-0"></a></h3>
 <ul><li>
-<code>OMs@Preset</code> is now a flat named list of <code>Design</code> row indices, matching the format already used by <code>MPs@Preset</code> (and the performance-metric <code>Preset</code>s), instead of a nested list keyed by <code>Factor</code>. The old nested format is still accepted and is auto-converted for backward compatibility.</li>
-<li>Added checks to <code>Preset</code> slot</li>
+<code>OMs@Preset</code> is now a flat named list of <code>Design</code> row indices, matching the format already used by <code>MPs@Preset</code> (and the performance-metric <code>Preset</code>s), instead of a nested list keyed by <code>Factor</code>. The old nested format is still accepted and is auto-converted for backward compatibility (by <code><a href="../reference/Preset.html">Preset()</a></code> and <code><a href="../reference/Update.html">Update()</a></code>).</li>
+<li>Added checks to the <code>Preset</code> slots: names must be unique and non-blank, and values must be whole numbers within range, with no duplicates. Slick objects with invalid <code>Preset</code>s are rejected when loaded in the App.</li>
+<li>
+<code><a href="../reference/Check.html">Check()</a></code> on a <code>Slick</code> object now warns when the OM or MP dimension of a plot’s <code>Value</code> doesn’t match the number of OMs or MPs in the object.</li>
+<li>The App now shows the details of the errors when an invalid Slick object is loaded, and no longer loads an invalid object passed to <code>App(slick=)</code>.</li>
+<li>
+<code><a href="../reference/FilterSlick.html">FilterSlick()</a></code> now ignores out-of-range MP, OM, and PI indices, and uses all of them if none are valid.</li>
+<li>
+<code>plotKobe(Time=TRUE)</code>: the stacking order of the Kobe Time bars is reversed, so the bottom-right (green) quadrant is now at the bottom of each bar. The new <code>BR_bottom</code> argument controls this (<code>BR_bottom=FALSE</code> restores the previous order).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/plotBoxplot.html">plotBoxplot()</a></code> now works when <code>PI</code> has more than one value.</li>
+<li>
+<code><a href="../reference/plotKobe.html">plotKobe()</a></code>: the <code>OMs</code> argument is now used when it includes <code>NA</code> values.</li>
+<li>
+<code><a href="../reference/plotQuilt.html">plotQuilt()</a></code>: fixed the lower limit of the color shading when <code>MinValue</code> was set, and the shading of the static (<code>kable=TRUE</code>) table now matches the interactive table.</li>
+<li>
+<code><a href="../reference/plotTradeoff.html">plotTradeoff()</a></code> now ignores <code>NA</code> values when averaging over OMs.</li>
+<li>
+<code><a href="../reference/Update.html">Update()</a></code> now reads the target and limit reference points correctly from legacy Slick objects, including for the Time Series plot.</li>
+<li>App: fixed the OM filter so it selects the correct OMs for presets and for factors whose levels are not in ascending order.</li>
+<li>App: fixed the Kobe plot axis limits for performance indicators other than the first two.</li>
+<li>App: the Quilt plot page now works when <code>Value</code> includes the simulation dimension.</li>
+<li>App: fixed errors when filtering MPs for a Quilt with a simulation dimension, and for some transient MP selections.</li>
+<li>App: the “deselect” button in the filters now clears the selection.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="slick-103">Slick 1.0.3<a class="anchor" aria-label="anchor" href="#slick-103"></a></h2>
+<ul><li>Added the <code>WSKJ</code> example <code>Slick</code> object (western Atlantic skipjack tuna MSE results).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="slick-102">Slick 1.0.2<a class="anchor" aria-label="anchor" href="#slick-102"></a></h2><p class="text-muted">CRAN release: 2026-06-30</p>

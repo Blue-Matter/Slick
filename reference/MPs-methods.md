@@ -215,4 +215,22 @@ Metadata(myMPs, 'pt')
 #> 1 This is the Portuguese description for Management Procedure 1 #C87A8A
 #> 2 This is the Portuguese description for Management Procedure 2 #6B9D59
 #> 3 This is the Portuguese description for Management Procedure 3 #5F96C2
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Metadata(MPs(WSKJ))
+#>   Code                                  Label
+#> 1   CE                  Constant Exploitation
+#> 2   IR                            Index Ratio
+#> 3   SP     Surplus Production with linear HCR
+#> 4 SPAH Surplus Production with non-linear HCR
+#>                                                                                                                                                                               Description
+#> 1 The TAC is adjusted based on the ratio of the estimated current exploitation rate to the mean exploitation rate from 2016 - 2017, with the aim to maintain a constant exploitation rate
+#> 2                                                   The TAC is adjusted based on the ratio of the mean index over the 3 most recent years to the value of the mean index from 2019 - 2021
+#> 3                                                                 A model-based a surplus production model with a 130-60 hockey stick harvest control rule and an F_Target equal to F_MSY
+#> 4                                                                                                     The same surplus production model as SP, but with a non-linear harvest control rule
+#>     Color
+#> 1 #C87A8A
+#> 2 #909646
+#> 3 #00A396
+#> 4 #9189C7
 ```

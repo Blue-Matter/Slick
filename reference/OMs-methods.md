@@ -169,4 +169,15 @@ myslick <- Slick()
 
 # Add OMs to Slick Object
 OMs(myslick) <- oms
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Factors(OMs(WSKJ))
+#>      Factor     Level Description
+#> 1    Growth     Qnt25            
+#> 2    Growth     Qnt50            
+#> 3    Growth     Qnt75            
+#> 4 Steepness        h6            
+#> 5 Steepness        h7            
+#> 6 Steepness        h8            
+#> 7      Type Reference            
 ```

@@ -139,4 +139,8 @@ plotSpider(slick, byMP=TRUE)
 plotSpider(slick, byOM=TRUE)
 #> ℹ Note: `MPs` is empty. Using default MP names and colors
 
+
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotSpider(WSKJ)
 ```

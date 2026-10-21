@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">Slick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,6 +81,20 @@
 <h2 id="the-slick-object">The Slick object<a class="anchor" aria-label="anchor" href="#the-slick-object"></a>
 </h2>
 <p>To use <code>Slick</code>, the results of an MSE must be available in a Slick data object. The Slick App includes several example data objects. See the <a href="https://slick.bluematterscience.com/articles/DevelopersGuide.html">Developer’s Guide</a> for documentation on creating a Slick Data object for your MSE results.</p>
+<div class="section level3">
+<h3 id="getting-started-with-an-example-slick-object">Getting started with an example Slick object<a class="anchor" aria-label="anchor" href="#getting-started-with-an-example-slick-object"></a>
+</h3>
+<p><code>Slick</code> includes a complete example Slick object, <code>WSKJ</code>, with MSE results for western Atlantic skipjack tuna (see <code><a href="reference/WSKJ.html">?WSKJ</a></code>):</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://slick.bluematterscience.com/">Slick</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">WSKJ</span>                <span class="co"># summary of the object</span></span>
+<span><span class="fu"><a href="reference/Check.html">Check</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span>         <span class="co"># check the object is valid</span></span>
+<span><span class="fu"><a href="reference/Metadata.html">Metadata</a></span><span class="op">(</span><span class="fu"><a href="reference/MPs-methods.html">MPs</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span><span class="op">)</span> <span class="co"># details of the Management Procedures</span></span>
+<span><span class="fu"><a href="reference/plotKobe.html">plotKobe</a></span><span class="op">(</span><span class="va">WSKJ</span><span class="op">)</span>      <span class="co"># plot the results</span></span>
+<span><span class="fu"><a href="reference/App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">WSKJ</span><span class="op">)</span>     <span class="co"># explore the results in the Slick App</span></span></code></pre></div>
+<p>The other example case studies in the Slick App are stored in the <a href="https://github.com/Blue-Matter/SlickLibrary" class="external-link">SlickLibrary</a> GitHub repository, and can be downloaded into R with <code><a href="reference/get_casestudies.html">download_casestudy()</a></code>.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="the-slick-app">The Slick App<a class="anchor" aria-label="anchor" href="#the-slick-app"></a>
@@ -96,7 +110,7 @@
 <p>To run the App locally, simply run <code><a href="reference/App.html">App()</a></code>.</p>
 <p>The example data objects can be loaded within the App, or a Slick data object can be uploaded.</p>
 <p>If you have your own Slick data object, this object can be loaded directly with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/App.html">App</a></span><span class="op">(</span>slick<span class="op">=</span><span class="va">mySlick</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>mySlick</code> is a completed Slick data object.</p>
 </div>

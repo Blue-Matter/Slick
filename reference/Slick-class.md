@@ -343,7 +343,7 @@ Title(slick)
 Subtitle(slick)
 #> [1] ""
 Date(slick)
-#> [1] "2026-09-13"
+#> [1] "2026-10-21"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)
@@ -352,4 +352,9 @@ Institution(slick)
 #> [1] "[Blue Matter Science](bluematterscience.com)"
 Introduction(slick)
 #> [1] "This is the Introduction text"
+
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Title(WSKJ)
+#> [1] "Western Atlantic Skipjack Tuna (Katsuwonus pelamis) Management Strategy Evaluation"
 ```

@@ -15,6 +15,7 @@ plotKobe(
   TLcol = "#D8775D",
   TRcol = "#FDBD56",
   BRcol = "#67C18B",
+  BR_bottom = TRUE,
   axis_label = "Code",
   percentile = 0.75,
   axis.text.size = 14,
@@ -73,6 +74,12 @@ plotKobe(
 - BRcol:
 
   Color for the bottom right quadrant
+
+- BR_bottom:
+
+  Logical. Kobe Time plot only. Stack the bottom right quadrant
+  (`BRcol`) at the bottom of each bar? Use `FALSE` to stack it at the
+  top.
 
 - axis_label:
 
@@ -216,4 +223,8 @@ plotKobe(slick)
 plotKobe(slick, Time=TRUE)
 #> ℹ Note: `MPs` is empty. Using default MP names and colors
 
+
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)
 ```
