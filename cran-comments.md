@@ -1,4 +1,6 @@
-Minor patch
+V 1.1.0
+
+A new minor release to correspond with a published paper describing this software
 
 ## Test environments
 
