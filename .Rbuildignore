@@ -29,4 +29,3 @@ $run_dev.*
 ^\.claude$
 ^\.zenodo\.json$
 
-^paper$
