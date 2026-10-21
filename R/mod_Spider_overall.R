@@ -83,6 +83,8 @@ mod_Spider_overall_server <- function(id, i18n, filtered_slick,
     output$spider_plot <- renderPlot({
       if (!is.null(relative_scale()))
         spiderPlot()
+    }, alt=function() {
+      plot_alt_text(filtered_slick(), 'Spider')
     }, width=function() {
       plot_width()
     }, height=function() {

@@ -1,7 +1,37 @@
 
-#' Get Case Studies from the SlickLibrary GitHub Repo
+#' List and Download the Example Case Studies
 #'
-#' @return A data.frame for `get_casestudies` and a `Slick` object for `download_casestudy`
+#' The example case studies shown in the [App()] are [Slick-class()] objects stored
+#' in the SlickLibrary GitHub repository: <https://github.com/Blue-Matter/SlickLibrary>.
+#' `get_casestudies()` lists the available case studies, and
+#' `download_casestudy()` downloads a case study and loads it into the R session.
+#'
+#' Both functions require an internet connection and the `httr` package.
+#'
+#' @return
+#' `get_casestudies()` returns a `data.frame` with one row per case study and columns:
+#' \describe{
+#'   \item{Name}{The name of the case study. Use this for the `name` argument of `download_casestudy()`}
+#'   \item{File}{The path of the file in the SlickLibrary repository}
+#'   \item{Size}{The size of the file in MB}
+#' }
+#'
+#' `download_casestudy()` returns the [Slick-class()] object if `object=TRUE`,
+#' otherwise `NULL` (invisibly), and the file is saved in `dir`.
+#'
+#' @seealso [WSKJ] for an example `Slick` object included with the package
+#' @examplesIf interactive()
+#' # List the available case studies
+#' case_studies <- get_casestudies()
+#' case_studies
+#'
+#' # Download a case study and load it into the R session
+#' slick <- download_casestudy(case_studies$Name[1], case_studies)
+#' slick
+#'
+#' # Save the case study file to the working directory instead
+#' download_casestudy(case_studies$Name[1], case_studies, dir=getwd(),
+#'                    object=FALSE, delete=FALSE)
 #' @export
 get_casestudies <- function() {
   if (!requireNamespace('httr', quietly = TRUE))
@@ -27,19 +57,16 @@ get_casestudies <- function() {
   data.frame(Name=names, File=slick_files, Size=round(size/1e6,2))
 }
 
-#' @describeIn get_casestudies download a case study file
-#' @param name The name of the case study to download. `Name` column from `get_casestudies()`
-#' @param case_studies optional. Dataframe returned by `get_casestudies()`
-#' @param dir Optional. Directory to save the file. Defaults to a temporary directory
-#' @param silent Logical. Print out messages?
-#' @param object Logical. Return the Slick object? Default downloads Slick object to a temporary location,
-#' loads and returns the Slick object, and then deletes downloaded file.
-#' @param delete Logical. Delete the downloaded file after function finishes? Only useful if `object = TRUE`
-#' @return The downloaded `Slick` object if `object==TRUE`, otherwise nothing.
-#' @examplesIf interactive()
-#' case_studies <- get_casestudies()
-#' slick <- download_casestudy(case_studies$Name[1])
-#'
+#' @describeIn get_casestudies Download a case study and return the `Slick` object
+#' @param name Character. The name of the case study to download, from the `Name`
+#' column returned by `get_casestudies()`
+#' @param case_studies Optional. The `data.frame` returned by `get_casestudies()`.
+#' If not provided, `get_casestudies()` is called.
+#' @param dir Optional. Directory to save the downloaded file. Defaults to [tempdir()]
+#' @param silent Logical. Hide the download messages?
+#' @param object Logical. Load and return the `Slick` object?
+#' @param delete Logical. Delete the downloaded file when the function finishes?
+#' Defaults to the value of `object`. Use `object=FALSE, delete=FALSE` to only save the file.
 #' @export
 download_casestudy <- function(name, case_studies=NULL, dir=NULL,
                                silent=FALSE,

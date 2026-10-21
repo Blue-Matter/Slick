@@ -25,6 +25,32 @@ types supported by the package. Performance indicator values for the
 additional plot types are summarized as means over the projection period
 (years 2026--2055).
 }
+\examples{
+# Summary of the object
+WSKJ
+
+# Check the object is valid
+Check(WSKJ)
+
+# Metadata, Management Procedures, and Operating Models
+Title(WSKJ)
+Metadata(MPs(WSKJ))
+Factors(OMs(WSKJ))
+Design(OMs(WSKJ))
+
+# Plots
+plotTimeseries(WSKJ)
+plotBoxplot(WSKJ)
+plotKobe(WSKJ)
+plotQuilt(WSKJ)
+plotSpider(WSKJ)
+plotTradeoff(WSKJ)
+
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+# Explore the results in the Slick App
+App(slick=WSKJ)
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \code{\link[=download_casestudy]{download_casestudy()}}, \code{\link[=App]{App()}}
 }

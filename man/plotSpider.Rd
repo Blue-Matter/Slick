@@ -136,4 +136,7 @@ plotSpider(slick, byMP=TRUE)
 
 plotSpider(slick, byOM=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotSpider(WSKJ)
 }

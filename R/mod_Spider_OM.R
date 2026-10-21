@@ -121,19 +121,6 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
     observe({
       if (!is.null(filtered_slick()) & !is.null(relative_scale())) {
 
-        slick <- filtered_slick()
-        Values <- slick |> Spider() |> Value()
-
-        Values[!is.finite(Values)] <- NA
-
-
-        if(relative_scale()) {
-          for (i in 1:nPM()) {
-            Values[,,i] <- normalize(Values[,,i]) * 100
-          }
-          Values[!is.finite(Values)] <- 100
-        }
-
         for (i in 1:nOM()) {
           local({
             my_i <- i
@@ -145,7 +132,10 @@ mod_Spider_OM_server <- function(id, i18n, filtered_slick,
                          incMax=TRUE)
             }, height=function(){
               plot_height()
-            }, bg = "transparent")
+            }, bg = "transparent", alt=function() {
+              plot_alt_text(filtered_slick(), 'Spider',
+                            detail=paste('for operating model', my_i))
+            })
           })
         }
       }

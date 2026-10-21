@@ -199,6 +199,9 @@ plotKobe(slick)
 
 plotKobe(slick, Time=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Time]{Time()}}, [TimeLab(), \code{\link[=Value]{Value()}}, \code{\link[=Preset]{Preset()}},

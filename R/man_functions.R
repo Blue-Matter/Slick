@@ -110,13 +110,16 @@ introduction_param <- function() {
 
 
 
-value_dimensions <- function(type='Boxplot') {
-  #
-  # NOTE: not currently working because Slick app filters OM dimension in
-  # Value, but doesn't change the OMs reported in Slick@OMs
-  # ll <- list(Boxplot=c('nsim', 'nOM', 'nMP', 'nPI')
-  #            )
-  # ll[[type]]
+value_dimensions <- function(type='Boxplot', ndim=NULL) {
+  ll <- list(
+    Boxplot=c('nsim', 'nOM', 'nMP', 'nPI'),
+    Kobe=c('nsim', 'nOM', 'nMP', 'nPI', 'nTS'),
+    Timeseries=c('nsim', 'nOM', 'nMP', 'nPI', 'nTS'),
+    Spider=c('nOM', 'nMP', 'nPI'),
+    Tradeoff=c('nOM', 'nMP', 'nPI'),
+    Quilt=if (identical(ndim, 4L)) c('nsim', 'nOM', 'nMP', 'nPI') else c('nOM', 'nMP', 'nPI')
+  )
+  ll[[type]]
 }
 
 misc_param <- function() {

@@ -201,6 +201,9 @@ plotQuilt(slick)
 apply(quilt@Value, 3:4, mean) |> round(1)
 
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotQuilt(WSKJ)
 }
 \seealso{
 \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}}, \code{\link[=Color]{Color()}}, \code{\link[=Metadata]{Metadata()}}, \code{\link[=Preset]{Preset()}},

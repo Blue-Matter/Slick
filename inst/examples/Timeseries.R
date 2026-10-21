@@ -85,3 +85,6 @@ plotTimeseries(slick, 2)
 plotTimeseries(slick, 3)
 
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotTimeseries(WSKJ)

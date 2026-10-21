@@ -28,6 +28,24 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     output$reportModal <- renderUI({
       i18n <- i18n()
 
+      # tables size to their content, so no image settings
+      is_table <- inherits(Plot_Object(), 'flextable')
+
+      image_settings <- NULL
+      if (!is_table)
+        image_settings <- column(3,
+                                 h4(i18n$t('Image Settings')),
+                                 numericInput(ns('plotwidth'), 'Width  (inch)',
+                                              value=5,
+                                              min=1,
+                                              max=10),
+                                 numericInput(ns('plotheight'), 'Height (inch)',
+                                              value=5,
+                                              min=1,
+                                              max=10),
+                                 actionButton(ns("update_plot"), i18n$t("Update Plot"), icon=icon('redo'))
+        )
+
       modalDialog(
         size='l',
         title=i18n$t('Add to Report'),
@@ -39,7 +57,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
             )
           ),
           fluidRow(
-            column(9,
+            column(ifelse(is_table, 12, 9),
                    textAreaInput(ns('captionText'),
                                  i18n$t('Description'),
                                  placeholder=i18n$t('Description or caption for chart'),
@@ -47,18 +65,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                                  height='150px'
                    )
             ),
-            column(3,
-                   h4(i18n$t('Image Settings')),
-                   numericInput(ns('plotwidth'), 'Width  (inch)',
-                                value=5,
-                                min=1,
-                                max=10),
-                   numericInput(ns('plotheight'), 'Height (inch)',
-                                value=5,
-                                min=1,
-                                max=10),
-                   actionButton(ns("update_plot"), i18n$t("Update Plot"), icon=icon('redo'))
-            )
+            image_settings
           ),
           br()
         ),
@@ -98,7 +105,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                    contentType = 'image/png',
                    width = '100%',
                    height = '100%',
-                   alt = "",
+                   alt = paste(section, 'plot added to the report'),
                    deleteFile=FALSE)
 
       if (inherits(obj, 'list')) {
@@ -114,21 +121,13 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
         grDevices::dev.off()
 
       } else if (inherits(obj, 'flextable')) {
+        # tables size to their content, so width/height settings are ignored
+        if (!requireNamespace('ragg', quietly = TRUE))
+          stop('Package `ragg` required to save tables to the report')
 
-        # if (!requireNamespace('magick', quietly = TRUE))
-        #   stop('Package `magick` required for this function')
-        #
-        # if (!requireNamespace('webshot2', quietly = TRUE))
-        #   stop('Package `webshot2` required for this function')
-        #
-        # obj <- obj |>
-        #   flextable::autofit() |>
-        #   flextable::htmltools_value()
-        #
-        # tempfile <- tempfile(fileext='.html')
-        # kableExtra::save_kable(obj, tempfile)
-        # webshot2::webshot(tempfile, outfile, delay=3)
-        # file.remove(tempfile)
+        obj |>
+          flextable::autofit() |>
+          flextable::save_as_image(path=outfile, res=300)
       } else {
         ggplot2::ggsave(outfile,
                         obj,
@@ -143,14 +142,6 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
       )
 
     output$displayplot <- renderUI({
-      obj <- Plot_Object()
-      if (inherits(obj, 'flextable')) {
-        TT <- obj |>
-          flextable::autofit() |>
-          flextable::htmltools_value()
-        return(TT)
-      }
-
       t <- Plot_Info()
       if (!is.null(t)) {
         return(tagList(
@@ -178,6 +169,8 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
         return(NULL)
       }
       obj
+    }, alt=function() {
+      paste('Preview of the', section, 'plot to add to the report')
     })
 
 

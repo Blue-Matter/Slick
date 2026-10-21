@@ -39,3 +39,53 @@ helper2 <- function(shiny_tag, icon = "question-circle", colour = NULL,
                  shiny::div(shiny_tag, help_icon, class = "shinyhelper-wrapper"))
 
 }
+
+
+#' Alternative text for plots
+#'
+#' Builds a short text description of a plot for screen readers. Used as the
+#' `alt` attribute of the `<img>` tag created by `renderPlot`.
+#'
+#' @param slick A `Slick` object (or NULL)
+#' @param plot Name of the plot type: 'Boxplot', 'Kobe', 'Spider', 'Timeseries' or 'Tradeoff'
+#' @param PI Optional integer index of the Performance Indicator(s) shown in the plot
+#' @param detail Optional character string with extra details about the plot
+#'
+#' @return A character string
+#' @noRd
+plot_alt_text <- function(slick, plot, PI=NULL, detail=NULL) {
+  tryCatch({
+    if (is.null(slick))
+      return(paste(plot, 'plot'))
+
+    obj_codes <- function(codes) {
+      if (is.list(codes)) codes <- codes[[1]]
+      as.character(codes)
+    }
+
+    MP_codes <- obj_codes(slick@MPs@Code)
+    nOM <- nrow(slick@OMs@Design)
+    PI_codes <- obj_codes(methods::slot(slick, plot)@Code)
+    if (!is.null(PI))
+      PI_codes <- PI_codes[PI]
+
+    plot_name <- switch(plot,
+                        Boxplot='Boxplot',
+                        Kobe='Kobe plot',
+                        Spider='Spider (radar) plot',
+                        Timeseries='Time series plot',
+                        Tradeoff='Trade-off plot',
+                        plot)
+
+    if (nOM < 1 || all(MP_codes == '') || all(PI_codes == ''))
+      return(plot_name)
+
+    paste0(plot_name,
+           if (!is.null(detail)) paste0(' ', detail),
+           ' showing ', paste(PI_codes, collapse=', '),
+           ' for ', length(MP_codes),
+           ifelse(length(MP_codes)==1, ' management procedure (', ' management procedures ('),
+           paste(MP_codes, collapse=', '), ') across ', nOM,
+           ifelse(nOM==1, ' operating model.', ' operating models.'))
+  }, error=function(e) paste(plot, 'plot'))
+}

@@ -38,6 +38,7 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
     mod_subtitle_server(id, i18n, nOM, nMP, OMtext=OMtext)
 
     OMtext <- reactive({
+      req(input$plotselect)
       if (input$plotselect == 'overall')
         return('over')
       return('show')
@@ -132,7 +133,8 @@ mod_Boxplot_server <- function(id, i18n, Slick_Object, window_dims, Report, home
                                                           p(i18n$t('Violin plots are similar to boxplots, except that they also show the probability density of data at different values. The width of the violin plot indicates the proportion of data points that are in each region of the plot; i.e., wide areas of the plot indicate a relatively large number of data points in that region, while narrow areas of the plot indicate few data points. The plots extend the full range of the data values.'))
                                                         )
                                        ),
-                                       img(src='www/img/Boxplot.jpg', width='100%'),
+                                       img(src='www/img/Boxplot.jpg', width='100%',
+                                           alt='How a box plot works: the dot shows the median for the 20-year projection, the box spans the 1st to 3rd quartile (50% of all values fall within this range), and the line extends from the lowest to the highest value.'),
                                        mod_Page_Filter_ui(ns("boxplotfilter"))
                                 ),
                                 column(9,

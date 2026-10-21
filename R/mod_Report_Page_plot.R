@@ -36,7 +36,7 @@ mod_Report_Page_plot_ui <- function(id){
 #' Report_Page_plot Server Functions
 #'
 #' @noRd
-mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
+mod_Report_Page_plot_server <- function(id, i18n, PlotName='Boxplot', Report){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -57,21 +57,36 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
       }
     })
 
-    # observe({
-    #   nplot <- length(Report[[PlotName]]$plot)
-    #   if (nplot>0) {
-    #     for (x in 1:nplot) {
-    #       this_x <- x
-    #       observeEvent(eventExpr = input[[paste0('del-', this_x, tolower(PlotName))]],
-    #                    handlerExpr = {
-    #                      if (!all(is.na(Report[[PlotName]]$plot[[this_x]])))
-    #                        file.remove(Report[[PlotName]]$plot[[this_x]]$src)
-    #                        Report[[PlotName]]$plot[[this_x]] <- NA
-    #                        Report[[PlotName]]$caption[[this_x]] <- NA
-    #                    })
-    #     }
-    #   }
-    # })
+    # remove an item; the Remove buttons send the item index to input$remove
+    to_remove <- reactiveVal()
+
+    observeEvent(input$remove, {
+      i18n <- i18n()
+      to_remove(input$remove)
+      showModal(modalDialog(
+        title=i18n$t('Remove from Report'),
+        i18n$t('Are you sure you want to remove this item from the Report?'),
+        footer=tagList(
+          div(modalButton(i18n$t('Cancel')), style='float:left;'),
+          actionButton(ns('confirm_remove'), i18n$t('Remove'),
+                       icon=icon('trash'), class='btn-danger')
+        )
+      ))
+    })
+
+    observeEvent(input$confirm_remove, {
+      removeModal()
+      x <- to_remove()
+      this_plot <- Report[[PlotName]]$plot[[x]]
+      if (all(is.na(this_plot)))
+        return(NULL)
+      if (file.exists(this_plot$src))
+        file.remove(this_plot$src)
+      section <- Report[[PlotName]]
+      section$plot[[x]] <- NA
+      section$caption[[x]] <- NA
+      Report[[PlotName]] <- section
+    })
 
     plotlist <- reactive({
       nplot <- length(Report[[PlotName]]$plot)
@@ -85,30 +100,30 @@ mod_Report_Page_plot_server <- function(id, PlotName='Boxplot', Report){
       }
 
       if (nplot>0) {
+        i18n <- i18n()
         plot_output_list <- lapply(1:nplot, function(x) {
+          # removed items are set to NA
+          if (all(is.na(Report[[PlotName]]$plot[[x]])))
+            return(NULL)
           plotname <- paste0(x, tolower(PlotName))
           path <- Report[[PlotName]]$plot[[x]]$src
           img_dims <- get_image_dimensions(path)
 
           caption <- Report[[PlotName]]$caption[[x]]
-          if (!is.na(caption)) {
-            caption <- p(caption)
-          } else {
-            caption <- NULL
-          }
-          if (!is.null(caption))
-            tagList(
-              hr(),
-              imageOutput(ns(plotname),
-                          width=width_fun(width),
-                          height=height_fun(width, img_dims)),
-              caption,
-              # shinyWidgets::actionBttn(ns(paste0('del-', plotname)),
-              #                          label='Remove',
-              #                          icon('remove'),
-              #                          color='danger',size='sm'),
-              hr()
-            )
+          tagList(
+            hr(),
+            imageOutput(ns(plotname),
+                        width=width_fun(width),
+                        height=height_fun(width, img_dims)),
+            p(caption),
+            actionButton(ns(paste0('del_', x)),
+                         label=i18n$t('Remove'),
+                         icon=icon('trash'),
+                         class='btn-danger btn-sm',
+                         onclick=sprintf("Shiny.setInputValue('%s', %d, {priority: 'event'})",
+                                         ns('remove'), x)),
+            hr()
+          )
         })
         do.call('tagList', plot_output_list)
       }

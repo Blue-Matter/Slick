@@ -44,3 +44,6 @@ plotKobe(slick)
 
 plotKobe(slick, Time=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)

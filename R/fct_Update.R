@@ -205,42 +205,23 @@ update_Boxplot <- function(slick_in, slick) {
   slick
 }
 
+extract_legacy_refpoints <- function(obj, name) {
+  vals <- rep(NA, length(obj$Codes))
+  for (i in seq_along(obj$RefPoints)) {
+    ind <- match(name, obj$RefNames[[i]])
+    if (!is.na(ind) && length(obj$RefPoints[[i]])>=ind) {
+      vals[i] <- obj$RefPoints[[i]][ind]
+    }
+  }
+  if (all(is.na(vals))) return(NULL)
+  vals
+}
 
 update_Kobe <- function(slick_in, slick) {
   obj <- slick_in$Perf$Proj
 
-  # ref points
-  targ_ind <- match('Target', obj$RefNames[[1]])
-  if (!is.na(targ_ind)) {
-    lens <- unlist(lapply(obj$RefPoints, length))
-    ind <- which(lens>=targ_ind)
-    if (length(ind)>0) {
-      Target <- rep(NA, length(obj$Codes))
-      for (i in ind) {
-        Target[i] <- obj$RefPoints[[i]][targ_ind]
-      }
-    } else {
-      Target <- NULL
-    }
-  } else {
-    Target <- NULL
-  }
-
-  limit_ind <- match('Limit', obj$RefNames[[2]])
-  if (!is.na(limit_ind)) {
-    lens <- unlist(lapply(obj$RefPoints, length))
-    ind <- which(lens>=limit_ind)
-    if (length(ind)>0) {
-      Limit <- rep(NA, length(obj$Codes))
-      for (i in ind) {
-        Limit[i] <- obj$RefPoints[[i]][limit_ind]
-      }
-    } else {
-      Limit <- NULL
-    }
-  } else {
-    Limit <- NULL
-  }
+  Target <- extract_legacy_refpoints(obj, 'Target')
+  Limit <- extract_legacy_refpoints(obj, 'Limit')
 
   time_lab <- slick_in$Perf$Proj$Time_lab
   if (is.null(time_lab)) time_lab <- 'Year'
@@ -325,6 +306,16 @@ update_Timeseries <- function(slick_in, slick) {
   Time(timeseries) <-  obj$Times
   TimeNow(timeseries) <- obj$TimeNow
   Value(timeseries) <- obj$Values
+  npm <- dim(Value(timeseries))[4]
+
+  Target <- extract_legacy_refpoints(obj, 'Target')
+  Limit <- extract_legacy_refpoints(obj, 'Limit')
+
+  if (!is.null(Target))
+    Target(timeseries) <- Target[1:npm]
+
+  if (!is.null(Limit))
+    Limit(timeseries) <- Limit[1:npm]
 
   Timeseries(slick) <- timeseries
   slick

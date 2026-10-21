@@ -35,3 +35,6 @@ myslick <- Slick()
 
 # Add OMs to Slick Object
 OMs(myslick) <- oms
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Factors(OMs(WSKJ))

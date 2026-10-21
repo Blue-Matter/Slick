@@ -88,6 +88,9 @@ mod_Timeseries_byOM_server <- function(id, i18n, filtered_slick,
 
     output$timeseriesMP <- renderPlot({
       timeseriesplot()
+    }, alt=function() {
+      plot_alt_text(timeseries(), 'Timeseries', PI=pm_ind(),
+                    detail='(by operating model)')
     })
 
     timeseriesplot <- reactive({

@@ -16,5 +16,30 @@
 #' illustrative purposes.
 #'
 #' @seealso [download_casestudy()], [App()]
+#'
+#' @examples
+#' # Summary of the object
+#' WSKJ
+#'
+#' # Check the object is valid
+#' Check(WSKJ)
+#'
+#' # Metadata, Management Procedures, and Operating Models
+#' Title(WSKJ)
+#' Metadata(MPs(WSKJ))
+#' Factors(OMs(WSKJ))
+#' Design(OMs(WSKJ))
+#'
+#' # Plots
+#' plotTimeseries(WSKJ)
+#' plotBoxplot(WSKJ)
+#' plotKobe(WSKJ)
+#' plotQuilt(WSKJ)
+#' plotSpider(WSKJ)
+#' plotTradeoff(WSKJ)
+#'
+#' @examplesIf interactive()
+#' # Explore the results in the Slick App
+#' App(slick=WSKJ)
 "WSKJ"
 

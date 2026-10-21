@@ -51,89 +51,72 @@ FilterSlick <- function(slick=NULL,
 
   if (is.null(MPs)) {
     MPs <- 1:nMPs
-  } #else {
-    #MPs <- MPs[MPs %in% 1:nMPs]
-  #}
+  } else {
+    MPs <- MPs[!is.na(MPs) & MPs>=1 & MPs<=nMPs]
+    if (length(MPs)<1)
+      MPs <- 1:nMPs
+  }
 
   if (is.null(OMs)) {
     OMs <- 1:nOMs
-  } #else {
-    #OMs <- OMs[OMs %in% 1:nOMs]
-  #}
+  } else {
+    OMs <- OMs[!is.na(OMs) & OMs>=1 & OMs<=nOMs]
+    if (length(OMs)<1)
+      OMs <- 1:nOMs
+  }
 
   if (is.null(PIs)) {
     PIs <- 1:nPIs
-  } #else {
-    #PIs <- PIs[PIs %in% 1:nPIs]
-  #}
-
+  } else {
+    PIs <- PIs[!is.na(PIs) & PIs>=1 & PIs<=nPIs]
+    if (length(PIs)<1)
+      PIs <- 1:nPIs
+  }
 
   # Filter OMs
-  if (!is.null(OMs) &  length(OMs)>0) {
-    if (len_dim==3) {
-      if (all(OMs<=dim_value[1])) {
-        Value(object) <- Value(object)[OMs,,,drop=FALSE]
-      }
-
-    }
-    if (len_dim==4) {
-      if (all(OMs<=dim_value[2]))
-        Value(object) <- Value(object)[,OMs,,, drop=FALSE]
-    }
-    if (len_dim==5) {
-      if (all(OMs<=dim_value[2]))
-        Value(object) <- Value(object)[,OMs,,,, drop=FALSE]
-    }
-
-    slick@OMs@Design <- slick@OMs@Design[OMs,, drop=FALSE]
+  if (len_dim==3) {
+    Value(object) <- Value(object)[OMs,,,drop=FALSE]
   }
+  if (len_dim==4) {
+    Value(object) <- Value(object)[,OMs,,, drop=FALSE]
+  }
+  if (len_dim==5) {
+    Value(object) <- Value(object)[,OMs,,,, drop=FALSE]
+  }
+  slick@OMs@Design <- slick@OMs@Design[OMs,, drop=FALSE]
 
   # Filter MPs
-  if (!is.null(MPs) & length(MPs)>0) {
-    metadata <- Metadata(MPs(slick))
-    if (len_dim==3) {
-      if (all(MPs<=dim_value[2])) {
-        object@Value <- Value(object)[,MPs,,drop=FALSE]
-        Metadata(slick@MPs) <- metadata[MPs,]
-      }
-    }
-    if (len_dim==4) {
-      if (all(MPs<=dim_value[3])) {
-        Metadata(slick@MPs) <- metadata[MPs,]
-        object@Value <- Value(object)[,,MPs,, drop=FALSE]
-      }
-    }
-    if (len_dim==5) {
-      if (all(MPs<=dim_value[3])) {
-        Metadata(slick@MPs) <- metadata[MPs,]
-        object@Value <- Value(object)[,,MPs,,, drop=FALSE]
-      }
-    }
+  metadata <- Metadata(MPs(slick))
+  if (len_dim==3) {
+    object@Value <- Value(object)[,MPs,,drop=FALSE]
   }
+  if (len_dim==4) {
+    object@Value <- Value(object)[,,MPs,, drop=FALSE]
+  }
+  if (len_dim==5) {
+    object@Value <- Value(object)[,,MPs,,, drop=FALSE]
+  }
+  Metadata(slick@MPs) <- metadata[MPs,]
 
   # Filter PIs
-  if (!is.null(PIs) & length(PIs)>0) {
-    if (len_dim==3) {
-      if (all(PIs<=dim_value[3]))
-        object@Value <- Value(object)[,,PIs,drop=FALSE]
-    }
-    if (len_dim==4) {
-      if (all(PIs<=dim_value[4]))
-        object@Value <- Value(object)[,,,PIs, drop=FALSE]
-    }
-    if (len_dim==5) {
-      if (all(PIs<=dim_value[4]))
-        object@Value <- Value(object)[,,,PIs,, drop=FALSE]
-    }
-    if ('MinValue' %in% slotNames(object)) {
-      object@MinValue <- object@MinValue[PIs]
-      object@MaxValue <- object@MaxValue[PIs]
-    }
-
-    object@Code <- object@Code[PIs]
-    object@Label <- object@Label[PIs]
-    object@Description <- object@Description[PIs]
+  if (len_dim==3) {
+    object@Value <- Value(object)[,,PIs,drop=FALSE]
   }
+  if (len_dim==4) {
+    object@Value <- Value(object)[,,,PIs, drop=FALSE]
+  }
+  if (len_dim==5) {
+    object@Value <- Value(object)[,,,PIs,, drop=FALSE]
+  }
+  if ('MinValue' %in% slotNames(object)) {
+    object@MinValue <- object@MinValue[PIs]
+    object@MaxValue <- object@MaxValue[PIs]
+  }
+
+  object@Code <- object@Code[PIs]
+  object@Label <- object@Label[PIs]
+  object@Description <- object@Description[PIs]
+
   slot(slick, plot) <- object
   slick
 }

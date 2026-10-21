@@ -32,3 +32,6 @@ Metadata(myMPs)
 Metadata(myMPs, 'es')
 Metadata(myMPs, 'fr')
 Metadata(myMPs, 'pt')
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+Metadata(MPs(WSKJ))

@@ -48,20 +48,21 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
     Plot_Object <- reactiveVal()
     quilt_slick <- reactiveVal()
 
-    # mod_Report_Add_server("Report_Add_2", i18n, parent_session=parent_session,
-    #                       Report,
-    #                       Plot_Object=Plot_Object,
-    #                       'Quilt',
-    #                       window_dims)
-    #
-    # button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
-    #
-    # observeEvent(button_pushed(), {
-    #   Plot_Object(plotQuilt(quilt_slick(), kable=TRUE))
-    #
-    #   if(!inherits(Plot_Object(), 'NULL'))
-    #     shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
-    # })
+    mod_Report_Add_server("Report_Add_2", i18n, parent_session=session,
+                          Report,
+                          Plot_Object=Plot_Object,
+                          'Quilt',
+                          window_dims)
+
+    button_pushed <- mod_Report_Add_Button_server("report_button", i18n)
+
+    observeEvent(button_pushed(), {
+      Plot_Object(plotQuilt(quilt_slick(), minmax = MinMax(), shading=Shading(),
+                            kable=TRUE))
+
+      if(!inherits(Plot_Object(), 'NULL'))
+        shiny::showModal(mod_Report_Add_ui(ns("Report_Add_2")))
+    })
 
 
     mod_subtitle_server('quiltsubtitle', i18n, nOM, nMP, nPM, minPM=1, OMtext=OMtext)
@@ -255,9 +256,7 @@ mod_Quilt_server <- function(id, i18n, Slick_Object, window_dims, Report, home_s
 
         p(i18n$t('An exception is if the analyst who built the Slick Object specified maximum and minimum values for each performance indicator (e.g., between 0 and 1 for probabilities).')),
 
-        p(i18n$t('Use the button below the Quilt table to modify the colors shown in the table.')),
-
-        p(i18n$t('Note: currently the Report feature is not implemented for the Quilt plot.'))
+        p(i18n$t('Use the button below the Quilt table to modify the colors shown in the table.'))
       )
     })
 

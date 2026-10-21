@@ -27,10 +27,13 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
     #                                   metadatatab='Overview',
     #                                   report='Report'))
 
+    # number of items in the report (removed items are NA)
     ready <- reactive({
-      is_populated <- lapply(reactiveValuesToList(Report), lapply, length)
-      is_populated$Metadata <- NULL
-      sum(unlist(is_populated))
+      sections <- reactiveValuesToList(Report)
+      sections$Metadata <- NULL
+      sum(vapply(sections, function(section)
+        sum(!vapply(section$plot, function(p) all(is.na(p)), logical(1))),
+        numeric(1)))
     })
 
     output$controls <- renderUI({
@@ -76,12 +79,12 @@ mod_Report_Page_server <- function(id, i18n, Slick_Object, Report){
     })
 
 
-    mod_Report_Page_plot_server('timeseries', 'Time Series', Report)
-    mod_Report_Page_plot_server('boxplot', 'Boxplot', Report)
-    mod_Report_Page_plot_server('kobe', 'Kobe', Report)
-    mod_Report_Page_plot_server('quilt', 'Quilt', Report)
-    mod_Report_Page_plot_server('spider', 'Spider', Report)
-    mod_Report_Page_plot_server('tradeoff', 'Tradeoff', Report)
+    mod_Report_Page_plot_server('timeseries', i18n, 'Time Series', Report)
+    mod_Report_Page_plot_server('boxplot', i18n, 'Boxplot', Report)
+    mod_Report_Page_plot_server('kobe', i18n, 'Kobe', Report)
+    mod_Report_Page_plot_server('quilt', i18n, 'Quilt', Report)
+    mod_Report_Page_plot_server('spider', i18n, 'Spider', Report)
+    mod_Report_Page_plot_server('tradeoff', i18n, 'Tradeoff', Report)
 
     extension <- reactive({
       req(input$format)

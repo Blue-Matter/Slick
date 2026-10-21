@@ -40,3 +40,6 @@ plotBoxplot(slick, byOM=TRUE)
 
 plotBoxplot(slick, 2, type='both', byOM=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotBoxplot(WSKJ)

@@ -14,6 +14,7 @@ plotKobe(
   TLcol = "#D8775D",
   TRcol = "#FDBD56",
   BRcol = "#67C18B",
+  BR_bottom = TRUE,
   axis_label = "Code",
   percentile = 0.75,
   axis.text.size = 14,
@@ -50,6 +51,9 @@ plotKobe(
 \item{TRcol}{Color for the top  right quadrant}
 
 \item{BRcol}{Color for the bottom right quadrant}
+
+\item{BR_bottom}{Logical. Kobe Time plot only. Stack the bottom right quadrant (\code{BRcol})
+at the bottom of each bar? Use \code{FALSE} to stack it at the top.}
 
 \item{axis_label}{Label to use for the axes. Either \code{Code} or \code{Label}.
 \code{Description} works as well, but you probably don't want to do that.}
@@ -144,6 +148,9 @@ plotKobe(slick)
 
 plotKobe(slick, Time=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotKobe(WSKJ)
 }
 \seealso{
 \code{\link[=Kobe]{Kobe()}}, \code{\link[=Kobe-class]{Kobe-class()}}

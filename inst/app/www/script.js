@@ -1,3 +1,16 @@
+// -- accessibility ----
+// attributes for screen readers only; these do not change the display of the app
+document.documentElement.lang = 'en';
+
+$(document).ready(function(){
+  // main content landmark
+  $('.content-wrapper').attr('role', 'main');
+  // the left sidebar is not displayed (navigation is from the Overview page)
+  $('.main-sidebar').attr('aria-hidden', 'true');
+  // icon-only button that opens the filter panel
+  $('a[data-toggle="control-sidebar"]').attr('aria-label', 'Filters');
+});
+
 $(document).on("shiny:connected", function(e) {
                             Shiny.onInputChange("innerWidth", window.innerWidth);
                             });

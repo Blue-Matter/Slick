@@ -102,6 +102,9 @@ plotSpider(slick, byMP=TRUE)
 
 plotSpider(slick, byOM=TRUE)
 
+
+# Example `Slick` object included with the package (see `?WSKJ`)
+plotSpider(WSKJ)
 }
 \seealso{
 \link{Spider}, \code{\link[=Code]{Code()}}, \code{\link[=Label]{Label()}}, \code{\link[=Description]{Description()}},

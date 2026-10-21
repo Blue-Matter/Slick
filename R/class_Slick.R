@@ -245,20 +245,28 @@ setMethod('Check', 'Slick', function(object) {
   mps <- Code(MPs(object))
   nMPs <- ifelse(all(nchar(mps)<1), 0, length(mps))
 
-  for (cl in obj_classes) {
-    req_dims <- value_dimensions(cl)
-    if (!is.null(req_dims)) {
-      check_dims <- rep(NA, length(req_dims))
-      if (nOM>0) {
-        check_dims[match('nOM',req_dims)] <- nOM
-      }
-      if (nMPs>0) {
-        check_dims[match('nMP',req_dims)] <- nMPs
-      }
+  value_classes <- c('Boxplot', 'Quilt', 'Kobe', 'Spider', 'Timeseries', 'Tradeoff')
 
-      chk <- Check(slot(object, cl), check_dims)
-    } else {
-      chk <- Check(slot(object, cl))
+  for (cl in obj_classes) {
+    chk <- Check(slot(object, cl))
+
+    if (cl %in% value_classes && !isTRUE(chk@empty)) {
+      val_dims <- dim(Value(slot(object, cl)))
+      req_dims <- value_dimensions(cl, ndim=length(val_dims))
+      if (!is.null(req_dims) && length(req_dims)==length(val_dims)) {
+        om_pos <- match('nOM', req_dims)
+        if (nOM>0 && !is.na(om_pos) && !is.na(val_dims[om_pos]) && val_dims[om_pos]!=nOM) {
+          chk@warnings <- append(chk@warnings,
+                                 paste0('`Value` has ', val_dims[om_pos],
+                                        ' OMs but `Slick@OMs` has ', nOM, ' OMs'))
+        }
+        mp_pos <- match('nMP', req_dims)
+        if (nMPs>0 && !is.na(mp_pos) && !is.na(val_dims[mp_pos]) && val_dims[mp_pos]!=nMPs) {
+          chk@warnings <- append(chk@warnings,
+                                 paste0('`Value` has ', val_dims[mp_pos],
+                                        ' MPs but `Slick@MPs` has ', nMPs, ' MPs'))
+        }
+      }
     }
 
     ll@complete[[cl]] <- chk@complete

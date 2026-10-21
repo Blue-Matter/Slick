@@ -35,11 +35,11 @@ quilt <- Quilt(Code=c('PGK',
                       'PNOF',
                       'Mean TAC'),
                Label=c('Prob. Green Kobe',
-                       'Prob SB>SBMSY',
+                       'Prob. SSB>SSBMSY',
                        'Prob. Not Overfishing',
                        'Mean Total Allowable Catch'),
                Description = c('Probability of being in the green region of Kobe plot over the projection period',
-                               'Probability spawning biomass is greater than SB_MSY over the projection period',
+                               'Probability spawning biomass is greater than SSB_MSY over the projection period',
                                'Probability of not overfishing over the projection period',
                                'Mean Total Allowable Catch over the projection period'))
 
@@ -64,8 +64,8 @@ Quilt(WSKJ) <- quilt
 spider <- Spider(Code=c('P100',
                         'P50',
                         'PNOF'),
-                 Label=c('Prob SB>SBMSY',
-                         'Prob SB>0.5SBMSY',
+                 Label=c('Prob. SSB>SSBMSY',
+                         'Prob. SSB>0.5SSBMSY',
                          'Prob. Not Overfishing'),
                  Description = c('Probability spawning biomass is greater than SB_MSY over the projection period',
                                  'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period',
@@ -75,14 +75,14 @@ spider <- Spider(Code=c('P100',
 
 nPI <- length(Code(spider))
 
-Value(spider) <- array(NA, dim=c(1, nMP, nPI))
+Value(spider) <- array(NA, dim=c(nOM, nMP, nPI))
 
-for (om in 4 ){ #seq_len(nOM)) {
+for (om in seq_len(nOM)) {
   for (mp in seq_len(nMP)) {
 
-    Value(spider)[1,mp,1] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 1)
-    Value(spider)[1,mp,2] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 0.5)
-    Value(spider)[1,mp,3] <- mean(WSKJ@Timeseries@Value[,om,mp,2,proj_ind] < 1)
+    Value(spider)[om,mp,1] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 1)
+    Value(spider)[om,mp,2] <- mean(WSKJ@Timeseries@Value[,om,mp,1,proj_ind] > 0.5)
+    Value(spider)[om,mp,3] <- mean(WSKJ@Timeseries@Value[,om,mp,2,proj_ind] < 1)
   }
 
 }
@@ -95,12 +95,12 @@ tradeoff <- Tradeoff(Code=c('P100',
                             'P50',
                             'PNOF',
                             'Mean Yield'),
-                     Label=c('Prob SB>SBMSY',
-                             'Prob SB>0.5SBMSY',
+                     Label=c('Prob. SSB>SSBMSY',
+                             'Prob. SSB>0.5SSBMSY',
                              'Prob. Not Overfishing',
                              'Mean Yield'),
-                     Description = c('Probability spawning biomass is greater than SB_MSY over the projection period',
-                                     'Probability spawning biomass is greater than 0.5 SB_MSY over the projection period',
+                     Description = c('Probability spawning biomass is greater than SSB_MSY over the projection period',
+                                     'Probability spawning biomass is greater than 0.5 SSB_MSY over the projection period',
                                      'Probability of not overfishing over the projection period',
                                      ''))
 

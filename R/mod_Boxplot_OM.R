@@ -234,16 +234,25 @@ mod_Boxplot_OM_server <- function(id, i18n, filtered_slick,
           plotname <- paste("boxplot", my_i, sep="")
           output[[plotname]] <- renderPlot({
             thisplot[[my_i]][[1]]
+          }, alt=function() {
+            plot_alt_text(filtered_slick(), 'Boxplot', PI=my_i,
+                          detail='(boxplot by operating model)')
           })
 
           plotname <- paste("violin", my_i, sep="")
           output[[plotname]] <- renderPlot({
             thisplot[[my_i]][[2]]
+          }, alt=function() {
+            plot_alt_text(filtered_slick(), 'Boxplot', PI=my_i,
+                          detail='(violin plot by operating model)')
           })
 
           plotname <- paste("both", my_i, sep="")
           output[[plotname]] <- renderPlot({
             thisplot[[my_i]][[3]]
+          }, alt=function() {
+            plot_alt_text(filtered_slick(), 'Boxplot', PI=my_i,
+                          detail='(boxplot and violin plot by operating model)')
           })
         })
       }
