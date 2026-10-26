@@ -343,7 +343,7 @@ Title(slick)
 Subtitle(slick)
 #> [1] ""
 Date(slick)
-#> [1] "2026-10-21"
+#> [1] "2026-10-26"
 Author(slick)
 #> [1] "Adrian Hordyk"
 Email(slick)
