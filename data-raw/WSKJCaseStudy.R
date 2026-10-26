@@ -6,6 +6,8 @@ library(patchwork)
 
 WSKJ <- download_casestudy('Western Atlantic Skipjack')
 
+Code(Kobe(WSKJ))  <- c("SSB/SSBMSY", "F/FMSY")
+Label(Kobe(WSKJ)) <- c("SSB/SSBMSY", "F/FMSY")
 
 # ---- Add Boxplot ----
 
@@ -128,3 +130,4 @@ Tradeoff(WSKJ) <- tradeoff
 
 # ---- Save object to package ----
 usethis::use_data(WSKJ, overwrite = TRUE)
+

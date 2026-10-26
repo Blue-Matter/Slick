@@ -9,8 +9,14 @@
 #' @importFrom shiny NS tagList
 mod_Report_Add_ui <- function(id){
   ns <- NS(id)
-  tagList(
-    uiOutput(ns('reportModal'))
+  # passed to showModal(); only the contents are rendered by the server.
+  # Rendering a modalDialog inside a uiOutput re-runs its show script and
+  # leaves an extra backdrop behind, greying out the app after the modal closes
+  modalDialog(
+    size='l',
+    title=uiOutput(ns('title'), inline=TRUE),
+    uiOutput(ns('reportModal')),
+    footer=uiOutput(ns('footer'))
   )
 }
 
@@ -24,6 +30,21 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     ns <- session$ns
 
     Plot_Info <- reactiveVal()
+
+    plot_size <- reactiveValues(width=5, height=5)
+
+    output$title <- renderUI({
+      i18n <- i18n()
+      i18n$t('Add to Report')
+    })
+
+    output$footer <- renderUI({
+      i18n <- i18n()
+      tagList(
+        div(modalButton(i18n$t('Cancel')), style='float:left;'),
+        actionButton(ns("save_new"), i18n$t("Add to Report"), icon=icon('pen'))
+      )
+    })
 
     output$reportModal <- renderUI({
       i18n <- i18n()
@@ -46,38 +67,27 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                                  actionButton(ns("update_plot"), i18n$t("Update Plot"), icon=icon('redo'))
         )
 
-      modalDialog(
-        size='l',
-        title=i18n$t('Add to Report'),
-        tagList(
-          fluidRow(
-            column(12,
-                   uiOutput(ns('displayplot'))
+      tagList(
+        fluidRow(
+          column(12,
+                 uiOutput(ns('displayplot'))
 
-            )
-          ),
-          fluidRow(
-            column(ifelse(is_table, 12, 9),
-                   textAreaInput(ns('captionText'),
-                                 i18n$t('Description'),
-                                 placeholder=i18n$t('Description or caption for chart'),
-                                 width='100%',
-                                 height='150px'
-                   )
-            ),
-            image_settings
-          ),
-          br()
+          )
         ),
-        footer = tagList(
-          div(modalButton("Cancel"), style='float:left;'),
-          actionButton(ns("save_new"), i18n$t("Add to Report"), icon=icon('pen'))
-        )
-
+        fluidRow(
+          column(ifelse(is_table, 12, 9),
+                 textAreaInput(ns('captionText'),
+                               i18n$t('Description'),
+                               placeholder=i18n$t('Description or caption for chart'),
+                               width='100%',
+                               height='150px'
+                 )
+          ),
+          image_settings
+        ),
+        br()
       )
     })
-
-    plot_size <- reactiveValues(width=5, height=5)
 
     observeEvent(input$plotwidth, {
       plot_size$width <- input$plotwidth
@@ -88,7 +98,12 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     })
 
 
+    # each new plot starts at the default size, matching the inputs
     observeEvent(Plot_Object(), {
+      plot_size$width <- 5
+      plot_size$height <- 5
+      updateNumericInput(session, 'plotwidth', value=5)
+      updateNumericInput(session, 'plotheight', value=5)
       Plot_Info(plot_details())
     })
 
@@ -97,7 +112,9 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
     })
 
 
-    plot_details <- reactive({
+    # a function, not a reactive, so every call writes a new file; a cached
+    # reactive would give two report items the same file
+    plot_details <- function() {
       obj <- Plot_Object()
       outfile <- tempfile(fileext='.png')
 
@@ -135,7 +152,7 @@ mod_Report_Add_server <- function(id, i18n, parent_session, Report,
                         height=plot_size$height)
       }
       info
-    })
+    }
 
     output$figure <- renderImage(
       Plot_Info(), deleteFile = FALSE
